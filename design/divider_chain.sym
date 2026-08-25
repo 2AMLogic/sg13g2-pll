@@ -1,0 +1,41 @@
+v {xschem version=3.4.8RC file_version=1.3
+* sg13g2-pll :: divider_chain -- generated symbol, see design/README.md
+}
+G {}
+K {type=subcircuit
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -40 -320 40 -320 {}
+L 4 40 -320 40 320 {}
+L 4 -40 320 40 320 {}
+L 4 -40 -320 -40 320 {}
+B 5 -45 -142.5 -35 -137.5 {name=CKIN dir=in}
+T {CKIN} -32 -145 0 0 0.15 0.15 {layer=7}
+B 5 -45 -102.5 -35 -97.5 {name=CKIN_VCO dir=in}
+T {CKIN_VCO} -32 -105 0 0 0.15 0.15 {layer=7}
+B 5 -45 -62.5 -35 -57.5 {name=P0 dir=in}
+T {P0} -32 -65 0 0 0.15 0.15 {layer=7}
+B 5 -45 -22.5 -35 -17.5 {name=P1 dir=in}
+T {P1} -32 -25 0 0 0.15 0.15 {layer=7}
+B 5 -45 17.5 -35 22.5 {name=P2 dir=in}
+T {P2} -32 15 0 0 0.15 0.15 {layer=7}
+B 5 -45 57.5 -35 62.5 {name=P3 dir=in}
+T {P3} -32 55 0 0 0.15 0.15 {layer=7}
+B 5 -45 97.5 -35 102.5 {name=P4 dir=in}
+T {P4} -32 95 0 0 0.15 0.15 {layer=7}
+B 5 -45 137.5 -35 142.5 {name=P5 dir=in}
+T {P5} -32 135 0 0 0.15 0.15 {layer=7}
+B 5 35 -22.5 45 -17.5 {name=FB dir=out}
+T {FB} 12 -25 0 0 0.15 0.15 {layer=7}
+B 5 35 17.5 45 22.5 {name=DIVOUT dir=out}
+T {DIVOUT} 12 15 0 0 0.15 0.15 {layer=7}
+B 5 -22.5 -325 -17.5 -315 {name=VDD_DIV dir=inout}
+T {VDD_DIV} -30 -335 0 0 0.15 0.15 {layer=7}
+B 5 17.5 315 22.5 325 {name=VSS dir=inout}
+T {VSS} 10 328 0 0 0.15 0.15 {layer=7}
+T {@symname} -35 -340 0 0 0.2 0.2 {}
+T {@name} -35 -355 0 0 0.2 0.2 {}
