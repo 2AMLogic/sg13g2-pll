@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13g2
+
+* cell pll_loop_filter
+* pin vsubs
+.SUBCKT pll_loop_filter vsubs
+* device instance $1 r0 *1 60.42,2 rppd
+R$1 \$1 \$2 vsubs 7800 rppd
+.ENDS pll_loop_filter

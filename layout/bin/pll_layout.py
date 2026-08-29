@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Schematic-driven, per-block PLL layout plan + build attempt (issue #13).
+"""Schematic-driven, per-block PLL device-level layout (issue #13).
 
 Reads the *authored schematics' own netlists* (`design/netlist/*.spice`,
 committed by #7) and derives, deterministically, each block's device set from
-them -- then drives `klt gen` to attempt drawing that device set. Nothing
-about the device set is typed in by hand here: every planned device exists
-because a device card in a schematic netlist asked for it, which is what
-makes "the layout matches the schematic's device set" a checkable claim
-rather than an assertion.
+them -- then drives `klt gen` to draw that device set, `klt extract` to check
+each drawn group and each composed block back against the schematic's own
+device set, and `klt gen-compose` to place a block's groups into one
+`pll_<block>` cell. Nothing about the device set is typed in by hand here:
+every planned device exists because a device card in a schematic netlist
+asked for it, which is what makes "the layout matches the schematic's device
+set" a checkable claim rather than an assertion.
 
 Two halves, deliberately separated so the first is testable with no PDK and
 no `klt` installed (`layout/tests/test_pll_layout_plan.py` exercises it):
@@ -16,27 +18,38 @@ no `klt` installed (`layout/tests/test_pll_layout_plan.py` exercises it):
    its schematic hierarchy down to leaf devices (MOS/resistor/capacitor;
    every other model name is a locally-defined sub-block and is expanded, not
    drawn), group the leaf devices of each block into matched arrays keyed by
-   `(class, W, L)`, and record what `klt gen` request each group *would* be.
-   `build_plan()` returns plain JSON-serialisable data -- see `plan_block()`.
-2. **Build** (impure): attempt `klt gen` per planned group and record the
-   real result -- success or the tool's own error message -- rather than
-   asserting one in advance. See `layout/pll/README.md`'s "What is drawn
-   today" table for why every group currently comes back blocked, and the
-   friction log for the exact upstream gaps (klayout-tools#1450, #1451)
-   filed after reproducing each failure directly against a real `ihp-sg13g2`
-   install.
+   `(class, W, L)`, and record what `klt gen` request each group *would* be,
+   plus the `(class, w_um, l_um, count)` the group is expected to re-extract
+   as. `build_plan()` returns plain JSON-serialisable data -- see
+   `plan_block()`.
+2. **Build** (impure): draw every group (`klt gen`), extract each drawn
+   group's own GDS (`klt extract --deck sg13g2`) and compare its reported
+   device set against the group's own expectation, compose each block's
+   drawn groups into one `pll_<block>` cell (`klt gen-compose`, placement
+   only -- no routing, per this issue's own Non-goals), and extract the
+   composed block cell too, cross-checking its device-count multiset against
+   the block's own schematic-derived totals. `mos_array`/`res_array` now draw
+   against `sg13g2` (klayout-tools#1450/#1451, both fixed upstream --
+   `layout/requirements.txt`'s own header records the pin bump this depended
+   on); no MiM-capacitor generator exists for this family on any `klt`
+   release, so `cap_cmim` groups are recorded in the plan (never silently
+   dropped) but never attempted here -- see `layout/pll/README.md`'s friction
+   log (klayout-tools#1233/#1243/#1454/#1455).
 
 Six blocks, six independent netlist files (`spec/porting-plan.md` §1.4;
 `design/netlist.sh`'s own `BLOCKS` list) -- unlike a single closed-loop
 top-level netlist, there is no `pll_top`-equivalent file in this design yet
 (top-level integration is explicitly future work, `spec/porting-plan.md`
-§3.3/§3.4), so this flow composes nothing above the per-block level.
+§3.3/§3.4), so this flow composes each block's own groups but nothing above
+the per-block level.
 
 Scope caveat, stated here because it is the honest headline of this
-deliverable: this is a **device-level plan**, not a routed full-custom
-layout, and (see the friction log) not, today, a drawn one either. DRC-clean
-and LVS-clean closure are later T1 checklist items, not this one. See
-`layout/pll/README.md` for the full "what is and is not verified" statement.
+deliverable: this is a **device-level layout**, not a routed full-custom
+one -- composition here is placement only, with no `connectivity[]`/
+`routing` request (routing is a later, separate T1 checklist item, out of
+scope per this issue's own Non-goals). DRC-clean and LVS-clean closure are
+later T1 checklist items too. See `layout/pll/README.md` for the full "what
+is and is not verified" statement.
 """
 
 from __future__ import annotations
@@ -67,20 +80,21 @@ MOS_MODELS = {
 #: model -> `klt gen res_array` `params.flavor` name. Both of this design's
 #: resistor classes (design/README.md "Device choices and the LVS deck") are
 #: real, separately-extractable `klt deck info --deck sg13g2` device classes,
-#: but neither is reachable from `res_array` today -- see
-#: layout/pll/README.md's friction log (klayout-tools#1451).
+#: and both are reachable from `res_array` as of `layout/requirements.txt`'s
+#: current pin (klayout-tools#1451, fixed upstream -- see
+#: layout/pll/README.md's friction log).
 RESISTOR_MODELS = {
     "rppd": "rppd",
     "rhigh": "rhigh",
 }
 
 #: `cap_cmim` (MIM) has no `klt gen` generator on any family for sg13g2 --
-#: `cap_array` (sky130-only) explicitly rejects the family, and no MiM
-#: capacitor extraction device class exists in the curated sg13g2 deck
-#: either (`klt deck info --deck sg13g2`: no `capacitor` entry, consistent
-#: with klayout-tools#1233, already tracked). Per this issue's own
-#: Non-goals, capacitor devices are recorded in the plan (so they are never
-#: silently dropped) but never attempted in the build step.
+#: `cap_array` (sky130-only) explicitly rejects the family
+#: (klayout-tools#1455), and no MiM capacitor extraction device class exists
+#: in the curated sg13g2 deck either (`klt deck info --deck sg13g2`: no
+#: `capacitor` entry, klayout-tools#1454). Per this issue's own Non-goals,
+#: capacitor devices are recorded in the plan (so they are never silently
+#: dropped) but never attempted in the build step.
 CAP_MODELS = {
     "cap_cmim": "cap_cmim",
 }
@@ -306,30 +320,26 @@ def _slug(value: float) -> str:
     return f"{value:g}".replace(".", "p").replace("-", "m")
 
 
-#: Why each `kind` is not drawable by any `klt gen` generator against sg13g2
-#: today -- filled in once, cited by every group of that kind in the plan,
-#: and re-verified directly (not inferred) against a real `ihp-sg13g2`
-#: install at klt commit `6d2028a32bfd385724498941572f3976783ae720` (the
-#: exact commit `layout/requirements.txt` pins). See
-#: `layout/pll/README.md`'s friction log for the full transcripts.
+#: Why `capacitor`-kind groups are recorded but never attempted by the build
+#: step -- the only `kind` still genuinely blocked. `mos_array`/`res_array`
+#: drew against `sg13g2` as of klt commit
+#: `5482cfe1c67eacf9d2f27d750a11a37ec14b1984` (klayout-tools#1450/#1451,
+#: both fixed upstream -- see `layout/requirements.txt`'s own header), so
+#: they carry no such reason any more; a real `klt gen`/`klt extract` result
+#: is what the build step now records for them instead of an assumption.
 BLOCKED_REASONS = {
-    "mos_array": (
-        "klt gen mos_array (and diff_pair) reject the sg13g2 PDK family "
-        "outright: the unit device's shared gate-poly landing pad trips "
-        "sg13g2's real gatpoly.separation.activ.1 DRC rule -- "
-        "klayout-tools#1450"
-    ),
-    "res_array": (
-        "klt gen res_array exposes only the 'generic' (rsil) sg13g2 "
-        "poly-resistor flavour; this design's rppd/rhigh resistors are "
-        "rejected with 'supported flavours: generic' -- klayout-tools#1451"
-    ),
     "capacitor": (
-        "no klt gen generator draws a MIM capacitor for sg13g2 on any "
-        "family (cap_array is sky130-only), and the curated sg13g2 "
-        "extraction deck has no capacitor device class either "
-        "(klayout-tools#1233, already tracked) -- out of scope per this "
-        "issue's own Non-goals, never attempted"
+        "klt gen cap_array rejects the sg13g2 PDK family outright "
+        "(klayout-tools#1455, filed by this pass -- #1117 added cap_array "
+        "for sky130 only and never covered sg13g2), and the curated sg13g2 "
+        "extraction deck still has no capacitor device class either, even "
+        "though the metals/vias stack extension (klayout-tools#1243) that "
+        "issue #1233 deferred capacitor recognition on has since landed -- "
+        "see klayout-tools#1233 (closed, 'defer' decision), #1243 (closed, "
+        "prerequisite landed) and #1454 (filed by this pass: the actual "
+        "cap_cmim/rfcmim recognition follow-on the deck's own source "
+        "comment expects but no open issue tracks) -- out of scope per "
+        "this issue's own Non-goals regardless, never attempted"
     ),
 }
 
@@ -384,7 +394,11 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
                     "gate_contact": True,
                 },
                 "count": count,
-                "blocked_reason": BLOCKED_REASONS["mos_array"],
+                # What `klt extract --deck sg13g2` should report back for
+                # this group once drawn: one device per unit, all sharing
+                # this group's own (class, W, L) -- the schematic-vs-layout
+                # cross-check the build step performs.
+                "expected": {"class": flavor, "w_um": w_um, "l_um": l_um, "count": count},
                 "members": [
                     {
                         "device": member["path"],
@@ -419,7 +433,7 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
                     "flavor": flavor,
                 },
                 "count": count,
-                "blocked_reason": BLOCKED_REASONS["res_array"],
+                "expected": {"class": flavor, "w_um": w_um, "l_um": l_um, "count": count},
                 "members": [
                     {
                         "device": member["path"],
@@ -446,6 +460,7 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
                 "generator": None,
                 "params": {"w_um": w_um, "l_um": l_um, "model": member["model"]},
                 "count": 1,
+                "expected": None,
                 "blocked_reason": BLOCKED_REASONS["capacitor"],
                 "members": [
                     {
@@ -501,32 +516,97 @@ def plan_totals(plan: dict[str, Any]) -> dict[str, int]:
     return totals
 
 
-# --- 3. Build attempt (impure: runs `klt`) ----------------------------------
+# --- 3. Build: draw, extract, compose (impure: runs `klt`) ------------------
+
+#: Floating-point tolerance (um / ohm-independent, since `klt extract`
+#: reports back the same `w_um`/`l_um` units this plan requested) for the
+#: schematic-vs-extracted W/L cross-check. Comfortably above any rounding
+#: `klt gen`/`klt extract` themselves introduce (both reported exact
+#: round-trip values in every group observed while building this flow), so a
+#: mismatch this loose still means the layout and the schematic disagree.
+DEVICE_MATCH_TOL_UM = 1e-6
+
+#: Spacing left between placed groups inside a block's composed cell (um).
+#: Comfortably above every curated-deck same-layer spacing rule (placement
+#: only -- no routing, so this is not itself DRC-checked here), mirroring
+#: sky130-pll's own `GROUP_SPACING_UM`.
+GROUP_SPACING_UM = 4.0
+
+#: Shelf-packer target width for a block's own group floorplan (um) --
+#: groups are placed left to right and wrap to a new shelf past this.
+BLOCK_TARGET_WIDTH_UM = 220.0
+
+
+def shelf_pack(
+    sizes: list[tuple[str, float, float]], target_width_um: float, spacing_um: float
+) -> dict[str, dict[str, float]]:
+    """Place `(id, width, height)` boxes left to right, wrapping past a width.
+
+    Deterministic: identical input always yields identical origins, so a
+    re-run of the flow produces a byte-comparable floorplan. Mirrors
+    `2AMLogic/sky130-pll`'s own `shelf_pack` helper.
+    """
+    origins: dict[str, dict[str, float]] = {}
+    x = y = shelf_height = 0.0
+    for box_id, width, height in sizes:
+        if x > 0.0 and x + width > target_width_um:
+            y += shelf_height + spacing_um
+            x = 0.0
+            shelf_height = 0.0
+        origins[box_id] = {"x": round(x, 3), "y": round(y, 3)}
+        x += width + spacing_um
+        shelf_height = max(shelf_height, height)
+    return origins
 
 
 class Builder:
-    """Attempts `klt gen` per planned group and records the real result.
+    """Draws, extracts, and composes every planned group -- and records the
+    real `klt` result for each step rather than assuming one in advance.
 
-    Deliberately does not assume any group succeeds or fails -- it runs the
+    Deliberately does not assume any step succeeds or fails: it runs the
     request and reports back exactly what `klt` says, which is what makes
-    this build step self-correcting: once an upstream fix lands (e.g.
-    klayout-tools#1450/#1451 resolve), re-running this same script picks up
-    the change with no code edit here.
+    this build step self-correcting -- a future upstream change shows up as
+    a different `devices_drawn_total`/`devices_matched_total` on the next
+    re-run, with no code edit here.
     """
 
-    def __init__(self, klt: str, pdk: str, pdk_root: str | None, out_dir: Path) -> None:
+    def __init__(
+        self,
+        klt: str,
+        pdk: str,
+        pdk_root: str | None,
+        deck: str,
+        out_dir: Path,
+    ) -> None:
         self.klt = klt
         self.pdk = pdk
         self.pdk_root = pdk_root
+        self.deck = deck
         self.out_dir = out_dir
 
+    def _run(self, args: list[str]) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [self.klt, *args], capture_output=True, text=True, cwd=self.out_dir
+        )
+
+    @staticmethod
+    def _parse_json_envelope(proc: subprocess.CompletedProcess[str]) -> dict[str, Any]:
+        # `klt ... --format json` writes its JSON envelope to stdout on
+        # success but to stderr on error (confirmed directly, not assumed --
+        # see layout/pll/README.md's friction log) -- try whichever stream is
+        # non-empty so a captured error is never silently swallowed as `{}`.
+        raw = proc.stdout.strip() or proc.stderr.strip()
+        try:
+            return json.loads(raw) if raw else {}
+        except json.JSONDecodeError:
+            return {"unparsed_output": raw}
+
     def gen_group(self, group: dict[str, Any]) -> dict[str, Any]:
-        """Attempt one `klt gen` group (mos_array / res_array). Never raises
-        -- a `klt` failure is a *result* this build step records, not an
+        """Draw one group (`klt gen mos_array`/`res_array`). Never raises --
+        a `klt` failure is a *result* this build step records, not an
         exception this driver crashes on."""
         cell = group["id"]
         args = [
-            self.klt,
             "gen",
             group["generator"],
             "--pdk",
@@ -541,18 +621,9 @@ class Builder:
             "json",
         ]
         if self.pdk_root:
-            args[2:2] = ["--pdk-root", self.pdk_root]
-        proc = subprocess.run(args, capture_output=True, text=True, cwd=self.out_dir)
-        # `klt gen --format json` writes its JSON envelope to stdout on
-        # success but to stderr on error (confirmed directly, not assumed --
-        # see layout/pll/README.md's friction log) -- try whichever stream
-        # is non-empty so a captured error is never silently swallowed as
-        # `{}`.
-        raw = proc.stdout.strip() or proc.stderr.strip()
-        try:
-            report = json.loads(raw) if raw else {}
-        except json.JSONDecodeError:
-            report = {"unparsed_output": raw}
+            args[1:1] = ["--pdk-root", self.pdk_root]
+        proc = self._run(args)
+        report = self._parse_json_envelope(proc)
         result = {
             "group_id": cell,
             "attempted": True,
@@ -567,18 +638,157 @@ class Builder:
         )
         return result
 
+    def extract(self, gds_path: str, top: str, report_name: str) -> dict[str, Any]:
+        """Run `klt extract --deck <deck>` against one drawn/composed stream.
+        Never raises -- an extraction failure is a recorded result."""
+        args = [
+            "extract",
+            "--deck",
+            self.deck,
+            gds_path,
+            "--top",
+            top,
+            "--format",
+            "json",
+        ]
+        proc = self._run(args)
+        report = self._parse_json_envelope(proc)
+        result = {
+            "top": top,
+            "attempted": True,
+            "returncode": proc.returncode,
+            "ok": proc.returncode == 0 and report.get("status") == "extracted",
+            "response": report,
+            "stderr": proc.stderr.strip(),
+        }
+        (self.out_dir / report_name).write_text(json.dumps(result, indent=2) + "\n")
+        return result
+
+    def compose_block(
+        self,
+        block: dict[str, Any],
+        drawable_groups: list[dict[str, Any]],
+        gen_results: dict[str, dict[str, Any]],
+    ) -> dict[str, Any]:
+        """Place a block's own successfully-drawn groups into one
+        `pll_<block>` cell (`klt gen-compose`, placement only -- no
+        `connectivity[]`/`routing`, since routing is out of scope per this
+        issue's own Non-goals). Never raises."""
+        cell_name = block["cell_name"]
+        sizes = []
+        blocks_field = []
+        for group in drawable_groups:
+            report = gen_results[group["id"]]["response"]
+            bbox = report["bbox_um"]
+            sizes.append((group["id"], bbox["x1"] - bbox["x0"], bbox["y1"] - bbox["y0"]))
+            blocks_field.append({"id": group["id"], "generator_report": report})
+        origins = shelf_pack(sizes, BLOCK_TARGET_WIDTH_UM, GROUP_SPACING_UM)
+        request = {
+            "schema": "klt.gen_compose.request/1",
+            "pdk": {"variant": self.pdk},
+            "blocks": blocks_field,
+            "placement": {
+                "strategy": "explicit",
+                "order": [group["id"] for group in drawable_groups],
+                "origins_um": origins,
+            },
+            "options": {"cell_name": cell_name, "output": f"{cell_name}.gds"},
+        }
+        request_path = self.out_dir / f"compose.{block['name']}.request.json"
+        request_path.write_text(json.dumps(request, indent=2) + "\n")
+        proc = self._run(["gen-compose", request_path.name, "--format", "json"])
+        report = self._parse_json_envelope(proc)
+        result = {
+            "cell_name": cell_name,
+            "attempted": True,
+            "returncode": proc.returncode,
+            "ok": proc.returncode == 0 and "error" not in report,
+            "response": report,
+            "stderr": proc.stderr.strip(),
+        }
+        (self.out_dir / f"compose.{block['name']}.response.json").write_text(
+            json.dumps(result, indent=2) + "\n"
+        )
+        return result
+
+
+def _match_group_extraction(
+    group: dict[str, Any], extract_report: dict[str, Any]
+) -> dict[str, Any]:
+    """Compare one group's own drawn-and-extracted device set against its
+    `expected` (class, w_um, l_um, count) -- the schematic-vs-layout
+    cross-check this issue's own pass condition asks for."""
+    expected = group["expected"]
+    devices = extract_report.get("devices", [])
+    mismatches: list[str] = []
+    if len(devices) != expected["count"]:
+        mismatches.append(
+            f"expected {expected['count']} device(s), extracted {len(devices)}"
+        )
+    for device in devices:
+        if device.get("class") != expected["class"]:
+            mismatches.append(
+                f"{device.get('name')}: class {device.get('class')!r} != "
+                f"expected {expected['class']!r}"
+            )
+            continue
+        params = device.get("params", {})
+        for key in ("w_um", "l_um"):
+            got = params.get(key)
+            want = expected[key]
+            if got is None or abs(got - want) > DEVICE_MATCH_TOL_UM:
+                mismatches.append(
+                    f"{device.get('name')}: {key}={got!r} != expected {want!r}"
+                )
+    return {"matched": not mismatches, "mismatches": mismatches}
+
+
+def _match_block_extraction(
+    block: dict[str, Any], extract_report: dict[str, Any]
+) -> dict[str, Any]:
+    """Compare a composed block cell's own extracted device-class counts
+    against the block's schematic-derived totals (drawable kinds only --
+    capacitor groups are never drawn/composed, see BLOCKED_REASONS)."""
+    expected_counts: dict[str, int] = {}
+    for group in block["groups"]:
+        if group["kind"] in ("mos_array", "res_array"):
+            expected_counts[group["expected"]["class"]] = (
+                expected_counts.get(group["expected"]["class"], 0) + group["count"]
+            )
+    got_counts = extract_report.get("device_counts", {})
+    mismatches = [
+        f"class {cls!r}: expected {count}, extracted {got_counts.get(cls, 0)}"
+        for cls, count in sorted(expected_counts.items())
+        if got_counts.get(cls, 0) != count
+    ]
+    # A class the composed cell reports that the schematic did not expect at
+    # all is also a mismatch (e.g. an extraction picking up stray geometry).
+    mismatches += [
+        f"class {cls!r}: extracted {count}, not expected at all"
+        for cls, count in sorted(got_counts.items())
+        if cls not in expected_counts and count
+    ]
+    return {
+        "expected_counts": expected_counts,
+        "extracted_counts": got_counts,
+        "matched": not mismatches,
+        "mismatches": mismatches,
+    }
+
 
 def attempt_build(plan: dict[str, Any], builder: Builder) -> dict[str, Any]:
-    """Attempt every drawable-kind group in the plan; skip capacitor groups
-    (never attempted -- see BLOCKED_REASONS["capacitor"] and this issue's
-    own Non-goals)."""
+    """Draw, extract, and compose every block; skip capacitor groups (never
+    attempted -- see BLOCKED_REASONS["capacitor"] and this issue's own
+    Non-goals)."""
     summary: dict[str, Any] = {"blocks": []}
     for block in plan["blocks"]:
         group_results = []
+        gen_reports: dict[str, dict[str, Any]] = {}
+        drawable_groups = [
+            g for g in block["groups"] if g["kind"] in ("mos_array", "res_array")
+        ]
         for group in block["groups"]:
-            if group["kind"] in ("mos_array", "res_array"):
-                group_results.append(builder.gen_group(group))
-            else:
+            if group["kind"] not in ("mos_array", "res_array"):
                 group_results.append(
                     {
                         "group_id": group["id"],
@@ -587,20 +797,81 @@ def attempt_build(plan: dict[str, Any], builder: Builder) -> dict[str, Any]:
                         "reason": group["blocked_reason"],
                     }
                 )
-        drawn = sum(1 for r in group_results if r.get("ok"))
+                continue
+            gen_result = builder.gen_group(group)
+            gen_reports[group["id"]] = gen_result
+            result: dict[str, Any] = {
+                "group_id": group["id"],
+                "gen": gen_result,
+            }
+            if gen_result["ok"]:
+                cell = group["id"]
+                extract_result = builder.extract(
+                    f"{cell}.gds", cell, f"extract.{cell}.json"
+                )
+                result["extract"] = extract_result
+                if extract_result["ok"]:
+                    result["match"] = _match_group_extraction(
+                        group, extract_result["response"]
+                    )
+                else:
+                    result["match"] = {"matched": False, "mismatches": ["extraction failed"]}
+            else:
+                result["match"] = {"matched": False, "mismatches": ["draw failed"]}
+            result["ok"] = (
+                gen_result["ok"]
+                and result.get("extract", {}).get("ok", False)
+                and result["match"]["matched"]
+            )
+            group_results.append(result)
+
+        drawn_groups = [
+            g for g in drawable_groups if gen_reports.get(g["id"], {}).get("ok")
+        ]
+        compose_result = None
+        block_extract_result = None
+        block_match = None
+        if drawn_groups:
+            compose_result = builder.compose_block(
+                block, drawn_groups, {gid: r for gid, r in gen_reports.items()}
+            )
+            if compose_result["ok"]:
+                block_extract_result = builder.extract(
+                    compose_result["response"]["gds_path"],
+                    block["cell_name"],
+                    f"extract.{block['cell_name']}.json",
+                )
+                if block_extract_result["ok"]:
+                    block_match = _match_block_extraction(
+                        block, block_extract_result["response"]
+                    )
+
+        devices_drawn = sum(
+            g["count"]
+            for g, r in zip(block["groups"], group_results)
+            if r.get("gen", {}).get("ok")
+        )
+        devices_matched = sum(
+            g["count"]
+            for g, r in zip(block["groups"], group_results)
+            if r.get("match", {}).get("matched")
+        )
         summary["blocks"].append(
             {
                 "name": block["name"],
                 "cell_name": block["cell_name"],
                 "group_count": len(block["groups"]),
-                "groups_drawn": drawn,
+                "groups_drawn": sum(1 for r in group_results if r.get("gen", {}).get("ok")),
                 "device_count": block["device_count"],
-                "devices_drawn": sum(
-                    g["count"]
-                    for g, r in zip(block["groups"], group_results)
-                    if r.get("ok")
-                ),
+                "devices_drawn": devices_drawn,
+                "devices_matched": devices_matched,
                 "results": group_results,
+                "composed": compose_result is not None and compose_result["ok"],
+                "compose": compose_result,
+                "block_extract_ok": bool(
+                    block_extract_result and block_extract_result["ok"]
+                ),
+                "block_match": block_match,
             }
         )
     return summary
@@ -619,6 +890,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--pdk", default="ihp-sg13g2")
     ap.add_argument("--pdk-root", default=None)
     ap.add_argument(
+        "--deck",
+        default="sg13g2",
+        help="klt extract --deck name (distinct from --pdk's variant name)",
+    )
+    ap.add_argument(
         "--plan-only",
         action="store_true",
         help="write plan.json and stop (no PDK or klt needed)",
@@ -633,14 +909,25 @@ def main(argv: list[str] | None = None) -> int:
     if args.plan_only:
         return 0
 
-    builder = Builder(args.klt, args.pdk, args.pdk_root, args.out_dir)
+    builder = Builder(args.klt, args.pdk, args.pdk_root, args.deck, args.out_dir)
     summary = attempt_build(plan, builder)
     summary["totals"] = totals
     summary["devices_drawn_total"] = sum(
         b["devices_drawn"] for b in summary["blocks"]
     )
+    summary["devices_matched_total"] = sum(
+        b["devices_matched"] for b in summary["blocks"]
+    )
     (args.out_dir / "build.json").write_text(json.dumps(summary, indent=2) + "\n")
-    print(json.dumps({"devices_drawn_total": summary["devices_drawn_total"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "devices_drawn_total": summary["devices_drawn_total"],
+                "devices_matched_total": summary["devices_matched_total"],
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

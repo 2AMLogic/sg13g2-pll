@@ -3,9 +3,9 @@
 
 Reads plan.json + build.json (already written by pll_layout.py) and the
 resolved PDK info (`klt pdk find`), and writes a human-readable summary --
-verdict, per-block device table, and the exact captured `klt` error per
-distinct failure reason, so a reader does not have to open every
-`gen.<group>.json` file individually.
+verdict, per-block drawn/composed/matched table, and the exact captured
+`klt` friction per distinct failure reason, so a reader does not have to
+open every gen./extract./compose.<group>.json file individually.
 """
 
 from __future__ import annotations
@@ -75,24 +75,56 @@ def main(argv: list[str]) -> int:
                       ", ".join(f"{k}={v}" for k, v in sorted(totals.items())) + ".")
     else:
         drawn = build["devices_drawn_total"]
-        lines.append(f"## Verdict: **{drawn} / {total_devices} devices drawn**\n")
+        matched = build.get("devices_matched_total", 0)
+        blocks_composed = sum(1 for b in build["blocks"] if b.get("composed"))
+        lines.append(
+            f"## Verdict: **{drawn} / {total_devices} devices drawn, "
+            f"{matched} / {total_devices} re-extracted matching the "
+            f"schematic**, {blocks_composed} / {len(build['blocks'])} "
+            "blocks composed\n"
+        )
         if drawn == 0:
             lines.append(
                 "**Every planned device group failed to draw.** This is a "
                 "real, reproduced upstream tool gap, not a config mistake in "
-                "this flow — see \"Friction\" below and "
-                "`layout/pll/README.md`'s own friction log for the full "
-                "citations (klayout-tools#1450, #1451)."
+                "this flow — see \"Friction\" below."
+            )
+        elif matched < drawn:
+            lines.append(
+                "**Some drawn devices did not re-extract matching the "
+                "schematic.** See the per-group `match` field in `build.json` "
+                "for which device(s) and why — this is not expected to "
+                "happen against the current `klt` pin; a mismatch here is a "
+                "real finding, not noise."
+            )
+        else:
+            lines.append(
+                "Every device the schematic declares that has a `klt gen` "
+                "generator on `sg13g2` today draws, extracts, and matches "
+                "the schematic's own `(class, W, L)` per group; the "
+                "remainder (`capacitor` groups) is a documented, tracked "
+                "upstream gap — see \"Friction\" below, not a partial run."
             )
         lines.append("")
         lines.append("### Per-block")
         lines.append("")
-        lines.append("| Block | Groups drawn | Devices drawn | Device count |")
-        lines.append("| --- | --- | --- | --- |")
+        lines.append(
+            "| Block | Groups drawn | Devices drawn | Device count | "
+            "Composed | Block re-extract matches schematic |"
+        )
+        lines.append("| --- | --- | --- | --- | --- | --- |")
         for b in build["blocks"]:
+            block_match = b.get("block_match")
+            if b.get("composed") and block_match is not None:
+                match_cell = "yes" if block_match["matched"] else "**no**"
+            elif b.get("composed"):
+                match_cell = "extract failed"
+            else:
+                match_cell = "n/a (not composed)"
             lines.append(
                 f"| `{b['name']}` | {b['groups_drawn']}/{b['group_count']} "
-                f"| {b['devices_drawn']} | {b['device_count']} |"
+                f"| {b['devices_drawn']} | {b['device_count']} "
+                f"| {'yes' if b.get('composed') else 'no'} | {match_cell} |"
             )
         lines.append("")
 
@@ -104,14 +136,25 @@ def main(argv: list[str]) -> int:
                 if r.get("ok"):
                     continue
                 if r.get("attempted"):
-                    resp = r.get("response", {})
-                    msg = resp.get("error", {}).get("message") or r.get("stderr") or r.get("stdout")
+                    gen = r.get("gen", {})
+                    resp = gen.get("response", {})
+                    msg = (
+                        resp.get("error", {}).get("message")
+                        or gen.get("stderr")
+                        or gen.get("stdout")
+                    )
+                    if not msg:
+                        match = r.get("match", {})
+                        msg = "; ".join(match.get("mismatches", [])) or None
                 else:
                     msg = r.get("reason")
                 if msg and msg not in seen_reasons:
                     seen_reasons[msg] = r["group_id"]
-        for msg, example_group in seen_reasons.items():
-            lines.append(f"- (e.g. `{example_group}`): {msg}")
+        if seen_reasons:
+            for msg, example_group in seen_reasons.items():
+                lines.append(f"- (e.g. `{example_group}`): {msg}")
+        else:
+            lines.append("- none — every attempted group drew, extracted, and matched.")
         lines.append("")
 
     lines.append("### Device flavor")
@@ -121,8 +164,9 @@ def main(argv: list[str]) -> int:
     lines.append(
         "See `plan.json` for the full derived device plan (every group's "
         "`klt gen` request + schematic port/net map) and, if this run "
-        "attempted a build, `build.json` / `gen.<group>.json` for the "
-        "per-group results."
+        "attempted a build, `build.json` / `gen.<group>.json` / "
+        "`extract.<group>.json` / `compose.<block>.{request,response}.json` "
+        "for the per-group and per-block results."
     )
 
     (record_dir / "record.md").write_text("\n".join(lines) + "\n")

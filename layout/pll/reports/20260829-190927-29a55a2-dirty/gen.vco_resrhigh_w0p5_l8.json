@@ -1,0 +1,61 @@
+{
+  "group_id": "vco_resrhigh_w0p5_l8",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "res_array",
+    "cell_name": "vco_resrhigh_w0p5_l8",
+    "gds_path": "vco_resrhigh_w0p5_l8.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": 0.0,
+      "x1": 8.84,
+      "y1": 0.5
+    },
+    "device_count": 1,
+    "ports": [
+      {
+        "name": "R0_A",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.21000000000000002,
+        "y_um": 0.25,
+        "width_um": 0.5,
+        "direction_deg": 180
+      },
+      {
+        "name": "R0_B",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 8.629999999999999,
+        "y_um": 0.25,
+        "width_um": 0.5,
+        "direction_deg": 0
+      }
+    ],
+    "drc_hints": {
+      "min_spacing_um": 0.5,
+      "matched_group_id": "res_array:1",
+      "snapped_to_grid": false,
+      "notes": []
+    },
+    "warnings": []
+  },
+  "stdout": "{\n  \"schema_version\": 1,\n  \"generator\": \"res_array\",\n  \"cell_name\": \"vco_resrhigh_w0p5_l8\",\n  \"gds_path\": \"vco_resrhigh_w0p5_l8.gds\",\n  \"pdk\": {\n    \"name\": \"ihp-sg13g2\",\n    \"variant\": \"ihp-sg13g2\",\n    \"version\": null\n  },\n  \"bbox_um\": {\n    \"x0\": 0.0,\n    \"y0\": 0.0,\n    \"x1\": 8.84,\n    \"y1\": 0.5\n  },\n  \"device_count\": 1,\n  \"ports\": [\n    {\n      \"name\": \"R0_A\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 0.21000000000000002,\n      \"y_um\": 0.25,\n      \"width_um\": 0.5,\n      \"direction_deg\": 180\n    },\n    {\n      \"name\": \"R0_B\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 8.629999999999999,\n      \"y_um\": 0.25,\n      \"width_um\": 0.5,\n      \"direction_deg\": 0\n    }\n  ],\n  \"drc_hints\": {\n    \"min_spacing_um\": 0.5,\n    \"matched_group_id\": \"res_array:1\",\n    \"snapped_to_grid\": false,\n    \"notes\": []\n  },\n  \"warnings\": []\n}",
+  "stderr": ""
+}

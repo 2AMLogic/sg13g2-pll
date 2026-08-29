@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_resrhigh_w0p5_l8
+* pin vsubs
+.SUBCKT vco_resrhigh_w0p5_l8 vsubs
+* device instance $1 r0 *1 4.42,0.25 rhigh
+R$1 \$1 \$2 vsubs 21760 rhigh
+.ENDS vco_resrhigh_w0p5_l8

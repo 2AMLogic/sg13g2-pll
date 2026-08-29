@@ -1,0 +1,115 @@
+{
+  "group_id": "cp_pfet_w6_l0p3",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "mos_array",
+    "cell_name": "cp_pfet_w6_l0p3",
+    "gds_path": "cp_pfet_w6_l0p3.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": -0.15,
+      "y0": -0.15,
+      "x1": 2.83,
+      "y1": 7.07
+    },
+    "device_count": 2,
+    "ports": [
+      {
+        "name": "U0_S",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.21000000000000002,
+        "y_um": 3.0,
+        "width_um": 6.0,
+        "direction_deg": 180
+      },
+      {
+        "name": "U0_D",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.93,
+        "y_um": 3.0,
+        "width_um": 6.0,
+        "direction_deg": 0
+      },
+      {
+        "name": "U0_G",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.5700000000000001,
+        "y_um": 6.71,
+        "width_um": 0.42000000000000004,
+        "direction_deg": 90
+      },
+      {
+        "name": "U1_S",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 1.75,
+        "y_um": 3.0,
+        "width_um": 6.0,
+        "direction_deg": 180
+      },
+      {
+        "name": "U1_D",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 2.47,
+        "y_um": 3.0,
+        "width_um": 6.0,
+        "direction_deg": 0
+      },
+      {
+        "name": "U1_G",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 2.1100000000000003,
+        "y_um": 6.71,
+        "width_um": 0.42000000000000004,
+        "direction_deg": 90
+      }
+    ],
+    "drc_hints": {
+      "min_spacing_um": 0.4,
+      "matched_group_id": "mos_array:1x2:common_centroid",
+      "snapped_to_grid": false,
+      "notes": [],
+      "voltage_flavor": null,
+      "voltage_flavor_mark_present": false
+    },
+    "warnings": []
+  },
+  "stdout": "{\n  \"schema_version\": 1,\n  \"generator\": \"mos_array\",\n  \"cell_name\": \"cp_pfet_w6_l0p3\",\n  \"gds_path\": \"cp_pfet_w6_l0p3.gds\",\n  \"pdk\": {\n    \"name\": \"ihp-sg13g2\",\n    \"variant\": \"ihp-sg13g2\",\n    \"version\": null\n  },\n  \"bbox_um\": {\n    \"x0\": -0.15,\n    \"y0\": -0.15,\n    \"x1\": 2.83,\n    \"y1\": 7.07\n  },\n  \"device_count\": 2,\n  \"ports\": [\n    {\n      \"name\": \"U0_S\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 0.21000000000000002,\n      \"y_um\": 3.0,\n      \"width_um\": 6.0,\n      \"direction_deg\": 180\n    },\n    {\n      \"name\": \"U0_D\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 0.93,\n      \"y_um\": 3.0,\n      \"width_um\": 6.0,\n      \"direction_deg\": 0\n    },\n    {\n      \"name\": \"U0_G\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 0.5700000000000001,\n      \"y_um\": 6.71,\n      \"width_um\": 0.42000000000000004,\n      \"direction_deg\": 90\n    },\n    {\n      \"name\": \"U1_S\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 1.75,\n      \"y_um\": 3.0,\n      \"width_um\": 6.0,\n      \"direction_deg\": 180\n    },\n    {\n      \"name\": \"U1_D\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 2.47,\n      \"y_um\": 3.0,\n      \"width_um\": 6.0,\n      \"direction_deg\": 0\n    },\n    {\n      \"name\": \"U1_G\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 8,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 2.1100000000000003,\n      \"y_um\": 6.71,\n      \"width_um\": 0.42000000000000004,\n      \"direction_deg\": 90\n    }\n  ],\n  \"drc_hints\": {\n    \"min_spacing_um\": 0.4,\n    \"matched_group_id\": \"mos_array:1x2:common_centroid\",\n    \"snapped_to_grid\": false,\n    \"notes\": [],\n    \"voltage_flavor\": null,\n    \"voltage_flavor_mark_present\": false\n  },\n  \"warnings\": []\n}",
+  "stderr": ""
+}
