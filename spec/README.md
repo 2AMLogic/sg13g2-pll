@@ -17,6 +17,14 @@
     prerequisite both sibling repos settled first, plus the remaining
     per-element bipolar questions (bias reference, charge-pump cascode,
     divider first stage).
+  - [`DR-003-sg13cmos5l-port-readiness.md`](decision-records/DR-003-sg13cmos5l-port-readiness.md)
+    — readiness audit for the SG13CMOS5L port (issue #16, Chipalooza
+    Challenge #6): this design's own device inventory against the installed
+    SG13CMOS5L PDK (MOSFETs/resistors port unchanged; MIM caps do not exist
+    and must become MoM caps in three of six blocks), a rail-interpretation
+    recommendation for the brief's 1.2 V/3.3 V split, and the
+    `klayout-tools` deck-support gate the layout phase will need. Proposed,
+    not ratified — no SG13CMOS5L schematic exists yet.
 
 No target spec (this repo's equivalent of `2AMLogic/gf180-pll`'s `pll.md` or
 `2AMLogic/sky130-pll`'s `target-spec.md`) exists yet — DR-001/DR-002 are the
