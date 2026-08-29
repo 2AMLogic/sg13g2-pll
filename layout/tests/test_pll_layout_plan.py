@@ -214,9 +214,14 @@ def test_plan_block_groups_mos_by_flavor_w_l():
     assert pfet_group["params"]["rows"] * pfet_group["params"]["cols"] == 4
     nfet_group = next(g for g in plan["groups"] if g["params"]["flavor"] == "nfet")
     assert nfet_group["count"] == 1
-    # Every mos_array group carries the current klt gap citation, not a
-    # silent assumption that it draws.
-    assert "klayout-tools#1450" in pfet_group["blocked_reason"]
+    # Every mos_array group carries an "expected" cross-check (class, W, L,
+    # count) the build step's extraction result is compared against.
+    assert pfet_group["expected"] == {
+        "class": "pfet",
+        "w_um": 5.0,
+        "l_um": 0.5,
+        "count": 4,
+    }
 
 
 def test_plan_block_groups_resistors_by_flavor_w_l():
@@ -239,7 +244,8 @@ def test_plan_block_groups_resistors_by_flavor_w_l():
     flavors = {g["params"]["flavor"] for g in plan["groups"]}
     assert flavors == {"rppd", "rhigh"}
     for group in plan["groups"]:
-        assert "klayout-tools#1451" in group["blocked_reason"]
+        assert group["expected"]["class"] == group["params"]["flavor"]
+        assert group["expected"]["count"] == group["count"]
 
 
 def test_plan_block_records_but_never_attempts_capacitors():
@@ -324,3 +330,105 @@ def test_plan_totals_matches_sum_of_block_device_counts():
     plan = pll_layout.build_plan(NETLIST_DIR)
     totals = pll_layout.plan_totals(plan)
     assert sum(totals.values()) == sum(b["device_count"] for b in plan["blocks"])
+
+
+# --- shelf_pack (pure, PDK-free composition floorplan helper) ---------------
+
+
+def test_shelf_pack_places_left_to_right_within_target_width():
+    origins = pll_layout.shelf_pack(
+        [("a", 10.0, 5.0), ("b", 10.0, 5.0)], target_width_um=100.0, spacing_um=2.0
+    )
+    assert origins["a"] == {"x": 0.0, "y": 0.0}
+    assert origins["b"] == {"x": 12.0, "y": 0.0}
+
+
+def test_shelf_pack_wraps_to_a_new_shelf_past_target_width():
+    origins = pll_layout.shelf_pack(
+        [("a", 10.0, 5.0), ("b", 10.0, 5.0)], target_width_um=15.0, spacing_um=2.0
+    )
+    assert origins["a"] == {"x": 0.0, "y": 0.0}
+    assert origins["b"]["x"] == 0.0
+    assert origins["b"]["y"] > 0.0
+
+
+def test_shelf_pack_is_deterministic():
+    sizes = [("a", 10.0, 5.0), ("b", 20.0, 3.0), ("c", 5.0, 8.0)]
+    first = pll_layout.shelf_pack(sizes, target_width_um=25.0, spacing_um=1.0)
+    second = pll_layout.shelf_pack(sizes, target_width_um=25.0, spacing_um=1.0)
+    assert first == second
+
+
+# --- _match_group_extraction / _match_block_extraction ----------------------
+
+
+def test_match_group_extraction_accepts_exact_match():
+    group = {"expected": {"class": "nfet", "w_um": 6.0, "l_um": 1.0, "count": 1}}
+    extract_report = {
+        "devices": [
+            {"name": "$1", "class": "nfet", "params": {"w_um": 6.0, "l_um": 1.0}}
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is True
+    assert result["mismatches"] == []
+
+
+def test_match_group_extraction_flags_wrong_class():
+    group = {"expected": {"class": "nfet", "w_um": 6.0, "l_um": 1.0, "count": 1}}
+    extract_report = {
+        "devices": [
+            {"name": "$1", "class": "pfet", "params": {"w_um": 6.0, "l_um": 1.0}}
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is False
+    assert any("class" in m for m in result["mismatches"])
+
+
+def test_match_group_extraction_flags_wrong_dimension():
+    group = {"expected": {"class": "nfet", "w_um": 6.0, "l_um": 1.0, "count": 1}}
+    extract_report = {
+        "devices": [
+            {"name": "$1", "class": "nfet", "params": {"w_um": 6.5, "l_um": 1.0}}
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is False
+    assert any("w_um" in m for m in result["mismatches"])
+
+
+def test_match_group_extraction_flags_device_count_mismatch():
+    group = {"expected": {"class": "nfet", "w_um": 6.0, "l_um": 1.0, "count": 2}}
+    extract_report = {
+        "devices": [
+            {"name": "$1", "class": "nfet", "params": {"w_um": 6.0, "l_um": 1.0}}
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is False
+    assert any("expected 2 device" in m for m in result["mismatches"])
+
+
+def test_match_block_extraction_sums_expected_counts_by_class():
+    block = {
+        "groups": [
+            {"kind": "mos_array", "count": 3, "expected": {"class": "nfet"}},
+            {"kind": "mos_array", "count": 2, "expected": {"class": "pfet"}},
+            {"kind": "capacitor", "count": 1, "expected": None},
+        ]
+    }
+    extract_report = {"device_counts": {"nfet": 3, "pfet": 2}}
+    result = pll_layout._match_block_extraction(block, extract_report)
+    assert result["expected_counts"] == {"nfet": 3, "pfet": 2}
+    assert result["matched"] is True
+
+
+def test_match_block_extraction_flags_count_mismatch():
+    block = {
+        "groups": [{"kind": "mos_array", "count": 3, "expected": {"class": "nfet"}}]
+    }
+    extract_report = {"device_counts": {"nfet": 2}}
+    result = pll_layout._match_block_extraction(block, extract_report)
+    assert result["matched"] is False
+    assert any("nfet" in m for m in result["mismatches"])

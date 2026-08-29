@@ -5,13 +5,17 @@
 (`pll/reports/LATEST`). This is T1 checklist item 2 for the block tracked by
 `2AMLogic/sg13g2-pll#6` (this repo's own T1 tracker), issue #13.
 
-As of #13's own record, this is a **schematic-derived device plan**, not yet
-a drawn layout — every one of the 482 devices the six committed block
-netlists (`design/netlist/*.spice`) declare fails to draw against the
-current `klt` + `ihp-sg13g2` PDK, for reasons that are reproduced and cited
-in `pll/README.md`'s own "Status"/"Friction" sections rather than assumed.
-Routing, DRC-clean closure, and LVS-clean closure are later, separate T1
-checklist items once a device set actually draws.
+As of #13's own record, every device the six committed block netlists
+(`design/netlist/*.spice`) declare that has a `klt gen` generator on
+`sg13g2` today **draws, re-extracts, and matches the schematic's own
+`(class, W, L)`**, per block (composed into one `pll_<block>` cell per
+block, placement only — no routing). The one exception is this design's two
+MiM capacitors (`loop_filter.sch`'s `cap_cmim` shunt caps): no `klt gen`
+generator draws a MIM capacitor for `sg13g2` on any family, and the curated
+`sg13g2` extraction deck still has no capacitor device class either — a
+real, tracked upstream gap, not a silently dropped device; see
+`pll/README.md`'s own "Status"/"Friction" sections. Routing, DRC-clean
+closure, and LVS-clean closure are later, separate T1 checklist items.
 
 Two rules from the root `CLAUDE.md` shape this directory:
 
@@ -28,13 +32,13 @@ Two rules from the root `CLAUDE.md` shape this directory:
 
 ```bash
 # 1. install the pinned klt build (see layout/requirements.txt for the pin
-#    and why it is exactly the commit that merged klayout-tools#1449)
+#    and its own bump history)
 layout/bin/setup-venv.sh
 
 # 2. sanity-check the SG13G2 PDK resolves
 layout/.venv/bin/klt pdk find --pdk ihp-sg13g2
 
-# 3. derive the plan and attempt to draw it
+# 3. derive the plan, draw it, extract + compose every block
 layout/bin/run-pll-layout-flow.sh
 ```
 
@@ -48,8 +52,8 @@ layout/
   README.md                  # this file
   requirements.txt           # pinned klt install (git commit; see its own header)
   bin/
-    pll_layout.py             # schematic -> device plan -> klt gen build attempt
-    run-pll-layout-flow.sh    # the driver: plan -> build attempt -> record.md
+    pll_layout.py             # schematic -> device plan -> klt gen/extract/gen-compose
+    run-pll-layout-flow.sh    # the driver: plan -> draw/extract/compose -> record.md
     render-pll-record.py      # renders a record's record.md from plan/build json
     setup-venv.sh              # create/refresh layout/.venv from requirements.txt
   tests/                      # PDK-free unit coverage (the "plan" half only)

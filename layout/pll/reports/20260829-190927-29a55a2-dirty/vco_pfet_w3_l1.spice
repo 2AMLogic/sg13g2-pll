@@ -1,0 +1,7 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_pfet_w3_l1
+.SUBCKT vco_pfet_w3_l1
+* device instance $1 r0 *1 0.92,1.5 pfet
+M$1 \$2 \$3 \$1 \$4 pfet L=1U W=3U AS=1.26P AD=1.26P PS=6.84U PD=6.84U
+.ENDS vco_pfet_w3_l1

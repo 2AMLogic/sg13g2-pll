@@ -1,0 +1,2169 @@
+{
+  "schema": "klt.gen_compose.request/1",
+  "pdk": {
+    "variant": "ihp-sg13g2"
+  },
+  "blocks": [
+    {
+      "id": "vco_nfet_w2_l0p28",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w2_l0p28",
+        "gds_path": "vco_nfet_w2_l0p28.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 7.2,
+          "y1": 2.92
+        },
+        "device_count": 5,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9100000000000001,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.56,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.73,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.43,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.08,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.25,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.95,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.6,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U3_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.7700000000000005,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U3_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.470000000000001,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U3_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.120000000000001,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U4_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.29,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U4_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.99,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U4_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.640000000000001,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x5:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_nfet_w2_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w2_l1",
+        "gds_path": "vco_nfet_w2_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 6.32,
+          "y1": 2.92
+        },
+        "device_count": 3,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.4499999999999997,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.8699999999999997,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.1599999999999997,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.6899999999999995,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.109999999999999,
+            "y_um": 1.0,
+            "width_um": 2.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.3999999999999995,
+            "y_um": 2.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x3:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_nfet_w4_l0p3",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l0p3",
+        "gds_path": "vco_nfet_w4_l0p3.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 2.68,
+          "y1": 4.92
+        },
+        "device_count": 2,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.93,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.5700000000000001,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.75,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.47,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.1100000000000003,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x2:common_centroid",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_nfet_w4_l0p5",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l0p5",
+        "gds_path": "vco_nfet_w4_l0p5.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 11.78,
+          "y1": 4.92
+        },
+        "device_count": 7,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.1300000000000001,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.67,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.9500000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.87,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.41,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.6900000000000004,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.61,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.15,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U3_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.430000000000001,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U3_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.3500000000000005,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U3_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.890000000000001,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U4_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 7.170000000000001,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U4_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 8.090000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U4_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 7.630000000000001,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U5_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 8.910000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U5_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 9.830000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U5_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 9.370000000000001,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U6_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 10.650000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U6_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 11.570000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U6_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 11.110000000000001,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x7:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_nfet_w4_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l1",
+        "gds_path": "vco_nfet_w4_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 6.32,
+          "y1": 4.92
+        },
+        "device_count": 3,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.4499999999999997,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.8699999999999997,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.1599999999999997,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.6899999999999995,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.109999999999999,
+            "y_um": 2.0,
+            "width_um": 4.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.3999999999999995,
+            "y_um": 4.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x3:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_nfet_w8_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w8_l1",
+        "gds_path": "vco_nfet_w8_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 1.84,
+          "y1": 8.92
+        },
+        "device_count": 1,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 4.0,
+            "width_um": 8.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 4.0,
+            "width_um": 8.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 8.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x1:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_pfet_w3_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w3_l1",
+        "gds_path": "vco_pfet_w3_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": -0.15,
+          "x1": 1.99,
+          "y1": 4.07
+        },
+        "device_count": 1,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 1.5,
+            "width_um": 3.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 1.5,
+            "width_um": 3.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 3.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x1:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_pfet_w5_l0p28",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w5_l0p28",
+        "gds_path": "vco_pfet_w5_l0p28.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": -0.15,
+          "x1": 7.3500000000000005,
+          "y1": 6.07
+        },
+        "device_count": 5,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9100000000000001,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.56,
+            "y_um": 5.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.73,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.43,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.08,
+            "y_um": 5.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.25,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.95,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.6,
+            "y_um": 5.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U3_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.7700000000000005,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U3_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.470000000000001,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U3_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.120000000000001,
+            "y_um": 5.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U4_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.29,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U4_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.99,
+            "y_um": 2.5,
+            "width_um": 5.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U4_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.640000000000001,
+            "y_um": 5.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x5:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_pfet_w6_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w6_l1",
+        "gds_path": "vco_pfet_w6_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": -0.15,
+          "x1": 4.23,
+          "y1": 7.07
+        },
+        "device_count": 2,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 3.0,
+            "width_um": 6.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 3.0,
+            "width_um": 6.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 6.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.4499999999999997,
+            "y_um": 3.0,
+            "width_um": 6.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.8699999999999997,
+            "y_um": 3.0,
+            "width_um": 6.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.1599999999999997,
+            "y_um": 6.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x2:common_centroid",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_pfet_w10_l0p5",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w10_l0p5",
+        "gds_path": "vco_pfet_w10_l0p5.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": -0.15,
+          "x1": 11.93,
+          "y1": 11.07
+        },
+        "device_count": 7,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.1300000000000001,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.67,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.9500000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.87,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.41,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U2_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.6900000000000004,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U2_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.61,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U2_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 4.15,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U3_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.430000000000001,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U3_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 6.3500000000000005,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U3_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 5.890000000000001,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U4_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 7.170000000000001,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U4_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 8.090000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U4_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 7.630000000000001,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U5_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 8.910000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U5_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 9.830000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U5_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 9.370000000000001,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U6_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 10.650000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U6_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 11.570000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U6_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 11.110000000000001,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x7:array",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_pfet_w10_l1",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w10_l1",
+        "gds_path": "vco_pfet_w10_l1.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": -0.15,
+          "x1": 4.23,
+          "y1": 11.07
+        },
+        "device_count": 2,
+        "ports": [
+          {
+            "name": "U0_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U0_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 1.63,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U0_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.9199999999999999,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          },
+          {
+            "name": "U1_S",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 2.4499999999999997,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "U1_D",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.8699999999999997,
+            "y_um": 5.0,
+            "width_um": 10.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "U1_G",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 3.1599999999999997,
+            "y_um": 10.71,
+            "width_um": 0.42000000000000004,
+            "direction_deg": 90
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.4,
+          "matched_group_id": "mos_array:1x2:common_centroid",
+          "snapped_to_grid": false,
+          "notes": [],
+          "voltage_flavor": null,
+          "voltage_flavor_mark_present": false
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_resrhigh_w0p5_l8",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "res_array",
+        "cell_name": "vco_resrhigh_w0p5_l8",
+        "gds_path": "vco_resrhigh_w0p5_l8.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 8.84,
+          "y1": 0.5
+        },
+        "device_count": 1,
+        "ports": [
+          {
+            "name": "R0_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 0.25,
+            "width_um": 0.5,
+            "direction_deg": 180
+          },
+          {
+            "name": "R0_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 8.629999999999999,
+            "y_um": 0.25,
+            "width_um": 0.5,
+            "direction_deg": 0
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.5,
+          "matched_group_id": "res_array:1",
+          "snapped_to_grid": false,
+          "notes": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_resrppd_w1_l30",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "res_array",
+        "cell_name": "vco_resrppd_w1_l30",
+        "gds_path": "vco_resrppd_w1_l30.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 62.18,
+          "y1": 1.0
+        },
+        "device_count": 2,
+        "ports": [
+          {
+            "name": "R0_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "R0_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 30.63,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "R1_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 31.55,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "R1_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 61.97,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 0
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.5,
+          "matched_group_id": "res_array:2",
+          "snapped_to_grid": false,
+          "notes": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "id": "vco_resrppd_w1_l60",
+      "generator_report": {
+        "schema_version": 1,
+        "generator": "res_array",
+        "cell_name": "vco_resrppd_w1_l60",
+        "gds_path": "vco_resrppd_w1_l60.gds",
+        "pdk": {
+          "name": "ihp-sg13g2",
+          "variant": "ihp-sg13g2",
+          "version": null
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 183.52,
+          "y1": 1.0
+        },
+        "device_count": 3,
+        "ports": [
+          {
+            "name": "R0_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 0.21000000000000002,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "R0_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 60.63,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "R1_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 61.550000000000004,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "R1_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 121.97,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 0
+          },
+          {
+            "name": "R2_A",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 122.89,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 180
+          },
+          {
+            "name": "R2_B",
+            "net": null,
+            "layer": {
+              "layer": 8,
+              "datatype": 0,
+              "name": null
+            },
+            "x_um": 183.31,
+            "y_um": 0.5,
+            "width_um": 1.0,
+            "direction_deg": 0
+          }
+        ],
+        "drc_hints": {
+          "min_spacing_um": 0.5,
+          "matched_group_id": "res_array:3",
+          "snapped_to_grid": false,
+          "notes": []
+        },
+        "warnings": []
+      }
+    }
+  ],
+  "placement": {
+    "strategy": "explicit",
+    "order": [
+      "vco_nfet_w2_l0p28",
+      "vco_nfet_w2_l1",
+      "vco_nfet_w4_l0p3",
+      "vco_nfet_w4_l0p5",
+      "vco_nfet_w4_l1",
+      "vco_nfet_w8_l1",
+      "vco_pfet_w3_l1",
+      "vco_pfet_w5_l0p28",
+      "vco_pfet_w6_l1",
+      "vco_pfet_w10_l0p5",
+      "vco_pfet_w10_l1",
+      "vco_resrhigh_w0p5_l8",
+      "vco_resrppd_w1_l30",
+      "vco_resrppd_w1_l60"
+    ],
+    "origins_um": {
+      "vco_nfet_w2_l0p28": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "vco_nfet_w2_l1": {
+        "x": 11.2,
+        "y": 0.0
+      },
+      "vco_nfet_w4_l0p3": {
+        "x": 21.52,
+        "y": 0.0
+      },
+      "vco_nfet_w4_l0p5": {
+        "x": 28.2,
+        "y": 0.0
+      },
+      "vco_nfet_w4_l1": {
+        "x": 43.98,
+        "y": 0.0
+      },
+      "vco_nfet_w8_l1": {
+        "x": 54.3,
+        "y": 0.0
+      },
+      "vco_pfet_w3_l1": {
+        "x": 60.14,
+        "y": 0.0
+      },
+      "vco_pfet_w5_l0p28": {
+        "x": 66.28,
+        "y": 0.0
+      },
+      "vco_pfet_w6_l1": {
+        "x": 77.78,
+        "y": 0.0
+      },
+      "vco_pfet_w10_l0p5": {
+        "x": 86.16,
+        "y": 0.0
+      },
+      "vco_pfet_w10_l1": {
+        "x": 102.24,
+        "y": 0.0
+      },
+      "vco_resrhigh_w0p5_l8": {
+        "x": 110.62,
+        "y": 0.0
+      },
+      "vco_resrppd_w1_l30": {
+        "x": 123.46,
+        "y": 0.0
+      },
+      "vco_resrppd_w1_l60": {
+        "x": 0.0,
+        "y": 15.22
+      }
+    }
+  },
+  "options": {
+    "cell_name": "pll_vco",
+    "output": "pll_vco.gds"
+  }
+}

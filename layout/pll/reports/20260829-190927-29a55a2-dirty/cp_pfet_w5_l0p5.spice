@@ -1,0 +1,9 @@
+* extracted by klt extract --deck sg13g2
+
+* cell cp_pfet_w5_l0p5
+.SUBCKT cp_pfet_w5_l0p5
+* device instance $1 r0 *1 0.67,2.5 pfet
+M$1 \$2 \$5 \$1 \$7 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $2 r0 *1 2.41,2.5 pfet
+M$2 \$4 \$6 \$3 \$7 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+.ENDS cp_pfet_w5_l0p5

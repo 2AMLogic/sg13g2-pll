@@ -1,0 +1,79 @@
+{
+  "cell_name": "pll_divider_chain",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_divider_chain",
+    "gds_path": "pll_divider_chain.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": -0.15,
+      "y0": 0.0,
+      "x1": 137.21,
+      "y1": 22.630000000000003
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "divider_chain_nfet_w2_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "divider_chain_nfet_w2_l0p5",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 137.06,
+          "y1": 6.24
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "divider_chain_pfet_w5_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "divider_chain_pfet_w5_l0p5",
+        "offset_um": {
+          "x": 0.0,
+          "y": 10.24
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": 10.09,
+          "x1": 137.21,
+          "y1": 22.630000000000003
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "mos_array:2x79:common_centroid",
+          "blocks": [
+            "divider_chain_nfet_w2_l0p5",
+            "divider_chain_pfet_w5_l0p5"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": []
+  },
+  "stderr": ""
+}
