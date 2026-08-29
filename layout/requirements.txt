@@ -1,0 +1,42 @@
+# Pinned klayout-tools (`klt`) install for layout/pll's device-level layout
+# flow (issue #13).
+#
+# Pinned by exact git commit, mirroring 2AMLogic/sky130-pll's own
+# layout/requirements.txt convention (see that repo's klt-pin-decision.md)
+# and this repo's own CLAUDE.md harness-bootstrap rule: a commit hash names
+# one immutable tree, independent of PyPI's own release cadence
+# (klayout-tools#953, already tracked, cross-confirmed rather than re-filed).
+#
+# This exact commit is the one that merged klayout-tools#1449 (closing
+# issue #1448, "klt gen: no sg13g2 entry in the analog-primitive
+# generators' PDK-family role-layer table") -- the dependency issue #13's
+# own body named as the last blocker before this work could start. Pinning
+# it (rather than a pre-#1449 PyPI release, or floating `main`) is what lets
+# this flow's build-attempt evidence be reproduced exactly.
+#
+# What re-verifying against this commit (not just trusting the closed
+# issue) actually found, first-hand, against a real `ihp-sg13g2` install --
+# see layout/pll/README.md's friction log for the full transcripts and the
+# two new upstream issues filed as a result:
+#
+#   * `klt gen mos_array`/`diff_pair` reject the `sg13g2` family outright
+#     (klayout-tools#1450) -- the *majority* of this design's device count
+#     is MOSFETs, so this alone blocks drawing any block's transistors.
+#   * `klt gen res_array` only exposes the `"generic"` (rsil) sg13g2
+#     poly-resistor flavour; this design's `rppd`/`rhigh` resistors are
+#     rejected (klayout-tools#1451).
+#   * `klt gen cap_array` has no sg13g2 MiM-capacitor plate layers at all
+#     (expected -- out of scope per issue #13's own Non-goals; the
+#     underlying extraction-deck gap is klayout-tools#1233, already tracked).
+#
+# Net effect: **zero** of this design's ~482 planned devices draw
+# successfully at this pin. `layout/bin/run-pll-layout-flow.sh` re-attempts
+# every group on every run (never hardcodes "blocked"), so a future pin
+# bump that lands either upstream fix will show up as `devices_drawn_total`
+# rising, with no code change needed here.
+#
+# Bump discipline, mirrored from sky130-pll: pin an exact commit, never
+# floating `main`; state in this header what the bump picks up; and re-run
+# `layout/bin/run-pll-layout-flow.sh`, checking the refreshed record in as
+# the non-regression (or, hopefully, regression-fixed) proof.
+klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@6d2028a32bfd385724498941572f3976783ae720
