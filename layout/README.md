@@ -6,13 +6,16 @@ Two ports, two evidence trails:
   [`pll/README.md`](pll/README.md), then the current record's `record.md`
   (`pll/reports/LATEST`). T1 checklist item 2 for the block tracked by
   `2AMLogic/sg13g2-pll#6` (this repo's own T1 tracker).
-- [`sg13cmos5l-pll/`](sg13cmos5l-pll/) — the **SG13CMOS5L** device-level
-  layout (issue #24, part of the #16 Chipalooza port). Start at
+- [`sg13cmos5l-pll/`](sg13cmos5l-pll/) — the **SG13CMOS5L** layout (issues #24
+  and #29, part of the #16 Chipalooza port). Start at
   [`sg13cmos5l-pll/README.md`](sg13cmos5l-pll/README.md), then
-  `sg13cmos5l-pll/reports/LATEST`. Unlike the SG13G2 side, this one is
-  **DRC-checked**: 477 / 482 devices draw, pass `klt drc --deck sg13cmos5l`
-  with zero violations, and re-extract matching the schematic, with all six
-  blocks composing and re-extracting clean.
+  `sg13cmos5l-pll/reports/LATEST`. Unlike the SG13G2 side this one is
+  **routed and LVS-compared**: 477 / 482 devices draw, all six blocks compose,
+  route (1450 terminals, 252 nets) and pass `klt drc --deck sg13cmos5l` with
+  zero violations, and `klt lvs` reports **`match` — every device and every
+  net — on all three blocks whose reference netlist can be converted**. The
+  other three cannot be converted at all, for a named, open upstream reason
+  (klayout-tools#1463).
 
 Both flows share one pinned `klt` install (`requirements.txt`) and one plan
 half (`bin/pll_layout.py`), so what "the schematic's device set" means cannot
@@ -28,10 +31,10 @@ generator draws a MIM capacitor for `sg13g2` at the current pin — a real,
 tracked upstream gap, not a silently dropped device; see `pll/README.md`'s
 own "Status"/"Friction" sections. Routing, DRC-clean closure, and LVS-clean
 closure are later, separate T1 checklist items on this side. (The
-SG13CMOS5L side reached DRC-clean first, because it draws its own footprints
-rather than waiting on a generator — see `sg13cmos5l-pll/README.md` for why
-that is a filed-and-open generator gap, klayout-tools#1462, rather than a
-deck work-around.)
+SG13CMOS5L side reached DRC-clean and then LVS-`match` first, because it
+draws its own footprints *and* its own interconnect rather than waiting on a
+generator — see `sg13cmos5l-pll/README.md` for why both are filed upstream
+tool gaps, klayout-tools#1462 and #1467, rather than deck work-arounds.)
 
 Two rules from the root `CLAUDE.md` shape this directory:
 

@@ -1,0 +1,90 @@
+{
+  "cell_name": "pll_loop_filter",
+  "gds": "pll_loop_filter.gds",
+  "strategy": "single_row",
+  "spacing_um": 6.0,
+  "placements": {
+    "loop_filter_resrppd_w4_l120": {
+      "x": 0.0,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 2,
+  "unrouted_ports": [
+    {
+      "port": "loop_filter_resrppd_w4_l120.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    }
+  ],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 6.4,
+    "net_count": 2,
+    "routed_net_count": 2,
+    "wire_length_um": 9.0,
+    "nets": [
+      {
+        "net": "NZ",
+        "track": 0,
+        "trunk_y_um": 6.4,
+        "trunk_x_um": [
+          120.75,
+          120.75
+        ],
+        "pin_count": 1,
+        "pins": [
+          "loop_filter_resrppd_w4_l120.R0_B"
+        ],
+        "routed": true,
+        "route_length_um": 4.2
+      },
+      {
+        "net": "VCTRL",
+        "track": 1,
+        "trunk_y_um": 7.0,
+        "trunk_x_um": [
+          0.25,
+          0.25
+        ],
+        "pin_count": 1,
+        "pins": [
+          "loop_filter_resrppd_w4_l120.R0_A"
+        ],
+        "routed": true,
+        "route_length_um": 4.8
+      }
+    ],
+    "incomplete_nets": [
+      {
+        "net": "NZ",
+        "missing_pin": "loop_filter_XC1.TOP",
+        "device": "XC1",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured' -- re-measured for issue #29 at klayout-tools main (b10fa3c), i.e. *after* klayout-tools#1462 closed and gave the family its role-layer table, so the family gap #1462 tracked is no longer the reason; what remains is that MoM has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "VSS",
+        "missing_pin": "loop_filter_XC1.BOT",
+        "device": "XC1",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured' -- re-measured for issue #29 at klayout-tools main (b10fa3c), i.e. *after* klayout-tools#1462 closed and gave the family its role-layer table, so the family gap #1462 tracked is no longer the reason; what remains is that MoM has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "VCTRL",
+        "missing_pin": "loop_filter_XC2.TOP",
+        "device": "XC2",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured' -- re-measured for issue #29 at klayout-tools main (b10fa3c), i.e. *after* klayout-tools#1462 closed and gave the family its role-layer table, so the family gap #1462 tracked is no longer the reason; what remains is that MoM has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "VSS",
+        "missing_pin": "loop_filter_XC2.BOT",
+        "device": "XC2",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured' -- re-measured for issue #29 at klayout-tools main (b10fa3c), i.e. *after* klayout-tools#1462 closed and gave the family its role-layer table, so the family gap #1462 tracked is no longer the reason; what remains is that MoM has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      }
+    ]
+  }
+}

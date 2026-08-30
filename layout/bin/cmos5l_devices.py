@@ -14,7 +14,9 @@ own the footprints. That route is **not available on SG13CMOS5L**: every
 
 filed upstream as the sg13cmos5l sibling of the SG13G2 family-support gaps
 `klayout-tools#1448`/`#1450`/`#1451` -- see `layout/sg13cmos5l-pll/README.md`'s
-friction log for the issue number. This module is therefore **not** a
+friction log for the issue number and for its status (it **closed upstream
+2026-08-30**, after this repo's pin; the README records what a pin bump would
+and would not change). This module is therefore **not** a
 work-around that hides a deck gap (the curated `sg13cmos5l` *deck* is fine and
 is used unmodified below): it is the same route `2AMLogic/sg13g2-bandgap`
 already took for its own SG13CMOS5L port -- draw the footprints locally with
@@ -46,9 +48,20 @@ analog core:
 * A PMOS never draws its own NWell. :func:`draw_pfet_array_well` draws **one**
   shared well over a whole matched group, with an n+ well tap inside it --
   three separate wells would extract as three separate, unrelated body nets.
-* No routing primitives. This flow's composition step is placement only (the
-  same Non-goal the SG13G2 side's `layout/pll/README.md` records), so nothing
-  here draws a wire between two devices.
+* Every device exposes **three** Metal1 terminal pads, gate included
+  (issue #29): the bandgap module's MOS never contacts its own gate, because
+  a hand-floorplanned analog core wires poly directly. A routed block cannot
+  -- a gate with no Metal1 landing has nowhere for a `Via1` to drop -- so
+  :func:`draw_hv_mos` grows a `GatPoly` landing pad left of the gate endcap
+  with its own `Cont` + `Metal1` stack, and reports its box.
+
+**Routing primitives (issue #29).** This module now also carries the BEOL
+primitives the routed composition step needs (:func:`draw_via1`,
+:func:`draw_via2`, :func:`draw_wire`) and the layer/rule constants they are
+sized from. Every constant below is read off the curated `sg13cmos5l` deck's
+own `DECK` rule list (`klayout_tools.decks.sg13cmos5l`), not guessed -- the
+rule id each one satisfies is named at its definition. The router that uses
+them lives in `cmos5l_route.py`.
 """
 
 from __future__ import annotations
@@ -70,7 +83,22 @@ L_METAL1 = (8, 0)
 #: (`klayout_tools.decks.sg13cmos5l.EXTRACTION_DECK.metal_labels[0]`) --
 #: deliberately *not* the (8, 25) `Metal1.text` the `sg13g2` deck reads.
 L_METAL1_PIN = (8, 2)
+L_METAL2 = (10, 0)
+#: `Metal2.pin` (10, 2) -- `EXTRACTION_DECK.metal_labels[1]` (klayout-tools#1417).
+L_METAL2_PIN = (10, 2)
 L_PSD = (14, 0)
+#: `Via1.drawing` (19, 0) -- `EXTRACTION_DECK.vias[0]`, Metal1 <-> Metal2.
+L_VIA1 = (19, 0)
+#: `Via2.drawing` (29, 0) -- `EXTRACTION_DECK.vias[1]`, Metal2 <-> Metal3.
+L_VIA2 = (29, 0)
+L_METAL3 = (30, 0)
+#: `Metal3.pin` (30, 2) -- `EXTRACTION_DECK.metal_labels[2]`. **This is the
+#: layer this flow names every routed net on**, and getting it wrong is not a
+#: loud failure: a net named on `Metal3.text` (30, 25) -- the datatype the
+#: `sg13g2` deck reads -- extracts as an anonymous `$<n>` instead, and LVS
+#: then compares a correctly-drawn layout against the schematic with every
+#: net name missing.
+L_METAL3_PIN = (30, 2)
 L_SALBLOCK = (28, 0)
 L_NWELL = (31, 0)
 #: `EXTRACTION_DECK.well_label == (31, 2)` ("NWell.pin"): the layer that names
@@ -89,6 +117,12 @@ LAYER_NAMES: dict[tuple[int, int], str] = {
     L_NSD: "nSD.drawing",
     L_METAL1: "Metal1.drawing",
     L_METAL1_PIN: "Metal1.pin",
+    L_METAL2: "Metal2.drawing",
+    L_METAL2_PIN: "Metal2.pin",
+    L_VIA1: "Via1.drawing",
+    L_VIA2: "Via2.drawing",
+    L_METAL3: "Metal3.drawing",
+    L_METAL3_PIN: "Metal3.pin",
     L_PSD: "pSD.drawing",
     L_SALBLOCK: "SalBlock.drawing",
     L_NWELL: "NWell.drawing",
@@ -138,6 +172,68 @@ RES_CONT_MARGIN_UM = 0.1
 #: Well/substrate tap strip active height (um). One contact row plus its
 #: ``Cnt_c`` enclosure on each side, rounded up.
 TAP_H_UM = 0.5
+
+# --------------------------------------------------------------------------- #
+# Gate landing pad (issue #29).
+#
+# A `GatPoly` pad hung off the *left* gate endcap, big enough to hold one
+# `Cont` plus a `Metal1` cap, so a router has a Via1 landing for the gate. The
+# bandgap module's MOS has none -- it never needed one, because that block
+# wires poly by hand.
+#
+# The pad is deliberately drawn **outside** a PFET's `pSD` implant: in SG13's
+# layer scheme `pSD` is the p+ source/drain mask, and a poly interconnect stub
+# carrying a contact is not a source/drain. The curated `sg13cmos5l` deck has
+# no poly-implant rule that reads either way, so this is a physical-intent
+# choice recorded here rather than a rule being satisfied.
+# --------------------------------------------------------------------------- #
+
+#: `GatPoly` gate-pad extent past the gate endcap (x) and its height (y), um.
+#: 0.5 um on both axes: comfortably over `gatpoly.width.1` (0.13 um) and wide
+#: enough that one `Cnt_a` (0.16 um) contact sits centred with 0.17 um of poly
+#: around it.
+GATE_PAD_W_UM = 0.5
+GATE_PAD_H_UM = 0.5
+
+#: `Metal1` inset inside the gate pad's own `GatPoly` box (um). 0.05 um keeps
+#: the drawn `Metal1` cap 0.4 x 0.4 um -- over `metal1.width.1` (0.16 um) -- and
+#: keeps it 0.23 um clear of the source/drain pads' own `x_lo` edge, over
+#: `metal1.space.1` (0.18 um).
+GATE_M1_INSET_UM = 0.05
+
+# --------------------------------------------------------------------------- #
+# BEOL routing constants (issue #29). Every threshold below is the curated
+# `sg13cmos5l` deck's own `DECK` entry, named by rule id.
+# --------------------------------------------------------------------------- #
+
+M1_SPACE_UM = 0.18  # metal1.space.1
+M2_WIDTH_UM = 0.20  # metal2.width.1
+M2_SPACE_UM = 0.21  # metal2.space.1
+M3_WIDTH_UM = 0.20  # metal3.width.1
+M3_SPACE_UM = 0.21  # metal3.space.1
+VIA1_SIZE_UM = 0.19  # via1.width.1 (drawn square at exactly the floor)
+VIA1_SPACE_UM = 0.22  # via1.space.1
+VIA2_SIZE_UM = 0.19  # via2.width.1
+VIA2_SPACE_UM = 0.22  # via2.space.1
+M1_ENC_VIA1_UM = 0.01  # metal1.enclosing.via1.1
+M2_ENC_VIA2_UM = 0.05  # metal2.enclosing.via2.1
+
+#: Drawn width of every routed wire this flow makes, on both Metal2 (vertical
+#: risers) and Metal3 (horizontal net trunks), um.
+#:
+#: **Not** the `metal2.width.1`/`metal3.width.1` floor (0.20 um): a Via2 has to
+#: land inside the wire with `metal2.enclosing.via2.1` (0.05 um) of metal all
+#: round it, so the narrowest wire that can carry a via is
+#: `VIA2_SIZE_UM + 2 * M2_ENC_VIA2_UM` = 0.29 um. 0.30 um is that, rounded to
+#: the 10 nm grid the rest of this module draws on.
+ROUTE_W_UM = 0.30
+
+#: Centre-to-centre pitch two parallel routed wires may sit on, um --
+#: `ROUTE_W_UM` plus the tighter of the two metals' space rules, with 0.09 um
+#: of slack. Used both for the Metal3 track assignment and for the Metal2
+#: riser-column collision check, which is what turns a placement mistake into
+#: a caught error rather than a silent short.
+ROUTE_PITCH_UM = 0.60
 
 
 class Builder:
@@ -194,6 +290,16 @@ class Builder:
     def net_label(self, value: str, x: float, y: float) -> None:
         """Name a Metal1 net, on the layer the deck actually reads (8, 2)."""
         self.text(L_METAL1_PIN, value, x, y)
+
+    def route_label(self, value: str, x: float, y: float) -> None:
+        """Name a routed net on its Metal3 trunk, on `Metal3.pin` (30, 2).
+
+        The layer the curated `sg13cmos5l` deck actually reads
+        (`EXTRACTION_DECK.metal_labels[2]`) -- **not** `Metal3.text` (30, 25),
+        which is the datatype the `sg13g2` deck reads and which would leave
+        every net here anonymous.
+        """
+        self.text(L_METAL3_PIN, value, x, y)
 
     def well_label(self, value: str, x: float, y: float) -> None:
         """Name an NWell net, on the layer the deck actually reads (31, 2)."""
@@ -254,10 +360,17 @@ def mos_margins(flavor: str) -> tuple[float, float]:
     NWell :func:`draw_pfet_array_well` draws reaches `NW_c1` -- the well is
     accounted for by that function, so what is reported here is this unit
     device's own drawn extent only.
+
+    Since issue #29 the x margin also has to clear the gate landing pad
+    (`GAT_C + GATE_PAD_W_UM`), which on both flavours is now the widest
+    thing hanging off the active box. It is reported symmetrically even
+    though the pad is drawn only on the left: the array packer places on one
+    pitch, and a symmetric margin is the conservative one.
     """
+    gate_pad_x = GAT_C + GATE_PAD_W_UM
     if flavor == "pfet":
-        return max(PSD_C, GAT_C + PSD_I1), max(PSD_C, TGO_C)
-    return max(TGO_A, GAT_C), TGO_C
+        return max(PSD_C, GAT_C + PSD_I1, gate_pad_x), max(PSD_C, TGO_C)
+    return max(TGO_A, GAT_C, gate_pad_x), TGO_C
 
 
 def draw_hv_mos(
@@ -284,6 +397,11 @@ def draw_hv_mos(
       and the gate by `pSD_i1`. The **well is not drawn here**; see
       :func:`draw_pfet_array_well`.
 
+    Since issue #29 a **gate landing pad** is drawn too (`GATE_PAD_W_UM` of
+    `GatPoly` past the left gate endcap, one `Cont`, and a `Metal1` cap), so
+    the gate is a routable terminal rather than a bare poly line. It is
+    reported as `gate_pad`.
+
     `ThickGateOx` is what makes these the **HV** (thick-gate-oxide) devices
     the ratified schematic instantiates (DR-002 Decision 0), and the curated
     `sg13cmos5l` deck models that flavour for real
@@ -304,6 +422,33 @@ def draw_hv_mos(
 
     gate = (x_lo - GAT_C, y_lo + SD_EXT_UM, x_hi + GAT_C, y_hi - SD_EXT_UM)
     b.box(L_GATPOLY, *gate)
+
+    # Gate landing pad (issue #29): GatPoly hung off the left endcap, one
+    # contact inside it, Metal1 capping the contact. Centred on the gate line
+    # so the pad never reaches past the active box in y (its own height is
+    # 0.5 um and the active is at least l + 0.8 um tall).
+    gate_yc = (gate[1] + gate[3]) / 2
+    gate_pad = (
+        gate[0] - GATE_PAD_W_UM,
+        gate_yc - GATE_PAD_H_UM / 2,
+        gate[0],
+        gate_yc + GATE_PAD_H_UM / 2,
+    )
+    b.box(L_GATPOLY, *gate_pad)
+    cont_row(
+        b,
+        gate_pad[0] + CNT_C,
+        gate_pad[1] + CNT_C,
+        gate_pad[2] - CNT_C,
+        gate_pad[3] - CNT_C,
+    )
+    gate_m1_pad = (
+        gate_pad[0] + GATE_M1_INSET_UM,
+        gate_pad[1] + GATE_M1_INSET_UM,
+        gate_pad[2] - GATE_M1_INSET_UM,
+        gate_pad[3] - GATE_M1_INSET_UM,
+    )
+    b.box(L_METAL1, *gate_m1_pad)
 
     if flavor == "pfet":
         b.box(
@@ -334,9 +479,46 @@ def draw_hv_mos(
         "bbox": (x_lo - mx, y_lo - my, x_hi + mx, y_hi + my),
         "active": (x_lo, y_lo, x_hi, y_hi),
         "gate_box": gate,
+        "gate_pad": gate_m1_pad,
         "source_pad": source_pad,
         "drain_pad": drain_pad,
     }
+
+
+#: x of the dedicated `Metal1` tab / `Metal2` riser column a group's own
+#: body tie is brought out on (um, in the group cell's local frame).
+#:
+#: Every group's first unit device starts at `mos_margins()[0] + NW_c1` (see
+#: `pll_cmos5l_layout.draw_mos_group`), which leaves at least 1.3 um of empty
+#: cell to the left of the first gate pad. Bringing the tie out here rather
+#: than straight up off the tap strip is what keeps the body net's riser out
+#: of the source/drain/gate riser columns above the array -- the tap strip
+#: itself sits directly *under* those columns.
+TAP_TAB_X_UM = 0.25
+
+#: Half-width of that tab / the `Metal1` it is drawn as (um). 0.25 um wide
+#: overall, over `metal1.width.1` (0.16 um).
+TAP_TAB_HALF_W_UM = 0.125
+
+
+def _draw_tap_tab(
+    b: Builder, tap: tuple[float, float, float, float]
+) -> tuple[float, float]:
+    """Draw the `Metal1` tab that carries a group's body tie out to
+    :data:`TAP_TAB_X_UM`, and return the `(x, y)` a `Via1` should land on.
+
+    The tab runs left from the tap strip's own left edge at the tap's own y
+    band, so it adds no new `Metal1` neighbour to anything above it.
+    """
+    yc = (tap[1] + tap[3]) / 2
+    b.box(
+        L_METAL1,
+        TAP_TAB_X_UM - TAP_TAB_HALF_W_UM,
+        yc - TAP_TAB_HALF_W_UM,
+        tap[0],
+        yc + TAP_TAB_HALF_W_UM,
+    )
+    return TAP_TAB_X_UM, yc
 
 
 def draw_pfet_array_well(
@@ -384,7 +566,13 @@ def draw_pfet_array_well(
     nwell = (x0 - NW_C1, tap_y0 - NW_C1, x1 + NW_C1, y1 + NW_C1)
     b.box(L_NWELL, *nwell)
     b.well_label(net_label, (nwell[0] + nwell[2]) / 2, (nwell[1] + nwell[3]) / 2)
-    return {"nwell": nwell, "tap_active": tap, "tap_pad": tap_pad}
+    via_x, via_y = _draw_tap_tab(b, tap)
+    return {
+        "nwell": nwell,
+        "tap_active": tap,
+        "tap_pad": tap_pad,
+        "tie_point": (via_x, via_y),
+    }
 
 
 def draw_nfet_array_tap(
@@ -398,9 +586,13 @@ def draw_nfet_array_tap(
     The curated `sg13cmos5l` deck derives a substrate tie as
     `pSD & (Activ - NWell)` (klayout-tools#1414). The tie itself carries no
     net label: the deck ties the substrate to its own synthesized global
-    net, so a label here would only fabricate a second name for it.
+    net, so a label here would only fabricate a second name for it. Since
+    issue #29 it *is* wired -- to whatever net the schematic declares as this
+    group's NMOS bulk -- through the `Metal1` tab :func:`_draw_tap_tab` hangs
+    off it, which is how the layout's own substrate global and the
+    schematic's ground net become the one net LVS compares.
 
-    Returns `{"tap_active": (...), "tap_pad": (...)}`.
+    Returns `{"tap_active": (...), "tap_pad": (...), "tie_point": (x, y)}`.
     """
     if not actives:
         raise ValueError("draw_nfet_array_tap: no active boxes")
@@ -415,7 +607,8 @@ def draw_nfet_array_tap(
     b.box(L_PSD, tap[0] - PSD_C, tap[1] - PSD_C, tap[2] + PSD_C, tap[3] + PSD_C)
     cont_row(b, tap[0] + CNT_C, tap[1] + CNT_C, tap[2] - CNT_C, tap[3] - CNT_C)
     b.box(L_METAL1, *tap)
-    return {"tap_active": tap, "tap_pad": tap}
+    via_x, via_y = _draw_tap_tab(b, tap)
+    return {"tap_active": tap, "tap_pad": tap, "tie_point": (via_x, via_y)}
 
 
 # --------------------------------------------------------------------------- #
@@ -512,3 +705,52 @@ def draw_poly_res(
         "end_a_pad": end_a_pad,
         "end_b_pad": end_b_pad,
     }
+
+
+# --------------------------------------------------------------------------- #
+# BEOL routing primitives (issue #29)
+# --------------------------------------------------------------------------- #
+
+
+def draw_wire(
+    b: Builder, layer: tuple[int, int], x0: float, y0: float, x1: float, y1: float
+) -> tuple[float, float, float, float]:
+    """Draw one axis-aligned wire segment on `layer` and return its box.
+
+    `(x0, y0)`/`(x1, y1)` are the segment's own **centre-line** endpoints; the
+    drawn box is that line widened by :data:`ROUTE_W_UM` / 2 on both sides and
+    squared off at each end, so two segments meeting at a corner overlap into
+    one connected polygon with no notch for `metal*.space.1` to catch.
+    """
+    half = ROUTE_W_UM / 2
+    box = (min(x0, x1) - half, min(y0, y1) - half, max(x0, x1) + half, max(y0, y1) + half)
+    b.box(layer, *box)
+    return box
+
+
+def draw_via1(b: Builder, x: float, y: float) -> None:
+    """Drop one `Via1` at `(x, y)`, with its own `Metal2` landing.
+
+    The `Metal1` side is **not** drawn: a Via1 only ever lands on a terminal
+    pad this module already drew (a source/drain pad, a gate pad, a resistor
+    end pad, a body-tie tab), every one of which is at least
+    :data:`VIA1_SIZE_UM` + 2 x :data:`M1_ENC_VIA1_UM` across. Drawing a second
+    Metal1 patch here would only add a redundant shape for
+    `metal1.space.1` to have an opinion about.
+    """
+    half = VIA1_SIZE_UM / 2
+    b.box(L_VIA1, x - half, y - half, x + half, y + half)
+    land = ROUTE_W_UM / 2
+    b.box(L_METAL2, x - land, y - land, x + land, y + land)
+
+
+def draw_via2(b: Builder, x: float, y: float) -> None:
+    """Drop one `Via2` at `(x, y)`.
+
+    Neither landing is drawn: a Via2 is only ever placed where a
+    :data:`ROUTE_W_UM`-wide Metal2 riser crosses a `ROUTE_W_UM`-wide Metal3
+    trunk, which already gives it `metal2.enclosing.via2.1` (0.05 um) of metal
+    on both levels.
+    """
+    half = VIA2_SIZE_UM / 2
+    b.box(L_VIA2, x - half, y - half, x + half, y + half)
