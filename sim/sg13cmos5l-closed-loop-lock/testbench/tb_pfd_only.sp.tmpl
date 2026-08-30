@@ -1,0 +1,60 @@
+* sg13g2-pll :: sim/sg13cmos5l-closed-loop-lock (issue #50, Part of #16)
+* STANDALONE PFD-ONLY diagnostic -- Scope item 1 of issue #50: confirm or
+* rule out a PFD-level polarity issue by driving the frozen `pfd` subckt
+* directly with a KNOWN REF/FB phase relationship (a fixed, per-cycle
+* leading offset -- not two independent free-running clocks) and reading
+* `UP`/`DN` back out. This is NOT part of either closed-loop deck
+* (`tb_pll_closed.sp.tmpl` / `tb_pll_proposal.sp.tmpl`) and does not touch
+* `cp`, `loop_filter`, `vco`, `divider_chain` or `lock_detector` at all --
+* it isolates the PFD's own combinational/sequential behaviour from
+* everything downstream.
+*
+* `../testbench/run_pfd_diag.sh` substitutes @CORNER_MOS@ (cornerMOShv.lib
+* section), @TEMP@ (degC), @VDD@ (V), @TREF@/@TREFH@ (period / high time of
+* BOTH pulse trains, s -- same period, only the phase differs), @REF_DELAY@/
+* @FB_DELAY@ (s -- exactly one of the two is 0, the other is the fixed
+* per-cycle lead/lag under test), @PFD_INCLUDE@ (which of the two PFD
+* netlists below this run instantiates), @TSTOP@, @TPRINT@, @TMAX@ and
+* @TAVG0@ per that script's own two cases (`reflead`: REF's edge arrives
+* first every cycle -- the PFD should read this as "FB needs to catch up";
+* `fblead`: FB's edge arrives first every cycle -- the PFD should read this
+* as "FB needs to slow down") crossed with its own two PFD variants
+* (`asdrawn`: verbatim `../netlist-snapshots/pfd.spice`; `fixed`: a
+* diagnostic-only patch to that netlist's reset-generation inverter count --
+* see `run_pfd_diag.sh`'s own header for exactly what changes and why).
+*
+* @PFD_INCLUDE@ is one of `pfd_snap.spice` (verbatim frozen snapshot, no
+* edit, no strip) or `pfd_fixed_diag.spice` (the diagnostic patch,
+* NOT the committed design -- see `run_pfd_diag.sh`).
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include @PFD_INCLUDE@
+
+Vdd_pfd vdd_pfd 0 dc @VDD@
+
+* Both pulse trains share one period/high-time; only the START DELAY differs
+* between REF and FB, so the two edges keep the SAME lead/lag relationship
+* every single cycle (a fixed phase offset, not a frequency difference) --
+* this is what lets a short transient give an unambiguous steady-state
+* UP/DN duty-cycle reading instead of a beat pattern.
+Vref ref 0 pulse(0 @VDD@ @REF_DELAY@ 100p 100p @TREFH@ @TREF@)
+Vfb  fb  0 pulse(0 @VDD@ @FB_DELAY@  100p 100p @TREFH@ @TREF@)
+
+* .subckt pfd REF FB UP DN VDD VSS
+XPFD ref fb up dn vdd_pfd 0 pfd
+
+.tran @TPRINT@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+* Skip the first two reference cycles (startup/reset transient) before
+* averaging -- both cases share the same @TAVG0@, set by the driver script.
+meas tran up_avg avg v(up) from=@TAVG0@ to=@TSTOP@
+meas tran dn_avg avg v(dn) from=@TAVG0@ to=@TSTOP@
+print up_avg dn_avg
+linearize v(ref) v(fb) v(up) v(dn)
+wrdata wave.dat v(ref) v(fb) v(up) v(dn)
+.endc
+.end
