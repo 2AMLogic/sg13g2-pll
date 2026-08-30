@@ -22,9 +22,11 @@
 *
 * Template placeholders (substituted by ../testbench/run.sh, not meant to be
 * run directly): @RES_CORNER@ (res_typ|res_bcs|res_wcs, cornerRES.lib),
-* @TEMP@ (degC), @W@, @L@ (device geometry).
+* @TEMP@ (degC), @W@, @L@ (device geometry), @PDK_ROOT@/@PDK@ (resolved
+* filesystem path -- ngspice's `.lib` parser does not expand shell/OS
+* environment variables, issue #54).
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @RES_CORNER@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @RES_CORNER@
 .option scale=1 temp=@TEMP@
 
 Xrpu n1 0 sub! rhigh w=@W@ l=@L@ m=1 b=0

@@ -125,6 +125,11 @@ def gen(args):
         "@TSTOP@": args.tstop,
         "@TSETTLE@": args.tsettle,
         "@DUT@": args.dut,
+        # ngspice's `.lib`/`.include` netlist parser does not expand shell/OS
+        # environment variables, so the PDK path has to be a real filesystem
+        # path by the time ngspice parses the generated deck (issue #54).
+        "@PDK_ROOT@": args.pdk_root,
+        "@PDK@": args.pdk,
     }
     # Substitution is line-based and skips comment lines, for two reasons:
     # the skeleton's own header documents its placeholder names and must keep
@@ -299,6 +304,8 @@ def main():
     g.add_argument("--tstep", required=True)
     g.add_argument("--tstop", required=True)
     g.add_argument("--tsettle", required=True)
+    g.add_argument("--pdk-root", required=True)
+    g.add_argument("--pdk", required=True)
     g.set_defaults(func=gen)
 
     r = sub.add_parser("reduce")
