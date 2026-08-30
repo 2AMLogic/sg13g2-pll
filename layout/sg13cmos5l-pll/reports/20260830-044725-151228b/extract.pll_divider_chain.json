@@ -1,0 +1,6475 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "pll_divider_chain.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_divider_chain",
+    "dbu_um": 0.001,
+    "netlist_path": "pll_divider_chain.extracted.spice",
+    "netlist_sha256": "76b76eb265aac55b323511b2db47c6c819b819c9db020024ae484370ec0d5fc1",
+    "status": "extracted",
+    "device_count": 316,
+    "net_count": 142,
+    "pin_count": 142,
+    "device_counts": {
+      "nfet": 158,
+      "pfet": 158
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 44,
+        "datatype": 0,
+        "shapes": 316
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XN3.mid1",
+          "g": "mod0",
+          "d": "XD0.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$10",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFQ.M",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$100",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFM.SB",
+          "d": "mod2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$101",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XN3.mid1",
+          "g": "mod4",
+          "d": "XD4.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$102",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XN3.mid2",
+          "g": "P4",
+          "d": "XD4.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$103",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "mod3",
+          "d": "XD4.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$104",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.nt",
+          "d": "XD4.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$105",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck5",
+          "d": "XD4.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$106",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.t1",
+          "d": "XD4.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$107",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$108",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFQ.M",
+          "g": "XD4.XDFFQ.CLKB",
+          "d": "XD4.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$109",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFQ.M",
+          "d": "XD4.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$11",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFQ.S",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$110",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFQ.M",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$111",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFQ.S",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$112",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFQ.S",
+          "d": "XD4.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$113",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFQ.S",
+          "g": "XD4.XDFFQ.CLKB",
+          "d": "XD4.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$114",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFQ.SB",
+          "d": "ck5",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$115",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XN2.mid1",
+          "g": "mod4",
+          "d": "XD4.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$116",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck5",
+          "d": "XD4.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$117",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.nm",
+          "d": "XD4.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$118",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck4",
+          "d": "XD4.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$119",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFM.M",
+          "g": "XD4.XDFFM.CLKB",
+          "d": "XD4.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$12",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFQ.S",
+          "d": "XD0.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$120",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFM.M",
+          "d": "XD4.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$121",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFM.M",
+          "g": "ck4",
+          "d": "XD4.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$122",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFM.S",
+          "g": "ck4",
+          "d": "XD4.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$123",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFM.S",
+          "d": "XD4.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$124",
+        "class": "nfet",
+        "nets": {
+          "s": "XD4.XDFFM.S",
+          "g": "XD4.XDFFM.CLKB",
+          "d": "XD4.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$125",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD4.XDFFM.SB",
+          "d": "mod3",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$126",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XN3.mid1",
+          "g": "VDD_DIV",
+          "d": "XD5.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$127",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XN3.mid2",
+          "g": "P5",
+          "d": "XD5.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$128",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "mod4",
+          "d": "XD5.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$129",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.nt",
+          "d": "XD5.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$13",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFQ.S",
+          "g": "XD0.XDFFQ.CLKB",
+          "d": "XD0.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$130",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "DIVOUT",
+          "d": "XD5.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$131",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.t1",
+          "d": "XD5.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$132",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$133",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFQ.M",
+          "g": "XD5.XDFFQ.CLKB",
+          "d": "XD5.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$134",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFQ.M",
+          "d": "XD5.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$135",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFQ.M",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$136",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFQ.S",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$137",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFQ.S",
+          "d": "XD5.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$138",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFQ.S",
+          "g": "XD5.XDFFQ.CLKB",
+          "d": "XD5.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$139",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFQ.SB",
+          "d": "DIVOUT",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$14",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFQ.SB",
+          "d": "ck1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$140",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XN2.mid1",
+          "g": "VDD_DIV",
+          "d": "XD5.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$141",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "DIVOUT",
+          "d": "XD5.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$142",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.nm",
+          "d": "XD5.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$143",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck5",
+          "d": "XD5.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$144",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFM.M",
+          "g": "XD5.XDFFM.CLKB",
+          "d": "XD5.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$145",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFM.M",
+          "d": "XD5.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$146",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFM.M",
+          "g": "ck5",
+          "d": "XD5.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$147",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFM.S",
+          "g": "ck5",
+          "d": "XD5.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$148",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFM.S",
+          "d": "XD5.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$149",
+        "class": "nfet",
+        "nets": {
+          "s": "XD5.XDFFM.S",
+          "g": "XD5.XDFFM.CLKB",
+          "d": "XD5.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$15",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XN2.mid1",
+          "g": "mod0",
+          "d": "XD0.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$150",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD5.XDFFM.SB",
+          "d": "mod4",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$151",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "CKIN_VCO",
+          "d": "XFRT.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$152",
+        "class": "nfet",
+        "nets": {
+          "s": "XFRT.M",
+          "g": "XFRT.CLKB",
+          "d": "DIVOUT",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$153",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XFRT.M",
+          "d": "XFRT.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$154",
+        "class": "nfet",
+        "nets": {
+          "s": "XFRT.M",
+          "g": "CKIN_VCO",
+          "d": "XFRT.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$155",
+        "class": "nfet",
+        "nets": {
+          "s": "XFRT.S",
+          "g": "CKIN_VCO",
+          "d": "XFRT.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$156",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XFRT.S",
+          "d": "XFRT.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$157",
+        "class": "nfet",
+        "nets": {
+          "s": "XFRT.S",
+          "g": "XFRT.CLKB",
+          "d": "XFRT.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$158",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XFRT.SB",
+          "d": "FB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$159",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod0",
+          "d": "XD0.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$16",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck1",
+          "d": "XD0.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$160",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P0",
+          "d": "XD0.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$161",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "net1",
+          "d": "XD0.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$162",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.nt",
+          "d": "XD0.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$163",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck1",
+          "d": "XD0.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$164",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XNOR.midp",
+          "g": "XD0.t1",
+          "d": "XD0.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$165",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$166",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.dq",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$167",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFQ.M",
+          "d": "XD0.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$168",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFQ.MB",
+          "g": "XD0.XDFFQ.CLKB",
+          "d": "XD0.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$169",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFQ.M",
+          "g": "XD0.XDFFQ.CLKB",
+          "d": "XD0.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$17",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.nm",
+          "d": "XD0.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$170",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFQ.S",
+          "d": "XD0.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$171",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFQ.SB",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$172",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFQ.SB",
+          "d": "ck1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$173",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod0",
+          "d": "XD0.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$174",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck1",
+          "d": "XD0.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$175",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.nm",
+          "d": "XD0.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$176",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$177",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.dmodout",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$178",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFM.M",
+          "d": "XD0.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$179",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFM.MB",
+          "g": "XD0.XDFFM.CLKB",
+          "d": "XD0.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$18",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$180",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFM.M",
+          "g": "XD0.XDFFM.CLKB",
+          "d": "XD0.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$181",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFM.S",
+          "d": "XD0.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$182",
+        "class": "pfet",
+        "nets": {
+          "s": "XD0.XDFFM.SB",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$183",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD0.XDFFM.SB",
+          "d": "net1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$184",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod1",
+          "d": "XD1.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$185",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P1",
+          "d": "XD1.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$186",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod0",
+          "d": "XD1.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$187",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.nt",
+          "d": "XD1.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$188",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck2",
+          "d": "XD1.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$189",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XNOR.midp",
+          "g": "XD1.t1",
+          "d": "XD1.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$19",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFM.M",
+          "g": "XD0.XDFFM.CLKB",
+          "d": "XD0.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$190",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$191",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.dq",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$192",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFQ.M",
+          "d": "XD1.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$193",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFQ.MB",
+          "g": "XD1.XDFFQ.CLKB",
+          "d": "XD1.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$194",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFQ.M",
+          "g": "XD1.XDFFQ.CLKB",
+          "d": "XD1.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$195",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFQ.S",
+          "d": "XD1.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$196",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFQ.SB",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$197",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFQ.SB",
+          "d": "ck2",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$198",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod1",
+          "d": "XD1.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$199",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck2",
+          "d": "XD1.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$2",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XN3.mid2",
+          "g": "P0",
+          "d": "XD0.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$20",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFM.M",
+          "d": "XD0.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$200",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.nm",
+          "d": "XD1.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$201",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck1",
+          "d": "XD1.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$202",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.dmodout",
+          "g": "ck1",
+          "d": "XD1.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$203",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFM.M",
+          "d": "XD1.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$204",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFM.MB",
+          "g": "XD1.XDFFM.CLKB",
+          "d": "XD1.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$205",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFM.M",
+          "g": "XD1.XDFFM.CLKB",
+          "d": "XD1.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$206",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFM.S",
+          "d": "XD1.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$207",
+        "class": "pfet",
+        "nets": {
+          "s": "XD1.XDFFM.SB",
+          "g": "ck1",
+          "d": "XD1.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$208",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD1.XDFFM.SB",
+          "d": "mod0",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$209",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod2",
+          "d": "XD2.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$21",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFM.M",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$210",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P2",
+          "d": "XD2.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$211",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod1",
+          "d": "XD2.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$212",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.nt",
+          "d": "XD2.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$213",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck3",
+          "d": "XD2.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$214",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XNOR.midp",
+          "g": "XD2.t1",
+          "d": "XD2.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$215",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$216",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.dq",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$217",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFQ.M",
+          "d": "XD2.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$218",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFQ.MB",
+          "g": "XD2.XDFFQ.CLKB",
+          "d": "XD2.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$219",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFQ.M",
+          "g": "XD2.XDFFQ.CLKB",
+          "d": "XD2.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$22",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFM.S",
+          "g": "CKIN",
+          "d": "XD0.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$220",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFQ.S",
+          "d": "XD2.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$221",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFQ.SB",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$222",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFQ.SB",
+          "d": "ck3",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$223",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod2",
+          "d": "XD2.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$224",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck3",
+          "d": "XD2.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$225",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.nm",
+          "d": "XD2.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$226",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck2",
+          "d": "XD2.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$227",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.dmodout",
+          "g": "ck2",
+          "d": "XD2.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$228",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFM.M",
+          "d": "XD2.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$229",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFM.MB",
+          "g": "XD2.XDFFM.CLKB",
+          "d": "XD2.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$23",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFM.S",
+          "d": "XD0.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$230",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFM.M",
+          "g": "XD2.XDFFM.CLKB",
+          "d": "XD2.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$231",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFM.S",
+          "d": "XD2.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$232",
+        "class": "pfet",
+        "nets": {
+          "s": "XD2.XDFFM.SB",
+          "g": "ck2",
+          "d": "XD2.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$233",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD2.XDFFM.SB",
+          "d": "mod1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$234",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod3",
+          "d": "XD3.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$235",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P3",
+          "d": "XD3.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$236",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod2",
+          "d": "XD3.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$237",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.nt",
+          "d": "XD3.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$238",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck4",
+          "d": "XD3.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$239",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XNOR.midp",
+          "g": "XD3.t1",
+          "d": "XD3.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$24",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFM.S",
+          "g": "XD0.XDFFM.CLKB",
+          "d": "XD0.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$240",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$241",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.dq",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$242",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFQ.M",
+          "d": "XD3.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$243",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFQ.MB",
+          "g": "XD3.XDFFQ.CLKB",
+          "d": "XD3.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$244",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFQ.M",
+          "g": "XD3.XDFFQ.CLKB",
+          "d": "XD3.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$245",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFQ.S",
+          "d": "XD3.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$246",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFQ.SB",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$247",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFQ.SB",
+          "d": "ck4",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$248",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod3",
+          "d": "XD3.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$249",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck4",
+          "d": "XD3.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$25",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFM.SB",
+          "d": "net1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$250",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.nm",
+          "d": "XD3.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$251",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck3",
+          "d": "XD3.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$252",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.dmodout",
+          "g": "ck3",
+          "d": "XD3.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$253",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFM.M",
+          "d": "XD3.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$254",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFM.MB",
+          "g": "XD3.XDFFM.CLKB",
+          "d": "XD3.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$255",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFM.M",
+          "g": "XD3.XDFFM.CLKB",
+          "d": "XD3.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$256",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFM.S",
+          "d": "XD3.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$257",
+        "class": "pfet",
+        "nets": {
+          "s": "XD3.XDFFM.SB",
+          "g": "ck3",
+          "d": "XD3.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$258",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD3.XDFFM.SB",
+          "d": "mod2",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$259",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod4",
+          "d": "XD4.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$26",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XN3.mid1",
+          "g": "mod1",
+          "d": "XD1.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$260",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P4",
+          "d": "XD4.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$261",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod3",
+          "d": "XD4.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$262",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.nt",
+          "d": "XD4.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$263",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck5",
+          "d": "XD4.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$264",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XNOR.midp",
+          "g": "XD4.t1",
+          "d": "XD4.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$265",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$266",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.dq",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$267",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFQ.M",
+          "d": "XD4.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$268",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFQ.MB",
+          "g": "XD4.XDFFQ.CLKB",
+          "d": "XD4.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$269",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFQ.M",
+          "g": "XD4.XDFFQ.CLKB",
+          "d": "XD4.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$27",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XN3.mid2",
+          "g": "P1",
+          "d": "XD1.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$270",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFQ.S",
+          "d": "XD4.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$271",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFQ.SB",
+          "g": "ck4",
+          "d": "XD4.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$272",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFQ.SB",
+          "d": "ck5",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$273",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod4",
+          "d": "XD4.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$274",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck5",
+          "d": "XD4.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$275",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.nm",
+          "d": "XD4.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$276",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck4",
+          "d": "XD4.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$277",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.dmodout",
+          "g": "ck4",
+          "d": "XD4.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$278",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFM.M",
+          "d": "XD4.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$279",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFM.MB",
+          "g": "XD4.XDFFM.CLKB",
+          "d": "XD4.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$28",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "mod0",
+          "d": "XD1.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$280",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFM.M",
+          "g": "XD4.XDFFM.CLKB",
+          "d": "XD4.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$281",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFM.S",
+          "d": "XD4.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$282",
+        "class": "pfet",
+        "nets": {
+          "s": "XD4.XDFFM.SB",
+          "g": "ck4",
+          "d": "XD4.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$283",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD4.XDFFM.SB",
+          "d": "mod3",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$284",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "VDD_DIV",
+          "d": "XD5.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$285",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "P5",
+          "d": "XD5.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$286",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "mod4",
+          "d": "XD5.nt",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$287",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.nt",
+          "d": "XD5.t1",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$288",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "DIVOUT",
+          "d": "XD5.XNOR.midp",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$289",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XNOR.midp",
+          "g": "XD5.t1",
+          "d": "XD5.dq",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$29",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.nt",
+          "d": "XD1.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$290",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$291",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.dq",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$292",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFQ.M",
+          "d": "XD5.XDFFQ.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$293",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFQ.MB",
+          "g": "XD5.XDFFQ.CLKB",
+          "d": "XD5.XDFFQ.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$294",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFQ.M",
+          "g": "XD5.XDFFQ.CLKB",
+          "d": "XD5.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$295",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFQ.S",
+          "d": "XD5.XDFFQ.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$296",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFQ.SB",
+          "g": "ck5",
+          "d": "XD5.XDFFQ.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$297",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFQ.SB",
+          "d": "DIVOUT",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$298",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "VDD_DIV",
+          "d": "XD5.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$299",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "DIVOUT",
+          "d": "XD5.nm",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$3",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "net1",
+          "d": "XD0.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$30",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck2",
+          "d": "XD1.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$300",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.nm",
+          "d": "XD5.dmodout",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$301",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "ck5",
+          "d": "XD5.XDFFM.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$302",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.dmodout",
+          "g": "ck5",
+          "d": "XD5.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$303",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFM.M",
+          "d": "XD5.XDFFM.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$304",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFM.MB",
+          "g": "XD5.XDFFM.CLKB",
+          "d": "XD5.XDFFM.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$305",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFM.M",
+          "g": "XD5.XDFFM.CLKB",
+          "d": "XD5.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$306",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFM.S",
+          "d": "XD5.XDFFM.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$307",
+        "class": "pfet",
+        "nets": {
+          "s": "XD5.XDFFM.SB",
+          "g": "ck5",
+          "d": "XD5.XDFFM.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$308",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XD5.XDFFM.SB",
+          "d": "mod4",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$309",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "CKIN_VCO",
+          "d": "XFRT.CLKB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$31",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.t1",
+          "d": "XD1.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$310",
+        "class": "pfet",
+        "nets": {
+          "s": "DIVOUT",
+          "g": "CKIN_VCO",
+          "d": "XFRT.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$311",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XFRT.M",
+          "d": "XFRT.MB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$312",
+        "class": "pfet",
+        "nets": {
+          "s": "XFRT.MB",
+          "g": "XFRT.CLKB",
+          "d": "XFRT.M",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$313",
+        "class": "pfet",
+        "nets": {
+          "s": "XFRT.M",
+          "g": "XFRT.CLKB",
+          "d": "XFRT.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$314",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XFRT.S",
+          "d": "XFRT.SB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$315",
+        "class": "pfet",
+        "nets": {
+          "s": "XFRT.SB",
+          "g": "CKIN_VCO",
+          "d": "XFRT.S",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$316",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_DIV",
+          "g": "XFRT.SB",
+          "d": "FB",
+          "b": "VDD_DIV"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$32",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$33",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFQ.M",
+          "g": "XD1.XDFFQ.CLKB",
+          "d": "XD1.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$34",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFQ.M",
+          "d": "XD1.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$35",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFQ.M",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$36",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFQ.S",
+          "g": "ck1",
+          "d": "XD1.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$37",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFQ.S",
+          "d": "XD1.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$38",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFQ.S",
+          "g": "XD1.XDFFQ.CLKB",
+          "d": "XD1.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$39",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFQ.SB",
+          "d": "ck2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$4",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.nt",
+          "d": "XD0.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$40",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XN2.mid1",
+          "g": "mod1",
+          "d": "XD1.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$41",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck2",
+          "d": "XD1.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$42",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.nm",
+          "d": "XD1.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$43",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck1",
+          "d": "XD1.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$44",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFM.M",
+          "g": "XD1.XDFFM.CLKB",
+          "d": "XD1.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$45",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFM.M",
+          "d": "XD1.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$46",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFM.M",
+          "g": "ck1",
+          "d": "XD1.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$47",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFM.S",
+          "g": "ck1",
+          "d": "XD1.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$48",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFM.S",
+          "d": "XD1.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$49",
+        "class": "nfet",
+        "nets": {
+          "s": "XD1.XDFFM.S",
+          "g": "XD1.XDFFM.CLKB",
+          "d": "XD1.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$5",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck1",
+          "d": "XD0.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$50",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD1.XDFFM.SB",
+          "d": "mod0",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$51",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XN3.mid1",
+          "g": "mod2",
+          "d": "XD2.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$52",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XN3.mid2",
+          "g": "P2",
+          "d": "XD2.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$53",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "mod1",
+          "d": "XD2.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$54",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.nt",
+          "d": "XD2.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$55",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck3",
+          "d": "XD2.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$56",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.t1",
+          "d": "XD2.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$57",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$58",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFQ.M",
+          "g": "XD2.XDFFQ.CLKB",
+          "d": "XD2.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$59",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFQ.M",
+          "d": "XD2.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$6",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.t1",
+          "d": "XD0.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$60",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFQ.M",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$61",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFQ.S",
+          "g": "ck2",
+          "d": "XD2.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$62",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFQ.S",
+          "d": "XD2.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$63",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFQ.S",
+          "g": "XD2.XDFFQ.CLKB",
+          "d": "XD2.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$64",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFQ.SB",
+          "d": "ck3",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$65",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XN2.mid1",
+          "g": "mod2",
+          "d": "XD2.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$66",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck3",
+          "d": "XD2.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$67",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.nm",
+          "d": "XD2.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$68",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck2",
+          "d": "XD2.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$69",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFM.M",
+          "g": "XD2.XDFFM.CLKB",
+          "d": "XD2.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$7",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "CKIN",
+          "d": "XD0.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$70",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFM.M",
+          "d": "XD2.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$71",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFM.M",
+          "g": "ck2",
+          "d": "XD2.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$72",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFM.S",
+          "g": "ck2",
+          "d": "XD2.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$73",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFM.S",
+          "d": "XD2.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$74",
+        "class": "nfet",
+        "nets": {
+          "s": "XD2.XDFFM.S",
+          "g": "XD2.XDFFM.CLKB",
+          "d": "XD2.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$75",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD2.XDFFM.SB",
+          "d": "mod1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$76",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XN3.mid1",
+          "g": "mod3",
+          "d": "XD3.nt",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$77",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XN3.mid2",
+          "g": "P3",
+          "d": "XD3.XN3.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$78",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "mod2",
+          "d": "XD3.XN3.mid2",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$79",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.nt",
+          "d": "XD3.t1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$8",
+        "class": "nfet",
+        "nets": {
+          "s": "XD0.XDFFQ.M",
+          "g": "XD0.XDFFQ.CLKB",
+          "d": "XD0.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$80",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck4",
+          "d": "XD3.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$81",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.t1",
+          "d": "XD3.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$82",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$83",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFQ.M",
+          "g": "XD3.XDFFQ.CLKB",
+          "d": "XD3.dq",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$84",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFQ.M",
+          "d": "XD3.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$85",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFQ.M",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$86",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFQ.S",
+          "g": "ck3",
+          "d": "XD3.XDFFQ.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$87",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFQ.S",
+          "d": "XD3.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$88",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFQ.S",
+          "g": "XD3.XDFFQ.CLKB",
+          "d": "XD3.XDFFQ.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$89",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFQ.SB",
+          "d": "ck4",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$9",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD0.XDFFQ.M",
+          "d": "XD0.XDFFQ.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$90",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XN2.mid1",
+          "g": "mod3",
+          "d": "XD3.nm",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$91",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck4",
+          "d": "XD3.XN2.mid1",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$92",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.nm",
+          "d": "XD3.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$93",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ck3",
+          "d": "XD3.XDFFM.CLKB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$94",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFM.M",
+          "g": "XD3.XDFFM.CLKB",
+          "d": "XD3.dmodout",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$95",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFM.M",
+          "d": "XD3.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$96",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFM.M",
+          "g": "ck3",
+          "d": "XD3.XDFFM.MB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$97",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFM.S",
+          "g": "ck3",
+          "d": "XD3.XDFFM.M",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$98",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "XD3.XDFFM.S",
+          "d": "XD3.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$99",
+        "class": "nfet",
+        "nets": {
+          "s": "XD3.XDFFM.S",
+          "g": "XD3.XDFFM.CLKB",
+          "d": "XD3.XDFFM.SB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "CKIN",
+        "pin": true,
+        "device_count": 12
+      },
+      {
+        "name": "CKIN_VCO",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "DIVOUT",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "FB",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P0",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P3",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P4",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "P5",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "VDD_DIV",
+        "pin": true,
+        "device_count": 262
+      },
+      {
+        "name": "VSS",
+        "pin": true,
+        "device_count": 246
+      },
+      {
+        "name": "XD0.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD0.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD0.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD0.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD0.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD0.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD0.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD0.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD0.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD0.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD0.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD0.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD0.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD1.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD1.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD1.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD1.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD1.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD1.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD1.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD1.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD1.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD1.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD1.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD1.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD1.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD2.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD2.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD2.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD2.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD2.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD2.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD2.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD2.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD2.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD2.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD2.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD2.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD2.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD3.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD3.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD3.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD3.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD3.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD3.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD3.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD3.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD3.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD3.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD3.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD3.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD3.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD4.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD4.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD4.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD4.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD4.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD4.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD4.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD4.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD4.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD4.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD4.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD4.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD4.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD5.XDFFM.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XDFFM.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD5.XDFFM.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD5.XDFFM.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XDFFM.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XDFFQ.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XDFFQ.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XD5.XDFFQ.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD5.XDFFQ.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XDFFQ.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.XN2.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD5.XN3.mid1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD5.XN3.mid2",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD5.XNOR.midp",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XD5.dmodout",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XD5.dq",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD5.nm",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XD5.nt",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XD5.t1",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XFRT.CLKB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XFRT.M",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "XFRT.MB",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XFRT.S",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "XFRT.SB",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "ck1",
+        "pin": true,
+        "device_count": 18
+      },
+      {
+        "name": "ck2",
+        "pin": true,
+        "device_count": 18
+      },
+      {
+        "name": "ck3",
+        "pin": true,
+        "device_count": 18
+      },
+      {
+        "name": "ck4",
+        "pin": true,
+        "device_count": 18
+      },
+      {
+        "name": "ck5",
+        "pin": true,
+        "device_count": 18
+      },
+      {
+        "name": "mod0",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "mod1",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "mod2",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "mod3",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "mod4",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "net1",
+        "pin": true,
+        "device_count": 4
+      }
+    ],
+    "warnings": [],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:3a7a3bb0ef9533e0f5bff10e84ee26c3df1c56c13cea4048412f686944d917f9",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

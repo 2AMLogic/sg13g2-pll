@@ -1,0 +1,1039 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "pll_vco.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_vco",
+    "dbu_um": 0.001,
+    "netlist_path": "pll_vco.extracted.spice",
+    "netlist_sha256": "ca558d7f383ac94cd9efb9d4bd790c4d65dac090ca3a56b5df929832ce127f9b",
+    "status": "extracted",
+    "device_count": 44,
+    "net_count": 33,
+    "pin_count": 33,
+    "device_counts": {
+      "nfet": 21,
+      "pfet": 17,
+      "rhigh": 1,
+      "rppd": 5
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 6
+      },
+      {
+        "layer": 44,
+        "datatype": 0,
+        "shapes": 38
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 6
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 6
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "nfet",
+        "nets": {
+          "s": "XS1.nt",
+          "g": "ring5",
+          "d": "ring1",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$10",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.nb1",
+          "g": "B1",
+          "d": "XBIAS.degb",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$11",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "XS1.nt",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$12",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "XS2.nt",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$13",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "XS3.nt",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$14",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "XS4.nt",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$15",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "XS5.nt",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$16",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "ring1",
+          "d": "bufmid",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$17",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "bufmid",
+          "d": "CLK",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$18",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.dega",
+          "g": "XBIAS.VFIX",
+          "d": "VBP",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$19",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.degb",
+          "g": "VCTRL",
+          "d": "VBP",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$2",
+        "class": "nfet",
+        "nets": {
+          "s": "XS2.nt",
+          "g": "ring1",
+          "d": "ring2",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$20",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "VBN",
+          "d": "VBN",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$21",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.n2s",
+          "g": "XBIAS.vb2",
+          "d": "XBIAS.vb2",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        }
+      },
+      {
+        "name": "$22",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "XBIAS.vb1",
+          "d": "XBIAS.VFIX",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 3.0,
+          "as_um2": 1.2,
+          "ad_um2": 1.2,
+          "ps_um": 6.8,
+          "pd_um": 6.8
+        }
+      },
+      {
+        "name": "$23",
+        "class": "pfet",
+        "nets": {
+          "s": "XS1.nh",
+          "g": "ring5",
+          "d": "ring1",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$24",
+        "class": "pfet",
+        "nets": {
+          "s": "XS2.nh",
+          "g": "ring1",
+          "d": "ring2",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$25",
+        "class": "pfet",
+        "nets": {
+          "s": "XS3.nh",
+          "g": "ring2",
+          "d": "ring3",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$26",
+        "class": "pfet",
+        "nets": {
+          "s": "XS4.nh",
+          "g": "ring3",
+          "d": "ring4",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$27",
+        "class": "pfet",
+        "nets": {
+          "s": "XS5.nh",
+          "g": "ring4",
+          "d": "ring5",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$28",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "XBIAS.vb1",
+          "d": "XBIAS.vb1",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$29",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "XBIAS.vb1",
+          "d": "XBIAS.vb2",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$3",
+        "class": "nfet",
+        "nets": {
+          "s": "XS3.nt",
+          "g": "ring2",
+          "d": "ring3",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$30",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "XS1.nh",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$31",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "XS2.nh",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$32",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "XS3.nh",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$33",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "XS4.nh",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$34",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "XS5.nh",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$35",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "ring1",
+          "d": "bufmid",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$36",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "bufmid",
+          "d": "CLK",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$37",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "VBP",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$38",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD_VCO",
+          "g": "VBP",
+          "d": "VBN",
+          "b": "VDD_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 10.0,
+          "as_um2": 4.0,
+          "ad_um2": 4.0,
+          "ps_um": 20.8,
+          "pd_um": 20.8
+        }
+      },
+      {
+        "name": "$39",
+        "class": "rppd",
+        "nets": {
+          "a": "XBIAS.n2s",
+          "b": "GND_VCO",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      },
+      {
+        "name": "$4",
+        "class": "nfet",
+        "nets": {
+          "s": "XS4.nt",
+          "g": "ring3",
+          "d": "ring4",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$40",
+        "class": "rppd",
+        "nets": {
+          "a": "XBIAS.dega",
+          "b": "GND_VCO",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 15600.0,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        }
+      },
+      {
+        "name": "$41",
+        "class": "rppd",
+        "nets": {
+          "a": "XBIAS.nb1",
+          "b": "GND_VCO",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      },
+      {
+        "name": "$42",
+        "class": "rppd",
+        "nets": {
+          "a": "XBIAS.degb",
+          "b": "GND_VCO",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 15600.0,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        }
+      },
+      {
+        "name": "$43",
+        "class": "rppd",
+        "nets": {
+          "a": "XBIAS.nb0",
+          "b": "GND_VCO",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 15600.0,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        }
+      },
+      {
+        "name": "$44",
+        "class": "rhigh",
+        "nets": {
+          "a": "VDD_VCO",
+          "b": "XBIAS.vb2",
+          "w": "GND_VCO"
+        },
+        "params": {
+          "r_ohm": 21760.0,
+          "l_um": 8.0,
+          "w_um": 0.5,
+          "area_um2": 4.0,
+          "perimeter_um": 17.0
+        }
+      },
+      {
+        "name": "$5",
+        "class": "nfet",
+        "nets": {
+          "s": "XS5.nt",
+          "g": "ring4",
+          "d": "ring5",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.28,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$6",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "XBIAS.vb2",
+          "d": "XBIAS.vb1",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$7",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.vfixmid",
+          "g": "XBIAS.VFIX",
+          "d": "XBIAS.VFIX",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$8",
+        "class": "nfet",
+        "nets": {
+          "s": "GND_VCO",
+          "g": "XBIAS.vfixmid",
+          "d": "XBIAS.vfixmid",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$9",
+        "class": "nfet",
+        "nets": {
+          "s": "XBIAS.nb0",
+          "g": "B0",
+          "d": "XBIAS.degb",
+          "b": "GND_VCO"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "B0",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "B1",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "CLK",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "GND_VCO",
+        "pin": true,
+        "device_count": 42
+      },
+      {
+        "name": "VBN",
+        "pin": true,
+        "device_count": 8
+      },
+      {
+        "name": "VBP",
+        "pin": true,
+        "device_count": 10
+      },
+      {
+        "name": "VCTRL",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "VDD_VCO",
+        "pin": true,
+        "device_count": 30
+      },
+      {
+        "name": "XBIAS.VFIX",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XBIAS.dega",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XBIAS.degb",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "XBIAS.n2s",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XBIAS.nb0",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XBIAS.nb1",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XBIAS.vb1",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XBIAS.vb2",
+        "pin": true,
+        "device_count": 5
+      },
+      {
+        "name": "XBIAS.vfixmid",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "XS1.nh",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS1.nt",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS2.nh",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS2.nt",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS3.nh",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS3.nt",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS4.nh",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS4.nt",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS5.nh",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XS5.nt",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "bufmid",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "ring1",
+        "pin": true,
+        "device_count": 6
+      },
+      {
+        "name": "ring2",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "ring3",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "ring4",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "ring5",
+        "pin": true,
+        "device_count": 4
+      }
+    ],
+    "warnings": [],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:3a7a3bb0ef9533e0f5bff10e84ee26c3df1c56c13cea4048412f686944d917f9",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:f600da1671a41b5d0b8cba63a70877a35ef0aaea5711a19fabc579ebbeb7e74c"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

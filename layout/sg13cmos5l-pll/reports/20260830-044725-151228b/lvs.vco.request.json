@@ -1,0 +1,28 @@
+{
+  "schema": "klt.lvs.request/1",
+  "engine": "klayout",
+  "layout": {
+    "file": "pll_vco.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_vco"
+  },
+  "reference": {
+    "netlist": "vco.reference.spice",
+    "form": "subckt-call",
+    "deck": "sg13cmos5l",
+    "device_map": {
+      "rppd": {
+        "kind": "resistor",
+        "class": "rppd"
+      },
+      "rhigh": {
+        "kind": "resistor",
+        "class": "rhigh"
+      }
+    }
+  },
+  "options": {
+    "flatten_layout": true,
+    "flatten_reference": true
+  }
+}

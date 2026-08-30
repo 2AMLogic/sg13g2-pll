@@ -1,0 +1,10 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_loop_filter
+* pin NZ
+* pin VCTRL
+* pin vsubs
+.SUBCKT pll_loop_filter NZ VCTRL vsubs
+* device instance $1 r0 *1 60.5,2.2 rppd
+R$1 VCTRL NZ vsubs 7800 rppd
+.ENDS pll_loop_filter
