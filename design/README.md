@@ -114,7 +114,15 @@ comment, not silently:
 - **Charge pump** (`cp.sch`) has a single fixed-current leg per polarity, no
   2-bit unit-element Icp trim (gf180-pll's `cp.sch` has one) — DR-001's own
   trim mechanism is preserved as a documented future addition, not dropped
-  from the architecture.
+  from the architecture. It *does* carry gf180-pll's other in-block bias
+  content: since issue #72 / `spec/decision-records/DR-006-*.md`, `cp.sch`
+  instantiates a **high-swing cascode bias replica per polarity**
+  (`MBP`/`MBPC`/`MCP`, `MBN`/`MBNC`/`MCN` — gf180-pll's `MBP`/`MCP`/`MBN`/`MCN`
+  plus a replica cascode device each), so `IBP`/`ICP`/`IBN`/`ICN` are
+  **current**-input pins carrying the trim-code reference current, not the
+  voltage-input pins the first port pass left them as. The off-block current
+  reference itself (a bandgap-referenced `Iref`) is still not part of this
+  design.
 - **`cp_dumpbuf.sch`** is a single NMOS source-follower tracking buffer, not
   gf180-pll's closed-loop complementary 5T-OTA pair. It still satisfies
   DR-005's (gf180-pll) no-loop-signal-charge compatibility test in spirit
