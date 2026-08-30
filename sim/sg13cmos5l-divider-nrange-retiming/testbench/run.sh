@@ -48,18 +48,13 @@
 # Requires: ngspice on PATH, python3, PDK_ROOT/PDK resolving the installed
 # ihp-sg13cmos5l tree.
 
-set -euo pipefail
-
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
-WORK="${DIV36_WORK:-$(mktemp -d)}"
-mkdir -p "$WORK"
-if [ -z "${DIV36_WORK:-}" ]; then trap 'rm -rf "$WORK"' EXIT; fi
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
+# WORK pre-set from DIV36_WORK (debugging override -- reuse a caller-supplied
+# work directory instead of a fresh mktemp -d that gets torn down on EXIT):
+# design/lib/testbench-preamble.sh honors a non-empty pre-set WORK exactly
+# this way.
+WORK="${DIV36_WORK:-}"
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
 # Only the MOS models are needed: the DUT expands to sg13_hv_nmos/sg13_hv_pmos
 # instances and nothing else. No cap_cmomi/cap_cmomf OSDI is loaded because no
