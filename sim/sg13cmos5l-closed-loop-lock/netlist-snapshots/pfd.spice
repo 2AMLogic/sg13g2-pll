@@ -1,7 +1,12 @@
 * Netlist provenance snapshot -- sim/README.md convention
-* Frozen from design/sg13cmos5l/netlist/pfd.spice at commit fbebbdbdd57637b8dae0c1dabaf75d3be5411edb
-* (main, after PR #39 -- the SG13CMOS5L device-level layout/LVS series;
-*  no schematic content changed since PR #26 ported the blocks).
+* Frozen from design/sg13cmos5l/netlist/pfd.spice at commit 4cbf817
+* (feature/issue-56, PR #56 -- fixes the self-reset chain's
+*  inverter-parity defect RECORD-002 root-caused: reset now = AND(UP,DN),
+*  an odd inverter count after reset_raw, via a new XI1B inv_hv stage.
+*  This commit will be superseded by a different squash-merge sha on main;
+*  the tree content it names is unchanged by that rewrite).
+* Supersedes the prior snapshot frozen at commit fbebbdbdd57637b8dae0c1dabaf75d3be5411edb
+* (main, after PR #39 -- see RECORD-002 for the defect this fix corrects).
 * Simulated by sim/sg13cmos5l-closed-loop-lock/ (issue #37, Part of #16).
 * Independent of whatever design/sg13cmos5l/netlist/pfd.spice says today.
 *
@@ -21,7 +26,8 @@ XLU set_up reset UP net1 VDD VSS srlatch
 XLD set_dn reset DN net2 VDD VSS srlatch
 XNR UP DN reset_raw VDD VSS nand2_hv
 XI1 reset_raw reset_d1 VDD VSS inv_hv
-XI2 reset_d1 reset VDD VSS inv2x_hv
+XI1B reset_d1 reset_d2 VDD VSS inv_hv
+XI2 reset_d2 reset VDD VSS inv2x_hv
 .ends
 
 * expanding   symbol:  edgedet.sym # of pins=4
@@ -99,4 +105,3 @@ XMN Y A VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 XMP Y A VDD VDD sg13_hv_pmos w=10u l=0.5u ng=1 m=1
 XMN Y A VSS VSS sg13_hv_nmos w=4u l=0.5u ng=1 m=1
 .ends
-
