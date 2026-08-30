@@ -1,0 +1,361 @@
+{
+  "cell_name": "pll_vco",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_vco",
+    "gds_path": "pll_vco.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": -0.15,
+      "x1": 185.64,
+      "y1": 81.22
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "vco_nfet_w2_l0p28",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w2_l0p28",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 7.2,
+          "y1": 2.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_nfet_w2_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w2_l1",
+        "offset_um": {
+          "x": 11.2,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 11.2,
+          "y0": 0.0,
+          "x1": 17.52,
+          "y1": 2.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_nfet_w4_l0p3",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l0p3",
+        "offset_um": {
+          "x": 21.52,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 21.52,
+          "y0": 0.0,
+          "x1": 24.2,
+          "y1": 4.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_nfet_w4_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l0p5",
+        "offset_um": {
+          "x": 28.2,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 28.2,
+          "y0": 0.0,
+          "x1": 39.98,
+          "y1": 4.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_nfet_w4_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w4_l1",
+        "offset_um": {
+          "x": 43.98,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 43.98,
+          "y0": 0.0,
+          "x1": 50.3,
+          "y1": 4.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_nfet_w8_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_nfet_w8_l1",
+        "offset_um": {
+          "x": 54.3,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 54.3,
+          "y0": 0.0,
+          "x1": 56.14,
+          "y1": 8.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_pfet_w3_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w3_l1",
+        "offset_um": {
+          "x": 60.14,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 59.99,
+          "y0": -0.15,
+          "x1": 62.13,
+          "y1": 4.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_pfet_w5_l0p28",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w5_l0p28",
+        "offset_um": {
+          "x": 66.28,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 66.13,
+          "y0": -0.15,
+          "x1": 73.63,
+          "y1": 6.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_pfet_w6_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w6_l1",
+        "offset_um": {
+          "x": 77.78,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 77.63,
+          "y0": -0.15,
+          "x1": 82.01,
+          "y1": 7.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_pfet_w10_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w10_l0p5",
+        "offset_um": {
+          "x": 86.16,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 86.00999999999999,
+          "y0": -0.15,
+          "x1": 98.09,
+          "y1": 11.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_pfet_w10_l1",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "vco_pfet_w10_l1",
+        "offset_um": {
+          "x": 102.24,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 102.08999999999999,
+          "y0": -0.15,
+          "x1": 106.47,
+          "y1": 11.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_resrhigh_w0p5_l8",
+        "source": "generator_report",
+        "generator": "res_array",
+        "cell_name": "vco_resrhigh_w0p5_l8",
+        "offset_um": {
+          "x": 110.62,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 110.62,
+          "y0": 0.0,
+          "x1": 119.46000000000001,
+          "y1": 0.5
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_resrppd_w1_l30",
+        "source": "generator_report",
+        "generator": "res_array",
+        "cell_name": "vco_resrppd_w1_l30",
+        "offset_um": {
+          "x": 123.46,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 123.46,
+          "y0": 0.0,
+          "x1": 185.64,
+          "y1": 1.0
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_resrppd_w1_l60",
+        "source": "generator_report",
+        "generator": "res_array",
+        "cell_name": "vco_resrppd_w1_l60",
+        "offset_um": {
+          "x": 0.0,
+          "y": 15.22
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 15.22,
+          "x1": 183.52,
+          "y1": 16.22
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "vco_XCDECAP",
+        "source": "generator_report",
+        "generator": "cap_array",
+        "cell_name": "vco_XCDECAP",
+        "offset_um": {
+          "x": 0.0,
+          "y": 20.22
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 20.22,
+          "x1": 61.0,
+          "y1": 81.22
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "mos_array:1x5:array",
+          "blocks": [
+            "vco_nfet_w2_l0p28",
+            "vco_pfet_w5_l0p28"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x3:array",
+          "blocks": [
+            "vco_nfet_w2_l1",
+            "vco_nfet_w4_l1"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x2:common_centroid",
+          "blocks": [
+            "vco_nfet_w4_l0p3",
+            "vco_pfet_w6_l1",
+            "vco_pfet_w10_l1"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x7:array",
+          "blocks": [
+            "vco_nfet_w4_l0p5",
+            "vco_pfet_w10_l0p5"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x1:array",
+          "blocks": [
+            "vco_nfet_w8_l1",
+            "vco_pfet_w3_l1"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "res_array:1",
+          "blocks": [
+            "vco_resrhigh_w0p5_l8"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "res_array:2",
+          "blocks": [
+            "vco_resrppd_w1_l30"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "res_array:3",
+          "blocks": [
+            "vco_resrppd_w1_l60"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "cap_array:1",
+          "blocks": [
+            "vco_XCDECAP"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": []
+  },
+  "stderr": ""
+}

@@ -119,18 +119,41 @@ def main(argv: list[str]) -> int:
         f"{blocks_matched} device-count-matched, "
         f"**{lvs_match} / {len(build['blocks'])} LVS `match`**\n"
     )
+    probe_routing_ok = bool(
+        (build.get("gen_compose_probe") or {}).get("routing", {}).get("ok")
+    )
+    if probe_routing_ok:
+        family_clause = (
+            "at an earlier pin, every `klt gen` generator and `klt "
+            "gen-compose`'s router rejected the `ihp-sg13cmos5l` PDK family "
+            "(klayout-tools#1462); **this run's own re-probe (below) shows "
+            "that gap fixed at the current pin**, but `klt gen-compose`'s "
+            "own router was separately measured routing only 1 of 13 nets "
+            "on this design's smallest block past that fix "
+            "(klayout-tools#1467) -- that measurement predates this pin and "
+            "has not been repeated against it this run, so this flow "
+            "continues to draw and route via this repo's own "
+            "`cmos5l_devices.py`/`cmos5l_route.py` rather than switching to "
+            "`klt gen-compose`'s router on the strength of an unconfirmed "
+            "fix"
+        )
+    else:
+        family_clause = (
+            "at this repo's pin every `klt gen` generator, and `klt "
+            "gen-compose`'s router, rejects the `ihp-sg13cmos5l` PDK family "
+            "(the gap klayout-tools#1462 tracked, **closed upstream "
+            "2026-08-30, after this pin**; re-probed below), and past that "
+            "fix `gen-compose` still routes 1 of 13 nets on this design's "
+            "smallest block (klayout-tools#1467)"
+        )
     lines.append(
         "Drawn *and routed* by this repo's own `cmos5l_devices.py` / "
-        "`cmos5l_route.py` — at this repo's pin every `klt gen` generator, "
-        "and `klt gen-compose`'s router, rejects the `ihp-sg13cmos5l` PDK "
-        "family (the gap klayout-tools#1462 tracked, **closed upstream "
-        "2026-08-30, after this pin**; re-probed below), and past that fix "
-        "`gen-compose` still routes 1 of 13 nets on this design's smallest "
-        "block (klayout-tools#1467). **Verified entirely by `klt`**: "
-        f"`klt drc --deck {deck}`, `klt extract --deck {deck} --pdk {pdk}` "
-        "and `klt lvs`. Every device not drawn is a recorded, tracked "
-        "upstream gap — see `layout/sg13cmos5l-pll/README.md`'s friction "
-        "log, never a silent drop.\n"
+        f"`cmos5l_route.py` — {family_clause}. **Verified entirely by "
+        f"`klt`**: `klt drc --deck {deck}`, "
+        f"`klt extract --deck {deck} --pdk {pdk}` and `klt lvs`. Every "
+        "device not drawn is a recorded, tracked upstream gap — see "
+        "`layout/sg13cmos5l-pll/README.md`'s friction log, never a silent "
+        "drop.\n"
     )
 
     lines.append("### Per-block\n")
@@ -190,20 +213,45 @@ def main(argv: list[str]) -> int:
             + (f" — `{routing.get('error')}`" if routing.get("error") else "")
         )
         lines.append("")
-        lines.append(
-            "That rejection is the gap **klayout-tools#1462** tracked, and it "
-            "**closed upstream on 2026-08-30T04:31Z** — after this repo's "
-            "`layout/requirements.txt` pin, which is why the probe above "
-            "still rejects. Measured separately at that fix's own merge "
-            "commit (`b10fa3c`), `klt gen mos_array --pdk ihp-sg13cmos5l` "
-            "does now draw and `gen-compose` does accept a `routing` block — "
-            "but on `cp`, the smallest block here, it routes **1 of 13 "
-            "nets**, rejecting the rest with `crosses already-routed net`, "
-            "because it has no track or layer assignment between nets. Filed "
-            "upstream as **klayout-tools#1467**. A pin bump therefore does "
-            "not retire this flow's own router; see "
-            "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"
-        )
+        if routing.get("ok"):
+            lines.append(
+                "**Both probes above are now accepted.** That rejection was "
+                "the gap **klayout-tools#1462** tracked, and it **closed "
+                "upstream on 2026-08-30T04:31Z**; the current pin (see "
+                "`layout/requirements.txt`) is on or after that fix, so "
+                "`klt gen-compose`'s router no longer rejects the "
+                "`ihp-sg13cmos5l` PDK family outright on this throwaway "
+                "two-pad probe cell. That is **not**, by itself, "
+                "confirmation that `gen-compose`'s router now handles a "
+                "real multi-net block: the separate, independent finding "
+                "that it routed only 1 of 13 nets on `cp` (rejecting the "
+                "rest with `crosses already-routed net`, filed upstream as "
+                "**klayout-tools#1467**) was measured at an earlier "
+                "commit and has not been re-measured against the current "
+                "pin by this run. Until that re-measurement happens, this "
+                "flow continues to draw and route with this repo's own "
+                "`cmos5l_devices.py`/`cmos5l_route.py` rather than switch on "
+                "an unconfirmed fix; see "
+                "`layout/sg13cmos5l-pll/README.md`'s friction log for the "
+                "follow-up.\n"
+            )
+        else:
+            lines.append(
+                "That rejection is the gap **klayout-tools#1462** tracked, "
+                "and it **closed upstream on 2026-08-30T04:31Z** — after "
+                "this repo's `layout/requirements.txt` pin, which is why "
+                "the probe above still rejects. Measured separately at "
+                "that fix's own merge commit (`b10fa3c`), `klt gen "
+                "mos_array --pdk ihp-sg13cmos5l` does now draw and "
+                "`gen-compose` does accept a `routing` block — but on "
+                "`cp`, the smallest block here, it routes **1 of 13 "
+                "nets**, rejecting the rest with `crosses already-routed "
+                "net`, because it has no track or layer assignment "
+                "between nets. Filed upstream as **klayout-tools#1467**. "
+                "A pin bump therefore does not retire this flow's own "
+                "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                "log.\n"
+            )
     lines.append(
         "Interconnect is therefore drawn by `cmos5l_route.py`: one vertical "
         "`Metal2` riser per device terminal, one horizontal `Metal3` trunk per "

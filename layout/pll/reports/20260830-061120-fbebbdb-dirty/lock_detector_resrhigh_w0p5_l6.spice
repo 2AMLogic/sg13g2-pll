@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13g2
+
+* cell lock_detector_resrhigh_w0p5_l6
+* pin vsubs
+.SUBCKT lock_detector_resrhigh_w0p5_l6 vsubs
+* device instance $1 r0 *1 3.42,0.25 rhigh
+R$1 \$1 \$2 vsubs 16320 rhigh
+.ENDS lock_detector_resrhigh_w0p5_l6

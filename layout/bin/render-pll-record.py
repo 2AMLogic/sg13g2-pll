@@ -97,6 +97,13 @@ def main(argv: list[str]) -> int:
                 "happen against the current `klt` pin; a mismatch here is a "
                 "real finding, not noise."
             )
+        elif drawn == total_devices:
+            lines.append(
+                "**Every device the schematic declares draws, extracts, and "
+                "matches the schematic's own device set** — no group is "
+                "blocked at the current `klt` pin; see \"Friction\" below "
+                "(empty, if so)."
+            )
         else:
             lines.append(
                 "Every device the schematic declares that has a `klt gen` "

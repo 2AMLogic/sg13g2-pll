@@ -81,6 +81,19 @@ record:
   makes the layout's substrate global and the schematic's ground net the one
   node LVS compares.
 
+**Non-regression at issue #31's own pin bump.** `layout/requirements.txt` was
+re-bumped to `fdf04f71ab39159838acb86e63a92d6fa0c714fa` for the *SG13G2*
+side's `cap_array`/`cap_cmim` fix (klayout-tools#1461 — see
+`layout/pll/README.md`). `layout/bin/run-pll-cmos5l-layout-flow.sh` was
+re-run in full as this port's own non-regression check, per this repo's own
+bump discipline, and reproduces the identical result: 477 / 482 drawn, 6 / 6
+DRC-clean, 3 / 6 LVS `match` — this table is unchanged. One thing *did*
+change: the `gen-compose` routing probe (see "Routing" below) now reports
+both placement-only and `routing` accepted, because this pin also happens to
+carry klayout-tools#1462's fix (merge commit `b10fa3c6e`, closed
+2026-08-30T04:31Z) — see the friction log's #1462 row for what that does and
+does not mean for this module.
+
 ## What it is
 
 - A **complete, schematic-derived device plan** for all six blocks, produced
@@ -129,18 +142,26 @@ it is a bad floorplan; see "What it is not".
 
 **Why not `klt gen-compose --routing`.** `klt gen-compose` has a router, and
 this repo's SG13G2 flow already drives that verb for placement. Two separate,
-both-measured reasons it is not used here:
+independently-measured reasons; issue #31's own re-bump changed the status of
+the first:
 
-1. **At this repo's pin it cannot route on this PDK at all.** Routing resolves
-   `routing.layer_role` through the same per-PDK-family role→layer table every
-   `klt gen` generator uses, and at the pin that table has no `sg13cmos5l`
-   entry. Placement-only composition succeeds; adding `routing` to the same
-   request fails with `PDK variant 'ihp-sg13cmos5l' is not supported by this
-   generator`. Both transcripts are **re-taken on every run** and committed as
-   `gen-compose.probe.*.json`, so the day the pin moves the record says so by
-   itself rather than by anyone remembering to re-check.
-2. **Past that fix it still cannot route a block this size** — which is why a
-   pin bump would not retire this module. See the friction log's #1467 row.
+1. **At an earlier pin it could not route on this PDK at all** (routing
+   resolves `routing.layer_role` through the same per-PDK-family role→layer
+   table every `klt gen` generator uses, and that table had no `sg13cmos5l`
+   entry — klayout-tools#1462). **That closed upstream 2026-08-30T04:31Z and
+   is present at the current pin**: this repo's own throwaway two-pad probe
+   (re-taken on every run, committed as `gen-compose.probe.*.json`) now
+   accepts both placement-only and a `routing` block. So this reason no
+   longer holds today — see the friction log's #1462 row.
+2. **Past that fix, `klt gen-compose`'s router was separately measured
+   routing only 1 of 13 nets on a block this design's size** (klayout-tools#1467,
+   measured once at `b10fa3c`, *not* re-measured against the current pin by
+   this repo's own throwaway two-pad probe, which is too small a cell to
+   exercise it). This reason is the one this module still stands on, and it
+   is why a pin bump alone does not retire it — a real re-measurement of
+   #1467 against a multi-net block at the current pin, and the
+   generator-vs-local-footprint decision that would follow from it, is
+   tracked separately as **#35** (not this issue's own scope).
 
 ## LVS
 
@@ -227,19 +248,21 @@ first and filed there — generic tool-gap description only, no design content.
 
 | Gap | Filed | Status | Effect here |
 | --- | --- | --- | --- |
-| `klt gen-compose`'s router has **no track or layer assignment between nets**: every net's backbone lands on one shared layer, and the first net accepted rejects the rest with `crosses already-routed net`. Measured on `cp` — 8 groups, 14 devices, 13 multi-pin nets, ~180 µm × 16 µm — at `klt` `b10fa3c`: **1 of 13 nets routes**, independent of placement spacing. | [klayout-tools#1467](https://github.com/2AMLogic/klayout-tools/issues/1467) (new, filed by this pass) | open | This flow draws its own interconnect (`cmos5l_route.py`). This is the reason a pin bump past #1462 would *not* retire it. |
-| Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z** — *after* this repo's pin | This flow draws its own footprints. Re-measured at the fix's merge commit: `klt gen mos_array --pdk ihp-sg13cmos5l` now draws. **A pin bump and a re-evaluation of the local footprints against generator output is a real follow-up — tracked as #35** — but not this increment's, and #1467 above means it does not change the routing half. |
-| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | open ([#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) is its follow-on on what recognition shape a MoM plate pair needs) | The 5 `cap_cmomi` devices are recorded and never drawn; 3 blocks' LVS cannot convert; 10 net→pin connections are incomplete. |
+| `klt gen-compose`'s router has **no track or layer assignment between nets**: every net's backbone lands on one shared layer, and the first net accepted rejects the rest with `crosses already-routed net`. Measured on `cp` — 8 groups, 14 devices, 13 multi-pin nets, ~180 µm × 16 µm — at `klt` `b10fa3c`: **1 of 13 nets routes**, independent of placement spacing. **Not re-measured against the current pin** (issue #31's own re-bump only re-probes a throwaway two-pad cell, too small to exercise this) — tracked as part of **#35**. | [klayout-tools#1467](https://github.com/2AMLogic/klayout-tools/issues/1467) (new, filed by #29's pass) | open | This flow draws its own interconnect (`cmos5l_route.py`). This is the reason a pin bump past #1462 does *not* retire it. |
+| Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z, and now present at this repo's pin** (issue #31's own re-bump — `layout/requirements.txt` pins past its merge commit `b10fa3c6e`) | This flow still draws its own footprints: `klt gen mos_array --pdk ihp-sg13cmos5l` now draws, and this run's own `gen-compose.probe.*.json` shows both placement-only *and* `routing` accepted, but #1467 above (not re-measured against this pin) is the reason this module is not retired yet. **The re-evaluation of the local footprints against generator output remains a real follow-up — tracked as #35**, not this issue's own scope. |
+| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | open ([#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) is its follow-on on what recognition shape a MoM plate pair needs) | The 5 `cap_cmomi` devices are recorded and never drawn; 3 blocks' LVS cannot convert; 10 net→pin connections are incomplete. **Unaffected by issue #31's bump** — that bump gave `sg13g2`'s `cap_cmim` a generator (klayout-tools#1461), not `sg13cmos5l`'s `cap_cmomi`; re-verified this pass: `klt gen cap_array --pdk ihp-sg13cmos5l` still rejects with `"PDK family 'sg13cmos5l' has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2"`. |
 | `klt lvs`'s `reference.deck` subckt-call conversion table is MOS-only, so a deck's own recognised `rppd`/`rhigh` resistors still need an explicit `reference.device_map`. | [klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) | open | `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py`, deletable when this lands. |
 | `klt extract --parasitics` rejects the `sg13cmos5l` deck as "unknown" despite its own `PARASITICS` being defined. | [klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440) | open (re-verified by this pass) | Half the reason post-layout PVT is still scoped out above. |
 
 **Also confirmed, not a gap** (checked rather than assumed):
 
 - `klt gen cap_array --pdk ihp-sg13cmos5l` now fails with *"PDK family
-  sg13cmos5l has no MiM capacitor plate layers configured"* rather than the
-  old family rejection. That is #1463's territory (CMOS5L has no MIM), not a
-  new generator gap, so the capacitor's `blocked_reason` was re-measured and
-  re-attributed rather than left pointing at #1462.
+  sg13cmos5l has no MiM capacitor plate layers configured -- supported
+  families: sky130, sg13g2"* (the family list grew by one entry once issue
+  #31's own bump gave `sg13g2` a working `cap_array` configuration) rather
+  than the old family rejection. That is still #1463's territory (CMOS5L has
+  no MIM), not a new generator gap, so the capacitor's `blocked_reason`
+  stays re-attributed to #1462/#1463 rather than pointing at a stale message.
 - `klt lvs`'s refusal to convert a `cap_cmomi` card with `m=2`
   (`lock_detector`) is a **documented, deliberate** limitation, not a gap:
   the curated plain-element form models one device per drawn gate, and the
