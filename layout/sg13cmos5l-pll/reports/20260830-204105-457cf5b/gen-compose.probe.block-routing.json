@@ -1,0 +1,2889 @@
+{
+  "returncode": 3,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "gencompose_cp_probe",
+    "gds_path": "gencompose_cp_probe.gds",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "variant": "ihp-sg13cmos5l",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": 0.125,
+      "y0": 0.34,
+      "x1": 273.575,
+      "y1": 6.88
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "cp_nfet_w2_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w2_l0p5",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.125,
+          "y0": 0.78,
+          "x1": 7.53,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w2_l3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w2_l3",
+        "offset_um": {
+          "x": 13.405000000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 13.530000000000001,
+          "y0": 0.78,
+          "x1": 16.975,
+          "y1": 6.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w4_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w4_l1",
+        "offset_um": {
+          "x": 22.85,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 22.975,
+          "y0": 0.78,
+          "x1": 28.42,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p3",
+        "offset_um": {
+          "x": 34.295,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 34.42,
+          "y0": 0.78,
+          "x1": 49.825,
+          "y1": 3.9
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p5",
+        "offset_um": {
+          "x": 55.7,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 55.825,
+          "y0": 0.78,
+          "x1": 63.27,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w8_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w8_l1",
+        "offset_um": {
+          "x": 69.14500000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 69.27000000000001,
+          "y0": 0.78,
+          "x1": 108.59500000000001,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w5_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w5_l0p5",
+        "offset_um": {
+          "x": 114.47000000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 114.59500000000001,
+          "y0": 0.34,
+          "x1": 128.35000000000002,
+          "y1": 4.38
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w6_l0p3",
+        "offset_um": {
+          "x": 134.22500000000002,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 134.35000000000002,
+          "y0": 0.34,
+          "x1": 150.10500000000002,
+          "y1": 4.18
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w6_l3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w6_l3",
+        "offset_um": {
+          "x": 155.98000000000002,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 156.10500000000002,
+          "y0": 0.34,
+          "x1": 163.9,
+          "y1": 6.88
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w24_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w24_l1",
+        "offset_um": {
+          "x": 169.775,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 169.9,
+          "y0": 0.34,
+          "x1": 273.575,
+          "y1": 4.88
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [
+      {
+        "net": "DN",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_G"
+          }
+        ],
+        "routed": true,
+        "route_length_um": 130.03000000000003,
+        "status": "routed",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 38.614999999999995,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 91.41500000000002,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "net": "DNB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "IBN",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U1_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U0_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "IBP",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_pfet_w24_l1''s own port 'U1_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U0_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "ICN",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 3.25,
+        "status": "partial",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 3.25,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U2_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "ICP",
+        "pins": [
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_G"
+          }
+        ],
+        "routed": true,
+        "route_length_um": 147.95999999999995,
+        "status": "routed",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 3.2499999999999893,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 46.394999999999996,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 98.31499999999997,
+            "reason": null
+          }
+        ]
+      },
+      {
+        "net": "UP",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "UPB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "VDD",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 73.27999999999999,
+        "status": "partial",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w5_l0p5''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 9.839999999999993,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 6.7um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.7um through its own pin's block 'cp_pfet_w6_l3' -- more than that pin's own 4.44um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.82um through its own pin's block 'cp_pfet_w6_l3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'ICP'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.82um through its own pin's block 'cp_pfet_w6_l3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.66um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um through its own pin's block 'cp_pfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um through its own pin's block 'cp_pfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 6.7um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'ICP'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um through its own pin's block 'cp_pfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um through its own pin's block 'cp_pfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.66um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 6.7um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'ICP'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_pfet_w24_l1''s own port 'U1_S' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 54.79999999999999,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.66um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.79um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.62um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'ICP'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.82um through its own pin's block 'cp_pfet_w6_l3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.79um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.62um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um through its own pin's block 'cp_pfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'ICP' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.79um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.62um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.79um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.62um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "VDUMP",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 15.624999999999996,
+        "status": "partial",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 15.624999999999996,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "VOUT",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'VDUMP'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "VSS",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 175.23000000000002,
+        "status": "partial",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w2_l0p5''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 6.84,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 9.325,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.35um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'DN' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.35um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 2.16um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.31um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.47um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.47um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.35um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U1_S' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 22.830000000000002,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.43um through its own pin's block 'cp_nfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.31um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 22.8,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.35um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.35um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 2.16um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.31um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.43um through its own pin's block 'cp_nfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.47um through its own pin's block 'cp_nfet_w6_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.43um through its own pin's block 'cp_nfet_w6_l0p3' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 44.235,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.35um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 2.16um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um through its own pin's block 'cp_nfet_w4_l1' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.35um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.31um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 57.68000000000001,
+            "reason": null
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.35um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.31um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 1.66um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um through its own pin's block 'cp_nfet_w2_l0p5' -- more than that pin's own 0.275um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.sw",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'DN' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'DN' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.tail",
+        "pins": [
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.sw",
+        "pins": [
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'ICP' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "comes within 0.18um of already-routed net 'ICP' -- closer than the resolved deck's own 'metal1.space.1' minimum same-layer spacing rule (no literal overlap, but still a real `klt drc` violation on the composed layout)"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.tail",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "nxn",
+        "pins": [
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_D"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "nxp",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_D"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      }
+    ],
+    "pins": [],
+    "unrouted_nets": [
+      "DNB",
+      "IBN",
+      "IBP",
+      "ICN",
+      "UP",
+      "UPB",
+      "VDD",
+      "VDUMP",
+      "VOUT",
+      "VSS",
+      "XLEGN.sw",
+      "XLEGN.tail",
+      "XLEGP.sw",
+      "XLEGP.tail",
+      "nxn",
+      "nxp"
+    ],
+    "drc_hints": {
+      "min_spacing_um": 6.0,
+      "matched_groups": [],
+      "notes": [
+        "net 'DNB' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p3.U1_G', 'cp_pfet_w5_l0p5.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w2_l0p5.U1_D' -> 'cp_nfet_w6_l0p3.U1_G'): crosses already-routed net 'DN'",
+        "net 'IBN' could not be routed: 3 of 4 pins could not be connected into one net ('cp_nfet_w8_l1.U0_G', 'cp_nfet_w8_l1.U2_G', 'cp_nfet_w8_l1.U3_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w8_l1.U2_G' -> 'cp_nfet_w8_l1.U3_D'): self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'IBP' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w24_l1.U2_G', 'cp_pfet_w24_l1.U3_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w24_l1.U2_G' -> 'cp_pfet_w24_l1.U3_D'): self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'ICN' could not be routed: 2 of 4 pins could not be connected into one net ('cp_nfet_w8_l1.U1_G', 'cp_nfet_w8_l1.U3_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w8_l1.U1_G' -> 'cp_nfet_w8_l1.U3_G'): self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U2_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'UP' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w5_l0p5.U0_G', 'cp_pfet_w6_l0p3.U1_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U0_G' -> 'cp_pfet_w6_l0p3.U1_G'): crosses already-routed net 'DN'",
+        "net 'UPB' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w5_l0p5.U0_D', 'cp_pfet_w6_l0p3.U0_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U0_D' -> 'cp_pfet_w6_l0p3.U0_G'): crosses already-routed net 'DN'",
+        "net 'VDD' could not be routed: 7 of 10 pins could not be connected into one net ('cp_nfet_w6_l0p5.U0_D', 'cp_pfet_w6_l0p3.BODY', 'cp_pfet_w6_l3.BODY', 'cp_pfet_w6_l3.U0_S', 'cp_pfet_w24_l1.BODY', 'cp_pfet_w24_l1.U0_S', 'cp_pfet_w24_l1.U2_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U1_S' -> 'cp_pfet_w6_l0p3.BODY'): backbone's 0.3um-wide drawn path crosses 6.7um through its own pin's block 'cp_pfet_w5_l0p5' -- more than that pin's own 1.94um edge margin (including 0.15um for the route's own half-width), so the route plows through, or clips the edge of, the block's interior (e.g. a same-facing port pair reaching a pin on the block's far side, crossing another pin on the way, or a connecting jog running close enough alongside the block's own edge that the drawn wire's width still overlaps it) rather than approaching the pin cleanly",
+        "net 'VDUMP' could not be routed: 2 of 4 pins could not be connected into one net ('cp_nfet_w4_l1.U0_D', 'cp_pfet_w6_l0p3.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w4_l1.U0_D' -> 'cp_nfet_w6_l0p3.U1_D'): crosses already-routed net 'DN'",
+        "net 'VOUT' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p5.U0_G', 'cp_pfet_w6_l0p3.U0_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w6_l0p3.U0_D' -> 'cp_nfet_w6_l0p5.U0_G'): crosses already-routed net 'VDUMP'",
+        "net 'VSS' could not be routed: 3 of 12 pins could not be connected into one net ('cp_nfet_w2_l0p5.BODY', 'cp_nfet_w2_l0p5.U0_S', 'cp_nfet_w2_l0p5.U1_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w2_l0p5.U0_S' -> 'cp_nfet_w2_l0p5.U1_S'): self-net backbone crosses 0.6um through block 'cp_nfet_w2_l0p5''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGN.sw' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p3.U1_S', 'cp_nfet_w8_l1.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w6_l0p3.U0_S' -> 'cp_nfet_w6_l0p3.U1_S'): self-net backbone crosses 0.6um through block 'cp_nfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGN.tail' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGP.sw' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w6_l0p3.U1_S', 'cp_pfet_w24_l1.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w6_l0p3.U0_S' -> 'cp_pfet_w6_l0p3.U1_S'): self-net backbone crosses 0.6um through block 'cp_pfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGP.tail' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'nxn' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'nxp' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+      ]
+    },
+    "warnings": []
+  },
+  "stderr": ""
+}

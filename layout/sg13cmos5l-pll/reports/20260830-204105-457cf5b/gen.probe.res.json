@@ -1,0 +1,58 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "res_array",
+    "cell_name": "genprobe_res",
+    "gds_path": "genprobe_res.gds",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "variant": "ihp-sg13cmos5l",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": 0.0,
+      "x1": 120.84,
+      "y1": 4.0
+    },
+    "device_count": 1,
+    "ports": [
+      {
+        "name": "R0_A",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.21000000000000002,
+        "y_um": 2.0,
+        "width_um": 4.0,
+        "direction_deg": 180
+      },
+      {
+        "name": "R0_B",
+        "net": null,
+        "layer": {
+          "layer": 8,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 120.63,
+        "y_um": 2.0,
+        "width_um": 4.0,
+        "direction_deg": 0
+      }
+    ],
+    "drc_hints": {
+      "min_spacing_um": 0.5,
+      "matched_group_id": "res_array:1",
+      "snapped_to_grid": false,
+      "notes": []
+    },
+    "warnings": []
+  },
+  "stderr": ""
+}

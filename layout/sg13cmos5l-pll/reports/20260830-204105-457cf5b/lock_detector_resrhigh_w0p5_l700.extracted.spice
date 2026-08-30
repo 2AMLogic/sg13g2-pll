@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell lock_detector_resrhigh_w0p5_l700
+* pin vsubs
+.SUBCKT lock_detector_resrhigh_w0p5_l700 vsubs
+* device instance $1 r0 *1 350.5,0.45 rhigh
+R$1 \$1 \$2 vsubs 1904000 rhigh
+.ENDS lock_detector_resrhigh_w0p5_l700

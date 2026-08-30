@@ -1,0 +1,505 @@
+{
+  "cell_name": "pll_lock_detector",
+  "gds": "pll_lock_detector.gds",
+  "strategy": "single_row",
+  "spacing_um": 6.0,
+  "placements": {
+    "lock_detector_nfet_w2_l0p5": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "lock_detector_pfet_w5_l0p5": {
+      "x": 81.88,
+      "y": 0.0
+    },
+    "lock_detector_resrhigh_w0p5_l700": {
+      "x": 213.8,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 115,
+  "unrouted_ports": [
+    {
+      "port": "lock_detector_resrhigh_w0p5_l700.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    }
+  ],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 6.72,
+    "net_count": 23,
+    "routed_net_count": 23,
+    "wire_length_um": 3727.21,
+    "nets": [
+      {
+        "net": "DN",
+        "track": 0,
+        "trunk_y_um": 6.72,
+        "trunk_x_um": [
+          4.83,
+          110.59
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U1_G",
+          "lock_detector_nfet_w2_l0p5.U4_G",
+          "lock_detector_pfet_w5_l0p5.U1_G",
+          "lock_detector_pfet_w5_l0p5.U4_G"
+        ],
+        "routed": true,
+        "route_length_um": 120.2
+      },
+      {
+        "net": "ERR",
+        "track": 1,
+        "trunk_y_um": 7.32,
+        "trunk_x_um": [
+          26.11,
+          166.27
+        ],
+        "pin_count": 7,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U6_D",
+          "lock_detector_nfet_w2_l0p5.U8_G",
+          "lock_detector_nfet_w2_l0p5.U12_G",
+          "lock_detector_pfet_w5_l0p5.U6_D",
+          "lock_detector_pfet_w5_l0p5.U7_D",
+          "lock_detector_pfet_w5_l0p5.U8_G",
+          "lock_detector_pfet_w5_l0p5.U12_G"
+        ],
+        "routed": true,
+        "route_length_um": 168.07
+      },
+      {
+        "net": "ERRD",
+        "track": 2,
+        "trunk_y_um": 7.92,
+        "trunk_x_um": [
+          45.91,
+          173.23
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U11_D",
+          "lock_detector_nfet_w2_l0p5.U13_G",
+          "lock_detector_pfet_w5_l0p5.U11_D",
+          "lock_detector_pfet_w5_l0p5.U13_G"
+        ],
+        "routed": true,
+        "route_length_um": 145.52
+      },
+      {
+        "net": "LOCK",
+        "track": 3,
+        "trunk_y_um": 8.52,
+        "trunk_x_um": [
+          65.71,
+          201.07
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U16_D",
+          "lock_detector_nfet_w2_l0p5.U18_G",
+          "lock_detector_pfet_w5_l0p5.U16_D",
+          "lock_detector_pfet_w5_l0p5.U17_G"
+        ],
+        "routed": true,
+        "route_length_um": 155.96
+      },
+      {
+        "net": "UP",
+        "track": 4,
+        "trunk_y_um": 9.12,
+        "trunk_x_um": [
+          0.87,
+          96.67
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U0_G",
+          "lock_detector_nfet_w2_l0p5.U2_G",
+          "lock_detector_pfet_w5_l0p5.U0_G",
+          "lock_detector_pfet_w5_l0p5.U2_G"
+        ],
+        "routed": true,
+        "route_length_um": 119.84
+      },
+      {
+        "net": "VDD",
+        "track": 5,
+        "trunk_y_um": 9.72,
+        "trunk_x_um": [
+          82.13,
+          214.05
+        ],
+        "pin_count": 19,
+        "pins": [
+          "lock_detector_pfet_w5_l0p5.nwell_tap",
+          "lock_detector_pfet_w5_l0p5.U0_S",
+          "lock_detector_pfet_w5_l0p5.U1_S",
+          "lock_detector_pfet_w5_l0p5.U2_S",
+          "lock_detector_pfet_w5_l0p5.U3_S",
+          "lock_detector_pfet_w5_l0p5.U4_S",
+          "lock_detector_pfet_w5_l0p5.U5_S",
+          "lock_detector_pfet_w5_l0p5.U6_S",
+          "lock_detector_pfet_w5_l0p5.U7_S",
+          "lock_detector_pfet_w5_l0p5.U8_S",
+          "lock_detector_pfet_w5_l0p5.U9_S",
+          "lock_detector_pfet_w5_l0p5.U10_S",
+          "lock_detector_pfet_w5_l0p5.U11_S",
+          "lock_detector_pfet_w5_l0p5.U12_S",
+          "lock_detector_pfet_w5_l0p5.U13_S",
+          "lock_detector_pfet_w5_l0p5.U14_S",
+          "lock_detector_pfet_w5_l0p5.U15_S",
+          "lock_detector_pfet_w5_l0p5.U17_S",
+          "lock_detector_resrhigh_w0p5_l700.R0_A"
+        ],
+        "routed": true,
+        "route_length_um": 270.91
+      },
+      {
+        "net": "VSS",
+        "track": 6,
+        "trunk_y_um": 10.32,
+        "trunk_x_um": [
+          0.25,
+          73.03
+        ],
+        "pin_count": 14,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.substrate_tap",
+          "lock_detector_nfet_w2_l0p5.U1_S",
+          "lock_detector_nfet_w2_l0p5.U3_S",
+          "lock_detector_nfet_w2_l0p5.U5_S",
+          "lock_detector_nfet_w2_l0p5.U7_S",
+          "lock_detector_nfet_w2_l0p5.U8_S",
+          "lock_detector_nfet_w2_l0p5.U9_S",
+          "lock_detector_nfet_w2_l0p5.U10_S",
+          "lock_detector_nfet_w2_l0p5.U11_S",
+          "lock_detector_nfet_w2_l0p5.U13_S",
+          "lock_detector_nfet_w2_l0p5.U14_S",
+          "lock_detector_nfet_w2_l0p5.U15_S",
+          "lock_detector_nfet_w2_l0p5.U17_S",
+          "lock_detector_nfet_w2_l0p5.U18_S"
+        ],
+        "routed": true,
+        "route_length_um": 182.38
+      },
+      {
+        "net": "VWIN",
+        "track": 7,
+        "trunk_y_um": 10.92,
+        "trunk_x_um": [
+          61.75,
+          914.55
+        ],
+        "pin_count": 6,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U15_D",
+          "lock_detector_nfet_w2_l0p5.U16_G",
+          "lock_detector_nfet_w2_l0p5.U17_G",
+          "lock_detector_pfet_w5_l0p5.U15_G",
+          "lock_detector_pfet_w5_l0p5.U16_G",
+          "lock_detector_resrhigh_w0p5_l700.R0_B"
+        ],
+        "routed": true,
+        "route_length_um": 901.8
+      },
+      {
+        "net": "WIDE",
+        "track": 8,
+        "trunk_y_um": 11.52,
+        "trunk_x_um": [
+          57.79,
+          181.67
+        ],
+        "pin_count": 3,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U14_D",
+          "lock_detector_nfet_w2_l0p5.U15_G",
+          "lock_detector_pfet_w5_l0p5.U14_D"
+        ],
+        "routed": true,
+        "route_length_um": 148.07
+      },
+      {
+        "net": "XDW.d1",
+        "track": 9,
+        "trunk_y_um": 12.12,
+        "trunk_x_um": [
+          34.03,
+          145.39
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U8_D",
+          "lock_detector_nfet_w2_l0p5.U9_G",
+          "lock_detector_pfet_w5_l0p5.U8_D",
+          "lock_detector_pfet_w5_l0p5.U9_G"
+        ],
+        "routed": true,
+        "route_length_um": 146.36
+      },
+      {
+        "net": "XDW.d2",
+        "track": 10,
+        "trunk_y_um": 12.72,
+        "trunk_x_um": [
+          37.99,
+          152.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U9_D",
+          "lock_detector_nfet_w2_l0p5.U10_G",
+          "lock_detector_pfet_w5_l0p5.U9_D",
+          "lock_detector_pfet_w5_l0p5.U10_G"
+        ],
+        "routed": true,
+        "route_length_um": 151.76
+      },
+      {
+        "net": "XDW.d3",
+        "track": 11,
+        "trunk_y_um": 13.32,
+        "trunk_x_um": [
+          41.95,
+          159.31
+        ],
+        "pin_count": 4,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U10_D",
+          "lock_detector_nfet_w2_l0p5.U11_G",
+          "lock_detector_pfet_w5_l0p5.U10_D",
+          "lock_detector_pfet_w5_l0p5.U11_G"
+        ],
+        "routed": true,
+        "route_length_um": 157.16
+      },
+      {
+        "net": "XNW.mid1",
+        "track": 12,
+        "trunk_y_um": 13.92,
+        "trunk_x_um": [
+          49.27,
+          53.83
+        ],
+        "pin_count": 2,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U12_S",
+          "lock_detector_nfet_w2_l0p5.U13_D"
+        ],
+        "routed": true,
+        "route_length_um": 26.18
+      },
+      {
+        "net": "XSCH.nn",
+        "track": 13,
+        "trunk_y_um": 14.52,
+        "trunk_x_um": [
+          65.11,
+          73.63
+        ],
+        "pin_count": 3,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U16_S",
+          "lock_detector_nfet_w2_l0p5.U17_D",
+          "lock_detector_nfet_w2_l0p5.U18_D"
+        ],
+        "routed": true,
+        "route_length_um": 42.23
+      },
+      {
+        "net": "XSCH.np",
+        "track": 14,
+        "trunk_y_um": 15.12,
+        "trunk_x_um": [
+          188.63,
+          202.55
+        ],
+        "pin_count": 3,
+        "pins": [
+          "lock_detector_pfet_w5_l0p5.U15_D",
+          "lock_detector_pfet_w5_l0p5.U16_S",
+          "lock_detector_pfet_w5_l0p5.U17_D"
+        ],
+        "routed": true,
+        "route_length_um": 49.43
+      },
+      {
+        "net": "XXOR.XN1.mid1",
+        "track": 15,
+        "trunk_y_um": 15.72,
+        "trunk_x_um": [
+          1.75,
+          6.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U0_S",
+          "lock_detector_nfet_w2_l0p5.U1_D"
+        ],
+        "routed": true,
+        "route_length_um": 29.78
+      },
+      {
+        "net": "XXOR.XN2.mid1",
+        "track": 16,
+        "trunk_y_um": 16.32,
+        "trunk_x_um": [
+          9.67,
+          14.23
+        ],
+        "pin_count": 2,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U2_S",
+          "lock_detector_nfet_w2_l0p5.U3_D"
+        ],
+        "routed": true,
+        "route_length_um": 30.98
+      },
+      {
+        "net": "XXOR.XN3.mid1",
+        "track": 17,
+        "trunk_y_um": 16.92,
+        "trunk_x_um": [
+          17.59,
+          22.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U4_S",
+          "lock_detector_nfet_w2_l0p5.U5_D"
+        ],
+        "routed": true,
+        "route_length_um": 32.18
+      },
+      {
+        "net": "XXOR.XN4.mid1",
+        "track": 18,
+        "trunk_y_um": 17.52,
+        "trunk_x_um": [
+          25.51,
+          30.07
+        ],
+        "pin_count": 2,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U6_S",
+          "lock_detector_nfet_w2_l0p5.U7_D"
+        ],
+        "routed": true,
+        "route_length_um": 33.38
+      },
+      {
+        "net": "XXOR.n1",
+        "track": 19,
+        "trunk_y_um": 18.12,
+        "trunk_x_um": [
+          2.35,
+          117.55
+        ],
+        "pin_count": 7,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U0_D",
+          "lock_detector_nfet_w2_l0p5.U3_G",
+          "lock_detector_nfet_w2_l0p5.U5_G",
+          "lock_detector_pfet_w5_l0p5.U0_D",
+          "lock_detector_pfet_w5_l0p5.U1_D",
+          "lock_detector_pfet_w5_l0p5.U3_G",
+          "lock_detector_pfet_w5_l0p5.U5_G"
+        ],
+        "routed": true,
+        "route_length_um": 218.71
+      },
+      {
+        "net": "XXOR.n2",
+        "track": 20,
+        "trunk_y_um": 18.72,
+        "trunk_x_um": [
+          10.27,
+          124.51
+        ],
+        "pin_count": 5,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U2_D",
+          "lock_detector_nfet_w2_l0p5.U6_G",
+          "lock_detector_pfet_w5_l0p5.U2_D",
+          "lock_detector_pfet_w5_l0p5.U3_D",
+          "lock_detector_pfet_w5_l0p5.U6_G"
+        ],
+        "routed": true,
+        "route_length_um": 190.73
+      },
+      {
+        "net": "XXOR.n3",
+        "track": 21,
+        "trunk_y_um": 19.32,
+        "trunk_x_um": [
+          18.19,
+          131.47
+        ],
+        "pin_count": 5,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U4_D",
+          "lock_detector_nfet_w2_l0p5.U7_G",
+          "lock_detector_pfet_w5_l0p5.U4_D",
+          "lock_detector_pfet_w5_l0p5.U5_D",
+          "lock_detector_pfet_w5_l0p5.U7_G"
+        ],
+        "routed": true,
+        "route_length_um": 192.77
+      },
+      {
+        "net": "nwide",
+        "track": 22,
+        "trunk_y_um": 19.92,
+        "trunk_x_um": [
+          49.87,
+          180.19
+        ],
+        "pin_count": 5,
+        "pins": [
+          "lock_detector_nfet_w2_l0p5.U12_D",
+          "lock_detector_nfet_w2_l0p5.U14_G",
+          "lock_detector_pfet_w5_l0p5.U12_D",
+          "lock_detector_pfet_w5_l0p5.U13_D",
+          "lock_detector_pfet_w5_l0p5.U14_G"
+        ],
+        "routed": true,
+        "route_length_um": 212.81
+      }
+    ],
+    "incomplete_nets": [
+      {
+        "net": "VWIN",
+        "missing_pin": "lock_detector_XCW.TOP",
+        "device": "XCW",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2' -- re-verified as a non-regression check for issue #31 at klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer configuration (the message's supported-families list grew by one entry as a result), but sg13cmos5l itself is still absent -- MoM still has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "VSS",
+        "missing_pin": "lock_detector_XCW.BOT",
+        "device": "XCW",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2' -- re-verified as a non-regression check for issue #31 at klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer configuration (the message's supported-families list grew by one entry as a result), but sg13cmos5l itself is still absent -- MoM still has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "ERRD",
+        "missing_pin": "lock_detector_XDW.XC1.TOP",
+        "device": "XDW.XC1",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2' -- re-verified as a non-regression check for issue #31 at klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer configuration (the message's supported-families list grew by one entry as a result), but sg13cmos5l itself is still absent -- MoM still has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      },
+      {
+        "net": "VSS",
+        "missing_pin": "lock_detector_XDW.XC1.BOT",
+        "device": "XDW.XC1",
+        "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it. Draw side: klt gen cap_array reports 'PDK family sg13cmos5l has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2' -- re-verified as a non-regression check for issue #31 at klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer configuration (the message's supported-families list grew by one entry as a result), but sg13cmos5l itself is still absent -- MoM still has no generator on any family. Verify side: the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still empty, so a hand-drawn MoM capacitor extracts as no device at all (klayout-tools#1463, open, filed by issue #24's pass; klayout-tools#1466 is the follow-on it spawned on what device-recognition shape a MoM plate pair actually needs). Recorded here, never drawn, never silently dropped"
+      }
+    ]
+  }
+}
