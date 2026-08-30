@@ -1,0 +1,53 @@
+* sg13g2-pll :: sim/sg13cmos5l-loop-bandwidth-pm (issue #27, Part of #16)
+* Same linearised open-loop AC sweep as tb_loop_ac_real.sp.tmpl, but with the
+* loop filter represented by IDEAL R/C elements whose values are supplied by
+* the caller (@R1@/@C1@/@C2@) instead of by the real `rppd`/`cap_cmomi`
+* compact models.
+*
+* Why this variant exists (two uses, both stated in ../records/RECORD-001):
+*
+*   1. MOM-model-uncertainty band. `cap_cmomi` has no corner or mismatch
+*      spread in the installed PDK (DR-003 Finding 2), so the +/-20%
+*      MOM-uncertainty band the predecessor record
+*      (../../sg13cmos5l-loop-filter-momcap/) sweeps cannot be expressed by
+*      re-simulating the compact model -- there is no knob on it. Feeding
+*      that record's OWN measured C1/C2 values (results.csv, mom_frac
+*      -0.20/0.00/+0.20) into an ideal element is the only way to propagate
+*      the band into a loop-level f_c / phase-margin number. The nominal
+*      (mom_frac = 0) point is cross-checked against the real-subckt
+*      testbench, exactly as that record cross-checked its own closed-form
+*      fz/fp against a real composite AC sweep.
+*
+*   2. Filter-resizing proposal. Sweeping R1 above its as-drawn value
+*      quantifies how much larger R1*C1 must be for the loop to meet both
+*      f_c < f_ref/10 and PM >= 45 deg. Those points are a PROPOSAL, not a
+*      measurement of the committed design, and ../corners/proposal.csv keeps
+*      them in a separate file for exactly that reason.
+*
+* Substituted by ../testbench/run.sh: @TEMP@, @R1@, @C1@, @C2@, @KD@, @KV@,
+* @INVN@ -- see tb_loop_ac_real.sp.tmpl's header for what each gain means and
+* which real measurement each numeric value comes from.
+
+.option scale=1 temp=@TEMP@
+
+Vpe pe 0 dc 0 ac 1
+Gcp 0 vctrl pe 0 @KD@
+
+* Ideal 2nd-order passive filter: C2 shunt at VCTRL, R1 in series with C1.
+R1 vctrl nz @R1@
+C1 nz 0 @C1@
+C2 vctrl 0 @C2@
+
+Gvco 0 vph vctrl 0 @KV@
+Cint vph 0 1
+Rleak vph 0 1e15
+
+Ediv fb 0 vph 0 @INVN@
+
+.control
+ac dec 200 10 1e9
+let mag_ol = mag(v(fb))
+let ph_ol = 180*cph(v(fb))/pi
+wrdata ac.dat mag_ol ph_ol
+.endc
+.end
