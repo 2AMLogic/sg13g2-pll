@@ -50,6 +50,17 @@ osdi $OSDI/cap_cmomf.osdi
 osdi $OSDI/r3_cmc.osdi
 EOF
 
+# OSDI host-architecture preflight (issue #59).  cap_cmomi.osdi/cap_cmomf.osdi
+# are architecture-specific binaries TRACKED in the upstream ihp-sg13cmos5l git
+# repo (prebuilt x86-64 ELF) rather than host-local build products like
+# psp103/r3_cmc, so on a non-x86-64 host they fail ngspice's dlopen with
+# "Error opening osdi lib ... couldn't be loaded" -- which reads like a broken
+# deck and is not one.  Fail here instead, naming the one-command rebuild
+# (ihp-sg13cmos5l/libs.tech/verilog-a/openvaf-compile-va.sh).  Full finding and
+# the cross-check protocol for a rebuilt model: ../../PORTING-osdi-host-arch.md
+"$HERE/../../tools/check-osdi-arch.sh" --quiet \
+  "$OSDI/cap_cmomi.osdi" "$OSDI/cap_cmomf.osdi" "$OSDI/r3_cmc.osdi"
+
 cp "$RECORD_DIR/netlist-snapshots/loop_filter.spice" "$WORK/loop_filter_snap.spice"
 
 export PDK_ROOT PDK

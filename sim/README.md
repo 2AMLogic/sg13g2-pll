@@ -45,6 +45,29 @@ so "supply corner" does not apply) must state the reason explicitly in the
 record, not silently drop an axis. The corner *count* is PDK-specific — see
 each record for the axes it actually swept and why.
 
+**Host requirement — `cap_cmomi`-bearing decks need an x86-64 host, unless
+the two MOM-capacitor OSDI models are rebuilt locally first.** The installed
+`ihp-sg13cmos5l` tree ships `cap_cmomi.osdi` and `cap_cmomf.osdi` as
+**prebuilt x86-64 ELF binaries tracked in upstream git** — unlike
+`psp103`/`psp103_nqs`/`mosvar`/`r3_cmc`, which are host-local build products
+of the sibling `ihp-sg13g2` tree. On an arm64 macOS host the two therefore
+fail `dlopen` ("slice is not valid mach-o file") and every deck that
+*instantiates* a `cap_cmomi` device aborts with `Unable to find definition of
+model xcap:cap_cmomi_mod`. **That failure is a host/PDK-provisioning gap, not
+a broken testbench.** The PDK ships its own fix —
+`ihp-sg13cmos5l/libs.tech/verilog-a/openvaf-compile-va.sh` recompiles exactly
+those two models from the Verilog-A sources in the same tree — and issue #59
+verified on x86-64 that a locally rebuilt model reproduces two whole committed
+campaigns byte-identically. What is *not* verified is the arm64 build itself
+(OpenVAF-Reloaded publishes no macOS binary, so `openvaf-r` has to be built
+from source there first). Read
+[`PORTING-osdi-host-arch.md`](PORTING-osdi-host-arch.md) before running any
+`sim/` campaign on a non-x86-64 host: it carries the rebuild command, what
+stays unverified, and the numeric cross-check a rebuilt model must pass before
+it is trusted for a **new** record. `sim/tools/check-osdi-arch.sh` is the
+preflight the four `cap_cmomi`-loading campaigns call, so they abort with that
+diagnosis instead of with ngspice's message.
+
 **Closed-loop internal-timestep bound** and **charge-domain PFD/CP
 characterization** (the other two `spec/porting-plan.md` §1.3 methodology
 items carried over as-is) apply once a closed-loop or PFD/CP testbench
