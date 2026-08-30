@@ -111,7 +111,12 @@ have:
   PDK's PSP103 devices — it leaves the leg's bottom device in triode
   (`nxn` = 186 mV against a `Vdsat` above it) and improves the mismatch only
   2.5×, versus ~20× at `/12`. Recorded as a measured sizing finding, not a
-  textbook number carried over.
+  textbook number carried over. `/12` is a measured knee, not a maximum: over
+  the swept ratios `/4` `/8` `/12` `/16` `/24`, the mismatch at `VOUT` = 2.40 V
+  (`mos_tt`/27 C) goes −2.562% / −0.505% / −0.298% / −0.242% / −0.212% while
+  the bottom of the window (`VOUT` = 0.75 V) degrades monotonically
+  −0.088% / −0.539% / −0.696% / −0.807% / −0.963% as the larger cascode step
+  eats P-side headroom.
 
 Rationale, alternatives considered, and cost are in
 `spec/decision-records/DR-006-cp-cascode-bias-replica.md`.
