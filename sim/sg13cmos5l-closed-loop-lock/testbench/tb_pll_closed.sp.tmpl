@@ -1,0 +1,152 @@
+* sg13g2-pll :: sim/sg13cmos5l-closed-loop-lock (issue #37, Part of #16)
+* PART A -- AS-DRAWN closed-loop PLL transient, transistor level.
+* spec/porting-plan.md rows 7 (lock time), 10 (reference spur), 11 (power).
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@ (cornerMOShv.lib section),
+* @CORNER_RES@ (cornerRES.lib section), @TEMP@ (degC), @VDD@ (V), @FREF@
+* (reference frequency, Hz), @TREF@/@TREFH@ (its period / high time, s),
+* @IREF@ (charge-pump mirror reference current = the trim code, A),
+* @B0V@/@B1V@ (VCO band-select code), @VC0@ (initial VCTRL), @TSTOP@,
+* @TPRINT@ and @TMAX@ per ../corners/matrix.md.
+*
+* ===========================================================================
+* TESTBENCH-LOCAL INTEGRATION -- THERE IS NO `pll_top` SCHEMATIC
+* ===========================================================================
+* `design/sg13cmos5l/` commits six blocks and no top level (see
+* design/README.md). The block-to-block wiring below is therefore
+* TESTBENCH-LOCAL: it is this deck's own reading of how the blocks are meant
+* to connect, not a committed schematic. Every net it creates is named here
+* so a reader can check it against the blocks' own pin lists:
+*
+*   ref  -> XPFD.REF          fb    -> XPFD.FB      (divider retimed output)
+*   XPFD.UP/DN -> XCP.UP/DN and XLD.UP/DN
+*   XCP.VOUT   -> vctrl (also XLF.VCTRL and XVCO.VCTRL)
+*   XVCO.CLK   -> XDIV.CKIN and XDIV.CKIN_VCO
+*   XDIV.FB    -> fb
+*
+* Each block sits on its OWN supply source (vdd_pfd / vdd_cp / vdd_vco /
+* vdd_div / vdd_ld) so row 11 can measure every domain separately in ONE
+* deck at ONE operating point, which is exactly what that row asks for.
+* The supplies are ideal and all at @VDD@ -- this deck bounds domain
+* currents, not supply-network IR drop.
+*
+* ---------------------------------------------------------------------------
+* TESTBENCH-LOCAL BIAS REPLICA -- NOT PART OF THE COMMITTED DESIGN
+* ---------------------------------------------------------------------------
+* Carried over verbatim (device sizes included) from
+* ../../sg13cmos5l-cp-icp-trim/testbench/tb_cp_dc.sp.tmpl, for the same
+* reason that record states: `cp.sch` exposes its cascode mirror gates as
+* four pins and contains NO bias generator of its own. The replica runs off
+* its own `vddrep` supply so that i(Vdd_cp) below is the charge pump's own
+* current and NOT the replica's.
+* ---------------------------------------------------------------------------
+*
+* ---------------------------------------------------------------------------
+* LUMPED MOM CAPS -- A HOST CONSTRAINT, STATED, NOT A DESIGN CHANGE
+* ---------------------------------------------------------------------------
+* The installed PDK ships `cap_cmomi.osdi` / `cap_cmomf.osdi` as x86-64 ELF
+* ONLY (verified with file(1) -- see ../records/RECORD-001 "Tooling note").
+* This record was produced on an arm64 macOS host, where those two OSDI
+* libraries cannot be dlopen'd at all, so no deck on this host can
+* instantiate a `cap_cmomi`. `run.sh` therefore derives `loop_filter_tb.spice`
+* and `lock_detector_tb.spice` from the FROZEN snapshots by replacing ONLY
+* the `cap_cmomi` lines with ideal capacitors at the values
+* ../../sg13cmos5l-loop-filter-momcap measured (and, for the two smaller
+* instances, at that record's own measured area density). `XR1` stays the
+* real `rppd` compact model. The snapshots themselves are never edited.
+* ../records/RECORD-001 states what this substitution does and does not cost.
+* ---------------------------------------------------------------------------
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include pfd_snap.spice
+.include cp_snap.spice
+.include loop_filter_tb.spice
+.include vco_tb.spice
+.include divider_chain_snap.spice
+.include lock_detector_tb.spice
+
+Vsub sub! 0 dc 0
+
+* --- per-domain supplies (row 11: one deck, one operating point) ---
+Vdd_pfd vdd_pfd 0 dc @VDD@
+Vdd_cp  vdd_cp  0 dc @VDD@
+Vdd_vco vdd_vco 0 dc @VDD@
+Vdd_div vdd_div 0 dc @VDD@
+Vdd_ld  vdd_ld  0 dc @VDD@
+Vddrep  vddrep  0 dc @VDD@
+
+* --- reference ---
+Vref ref 0 pulse(0 @VDD@ 0 100p 100p @TREFH@ @TREF@)
+
+* --- VCO band-select code (static) ---
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+
+* --- divider modulus word P5..P0 = 000000 -> N = 2^6 = 64 (Vaucher chain) ---
+Vp0 p0 0 dc 0
+Vp1 p1 0 dc 0
+Vp2 p2 0 dc 0
+Vp3 p3 0 dc 0
+Vp4 p4 0 dc 0
+Vp5 p5 0 dc 0
+
+* --- testbench-local cascode mirror reference for the charge pump ---
+XMREFP1 nrp1 nbp  vddrep vddrep sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMREFP2 nbp  nbp  nrp1   vddrep sg13_hv_pmos w=24u l=1u ng=1 m=1
+Irefp nbp 0 dc @IREF@
+XMREFN1 nrn1 nbn  0 0 sg13_hv_nmos w=8u l=1u ng=1 m=1
+XMREFN2 nbn  nbn  nrn1 0 sg13_hv_nmos w=8u l=1u ng=1 m=1
+Irefn 0 nbn dc @IREF@
+
+* --- the loop, block by block (real, unmodified subckts) ---
+* .subckt pfd REF FB UP DN VDD VSS
+XPFD ref fb up dn vdd_pfd 0 pfd
+* .subckt cp UP DN IBP ICP IBN ICN VOUT VDD VSS
+XCP up dn nbp nbp nbn nbn vctrl vdd_cp 0 cp
+* .subckt loop_filter VCTRL VSS
+XLF vctrl 0 loop_filter
+* .subckt vco VCTRL B0 B1 CLK VDD_VCO GND_VCO
+XVCO vctrl b0 b1 clk vdd_vco 0 vco
+* .subckt divider_chain CKIN CKIN_VCO P0 P1 P2 P3 P4 P5 FB DIVOUT VDD_DIV VSS
+XDIV clk clk p0 p1 p2 p3 p4 p5 fb divout vdd_div 0 divider_chain
+* .subckt lock_detector UP DN LOCK VDD VSS
+XLD up dn lock vdd_ld 0 lock_detector
+
+* Initial conditions. v(vctrl) is the stated starting control voltage (the
+* filter has no DC path to ground -- ../../sg13cmos5l-loop-filter-momcap --
+* so without this the node is undefined). v(xvco.ring1) is the same
+* symmetry-breaking IC the Kvco and duty-cycle records use. The divider ICs
+* put the Vaucher chain in a defined, legal state at t=0 (all cell outputs
+* low, all modulus lines high); the chain has NO reset pin, which
+* ../records/RECORD-001 records as a real design gap.
+.ic v(vctrl)=@VC0@
+.ic v(xvco.ring1)=0.5
+.ic v(xdiv.ck1)=0 v(xdiv.ck2)=0 v(xdiv.ck3)=0 v(xdiv.ck4)=0 v(xdiv.ck5)=0
+.ic v(divout)=0
+.ic v(xdiv.mod0)=@VDD@ v(xdiv.mod1)=@VDD@ v(xdiv.mod2)=@VDD@
+.ic v(xdiv.mod3)=@VDD@ v(xdiv.mod4)=@VDD@
+
+.tran @TPRINT@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+meas tran i_pfd avg i(Vdd_pfd) from=@TAVG0@ to=@TSTOP@
+meas tran i_cp  avg i(Vdd_cp)  from=@TAVG0@ to=@TSTOP@
+meas tran i_vco avg i(Vdd_vco) from=@TAVG0@ to=@TSTOP@
+meas tran i_div avg i(Vdd_div) from=@TAVG0@ to=@TSTOP@
+meas tran i_ld  avg i(Vdd_ld)  from=@TAVG0@ to=@TSTOP@
+meas tran vc_avg avg v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_max max v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_min min v(vctrl) from=@TAVG0@ to=@TSTOP@
+print i_pfd i_cp i_vco i_div i_ld vc_avg vc_max vc_min
+* Uniformly-resampled waveform dump for the phase/frequency extractor in
+* ../testbench/run.sh (the raw transient keeps ngspice's own non-uniform
+* internal steps, which the extractor's edge interpolation does not want).
+linearize v(ref) v(fb) v(vctrl) v(clk) v(lock)
+wrdata wave.dat v(ref) v(fb) v(vctrl) v(clk) v(lock)
+.endc
+.end
