@@ -1,0 +1,129 @@
+* sg13g2-pll :: sim/sg13cmos5l-closed-loop-lock (issue #72, Part of #16)
+* PART B (CASCODE-BIAS VARIANT) -- PROPOSAL closed-loop PLL transient against
+* the MITIGATED `cp`.
+*
+* Identical to `tb_pll_proposal.sp.tmpl` in every respect except the charge
+* pump's bias interface, which changed with the design (issue #72, DR-006):
+* `cp` now carries its own high-swing cascode bias replica, so IBP/ICP/IBN/ICN
+* are CURRENT-input pins. This deck therefore drops that template's four
+* testbench-local XMREF* replica devices (and the `vddrep` supply that fed
+* them) and drives the block's four bias pins with ideal @IREF@ reference
+* currents instead. `pfd`, the R1 x20 loop filter, `vco`, `lock_detector`, the
+* behavioural divide-by-64, the operating point and every ideal-cap
+* substitution are byte-identical to that template.
+*
+* The `cp` this deck simulates is the REAL, unmodified mitigated netlist
+* (../netlist-snapshots/cp_cascbias.spice) -- NOT the ideal behavioural
+* substitute ../testbench/run_closed_loop_icp_eq_diag.sh built for
+* ../records/RECORD-004's diagnostic.
+*
+* Row-11 note: `i_cp` measured here is NOT directly comparable to
+* ../records/RECORD-003's own, because the P-side bias replica moved from the
+* testbench's `vddrep` supply into the block's own `vdd_cp` domain.
+*
+* --- original Part B header follows, unchanged ---
+*
+* PART B -- PROPOSAL closed-loop PLL transient.
+* spec/porting-plan.md rows 7 (lock time), 10 (reference spur), 11 (power).
+*
+* ===========================================================================
+* THIS DECK IS **NOT** THE COMMITTED DESIGN. READ THIS BEFORE QUOTING IT.
+* ===========================================================================
+* It differs from Part A (`tb_pll_closed.sp.tmpl`, the as-drawn loop) in
+* exactly two deliberate, separately-motivated ways, and in nothing else:
+*
+*   1. LOOP FILTER RESIZED. `XR1`'s `rppd` length is @R1L@ instead of the
+*      as-drawn 120u. At 2400u this is the `R1` x20 proposal that
+*      ../../sg13cmos5l-loop-bandwidth-pm/corners/proposal.csv identified as
+*      the widest-margin filter/trim pair (PM 58.6-61.8 deg at every PVT
+*      bundle). It is still the real `rppd` compact model -- the resistor is
+*      lengthened, not replaced by an ideal element.
+*
+*   2. BEHAVIOURAL DIVIDER. The feedback divider is an XSPICE `d_dff` toggle
+*      chain (divide-by-64), NOT the committed `divider_chain` block. This
+*      is forced, not chosen: Part A measures that the as-drawn
+*      `divider_chain` does not divide at all, and
+*      ../records/RECORD-001 localises that to `dff_tg_hv`'s hold path. A
+*      loop built on a divider that does not divide cannot produce a lock
+*      time, so this deck substitutes an ideal divider of the SAME ratio the
+*      as-drawn chain has with P5..P0 = 000000 (N = 2^6 = 64) in order to
+*      answer the separate question "do the loop dynamics work once the
+*      divider does". The substitution is labelled here and in the record,
+*      and every number this deck produces is reported as a PROPOSAL number.
+*
+* Everything else -- `pfd`, `cp`, `vco`, `lock_detector`, the per-domain
+* supplies, the testbench-local cascode bias replica, the lumped-MOM-cap
+* host constraint, and the testbench-local integration wiring -- is
+* IDENTICAL to Part A. See `tb_pll_closed.sp.tmpl`'s header for all of it;
+* it is not repeated here.
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@, @CORNER_RES@, @TEMP@,
+* @VDD@, @TREF@/@TREFH@, @IREF@, @B0V@/@B1V@, @VC0@, @R1L@, @TSTOP@,
+* @TPRINT@, @TMAX@ and @TAVG0@ per ../corners/matrix.md.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include pll_blocks_prop_cascbias.spice
+
+Vsub sub! 0 dc 0
+
+* --- per-domain supplies (row 11: one deck, one operating point) ---
+Vdd_pfd vdd_pfd 0 dc @VDD@
+Vdd_cp  vdd_cp  0 dc @VDD@
+Vdd_vco vdd_vco 0 dc @VDD@
+Vdd_ld  vdd_ld  0 dc @VDD@
+
+Vref ref 0 pulse(0 @VDD@ 0 100p 100p @TREFH@ @TREF@)
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+
+* --- trim-code reference currents into cp's own on-chip bias replica ---
+Irefbp ibp 0 dc @IREF@
+Irefcp icp 0 dc @IREF@
+Irefbn 0 ibn dc @IREF@
+Irefcn 0 icn dc @IREF@
+
+* --- real blocks ---
+XPFD ref fb up dn vdd_pfd 0 pfd
+XCP up dn ibp icp ibn icn vctrl vdd_cp 0 cp
+XLF vctrl 0 loop_filter
+XVCO vctrl b0 b1 clk vdd_vco 0 vco
+XLD up dn lock vdd_ld 0 lock_detector
+
+* --- BEHAVIOURAL divide-by-64 (see header item 2) ---
+.model dffb d_dff(clk_delay=20p set_delay=20p reset_delay=20p ic=0
++ rise_delay=20p fall_delay=20p)
+.model adcb adc_bridge(in_low=1.40 in_high=1.90)
+.model dacb dac_bridge(out_low=0 out_high=@VDD@ out_undef=1.65
++ t_rise=80p t_fall=80p)
+Aad [clk] [dclk] adcb
+Ab1 q1b dclk NULL NULL q1 q1b dffb
+Ab2 q2b q1   NULL NULL q2 q2b dffb
+Ab3 q3b q2   NULL NULL q3 q3b dffb
+Ab4 q4b q3   NULL NULL q4 q4b dffb
+Ab5 q5b q4   NULL NULL q5 q5b dffb
+Ab6 q6b q5   NULL NULL q6 q6b dffb
+Ada [q6] [fb] dacb
+
+.ic v(vctrl)=@VC0@
+.ic v(xvco.ring1)=0.5
+
+.tran @TPRINT@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+meas tran i_pfd avg i(Vdd_pfd) from=@TAVG0@ to=@TSTOP@
+meas tran i_cp  avg i(Vdd_cp)  from=@TAVG0@ to=@TSTOP@
+meas tran i_vco avg i(Vdd_vco) from=@TAVG0@ to=@TSTOP@
+meas tran i_ld  avg i(Vdd_ld)  from=@TAVG0@ to=@TSTOP@
+meas tran vc_avg avg v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_max max v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_min min v(vctrl) from=@TAVG0@ to=@TSTOP@
+print i_pfd i_cp i_vco i_ld vc_avg vc_max vc_min
+linearize v(ref) v(fb) v(vctrl) v(clk) v(lock)
+wrdata wave.dat v(ref) v(fb) v(vctrl) v(clk) v(lock)
+.endc
+.end

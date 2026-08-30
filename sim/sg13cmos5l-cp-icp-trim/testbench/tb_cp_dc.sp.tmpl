@@ -15,25 +15,29 @@
 * sg13cmos5l-vco-kvco-table record, this DUT needs no netlist derivation).
 *
 * ---------------------------------------------------------------------------
-* TESTBENCH-LOCAL BIAS REPLICA -- NOT PART OF THE COMMITTED DESIGN
+* BIAS: FOUR REFERENCE CURRENTS INTO THE BLOCK'S OWN ON-CHIP BIAS REPLICA
 * ---------------------------------------------------------------------------
-* `cp.sch` exposes its two current legs' tail/cascode gates as four external
-* pins (IBP/ICP, IBN/ICN) and contains NO bias generator of its own
-* (design/README.md, "Charge pump ... single fixed-current leg per polarity,
-* no 2-bit unit-element Icp trim"). Driving those pins with fixed *voltages*
-* would make the measured Icp a strong function of process/temperature, which
-* is a property of the (absent) bias network, not of the charge pump.
+* Since issue #72 (spec/decision-records/DR-006), `cp.sch` carries its own
+* high-swing cascode bias replica (MBP/MBPC/MCP, MBN/MBNC/MCN), and its
+* IBP/ICP/IBN/ICN pins are CURRENT inputs, not voltage inputs. This testbench
+* therefore drives each of the four with an ideal @IREF@ reference current and
+* holds NO bias device of its own -- the earlier revision's XMREF* replica
+* stack (a testbench-local stand-in for the then-absent on-chip diodes, see
+* ../records/RECORD-001 "What is real here, and what is testbench") is gone
+* because the design now contains the thing it was standing in for.
 *
-* This testbench therefore biases the block the way a cascode current mirror
-* is normally biased: a diode-connected replica stack built from devices of
-* exactly the same W/L as the leg it mirrors (24u/1u PMOS, 8u/1u NMOS, both
-* l=1u -- read off the frozen snapshot, not assumed), driven by an ideal
-* reference current @IREF@. The trim code is then @IREF@ itself, and the
-* measured Icp is the mirror's own copy of it. The replica devices are
-* explicitly labelled XMREF* below so no reader mistakes them for design
-* content; ../records/RECORD-001 states the same boundary, and records the
-* missing on-chip bias generator as a real design gap rather than papering
-* over it.
+* What is still testbench-local, and still a real design gap: the reference
+* CURRENT itself. A bandgap-referenced Iref block does not exist in
+* design/sg13cmos5l/, so @IREF@ here is an ideal current source. The trim code
+* is @IREF@, exactly as in ../records/RECORD-001, and the measured Icp is the
+* block's own copy of it -- so the trim table below stays directly comparable
+* to that record's.
+*
+* Why four sources and not two: the mirror-bias node (IBP/IBN) and the
+* cascode-bias node (ICP/ICN) are separate branches of a high-swing cascode
+* bias by construction -- tying them together is exactly the defect issue #72
+* fixed. All four scale with the trim code, so the mirror ratio is
+* code-independent.
 * ---------------------------------------------------------------------------
 
 .lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
@@ -43,19 +47,16 @@
 
 Vdd VDD 0 dc @VDD@
 
-* --- P-side cascode mirror reference (testbench-local, see header) ---
-XMREFP1 nrp1 nbp  VDD  VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
-XMREFP2 nbp  nbp  nrp1 VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
-Irefp nbp 0 dc @IREF@
-
-* --- N-side cascode mirror reference (testbench-local, see header) ---
-XMREFN1 nrn1 nbn  0    0 sg13_hv_nmos w=8u l=1u ng=1 m=1
-XMREFN2 nbn  nbn  nrn1 0 sg13_hv_nmos w=8u l=1u ng=1 m=1
-Irefn 0 nbn dc @IREF@
-
 * --- DUT: the real, unmodified cp subckt ---
 * .subckt cp UP DN IBP ICP IBN ICN VOUT VDD VSS
-XCP up dn nbp nbp nbn nbn vout VDD 0 cp
+XCP up dn ibp icp ibn icn vout VDD 0 cp
+
+* --- the four trim-code reference currents (P side sinks to 0, N side is
+*     sourced from 0 -- ngspice's Iname n+ n- convention) ---
+Irefbp ibp 0 dc @IREF@
+Irefcp icp 0 dc @IREF@
+Irefbn 0 ibn dc @IREF@
+Irefcn 0 icn dc @IREF@
 
 Vup up 0 dc @UPV@
 Vdn dn 0 dc @DNV@
