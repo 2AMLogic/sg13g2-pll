@@ -1,0 +1,133 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "vco_resrhigh_w0p5_l8.gds",
+    "deck": "sg13cmos5l",
+    "top": "vco_resrhigh_w0p5_l8",
+    "dbu_um": 0.001,
+    "netlist_path": "vco_resrhigh_w0p5_l8.extracted.spice",
+    "netlist_sha256": "426112fcc8ac4b35f446a297901e956ba7058a0dd3e204c5aeccce2b23ece1b4",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 3,
+    "pin_count": 1,
+    "device_counts": {
+      "rhigh": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "rhigh",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 21760.0,
+          "l_um": 8.0,
+          "w_um": 0.5,
+          "area_um2": 4.0,
+          "perimeter_um": 17.0
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 1
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (31/2, 8/2, 10/2, 30/2, 50/2, 126/2) anywhere in 'vco_resrhigh_w0p5_l8' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "--pdk-root flag",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:9b8dfb6543860c77acacfa6e631319857065661fd921d325468b00c09d76bfaa",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:64eef4c465ba4921ecb2fcc9c9ca7b361c04a1ee8662ff1e6fa3ef10b0dcd2f4"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

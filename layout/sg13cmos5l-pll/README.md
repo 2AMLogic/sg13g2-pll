@@ -30,12 +30,23 @@ Per the current record (`reports/LATEST`):
 | Block | Devices (schematic) | Drawn | Group DRC clean | Group re-extract matches | Composed + routed | Terminals routed | Nets | Block DRC | Block re-extract matches | **`klt lvs`** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `pfd` | 66 | 66 | 66 | 66 | yes | 202 | 37 | clean | yes | **`match`** — devices 66/66, nets 37/37 |
-| `cp` | 14 | 14 | 14 | 14 | yes | 50 | 16 | clean | yes | **`match`** — devices 14/14, nets 16/16 |
+| `cp` | 20 | 20 | 20 | 20 | yes | 70 | 18 | clean | yes | **`match`** — devices 20/20, nets 18/18 |
 | `loop_filter` | 3 | 1 | 1 | 1 | yes | 2 | 2 (3 incomplete) | clean | yes | not converted (#1463) |
 | `vco` | 45 | 44 | 44 | 44 | yes | 137 | 33 (2 incomplete) | clean | yes | not converted (#1463) |
 | `divider_chain` | 316 | 316 | 316 | 316 | yes | 950 | 142 | clean | yes | **`match`** — devices 316/316, nets 142/142 |
 | `lock_detector` | 40 | 38 | 38 | 38 | yes | 115 | 23 (3 incomplete) | clean | yes | not converted (#1463) |
-| **Total** | **484** | **479** | **479** | **479** | **6/6** | **1456** | **253** | **6/6 clean** | **6/6** | **3 `match`, 3 not converted** |
+| **Total** | **490** | **485** | **485** | **485** | **6/6** | **1476** | **255** | **6/6 clean** | **6/6** | **3 `match`, 3 not converted** |
+
+**Re-run for issue #72** (record `20260830-204105-457cf5b`), after `cp.sch`
+gained its own high-swing cascode bias replica (six new devices — see
+`spec/decision-records/DR-006-…` for the decision and
+`sim/sg13cmos5l-cp-icp-trim/records/RECORD-002-…` for what it fixed). `cp`'s
+own device/net counts move by exactly the six devices and two nets (`nxp`,
+`nxn`) the replica adds — 20/20 devices, 18/18 nets, still `match`, block DRC
+clean, and both new geometries (`pfet w=6u l=3u`, `nfet w=2u l=3u`) draw,
+DRC-clean and re-extract matching their schematic `(class, W, L)` at the first
+attempt. Every other block is unchanged from the prior record
+(`20260830-105633-4cbf817`). The table above reflects this re-run.
 
 **Re-run for issue #56** (record `20260830-105633-4cbf817`), after `pfd.sch`'s
 self-reset chain gained a third inverter stage to fix its inverter-parity
@@ -46,7 +57,7 @@ the two devices (+1 `inv_hv`) and one net (`reset_d2`) the new stage adds —
 66/66 devices, 37/37 nets, still `match`. Every other block is byte-for-byte
 unchanged from the prior record (`20260830-070704-4520159`): 479/484 drawn,
 6/6 DRC-clean, 3/6 LVS `match`. This table's per-block rows and totals above
-already reflect this re-run.
+already reflect both re-runs.
 
 Three claims in that table are worth stating in words, because they are the
 ones a reviewer would otherwise have to take on trust:

@@ -1,6 +1,12 @@
 * Netlist provenance snapshot -- sim/README.md convention
-* Frozen from design/sg13cmos5l/netlist/cp.spice at commit db5ec6afaf79a04aeb13b9a43a4b5905472ff37a
-* (main, after PR #33 -- cp.spice content unchanged since PR #26)
+* Frozen from design/sg13cmos5l/netlist/cp.spice at commit d54ff69
+* (feature/issue-72, PR for issue #72 -- adds cp.sch's own high-swing cascode
+*  bias replica (MBP/MBPC/MCP, MBN/MBNC/MCN) and turns IBP/ICP/IBN/ICN into
+*  current-input pins; cp_dumpbuf's IBIAS moves ICN -> IBN. This commit will
+*  be superseded by a different squash-merge sha on main; the tree content it
+*  names is unchanged by that rewrite).
+* Supersedes the prior snapshot frozen at commit db5ec6afaf79a04aeb13b9a43a4b5905472ff37a
+* (main, after PR #33 -- the as-drawn cp RECORD-001 measured).
 * Simulated by sim/sg13cmos5l-cp-icp-trim/ (issue #27, Part of #16).
 * Independent of whatever design/sg13cmos5l/netlist/cp.spice says today.
 *
@@ -10,10 +16,10 @@
 .subckt cp UP DN IBP ICP IBN ICN VOUT VDD VSS
 *.ipin UP
 *.ipin DN
-*.ipin IBP
-*.ipin ICP
-*.ipin IBN
-*.ipin ICN
+*.iopin IBP
+*.iopin ICP
+*.iopin IBN
+*.iopin ICN
 *.opin VOUT
 *.iopin VDD
 *.iopin VSS
@@ -21,7 +27,13 @@ XIUP UP UPB VDD VSS inv_hv
 XIDN DN DNB VDD VSS inv_hv
 XLEGP IBP ICP UP UPB VOUT VDUMP VDD cp_leg_p
 XLEGN IBN ICN DN DNB VOUT VDUMP VSS cp_leg_n
-XBUF VOUT ICN VDUMP VDD VSS cp_dumpbuf
+XBUF VOUT IBN VDUMP VDD VSS cp_dumpbuf
+XMBP nxp IBP VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMBPC IBP ICP nxp VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMCP ICP ICP VDD VDD sg13_hv_pmos w=6u l=3u ng=1 m=1
+XMBN nxn IBN VSS VSS sg13_hv_nmos w=8u l=1u ng=1 m=1
+XMBNC IBN ICN nxn VSS sg13_hv_nmos w=8u l=1u ng=1 m=1
+XMCN ICN ICN VSS VSS sg13_hv_nmos w=2u l=3u ng=1 m=1
 .ends
 
 * expanding   symbol:  inv_hv.sym # of pins=4

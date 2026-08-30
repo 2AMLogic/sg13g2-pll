@@ -10,8 +10,8 @@ Two ports, two evidence trails:
   and #29, part of the #16 Chipalooza port). Start at
   [`sg13cmos5l-pll/README.md`](sg13cmos5l-pll/README.md), then
   `sg13cmos5l-pll/reports/LATEST`. Unlike the SG13G2 side this one is
-  **routed and LVS-compared**: 477 / 482 devices draw, all six blocks compose,
-  route (1450 terminals, 252 nets) and pass `klt drc --deck sg13cmos5l` with
+  **routed and LVS-compared**: 485 / 490 devices draw, all six blocks compose,
+  route (1476 terminals, 255 nets) and pass `klt drc --deck sg13cmos5l` with
   zero violations, and `klt lvs` reports **`match` — every device and every
   net — on all three blocks whose reference netlist can be converted**. The
   other three cannot be converted at all, for a named, open upstream reason
