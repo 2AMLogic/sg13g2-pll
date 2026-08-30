@@ -411,7 +411,32 @@ pattern for its *layout* phase.
   binding one for row 16's hysteresis criterion — the opposite end from the
   one that bound #52's `R·C` criterion. Weakening `XMPD` raises hysteresis but
   simultaneously pushes the assert/de-assert thresholds out; `w=0.25u l=16u`
-  is the sizing that clears both bounds at once.
+  is the sizing that clears both bounds at once:
+
+  | Bound, both measured | Corner | `w=0.5u l=16u` | **`w=0.25u l=16u`** | `w=0.25u l=32u` |
+  |---|---|---|---|---|
+  | Hysteresis ≥ 0.25× window (row 16) | `mos_ff`/`res_wcs`/−40 °C, 24.4 MHz | 0.239× — **fails** | **0.495× — 1.98×** | passes |
+  | De-assert threshold inside one reference period | `mos_tt`/`res_bcs`/125 °C, 3.5 MHz | 11.4× window = 32% of `T_ref` | **18.2× window = 51% of `T_ref`** | **> 24× window = > 67% — off the end of the sweep** |
+
+  Measured against the changed block, all three of row 16's criteria pass:
+  assert window **3.688–11.24 ns** at 102/102 points (worst-case margin
+  1.475×, unchanged — `XMPD` is not inside `delaywin_hv`); hysteresis
+  **50–800% of the window, 0 of 21 corners below the ≥25% criterion**, worst
+  case 50% at the 24.4 MHz corners; **`steady` at 21/21** at a **20×**-window
+  static phase error (RECORD-002 probed 10×). `R·C` re-extracts **byte-identical**
+  to RECORD-002 at 8.0–19.5× `T_ref`, so #52's margin is confirmed spent by
+  nothing.
+
+  **One real cost, measured and attributed rather than hidden.** The
+  out-of-lock supply current in row 11's `lock_detector` domain re-bounds from
+  2.48–95.1 µA to **2.47–234 µA**. The top of that range is *not* a switching
+  cost: it is `schmitt_hv` crowbar current while `VWIN` rests **between** the
+  now-widely-separated trip points, which the fixed 10×-window probe lands
+  inside at slow-end corners. Controlled directly — the same deck at a 20×
+  probe (beyond de-assert everywhere) gives 57.9 µA for this block against
+  46.7 µA for RECORD-002's, i.e. the genuinely out-of-lock current rose ~24%,
+  not 2.5×. The readout has no output stage and its input is now *designed* to
+  dwell between the rails; that residual is filed as a follow-up.
 
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,

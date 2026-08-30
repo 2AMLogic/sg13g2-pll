@@ -196,11 +196,21 @@ print('%.4g' % (um('$l')/um('$w')))")"
           -e "s/@TSETTLE@/$tsettle/g" -e "s|@DUT@|$WORK/dut_pd.spice|g" \
           -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
         "$HERE/tb_hyst_diag.sp.tmpl" > "$WORK/h.sp"
+      # Same one-shot, recorded trtol=1 retry run.sh uses -- see its
+      # run_ngspice_or_die header.  The candidate geometries swept here are
+      # deliberately WEAKER than anything that could be landed, which is
+      # exactly the regime that stresses the solver, so a sizing sweep that
+      # dies two geometries in tells us nothing.
       local err="$WORK/h.err"
       if ! hlog="$( cd "$WORK" && ngspice -b h.sp 2>"$err" )"; then
-        echo "ERROR: ngspice exited non-zero for $label ${w}/${l} tau=${frac}x:" >&2
-        cat "$err" >&2
-        exit 1
+        echo "WARNING: ngspice exited non-zero for $label ${w}/${l} tau=${frac}x; retrying with trtol=1" >&2
+        sed -i.bak 's/^\(\.options reltol=.*\)$/\1 trtol=1/' "$WORK/h.sp"
+        if ! hlog="$( cd "$WORK" && ngspice -b h.sp 2>"$err" )"; then
+          echo "ERROR: ngspice exited non-zero for $label ${w}/${l} tau=${frac}x even with trtol=1:" >&2
+          cat "$err" >&2
+          exit 1
+        fi
+        echo "sizing ${label} ${w}/${l} tau=${frac}x" >> "$CORNERS/solver_retries.txt"
       fi
       get() { printf '%s\n' "$hlog" | sed -n "s/^$1 *= *\([0-9.eE+-]*\).*/\1/p" | head -1; }
       echo "${label},${mos},${res},${temp},${vsup},${fref},${w},${l},${h},${twin},${frac},${tau},$(get va_avg),$(get vb_avg),$(get la_avg),$(get lb_avg)" \

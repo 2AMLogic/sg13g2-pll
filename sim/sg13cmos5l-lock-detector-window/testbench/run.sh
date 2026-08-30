@@ -254,15 +254,43 @@ LADDER_SET=hystfix
 #     exit, printing what ngspice actually said.  The previous
 #     `2>/dev/null`(+`|| true`) calls threw that away.
 # ---------------------------------------------------------------------------
+#
+#  3. ONE recorded, non-silent retry (issue #66).  The four transient templates
+#     already carry `itl4=5000 gmin=1e-11`, which is what makes this block
+#     simulable at all now that XMPD is weak enough to hold the integrating
+#     node at intermediate voltages for a whole run (see any of their
+#     SOLVER-EFFORT NOTEs for the three measured aborts and the rejected
+#     alternatives).  Those two settings cleared every abort observed while
+#     building this campaign, but "every abort observed" is not "every abort
+#     possible", and a 21-corner x 22-deck run that dies on its last corner
+#     costs hours.  So a failed deck is retried ONCE with `trtol=1` appended.
+#
+#     trtol is a TRUNCATION-ERROR knob -- unlike itl4/gmin it is a genuine
+#     accuracy relaxation -- so it is deliberately not in the templates, it is
+#     never used unless the deck has already failed outright, and every deck
+#     that needed it is named on stderr AND appended to
+#     ../corners/solver_retries.txt, which is committed alongside the CSVs.  An
+#     empty file is the claim "no point in this record needed it"; a non-empty
+#     one is the list the record has to disclose.  A deck that fails the retry
+#     too still aborts the campaign, exactly as before.
 run_ngspice_or_die() {
   local name="$1"
   local err="$WORK/${name}.err"
   local out
+  if out="$( cd "$WORK" && ngspice -b "$name" 2>"$err" )"; then
+    printf '%s\n' "$out"
+    return 0
+  fi
+  echo "WARNING: ngspice exited non-zero for $name; retrying once with trtol=1" >&2
+  sed -n 's/^\(doAnalyses.*\)$/  ngspice said: \1/p' "$err" >&2
+  sed -i.bak 's/^\(\.options reltol=.*\)$/\1 trtol=1/' "$WORK/$name"
   if ! out="$( cd "$WORK" && ngspice -b "$name" 2>"$err" )"; then
-    echo "ERROR: ngspice exited non-zero for $name:" >&2
+    echo "ERROR: ngspice exited non-zero for $name even with trtol=1:" >&2
     cat "$err" >&2
     return 1
   fi
+  echo "${RETRY_TAG:-<unlabelled>} ($name)" >> "$CORNERS/solver_retries.txt"
+  echo "[solver-retry] ${RETRY_TAG:-<unlabelled>} ($name) completed with trtol=1" >&2
   printf '%s\n' "$out"
 }
 
@@ -331,6 +359,10 @@ python3 "$HERE/cmomi_nominal.py" selftest >&2
 # ---------------------------------------------------------------------------
 # 1. Device extraction: R (rhigh, XRPU) and C (the two cap_cmomi instances).
 # ---------------------------------------------------------------------------
+# Truncated at the start of every run so the file always describes THIS run
+# (appended to, not truncated, when resuming -- see LADDER_RESUME below).
+if [ "${LADDER_RESUME:-0}" != 1 ]; then : > "$CORNERS/solver_retries.txt"; fi
+
 echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_hystfix.csv"
 
 declare -A RVAL
@@ -484,6 +516,7 @@ for pt in "${WINDOW_POINTS[@]}"; do
   # simple command, so errexit does NOT see a failing command substitution in
   # its word -- a died-inside-measure_window ngspice would silently produce an
   # empty row instead of stopping the campaign.  A plain assignment does.
+  RETRY_TAG="window ${tag}"
   wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut")"
   read -r twin_r twin_f <<< "$wpair"
   echo "${tag},${mos},${res},${temp},${vsup},${fref},${variant},${twin_r},${twin_f}" \
@@ -550,7 +583,23 @@ for vsup in 2.97 3.63; do
   LADDER_POINTS+=("mos_tt res_typ 27 $vsup 3.5e6 $PRIMARY")
 done
 
-if [ "${SKIP_LADDER:-0}" != 1 ]; then
+# LADDER_RESUME=1 (issue #66) keeps whatever ladder rows ../corners/ already
+# holds and runs only the corners missing from it.  This exists because one
+# full ladder is several hours on a workstation -- long enough that a killed
+# terminal, a laptop lid or an OOM costs a whole day's evidence -- and the
+# ladder is a set of INDEPENDENT per-corner ngspice invocations, so resuming is
+# concatenation, not continuation of a stateful run.  It is opt-in and OFF by
+# default precisely so `./run.sh` with no environment set still means "throw
+# everything away and regenerate one self-consistent set"; a record produced
+# with it must say so.  Combining it with a changed DUT, a changed template or
+# a different host would silently mix evidence -- do not.
+DONE_TAGS=""
+if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_hystfix.csv" ]; then
+  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_hystfix.csv" | cut -d, -f1)"
+  echo "[ladder] LADDER_RESUME=1 -- $(printf '%s\n' "$DONE_TAGS" | grep -c . ) corner(s) already present will be skipped" >&2
+fi
+
+if [ "${SKIP_LADDER:-0}" != 1 ] && [ "${LADDER_RESUME:-0}" != 1 ]; then
 echo "corner_tag,twin_r_s,in_window_lock_rail,tau_assert_s,tau_assert_xwin,tau_deassert_s,tau_deassert_xwin,hysteresis_s,hysteresis_pct_of_window,chatter,lock_min_deep_v,lock_max_deep_v,trec_s,vwin_min_zeroerr_v,vwin_max_zeroerr_v,idd_inlock_a,idd_outlock_a,ladder_states_discharged_start,ladder_states_charged_start,rc_s,tref_s,rc_over_tref,n_cycles,settle_frac" \
   > "$CORNERS/ladder_hystfix.csv"
 echo "corner_tag,tau_xwin,tau_s,state_discharged_start,state_charged_start,lka_min_v,lka_max_v,lka_avg_v,lkb_min_v,lkb_max_v,lkb_avg_v,vwin_a_min_v,vwin_a_max_v,vwin_a_avg_v" \
@@ -566,6 +615,11 @@ print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 run_ladder_corner() {
   local mos="$1" res="$2" temp="$3" vsup="$4" fref="$5" variant="$6"
   local tag="${mos}_${res}_${temp}c_${vsup}v_$(ftag "$fref")_${variant}"
+  if printf '%s\n' "$DONE_TAGS" | grep -qxF "$tag"; then
+    echo "[L] ${tag}: already in ladder_hystfix.csv, skipped (LADDER_RESUME=1)" >&2
+    return
+  fi
+  local RETRY_TAG="ladder ${tag}"
   local vmid
   vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
   local dut="$WORK/dut_${variant}.spice"
@@ -602,7 +656,23 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
   # wide and no wider.
   tsettle="$(python3 -c "print($tstop - 2*$tref)")"
   tstep="$(python3 -c "print($tref/$TSTEP_DIV.0)")"
-  taubig="$(python3 -c "print(10.00*$twin_r)")"
+  # TAUBIG is the phase error the XIU copy is held at to measure the
+  # OUT-OF-WINDOW supply current, in units of this corner's own window.  It has
+  # been 10.00 since RECORD-001 and stays 10.00 by default so the row-11 figure
+  # stays comparable across all three records.
+  #
+  # ISSUE #66 CAVEAT, and why this is now an override rather than a literal.
+  # With the hysteresis restored, 10 x window is no longer unambiguously
+  # "out of window": at the slow end of the f_ref range this block's de-assert
+  # threshold reaches 16 x window, so at several corners tau = 10 x window
+  # lands INSIDE the hysteresis band, where VWIN settles between schmitt_hv's
+  # two trip points and the readout inverter-pair conducts crowbar current.
+  # That is a real property of the block, not a measurement artifact, and
+  # RECORD-003 reports it -- but it means idd_outlock is now a function of
+  # WHERE the probe sits relative to the band.  TAUBIG_XWIN makes that
+  # measurable instead of hidden: `TAUBIG_XWIN=20 ./run.sh` re-measures the
+  # same column with the probe beyond the de-assert threshold at every corner.
+  taubig="$(python3 -c "print(${TAUBIG_XWIN:-10.00}*$twin_r)")"
 
   echo "[L] ${tag}: twin_r=${twin_r} RC=${rc}s RC/tref=${rc_over} n_cycles=${n_cycles} settle_frac=${settle_frac}" >&2
 
@@ -720,6 +790,13 @@ for tstep in 20p 5p 1.25p; do
     echo "[conv ${tstep}] ${mos}/${temp}C/${variant}: twin_r=${tw:-NA}" >&2
   done
 done
+
+n_retry="$(wc -l < "$CORNERS/solver_retries.txt")"
+if [ "$n_retry" -eq 0 ]; then
+  echo "solver retries: none -- every deck converged on the committed .options" >&2
+else
+  echo "solver retries: ${n_retry} deck(s) needed trtol=1 -- see $CORNERS/solver_retries.txt" >&2
+fi
 
 echo "done (primary DUT variant: $PRIMARY, cap_cmomi loadable: $HAVE_CMOMI):" >&2
 for f in rc_extract window schmitt ladder ladder_raw tstep_convergence; do
