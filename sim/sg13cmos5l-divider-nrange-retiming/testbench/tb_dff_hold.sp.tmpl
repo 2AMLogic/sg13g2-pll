@@ -1,0 +1,65 @@
+* sg13g2-pll :: sim/sg13cmos5l-divider-nrange-retiming (issue #36, Part of #16)
+* dff_tg_hv STATIC-HOLD probe -- the root-cause deck for this record.
+*
+* Every state element in `divider_chain` (12 flops inside the six
+* `div23_cell` instances, plus `XFRT`) is one `dff_tg_hv`. This deck isolates
+* ONE of them and asks the only question that matters before any divider
+* measurement is meaningful: does it hold its state when the clock stops?
+*
+* Method: load a logic 1 through a single rising clock edge at t = 1 ns, take
+* the clock back low at t = 2 ns, and then leave it low for @THOLD@. The slave
+* latch is in hold for that whole window. A working master-slave flop keeps
+* `Q` at the rail; a flop whose hold path is not a real latch does not.
+*
+* Measured:
+*   q_end   -- V(Q) at the end of the hold window (a rail, or not a rail)
+*   s_end   -- V(S), the slave storage node itself
+*   t_decay -- time from the clock's falling edge until V(Q) has fallen
+*              through 90% of the rail (i.e. left the logic-1 region).
+*              `meas` FAILS (and run.sh records `none`) when Q never leaves
+*              the rail -- which is the pass condition, not an error.
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@ (cornerMOShv.lib section),
+* @TEMP@, @VDD@, @VDD90@ (= 0.9 x @VDD@), @THOLD@ and @NETLIST@ per
+* ../corners/matrix.md. @NETLIST@ selects the DUT variant:
+*   divider_chain.spice        -- the committed design, verbatim from the
+*                                 frozen ../netlist-snapshots/ copy
+*   divider_chain_fbfix.spice  -- the PROPOSAL variant run.sh derives locally
+*                                 (see run.sh's header). NOT the committed
+*                                 design and not proposed for commit here.
+*
+* No RES corner axis: the DUT expands to `sg13_hv_nmos`/`sg13_hv_pmos`
+* instances only -- same inapplicability the sg13cmos5l-cp-icp-trim record
+* documents for its own all-MOS DUT. No MOM-cap axis: no `cap_cmomi` /
+* `cap_cmomf` instance exists anywhere under `divider_chain`.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @NETLIST@
+
+Vdd vdd 0 dc @VDD@
+Vsub sub! 0 dc 0
+Vd d 0 dc @VDD@
+* one rising edge at 1 ns; clock stays low from 2 ns onward (slave in hold)
+Vclk clk 0 pwl 0 0 0.9n 0 1.0n @VDD@ 1.9n @VDD@ 2.0n 0
+
+Xdut d clk q vdd 0 dff_tg_hv
+
+* The block has NO reset pin, so its latches have no defined power-up state
+* and the DC operating point is indeterminate. These two `.ic` statements are
+* the minimum symmetry break that makes an OP exist at all -- see
+* ../records/RECORD-001 "Finding 1".
+.ic v(xdut.m)=0 v(xdut.s)=0
+
+.tran 20p '@THOLD@ + 2n'
+
+.control
+run
+meas tran q_end   find v(q)       at='@THOLD@ + 1.9n'
+meas tran s_end   find v(xdut.s)  at='@THOLD@ + 1.9n'
+meas tran t_decay when v(q)=@VDD90@ fall=1 td=2.0n
+print q_end s_end t_decay
+.endc
+.end

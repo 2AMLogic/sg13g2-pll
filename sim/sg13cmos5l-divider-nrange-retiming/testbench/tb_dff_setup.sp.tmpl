@@ -1,0 +1,45 @@
+* sg13g2-pll :: sim/sg13cmos5l-divider-nrange-retiming (issue #36, Part of #16)
+* dff_tg_hv SETUP-TIME deck -- the *requirement* side of the retiming margin.
+*
+* tb_div_retime.sp.tmpl measures how much setup window `DIVOUT` actually gets
+* before the next VCO edge. That number only means something against how much
+* the `XFRT` flop needs, so this deck measures the need directly, on the same
+* cell, at the same 1562.0 MHz retiming clock.
+*
+* Method: hold the flop's D at 0, then step it to the rail at
+* t = t_capture - @TSU@, where t_capture is the rising CKIN_VCO edge at
+* @TCAP@. Sample Q one quarter-period after the capture edge -- which is how
+* `XFRT`'s output is actually consumed downstream. Sweeping @TSU@ down from a
+* comfortably-large value walks the flop from "captures the 1" to "does not";
+* the crossover is the setup time. Sampling a QUARTER period after the edge
+* (rather than at the following edge) is deliberate: it separates the setup
+* question from the hold-retention question tb_dff_hold.sp.tmpl asks.
+*
+* Substituted by ../testbench/run.sh: @CORNER_MOS@, @TEMP@, @VDD@, @TPER@,
+* @TON@, @TCAP@, @TSU@, @TSAMPLE@, @NETLIST@.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @NETLIST@
+
+Vdd vdd 0 dc @VDD@
+Vsub sub! 0 dc 0
+* Rising 50% crossings of clk are at 30p + k*@TPER@; @TCAP@ names the capture edge.
+Vclk clk 0 pulse(0 @VDD@ 0 60p 60p @TON@ @TPER@)
+* D steps 0 -> rail with a 30 ps edge centred @TSU@ before the capture edge.
+Vd d 0 pwl 0 0 '@TCAP@ - @TSU@ - 15p' 0 '@TCAP@ - @TSU@ + 15p' @VDD@
+
+Xdut d clk q vdd 0 dff_tg_hv
+
+.ic v(xdut.m)=0 v(xdut.s)=0
+
+.tran 5p '@TSAMPLE@ + 20p'
+
+.control
+run
+meas tran q_s find v(q) at=@TSAMPLE@
+print q_s
+.endc
+.end

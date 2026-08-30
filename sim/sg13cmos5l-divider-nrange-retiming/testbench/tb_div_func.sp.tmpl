@@ -1,0 +1,96 @@
+* sg13g2-pll :: sim/sg13cmos5l-divider-nrange-retiming (issue #36, Part of #16)
+* `divider_chain` FUNCTIONAL / division-ratio deck (spec/porting-plan.md row 3),
+* plus the divider's own average supply current at the same operating point
+* (a real measured input to row 11's power budget -- see ../records/RECORD-001
+* for what that does and does not bound).
+*
+* Both clock inputs are driven from the same source, because in the closed
+* loop they are the same net: `CKIN` is the VCO output the chain divides, and
+* `CKIN_VCO` is the VCO output the `XFRT` retiming flop re-clocks `DIVOUT`
+* onto. Driving them separately would invent a skew the design does not have.
+*
+* Measured:
+*   ck<k>_max/min  -- rail excursion of every internal stage output ck1..ck5
+*                     and of DIVOUT/FB over the measurement window. This is
+*                     what tells you WHICH stage stops toggling when the chain
+*                     does not divide -- a single "DIVOUT is dead" bit does not.
+*   tdiv_a, tdiv_b -- two successive DIVOUT rising 50% crossings (indices
+*                     @DIVA@/@DIVB@, chosen by run.sh to skip startup)
+*   tck_a, tck_b   -- two successive CKIN rising 50% crossings, so the divide
+*                     ratio is measured against the clock the deck actually
+*                     produced rather than against its nominal period
+*   idd            -- average I(vdd) over the measurement window
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@, @TEMP@, @VDD@, @VDD50@
+* (= @VDD@/2), @TPER@ / @TON@ (CKIN period / high time), @P0@..@P5@ (the
+* programming word, 0 or @VDD@), @TSTEP@, @TSTOP@, @TMEAS@ (start of the
+* averaging/excursion window), @DIVA@/@DIVB@, @RELTOL@ and @NETLIST@ per
+* ../corners/matrix.md.
+*
+* @NETLIST@ selects the DUT variant -- `divider_chain.spice` (the committed
+* design, verbatim from the frozen ../netlist-snapshots/ copy) or
+* `divider_chain_fbfix.spice` (the PROPOSAL variant run.sh derives locally;
+* NOT the committed design). See run.sh's header for the exact derivation.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
+.global sub!
+
+.include @NETLIST@
+
+Vdd vdd 0 dc @VDD@
+Vsub sub! 0 dc 0
+Vck ck 0 pulse(0 @VDD@ 0 60p 60p @TON@ @TPER@)
+Vp0 p0 0 dc @P0@
+Vp1 p1 0 dc @P1@
+Vp2 p2 0 dc @P2@
+Vp3 p3 0 dc @P3@
+Vp4 p4 0 dc @P4@
+Vp5 p5 0 dc @P5@
+
+Xdiv ck ck p0 p1 p2 p3 p4 p5 fb divout vdd 0 divider_chain
+
+* `divider_chain` has NO reset pin: its 13 `dff_tg_hv` state elements have no
+* defined power-up state, so the DC operating point is indeterminate and
+* ngspice's gmin/source stepping cannot resolve it. These `.ic` statements are
+* the minimum symmetry break that makes an OP exist -- they are a TESTBENCH
+* workaround for a DESIGN gap, recorded as Finding 1 of ../records/RECORD-001,
+* not a property of the block.
+.ic v(xdiv.xd0.xdffq.m)=0 v(xdiv.xd0.xdffq.s)=0 v(xdiv.xd0.xdffm.m)=0 v(xdiv.xd0.xdffm.s)=0
+.ic v(xdiv.xd1.xdffq.m)=0 v(xdiv.xd1.xdffq.s)=0 v(xdiv.xd1.xdffm.m)=0 v(xdiv.xd1.xdffm.s)=0
+.ic v(xdiv.xd2.xdffq.m)=0 v(xdiv.xd2.xdffq.s)=0 v(xdiv.xd2.xdffm.m)=0 v(xdiv.xd2.xdffm.s)=0
+.ic v(xdiv.xd3.xdffq.m)=0 v(xdiv.xd3.xdffq.s)=0 v(xdiv.xd3.xdffm.m)=0 v(xdiv.xd3.xdffm.s)=0
+.ic v(xdiv.xd4.xdffq.m)=0 v(xdiv.xd4.xdffq.s)=0 v(xdiv.xd4.xdffm.m)=0 v(xdiv.xd4.xdffm.s)=0
+.ic v(xdiv.xd5.xdffq.m)=0 v(xdiv.xd5.xdffq.s)=0 v(xdiv.xd5.xdffm.m)=0 v(xdiv.xd5.xdffm.s)=0
+.ic v(xdiv.xfrt.m)=0 v(xdiv.xfrt.s)=0
+
+.save v(ck) v(divout) v(fb) v(xdiv.ck1) v(xdiv.ck2) v(xdiv.ck3) v(xdiv.ck4) v(xdiv.ck5) i(vdd)
+.tran @TSTEP@ @TSTOP@
+
+.control
+run
+meas tran ck1_max max v(xdiv.ck1) from=@TMEAS@ to=@TSTOP@
+meas tran ck1_min min v(xdiv.ck1) from=@TMEAS@ to=@TSTOP@
+meas tran ck2_max max v(xdiv.ck2) from=@TMEAS@ to=@TSTOP@
+meas tran ck2_min min v(xdiv.ck2) from=@TMEAS@ to=@TSTOP@
+meas tran ck3_max max v(xdiv.ck3) from=@TMEAS@ to=@TSTOP@
+meas tran ck3_min min v(xdiv.ck3) from=@TMEAS@ to=@TSTOP@
+meas tran ck4_max max v(xdiv.ck4) from=@TMEAS@ to=@TSTOP@
+meas tran ck4_min min v(xdiv.ck4) from=@TMEAS@ to=@TSTOP@
+meas tran ck5_max max v(xdiv.ck5) from=@TMEAS@ to=@TSTOP@
+meas tran ck5_min min v(xdiv.ck5) from=@TMEAS@ to=@TSTOP@
+meas tran dvo_max max v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran dvo_min min v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran fb_max  max v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran fb_min  min v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran tdiv_a when v(divout)=@VDD50@ rise=@DIVA@
+meas tran tdiv_b when v(divout)=@VDD50@ rise=@DIVB@
+meas tran tck_a  when v(ck)=@VDD50@ rise=3
+meas tran tck_b  when v(ck)=@VDD50@ rise=4
+meas tran idd    avg i(vdd) from=@TMEAS@ to=@TSTOP@
+print ck1_max ck1_min ck2_max ck2_min ck3_max ck3_min ck4_max ck4_min
+print ck5_max ck5_min dvo_max dvo_min fb_max fb_min
+print tdiv_a tdiv_b tck_a tck_b idd
+.endc
+.end

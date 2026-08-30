@@ -1,0 +1,66 @@
+* sg13g2-pll :: sim/sg13cmos5l-divider-nrange-retiming (issue #36, Part of #16)
+* RETIMING-MARGIN deck (spec/porting-plan.md row 3) at the measured
+* top-of-band VCO frequency, 1562.0 MHz -- the `fast` bundle / band `11` /
+* VCTRL = 2.7 V point of
+* sim/sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md.
+*
+* What "retiming margin" means here, concretely: `DIVOUT` is the last divider
+* cell's Q, so its edge is displaced from the VCO edge that caused it by the
+* accumulated clk->Q delay of the whole six-cell chain. `XFRT` then re-clocks
+* `DIVOUT` on the *next* VCO edge. The two numbers this deck produces are
+*
+*   setup_avail -- t(next CKIN_VCO rising 50% crossing) - t(DIVOUT rising
+*                  50% crossing). The window `DIVOUT` actually gets.
+*   clk2q_frt   -- t(FB rising 50% crossing) - t(that capture edge). The
+*                  `XFRT` flop's own clk->Q at this frequency.
+*
+* CKIN and CKIN_VCO are the same net (see tb_div_func.sp.tmpl's header). The
+* CKIN rising 50% crossings are therefore at exactly t = @TR2@ + k*@TPER@ for
+* integer k -- an ideal source, so run.sh's extractor derives the capture edge
+* arithmetically instead of hunting for it with a fragile indexed `meas`.
+*
+* Substituted by ../testbench/run.sh: @CORNER_MOS@, @TEMP@, @VDD@, @VDD50@,
+* @TPER@, @TON@, @TSTEP@, @TSTOP@, @TMEAS@, @P0@..@P5@, @RELTOL@, @NETLIST@.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
+.global sub!
+
+.include @NETLIST@
+
+Vdd vdd 0 dc @VDD@
+Vsub sub! 0 dc 0
+Vck ck 0 pulse(0 @VDD@ 0 60p 60p @TON@ @TPER@)
+Vp0 p0 0 dc @P0@
+Vp1 p1 0 dc @P1@
+Vp2 p2 0 dc @P2@
+Vp3 p3 0 dc @P3@
+Vp4 p4 0 dc @P4@
+Vp5 p5 0 dc @P5@
+
+Xdiv ck ck p0 p1 p2 p3 p4 p5 fb divout vdd 0 divider_chain
+
+.ic v(xdiv.xd0.xdffq.m)=0 v(xdiv.xd0.xdffq.s)=0 v(xdiv.xd0.xdffm.m)=0 v(xdiv.xd0.xdffm.s)=0
+.ic v(xdiv.xd1.xdffq.m)=0 v(xdiv.xd1.xdffq.s)=0 v(xdiv.xd1.xdffm.m)=0 v(xdiv.xd1.xdffm.s)=0
+.ic v(xdiv.xd2.xdffq.m)=0 v(xdiv.xd2.xdffq.s)=0 v(xdiv.xd2.xdffm.m)=0 v(xdiv.xd2.xdffm.s)=0
+.ic v(xdiv.xd3.xdffq.m)=0 v(xdiv.xd3.xdffq.s)=0 v(xdiv.xd3.xdffm.m)=0 v(xdiv.xd3.xdffm.s)=0
+.ic v(xdiv.xd4.xdffq.m)=0 v(xdiv.xd4.xdffq.s)=0 v(xdiv.xd4.xdffm.m)=0 v(xdiv.xd4.xdffm.s)=0
+.ic v(xdiv.xd5.xdffq.m)=0 v(xdiv.xd5.xdffq.s)=0 v(xdiv.xd5.xdffm.m)=0 v(xdiv.xd5.xdffm.s)=0
+.ic v(xdiv.xfrt.m)=0 v(xdiv.xfrt.s)=0
+
+.save v(ck) v(divout) v(fb) i(vdd)
+.tran @TSTEP@ @TSTOP@
+
+.control
+run
+meas tran tdiv when v(divout)=@VDD50@ rise=2
+meas tran tfb  when v(fb)=@VDD50@ rise=2
+meas tran dvo_max max v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran dvo_min min v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran fb_max  max v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran fb_min  min v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran idd avg i(vdd) from=@TMEAS@ to=@TSTOP@
+print tdiv tfb dvo_max dvo_min fb_max fb_min idd
+.endc
+.end
