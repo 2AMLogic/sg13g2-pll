@@ -20,6 +20,16 @@
 #   ../corners/crosscheck.txt real-subckt vs. lumped-equivalent agreement at
 #                             the nominal point
 #
+# APPEND-ONLY EVIDENCE (sim/README.md).  Issue #41 (DR-006) resized R1 (the
+# "R1 x20" proposal above) and this script now ALSO runs Part D below: the
+# RESIZED real `loop_filter` subckt, re-verified against the FULL amended
+# `f_ref` range from DR-005 (spec/porting-plan.md row 2, 3.5-24.4 MHz; row 3
+# N in [64,127]) rather than the single f_ref=25 MHz point Parts A-C above
+# were computed at. Part D's own outputs (../corners/results_resized.csv,
+# ../corners/crosscheck_resized.txt) are NEW files -- Parts A-C above and
+# ../records/RECORD-001's citations of them are untouched. See
+# ../records/RECORD-002.
+#
 #   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
 #   export PDK=ihp-sg13cmos5l
 #   ./run.sh
@@ -62,6 +72,7 @@ EOF
   "$OSDI/cap_cmomi.osdi" "$OSDI/cap_cmomf.osdi" "$OSDI/r3_cmc.osdi"
 
 cp "$RECORD_DIR/netlist-snapshots/loop_filter.spice" "$WORK/loop_filter_snap.spice"
+cp "$RECORD_DIR/netlist-snapshots/loop_filter_resized.spice" "$WORK/loop_filter_snap_resized.spice"
 
 export PDK_ROOT PDK
 export WORK HERE RECORD_DIR SIM_ROOT
@@ -121,20 +132,44 @@ def rc_for(bundle, mom_frac="0.00"):
             return float(r["r1_ohm"]), float(r["c1_f"]), float(r["c2_f"])
     raise SystemExit(f"no R/C row for {bundle}/{mom_frac}")
 
+# Resized R1 (issue #41, DR-006) -- reads
+# ../../sg13cmos5l-loop-filter-momcap/corners/results_resized.csv, the
+# sibling record's own post-resize R1/C1/C2 measurement, same shape as
+# rc_for() above.
+rc_rows_resized = load(f"{SIM}/sg13cmos5l-loop-filter-momcap/corners/results_resized.csv")
+
+def rc_for_resized(bundle, mom_frac="0.00"):
+    _, res, temp, _ = BUNDLES[bundle]
+    for r in rc_rows_resized:
+        if (r["res_corner"] == res and r["temp_c"] == temp
+                and r["mom_frac"] == mom_frac):
+            return float(r["r1_ohm"]), float(r["c1_f"]), float(r["c2_f"])
+    raise SystemExit(f"no resized R/C row for {bundle}/{mom_frac}")
+
 # Local (secant) Kvco over two VCTRL intervals of the committed table, plus the
 # mid-interval frequency each slope belongs to. Kvco is measurably non-constant
 # across the sweep (that record's own finding), so a single scalar would
 # misstate the loop gain -- both intervals are carried through here.
 INTERVALS = {"mid": ("0.9", "1.5"), "top": ("2.1", "2.7")}
 
-def kvco_points(bundle, band):
+# Part D (issue #41) extends this to a third, LOW interval (VCTRL 0.3-0.9V)
+# -- the only pair of measured VCTRL points in
+# ../../sg13cmos5l-vco-kvco-table/corners/results.csv that brackets the VCO's
+# own measured floor (445.3 MHz at VCTRL=0.3V, DR-005's own cited number).
+# Parts A-C above intentionally never used this interval (RECORD-001 scoped
+# to mid/top only); it is added here, in a separate dict, specifically
+# because DR-005's amended f_ref floor (3.51 MHz) is only reachable near this
+# VCTRL region -- see RECORD-002 "Why a third Kvco interval".
+INTERVALS_EXT = {"low": ("0.3", "0.9"), "mid": ("0.9", "1.5"), "top": ("2.1", "2.7")}
+
+def kvco_points(bundle, band, intervals=INTERVALS):
     kb = BUNDLES[bundle][0]
     f = {}
     for r in kvco_rows:
         if r["pvt_bundle"] == kb and r["band_code"] == band and r["freq_hz"] != "NA":
             f[r["vctrl_v"]] = float(r["freq_hz"])
     out = {}
-    for label, (v0, v1) in INTERVALS.items():
+    for label, (v0, v1) in intervals.items():
         kv = (f[v1] - f[v0]) / (float(v1) - float(v0))       # Hz/V
         fo = 0.5 * (f[v0] + f[v1])                            # Hz
         out[label] = (kv, fo)
@@ -328,6 +363,88 @@ with open(f"{REC}/corners/proposal.csv", "w", newline="") as fh:
                             f"{fref/10.0:.6e}", "yes" if ok else "no"])
                 print(f"[C] {bundle}/x{scale}/{code}: fc={fc} pm={pm} ok={ok}",
                       file=sys.stderr)
+
+# ---------------------------------------------------------------------------
+# Part D (issue #41, DR-006) -- RESIZED real `loop_filter` subckt, verified
+# against the FULL amended f_ref range (DR-005: 3.5-24.4 MHz, N in [64,127]),
+# not just the single 25 MHz point Parts A-C were computed at. Both bands,
+# all three Kvco intervals (including "low", the near-VCO-floor interval
+# Parts A-C never used) -- this is the committed, resized design, so it gets
+# the full matrix Part A gave the as-drawn filter, not just the "band 11 /
+# top interval" slice Part C's proposal used.
+# ---------------------------------------------------------------------------
+FREFS_HZ_AMENDED = [3.6e6, 4.5e6, 5.5e6, 6.5e6, 7.5e6, 9e6, 11e6, 13e6,
+                    16e6, 19e6, 22e6, 24.4e6]
+
+res_path_resized = f"{REC}/corners/results_resized.csv"
+with open(res_path_resized, "w", newline="") as fh:
+    w = csv.writer(fh)
+    w.writerow(["pvt_bundle", "band_code", "kvco_interval", "kvco_hz_per_v",
+                "fvco_hz", "fref_hz", "n_div", "trim_code", "icp_a",
+                "fc_hz", "pm_deg", "fc_ceiling_hz", "meets_ceiling",
+                "meets_pm45"])
+    n_runs = 0
+    for bundle in BUNDLES:
+        _, res_corner, temp, _ = BUNDLES[bundle]
+        for band in ("00", "11"):
+            for interval, (kvco, fvco) in kvco_points(bundle, band, INTERVALS_EXT).items():
+                for fref in FREFS_HZ_AMENDED:
+                    ndiv = round(fvco / fref)
+                    if not (64 <= ndiv <= 127):
+                        continue
+                    for code in TRIM_CODES:
+                        icp = icp_for(bundle, code)
+                        tag = f"D_{bundle}_{band}_{interval}_{fref/1e6:.2f}_{code}".replace(".", "p")
+                        rows = run_ac("tb_loop_ac_real_resized.sp.tmpl",
+                                      {"@CORNER_RES@": res_corner,
+                                       "@TEMP@": temp, **gains(icp, kvco, ndiv)},
+                                      tag)
+                        fc, pm = crossover(rows)
+                        ceil_hz = fref / 10.0
+                        w.writerow([bundle, band, interval, f"{kvco:.6e}",
+                                    f"{fvco:.6e}", f"{fref:.6e}", ndiv, code,
+                                    f"{icp:.6e}",
+                                    "NA" if fc is None else f"{fc:.6e}",
+                                    "NA" if pm is None else f"{pm:.3f}",
+                                    f"{ceil_hz:.6e}",
+                                    "NA" if fc is None else ("yes" if fc < ceil_hz else "no"),
+                                    "NA" if pm is None else ("yes" if pm >= 45.0 else "no")])
+                        n_runs += 1
+                        print(f"[D {n_runs}] {tag}: fc={fc} pm={pm}", file=sys.stderr)
+
+# Part D' -- cross-check: resized real subckt vs. resized lumped equivalent,
+# at a nominal point within the amended range (typ bundle, band 11, top
+# interval, f_ref=19 MHz -- inside [3.5,24.4] MHz and giving N=66, inside
+# DR-005's amended [64,127] range; matching Part A' style otherwise).
+bundle, band, interval, fref = "typ", "11", "top", 19e6
+kvco, fvco = kvco_points(bundle, band, INTERVALS_EXT)[interval]
+ndiv = round(fvco / fref)
+icp = icp_for(bundle, "10u")
+r1r, c1r, c2r = rc_for_resized(bundle, "0.00")
+g = gains(icp, kvco, ndiv)
+rows_real_r = run_ac("tb_loop_ac_real_resized.sp.tmpl",
+                     {"@CORNER_RES@": BUNDLES[bundle][1], "@TEMP@": BUNDLES[bundle][2], **g},
+                     "Xr_real")
+rows_lump_r = run_ac("tb_loop_ac_lumped.sp.tmpl",
+                     {"@TEMP@": BUNDLES[bundle][2], "@R1@": repr(r1r),
+                      "@C1@": repr(c1r), "@C2@": repr(c2r), **g},
+                     "Xr_lump")
+fc_rr, pm_rr = crossover(rows_real_r)
+fc_lr, pm_lr = crossover(rows_lump_r)
+with open(f"{REC}/corners/crosscheck_resized.txt", "w") as fh:
+    fh.write(
+        "Cross-check (issue #41, DR-006): RESIZED real `loop_filter` subckt\n"
+        "vs. lumped R/C equivalent built from the resized filter's own\n"
+        "measured R1/C1/C2 (sg13cmos5l-loop-filter-momcap RECORD-002), at a\n"
+        f"nominal point inside the amended f_ref range (bundle={bundle},\n"
+        f"band={band}, Kvco interval={interval}, f_ref={fref/1e6:.0f} MHz,\n"
+        f"N={ndiv}, trim code 10u, mom_frac=0.00).\n\n"
+        f"  R1 = {r1r:.6e} ohm   C1 = {c1r:.6e} F   C2 = {c2r:.6e} F\n"
+        f"  Icp = {icp:.6e} A   Kvco = {kvco:.6e} Hz/V\n\n"
+        f"  real subckt : f_c = {fc_rr:.6e} Hz   PM = {pm_rr:.3f} deg\n"
+        f"  lumped R/C  : f_c = {fc_lr:.6e} Hz   PM = {pm_lr:.3f} deg\n"
+        f"  difference  : f_c {100*(fc_lr-fc_rr)/fc_rr:+.3f} %   PM {pm_lr-pm_rr:+.3f} deg\n")
+print("[X'] crosscheck_resized written", file=sys.stderr)
 
 print("done", file=sys.stderr)
 PY
