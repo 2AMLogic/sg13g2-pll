@@ -213,6 +213,104 @@ netlist. A future testbench under `sim/` will `.include` the exported
 netlist, so a schematic change is picked up automatically once that
 convention lands.
 
+## SG13CMOS5L port
+
+Issue #22 (Part of #16, Chipalooza Challenge #6) ports every schematic here
+to IHP SG13CMOS5L, SG13G2's CMOS-only sibling process, per the readiness
+audit in
+[`spec/decision-records/DR-003-sg13cmos5l-port-readiness.md`](../spec/decision-records/DR-003-sg13cmos5l-port-readiness.md).
+**This is a parallel target, not a replacement**: every file directly under
+`design/` (this directory) is the SG13G2 original, unmodified and still the
+default; the SG13CMOS5L port lives entirely under `design/sg13cmos5l/` as a
+second, self-contained flat namespace mirroring this directory's own file
+organization (24 `.sch`/`.sym` pairs — six named blocks plus the same
+leaf-cell set) — the directory-convention choice named in issue #22's own
+scope, since DR-003 does not pin down `sg13g2-bandgap`'s own schematic-port
+directory convention beyond its `layout/sg13cmos5l-bandgap_core/` naming
+pattern for its *layout* phase.
+
+**Device substitution (DR-003 Findings 1–2)**:
+
+- `sg13_hv_nmos`, `sg13_hv_pmos`, `rppd`, `rhigh` — no device-name or
+  subcircuit-signature change (DR-003 Finding 1 confirmed this directly
+  against the installed PDK's model library). The only edit every instance
+  of these needed was the xschem symbol-library *path* prefix
+  (`sg13g2_pr/foo.sym` → `sg13cmos5l_pr/foo.sym`), since SG13CMOS5L ships its
+  device symbols under a differently-named library directory even though the
+  underlying `.subckt` definitions are identical.
+- `cap_cmim` (MIM, does not exist on SG13CMOS5L) → `cap_cmomi`
+  (interdigitated MOM) in all four instances. The parameter interface does
+  not map 1:1 (`w`/`l`/`m` → `w`/`l`/`mmin`/`mmax`/`feed`/`subblock`/`m`/
+  `mm_ok`); `mmin=1`/`mmax=4` (full M1–M4 metal stack)/`feed=double`/
+  `subblock=0`/`mm_ok=1` are the PDK's own documented symbol-template
+  defaults, used unchanged for every instance. Per-instance `w`/`l` (and, for
+  `delaywin_hv`, an `m` multiplier) were chosen so the PDK's own
+  `cap_cmomi.tcl` display-capacitance formula lands close to the original
+  `cap_cmim` instance's nominal capacitance — **a provisional placeholder
+  size, not a re-derived one** (this issue's own scope explicitly excludes
+  numeric sizing; a real characterization/tuning pass is owed to the
+  sim-campaign follow-up issue, same as every other numeric value in this
+  repo per "Sizing is provisional throughout" above):
+
+  | Instance                      | `cap_cmim` (was)      | `cap_cmomi` (now)                                   | ~C (cmim → cmomi)   |
+  |--------------------------------|-----------------------|------------------------------------------------------|----------------------|
+  | `loop_filter.XC1`              | `w=40u l=40u m=1`     | `w=40u l=40u mmin=1 mmax=4 feed=double m=1`           | 2.41 pF → 1.69 pF    |
+  | `loop_filter.XC2`               | `w=8u l=8u m=1`       | `w=10u l=10u mmin=1 mmax=4 feed=double m=1`           | 97 fF → 100 fF       |
+  | `vco.XCDECAP`                  | `w=60u l=60u m=1`     | `w=70u l=70u mmin=1 mmax=4 feed=double m=1`           | 5.41 pF → 5.29 pF    |
+  | `lock_detector.XCW`             | `w=6u l=6u m=1`       | `w=8u l=8u mmin=1 mmax=4 feed=double m=1`             | 55 fF → 60 fF        |
+  | `lock_detector.XDW.XC1` (in `delaywin_hv`) | `w=4u l=4u m=1` | `w=4u l=4u mmin=1 mmax=4 feed=double m=2`      | 25 fF → 27 fF        |
+
+  Per DR-003 Finding 2 and this repo's own CLAUDE.md ("no claim without a
+  testbench"), `cap_cmomi`'s vendor model is explicitly **not validated on
+  CMOS5L silicon** and carries no corner/mismatch spread — every spec row
+  sensitive to these four instances' precision (loop-bandwidth/phase-margin,
+  VCO supply-noise/jitter margin) stays `insufficient-evidence` until the
+  sim-campaign follow-up issue runs the MoM-model-uncertainty sensitivity
+  sweep DR-003 obligates. No bipolar device appears anywhere in this design
+  (DR-002 Decisions 1–3), so the SG13CMOS5L HBT gap that drove
+  `sg13g2-bandgap#63`'s own rework never applies here (DR-003's own
+  Context).
+
+**Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
+digital / 3.3V analog" is the wrapper's I/O-boundary convention only,
+internal design stays all-3.3V per DR-002) is ratified by
+[`spec/decision-records/DR-004-sg13cmos5l-rail-boundary-ratification.md`](../spec/decision-records/DR-004-sg13cmos5l-rail-boundary-ratification.md),
+using the now-drawn SG13CMOS5L block boundary pins (`vco`'s `B0`/`B1`
+band-select, `divider_chain`'s `P0`–`P5` N-select, `lock_detector`'s `LOCK`)
+as evidence — see that record for the full reasoning and its own scope
+boundary (no chip-level `pll_top`/pad-ring wrapper is drawn by this port).
+
+**Netlist export**: `design/sg13cmos5l/netlist.sh` mirrors `design/
+netlist.sh` exactly (same `--top`/`--check` interface, same six blocks, same
+expected-`.subckt` connectivity guard), pointed at `design/sg13cmos5l/` and
+`ihp-sg13cmos5l` instead of `design/` and `ihp-sg13g2`:
+
+```bash
+export PDK_ROOT=/path/to/pdk/root
+export PDK=ihp-sg13cmos5l
+
+./design/sg13cmos5l/netlist.sh                 # rewrite design/sg13cmos5l/netlist/*.spice
+./design/sg13cmos5l/netlist.sh --check         # fail if any committed export is stale
+```
+
+All six blocks net-list cleanly against the installed SG13CMOS5L PDK, with
+zero `Symbol not found` errors, zero `IS MISSING` pin reports, zero
+auto-generated `netN` names, and zero remaining `cap_cmim` instances in any
+export (`grep -rL cap_cmim design/sg13cmos5l/netlist/*.spice` — all six
+files). `design/netlist.sh --check` (the original SG13G2 target) was
+re-verified to still pass unchanged after this port — SG13G2's own six
+committed netlists are byte-identical to before this issue.
+
+A full `ngspice` DC operating-point run on the cap-swap-bearing blocks
+(`loop_filter`, `vco`, `lock_detector`) was attempted beyond the netlisting
+acceptance bar above, and blocked on undefined process-corner parameters
+(e.g. `rz`) that this repo's own `sim/` scaffolding — which does not exist
+yet even for SG13G2 (DR-003's own Context) — would normally resolve via a
+committed testbench's corner-library `.include`. Building that scaffolding
+is the sim-campaign follow-up issue's job, not this schematic-port issue's;
+recorded here per this repo's own "no claim without a testbench" discipline
+so this is a documented attempt, not a silent gap.
+
 ## Tooling/PDK friction encountered in this issue
 
 None rising to the friction protocol's bar beyond what "Device choices and
@@ -222,3 +320,9 @@ committed here (18 leaf cells + the 6 named top-level blocks) cleanly
 against a real, fetched SG13G2 PDK install, with zero `Symbol not found`
 errors, zero `IS MISSING` pin reports, and zero auto-generated `netN` names
 in any `.subckt` port list.
+
+**SG13CMOS5L port (issue #22)**: same clean result — `xschem` netlisted all
+24 SG13CMOS5L schematics against the installed `ihp-sg13cmos5l` PDK with the
+same three zero counts above, so no new `klayout-tools`/tool gap is filed by
+this issue (this is a schematic/netlist-only pass; no layout or LVS deck was
+exercised here to surface one).
