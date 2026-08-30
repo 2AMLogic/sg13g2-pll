@@ -25,6 +25,13 @@
     recommendation for the brief's 1.2 V/3.3 V split, and the
     `klayout-tools` deck-support gate the layout phase will need. Proposed,
     not ratified — no SG13CMOS5L schematic exists yet.
+  - [`DR-004-sg13cmos5l-rail-boundary-ratification.md`](decision-records/DR-004-sg13cmos5l-rail-boundary-ratification.md)
+    — ratifies DR-003 Finding 3 (issue #22, the SG13CMOS5L schematic port):
+    the design's internal domains stay all-3.3 V per DR-002, Challenge #6's
+    1.2 V digital rail governs only a future wrapper's own I/O boundary, not
+    any node inside the six ported blocks — checked directly against the
+    now-drawn `design/sg13cmos5l/*.sch` boundary pins rather than a literal
+    (not-yet-scoped) pad-ring wrapper cell.
 
 No target spec (this repo's equivalent of `2AMLogic/gf180-pll`'s `pll.md` or
 `2AMLogic/sky130-pll`'s `target-spec.md`) exists yet — DR-001/DR-002 are the
