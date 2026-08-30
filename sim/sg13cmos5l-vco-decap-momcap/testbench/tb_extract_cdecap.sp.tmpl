@@ -9,9 +9,11 @@
 *
 * Template placeholders: @MOM_FRAC@ is applied by run.sh directly to the
 * nominal capacitance value in its own post-processing (this file measures
-* the nominal cap_cmomi value only; run.sh scales it), @TEMP@ (degC).
+* the nominal cap_cmomi value only; run.sh scales it), @TEMP@ (degC),
+* @PDK_ROOT@/@PDK@ (resolved filesystem path -- ngspice's `.include` parser
+* does not expand shell/OS environment variables, issue #43).
 
-.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.include @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cap_cmomi.lib
 .option scale=1 temp=@TEMP@
 
 Xcap n1 0 cap_cmomi w=70u l=70u mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
