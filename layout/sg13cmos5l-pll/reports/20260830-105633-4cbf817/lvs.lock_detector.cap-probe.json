@@ -1,0 +1,12 @@
+{
+  "returncode": 1,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "error": {
+      "command": "lvs",
+      "message": "could not convert subckt-call reference netlist './lock_detector.reference.spice' to plain-element form: device 'C1' (subcircuit 'cap_cmomi'): m=2 describes a multi-finger/multiplied device the curated plain-element form cannot represent; flatten it in the schematic netlist (one device per drawn gate) before comparing"
+    }
+  },
+  "stderr": "{\n  \"schema_version\": 1,\n  \"error\": {\n    \"command\": \"lvs\",\n    \"message\": \"could not convert subckt-call reference netlist './lock_detector.reference.spice' to plain-element form: device 'C1' (subcircuit 'cap_cmomi'): m=2 describes a multi-finger/multiplied device the curated plain-element form cannot represent; flatten it in the schematic netlist (one device per drawn gate) before comparing\"\n  }\n}"
+}

@@ -1,0 +1,409 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "pll_cp.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_cp",
+    "dbu_um": 0.001,
+    "netlist_path": "pll_cp.extracted.spice",
+    "netlist_sha256": "1304198627e12b0f7ce4a77016959442f434c4bd6d42521499fdb83272dc6e2f",
+    "status": "extracted",
+    "device_count": 14,
+    "net_count": 16,
+    "pin_count": 16,
+    "device_counts": {
+      "nfet": 8,
+      "pfet": 6
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 44,
+        "datatype": 0,
+        "shapes": 14
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "UP",
+          "d": "UPB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$10",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "DN",
+          "d": "DNB",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      },
+      {
+        "name": "$11",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP.sw",
+          "g": "UPB",
+          "d": "VOUT",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$12",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP.sw",
+          "g": "UP",
+          "d": "VDUMP",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$13",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "IBP",
+          "d": "XLEGP.tail",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        }
+      },
+      {
+        "name": "$14",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP.tail",
+          "g": "ICP",
+          "d": "XLEGP.sw",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        }
+      },
+      {
+        "name": "$2",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "DN",
+          "d": "DNB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        }
+      },
+      {
+        "name": "$3",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ICN",
+          "d": "VDUMP",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        }
+      },
+      {
+        "name": "$4",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN.sw",
+          "g": "DN",
+          "d": "VOUT",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$5",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN.sw",
+          "g": "DNB",
+          "d": "VDUMP",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$6",
+        "class": "nfet",
+        "nets": {
+          "s": "VDUMP",
+          "g": "VOUT",
+          "d": "VDD",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        }
+      },
+      {
+        "name": "$7",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "IBN",
+          "d": "XLEGN.tail",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        }
+      },
+      {
+        "name": "$8",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN.tail",
+          "g": "ICN",
+          "d": "XLEGN.sw",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        }
+      },
+      {
+        "name": "$9",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "UP",
+          "d": "UPB",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "DN",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "DNB",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "IBN",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "IBP",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "ICN",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "ICP",
+        "pin": true,
+        "device_count": 1
+      },
+      {
+        "name": "UP",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "UPB",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "VDD",
+        "pin": true,
+        "device_count": 10
+      },
+      {
+        "name": "VDUMP",
+        "pin": true,
+        "device_count": 4
+      },
+      {
+        "name": "VOUT",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "VSS",
+        "pin": true,
+        "device_count": 12
+      },
+      {
+        "name": "XLEGN.sw",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "XLEGN.tail",
+        "pin": true,
+        "device_count": 2
+      },
+      {
+        "name": "XLEGP.sw",
+        "pin": true,
+        "device_count": 3
+      },
+      {
+        "name": "XLEGP.tail",
+        "pin": true,
+        "device_count": 2
+      }
+    ],
+    "warnings": [],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "--pdk-root flag",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:9b8dfb6543860c77acacfa6e631319857065661fd921d325468b00c09d76bfaa",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:f57beab7cd3eac5200c22ad73b5b4fb061902040fe1e8a91045720b2e19f21e9"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

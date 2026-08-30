@@ -1,0 +1,761 @@
+{
+  "cell_name": "pll_pfd",
+  "gds": "pll_pfd.gds",
+  "strategy": "single_row",
+  "spacing_um": 6.0,
+  "placements": {
+    "pfd_nfet_w2_l0p5": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "pfd_nfet_w4_l0p5": {
+      "x": 133.36,
+      "y": 0.0
+    },
+    "pfd_pfet_w5_l0p5": {
+      "x": 145.96,
+      "y": 0.0
+    },
+    "pfd_pfet_w10_l0p5": {
+      "x": 375.32,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 202,
+  "unrouted_ports": [],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 6.72,
+    "net_count": 37,
+    "routed_net_count": 37,
+    "wire_length_um": 8650.82,
+    "nets": [
+      {
+        "net": "DN",
+        "track": 0,
+        "trunk_y_um": 6.72,
+        "trunk_x_um": [
+          97.39,
+          348.67
+        ],
+        "pin_count": 7,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U24_D",
+          "pfd_nfet_w2_l0p5.U27_G",
+          "pfd_nfet_w2_l0p5.U29_G",
+          "pfd_pfet_w5_l0p5.U24_D",
+          "pfd_pfet_w5_l0p5.U25_D",
+          "pfd_pfet_w5_l0p5.U27_G",
+          "pfd_pfet_w5_l0p5.U29_G"
+        ],
+        "routed": true,
+        "route_length_um": 274.99
+      },
+      {
+        "net": "FB",
+        "track": 1,
+        "trunk_y_um": 7.32,
+        "trunk_x_um": [
+          32.55,
+          237.31
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U8_G",
+          "pfd_nfet_w2_l0p5.U13_G",
+          "pfd_pfet_w5_l0p5.U8_G",
+          "pfd_pfet_w5_l0p5.U13_G"
+        ],
+        "routed": true,
+        "route_length_um": 221.6
+      },
+      {
+        "net": "REF",
+        "track": 2,
+        "trunk_y_um": 7.92,
+        "trunk_x_um": [
+          0.87,
+          181.63
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U0_G",
+          "pfd_nfet_w2_l0p5.U5_G",
+          "pfd_pfet_w5_l0p5.U0_G",
+          "pfd_pfet_w5_l0p5.U5_G"
+        ],
+        "routed": true,
+        "route_length_um": 200.0
+      },
+      {
+        "net": "UP",
+        "track": 3,
+        "trunk_y_um": 8.52,
+        "trunk_x_um": [
+          73.63,
+          341.71
+        ],
+        "pin_count": 7,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U18_D",
+          "pfd_nfet_w2_l0p5.U21_G",
+          "pfd_nfet_w2_l0p5.U28_G",
+          "pfd_pfet_w5_l0p5.U18_D",
+          "pfd_pfet_w5_l0p5.U19_D",
+          "pfd_pfet_w5_l0p5.U21_G",
+          "pfd_pfet_w5_l0p5.U28_G"
+        ],
+        "routed": true,
+        "route_length_um": 304.39
+      },
+      {
+        "net": "VDD",
+        "track": 4,
+        "trunk_y_um": 9.12,
+        "trunk_x_um": [
+          146.21,
+          377.07
+        ],
+        "pin_count": 35,
+        "pins": [
+          "pfd_pfet_w5_l0p5.nwell_tap",
+          "pfd_pfet_w5_l0p5.U0_S",
+          "pfd_pfet_w5_l0p5.U1_S",
+          "pfd_pfet_w5_l0p5.U2_S",
+          "pfd_pfet_w5_l0p5.U3_S",
+          "pfd_pfet_w5_l0p5.U4_S",
+          "pfd_pfet_w5_l0p5.U5_S",
+          "pfd_pfet_w5_l0p5.U6_S",
+          "pfd_pfet_w5_l0p5.U7_S",
+          "pfd_pfet_w5_l0p5.U8_S",
+          "pfd_pfet_w5_l0p5.U9_S",
+          "pfd_pfet_w5_l0p5.U10_S",
+          "pfd_pfet_w5_l0p5.U11_S",
+          "pfd_pfet_w5_l0p5.U12_S",
+          "pfd_pfet_w5_l0p5.U13_S",
+          "pfd_pfet_w5_l0p5.U14_S",
+          "pfd_pfet_w5_l0p5.U15_S",
+          "pfd_pfet_w5_l0p5.U16_S",
+          "pfd_pfet_w5_l0p5.U17_S",
+          "pfd_pfet_w5_l0p5.U18_S",
+          "pfd_pfet_w5_l0p5.U19_S",
+          "pfd_pfet_w5_l0p5.U20_S",
+          "pfd_pfet_w5_l0p5.U21_S",
+          "pfd_pfet_w5_l0p5.U22_S",
+          "pfd_pfet_w5_l0p5.U23_S",
+          "pfd_pfet_w5_l0p5.U24_S",
+          "pfd_pfet_w5_l0p5.U25_S",
+          "pfd_pfet_w5_l0p5.U26_S",
+          "pfd_pfet_w5_l0p5.U27_S",
+          "pfd_pfet_w5_l0p5.U28_S",
+          "pfd_pfet_w5_l0p5.U29_S",
+          "pfd_pfet_w5_l0p5.U30_S",
+          "pfd_pfet_w5_l0p5.U31_S",
+          "pfd_pfet_w10_l0p5.nwell_tap",
+          "pfd_pfet_w10_l0p5.U0_S"
+        ],
+        "routed": true,
+        "route_length_um": 462.17
+      },
+      {
+        "net": "VSS",
+        "track": 5,
+        "trunk_y_um": 9.72,
+        "trunk_x_um": [
+          0.25,
+          135.11
+        ],
+        "pin_count": 28,
+        "pins": [
+          "pfd_nfet_w2_l0p5.substrate_tap",
+          "pfd_nfet_w2_l0p5.U0_S",
+          "pfd_nfet_w2_l0p5.U1_S",
+          "pfd_nfet_w2_l0p5.U2_S",
+          "pfd_nfet_w2_l0p5.U3_S",
+          "pfd_nfet_w2_l0p5.U4_S",
+          "pfd_nfet_w2_l0p5.U6_S",
+          "pfd_nfet_w2_l0p5.U7_S",
+          "pfd_nfet_w2_l0p5.U8_S",
+          "pfd_nfet_w2_l0p5.U9_S",
+          "pfd_nfet_w2_l0p5.U10_S",
+          "pfd_nfet_w2_l0p5.U11_S",
+          "pfd_nfet_w2_l0p5.U12_S",
+          "pfd_nfet_w2_l0p5.U14_S",
+          "pfd_nfet_w2_l0p5.U15_S",
+          "pfd_nfet_w2_l0p5.U16_S",
+          "pfd_nfet_w2_l0p5.U17_S",
+          "pfd_nfet_w2_l0p5.U19_S",
+          "pfd_nfet_w2_l0p5.U21_S",
+          "pfd_nfet_w2_l0p5.U22_S",
+          "pfd_nfet_w2_l0p5.U23_S",
+          "pfd_nfet_w2_l0p5.U25_S",
+          "pfd_nfet_w2_l0p5.U27_S",
+          "pfd_nfet_w2_l0p5.U29_S",
+          "pfd_nfet_w2_l0p5.U30_S",
+          "pfd_nfet_w2_l0p5.U31_S",
+          "pfd_nfet_w4_l0p5.substrate_tap",
+          "pfd_nfet_w4_l0p5.U0_S"
+        ],
+        "routed": true,
+        "route_length_um": 337.26
+      },
+      {
+        "net": "XED_DN.XD5",
+        "track": 6,
+        "trunk_y_um": 10.32,
+        "trunk_x_um": [
+          49.87,
+          244.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U12_D",
+          "pfd_nfet_w2_l0p5.U14_G",
+          "pfd_pfet_w5_l0p5.U12_D",
+          "pfd_pfet_w5_l0p5.U14_G"
+        ],
+        "routed": true,
+        "route_length_um": 222.2
+      },
+      {
+        "net": "XED_DN.XN1.mid1",
+        "track": 7,
+        "trunk_y_um": 10.92,
+        "trunk_x_um": [
+          53.23,
+          57.79
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U13_S",
+          "pfd_nfet_w2_l0p5.U14_D"
+        ],
+        "routed": true,
+        "route_length_um": 20.18
+      },
+      {
+        "net": "XED_DN.d1",
+        "track": 8,
+        "trunk_y_um": 11.52,
+        "trunk_x_um": [
+          34.03,
+          209.47
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U8_D",
+          "pfd_nfet_w2_l0p5.U9_G",
+          "pfd_pfet_w5_l0p5.U8_D",
+          "pfd_pfet_w5_l0p5.U9_G"
+        ],
+        "routed": true,
+        "route_length_um": 208.04
+      },
+      {
+        "net": "XED_DN.d2",
+        "track": 9,
+        "trunk_y_um": 12.12,
+        "trunk_x_um": [
+          37.99,
+          216.43
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U9_D",
+          "pfd_nfet_w2_l0p5.U10_G",
+          "pfd_pfet_w5_l0p5.U9_D",
+          "pfd_pfet_w5_l0p5.U10_G"
+        ],
+        "routed": true,
+        "route_length_um": 213.44
+      },
+      {
+        "net": "XED_DN.d3",
+        "track": 10,
+        "trunk_y_um": 12.72,
+        "trunk_x_um": [
+          41.95,
+          223.39
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U10_D",
+          "pfd_nfet_w2_l0p5.U11_G",
+          "pfd_pfet_w5_l0p5.U10_D",
+          "pfd_pfet_w5_l0p5.U11_G"
+        ],
+        "routed": true,
+        "route_length_um": 218.84
+      },
+      {
+        "net": "XED_DN.d4",
+        "track": 11,
+        "trunk_y_um": 13.32,
+        "trunk_x_um": [
+          45.91,
+          230.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U11_D",
+          "pfd_nfet_w2_l0p5.U12_G",
+          "pfd_pfet_w5_l0p5.U11_D",
+          "pfd_pfet_w5_l0p5.U12_G"
+        ],
+        "routed": true,
+        "route_length_um": 224.24
+      },
+      {
+        "net": "XED_DN.ntmp",
+        "track": 12,
+        "trunk_y_um": 13.92,
+        "trunk_x_um": [
+          53.83,
+          251.23
+        ],
+        "pin_count": 5,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U13_D",
+          "pfd_nfet_w2_l0p5.U15_G",
+          "pfd_pfet_w5_l0p5.U13_D",
+          "pfd_pfet_w5_l0p5.U14_D",
+          "pfd_pfet_w5_l0p5.U15_G"
+        ],
+        "routed": true,
+        "route_length_um": 249.89
+      },
+      {
+        "net": "XED_UP.XD5",
+        "track": 13,
+        "trunk_y_um": 14.52,
+        "trunk_x_um": [
+          18.19,
+          188.59
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U4_D",
+          "pfd_nfet_w2_l0p5.U6_G",
+          "pfd_pfet_w5_l0p5.U4_D",
+          "pfd_pfet_w5_l0p5.U6_G"
+        ],
+        "routed": true,
+        "route_length_um": 215.0
+      },
+      {
+        "net": "XED_UP.XN1.mid1",
+        "track": 14,
+        "trunk_y_um": 15.12,
+        "trunk_x_um": [
+          21.55,
+          26.11
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U5_S",
+          "pfd_nfet_w2_l0p5.U6_D"
+        ],
+        "routed": true,
+        "route_length_um": 28.58
+      },
+      {
+        "net": "XED_UP.d1",
+        "track": 15,
+        "trunk_y_um": 15.72,
+        "trunk_x_um": [
+          2.35,
+          153.79
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U0_D",
+          "pfd_nfet_w2_l0p5.U1_G",
+          "pfd_pfet_w5_l0p5.U0_D",
+          "pfd_pfet_w5_l0p5.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 200.84
+      },
+      {
+        "net": "XED_UP.d2",
+        "track": 16,
+        "trunk_y_um": 16.32,
+        "trunk_x_um": [
+          6.31,
+          160.75
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U1_D",
+          "pfd_nfet_w2_l0p5.U2_G",
+          "pfd_pfet_w5_l0p5.U1_D",
+          "pfd_pfet_w5_l0p5.U2_G"
+        ],
+        "routed": true,
+        "route_length_um": 206.24
+      },
+      {
+        "net": "XED_UP.d3",
+        "track": 17,
+        "trunk_y_um": 16.92,
+        "trunk_x_um": [
+          10.27,
+          167.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U2_D",
+          "pfd_nfet_w2_l0p5.U3_G",
+          "pfd_pfet_w5_l0p5.U2_D",
+          "pfd_pfet_w5_l0p5.U3_G"
+        ],
+        "routed": true,
+        "route_length_um": 211.64
+      },
+      {
+        "net": "XED_UP.d4",
+        "track": 18,
+        "trunk_y_um": 17.52,
+        "trunk_x_um": [
+          14.23,
+          174.67
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U3_D",
+          "pfd_nfet_w2_l0p5.U4_G",
+          "pfd_pfet_w5_l0p5.U3_D",
+          "pfd_pfet_w5_l0p5.U4_G"
+        ],
+        "routed": true,
+        "route_length_um": 217.04
+      },
+      {
+        "net": "XED_UP.ntmp",
+        "track": 19,
+        "trunk_y_um": 18.12,
+        "trunk_x_um": [
+          22.15,
+          195.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U5_D",
+          "pfd_nfet_w2_l0p5.U7_G",
+          "pfd_pfet_w5_l0p5.U5_D",
+          "pfd_pfet_w5_l0p5.U6_D",
+          "pfd_pfet_w5_l0p5.U7_G"
+        ],
+        "routed": true,
+        "route_length_um": 246.89
+      },
+      {
+        "net": "XLD.RB",
+        "track": 20,
+        "trunk_y_um": 18.72,
+        "trunk_x_um": [
+          93.43,
+          327.79
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U23_D",
+          "pfd_nfet_w2_l0p5.U26_G",
+          "pfd_pfet_w5_l0p5.U23_D",
+          "pfd_pfet_w5_l0p5.U26_G"
+        ],
+        "routed": true,
+        "route_length_um": 295.76
+      },
+      {
+        "net": "XLD.SB",
+        "track": 21,
+        "trunk_y_um": 19.32,
+        "trunk_x_um": [
+          89.47,
+          313.87
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U22_D",
+          "pfd_nfet_w2_l0p5.U24_G",
+          "pfd_pfet_w5_l0p5.U22_D",
+          "pfd_pfet_w5_l0p5.U24_G"
+        ],
+        "routed": true,
+        "route_length_um": 288.2
+      },
+      {
+        "net": "XLD.XNQ.mid1",
+        "track": 22,
+        "trunk_y_um": 19.92,
+        "trunk_x_um": [
+          96.79,
+          101.35
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U24_S",
+          "pfd_nfet_w2_l0p5.U25_D"
+        ],
+        "routed": true,
+        "route_length_um": 38.18
+      },
+      {
+        "net": "XLD.XNQB.mid1",
+        "track": 23,
+        "trunk_y_um": 20.52,
+        "trunk_x_um": [
+          104.71,
+          109.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U26_S",
+          "pfd_nfet_w2_l0p5.U27_D"
+        ],
+        "routed": true,
+        "route_length_um": 39.38
+      },
+      {
+        "net": "XLU.RB",
+        "track": 24,
+        "trunk_y_um": 21.12,
+        "trunk_x_um": [
+          69.67,
+          286.03
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U17_D",
+          "pfd_nfet_w2_l0p5.U20_G",
+          "pfd_pfet_w5_l0p5.U17_D",
+          "pfd_pfet_w5_l0p5.U20_G"
+        ],
+        "routed": true,
+        "route_length_um": 287.36
+      },
+      {
+        "net": "XLU.SB",
+        "track": 25,
+        "trunk_y_um": 21.72,
+        "trunk_x_um": [
+          65.71,
+          272.11
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U16_D",
+          "pfd_nfet_w2_l0p5.U18_G",
+          "pfd_pfet_w5_l0p5.U16_D",
+          "pfd_pfet_w5_l0p5.U18_G"
+        ],
+        "routed": true,
+        "route_length_um": 279.8
+      },
+      {
+        "net": "XLU.XNQ.mid1",
+        "track": 26,
+        "trunk_y_um": 22.32,
+        "trunk_x_um": [
+          73.03,
+          77.59
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U18_S",
+          "pfd_nfet_w2_l0p5.U19_D"
+        ],
+        "routed": true,
+        "route_length_um": 42.98
+      },
+      {
+        "net": "XLU.XNQB.mid1",
+        "track": 27,
+        "trunk_y_um": 22.92,
+        "trunk_x_um": [
+          80.95,
+          85.51
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U20_S",
+          "pfd_nfet_w2_l0p5.U21_D"
+        ],
+        "routed": true,
+        "route_length_um": 44.18
+      },
+      {
+        "net": "XNR.mid1",
+        "track": 28,
+        "trunk_y_um": 23.52,
+        "trunk_x_um": [
+          112.63,
+          117.19
+        ],
+        "pin_count": 2,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U28_S",
+          "pfd_nfet_w2_l0p5.U29_D"
+        ],
+        "routed": true,
+        "route_length_um": 45.38
+      },
+      {
+        "net": "net1",
+        "track": 29,
+        "trunk_y_um": 24.12,
+        "trunk_x_um": [
+          76.11,
+          294.47
+        ],
+        "pin_count": 5,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U19_G",
+          "pfd_nfet_w2_l0p5.U20_D",
+          "pfd_pfet_w5_l0p5.U19_G",
+          "pfd_pfet_w5_l0p5.U20_D",
+          "pfd_pfet_w5_l0p5.U21_D"
+        ],
+        "routed": true,
+        "route_length_um": 321.85
+      },
+      {
+        "net": "net2",
+        "track": 30,
+        "trunk_y_um": 24.72,
+        "trunk_x_um": [
+          99.87,
+          336.23
+        ],
+        "pin_count": 5,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U25_G",
+          "pfd_nfet_w2_l0p5.U26_D",
+          "pfd_pfet_w5_l0p5.U25_G",
+          "pfd_pfet_w5_l0p5.U26_D",
+          "pfd_pfet_w5_l0p5.U27_D"
+        ],
+        "routed": true,
+        "route_length_um": 342.85
+      },
+      {
+        "net": "reset",
+        "track": 31,
+        "trunk_y_um": 25.32,
+        "trunk_x_um": [
+          68.19,
+          377.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U17_G",
+          "pfd_nfet_w2_l0p5.U23_G",
+          "pfd_nfet_w4_l0p5.U0_D",
+          "pfd_pfet_w5_l0p5.U17_G",
+          "pfd_pfet_w5_l0p5.U23_G",
+          "pfd_pfet_w10_l0p5.U0_D"
+        ],
+        "routed": true,
+        "route_length_um": 441.7
+      },
+      {
+        "net": "reset_d1",
+        "track": 32,
+        "trunk_y_um": 25.92,
+        "trunk_x_um": [
+          121.15,
+          362.59
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U30_D",
+          "pfd_nfet_w2_l0p5.U31_G",
+          "pfd_pfet_w5_l0p5.U30_D",
+          "pfd_pfet_w5_l0p5.U31_G"
+        ],
+        "routed": true,
+        "route_length_um": 331.64
+      },
+      {
+        "net": "reset_d2",
+        "track": 33,
+        "trunk_y_um": 26.52,
+        "trunk_x_um": [
+          125.11,
+          376.19
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U31_D",
+          "pfd_nfet_w4_l0p5.U0_G",
+          "pfd_pfet_w5_l0p5.U31_D",
+          "pfd_pfet_w10_l0p5.U0_G"
+        ],
+        "routed": true,
+        "route_length_um": 343.68
+      },
+      {
+        "net": "reset_raw",
+        "track": 34,
+        "trunk_y_um": 27.12,
+        "trunk_x_um": [
+          113.23,
+          355.63
+        ],
+        "pin_count": 5,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U28_D",
+          "pfd_nfet_w2_l0p5.U30_G",
+          "pfd_pfet_w5_l0p5.U28_D",
+          "pfd_pfet_w5_l0p5.U29_D",
+          "pfd_pfet_w5_l0p5.U30_G"
+        ],
+        "routed": true,
+        "route_length_um": 360.89
+      },
+      {
+        "net": "set_dn",
+        "track": 35,
+        "trunk_y_um": 27.72,
+        "trunk_x_um": [
+          61.75,
+          299.95
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U15_D",
+          "pfd_nfet_w2_l0p5.U22_G",
+          "pfd_pfet_w5_l0p5.U15_D",
+          "pfd_pfet_w5_l0p5.U22_G"
+        ],
+        "routed": true,
+        "route_length_um": 335.6
+      },
+      {
+        "net": "set_up",
+        "track": 36,
+        "trunk_y_um": 28.32,
+        "trunk_x_um": [
+          30.07,
+          258.19
+        ],
+        "pin_count": 4,
+        "pins": [
+          "pfd_nfet_w2_l0p5.U7_D",
+          "pfd_nfet_w2_l0p5.U16_G",
+          "pfd_pfet_w5_l0p5.U7_D",
+          "pfd_pfet_w5_l0p5.U16_G"
+        ],
+        "routed": true,
+        "route_length_um": 327.92
+      }
+    ],
+    "incomplete_nets": []
+  }
+}
