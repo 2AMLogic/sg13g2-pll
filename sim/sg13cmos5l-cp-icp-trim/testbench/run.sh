@@ -94,8 +94,16 @@ run_one() {
   sed -e "s/@CORNER_MOS@/$mos/" -e "s/@TEMP@/$temp/" -e "s/@VDD@/$vdd/" \
       -e "s/@IREF@/$iref/" -e "s/@UPV@/$upv/" -e "s/@DNV@/$dnv/" \
       -e "s/@VOUTMAX@/$voutmax/" \
+      -e "s#@PDK_ROOT@#$PDK_ROOT#" -e "s#@PDK@#$PDK#" \
     "$HERE/tb_cp_dc.sp.tmpl" > "$WORK/tb_$tag.sp"
-  ( cd "$WORK" && ngspice -b "tb_$tag.sp" >/dev/null 2>&1 && mv sweep.dat "sweep_$tag.dat" )
+  local log="$WORK/ngspice_$tag.log"
+  if ( cd "$WORK" && ngspice -b "tb_$tag.sp" > "$log" 2>&1 ); then
+    ( cd "$WORK" && mv sweep.dat "sweep_$tag.dat" )
+  else
+    echo "ngspice failed for $tag; see $log" >&2
+    tail -n 20 "$log" >&2
+    return 1
+  fi
 }
 
 n=0

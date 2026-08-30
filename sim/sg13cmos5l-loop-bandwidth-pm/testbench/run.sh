@@ -73,6 +73,8 @@ WORK = os.environ["WORK"]
 HERE = os.environ["HERE"]
 REC  = os.environ["RECORD_DIR"]
 SIM  = os.environ["SIM_ROOT"]
+PDK_ROOT = os.environ["PDK_ROOT"]
+PDK  = os.environ["PDK"]
 
 # ---------------------------------------------------------------------------
 # Inputs: three committed, real measurement records.
@@ -145,11 +147,21 @@ def run_ac(tmpl, subs, tag):
     src = open(f"{HERE}/{tmpl}").read()
     for k, v in subs.items():
         src = src.replace(k, str(v))
+    # @PDK_ROOT@/@PDK@: resolved filesystem path -- ngspice's `.lib`/
+    # `.include` parser does not expand shell/OS environment variables
+    # (issue #44), so tb_loop_ac_real.sp.tmpl's corner-lib lines must be
+    # substituted here just like every other @TOKEN@.
+    src = src.replace("@PDK_ROOT@", PDK_ROOT).replace("@PDK@", PDK)
     path = f"{WORK}/tb_{tag}.sp"
     open(path, "w").write(src)
-    subprocess.run(["ngspice", "-b", f"tb_{tag}.sp"], cwd=WORK,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                   check=True)
+    result = subprocess.run(["ngspice", "-b", f"tb_{tag}.sp"], cwd=WORK,
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            text=True)
+    if result.returncode != 0:
+        print(f"ngspice failed for {tag} (exit {result.returncode}):",
+              file=sys.stderr)
+        print(result.stdout, file=sys.stderr)
+        raise SystemExit(f"ngspice failed for {tag} -- exit {result.returncode}")
     rows = []
     for line in open(f"{WORK}/ac.dat"):
         p = line.split()
