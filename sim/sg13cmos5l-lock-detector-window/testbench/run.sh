@@ -1,32 +1,41 @@
 #!/usr/bin/env bash
 # sg13g2-pll :: sim/sg13cmos5l-lock-detector-window/testbench/run.sh
 # (issue #38, Part of #16 -- SG13CMOS5L PVT campaign; extended by issue #52,
-# Part of #16, to re-run the same campaign against the resized block)
+# Part of #16, to re-run the same campaign against the resized block; extended
+# again by issue #66, Part of #16, to re-run it against the block whose
+# schmitt_hv feedback devices are on the classic connection and whose XMPD is
+# re-sized to widen the settled-VWIN-vs-phase-error transition)
 #
 # Runs the whole lock_detector campaign this slug's ../records/ describe
 # (spec/porting-plan.md row 16: assert window, hysteresis, chatter; plus
 # row 11's lock_detector power domain), and writes six CSVs into ../corners/:
 #
-#   rc_extract_resized.csv   XRPU (rhigh) resistance and the two un-swept
+#   rc_extract_hystfix.csv   XRPU (rhigh) resistance and the two un-swept
 #                     cap_cmomi instances' capacitance -- the R and the C that
 #                     set the integrating node's time constant
-#   window_resized.csv       the comparator window twin_r / twin_f, per corner,
+#   window_hystfix.csv       the comparator window twin_r / twin_f, per corner,
 #                     per MOM band point (full matrix)
-#   schmitt_resized.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
-#   ladder_resized.csv       one row per corner point: assert threshold,
+#   schmitt_hystfix.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
+#   ladder_hystfix.csv       one row per corner point: assert threshold,
 #                     de-assert threshold, hysteresis, chatter verdict,
 #                     recovery time, in-lock and out-of-lock supply current
 #                     (REDUCED matrix -- see "LADDER MATRIX" below)
-#   ladder_raw_resized.csv   every ladder point's per-copy settled state/levels
-#   tstep_convergence_resized.csv   twin_r vs. maximum internal timestep
+#   ladder_raw_hystfix.csv   every ladder point's per-copy settled state/levels
+#   tstep_convergence_hystfix.csv   twin_r vs. maximum internal timestep
 #
-# APPEND-ONLY EVIDENCE (sim/README.md).  Issue #52 resized XRPU/XCW/XDW.XC1,
-# so this script now simulates ../netlist-snapshots/lock_detector_resized.spice
-# and writes the `*_resized.csv` files above.  ../records/RECORD-001's own
-# inputs and outputs -- ../netlist-snapshots/lock_detector.spice and the
-# unsuffixed ../corners/*.csv -- are NEVER written by this script and stay
-# exactly as that record left them, so re-running this file cannot invalidate
-# the record that measured the pre-resize block.  (Same convention as
+# APPEND-ONLY EVIDENCE (sim/README.md).  Each record in ../records/ owns its
+# own frozen netlist snapshot and its own CSV suffix, and this script only ever
+# writes the NEWEST record's set:
+#
+#   RECORD-001  netlist-snapshots/lock_detector.spice          corners/*.csv
+#   RECORD-002  netlist-snapshots/lock_detector_resized.spice  corners/*_resized.csv
+#   RECORD-003  netlist-snapshots/lock_detector_hystfix.spice  corners/*_hystfix.csv
+#
+# This script now simulates ../netlist-snapshots/lock_detector_hystfix.spice
+# (issue #66) and writes the `*_hystfix.csv` files above.  RECORD-001's and
+# RECORD-002's own inputs and outputs are NEVER written by it and stay exactly
+# as those records left them, so re-running this file cannot invalidate a
+# record that measured an earlier revision of the block.  (Same convention as
 # ../../sg13cmos5l-closed-loop-lock/corners/results_as_drawn.csv vs.
 # results_proposal.csv.)
 #
@@ -88,7 +97,7 @@
 #     -- the model's own closed-form low-frequency capacitance, self-tested
 #     against the two geometries RECORD-001 measured on the real OSDI model.
 #   * anything else -> the preflight's own hard abort, unchanged.
-# Either way ../corners/rc_extract_resized.csv records WHICH path produced each
+# Either way ../corners/rc_extract_hystfix.csv records WHICH path produced each
 # C in its own `source` column, and the record states it.
 #
 # Why a static header classification is enough here, now that run.sh no longer
@@ -131,7 +140,7 @@
 # at TSTOP_MAX for tractability, and then rounded UP to a whole number of
 # reference periods (the deck's natural unit -- every stimulus repeats every
 # tref).  The achieved settling fraction 1-e^(-tstop/RC) is written to
-# ladder_resized.csv's own `settle_frac` column rather than silently assumed complete.
+# ladder_hystfix.csv's own `settle_frac` column rather than silently assumed complete.
 #
 # Coverage reduction (explicit, per this repo's CLAUDE.md "no claim without a
 # testbench" / sim/README.md's append-only-evidence discipline).  rc_extract,
@@ -155,6 +164,34 @@
 #     (res_wcs/-40C), i.e. both R*C extremes -- instead of all 9.
 #   - MOM band (+/-20%) and supply (+/-10%) are spot-checked at 2 points each
 #     rather than swept in the main grid.
+#
+# ISSUE #66 AMENDMENTS TO THAT REDUCTION (Part of #16).  Two of the arguments
+# above are specific to what issue #52 was measuring and do not carry:
+#
+#   1. "The slow end is the binding one" was true for R*C/T_ref and is still
+#      true for it.  It is FALSE for the hysteresis criterion.  The settled
+#      integrating-node voltage is
+#          VWIN ~= VDD - I_sat(XMPD) * R(XRPU) * (tau - twin_r) / T_ref
+#      so the phase-error width of the transition -- and therefore the
+#      hysteresis, in units of the window -- is PROPORTIONAL to T_ref.  The
+#      fast end (24.4 MHz) has ~7x less of it and is the binding end for
+#      row 16's hysteresis criterion.  The 24.4 MHz sub-matrix is therefore
+#      EXTENDED here (not reduced) by three points chosen along its own worst
+#      directions: the strongest-discharge stack (mos_ff/res_wcs/-40C), the
+#      weakest (mos_ss/res_bcs/125C), and the high supply.  21 ladder corners
+#      total, vs. RECORD-002's 18.
+#   2. "mos_corner reaches the ladder only through twin_r" was true when XMPD
+#      was a strong switch whose exact strength did not matter.  It is FALSE
+#      once XMPD's I_sat is the term that sets the transition width, which is
+#      the whole point of the re-size -- hence mos_ff/mos_ss appearing in the
+#      fast-end extension above rather than only as slow-end spot checks.
+#
+# The ladder itself is also longer and denser (LADDER_SET=hystfix, 21 points
+# vs. 9): restoring the hysteresis SEPARATES the assert and de-assert
+# thresholds and pushes both out, so a ladder that stopped at 2.5x the window
+# would clip the de-assert threshold at the slow end (measured: 18x the window
+# at mos_tt/res_bcs/125C, 3.5 MHz) and report "hysteresis = 0" for the same
+# reason a ruler too short to reach reports "length = end of ruler".
 # ---------------------------------------------------------------------------
 
 set -euo pipefail
@@ -162,7 +199,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RECORD_DIR="$(cd "$HERE/.." && pwd)"
 CORNERS="$RECORD_DIR/corners"
-SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_resized.spice"
+SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_hystfix.spice"
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
@@ -183,6 +220,18 @@ TSTEP_DIV=25         # maximum internal timestep = tref / TSTEP_DIV
 RPU_W=0.5u; RPU_L=700u                      # XRPU  (rhigh),   was w=0.5u l=6u
 XCW_W=40;  XCW_L=40;  XCW_M=1               # XCW   (cap_cmomi), was 8u x 8u m=1
 XC1_W=40;  XC1_L=40;  XC1_M=2               # XDW.XC1 (cap_cmomi), was 4u x 4u m=2
+# Issue #66's XMPD re-size (w=2u l=0.5u -> w=0.25u l=16u) and schmitt_hv
+# feedback rewiring live in the frozen SNAP above, not here -- they are
+# connectivity/geometry inside the netlist rather than parameters this script
+# substitutes.  Recorded here so the one place that lists "what this campaign's
+# DUT differs from RECORD-002's in" is complete.
+
+# Ladder set (see gen_ladder.py's LADDER_FRACS_SETS).  RECORD-003 needs a
+# denser and much longer-reaching ladder than RECORD-002's, because restoring
+# the hysteresis MOVES the assert and de-assert thresholds apart and pushes
+# them out -- a 2.5x-window ladder cannot see a de-assert threshold that sits
+# at 18x the window at the slow end of row 2's f_ref range.
+LADDER_SET=hystfix
 
 # ---------------------------------------------------------------------------
 # ngspice invocation wrapper (issue #54).
@@ -205,15 +254,43 @@ XC1_W=40;  XC1_L=40;  XC1_M=2               # XDW.XC1 (cap_cmomi), was 4u x 4u m
 #     exit, printing what ngspice actually said.  The previous
 #     `2>/dev/null`(+`|| true`) calls threw that away.
 # ---------------------------------------------------------------------------
+#
+#  3. ONE recorded, non-silent retry (issue #66).  The four transient templates
+#     already carry `itl4=5000 gmin=1e-11`, which is what makes this block
+#     simulable at all now that XMPD is weak enough to hold the integrating
+#     node at intermediate voltages for a whole run (see any of their
+#     SOLVER-EFFORT NOTEs for the three measured aborts and the rejected
+#     alternatives).  Those two settings cleared every abort observed while
+#     building this campaign, but "every abort observed" is not "every abort
+#     possible", and a 21-corner x 22-deck run that dies on its last corner
+#     costs hours.  So a failed deck is retried ONCE with `trtol=1` appended.
+#
+#     trtol is a TRUNCATION-ERROR knob -- unlike itl4/gmin it is a genuine
+#     accuracy relaxation -- so it is deliberately not in the templates, it is
+#     never used unless the deck has already failed outright, and every deck
+#     that needed it is named on stderr AND appended to
+#     ../corners/solver_retries.txt, which is committed alongside the CSVs.  An
+#     empty file is the claim "no point in this record needed it"; a non-empty
+#     one is the list the record has to disclose.  A deck that fails the retry
+#     too still aborts the campaign, exactly as before.
 run_ngspice_or_die() {
   local name="$1"
   local err="$WORK/${name}.err"
   local out
+  if out="$( cd "$WORK" && ngspice -b "$name" 2>"$err" )"; then
+    printf '%s\n' "$out"
+    return 0
+  fi
+  echo "WARNING: ngspice exited non-zero for $name; retrying once with trtol=1" >&2
+  sed -n 's/^\(doAnalyses.*\)$/  ngspice said: \1/p' "$err" >&2
+  sed -i.bak 's/^\(\.options reltol=.*\)$/\1 trtol=1/' "$WORK/$name"
   if ! out="$( cd "$WORK" && ngspice -b "$name" 2>"$err" )"; then
-    echo "ERROR: ngspice exited non-zero for $name:" >&2
+    echo "ERROR: ngspice exited non-zero for $name even with trtol=1:" >&2
     cat "$err" >&2
     return 1
   fi
+  echo "${RETRY_TAG:-<unlabelled>} ($name)" >> "$CORNERS/solver_retries.txt"
+  echo "[solver-retry] ${RETRY_TAG:-<unlabelled>} ($name) completed with trtol=1" >&2
   printf '%s\n' "$out"
 }
 
@@ -282,7 +359,11 @@ python3 "$HERE/cmomi_nominal.py" selftest >&2
 # ---------------------------------------------------------------------------
 # 1. Device extraction: R (rhigh, XRPU) and C (the two cap_cmomi instances).
 # ---------------------------------------------------------------------------
-echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_resized.csv"
+# Truncated at the start of every run so the file always describes THIS run
+# (appended to, not truncated, when resuming -- see LADDER_RESUME below).
+if [ "${LADDER_RESUME:-0}" != 1 ]; then : > "$CORNERS/solver_retries.txt"; fi
+
+echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_hystfix.csv"
 
 declare -A RVAL
 for rc in res_typ res_bcs res_wcs; do
@@ -294,7 +375,7 @@ for rc in res_typ res_bcs res_wcs; do
     val="$( run_ngspice_or_die r.sp \
             | sed -n 's/^rval *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "R,XRPU(rhigh),${rc},${temp},${RPU_W},${RPU_L},1,${val:-NA},ngspice-osdi" \
-      >> "$CORNERS/rc_extract_resized.csv"
+      >> "$CORNERS/rc_extract_hystfix.csv"
     echo "[R] ${rc}/${temp}C: ${val:-NA} ohm" >&2
     RVAL["${rc},${temp}"]="$val"
   done
@@ -319,7 +400,7 @@ for geom in "XCW $XCW_W $XCW_L $XCW_M" "XDW.XC1 $XC1_W $XC1_L $XC1_M"; do
       src=va-formula
     fi
     echo "C,${inst}(cap_cmomi),none,${temp},${w}u,${l}u,${m},${val:-NA},${src}" \
-      >> "$CORNERS/rc_extract_resized.csv"
+      >> "$CORNERS/rc_extract_hystfix.csv"
     echo "[C] ${inst}/${temp}C: ${val:-NA} F (${src})" >&2
     if [ "$temp" = "27" ]; then CNOM[$inst]="$val"; fi
   done
@@ -403,7 +484,7 @@ for variant in ideal-0.20 "$PRIMARY"; do
 done
 
 echo "corner_tag,mos_corner,res_corner,temp_c,vsup_v,fref_hz,dut_variant,twin_r_s,twin_f_s" \
-  > "$CORNERS/window_resized.csv"
+  > "$CORNERS/window_hystfix.csv"
 
 measure_window() {  # measure_window mos res temp vsup dutfile -> "twin_r twin_f"
   local mos="$1" res="$2" temp="$3" vsup="$4" dut="$5"
@@ -435,10 +516,11 @@ for pt in "${WINDOW_POINTS[@]}"; do
   # simple command, so errexit does NOT see a failing command substitution in
   # its word -- a died-inside-measure_window ngspice would silently produce an
   # empty row instead of stopping the campaign.  A plain assignment does.
+  RETRY_TAG="window ${tag}"
   wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut")"
   read -r twin_r twin_f <<< "$wpair"
   echo "${tag},${mos},${res},${temp},${vsup},${fref},${variant},${twin_r},${twin_f}" \
-    >> "$CORNERS/window_resized.csv"
+    >> "$CORNERS/window_hystfix.csv"
   n=$((n + 1))
   echo "  [window $n/${#WINDOW_POINTS[@]}] ${tag}: twin_r=${twin_r}" >&2
 done
@@ -447,8 +529,8 @@ done
 # 4. Ladder matrix (reduced -- see header).  Rows: mos res temp vsup fref
 #    variant.
 #
-#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_resized.csv
-#    and ladder_raw_resized.csv exactly as a previous full run left them.  The
+#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_hystfix.csv
+#    and ladder_raw_hystfix.csv exactly as a previous full run left them.  The
 #    ladder is ~99% of this script's runtime (roughly 200 s per slow-end corner
 #    and 20 min per fast-end corner, vs. ~1 s for a window point), and nothing
 #    in sections 1/2/3/5/6 feeds it, so adding a window corner or a Schmitt
@@ -473,6 +555,20 @@ for combo in "res_typ 27" "res_bcs 125" "res_wcs -40"; do
   read -r res temp <<< "$combo"
   LADDER_POINTS+=("mos_tt $res $temp $VSUP_NOM 24.4e6 $PRIMARY")
 done
+# FAST-END EXTENSION (issue #66, Part of #16).  RECORD-002 could reduce the
+# 24.4 MHz sub-matrix to three mos_tt points because the only thing it needed
+# from the fast end was R*C/T_ref, which has no mos_corner dependence at all.
+# That reasoning does NOT survive this issue: the settled VWIN is
+# VDD - I_sat(XMPD)*R(XRPU)*(tau-twin)/T_ref, so the hysteresis in units of the
+# window is proportional to T_ref and the FAST end is now the BINDING end for
+# row 16's hysteresis criterion -- and it depends on mos_corner through
+# I_sat(XMPD) and on supply through both I_sat and schmitt_hv's own trip
+# points.  The three points below are the fast end's own worst directions:
+# the strongest-discharge MOS/RES/temperature stack, the weakest one, and the
+# high supply.
+LADDER_POINTS+=("mos_ff res_wcs -40 $VSUP_NOM 24.4e6 $PRIMARY")
+LADDER_POINTS+=("mos_ss res_bcs 125 $VSUP_NOM 24.4e6 $PRIMARY")
+LADDER_POINTS+=("mos_tt res_typ 27 3.63 24.4e6 $PRIMARY")
 # MOM band spot check (+/-20% on both cap_cmomi instances at once).
 for variant in ideal-0.20 ideal0.20; do
   LADDER_POINTS+=("mos_tt res_typ 27 $VSUP_NOM 3.5e6 $variant")
@@ -487,21 +583,43 @@ for vsup in 2.97 3.63; do
   LADDER_POINTS+=("mos_tt res_typ 27 $vsup 3.5e6 $PRIMARY")
 done
 
-if [ "${SKIP_LADDER:-0}" != 1 ]; then
+# LADDER_RESUME=1 (issue #66) keeps whatever ladder rows ../corners/ already
+# holds and runs only the corners missing from it.  This exists because one
+# full ladder is several hours on a workstation -- long enough that a killed
+# terminal, a laptop lid or an OOM costs a whole day's evidence -- and the
+# ladder is a set of INDEPENDENT per-corner ngspice invocations, so resuming is
+# concatenation, not continuation of a stateful run.  It is opt-in and OFF by
+# default precisely so `./run.sh` with no environment set still means "throw
+# everything away and regenerate one self-consistent set"; a record produced
+# with it must say so.  Combining it with a changed DUT, a changed template or
+# a different host would silently mix evidence -- do not.
+DONE_TAGS=""
+if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_hystfix.csv" ]; then
+  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_hystfix.csv" | cut -d, -f1)"
+  echo "[ladder] LADDER_RESUME=1 -- $(printf '%s\n' "$DONE_TAGS" | grep -c . ) corner(s) already present will be skipped" >&2
+fi
+
+if [ "${SKIP_LADDER:-0}" != 1 ] && [ "${LADDER_RESUME:-0}" != 1 ]; then
 echo "corner_tag,twin_r_s,in_window_lock_rail,tau_assert_s,tau_assert_xwin,tau_deassert_s,tau_deassert_xwin,hysteresis_s,hysteresis_pct_of_window,chatter,lock_min_deep_v,lock_max_deep_v,trec_s,vwin_min_zeroerr_v,vwin_max_zeroerr_v,idd_inlock_a,idd_outlock_a,ladder_states_discharged_start,ladder_states_charged_start,rc_s,tref_s,rc_over_tref,n_cycles,settle_frac" \
-  > "$CORNERS/ladder_resized.csv"
+  > "$CORNERS/ladder_hystfix.csv"
 echo "corner_tag,tau_xwin,tau_s,state_discharged_start,state_charged_start,lka_min_v,lka_max_v,lka_avg_v,lkb_min_v,lkb_max_v,lkb_avg_v,vwin_a_min_v,vwin_a_max_v,vwin_a_avg_v" \
-  > "$CORNERS/ladder_raw_resized.csv"
+  > "$CORNERS/ladder_raw_hystfix.csv"
 fi
 
 N_LADDER_PTS="$(python3 -c "
-import re
-src = open('$HERE/gen_ladder.py').read()
-print(len(re.search(r'LADDER_FRACS = \[(.*?)\]', src, re.S).group(1).split(',')) - 1)")"
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/gen_ladder.py')
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 
 run_ladder_corner() {
   local mos="$1" res="$2" temp="$3" vsup="$4" fref="$5" variant="$6"
   local tag="${mos}_${res}_${temp}c_${vsup}v_$(ftag "$fref")_${variant}"
+  if printf '%s\n' "$DONE_TAGS" | grep -qxF "$tag"; then
+    echo "[L] ${tag}: already in ladder_hystfix.csv, skipped (LADDER_RESUME=1)" >&2
+    return
+  fi
+  local RETRY_TAG="ladder ${tag}"
   local vmid
   vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
   local dut="$WORK/dut_${variant}.spice"
@@ -516,7 +634,7 @@ run_ladder_corner() {
   read -r twin_r twin_f <<< "$wpair"
   if [ "$twin_r" = NA ]; then
     echo "${tag},NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA" \
-      >> "$CORNERS/ladder_resized.csv"
+      >> "$CORNERS/ladder_hystfix.csv"
     echo "[!] ${tag}: window measurement failed, ladder skipped" >&2
     return
   fi
@@ -538,7 +656,23 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
   # wide and no wider.
   tsettle="$(python3 -c "print($tstop - 2*$tref)")"
   tstep="$(python3 -c "print($tref/$TSTEP_DIV.0)")"
-  taubig="$(python3 -c "print(10.00*$twin_r)")"
+  # TAUBIG is the phase error the XIU copy is held at to measure the
+  # OUT-OF-WINDOW supply current, in units of this corner's own window.  It has
+  # been 10.00 since RECORD-001 and stays 10.00 by default so the row-11 figure
+  # stays comparable across all three records.
+  #
+  # ISSUE #66 CAVEAT, and why this is now an override rather than a literal.
+  # With the hysteresis restored, 10 x window is no longer unambiguously
+  # "out of window": at the slow end of the f_ref range this block's de-assert
+  # threshold reaches 16 x window, so at several corners tau = 10 x window
+  # lands INSIDE the hysteresis band, where VWIN settles between schmitt_hv's
+  # two trip points and the readout inverter-pair conducts crowbar current.
+  # That is a real property of the block, not a measurement artifact, and
+  # RECORD-003 reports it -- but it means idd_outlock is now a function of
+  # WHERE the probe sits relative to the band.  TAUBIG_XWIN makes that
+  # measurable instead of hidden: `TAUBIG_XWIN=20 ./run.sh` re-measures the
+  # same column with the probe beyond the de-assert threshold at every corner.
+  taubig="$(python3 -c "print(${TAUBIG_XWIN:-10.00}*$twin_r)")"
 
   echo "[L] ${tag}: twin_r=${twin_r} RC=${rc}s RC/tref=${rc_over} n_cycles=${n_cycles} settle_frac=${settle_frac}" >&2
 
@@ -558,6 +692,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
   for k in $(seq 0 $((N_LADDER_PTS - 1))); do
     python3 "$HERE/gen_ladder.py" gen \
       --template "$HERE/tb_lock_ladder_point.sp.tmpl" --out "$WORK/pt.sp" --dut "$dut" \
+      --fracs-set "$LADDER_SET" \
       --corner-mos "$mos" --corner-res "$res" --temp "$temp" --vsup "$vsup" \
       --tref "$tref" --trst "$TRST" --twin "$twin_r" \
       --tstep "$tstep" --tstop "$tstop" --tsettle "$tsettle" \
@@ -569,13 +704,14 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
   # `reduce` has no notion of this issue's per-corner run-length budget, so
   # the R*C / cycle-count columns are appended to its row here.
   python3 "$HERE/gen_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
-      --twin "$twin_r" --raw "$CORNERS/ladder_raw_resized.csv" < "$combined" \
+      --fracs-set "$LADDER_SET" \
+      --twin "$twin_r" --raw "$CORNERS/ladder_raw_hystfix.csv" < "$combined" \
     | python3 -c "
 import sys
 print(sys.stdin.read().strip() +
       ',%.6e,%.6e,%s,%s,%s' % ($rc, $tref, '$rc_over', '$n_cycles', '$settle_frac'))" \
-    >> "$CORNERS/ladder_resized.csv"
-  echo "[L] ${tag}: $(tail -1 "$CORNERS/ladder_resized.csv" | cut -d, -f3-10)" >&2
+    >> "$CORNERS/ladder_hystfix.csv"
+  echo "[L] ${tag}: $(tail -1 "$CORNERS/ladder_hystfix.csv" | cut -d, -f3-10)" >&2
 }
 
 n=0
@@ -592,13 +728,17 @@ fi
 # 5. Schmitt readout hysteresis, per MOS corner x temperature x supply.
 #    (No resistor and no cap_cmomi instance inside schmitt_hv, so neither the
 #    RES-corner nor the MOM axis applies to this sub-measurement -- stated in
-#    ../corners/matrix.md rather than silently dropped.)  Untouched by this
-#    issue's resize: schmitt_hv itself is not resized, and this sub-measurement
-#    is repeated only so the new record can attribute its own hysteresis
-#    result to the same mechanism RECORD-001 measured.
+#    ../corners/matrix.md rather than silently dropped.)  Issue #66 re-tied
+#    schmitt_hv's two feedback devices to the classic connection, so this
+#    sub-measurement is no longer just an attribution aid -- it is the
+#    full-grid (5 MOS corners x 3 temperatures x 3 supplies) confirmation that
+#    the mechanism row 16's hysteresis criterion depends on now exists at all.
+#    ../testbench/run_schmitt_rewire.sh carries the same measurement's
+#    BEFORE/AFTER pair, on both PDKs; this one measures only the block as
+#    committed, at a wider MOS-corner grid.
 # ---------------------------------------------------------------------------
 echo "mos_corner,temp_c,vsup_v,vth_rising_v,vth_falling_v,hysteresis_v,hysteresis_pct_of_vdd" \
-  > "$CORNERS/schmitt_resized.csv"
+  > "$CORNERS/schmitt_hystfix.csv"
 for mos in mos_tt mos_ss mos_ff mos_sf mos_fs; do
   for temp in -40 27 125; do
     for vsup in 2.97 3.3 3.63; do
@@ -617,7 +757,7 @@ if u and d:
     print('%s,%s,%.6e,%.4f' % (u, d, h, 100*h/float('$vsup')))
 else:
     print('NA,NA,NA,NA')")"
-      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_resized.csv"
+      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_hystfix.csv"
       echo "[S] ${mos}/${temp}C/${vsup}V: ${row}" >&2
     done
   done
@@ -633,7 +773,7 @@ done
 #    of asserting it is small.
 # ---------------------------------------------------------------------------
 echo "mos_corner,res_corner,temp_c,dut_variant,tstep,twin_r_s" \
-  > "$CORNERS/tstep_convergence_resized.csv"
+  > "$CORNERS/tstep_convergence_hystfix.csv"
 for tstep in 20p 5p 1.25p; do
   for probe in "mos_tt res_typ 27 $PRIMARY" "mos_ss res_wcs 125 ideal0.20" \
                "mos_ff res_bcs -40 ideal-0.20" "mos_sf res_typ 27 $PRIMARY"; do
@@ -646,12 +786,19 @@ for tstep in 20p 5p 1.25p; do
     tw="$( run_ngspice_or_die w.sp \
            | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "${mos},${res},${temp},${variant},${tstep},${tw:-NA}" \
-      >> "$CORNERS/tstep_convergence_resized.csv"
+      >> "$CORNERS/tstep_convergence_hystfix.csv"
     echo "[conv ${tstep}] ${mos}/${temp}C/${variant}: twin_r=${tw:-NA}" >&2
   done
 done
 
+n_retry="$(wc -l < "$CORNERS/solver_retries.txt")"
+if [ "$n_retry" -eq 0 ]; then
+  echo "solver retries: none -- every deck converged on the committed .options" >&2
+else
+  echo "solver retries: ${n_retry} deck(s) needed trtol=1 -- see $CORNERS/solver_retries.txt" >&2
+fi
+
 echo "done (primary DUT variant: $PRIMARY, cap_cmomi loadable: $HAVE_CMOMI):" >&2
 for f in rc_extract window schmitt ladder ladder_raw tstep_convergence; do
-  echo "  $(wc -l < "$CORNERS/${f}_resized.csv") lines (incl. header) -> $CORNERS/${f}_resized.csv" >&2
+  echo "  $(wc -l < "$CORNERS/${f}_hystfix.csv") lines (incl. header) -> $CORNERS/${f}_hystfix.csv" >&2
 done

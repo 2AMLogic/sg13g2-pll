@@ -78,7 +78,46 @@ Xiu upu dnu lkiu vddu 0 lock_detector
 
 .ic v(xr.vwin)=0 v(xil.vwin)=@VSUP@ v(xiu.vwin)=0
 
-.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+* SOLVER-EFFORT NOTE -- itl4=5000 gmin=1e-11 (issue #66, Part of #16).
+* Neither is an accuracy relaxation: reltol/abstol/vntol/chgtol are untouched,
+* and both are inert where the default already converged (numbers below).
+* Both are needed -- neither alone clears every abort measured.
+*
+* WHY.  Issue #66 makes XMPD a weak, long-channel device, so the integrating
+* node now SITS at intermediate voltages for the whole run instead of railing.
+* That holds schmitt_hv's input in its own high-gain region and keeps the
+* coincidence gate's nodes near their switching points for tens of microseconds
+* of simulated time, which is where ngspice's defaults give out.  Three
+* measured hard aborts, each an ngspice exit 1 and therefore a whole-campaign
+* abort under run.sh's run_ngspice_or_die:
+*   (1) mos_ff/res_wcs/-40C, 24.4 MHz, tau = 1.4 x twin_r:
+*       "Timestep too small; ... trouble with node xa.xxor.n1"
+*   (2) mos_ff/res_wcs/-40C, 24.4 MHz, tau = 1.6 x twin_r: same, node xa.wide
+*   (3) mos_tt/res_wcs/27C, 3.5 MHz, tau = 2.0 x twin_r: same, node
+*       xa5.xxor.xn2.mid1
+*
+* ITL4 raises the Newton-iteration budget before the step is cut.  GMIN is
+* raised 10x above ngspice's 1e-12 default because (3)'s node is nand2_hv's own
+* SERIES-STACK INTERNAL NODE `mid1`, which has no DC path to any rail whenever
+* both stacked NMOS are off -- a floating node is exactly what gmin exists for,
+* and 1e-11 S is a 100 GOhm shunt, i.e. ~3e4 x weaker than XRPU's own 1.35-3.30
+* MOhm pull-up on the one high-impedance node this block actually cares about.
+*
+* Measured impact (same decks, same points):
+*   - ITL4 10 -> 500 at already-converging points: 2.41949 -> 2.41919 V
+*     (0.012%) and 1.46963 -> 1.46963 V (0.000%).
+*   - ITL4 500 -> 5000 at abort (1): 1.84852 -> 1.84980 V (0.07%).
+*   - adding gmin=1e-11 on top of itl4=5000: 1.84980 -> 1.84980 V, 0.444269 ->
+*     0.444269 V, 3.15340 -> 3.15340 V.  Zero change to six digits at every
+*     point checked.
+* Coverage: itl4=500 clears (1) only; itl4=5000 clears (1) and (2); itl4=50000
+* still does not clear (3); gmin=1e-11 alone clears (2) and (3) but not (1).
+* Measured and REJECTED: method=gear clears (1) but moves the answer materially
+* (1.849 -> 1.733 V) and does not clear (2); gmin=1e-9 and gmin=1e-15 clear
+* nothing extra; reltol=5e-4 clears nothing extra; trtol=1 clears (2) and (3)
+* but is a truncation-error relaxation, i.e. an accuracy knob, so it was not
+* used.
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000 gmin=1e-11
 .tran @TSTEP@ @TSTOP@
 
 .control

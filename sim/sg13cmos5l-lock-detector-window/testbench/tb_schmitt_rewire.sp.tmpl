@@ -1,0 +1,50 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #66, Part of #16)
+* schmitt_hv input-referred hysteresis, PDK-AGNOSTIC variant of
+* ../testbench/tb_schmitt_hyst.sp.tmpl.
+*
+* WHY A SECOND DECK RATHER THAN A FLAG ON THE FIRST.  tb_schmitt_hyst.sp.tmpl
+* is ../records/RECORD-001 and RECORD-002's own deck and is left byte-for-byte
+* alone (append-only evidence).  It also `.include`s cap_cmomi.lib, which
+* exists only on ihp-sg13cmos5l -- SG13G2 has no MoM capacitor model at all
+* (DR-003 Finding 2), so that deck cannot be pointed at the SG13G2 netlist.
+* This copy drops the capacitor `.include` entirely: it instantiates ONLY the
+* schmitt_hv subcircuit, so no capacitor model is ever referenced and the same
+* file runs unchanged against BOTH PDKs' lock_detector netlists.  That is the
+* whole point -- issue #66 fixes the same two-net feedback defect on both
+* PDKs, and "measured on both" is a stronger claim than "measured on one and
+* argued across".
+*
+* Method is RECORD-001's, unchanged: a 2 us quasi-static triangular ramp on
+* the input, up then down, so the rising and falling trip points are separated
+* by real state memory rather than by DC-sweep solution continuation.
+* schmitt_hv is an INVERTING Schmitt, so "OUT falls" is the rising input trip
+* point; the measurement is written in terms of the input voltage at the
+* output's mid-rail crossing in each ramp direction, which is polarity-neutral.
+*
+* Substituted by ../testbench/run_schmitt_rewire.sh: @CORNER_MOS@, @TEMP@,
+* @VSUP@, @VMID@, @DUT@, @PDK_ROOT@/@PDK@ (resolved filesystem path -- ngspice's
+* `.lib`/`.include` parser does not expand shell/OS environment variables,
+* issue #54).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+Vin vin 0 pwl(0 0 2u @VSUP@ 4u 0)
+Xsch vin sout vdd 0 schmitt_hv
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran 1n 4u
+
+.control
+run
+meas tran vth_up find v(vin) when v(sout)=@VMID@ fall=1
+meas tran vth_dn find v(vin) when v(sout)=@VMID@ rise=1
+print vth_up vth_dn
+.endc
+.end

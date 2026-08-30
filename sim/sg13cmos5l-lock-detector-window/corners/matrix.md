@@ -219,3 +219,62 @@ right, so they are deliberately not swept over PVT.
 - `hysteresis_diag_schmitt.csv` — `schmitt_hv`'s own input-referred
   hysteresis, as drawn vs. the rewired control, over 3 MOS corners × 3
   temperatures.
+
+---
+
+# Corner matrix — the issue #66 re-run (RECORD-003)
+
+Everything above describes the campaign as issues #38 and #52 ran it, and both
+sections are left unedited: `RECORD-001` owns the unsuffixed CSVs and
+`RECORD-002` the `*_resized.csv` ones.
+
+Issue #66 changed **three netlist lines** in the DUT — `XMPD`
+`w=2u l=0.5u` → `w=0.25u l=16u`, and `schmitt_hv`'s two feedback devices
+`XMP3 np OUT VDD VDD` → `XMP3 VSS OUT np VDD` / `XMN3 nn OUT VSS VSS` →
+`XMN3 VDD OUT nn VSS` — and re-ran the campaign against
+`../netlist-snapshots/lock_detector_hystfix.spice`, writing a third parallel
+set of `*_hystfix.csv` files plus two new evidence CSVs. `XRPU`, `XCW` and
+`XDW.XC1` are byte-identical to RECORD-002's snapshot.
+
+## What changed in the matrix, and why
+
+| Axis | #52 / RECORD-002 | #66 / RECORD-003 | Reason |
+|---|---|---|---|
+| DUT variant | `ideal−0.20`, `ideal0.00`, `ideal0.20` (`real` unavailable — arm64 host) | **`real`, `ideal−0.20`, `ideal0.00`, `ideal0.20`**, `real` primary | This campaign ran on **x86-64 Linux**, where `cap_cmomi.osdi` loads. `run.sh` is unchanged in that respect — it restores `real` automatically. This closes, for this slug, the gap RECORD-002 listed under "What this does not bound" (issue #67) |
+| Window matrix | 81 rows | **102 rows** — same structure, one more DUT variant | consequence of `real` returning; the density and the worst-case stack are RECORD-002's |
+| Ladder — fast end (24.4 MHz) | 3 points, all `mos_tt` | **6 points**: + `mos_ff`/`res_wcs`/−40 °C, + `mos_ss`/`res_bcs`/125 °C, + 3.63 V | **The binding end moved.** `VWIN ≈ VDD − I_sat(XMPD)·R(XRPU)·(τ−t_win)/T_ref`, so hysteresis in units of the window is *proportional to* `T_ref`: the fast end has ~7× less of it and is the binding end for row 16's hysteresis criterion, where the slow end is binding for `R·C`. And once `I_sat(XMPD)` is the term that sets the transition width, `mos_corner` reaches the ladder by a second path besides `twin_r` — so RECORD-002's reason for spot-checking it at the fast end does not survive |
+| Ladder — total | 18 corner points | **21 corner points** | the three above; nothing was dropped |
+| Ladder step / reach | 9 points, 0.20× window, out to 2.5× + one 10× chatter point | **21 points, 0.25× window through 1.0–2.5×, then 3–20×** (`gen_ladder.py --fracs-set hystfix`) | Restoring the hysteresis *separates* the two thresholds and pushes both out. At `mos_tt`/`res_bcs`/125 °C/3.5 MHz the de-assert threshold sits near **18× the window**; a ladder stopping at 2.5× would clip it and report "hysteresis = 0" for the same reason a ruler too short to reach reports "length = end of ruler". The chatter point moves 10× → 20× so it stays *beyond* de-assert at every corner |
+| Schmitt | 45 rows | **45 rows** (`schmitt_hystfix.csv`) + **108 rows** of before/after on **both PDKs** (`schmitt_rewire.csv`) | `schmitt_hv` is no longer untouched — it is one of the two things this issue fixes |
+| Solver | ngspice defaults | **`itl4=5000 gmin=1e-11`** on the four transient templates, plus one recorded `trtol=1` retry in `run.sh` | **Three** measured hard aborts (`Timestep too small`, ngspice exit 1, i.e. whole-campaign abort). Neither setting is an accuracy relaxation and both measure inert where the default already converged; one of the three failing nodes is `nand2_hv`'s own series-stack internal node `mid1`, which has no DC path to a rail when both stacked NMOS are off — a floating node is exactly what `gmin` is for. See the SOLVER-EFFORT NOTE in `../testbench/tb_hyst_diag.sp.tmpl` for the three failing points, every rejected alternative and the measured numerical impact of each. `run.sh` additionally retries a failed deck **once** with `trtol=1` (a genuine accuracy knob, therefore deliberately *not* in the templates) and names every deck that needed it in `solver_retries.txt` — an empty file is the claim that none did |
+
+## The two new evidence CSVs
+
+Neither is written by `run.sh`.
+
+- **`schmitt_rewire.csv`** (`../testbench/run_schmitt_rewire.sh`) — `schmitt_hv`'s
+  input-referred hysteresis, **as drawn vs. as committed**, on **both**
+  `ihp-sg13cmos5l` and `ihp-sg13g2`, over 3 MOS corners × 3 temperatures × 3
+  supplies (108 rows). The as-drawn control is built by *reversing* the landed
+  substitution in a temp copy — the mirror image of RECORD-002's own scratch
+  control — and the script fails loudly if the committed netlist does not
+  carry the fixed lines. This is the acceptance evidence for the rewiring, and
+  it is what justifies making the same change to the SG13G2 sibling
+  `design/schmitt_hv.sch` in the same commit rather than arguing it across
+  from one PDK.
+- **`xmpd_sizing.csv`** (`../testbench/run_xmpd_sizing.sh`) — settled `VWIN`
+  and both `LOCK` copies vs. phase error, for **seven candidate `XMPD`
+  geometries** (including the as-drawn `w=2u l=0.5u` baseline), at the **two
+  corners that bound the choice from opposite sides**:
+  `mos_ff`/`res_wcs`/−40 °C @ 24.4 MHz (smallest hysteresis) and
+  `mos_tt`/`res_bcs`/125 °C @ 3.5 MHz (furthest-out de-assert threshold).
+  This is the sizing argument's own evidence: the landed geometry is a
+  two-sided bound read off this CSV, not a pick. Every geometry is a scratch
+  copy in a temp dir; nothing is written back into `design/`.
+
+`../testbench/run_hysteresis_diag.sh` is RECORD-002's own generator and is
+**not** re-run by this record — its `hysteresis_diag*.csv` outputs are that
+record's frozen evidence, and its scratch `schmitt_feedback_rewired` control
+is now the committed design, so re-running it would rewrite RECORD-002's
+attribution data with numbers from a different host and a different ngspice
+build for no new information. `run_xmpd_sizing.sh` supersedes its role here.

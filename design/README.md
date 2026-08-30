@@ -131,7 +131,10 @@ comment, not silently:
 - **`lock_detector.sch`**'s integrating window (`VWIN`) uses a fixed
   `rhigh` pull-up + `WIDE`-gated NMOS pull-down + `cap_cmim` load, rather
   than a sized, corner-swept RC — same "topology now, numbers later"
-  disposition as everywhere else in this pass.
+  disposition as everywhere else in this pass. **On the SG13CMOS5L port this
+  is no longer true**: `XRPU`/`XCW`/`XDW.XC1` were re-derived from measurement
+  by issue #52 and `XMPD` by issue #66 (see the SG13CMOS5L section below).
+  The SG13G2 hierarchy here still carries the pre-#52 numbers.
 
 None of these simplifications changes a DR-001/DR-002 architecture decision;
 each is a sizing/implementation-detail reduction explicitly flagged here and
@@ -374,6 +377,66 @@ pattern for its *layout* phase.
   to map onto a ≥25%-of-window phase-error width, which is set by the
   `XRPU`/`XMPD` strength ratio rather than by `R·C`. Both are filed as issue #66,
   not silently fixed here.
+  **Update (issue #66, Part of #16)**: both terms are now fixed and
+  re-measured —
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md`.
+  **All three of row 16's measurable criteria now pass**, and neither fix
+  spends anything issue #52 bought (`XRPU`, `XCW` and `XDW.XC1` are untouched
+  by #66; `R·C` and the assert window were re-measured rather than assumed):
+
+  - **`schmitt_hv`'s two feedback devices are on the classic connection.** A
+    six-transistor CMOS Schmitt gets its hysteresis from feedback devices
+    pulling the internal stack nodes toward the *opposite* rail from their own
+    stack; both were tied to the same rail, leaving the cell with no state
+    memory at all. `XMP3` `np OUT VDD VDD` → `VSS OUT np VDD` and `XMN3`
+    `nn OUT VSS VSS` → `VDD OUT nn VSS`. Measured input-referred hysteresis
+    **0.88–1.58 mV → 804 mV–1.058 V** (26.3–30.3% of `VDD`) over 3 MOS corners
+    × 3 temperatures × 3 supplies. **The identical defect was in the SG13G2
+    sibling `design/schmitt_hv.sch` and is fixed in the same change**, and
+    measured there too rather than argued across — see "SG13G2 sibling" below.
+  - **`XMPD` re-sized `w=2u l=0.5u` → `w=0.25u l=16u`** (`L/W` 0.25 → 64).
+    The settled integrating-node voltage is the balance between `XRPU`'s
+    charge over one *reference period* and `XMPD`'s discharge over one `WIDE`
+    pulse, `VWIN ≈ VDD − I_sat(XMPD)·R(XRPU)·(τ − t_win)/T_ref`, so the
+    `XRPU`/`XMPD` strength ratio — not `R·C` — sets how wide *in phase error*
+    the `VWIN` transition is, and therefore how much phase-error hysteresis a
+    given Schmitt voltage hysteresis buys. `XMPD` is the only device in that
+    expression that is not already spoken for by #52's `R·C` requirement,
+    which is why it is the knob.
+
+  `XMPD`'s value is a **two-sided measured bound**, not a pick
+  (`sim/sg13cmos5l-lock-detector-window/corners/xmpd_sizing.csv`). `T_ref` is
+  in the numerator above, so the hysteresis in units of the window is
+  *proportional to* `T_ref` and the **fast** end of row 2's range is the
+  binding one for row 16's hysteresis criterion — the opposite end from the
+  one that bound #52's `R·C` criterion. Weakening `XMPD` raises hysteresis but
+  simultaneously pushes the assert/de-assert thresholds out; `w=0.25u l=16u`
+  is the sizing that clears both bounds at once:
+
+  | Bound, both measured | Corner | `w=0.5u l=16u` | **`w=0.25u l=16u`** | `w=0.25u l=32u` |
+  |---|---|---|---|---|
+  | Hysteresis ≥ 0.25× window (row 16) | `mos_ff`/`res_wcs`/−40 °C, 24.4 MHz | 0.239× — **fails** | **0.495× — 1.98×** | passes |
+  | De-assert threshold inside one reference period | `mos_tt`/`res_bcs`/125 °C, 3.5 MHz | 11.4× window = 32% of `T_ref` | **18.2× window = 51% of `T_ref`** | **> 24× window = > 67% — off the end of the sweep** |
+
+  Measured against the changed block, all three of row 16's criteria pass:
+  assert window **3.688–11.24 ns** at 102/102 points (worst-case margin
+  1.475×, unchanged — `XMPD` is not inside `delaywin_hv`); hysteresis
+  **50–800% of the window, 0 of 21 corners below the ≥25% criterion**, worst
+  case 50% at the 24.4 MHz corners; **`steady` at 21/21** at a **20×**-window
+  static phase error (RECORD-002 probed 10×). `R·C` re-extracts **byte-identical**
+  to RECORD-002 at 8.0–19.5× `T_ref`, so #52's margin is confirmed spent by
+  nothing.
+
+  **One real cost, measured and attributed rather than hidden.** The
+  out-of-lock supply current in row 11's `lock_detector` domain re-bounds from
+  2.48–95.1 µA to **2.47–234 µA**. The top of that range is *not* a switching
+  cost: it is `schmitt_hv` crowbar current while `VWIN` rests **between** the
+  now-widely-separated trip points, which the fixed 10×-window probe lands
+  inside at slow-end corners. Controlled directly — the same deck at a 20×
+  probe (beyond de-assert everywhere) gives 57.9 µA for this block against
+  46.7 µA for RECORD-002's, i.e. the genuinely out-of-lock current rose ~24%,
+  not 2.5×. The readout has no output stage and its input is now *designed* to
+  dwell between the rails; that residual is filed as a follow-up.
 
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,

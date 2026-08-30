@@ -87,12 +87,57 @@ import sys
 # that only restated "clearly in" / "clearly out" rather than bracketing the
 # threshold.  The resulting bound is correspondingly weaker than
 # RECORD-001's (< 20% of window rather than < 15%) and the record says so.
-LADDER_FRACS = [
-    0.50,
-    1.00, 1.20, 1.40, 1.60, 1.80, 2.00,
-    2.50,
-    10.00,
-]
+#
+# NAMED LADDER SETS (issue #66, Part of #16).  RECORD-002's ladder above is
+# kept verbatim and stays the DEFAULT, so re-running that record's own
+# campaign reproduces its own CSVs point for point.  Issue #66 re-sizes XMPD,
+# which MOVES the assert / de-assert thresholds this ladder has to bracket --
+# a lock detector whose phase-error hysteresis is no longer ~0 necessarily has
+# its two thresholds at DIFFERENT taus, and this topology places them further
+# from the window the weaker XMPD gets (measured: ../corners/xmpd_sizing.csv).
+# A ladder that stops at 2.5 x window can therefore no longer see the
+# de-assert threshold at the slow end of row 2's f_ref range, and would report
+# "hysteresis = 0" for the same reason a ruler too short to reach reports
+# "length = end of ruler".  `hystfix` below is the ladder RECORD-003 runs:
+# same 0.5 x / 1.0 x anchor points, a denser 0.25 x step through the region
+# where the fast end's thresholds sit, and coverage out to 20 x window so the
+# slow end's de-assert threshold is bracketed rather than clipped.
+#
+# Adding a set here is deliberately additive: `reduce` and `gen` both take
+# --fracs-set and BOTH must be given the same one, so a record's raw rows and
+# its reduced row can never be built from different ladders.
+LADDER_FRACS_SETS = {
+    # RECORD-002's ladder (issue #52).  Frozen -- do not edit.
+    "record002": [
+        0.50,
+        1.00, 1.20, 1.40, 1.60, 1.80, 2.00,
+        2.50,
+        10.00,
+    ],
+    # RECORD-003's ladder (issue #66).
+    "hystfix": [
+        0.50,
+        1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50,
+        3.00, 3.50, 4.00, 5.00, 6.00, 7.00, 8.00,
+        10.00, 12.00, 14.00, 16.00, 18.00,
+        20.00,
+    ],
+}
+LADDER_FRACS = LADDER_FRACS_SETS["record002"]
+
+
+def _fracs(args):
+    """Resolve the ladder set named on the command line.
+
+    Defaults to RECORD-002's list so an unmodified caller (and that record's
+    own reproduction instructions) keeps the ladder it was written against.
+    """
+    name = getattr(args, "fracs_set", None) or "record002"
+    try:
+        return LADDER_FRACS_SETS[name]
+    except KeyError:
+        raise SystemExit("gen_ladder: unknown --fracs-set {!r}; known sets: {}"
+                         .format(name, ", ".join(sorted(LADDER_FRACS_SETS))))
 
 
 def gen(args):
@@ -102,13 +147,14 @@ def gen(args):
     twin = float(args.twin)
     vsup = float(args.vsup)
     tref = float(args.tref)
-    taus = [f * twin for f in LADDER_FRACS]
+    fracs = _fracs(args)
+    taus = [f * twin for f in fracs]
 
     only_index = args.only_index
-    if only_index is not None and not (0 <= only_index < len(LADDER_FRACS)):
+    if only_index is not None and not (0 <= only_index < len(fracs)):
         raise SystemExit("gen_ladder: --only-index {} out of range "
-                         "0..{}".format(only_index, len(LADDER_FRACS) - 1))
-    indices = range(len(LADDER_FRACS)) if only_index is None else [only_index]
+                         "0..{}".format(only_index, len(fracs) - 1))
+    indices = range(len(fracs)) if only_index is None else [only_index]
 
     # The base recovery/idd signals (lkr, xr.vwin, vddl#branch, vddu#branch)
     # belong to ../testbench/tb_lock_recovery.sp.tmpl now (issue #52, Part of
@@ -118,7 +164,7 @@ def gen(args):
     keep = ([] if only_index is not None else
             ["lkr", "xr.vwin", "vddl#branch", "vddu#branch"])
     for k in indices:
-        frac, tau = LADDER_FRACS[k], taus[k]
+        frac, tau = fracs[k], taus[k]
         devices.append(
             "* ladder point {k}: tau = {f:.2f} x twin_r = {tau:.6e} s".format(
                 k=k, f=frac, tau=tau))
@@ -164,7 +210,7 @@ def gen(args):
         "@VLO@": "{:.6f}".format(0.1 * vsup),
         "@TREF@": "{:.6e}".format(tref),
         "@TRST@": args.trst,
-        "@TAUBIG@": "{:.6e}".format(LADDER_FRACS[-1] * twin),
+        "@TAUBIG@": "{:.6e}".format(fracs[-1] * twin),
         "@TSTEP@": args.tstep,
         "@TSTOP@": args.tstop,
         "@TSETTLE@": args.tsettle,
@@ -240,7 +286,8 @@ def reduce_log(args):
     v = _scalars(text)
     vsup = float(args.vsup)
     twin = float(args.twin)
-    taus = [f * twin for f in LADDER_FRACS]
+    fracs = _fracs(args)
+    taus = [f * twin for f in fracs]
 
     # Polarity, read from the block: the recovery copy sees zero phase error,
     # so whatever rail its LOCK settles at IS the in-window level.
@@ -254,7 +301,7 @@ def reduce_log(args):
 
     raw = csv.writer(open(args.raw, "a"))
     states = {"a": [], "b": []}
-    for k, (frac, tau) in enumerate(zip(LADDER_FRACS, taus)):
+    for k, (frac, tau) in enumerate(zip(fracs, taus)):
         row_states = {}
         for cp in ("a", "b"):
             lo = v.get("l{}{}_min".format(cp, k))
@@ -281,7 +328,7 @@ def reduce_log(args):
         ladder point already out of it.  Returns (tau, frac) or (None, None)
         if even the smallest ladder point is already out."""
         best = (None, None)
-        for frac, tau, st in zip(LADDER_FRACS, taus, seq):
+        for frac, tau, st in zip(fracs, taus, seq):
             if st != "IN":
                 break
             best = (tau, frac)
@@ -299,7 +346,7 @@ def reduce_log(args):
     # settle window, i.e. genuinely toggling rather than merely sitting at an
     # intermediate level; the intermediate case is reported separately so the
     # two failure modes are not conflated.
-    last = len(LADDER_FRACS) - 1
+    last = len(fracs) - 1
     dlo, dhi = v.get("la{}_min".format(last)), v.get("la{}_max".format(last))
     if dlo is None or dhi is None:
         chat = "NA"
@@ -330,6 +377,16 @@ def _fmt(x):
     return "NA" if x is None else "{:.6e}".format(x)
 
 
+def _add_fracs_set(p):
+    p.add_argument("--fracs-set", default="record002",
+                   choices=sorted(LADDER_FRACS_SETS),
+                   help="named ladder (see LADDER_FRACS_SETS). `record002` is "
+                        "the default so RECORD-002's campaign reproduces "
+                        "unchanged; `hystfix` is RECORD-003's (issue #66) "
+                        "denser, longer-reach ladder. `gen` and `reduce` must "
+                        "be given the SAME set.")
+
+
 def main():
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -356,6 +413,7 @@ def main():
                          "and no XR/XIL/XIU base section -- issue #52's "
                          "one-point-at-a-time mode. Default: all points, "
                          "the historical merged-deck path.")
+    _add_fracs_set(g)
     g.set_defaults(func=gen)
 
     r = sub.add_parser("reduce")
@@ -363,6 +421,7 @@ def main():
     r.add_argument("--vsup", required=True)
     r.add_argument("--twin", required=True)
     r.add_argument("--raw", required=True)
+    _add_fracs_set(r)
     r.set_defaults(func=reduce_log)
 
     args = p.parse_args()

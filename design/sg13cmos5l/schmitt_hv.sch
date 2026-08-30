@@ -11,6 +11,7 @@ Connectivity is label-driven (lab_pin stubs on every device terminal),
 matching the gf180-pll/sky130-pll fleet convention documented in
 design/README.md.
 SG13CMOS5L port (issue #22, DR-004): device symbols resolved from sg13cmos5l_pr/ instead of sg13g2_pr/ -- no device-name or subcircuit-signature change (DR-003 Finding 1: sg13_hv_nmos/sg13_hv_pmos/rppd/rhigh are identical on both PDKs). Sizing carried over unchanged from the SG13G2 schematic as a provisional starting point; re-derivation is owed to the sim-campaign follow-up issue.
+FEEDBACK-DEVICE CONNECTION (issue #66, Part of #16) -- read before editing MP3/MN3. A six-transistor CMOS Schmitt trigger gets its hysteresis from two feedback devices that pull the internal stack nodes toward the OPPOSITE rail from their own series stack. As originally drawn both feedback devices were tied to the SAME rail as their stack (MP3: drain np, source VDD; MN3: drain nn, source VSS), which leaves this cell with no state memory at all -- measured input-referred hysteresis 0.89-1.55 mV, i.e. a plain inverter with a manufacturing tolerance. MP3 and MN3 are now on the classic connection: MP3 source np / drain VSS, MN3 source nn / drain VDD (netlist: "XMP3 VSS OUT np VDD", "XMN3 VDD OUT nn VSS"). Measured after the fix: 879-979 mV, 26.6-29.7% of VDD, over mos_tt/mos_ff/mos_ss x -40/27/125C. Evidence: sim/sg13cmos5l-lock-detector-window/corners/schmitt_rewire.csv (both PDKs, as-drawn vs. rewired, one script) and records/RECORD-003-hysteresis-fix.md. The identical defect was present in the SG13G2 sibling design/schmitt_hv.sch and is fixed in the same change, by the same measurement.
 }
 G {}
 K {}
@@ -29,9 +30,9 @@ C {lab_pin.sym} 20 -270 0 0 {name=l3 lab=np}
 C {lab_pin.sym} 20 -180 0 0 {name=l4 lab=np}
 C {lab_pin.sym} -20 -150 0 0 {name=l5 lab=IN}
 C {lab_pin.sym} 20 -120 0 0 {name=l6 lab=OUT}
-C {lab_pin.sym} 320 -330 0 0 {name=l7 lab=VDD}
+C {lab_pin.sym} 320 -330 0 0 {name=l7 lab=np}
 C {lab_pin.sym} 280 -300 0 0 {name=l8 lab=OUT}
-C {lab_pin.sym} 320 -270 0 0 {name=l9 lab=np}
+C {lab_pin.sym} 320 -270 0 0 {name=l9 lab=VSS}
 C {lab_pin.sym} 20 -300 0 0 {name=l10 lab=VDD}
 C {lab_pin.sym} 20 -150 0 0 {name=l11 lab=VDD}
 C {lab_pin.sym} 320 -300 0 0 {name=l12 lab=VDD}
@@ -41,9 +42,9 @@ C {lab_pin.sym} 20 120 0 0 {name=l15 lab=OUT}
 C {lab_pin.sym} 20 330 0 0 {name=l16 lab=VSS}
 C {lab_pin.sym} -20 300 0 0 {name=l17 lab=IN}
 C {lab_pin.sym} 20 270 0 0 {name=l18 lab=nn}
-C {lab_pin.sym} 320 330 0 0 {name=l19 lab=VSS}
+C {lab_pin.sym} 320 330 0 0 {name=l19 lab=nn}
 C {lab_pin.sym} 280 300 0 0 {name=l20 lab=OUT}
-C {lab_pin.sym} 320 270 0 0 {name=l21 lab=nn}
+C {lab_pin.sym} 320 270 0 0 {name=l21 lab=VDD}
 C {lab_pin.sym} 20 150 0 0 {name=l22 lab=VSS}
 C {lab_pin.sym} 20 300 0 0 {name=l23 lab=VSS}
 C {lab_pin.sym} 320 300 0 0 {name=l24 lab=VSS}
