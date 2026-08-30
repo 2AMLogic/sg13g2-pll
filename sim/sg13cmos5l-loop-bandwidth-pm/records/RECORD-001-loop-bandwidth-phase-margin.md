@@ -168,6 +168,21 @@ ported row implies. Whether the resolution is a wider `N` range, a lower
 VCO band, or an amended row 2 is a spec question, not a sim question; a
 follow-up issue is filed.
 
+**A related structural note on `N`, read from the netlist rather than
+simulated.** The scenario table above derives `N` from the *spec's* range
+(row 3: `N ∈ [4, 64]`). The divider as actually drawn is a fixed-length
+6-cell Vaucher ÷2/3 chain with every cell always active
+(`design/README.md` states this simplification explicitly), whose natural
+ratio is `N = 2⁶ + Σ pᵢ2ⁱ`, i.e. **`N ∈ [64, 127]`** — a range that barely
+touches the spec's and has no overlap below 64. This is a reading of
+`divider_chain.spice`'s topology, **not** a measured division ratio; this
+record makes no simulated claim about the divider (see the deferred row 3
+follow-up). It is noted here only because `N` is a loop-gain term: a larger
+`N` lowers loop gain, which lowers `f_c`, which — at `f_c ≪ f_z` — lowers
+phase margin further. So if the real `N` range is 64–127 rather than the
+21–58 used above, this record's headline conclusion is **strengthened**,
+never weakened.
+
 ## Spec-row disposition (per this repo's CLAUDE.md — no claim without a testbench)
 
 - **Row 6/6a — loop bandwidth / phase margin**: **bounded by this record,
@@ -190,9 +205,10 @@ follow-up issue is filed.
   A settling time is only defined for a loop that settles; with PM ≤ 20.3°
   the as-drawn loop's step response is severely under-damped, so no lock-time
   number derived from this linearisation would describe the committed
-  design. This record deliberately does not report one. See the sibling
-  record `sg13cmos5l-pll-closed-loop` for the transistor-level closed-loop
-  transient evidence on that row.
+  design. This record deliberately does not report one, and does **not**
+  substitute the linearised second-order settling formula for the
+  transistor-level closed-loop transient that row needs. Deferred to a
+  filed follow-up issue.
 
 ## What this does not bound
 
