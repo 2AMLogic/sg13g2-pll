@@ -66,6 +66,20 @@ osdi $OSDI/cap_cmomi.osdi
 set num_threads=1
 EOF
 
+# OSDI host-architecture preflight (issue #59).  cap_cmomi.osdi/cap_cmomf.osdi
+# are architecture-specific binaries TRACKED in the upstream ihp-sg13cmos5l git
+# repo (prebuilt x86-64 ELF) rather than host-local build products like
+# psp103/r3_cmc, so on a non-x86-64 host they fail ngspice's dlopen with
+# "Error opening osdi lib ... couldn't be loaded" -- which reads like a broken
+# deck and is not one.  That is exactly the failure this record's own
+# "Post-fix verification (issue #54)" section reports.  Fail here instead,
+# naming the one-command rebuild
+# (ihp-sg13cmos5l/libs.tech/verilog-a/openvaf-compile-va.sh).  Full finding and
+# the cross-check protocol for a rebuilt model: ../../PORTING-osdi-host-arch.md
+"$HERE/../../tools/check-osdi-arch.sh" --quiet \
+  "$OSDI/psp103.osdi" "$OSDI/psp103_nqs.osdi" "$OSDI/mosvar.osdi" \
+  "$OSDI/r3_cmc.osdi" "$OSDI/cap_cmomi.osdi"
+
 VSUP_NOM=3.3
 TRST=1n
 
