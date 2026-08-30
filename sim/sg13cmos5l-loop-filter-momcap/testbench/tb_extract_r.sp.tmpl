@@ -1,0 +1,23 @@
+* sg13g2-pll :: sim/sg13cmos5l-loop-filter-momcap (issue #23, Part of #16)
+* Single-device DC extraction: loop_filter.XR1 (rppd, w=4u l=120u), the same
+* instance parameters as ../netlist-snapshots/loop_filter.spice's XR1 line.
+* Forces 1uA through the resistor and reads V(N1)/I to get R at the process
+* corner + temperature this run.sh instantiation substitutes below.
+*
+* Template placeholders (substituted by ../testbench/run.sh, not meant to be
+* run directly): @RES_CORNER@ (res_typ|res_bcs|res_wcs, cornerRES.lib),
+* @TEMP@ (degC), @W@, @L@ (device geometry).
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @RES_CORNER@
+.option scale=1 temp=@TEMP@
+
+Xr1 n1 0 sub! rppd w=@W@ l=@L@ m=1 b=0
+Vsub sub! 0 0
+I1 n1 0 dc 1u
+
+.control
+op
+let rval = abs(v(n1)/1e-6)
+print rval
+.endc
+.end
