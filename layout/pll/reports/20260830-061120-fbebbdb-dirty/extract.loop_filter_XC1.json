@@ -1,0 +1,116 @@
+{
+  "top": "loop_filter_XC1",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "loop_filter_XC1.gds",
+    "deck": "sg13g2",
+    "top": "loop_filter_XC1",
+    "dbu_um": 0.001,
+    "netlist_path": "loop_filter_XC1.spice",
+    "netlist_sha256": "21ccf8c1d3509decd7f863b60a50accac25b4ce01fae9d0ca25999cfcfa1bb85",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 2,
+    "pin_count": 0,
+    "device_counts": {
+      "cap_cmim": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 36,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 129,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "cap_cmim",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2"
+        },
+        "params": {
+          "c_f": 2.4064e-12,
+          "area_um2": 1600.0,
+          "perimeter_um": 160.0
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'loop_filter_XC1' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "0 top-level pins are promoted on 'loop_filter_XC1' after extraction -- `klt lvs` has no net/device anchor to seed correspondence against a reference netlist and will report a full mismatch regardless of device-count agreement. If this design genuinely has zero top-level pins by intent, this warning can be ignored; otherwise see the pin-name-label warning above (if present) or check that --top-cell-pins/--pins/--def-pins did not demote every promoted pin (issue #1385)",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:aba0acd35098faf7516828be7be1220501a7f0c7aa9743c5cc6b521914a4ff26",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:358872092024d4a0b692056607d313de6a04e0ff672ef9b6b53609203d4ea292"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

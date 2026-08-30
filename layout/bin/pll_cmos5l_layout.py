@@ -9,17 +9,23 @@ same evidence shape, one structural difference:
   (`pll_layout.build_plan`, `_match_group_extraction`,
   `_match_block_extraction` are all imported, not re-implemented) and draws
   and routes the geometry itself with `cmos5l_devices.py`/`cmos5l_route.py`,
-  because at this repo's pin **every `klt gen` generator -- and
-  `klt gen-compose`'s router -- rejects the `ihp-sg13cmos5l` PDK family**
-  (the gap klayout-tools#1462 tracked, closed upstream 2026-08-30 *after*
-  this pin; re-probed on every run by :func:`probe_gen_compose_router`, whose
-  raw responses are committed in each record) and because past that fix
-  `gen-compose`'s router still routes only 1 of this design's smallest
-  block's 13 nets (klayout-tools#1467, filed by this pass -- see
-  `cmos5l_route.py`'s own docstring for the measurement). The verification
-  half is unchanged and is still entirely `klt`'s: `klt drc --deck
-  sg13cmos5l`, `klt extract --deck sg13cmos5l --pdk ihp-sg13cmos5l` and
-  `klt lvs` are what produce every pass/fail claim here.
+  originally because **every `klt gen` generator -- and `klt
+  gen-compose`'s router -- rejected the `ihp-sg13cmos5l` PDK family**
+  outright (the gap klayout-tools#1462 tracked, closed upstream 2026-08-30;
+  re-probed on every run by :func:`probe_gen_compose_router`, whose raw
+  responses are committed in each record -- the probe now reports that gap
+  fixed at a pin on or after that closure) and because past that fix
+  `gen-compose`'s router was separately measured routing only 1 of this
+  design's smallest block's 13 nets (klayout-tools#1467, filed by this pass
+  -- see `cmos5l_route.py`'s own docstring for the measurement). That
+  second measurement predates the current pin and has not been repeated
+  against it, so this flow still draws and routes with its own code rather
+  than switching to `klt gen-compose`'s router on the strength of an
+  unconfirmed fix -- see `render-pll-cmos5l-record.py`'s own probe-outcome
+  reporting and `layout/sg13cmos5l-pll/README.md`'s friction log. The
+  verification half is unchanged and is still entirely `klt`'s: `klt drc
+  --deck sg13cmos5l`, `klt extract --deck sg13cmos5l --pdk ihp-sg13cmos5l`
+  and `klt lvs` are what produce every pass/fail claim here.
 
 What this flow does, per block, in order:
 

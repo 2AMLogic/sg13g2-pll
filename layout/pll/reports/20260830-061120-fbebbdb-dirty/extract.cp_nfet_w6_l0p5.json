@@ -1,0 +1,126 @@
+{
+  "top": "cp_nfet_w6_l0p5",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "cp_nfet_w6_l0p5.gds",
+    "deck": "sg13g2",
+    "top": "cp_nfet_w6_l0p5",
+    "dbu_um": 0.001,
+    "netlist_path": "cp_nfet_w6_l0p5.spice",
+    "netlist_sha256": "7c4c5f918243089e0b599150b1b5c016688d7c29769414ca57338d3fef4ba062",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 4,
+    "pin_count": 1,
+    "device_counts": {
+      "nfet": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "nfet",
+        "nets": {
+          "s": "\\$1",
+          "g": "\\$3",
+          "d": "\\$2",
+          "b": "vsubs"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 6.0,
+          "as_um2": 2.52,
+          "ad_um2": 2.52,
+          "ps_um": 12.84,
+          "pd_um": 12.84
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$3",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 1
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'cp_nfet_w6_l0p5' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "1 net connect to exactly one device terminal -- a MOS gate -- and are not a declared pin: these gates have no DC path from anywhere else in the netlist, so they are almost certainly unconnected inputs rather than legitimate floating nodes; resimulating this netlist directly will hit a singular matrix on these nets -- see single_terminal_nets[] for the full list.",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "s",
+        "terminal_kind": "source"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "d",
+        "terminal_kind": "drain"
+      },
+      {
+        "net": "\\$3",
+        "device": "$1",
+        "terminal": "g",
+        "terminal_kind": "gate"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:aba0acd35098faf7516828be7be1220501a7f0c7aa9743c5cc6b521914a4ff26",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:fb3132a4a898efb7d9eb16d89582f96a9ebe4bef4975537298f88afb988ca0c2"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

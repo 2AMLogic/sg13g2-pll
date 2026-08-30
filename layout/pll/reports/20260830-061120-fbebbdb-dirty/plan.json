@@ -1,0 +1,5703 @@
+{
+  "schema": "sg13g2-pll.pll_layout_plan/1",
+  "device_flavor": "sg13_hv_nmos/sg13_hv_pmos (3.3V thick-oxide CMOS) throughout, per spec/decision-records/DR-002-supply-device-flavor.md Decision 0",
+  "blocks": [
+    {
+      "name": "pfd",
+      "cell_name": "pll_pfd",
+      "device_count": 64,
+      "groups": [
+        {
+          "id": "pfd_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 31,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 31,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "count": 31
+          },
+          "members": [
+            {
+              "device": "XED_UP.XD1.XMN",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XED_UP.d1",
+                "U0_G": "REF",
+                "U0_S": "VSS",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XD2.XMN",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XED_UP.d2",
+                "U1_G": "XED_UP.d1",
+                "U1_S": "VSS",
+                "U1_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XD3.XMN",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XED_UP.d3",
+                "U2_G": "XED_UP.d2",
+                "U2_S": "VSS",
+                "U2_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XD4.XMN",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XED_UP.d4",
+                "U3_G": "XED_UP.d3",
+                "U3_S": "VSS",
+                "U3_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XD5.XMN",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XED_UP.XD5",
+                "U4_G": "XED_UP.d4",
+                "U4_S": "VSS",
+                "U4_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XN1.XMN1",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XED_UP.ntmp",
+                "U5_G": "REF",
+                "U5_S": "XED_UP.XN1.mid1",
+                "U5_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XN1.XMN2",
+              "unit": 6,
+              "ports": {
+                "U6_D": "XED_UP.XN1.mid1",
+                "U6_G": "XED_UP.XD5",
+                "U6_S": "VSS",
+                "U6_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_UP.XOUT.XMN",
+              "unit": 7,
+              "ports": {
+                "U7_D": "set_up",
+                "U7_G": "XED_UP.ntmp",
+                "U7_S": "VSS",
+                "U7_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XD1.XMN",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XED_DN.d1",
+                "U8_G": "FB",
+                "U8_S": "VSS",
+                "U8_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XD2.XMN",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XED_DN.d2",
+                "U9_G": "XED_DN.d1",
+                "U9_S": "VSS",
+                "U9_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XD3.XMN",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XED_DN.d3",
+                "U10_G": "XED_DN.d2",
+                "U10_S": "VSS",
+                "U10_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XD4.XMN",
+              "unit": 11,
+              "ports": {
+                "U11_D": "XED_DN.d4",
+                "U11_G": "XED_DN.d3",
+                "U11_S": "VSS",
+                "U11_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XD5.XMN",
+              "unit": 12,
+              "ports": {
+                "U12_D": "XED_DN.XD5",
+                "U12_G": "XED_DN.d4",
+                "U12_S": "VSS",
+                "U12_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XN1.XMN1",
+              "unit": 13,
+              "ports": {
+                "U13_D": "XED_DN.ntmp",
+                "U13_G": "FB",
+                "U13_S": "XED_DN.XN1.mid1",
+                "U13_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XN1.XMN2",
+              "unit": 14,
+              "ports": {
+                "U14_D": "XED_DN.XN1.mid1",
+                "U14_G": "XED_DN.XD5",
+                "U14_S": "VSS",
+                "U14_B": "VSS"
+              }
+            },
+            {
+              "device": "XED_DN.XOUT.XMN",
+              "unit": 15,
+              "ports": {
+                "U15_D": "set_dn",
+                "U15_G": "XED_DN.ntmp",
+                "U15_S": "VSS",
+                "U15_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XIS.XMN",
+              "unit": 16,
+              "ports": {
+                "U16_D": "XLU.SB",
+                "U16_G": "set_up",
+                "U16_S": "VSS",
+                "U16_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XIR.XMN",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XLU.RB",
+                "U17_G": "reset",
+                "U17_S": "VSS",
+                "U17_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XNQ.XMN1",
+              "unit": 18,
+              "ports": {
+                "U18_D": "UP",
+                "U18_G": "XLU.SB",
+                "U18_S": "XLU.XNQ.mid1",
+                "U18_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XNQ.XMN2",
+              "unit": 19,
+              "ports": {
+                "U19_D": "XLU.XNQ.mid1",
+                "U19_G": "net1",
+                "U19_S": "VSS",
+                "U19_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XNQB.XMN1",
+              "unit": 20,
+              "ports": {
+                "U20_D": "net1",
+                "U20_G": "XLU.RB",
+                "U20_S": "XLU.XNQB.mid1",
+                "U20_B": "VSS"
+              }
+            },
+            {
+              "device": "XLU.XNQB.XMN2",
+              "unit": 21,
+              "ports": {
+                "U21_D": "XLU.XNQB.mid1",
+                "U21_G": "UP",
+                "U21_S": "VSS",
+                "U21_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XIS.XMN",
+              "unit": 22,
+              "ports": {
+                "U22_D": "XLD.SB",
+                "U22_G": "set_dn",
+                "U22_S": "VSS",
+                "U22_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XIR.XMN",
+              "unit": 23,
+              "ports": {
+                "U23_D": "XLD.RB",
+                "U23_G": "reset",
+                "U23_S": "VSS",
+                "U23_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XNQ.XMN1",
+              "unit": 24,
+              "ports": {
+                "U24_D": "DN",
+                "U24_G": "XLD.SB",
+                "U24_S": "XLD.XNQ.mid1",
+                "U24_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XNQ.XMN2",
+              "unit": 25,
+              "ports": {
+                "U25_D": "XLD.XNQ.mid1",
+                "U25_G": "net2",
+                "U25_S": "VSS",
+                "U25_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XNQB.XMN1",
+              "unit": 26,
+              "ports": {
+                "U26_D": "net2",
+                "U26_G": "XLD.RB",
+                "U26_S": "XLD.XNQB.mid1",
+                "U26_B": "VSS"
+              }
+            },
+            {
+              "device": "XLD.XNQB.XMN2",
+              "unit": 27,
+              "ports": {
+                "U27_D": "XLD.XNQB.mid1",
+                "U27_G": "DN",
+                "U27_S": "VSS",
+                "U27_B": "VSS"
+              }
+            },
+            {
+              "device": "XNR.XMN1",
+              "unit": 28,
+              "ports": {
+                "U28_D": "reset_raw",
+                "U28_G": "UP",
+                "U28_S": "XNR.mid1",
+                "U28_B": "VSS"
+              }
+            },
+            {
+              "device": "XNR.XMN2",
+              "unit": 29,
+              "ports": {
+                "U29_D": "XNR.mid1",
+                "U29_G": "DN",
+                "U29_S": "VSS",
+                "U29_B": "VSS"
+              }
+            },
+            {
+              "device": "XI1.XMN",
+              "unit": 30,
+              "ports": {
+                "U30_D": "reset_d1",
+                "U30_G": "reset_raw",
+                "U30_S": "VSS",
+                "U30_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "pfd_nfet_w4_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 4.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "nfet",
+            "w_um": 4.0,
+            "l_um": 0.5,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XI2.XMN",
+              "unit": 0,
+              "ports": {
+                "U0_D": "reset",
+                "U0_G": "reset_d1",
+                "U0_S": "VSS",
+                "U0_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "pfd_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 31,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 31,
+          "expected": {
+            "class": "pfet",
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "count": 31
+          },
+          "members": [
+            {
+              "device": "XED_UP.XD1.XMP",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XED_UP.d1",
+                "U0_G": "REF",
+                "U0_S": "VDD",
+                "U0_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XD2.XMP",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XED_UP.d2",
+                "U1_G": "XED_UP.d1",
+                "U1_S": "VDD",
+                "U1_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XD3.XMP",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XED_UP.d3",
+                "U2_G": "XED_UP.d2",
+                "U2_S": "VDD",
+                "U2_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XD4.XMP",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XED_UP.d4",
+                "U3_G": "XED_UP.d3",
+                "U3_S": "VDD",
+                "U3_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XD5.XMP",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XED_UP.XD5",
+                "U4_G": "XED_UP.d4",
+                "U4_S": "VDD",
+                "U4_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XN1.XMP1",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XED_UP.ntmp",
+                "U5_G": "REF",
+                "U5_S": "VDD",
+                "U5_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XN1.XMP2",
+              "unit": 6,
+              "ports": {
+                "U6_D": "XED_UP.ntmp",
+                "U6_G": "XED_UP.XD5",
+                "U6_S": "VDD",
+                "U6_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_UP.XOUT.XMP",
+              "unit": 7,
+              "ports": {
+                "U7_D": "set_up",
+                "U7_G": "XED_UP.ntmp",
+                "U7_S": "VDD",
+                "U7_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XD1.XMP",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XED_DN.d1",
+                "U8_G": "FB",
+                "U8_S": "VDD",
+                "U8_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XD2.XMP",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XED_DN.d2",
+                "U9_G": "XED_DN.d1",
+                "U9_S": "VDD",
+                "U9_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XD3.XMP",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XED_DN.d3",
+                "U10_G": "XED_DN.d2",
+                "U10_S": "VDD",
+                "U10_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XD4.XMP",
+              "unit": 11,
+              "ports": {
+                "U11_D": "XED_DN.d4",
+                "U11_G": "XED_DN.d3",
+                "U11_S": "VDD",
+                "U11_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XD5.XMP",
+              "unit": 12,
+              "ports": {
+                "U12_D": "XED_DN.XD5",
+                "U12_G": "XED_DN.d4",
+                "U12_S": "VDD",
+                "U12_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XN1.XMP1",
+              "unit": 13,
+              "ports": {
+                "U13_D": "XED_DN.ntmp",
+                "U13_G": "FB",
+                "U13_S": "VDD",
+                "U13_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XN1.XMP2",
+              "unit": 14,
+              "ports": {
+                "U14_D": "XED_DN.ntmp",
+                "U14_G": "XED_DN.XD5",
+                "U14_S": "VDD",
+                "U14_B": "VDD"
+              }
+            },
+            {
+              "device": "XED_DN.XOUT.XMP",
+              "unit": 15,
+              "ports": {
+                "U15_D": "set_dn",
+                "U15_G": "XED_DN.ntmp",
+                "U15_S": "VDD",
+                "U15_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XIS.XMP",
+              "unit": 16,
+              "ports": {
+                "U16_D": "XLU.SB",
+                "U16_G": "set_up",
+                "U16_S": "VDD",
+                "U16_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XIR.XMP",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XLU.RB",
+                "U17_G": "reset",
+                "U17_S": "VDD",
+                "U17_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XNQ.XMP1",
+              "unit": 18,
+              "ports": {
+                "U18_D": "UP",
+                "U18_G": "XLU.SB",
+                "U18_S": "VDD",
+                "U18_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XNQ.XMP2",
+              "unit": 19,
+              "ports": {
+                "U19_D": "UP",
+                "U19_G": "net1",
+                "U19_S": "VDD",
+                "U19_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XNQB.XMP1",
+              "unit": 20,
+              "ports": {
+                "U20_D": "net1",
+                "U20_G": "XLU.RB",
+                "U20_S": "VDD",
+                "U20_B": "VDD"
+              }
+            },
+            {
+              "device": "XLU.XNQB.XMP2",
+              "unit": 21,
+              "ports": {
+                "U21_D": "net1",
+                "U21_G": "UP",
+                "U21_S": "VDD",
+                "U21_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XIS.XMP",
+              "unit": 22,
+              "ports": {
+                "U22_D": "XLD.SB",
+                "U22_G": "set_dn",
+                "U22_S": "VDD",
+                "U22_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XIR.XMP",
+              "unit": 23,
+              "ports": {
+                "U23_D": "XLD.RB",
+                "U23_G": "reset",
+                "U23_S": "VDD",
+                "U23_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XNQ.XMP1",
+              "unit": 24,
+              "ports": {
+                "U24_D": "DN",
+                "U24_G": "XLD.SB",
+                "U24_S": "VDD",
+                "U24_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XNQ.XMP2",
+              "unit": 25,
+              "ports": {
+                "U25_D": "DN",
+                "U25_G": "net2",
+                "U25_S": "VDD",
+                "U25_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XNQB.XMP1",
+              "unit": 26,
+              "ports": {
+                "U26_D": "net2",
+                "U26_G": "XLD.RB",
+                "U26_S": "VDD",
+                "U26_B": "VDD"
+              }
+            },
+            {
+              "device": "XLD.XNQB.XMP2",
+              "unit": 27,
+              "ports": {
+                "U27_D": "net2",
+                "U27_G": "DN",
+                "U27_S": "VDD",
+                "U27_B": "VDD"
+              }
+            },
+            {
+              "device": "XNR.XMP1",
+              "unit": 28,
+              "ports": {
+                "U28_D": "reset_raw",
+                "U28_G": "UP",
+                "U28_S": "VDD",
+                "U28_B": "VDD"
+              }
+            },
+            {
+              "device": "XNR.XMP2",
+              "unit": 29,
+              "ports": {
+                "U29_D": "reset_raw",
+                "U29_G": "DN",
+                "U29_S": "VDD",
+                "U29_B": "VDD"
+              }
+            },
+            {
+              "device": "XI1.XMP",
+              "unit": 30,
+              "ports": {
+                "U30_D": "reset_d1",
+                "U30_G": "reset_raw",
+                "U30_S": "VDD",
+                "U30_B": "VDD"
+              }
+            }
+          ]
+        },
+        {
+          "id": "pfd_pfet_w10_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 10.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "pfet",
+            "w_um": 10.0,
+            "l_um": 0.5,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XI2.XMP",
+              "unit": 0,
+              "ports": {
+                "U0_D": "reset",
+                "U0_G": "reset_d1",
+                "U0_S": "VDD",
+                "U0_B": "VDD"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cp",
+      "cell_name": "pll_cp",
+      "device_count": 14,
+      "groups": [
+        {
+          "id": "cp_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XIUP.XMN",
+              "unit": 0,
+              "ports": {
+                "U0_D": "UPB",
+                "U0_G": "UP",
+                "U0_S": "VSS",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XIDN.XMN",
+              "unit": 1,
+              "ports": {
+                "U1_D": "DNB",
+                "U1_G": "DN",
+                "U1_S": "VSS",
+                "U1_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_nfet_w4_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 4.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "nfet",
+            "w_um": 4.0,
+            "l_um": 1.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XBUF.XM2",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VDUMP",
+                "U0_G": "ICN",
+                "U0_S": "VSS",
+                "U0_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_nfet_w6_l0p3",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 6.0,
+            "l_um": 0.3,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "nfet",
+            "w_um": 6.0,
+            "l_um": 0.3,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XLEGN.XSWO",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VOUT",
+                "U0_G": "DN",
+                "U0_S": "XLEGN.sw",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XLEGN.XSWD",
+              "unit": 1,
+              "ports": {
+                "U1_D": "VDUMP",
+                "U1_G": "DNB",
+                "U1_S": "XLEGN.sw",
+                "U1_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_nfet_w6_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 6.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "nfet",
+            "w_um": 6.0,
+            "l_um": 0.5,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XBUF.XM1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VDD",
+                "U0_G": "VOUT",
+                "U0_S": "VDUMP",
+                "U0_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_nfet_w8_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 8.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "nfet",
+            "w_um": 8.0,
+            "l_um": 1.0,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XLEGN.XM1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XLEGN.tail",
+                "U0_G": "IBN",
+                "U0_S": "VSS",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XLEGN.XM2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XLEGN.sw",
+                "U1_G": "ICN",
+                "U1_S": "XLEGN.tail",
+                "U1_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "pfet",
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XIUP.XMP",
+              "unit": 0,
+              "ports": {
+                "U0_D": "UPB",
+                "U0_G": "UP",
+                "U0_S": "VDD",
+                "U0_B": "VDD"
+              }
+            },
+            {
+              "device": "XIDN.XMP",
+              "unit": 1,
+              "ports": {
+                "U1_D": "DNB",
+                "U1_G": "DN",
+                "U1_S": "VDD",
+                "U1_B": "VDD"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_pfet_w6_l0p3",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 6.0,
+            "l_um": 0.3,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "pfet",
+            "w_um": 6.0,
+            "l_um": 0.3,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XLEGP.XSWO",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VOUT",
+                "U0_G": "UPB",
+                "U0_S": "XLEGP.sw",
+                "U0_B": "VDD"
+              }
+            },
+            {
+              "device": "XLEGP.XSWD",
+              "unit": 1,
+              "ports": {
+                "U1_D": "VDUMP",
+                "U1_G": "UP",
+                "U1_S": "XLEGP.sw",
+                "U1_B": "VDD"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cp_pfet_w24_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 24.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "pfet",
+            "w_um": 24.0,
+            "l_um": 1.0,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XLEGP.XM1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XLEGP.tail",
+                "U0_G": "IBP",
+                "U0_S": "VDD",
+                "U0_B": "VDD"
+              }
+            },
+            {
+              "device": "XLEGP.XM2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XLEGP.sw",
+                "U1_G": "ICP",
+                "U1_S": "XLEGP.tail",
+                "U1_B": "VDD"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "loop_filter",
+      "cell_name": "pll_loop_filter",
+      "device_count": 3,
+      "groups": [
+        {
+          "id": "loop_filter_resrppd_w4_l120",
+          "kind": "res_array",
+          "generator": "res_array",
+          "params": {
+            "length_um": 120.0,
+            "width_um": 4.0,
+            "num": 1,
+            "dummy": 0,
+            "rows": 1,
+            "flavor": "rppd"
+          },
+          "count": 1,
+          "expected": {
+            "class": "rppd",
+            "w_um": 4.0,
+            "l_um": 120.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XR1",
+              "unit": 0,
+              "ports": {
+                "R0_A": "VCTRL",
+                "R0_B": "NZ",
+                "R0_BULK": "sub!"
+              }
+            }
+          ]
+        },
+        {
+          "id": "loop_filter_XC1",
+          "kind": "capacitor",
+          "generator": "cap_array",
+          "count": 1,
+          "members": [
+            {
+              "device": "XC1",
+              "unit": 0,
+              "ports": {
+                "TOP": "NZ",
+                "BOT": "VSS"
+              }
+            }
+          ],
+          "params": {
+            "plate_w_um": 40.0,
+            "plate_h_um": 40.0,
+            "num": 1
+          },
+          "expected": {
+            "class": "cap_cmim",
+            "area_um2": 1600.0,
+            "perimeter_um": 160.0,
+            "count": 1
+          }
+        },
+        {
+          "id": "loop_filter_XC2",
+          "kind": "capacitor",
+          "generator": "cap_array",
+          "count": 1,
+          "members": [
+            {
+              "device": "XC2",
+              "unit": 0,
+              "ports": {
+                "TOP": "VCTRL",
+                "BOT": "VSS"
+              }
+            }
+          ],
+          "params": {
+            "plate_w_um": 8.0,
+            "plate_h_um": 8.0,
+            "num": 1
+          },
+          "expected": {
+            "class": "cap_cmim",
+            "area_um2": 64.0,
+            "perimeter_um": 32.0,
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "vco",
+      "cell_name": "pll_vco",
+      "device_count": 45,
+      "groups": [
+        {
+          "id": "vco_nfet_w2_l0p28",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 0.28,
+            "rows": 1,
+            "cols": 5,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 5,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 0.28,
+            "count": 5
+          },
+          "members": [
+            {
+              "device": "XS1.XMN",
+              "unit": 0,
+              "ports": {
+                "U0_D": "ring1",
+                "U0_G": "ring5",
+                "U0_S": "XS1.nt",
+                "U0_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS2.XMN",
+              "unit": 1,
+              "ports": {
+                "U1_D": "ring2",
+                "U1_G": "ring1",
+                "U1_S": "XS2.nt",
+                "U1_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS3.XMN",
+              "unit": 2,
+              "ports": {
+                "U2_D": "ring3",
+                "U2_G": "ring2",
+                "U2_S": "XS3.nt",
+                "U2_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS4.XMN",
+              "unit": 3,
+              "ports": {
+                "U3_D": "ring4",
+                "U3_G": "ring3",
+                "U3_S": "XS4.nt",
+                "U3_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS5.XMN",
+              "unit": 4,
+              "ports": {
+                "U4_D": "ring5",
+                "U4_G": "ring4",
+                "U4_S": "XS5.nt",
+                "U4_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_nfet_w2_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 3,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 3,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 1.0,
+            "count": 3
+          },
+          "members": [
+            {
+              "device": "XBIAS.XN1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XBIAS.vb1",
+                "U0_G": "XBIAS.vb2",
+                "U0_S": "GND_VCO",
+                "U0_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XN5",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XBIAS.VFIX",
+                "U1_G": "XBIAS.VFIX",
+                "U1_S": "XBIAS.vfixmid",
+                "U1_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XN6",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XBIAS.vfixmid",
+                "U2_G": "XBIAS.vfixmid",
+                "U2_S": "GND_VCO",
+                "U2_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_nfet_w4_l0p3",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 4.0,
+            "l_um": 0.3,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "nfet",
+            "w_um": 4.0,
+            "l_um": 0.3,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XBIAS.XSWB0",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XBIAS.degb",
+                "U0_G": "B0",
+                "U0_S": "XBIAS.nb0",
+                "U0_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XSWB1",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XBIAS.degb",
+                "U1_G": "B1",
+                "U1_S": "XBIAS.nb1",
+                "U1_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_nfet_w4_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 4.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 7,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 7,
+          "expected": {
+            "class": "nfet",
+            "w_um": 4.0,
+            "l_um": 0.5,
+            "count": 7
+          },
+          "members": [
+            {
+              "device": "XS1.XMNT",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XS1.nt",
+                "U0_G": "VBN",
+                "U0_S": "GND_VCO",
+                "U0_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS2.XMNT",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XS2.nt",
+                "U1_G": "VBN",
+                "U1_S": "GND_VCO",
+                "U1_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS3.XMNT",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XS3.nt",
+                "U2_G": "VBN",
+                "U2_S": "GND_VCO",
+                "U2_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS4.XMNT",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XS4.nt",
+                "U3_G": "VBN",
+                "U3_S": "GND_VCO",
+                "U3_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XS5.XMNT",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XS5.nt",
+                "U4_G": "VBN",
+                "U4_S": "GND_VCO",
+                "U4_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBUF1.XMN",
+              "unit": 5,
+              "ports": {
+                "U5_D": "bufmid",
+                "U5_G": "ring1",
+                "U5_S": "GND_VCO",
+                "U5_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBUF2.XMN",
+              "unit": 6,
+              "ports": {
+                "U6_D": "CLK",
+                "U6_G": "bufmid",
+                "U6_S": "GND_VCO",
+                "U6_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_nfet_w4_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 4.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 3,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 3,
+          "expected": {
+            "class": "nfet",
+            "w_um": 4.0,
+            "l_um": 1.0,
+            "count": 3
+          },
+          "members": [
+            {
+              "device": "XBIAS.XM7",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VBP",
+                "U0_G": "XBIAS.VFIX",
+                "U0_S": "XBIAS.dega",
+                "U0_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XM8",
+              "unit": 1,
+              "ports": {
+                "U1_D": "VBP",
+                "U1_G": "VCTRL",
+                "U1_S": "XBIAS.degb",
+                "U1_B": "GND_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XM10",
+              "unit": 2,
+              "ports": {
+                "U2_D": "VBN",
+                "U2_G": "VBN",
+                "U2_S": "GND_VCO",
+                "U2_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_nfet_w8_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 8.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "nfet",
+            "w_um": 8.0,
+            "l_um": 1.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XBIAS.XN2",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XBIAS.vb2",
+                "U0_G": "XBIAS.vb2",
+                "U0_S": "XBIAS.n2s",
+                "U0_B": "GND_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_pfet_w3_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 3.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 1,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 1,
+          "expected": {
+            "class": "pfet",
+            "w_um": 3.0,
+            "l_um": 1.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XBIAS.XP5",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XBIAS.VFIX",
+                "U0_G": "XBIAS.vb1",
+                "U0_S": "VDD_VCO",
+                "U0_B": "VDD_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_pfet_w5_l0p28",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 5.0,
+            "l_um": 0.28,
+            "rows": 1,
+            "cols": 5,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 5,
+          "expected": {
+            "class": "pfet",
+            "w_um": 5.0,
+            "l_um": 0.28,
+            "count": 5
+          },
+          "members": [
+            {
+              "device": "XS1.XMP",
+              "unit": 0,
+              "ports": {
+                "U0_D": "ring1",
+                "U0_G": "ring5",
+                "U0_S": "XS1.nh",
+                "U0_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS2.XMP",
+              "unit": 1,
+              "ports": {
+                "U1_D": "ring2",
+                "U1_G": "ring1",
+                "U1_S": "XS2.nh",
+                "U1_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS3.XMP",
+              "unit": 2,
+              "ports": {
+                "U2_D": "ring3",
+                "U2_G": "ring2",
+                "U2_S": "XS3.nh",
+                "U2_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS4.XMP",
+              "unit": 3,
+              "ports": {
+                "U3_D": "ring4",
+                "U3_G": "ring3",
+                "U3_S": "XS4.nh",
+                "U3_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS5.XMP",
+              "unit": 4,
+              "ports": {
+                "U4_D": "ring5",
+                "U4_G": "ring4",
+                "U4_S": "XS5.nh",
+                "U4_B": "VDD_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_pfet_w6_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 6.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "pfet",
+            "w_um": 6.0,
+            "l_um": 1.0,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XBIAS.XP1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XBIAS.vb1",
+                "U0_G": "XBIAS.vb1",
+                "U0_S": "VDD_VCO",
+                "U0_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XP2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XBIAS.vb2",
+                "U1_G": "XBIAS.vb1",
+                "U1_S": "VDD_VCO",
+                "U1_B": "VDD_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_pfet_w10_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 10.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 7,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 7,
+          "expected": {
+            "class": "pfet",
+            "w_um": 10.0,
+            "l_um": 0.5,
+            "count": 7
+          },
+          "members": [
+            {
+              "device": "XS1.XMPH",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XS1.nh",
+                "U0_G": "VBP",
+                "U0_S": "VDD_VCO",
+                "U0_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS2.XMPH",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XS2.nh",
+                "U1_G": "VBP",
+                "U1_S": "VDD_VCO",
+                "U1_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS3.XMPH",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XS3.nh",
+                "U2_G": "VBP",
+                "U2_S": "VDD_VCO",
+                "U2_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS4.XMPH",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XS4.nh",
+                "U3_G": "VBP",
+                "U3_S": "VDD_VCO",
+                "U3_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XS5.XMPH",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XS5.nh",
+                "U4_G": "VBP",
+                "U4_S": "VDD_VCO",
+                "U4_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XBUF1.XMP",
+              "unit": 5,
+              "ports": {
+                "U5_D": "bufmid",
+                "U5_G": "ring1",
+                "U5_S": "VDD_VCO",
+                "U5_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XBUF2.XMP",
+              "unit": 6,
+              "ports": {
+                "U6_D": "CLK",
+                "U6_G": "bufmid",
+                "U6_S": "VDD_VCO",
+                "U6_B": "VDD_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_pfet_w10_l1",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 10.0,
+            "l_um": 1.0,
+            "rows": 1,
+            "cols": 2,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 2,
+          "expected": {
+            "class": "pfet",
+            "w_um": 10.0,
+            "l_um": 1.0,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XBIAS.XM6",
+              "unit": 0,
+              "ports": {
+                "U0_D": "VBP",
+                "U0_G": "VBP",
+                "U0_S": "VDD_VCO",
+                "U0_B": "VDD_VCO"
+              }
+            },
+            {
+              "device": "XBIAS.XM11",
+              "unit": 1,
+              "ports": {
+                "U1_D": "VBN",
+                "U1_G": "VBP",
+                "U1_S": "VDD_VCO",
+                "U1_B": "VDD_VCO"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_resrhigh_w0p5_l8",
+          "kind": "res_array",
+          "generator": "res_array",
+          "params": {
+            "length_um": 8.0,
+            "width_um": 0.5,
+            "num": 1,
+            "dummy": 0,
+            "rows": 1,
+            "flavor": "rhigh"
+          },
+          "count": 1,
+          "expected": {
+            "class": "rhigh",
+            "w_um": 0.5,
+            "l_um": 8.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XBIAS.XRSTART",
+              "unit": 0,
+              "ports": {
+                "R0_A": "VDD_VCO",
+                "R0_B": "XBIAS.vb2",
+                "R0_BULK": "sub!"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_resrppd_w1_l30",
+          "kind": "res_array",
+          "generator": "res_array",
+          "params": {
+            "length_um": 30.0,
+            "width_um": 1.0,
+            "num": 2,
+            "dummy": 0,
+            "rows": 1,
+            "flavor": "rppd"
+          },
+          "count": 2,
+          "expected": {
+            "class": "rppd",
+            "w_um": 1.0,
+            "l_um": 30.0,
+            "count": 2
+          },
+          "members": [
+            {
+              "device": "XBIAS.XRS",
+              "unit": 0,
+              "ports": {
+                "R0_A": "XBIAS.n2s",
+                "R0_B": "GND_VCO",
+                "R0_BULK": "sub!"
+              }
+            },
+            {
+              "device": "XBIAS.XRDEGB2",
+              "unit": 1,
+              "ports": {
+                "R1_A": "XBIAS.nb1",
+                "R1_B": "GND_VCO",
+                "R1_BULK": "sub!"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_resrppd_w1_l60",
+          "kind": "res_array",
+          "generator": "res_array",
+          "params": {
+            "length_um": 60.0,
+            "width_um": 1.0,
+            "num": 3,
+            "dummy": 0,
+            "rows": 1,
+            "flavor": "rppd"
+          },
+          "count": 3,
+          "expected": {
+            "class": "rppd",
+            "w_um": 1.0,
+            "l_um": 60.0,
+            "count": 3
+          },
+          "members": [
+            {
+              "device": "XBIAS.XRDEGA",
+              "unit": 0,
+              "ports": {
+                "R0_A": "XBIAS.dega",
+                "R0_B": "GND_VCO",
+                "R0_BULK": "sub!"
+              }
+            },
+            {
+              "device": "XBIAS.XRDEGB0",
+              "unit": 1,
+              "ports": {
+                "R1_A": "XBIAS.degb",
+                "R1_B": "GND_VCO",
+                "R1_BULK": "sub!"
+              }
+            },
+            {
+              "device": "XBIAS.XRDEGB1",
+              "unit": 2,
+              "ports": {
+                "R2_A": "XBIAS.nb0",
+                "R2_B": "GND_VCO",
+                "R2_BULK": "sub!"
+              }
+            }
+          ]
+        },
+        {
+          "id": "vco_XCDECAP",
+          "kind": "capacitor",
+          "generator": "cap_array",
+          "count": 1,
+          "members": [
+            {
+              "device": "XCDECAP",
+              "unit": 0,
+              "ports": {
+                "TOP": "VDD_VCO",
+                "BOT": "GND_VCO"
+              }
+            }
+          ],
+          "params": {
+            "plate_w_um": 60.0,
+            "plate_h_um": 60.0,
+            "num": 1
+          },
+          "expected": {
+            "class": "cap_cmim",
+            "area_um2": 3600.0,
+            "perimeter_um": 240.0,
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "divider_chain",
+      "cell_name": "pll_divider_chain",
+      "device_count": 316,
+      "groups": [
+        {
+          "id": "divider_chain_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "rows": 2,
+            "cols": 79,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 158,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "count": 158
+          },
+          "members": [
+            {
+              "device": "XD0.XN3.XMN1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XD0.nt",
+                "U0_G": "mod0",
+                "U0_S": "XD0.XN3.mid1",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XN3.XMN2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XD0.XN3.mid1",
+                "U1_G": "P0",
+                "U1_S": "XD0.XN3.mid2",
+                "U1_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XN3.XMN3",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XD0.XN3.mid2",
+                "U2_G": "net1",
+                "U2_S": "VSS",
+                "U2_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XI1.XMN",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XD0.t1",
+                "U3_G": "XD0.nt",
+                "U3_S": "VSS",
+                "U3_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XNOR.XMN1",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XD0.dq",
+                "U4_G": "ck1",
+                "U4_S": "VSS",
+                "U4_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XNOR.XMN2",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XD0.dq",
+                "U5_G": "XD0.t1",
+                "U5_S": "VSS",
+                "U5_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XICLK.XMN",
+              "unit": 6,
+              "ports": {
+                "U6_D": "XD0.XDFFQ.CLKB",
+                "U6_G": "CKIN",
+                "U6_S": "VSS",
+                "U6_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTG1.XMN",
+              "unit": 7,
+              "ports": {
+                "U7_D": "XD0.dq",
+                "U7_G": "XD0.XDFFQ.CLKB",
+                "U7_S": "XD0.XDFFQ.M",
+                "U7_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XIM.XMN",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XD0.XDFFQ.MB",
+                "U8_G": "XD0.XDFFQ.M",
+                "U8_S": "VSS",
+                "U8_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTGFBM.XMN",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XD0.XDFFQ.MB",
+                "U9_G": "CKIN",
+                "U9_S": "XD0.XDFFQ.M",
+                "U9_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTG2.XMN",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XD0.XDFFQ.M",
+                "U10_G": "CKIN",
+                "U10_S": "XD0.XDFFQ.S",
+                "U10_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XIS.XMN",
+              "unit": 11,
+              "ports": {
+                "U11_D": "XD0.XDFFQ.SB",
+                "U11_G": "XD0.XDFFQ.S",
+                "U11_S": "VSS",
+                "U11_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTGFBS.XMN",
+              "unit": 12,
+              "ports": {
+                "U12_D": "XD0.XDFFQ.SB",
+                "U12_G": "XD0.XDFFQ.CLKB",
+                "U12_S": "XD0.XDFFQ.S",
+                "U12_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XBQ.XMN",
+              "unit": 13,
+              "ports": {
+                "U13_D": "ck1",
+                "U13_G": "XD0.XDFFQ.SB",
+                "U13_S": "VSS",
+                "U13_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XN2.XMN1",
+              "unit": 14,
+              "ports": {
+                "U14_D": "XD0.nm",
+                "U14_G": "mod0",
+                "U14_S": "XD0.XN2.mid1",
+                "U14_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XN2.XMN2",
+              "unit": 15,
+              "ports": {
+                "U15_D": "XD0.XN2.mid1",
+                "U15_G": "ck1",
+                "U15_S": "VSS",
+                "U15_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XI2.XMN",
+              "unit": 16,
+              "ports": {
+                "U16_D": "XD0.dmodout",
+                "U16_G": "XD0.nm",
+                "U16_S": "VSS",
+                "U16_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XICLK.XMN",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XD0.XDFFM.CLKB",
+                "U17_G": "CKIN",
+                "U17_S": "VSS",
+                "U17_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTG1.XMN",
+              "unit": 18,
+              "ports": {
+                "U18_D": "XD0.dmodout",
+                "U18_G": "XD0.XDFFM.CLKB",
+                "U18_S": "XD0.XDFFM.M",
+                "U18_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XIM.XMN",
+              "unit": 19,
+              "ports": {
+                "U19_D": "XD0.XDFFM.MB",
+                "U19_G": "XD0.XDFFM.M",
+                "U19_S": "VSS",
+                "U19_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTGFBM.XMN",
+              "unit": 20,
+              "ports": {
+                "U20_D": "XD0.XDFFM.MB",
+                "U20_G": "CKIN",
+                "U20_S": "XD0.XDFFM.M",
+                "U20_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTG2.XMN",
+              "unit": 21,
+              "ports": {
+                "U21_D": "XD0.XDFFM.M",
+                "U21_G": "CKIN",
+                "U21_S": "XD0.XDFFM.S",
+                "U21_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XIS.XMN",
+              "unit": 22,
+              "ports": {
+                "U22_D": "XD0.XDFFM.SB",
+                "U22_G": "XD0.XDFFM.S",
+                "U22_S": "VSS",
+                "U22_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTGFBS.XMN",
+              "unit": 23,
+              "ports": {
+                "U23_D": "XD0.XDFFM.SB",
+                "U23_G": "XD0.XDFFM.CLKB",
+                "U23_S": "XD0.XDFFM.S",
+                "U23_B": "VSS"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XBQ.XMN",
+              "unit": 24,
+              "ports": {
+                "U24_D": "net1",
+                "U24_G": "XD0.XDFFM.SB",
+                "U24_S": "VSS",
+                "U24_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMN1",
+              "unit": 25,
+              "ports": {
+                "U25_D": "XD1.nt",
+                "U25_G": "mod1",
+                "U25_S": "XD1.XN3.mid1",
+                "U25_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMN2",
+              "unit": 26,
+              "ports": {
+                "U26_D": "XD1.XN3.mid1",
+                "U26_G": "P1",
+                "U26_S": "XD1.XN3.mid2",
+                "U26_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMN3",
+              "unit": 27,
+              "ports": {
+                "U27_D": "XD1.XN3.mid2",
+                "U27_G": "mod0",
+                "U27_S": "VSS",
+                "U27_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XI1.XMN",
+              "unit": 28,
+              "ports": {
+                "U28_D": "XD1.t1",
+                "U28_G": "XD1.nt",
+                "U28_S": "VSS",
+                "U28_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XNOR.XMN1",
+              "unit": 29,
+              "ports": {
+                "U29_D": "XD1.dq",
+                "U29_G": "ck2",
+                "U29_S": "VSS",
+                "U29_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XNOR.XMN2",
+              "unit": 30,
+              "ports": {
+                "U30_D": "XD1.dq",
+                "U30_G": "XD1.t1",
+                "U30_S": "VSS",
+                "U30_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XICLK.XMN",
+              "unit": 31,
+              "ports": {
+                "U31_D": "XD1.XDFFQ.CLKB",
+                "U31_G": "ck1",
+                "U31_S": "VSS",
+                "U31_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTG1.XMN",
+              "unit": 32,
+              "ports": {
+                "U32_D": "XD1.dq",
+                "U32_G": "XD1.XDFFQ.CLKB",
+                "U32_S": "XD1.XDFFQ.M",
+                "U32_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XIM.XMN",
+              "unit": 33,
+              "ports": {
+                "U33_D": "XD1.XDFFQ.MB",
+                "U33_G": "XD1.XDFFQ.M",
+                "U33_S": "VSS",
+                "U33_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTGFBM.XMN",
+              "unit": 34,
+              "ports": {
+                "U34_D": "XD1.XDFFQ.MB",
+                "U34_G": "ck1",
+                "U34_S": "XD1.XDFFQ.M",
+                "U34_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTG2.XMN",
+              "unit": 35,
+              "ports": {
+                "U35_D": "XD1.XDFFQ.M",
+                "U35_G": "ck1",
+                "U35_S": "XD1.XDFFQ.S",
+                "U35_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XIS.XMN",
+              "unit": 36,
+              "ports": {
+                "U36_D": "XD1.XDFFQ.SB",
+                "U36_G": "XD1.XDFFQ.S",
+                "U36_S": "VSS",
+                "U36_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTGFBS.XMN",
+              "unit": 37,
+              "ports": {
+                "U37_D": "XD1.XDFFQ.SB",
+                "U37_G": "XD1.XDFFQ.CLKB",
+                "U37_S": "XD1.XDFFQ.S",
+                "U37_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XBQ.XMN",
+              "unit": 38,
+              "ports": {
+                "U38_D": "ck2",
+                "U38_G": "XD1.XDFFQ.SB",
+                "U38_S": "VSS",
+                "U38_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XN2.XMN1",
+              "unit": 39,
+              "ports": {
+                "U39_D": "XD1.nm",
+                "U39_G": "mod1",
+                "U39_S": "XD1.XN2.mid1",
+                "U39_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XN2.XMN2",
+              "unit": 40,
+              "ports": {
+                "U40_D": "XD1.XN2.mid1",
+                "U40_G": "ck2",
+                "U40_S": "VSS",
+                "U40_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XI2.XMN",
+              "unit": 41,
+              "ports": {
+                "U41_D": "XD1.dmodout",
+                "U41_G": "XD1.nm",
+                "U41_S": "VSS",
+                "U41_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XICLK.XMN",
+              "unit": 42,
+              "ports": {
+                "U42_D": "XD1.XDFFM.CLKB",
+                "U42_G": "ck1",
+                "U42_S": "VSS",
+                "U42_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTG1.XMN",
+              "unit": 43,
+              "ports": {
+                "U43_D": "XD1.dmodout",
+                "U43_G": "XD1.XDFFM.CLKB",
+                "U43_S": "XD1.XDFFM.M",
+                "U43_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XIM.XMN",
+              "unit": 44,
+              "ports": {
+                "U44_D": "XD1.XDFFM.MB",
+                "U44_G": "XD1.XDFFM.M",
+                "U44_S": "VSS",
+                "U44_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTGFBM.XMN",
+              "unit": 45,
+              "ports": {
+                "U45_D": "XD1.XDFFM.MB",
+                "U45_G": "ck1",
+                "U45_S": "XD1.XDFFM.M",
+                "U45_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTG2.XMN",
+              "unit": 46,
+              "ports": {
+                "U46_D": "XD1.XDFFM.M",
+                "U46_G": "ck1",
+                "U46_S": "XD1.XDFFM.S",
+                "U46_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XIS.XMN",
+              "unit": 47,
+              "ports": {
+                "U47_D": "XD1.XDFFM.SB",
+                "U47_G": "XD1.XDFFM.S",
+                "U47_S": "VSS",
+                "U47_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTGFBS.XMN",
+              "unit": 48,
+              "ports": {
+                "U48_D": "XD1.XDFFM.SB",
+                "U48_G": "XD1.XDFFM.CLKB",
+                "U48_S": "XD1.XDFFM.S",
+                "U48_B": "VSS"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XBQ.XMN",
+              "unit": 49,
+              "ports": {
+                "U49_D": "mod0",
+                "U49_G": "XD1.XDFFM.SB",
+                "U49_S": "VSS",
+                "U49_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMN1",
+              "unit": 50,
+              "ports": {
+                "U50_D": "XD2.nt",
+                "U50_G": "mod2",
+                "U50_S": "XD2.XN3.mid1",
+                "U50_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMN2",
+              "unit": 51,
+              "ports": {
+                "U51_D": "XD2.XN3.mid1",
+                "U51_G": "P2",
+                "U51_S": "XD2.XN3.mid2",
+                "U51_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMN3",
+              "unit": 52,
+              "ports": {
+                "U52_D": "XD2.XN3.mid2",
+                "U52_G": "mod1",
+                "U52_S": "VSS",
+                "U52_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XI1.XMN",
+              "unit": 53,
+              "ports": {
+                "U53_D": "XD2.t1",
+                "U53_G": "XD2.nt",
+                "U53_S": "VSS",
+                "U53_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XNOR.XMN1",
+              "unit": 54,
+              "ports": {
+                "U54_D": "XD2.dq",
+                "U54_G": "ck3",
+                "U54_S": "VSS",
+                "U54_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XNOR.XMN2",
+              "unit": 55,
+              "ports": {
+                "U55_D": "XD2.dq",
+                "U55_G": "XD2.t1",
+                "U55_S": "VSS",
+                "U55_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XICLK.XMN",
+              "unit": 56,
+              "ports": {
+                "U56_D": "XD2.XDFFQ.CLKB",
+                "U56_G": "ck2",
+                "U56_S": "VSS",
+                "U56_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTG1.XMN",
+              "unit": 57,
+              "ports": {
+                "U57_D": "XD2.dq",
+                "U57_G": "XD2.XDFFQ.CLKB",
+                "U57_S": "XD2.XDFFQ.M",
+                "U57_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XIM.XMN",
+              "unit": 58,
+              "ports": {
+                "U58_D": "XD2.XDFFQ.MB",
+                "U58_G": "XD2.XDFFQ.M",
+                "U58_S": "VSS",
+                "U58_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTGFBM.XMN",
+              "unit": 59,
+              "ports": {
+                "U59_D": "XD2.XDFFQ.MB",
+                "U59_G": "ck2",
+                "U59_S": "XD2.XDFFQ.M",
+                "U59_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTG2.XMN",
+              "unit": 60,
+              "ports": {
+                "U60_D": "XD2.XDFFQ.M",
+                "U60_G": "ck2",
+                "U60_S": "XD2.XDFFQ.S",
+                "U60_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XIS.XMN",
+              "unit": 61,
+              "ports": {
+                "U61_D": "XD2.XDFFQ.SB",
+                "U61_G": "XD2.XDFFQ.S",
+                "U61_S": "VSS",
+                "U61_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTGFBS.XMN",
+              "unit": 62,
+              "ports": {
+                "U62_D": "XD2.XDFFQ.SB",
+                "U62_G": "XD2.XDFFQ.CLKB",
+                "U62_S": "XD2.XDFFQ.S",
+                "U62_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XBQ.XMN",
+              "unit": 63,
+              "ports": {
+                "U63_D": "ck3",
+                "U63_G": "XD2.XDFFQ.SB",
+                "U63_S": "VSS",
+                "U63_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XN2.XMN1",
+              "unit": 64,
+              "ports": {
+                "U64_D": "XD2.nm",
+                "U64_G": "mod2",
+                "U64_S": "XD2.XN2.mid1",
+                "U64_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XN2.XMN2",
+              "unit": 65,
+              "ports": {
+                "U65_D": "XD2.XN2.mid1",
+                "U65_G": "ck3",
+                "U65_S": "VSS",
+                "U65_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XI2.XMN",
+              "unit": 66,
+              "ports": {
+                "U66_D": "XD2.dmodout",
+                "U66_G": "XD2.nm",
+                "U66_S": "VSS",
+                "U66_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XICLK.XMN",
+              "unit": 67,
+              "ports": {
+                "U67_D": "XD2.XDFFM.CLKB",
+                "U67_G": "ck2",
+                "U67_S": "VSS",
+                "U67_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTG1.XMN",
+              "unit": 68,
+              "ports": {
+                "U68_D": "XD2.dmodout",
+                "U68_G": "XD2.XDFFM.CLKB",
+                "U68_S": "XD2.XDFFM.M",
+                "U68_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XIM.XMN",
+              "unit": 69,
+              "ports": {
+                "U69_D": "XD2.XDFFM.MB",
+                "U69_G": "XD2.XDFFM.M",
+                "U69_S": "VSS",
+                "U69_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTGFBM.XMN",
+              "unit": 70,
+              "ports": {
+                "U70_D": "XD2.XDFFM.MB",
+                "U70_G": "ck2",
+                "U70_S": "XD2.XDFFM.M",
+                "U70_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTG2.XMN",
+              "unit": 71,
+              "ports": {
+                "U71_D": "XD2.XDFFM.M",
+                "U71_G": "ck2",
+                "U71_S": "XD2.XDFFM.S",
+                "U71_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XIS.XMN",
+              "unit": 72,
+              "ports": {
+                "U72_D": "XD2.XDFFM.SB",
+                "U72_G": "XD2.XDFFM.S",
+                "U72_S": "VSS",
+                "U72_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTGFBS.XMN",
+              "unit": 73,
+              "ports": {
+                "U73_D": "XD2.XDFFM.SB",
+                "U73_G": "XD2.XDFFM.CLKB",
+                "U73_S": "XD2.XDFFM.S",
+                "U73_B": "VSS"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XBQ.XMN",
+              "unit": 74,
+              "ports": {
+                "U74_D": "mod1",
+                "U74_G": "XD2.XDFFM.SB",
+                "U74_S": "VSS",
+                "U74_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMN1",
+              "unit": 75,
+              "ports": {
+                "U75_D": "XD3.nt",
+                "U75_G": "mod3",
+                "U75_S": "XD3.XN3.mid1",
+                "U75_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMN2",
+              "unit": 76,
+              "ports": {
+                "U76_D": "XD3.XN3.mid1",
+                "U76_G": "P3",
+                "U76_S": "XD3.XN3.mid2",
+                "U76_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMN3",
+              "unit": 77,
+              "ports": {
+                "U77_D": "XD3.XN3.mid2",
+                "U77_G": "mod2",
+                "U77_S": "VSS",
+                "U77_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XI1.XMN",
+              "unit": 78,
+              "ports": {
+                "U78_D": "XD3.t1",
+                "U78_G": "XD3.nt",
+                "U78_S": "VSS",
+                "U78_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XNOR.XMN1",
+              "unit": 79,
+              "ports": {
+                "U79_D": "XD3.dq",
+                "U79_G": "ck4",
+                "U79_S": "VSS",
+                "U79_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XNOR.XMN2",
+              "unit": 80,
+              "ports": {
+                "U80_D": "XD3.dq",
+                "U80_G": "XD3.t1",
+                "U80_S": "VSS",
+                "U80_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XICLK.XMN",
+              "unit": 81,
+              "ports": {
+                "U81_D": "XD3.XDFFQ.CLKB",
+                "U81_G": "ck3",
+                "U81_S": "VSS",
+                "U81_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTG1.XMN",
+              "unit": 82,
+              "ports": {
+                "U82_D": "XD3.dq",
+                "U82_G": "XD3.XDFFQ.CLKB",
+                "U82_S": "XD3.XDFFQ.M",
+                "U82_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XIM.XMN",
+              "unit": 83,
+              "ports": {
+                "U83_D": "XD3.XDFFQ.MB",
+                "U83_G": "XD3.XDFFQ.M",
+                "U83_S": "VSS",
+                "U83_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTGFBM.XMN",
+              "unit": 84,
+              "ports": {
+                "U84_D": "XD3.XDFFQ.MB",
+                "U84_G": "ck3",
+                "U84_S": "XD3.XDFFQ.M",
+                "U84_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTG2.XMN",
+              "unit": 85,
+              "ports": {
+                "U85_D": "XD3.XDFFQ.M",
+                "U85_G": "ck3",
+                "U85_S": "XD3.XDFFQ.S",
+                "U85_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XIS.XMN",
+              "unit": 86,
+              "ports": {
+                "U86_D": "XD3.XDFFQ.SB",
+                "U86_G": "XD3.XDFFQ.S",
+                "U86_S": "VSS",
+                "U86_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTGFBS.XMN",
+              "unit": 87,
+              "ports": {
+                "U87_D": "XD3.XDFFQ.SB",
+                "U87_G": "XD3.XDFFQ.CLKB",
+                "U87_S": "XD3.XDFFQ.S",
+                "U87_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XBQ.XMN",
+              "unit": 88,
+              "ports": {
+                "U88_D": "ck4",
+                "U88_G": "XD3.XDFFQ.SB",
+                "U88_S": "VSS",
+                "U88_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XN2.XMN1",
+              "unit": 89,
+              "ports": {
+                "U89_D": "XD3.nm",
+                "U89_G": "mod3",
+                "U89_S": "XD3.XN2.mid1",
+                "U89_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XN2.XMN2",
+              "unit": 90,
+              "ports": {
+                "U90_D": "XD3.XN2.mid1",
+                "U90_G": "ck4",
+                "U90_S": "VSS",
+                "U90_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XI2.XMN",
+              "unit": 91,
+              "ports": {
+                "U91_D": "XD3.dmodout",
+                "U91_G": "XD3.nm",
+                "U91_S": "VSS",
+                "U91_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XICLK.XMN",
+              "unit": 92,
+              "ports": {
+                "U92_D": "XD3.XDFFM.CLKB",
+                "U92_G": "ck3",
+                "U92_S": "VSS",
+                "U92_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTG1.XMN",
+              "unit": 93,
+              "ports": {
+                "U93_D": "XD3.dmodout",
+                "U93_G": "XD3.XDFFM.CLKB",
+                "U93_S": "XD3.XDFFM.M",
+                "U93_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XIM.XMN",
+              "unit": 94,
+              "ports": {
+                "U94_D": "XD3.XDFFM.MB",
+                "U94_G": "XD3.XDFFM.M",
+                "U94_S": "VSS",
+                "U94_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTGFBM.XMN",
+              "unit": 95,
+              "ports": {
+                "U95_D": "XD3.XDFFM.MB",
+                "U95_G": "ck3",
+                "U95_S": "XD3.XDFFM.M",
+                "U95_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTG2.XMN",
+              "unit": 96,
+              "ports": {
+                "U96_D": "XD3.XDFFM.M",
+                "U96_G": "ck3",
+                "U96_S": "XD3.XDFFM.S",
+                "U96_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XIS.XMN",
+              "unit": 97,
+              "ports": {
+                "U97_D": "XD3.XDFFM.SB",
+                "U97_G": "XD3.XDFFM.S",
+                "U97_S": "VSS",
+                "U97_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTGFBS.XMN",
+              "unit": 98,
+              "ports": {
+                "U98_D": "XD3.XDFFM.SB",
+                "U98_G": "XD3.XDFFM.CLKB",
+                "U98_S": "XD3.XDFFM.S",
+                "U98_B": "VSS"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XBQ.XMN",
+              "unit": 99,
+              "ports": {
+                "U99_D": "mod2",
+                "U99_G": "XD3.XDFFM.SB",
+                "U99_S": "VSS",
+                "U99_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMN1",
+              "unit": 100,
+              "ports": {
+                "U100_D": "XD4.nt",
+                "U100_G": "mod4",
+                "U100_S": "XD4.XN3.mid1",
+                "U100_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMN2",
+              "unit": 101,
+              "ports": {
+                "U101_D": "XD4.XN3.mid1",
+                "U101_G": "P4",
+                "U101_S": "XD4.XN3.mid2",
+                "U101_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMN3",
+              "unit": 102,
+              "ports": {
+                "U102_D": "XD4.XN3.mid2",
+                "U102_G": "mod3",
+                "U102_S": "VSS",
+                "U102_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XI1.XMN",
+              "unit": 103,
+              "ports": {
+                "U103_D": "XD4.t1",
+                "U103_G": "XD4.nt",
+                "U103_S": "VSS",
+                "U103_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XNOR.XMN1",
+              "unit": 104,
+              "ports": {
+                "U104_D": "XD4.dq",
+                "U104_G": "ck5",
+                "U104_S": "VSS",
+                "U104_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XNOR.XMN2",
+              "unit": 105,
+              "ports": {
+                "U105_D": "XD4.dq",
+                "U105_G": "XD4.t1",
+                "U105_S": "VSS",
+                "U105_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XICLK.XMN",
+              "unit": 106,
+              "ports": {
+                "U106_D": "XD4.XDFFQ.CLKB",
+                "U106_G": "ck4",
+                "U106_S": "VSS",
+                "U106_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTG1.XMN",
+              "unit": 107,
+              "ports": {
+                "U107_D": "XD4.dq",
+                "U107_G": "XD4.XDFFQ.CLKB",
+                "U107_S": "XD4.XDFFQ.M",
+                "U107_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XIM.XMN",
+              "unit": 108,
+              "ports": {
+                "U108_D": "XD4.XDFFQ.MB",
+                "U108_G": "XD4.XDFFQ.M",
+                "U108_S": "VSS",
+                "U108_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTGFBM.XMN",
+              "unit": 109,
+              "ports": {
+                "U109_D": "XD4.XDFFQ.MB",
+                "U109_G": "ck4",
+                "U109_S": "XD4.XDFFQ.M",
+                "U109_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTG2.XMN",
+              "unit": 110,
+              "ports": {
+                "U110_D": "XD4.XDFFQ.M",
+                "U110_G": "ck4",
+                "U110_S": "XD4.XDFFQ.S",
+                "U110_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XIS.XMN",
+              "unit": 111,
+              "ports": {
+                "U111_D": "XD4.XDFFQ.SB",
+                "U111_G": "XD4.XDFFQ.S",
+                "U111_S": "VSS",
+                "U111_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTGFBS.XMN",
+              "unit": 112,
+              "ports": {
+                "U112_D": "XD4.XDFFQ.SB",
+                "U112_G": "XD4.XDFFQ.CLKB",
+                "U112_S": "XD4.XDFFQ.S",
+                "U112_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XBQ.XMN",
+              "unit": 113,
+              "ports": {
+                "U113_D": "ck5",
+                "U113_G": "XD4.XDFFQ.SB",
+                "U113_S": "VSS",
+                "U113_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XN2.XMN1",
+              "unit": 114,
+              "ports": {
+                "U114_D": "XD4.nm",
+                "U114_G": "mod4",
+                "U114_S": "XD4.XN2.mid1",
+                "U114_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XN2.XMN2",
+              "unit": 115,
+              "ports": {
+                "U115_D": "XD4.XN2.mid1",
+                "U115_G": "ck5",
+                "U115_S": "VSS",
+                "U115_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XI2.XMN",
+              "unit": 116,
+              "ports": {
+                "U116_D": "XD4.dmodout",
+                "U116_G": "XD4.nm",
+                "U116_S": "VSS",
+                "U116_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XICLK.XMN",
+              "unit": 117,
+              "ports": {
+                "U117_D": "XD4.XDFFM.CLKB",
+                "U117_G": "ck4",
+                "U117_S": "VSS",
+                "U117_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTG1.XMN",
+              "unit": 118,
+              "ports": {
+                "U118_D": "XD4.dmodout",
+                "U118_G": "XD4.XDFFM.CLKB",
+                "U118_S": "XD4.XDFFM.M",
+                "U118_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XIM.XMN",
+              "unit": 119,
+              "ports": {
+                "U119_D": "XD4.XDFFM.MB",
+                "U119_G": "XD4.XDFFM.M",
+                "U119_S": "VSS",
+                "U119_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTGFBM.XMN",
+              "unit": 120,
+              "ports": {
+                "U120_D": "XD4.XDFFM.MB",
+                "U120_G": "ck4",
+                "U120_S": "XD4.XDFFM.M",
+                "U120_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTG2.XMN",
+              "unit": 121,
+              "ports": {
+                "U121_D": "XD4.XDFFM.M",
+                "U121_G": "ck4",
+                "U121_S": "XD4.XDFFM.S",
+                "U121_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XIS.XMN",
+              "unit": 122,
+              "ports": {
+                "U122_D": "XD4.XDFFM.SB",
+                "U122_G": "XD4.XDFFM.S",
+                "U122_S": "VSS",
+                "U122_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTGFBS.XMN",
+              "unit": 123,
+              "ports": {
+                "U123_D": "XD4.XDFFM.SB",
+                "U123_G": "XD4.XDFFM.CLKB",
+                "U123_S": "XD4.XDFFM.S",
+                "U123_B": "VSS"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XBQ.XMN",
+              "unit": 124,
+              "ports": {
+                "U124_D": "mod3",
+                "U124_G": "XD4.XDFFM.SB",
+                "U124_S": "VSS",
+                "U124_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMN1",
+              "unit": 125,
+              "ports": {
+                "U125_D": "XD5.nt",
+                "U125_G": "VDD_DIV",
+                "U125_S": "XD5.XN3.mid1",
+                "U125_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMN2",
+              "unit": 126,
+              "ports": {
+                "U126_D": "XD5.XN3.mid1",
+                "U126_G": "P5",
+                "U126_S": "XD5.XN3.mid2",
+                "U126_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMN3",
+              "unit": 127,
+              "ports": {
+                "U127_D": "XD5.XN3.mid2",
+                "U127_G": "mod4",
+                "U127_S": "VSS",
+                "U127_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XI1.XMN",
+              "unit": 128,
+              "ports": {
+                "U128_D": "XD5.t1",
+                "U128_G": "XD5.nt",
+                "U128_S": "VSS",
+                "U128_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XNOR.XMN1",
+              "unit": 129,
+              "ports": {
+                "U129_D": "XD5.dq",
+                "U129_G": "DIVOUT",
+                "U129_S": "VSS",
+                "U129_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XNOR.XMN2",
+              "unit": 130,
+              "ports": {
+                "U130_D": "XD5.dq",
+                "U130_G": "XD5.t1",
+                "U130_S": "VSS",
+                "U130_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XICLK.XMN",
+              "unit": 131,
+              "ports": {
+                "U131_D": "XD5.XDFFQ.CLKB",
+                "U131_G": "ck5",
+                "U131_S": "VSS",
+                "U131_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTG1.XMN",
+              "unit": 132,
+              "ports": {
+                "U132_D": "XD5.dq",
+                "U132_G": "XD5.XDFFQ.CLKB",
+                "U132_S": "XD5.XDFFQ.M",
+                "U132_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XIM.XMN",
+              "unit": 133,
+              "ports": {
+                "U133_D": "XD5.XDFFQ.MB",
+                "U133_G": "XD5.XDFFQ.M",
+                "U133_S": "VSS",
+                "U133_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTGFBM.XMN",
+              "unit": 134,
+              "ports": {
+                "U134_D": "XD5.XDFFQ.MB",
+                "U134_G": "ck5",
+                "U134_S": "XD5.XDFFQ.M",
+                "U134_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTG2.XMN",
+              "unit": 135,
+              "ports": {
+                "U135_D": "XD5.XDFFQ.M",
+                "U135_G": "ck5",
+                "U135_S": "XD5.XDFFQ.S",
+                "U135_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XIS.XMN",
+              "unit": 136,
+              "ports": {
+                "U136_D": "XD5.XDFFQ.SB",
+                "U136_G": "XD5.XDFFQ.S",
+                "U136_S": "VSS",
+                "U136_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTGFBS.XMN",
+              "unit": 137,
+              "ports": {
+                "U137_D": "XD5.XDFFQ.SB",
+                "U137_G": "XD5.XDFFQ.CLKB",
+                "U137_S": "XD5.XDFFQ.S",
+                "U137_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XBQ.XMN",
+              "unit": 138,
+              "ports": {
+                "U138_D": "DIVOUT",
+                "U138_G": "XD5.XDFFQ.SB",
+                "U138_S": "VSS",
+                "U138_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XN2.XMN1",
+              "unit": 139,
+              "ports": {
+                "U139_D": "XD5.nm",
+                "U139_G": "VDD_DIV",
+                "U139_S": "XD5.XN2.mid1",
+                "U139_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XN2.XMN2",
+              "unit": 140,
+              "ports": {
+                "U140_D": "XD5.XN2.mid1",
+                "U140_G": "DIVOUT",
+                "U140_S": "VSS",
+                "U140_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XI2.XMN",
+              "unit": 141,
+              "ports": {
+                "U141_D": "XD5.dmodout",
+                "U141_G": "XD5.nm",
+                "U141_S": "VSS",
+                "U141_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XICLK.XMN",
+              "unit": 142,
+              "ports": {
+                "U142_D": "XD5.XDFFM.CLKB",
+                "U142_G": "ck5",
+                "U142_S": "VSS",
+                "U142_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTG1.XMN",
+              "unit": 143,
+              "ports": {
+                "U143_D": "XD5.dmodout",
+                "U143_G": "XD5.XDFFM.CLKB",
+                "U143_S": "XD5.XDFFM.M",
+                "U143_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XIM.XMN",
+              "unit": 144,
+              "ports": {
+                "U144_D": "XD5.XDFFM.MB",
+                "U144_G": "XD5.XDFFM.M",
+                "U144_S": "VSS",
+                "U144_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTGFBM.XMN",
+              "unit": 145,
+              "ports": {
+                "U145_D": "XD5.XDFFM.MB",
+                "U145_G": "ck5",
+                "U145_S": "XD5.XDFFM.M",
+                "U145_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTG2.XMN",
+              "unit": 146,
+              "ports": {
+                "U146_D": "XD5.XDFFM.M",
+                "U146_G": "ck5",
+                "U146_S": "XD5.XDFFM.S",
+                "U146_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XIS.XMN",
+              "unit": 147,
+              "ports": {
+                "U147_D": "XD5.XDFFM.SB",
+                "U147_G": "XD5.XDFFM.S",
+                "U147_S": "VSS",
+                "U147_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTGFBS.XMN",
+              "unit": 148,
+              "ports": {
+                "U148_D": "XD5.XDFFM.SB",
+                "U148_G": "XD5.XDFFM.CLKB",
+                "U148_S": "XD5.XDFFM.S",
+                "U148_B": "VSS"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XBQ.XMN",
+              "unit": 149,
+              "ports": {
+                "U149_D": "mod4",
+                "U149_G": "XD5.XDFFM.SB",
+                "U149_S": "VSS",
+                "U149_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XICLK.XMN",
+              "unit": 150,
+              "ports": {
+                "U150_D": "XFRT.CLKB",
+                "U150_G": "CKIN_VCO",
+                "U150_S": "VSS",
+                "U150_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XTG1.XMN",
+              "unit": 151,
+              "ports": {
+                "U151_D": "DIVOUT",
+                "U151_G": "XFRT.CLKB",
+                "U151_S": "XFRT.M",
+                "U151_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XIM.XMN",
+              "unit": 152,
+              "ports": {
+                "U152_D": "XFRT.MB",
+                "U152_G": "XFRT.M",
+                "U152_S": "VSS",
+                "U152_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XTGFBM.XMN",
+              "unit": 153,
+              "ports": {
+                "U153_D": "XFRT.MB",
+                "U153_G": "CKIN_VCO",
+                "U153_S": "XFRT.M",
+                "U153_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XTG2.XMN",
+              "unit": 154,
+              "ports": {
+                "U154_D": "XFRT.M",
+                "U154_G": "CKIN_VCO",
+                "U154_S": "XFRT.S",
+                "U154_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XIS.XMN",
+              "unit": 155,
+              "ports": {
+                "U155_D": "XFRT.SB",
+                "U155_G": "XFRT.S",
+                "U155_S": "VSS",
+                "U155_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XTGFBS.XMN",
+              "unit": 156,
+              "ports": {
+                "U156_D": "XFRT.SB",
+                "U156_G": "XFRT.CLKB",
+                "U156_S": "XFRT.S",
+                "U156_B": "VSS"
+              }
+            },
+            {
+              "device": "XFRT.XBQ.XMN",
+              "unit": 157,
+              "ports": {
+                "U157_D": "FB",
+                "U157_G": "XFRT.SB",
+                "U157_S": "VSS",
+                "U157_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "divider_chain_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "rows": 2,
+            "cols": 79,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 158,
+          "expected": {
+            "class": "pfet",
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "count": 158
+          },
+          "members": [
+            {
+              "device": "XD0.XN3.XMP1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XD0.nt",
+                "U0_G": "mod0",
+                "U0_S": "VDD_DIV",
+                "U0_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XN3.XMP2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XD0.nt",
+                "U1_G": "P0",
+                "U1_S": "VDD_DIV",
+                "U1_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XN3.XMP3",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XD0.nt",
+                "U2_G": "net1",
+                "U2_S": "VDD_DIV",
+                "U2_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XI1.XMP",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XD0.t1",
+                "U3_G": "XD0.nt",
+                "U3_S": "VDD_DIV",
+                "U3_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XNOR.XMP1",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XD0.XNOR.midp",
+                "U4_G": "ck1",
+                "U4_S": "VDD_DIV",
+                "U4_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XNOR.XMP2",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XD0.dq",
+                "U5_G": "XD0.t1",
+                "U5_S": "XD0.XNOR.midp",
+                "U5_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XICLK.XMP",
+              "unit": 6,
+              "ports": {
+                "U6_D": "XD0.XDFFQ.CLKB",
+                "U6_G": "CKIN",
+                "U6_S": "VDD_DIV",
+                "U6_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTG1.XMP",
+              "unit": 7,
+              "ports": {
+                "U7_D": "XD0.XDFFQ.M",
+                "U7_G": "CKIN",
+                "U7_S": "XD0.dq",
+                "U7_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XIM.XMP",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XD0.XDFFQ.MB",
+                "U8_G": "XD0.XDFFQ.M",
+                "U8_S": "VDD_DIV",
+                "U8_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTGFBM.XMP",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XD0.XDFFQ.M",
+                "U9_G": "XD0.XDFFQ.CLKB",
+                "U9_S": "XD0.XDFFQ.MB",
+                "U9_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTG2.XMP",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XD0.XDFFQ.S",
+                "U10_G": "XD0.XDFFQ.CLKB",
+                "U10_S": "XD0.XDFFQ.M",
+                "U10_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XIS.XMP",
+              "unit": 11,
+              "ports": {
+                "U11_D": "XD0.XDFFQ.SB",
+                "U11_G": "XD0.XDFFQ.S",
+                "U11_S": "VDD_DIV",
+                "U11_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XTGFBS.XMP",
+              "unit": 12,
+              "ports": {
+                "U12_D": "XD0.XDFFQ.S",
+                "U12_G": "CKIN",
+                "U12_S": "XD0.XDFFQ.SB",
+                "U12_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFQ.XBQ.XMP",
+              "unit": 13,
+              "ports": {
+                "U13_D": "ck1",
+                "U13_G": "XD0.XDFFQ.SB",
+                "U13_S": "VDD_DIV",
+                "U13_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XN2.XMP1",
+              "unit": 14,
+              "ports": {
+                "U14_D": "XD0.nm",
+                "U14_G": "mod0",
+                "U14_S": "VDD_DIV",
+                "U14_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XN2.XMP2",
+              "unit": 15,
+              "ports": {
+                "U15_D": "XD0.nm",
+                "U15_G": "ck1",
+                "U15_S": "VDD_DIV",
+                "U15_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XI2.XMP",
+              "unit": 16,
+              "ports": {
+                "U16_D": "XD0.dmodout",
+                "U16_G": "XD0.nm",
+                "U16_S": "VDD_DIV",
+                "U16_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XICLK.XMP",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XD0.XDFFM.CLKB",
+                "U17_G": "CKIN",
+                "U17_S": "VDD_DIV",
+                "U17_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTG1.XMP",
+              "unit": 18,
+              "ports": {
+                "U18_D": "XD0.XDFFM.M",
+                "U18_G": "CKIN",
+                "U18_S": "XD0.dmodout",
+                "U18_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XIM.XMP",
+              "unit": 19,
+              "ports": {
+                "U19_D": "XD0.XDFFM.MB",
+                "U19_G": "XD0.XDFFM.M",
+                "U19_S": "VDD_DIV",
+                "U19_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTGFBM.XMP",
+              "unit": 20,
+              "ports": {
+                "U20_D": "XD0.XDFFM.M",
+                "U20_G": "XD0.XDFFM.CLKB",
+                "U20_S": "XD0.XDFFM.MB",
+                "U20_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTG2.XMP",
+              "unit": 21,
+              "ports": {
+                "U21_D": "XD0.XDFFM.S",
+                "U21_G": "XD0.XDFFM.CLKB",
+                "U21_S": "XD0.XDFFM.M",
+                "U21_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XIS.XMP",
+              "unit": 22,
+              "ports": {
+                "U22_D": "XD0.XDFFM.SB",
+                "U22_G": "XD0.XDFFM.S",
+                "U22_S": "VDD_DIV",
+                "U22_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XTGFBS.XMP",
+              "unit": 23,
+              "ports": {
+                "U23_D": "XD0.XDFFM.S",
+                "U23_G": "CKIN",
+                "U23_S": "XD0.XDFFM.SB",
+                "U23_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD0.XDFFM.XBQ.XMP",
+              "unit": 24,
+              "ports": {
+                "U24_D": "net1",
+                "U24_G": "XD0.XDFFM.SB",
+                "U24_S": "VDD_DIV",
+                "U24_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMP1",
+              "unit": 25,
+              "ports": {
+                "U25_D": "XD1.nt",
+                "U25_G": "mod1",
+                "U25_S": "VDD_DIV",
+                "U25_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMP2",
+              "unit": 26,
+              "ports": {
+                "U26_D": "XD1.nt",
+                "U26_G": "P1",
+                "U26_S": "VDD_DIV",
+                "U26_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XN3.XMP3",
+              "unit": 27,
+              "ports": {
+                "U27_D": "XD1.nt",
+                "U27_G": "mod0",
+                "U27_S": "VDD_DIV",
+                "U27_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XI1.XMP",
+              "unit": 28,
+              "ports": {
+                "U28_D": "XD1.t1",
+                "U28_G": "XD1.nt",
+                "U28_S": "VDD_DIV",
+                "U28_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XNOR.XMP1",
+              "unit": 29,
+              "ports": {
+                "U29_D": "XD1.XNOR.midp",
+                "U29_G": "ck2",
+                "U29_S": "VDD_DIV",
+                "U29_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XNOR.XMP2",
+              "unit": 30,
+              "ports": {
+                "U30_D": "XD1.dq",
+                "U30_G": "XD1.t1",
+                "U30_S": "XD1.XNOR.midp",
+                "U30_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XICLK.XMP",
+              "unit": 31,
+              "ports": {
+                "U31_D": "XD1.XDFFQ.CLKB",
+                "U31_G": "ck1",
+                "U31_S": "VDD_DIV",
+                "U31_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTG1.XMP",
+              "unit": 32,
+              "ports": {
+                "U32_D": "XD1.XDFFQ.M",
+                "U32_G": "ck1",
+                "U32_S": "XD1.dq",
+                "U32_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XIM.XMP",
+              "unit": 33,
+              "ports": {
+                "U33_D": "XD1.XDFFQ.MB",
+                "U33_G": "XD1.XDFFQ.M",
+                "U33_S": "VDD_DIV",
+                "U33_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTGFBM.XMP",
+              "unit": 34,
+              "ports": {
+                "U34_D": "XD1.XDFFQ.M",
+                "U34_G": "XD1.XDFFQ.CLKB",
+                "U34_S": "XD1.XDFFQ.MB",
+                "U34_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTG2.XMP",
+              "unit": 35,
+              "ports": {
+                "U35_D": "XD1.XDFFQ.S",
+                "U35_G": "XD1.XDFFQ.CLKB",
+                "U35_S": "XD1.XDFFQ.M",
+                "U35_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XIS.XMP",
+              "unit": 36,
+              "ports": {
+                "U36_D": "XD1.XDFFQ.SB",
+                "U36_G": "XD1.XDFFQ.S",
+                "U36_S": "VDD_DIV",
+                "U36_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XTGFBS.XMP",
+              "unit": 37,
+              "ports": {
+                "U37_D": "XD1.XDFFQ.S",
+                "U37_G": "ck1",
+                "U37_S": "XD1.XDFFQ.SB",
+                "U37_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFQ.XBQ.XMP",
+              "unit": 38,
+              "ports": {
+                "U38_D": "ck2",
+                "U38_G": "XD1.XDFFQ.SB",
+                "U38_S": "VDD_DIV",
+                "U38_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XN2.XMP1",
+              "unit": 39,
+              "ports": {
+                "U39_D": "XD1.nm",
+                "U39_G": "mod1",
+                "U39_S": "VDD_DIV",
+                "U39_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XN2.XMP2",
+              "unit": 40,
+              "ports": {
+                "U40_D": "XD1.nm",
+                "U40_G": "ck2",
+                "U40_S": "VDD_DIV",
+                "U40_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XI2.XMP",
+              "unit": 41,
+              "ports": {
+                "U41_D": "XD1.dmodout",
+                "U41_G": "XD1.nm",
+                "U41_S": "VDD_DIV",
+                "U41_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XICLK.XMP",
+              "unit": 42,
+              "ports": {
+                "U42_D": "XD1.XDFFM.CLKB",
+                "U42_G": "ck1",
+                "U42_S": "VDD_DIV",
+                "U42_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTG1.XMP",
+              "unit": 43,
+              "ports": {
+                "U43_D": "XD1.XDFFM.M",
+                "U43_G": "ck1",
+                "U43_S": "XD1.dmodout",
+                "U43_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XIM.XMP",
+              "unit": 44,
+              "ports": {
+                "U44_D": "XD1.XDFFM.MB",
+                "U44_G": "XD1.XDFFM.M",
+                "U44_S": "VDD_DIV",
+                "U44_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTGFBM.XMP",
+              "unit": 45,
+              "ports": {
+                "U45_D": "XD1.XDFFM.M",
+                "U45_G": "XD1.XDFFM.CLKB",
+                "U45_S": "XD1.XDFFM.MB",
+                "U45_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTG2.XMP",
+              "unit": 46,
+              "ports": {
+                "U46_D": "XD1.XDFFM.S",
+                "U46_G": "XD1.XDFFM.CLKB",
+                "U46_S": "XD1.XDFFM.M",
+                "U46_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XIS.XMP",
+              "unit": 47,
+              "ports": {
+                "U47_D": "XD1.XDFFM.SB",
+                "U47_G": "XD1.XDFFM.S",
+                "U47_S": "VDD_DIV",
+                "U47_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XTGFBS.XMP",
+              "unit": 48,
+              "ports": {
+                "U48_D": "XD1.XDFFM.S",
+                "U48_G": "ck1",
+                "U48_S": "XD1.XDFFM.SB",
+                "U48_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD1.XDFFM.XBQ.XMP",
+              "unit": 49,
+              "ports": {
+                "U49_D": "mod0",
+                "U49_G": "XD1.XDFFM.SB",
+                "U49_S": "VDD_DIV",
+                "U49_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMP1",
+              "unit": 50,
+              "ports": {
+                "U50_D": "XD2.nt",
+                "U50_G": "mod2",
+                "U50_S": "VDD_DIV",
+                "U50_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMP2",
+              "unit": 51,
+              "ports": {
+                "U51_D": "XD2.nt",
+                "U51_G": "P2",
+                "U51_S": "VDD_DIV",
+                "U51_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XN3.XMP3",
+              "unit": 52,
+              "ports": {
+                "U52_D": "XD2.nt",
+                "U52_G": "mod1",
+                "U52_S": "VDD_DIV",
+                "U52_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XI1.XMP",
+              "unit": 53,
+              "ports": {
+                "U53_D": "XD2.t1",
+                "U53_G": "XD2.nt",
+                "U53_S": "VDD_DIV",
+                "U53_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XNOR.XMP1",
+              "unit": 54,
+              "ports": {
+                "U54_D": "XD2.XNOR.midp",
+                "U54_G": "ck3",
+                "U54_S": "VDD_DIV",
+                "U54_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XNOR.XMP2",
+              "unit": 55,
+              "ports": {
+                "U55_D": "XD2.dq",
+                "U55_G": "XD2.t1",
+                "U55_S": "XD2.XNOR.midp",
+                "U55_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XICLK.XMP",
+              "unit": 56,
+              "ports": {
+                "U56_D": "XD2.XDFFQ.CLKB",
+                "U56_G": "ck2",
+                "U56_S": "VDD_DIV",
+                "U56_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTG1.XMP",
+              "unit": 57,
+              "ports": {
+                "U57_D": "XD2.XDFFQ.M",
+                "U57_G": "ck2",
+                "U57_S": "XD2.dq",
+                "U57_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XIM.XMP",
+              "unit": 58,
+              "ports": {
+                "U58_D": "XD2.XDFFQ.MB",
+                "U58_G": "XD2.XDFFQ.M",
+                "U58_S": "VDD_DIV",
+                "U58_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTGFBM.XMP",
+              "unit": 59,
+              "ports": {
+                "U59_D": "XD2.XDFFQ.M",
+                "U59_G": "XD2.XDFFQ.CLKB",
+                "U59_S": "XD2.XDFFQ.MB",
+                "U59_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTG2.XMP",
+              "unit": 60,
+              "ports": {
+                "U60_D": "XD2.XDFFQ.S",
+                "U60_G": "XD2.XDFFQ.CLKB",
+                "U60_S": "XD2.XDFFQ.M",
+                "U60_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XIS.XMP",
+              "unit": 61,
+              "ports": {
+                "U61_D": "XD2.XDFFQ.SB",
+                "U61_G": "XD2.XDFFQ.S",
+                "U61_S": "VDD_DIV",
+                "U61_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XTGFBS.XMP",
+              "unit": 62,
+              "ports": {
+                "U62_D": "XD2.XDFFQ.S",
+                "U62_G": "ck2",
+                "U62_S": "XD2.XDFFQ.SB",
+                "U62_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFQ.XBQ.XMP",
+              "unit": 63,
+              "ports": {
+                "U63_D": "ck3",
+                "U63_G": "XD2.XDFFQ.SB",
+                "U63_S": "VDD_DIV",
+                "U63_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XN2.XMP1",
+              "unit": 64,
+              "ports": {
+                "U64_D": "XD2.nm",
+                "U64_G": "mod2",
+                "U64_S": "VDD_DIV",
+                "U64_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XN2.XMP2",
+              "unit": 65,
+              "ports": {
+                "U65_D": "XD2.nm",
+                "U65_G": "ck3",
+                "U65_S": "VDD_DIV",
+                "U65_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XI2.XMP",
+              "unit": 66,
+              "ports": {
+                "U66_D": "XD2.dmodout",
+                "U66_G": "XD2.nm",
+                "U66_S": "VDD_DIV",
+                "U66_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XICLK.XMP",
+              "unit": 67,
+              "ports": {
+                "U67_D": "XD2.XDFFM.CLKB",
+                "U67_G": "ck2",
+                "U67_S": "VDD_DIV",
+                "U67_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTG1.XMP",
+              "unit": 68,
+              "ports": {
+                "U68_D": "XD2.XDFFM.M",
+                "U68_G": "ck2",
+                "U68_S": "XD2.dmodout",
+                "U68_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XIM.XMP",
+              "unit": 69,
+              "ports": {
+                "U69_D": "XD2.XDFFM.MB",
+                "U69_G": "XD2.XDFFM.M",
+                "U69_S": "VDD_DIV",
+                "U69_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTGFBM.XMP",
+              "unit": 70,
+              "ports": {
+                "U70_D": "XD2.XDFFM.M",
+                "U70_G": "XD2.XDFFM.CLKB",
+                "U70_S": "XD2.XDFFM.MB",
+                "U70_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTG2.XMP",
+              "unit": 71,
+              "ports": {
+                "U71_D": "XD2.XDFFM.S",
+                "U71_G": "XD2.XDFFM.CLKB",
+                "U71_S": "XD2.XDFFM.M",
+                "U71_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XIS.XMP",
+              "unit": 72,
+              "ports": {
+                "U72_D": "XD2.XDFFM.SB",
+                "U72_G": "XD2.XDFFM.S",
+                "U72_S": "VDD_DIV",
+                "U72_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XTGFBS.XMP",
+              "unit": 73,
+              "ports": {
+                "U73_D": "XD2.XDFFM.S",
+                "U73_G": "ck2",
+                "U73_S": "XD2.XDFFM.SB",
+                "U73_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD2.XDFFM.XBQ.XMP",
+              "unit": 74,
+              "ports": {
+                "U74_D": "mod1",
+                "U74_G": "XD2.XDFFM.SB",
+                "U74_S": "VDD_DIV",
+                "U74_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMP1",
+              "unit": 75,
+              "ports": {
+                "U75_D": "XD3.nt",
+                "U75_G": "mod3",
+                "U75_S": "VDD_DIV",
+                "U75_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMP2",
+              "unit": 76,
+              "ports": {
+                "U76_D": "XD3.nt",
+                "U76_G": "P3",
+                "U76_S": "VDD_DIV",
+                "U76_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XN3.XMP3",
+              "unit": 77,
+              "ports": {
+                "U77_D": "XD3.nt",
+                "U77_G": "mod2",
+                "U77_S": "VDD_DIV",
+                "U77_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XI1.XMP",
+              "unit": 78,
+              "ports": {
+                "U78_D": "XD3.t1",
+                "U78_G": "XD3.nt",
+                "U78_S": "VDD_DIV",
+                "U78_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XNOR.XMP1",
+              "unit": 79,
+              "ports": {
+                "U79_D": "XD3.XNOR.midp",
+                "U79_G": "ck4",
+                "U79_S": "VDD_DIV",
+                "U79_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XNOR.XMP2",
+              "unit": 80,
+              "ports": {
+                "U80_D": "XD3.dq",
+                "U80_G": "XD3.t1",
+                "U80_S": "XD3.XNOR.midp",
+                "U80_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XICLK.XMP",
+              "unit": 81,
+              "ports": {
+                "U81_D": "XD3.XDFFQ.CLKB",
+                "U81_G": "ck3",
+                "U81_S": "VDD_DIV",
+                "U81_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTG1.XMP",
+              "unit": 82,
+              "ports": {
+                "U82_D": "XD3.XDFFQ.M",
+                "U82_G": "ck3",
+                "U82_S": "XD3.dq",
+                "U82_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XIM.XMP",
+              "unit": 83,
+              "ports": {
+                "U83_D": "XD3.XDFFQ.MB",
+                "U83_G": "XD3.XDFFQ.M",
+                "U83_S": "VDD_DIV",
+                "U83_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTGFBM.XMP",
+              "unit": 84,
+              "ports": {
+                "U84_D": "XD3.XDFFQ.M",
+                "U84_G": "XD3.XDFFQ.CLKB",
+                "U84_S": "XD3.XDFFQ.MB",
+                "U84_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTG2.XMP",
+              "unit": 85,
+              "ports": {
+                "U85_D": "XD3.XDFFQ.S",
+                "U85_G": "XD3.XDFFQ.CLKB",
+                "U85_S": "XD3.XDFFQ.M",
+                "U85_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XIS.XMP",
+              "unit": 86,
+              "ports": {
+                "U86_D": "XD3.XDFFQ.SB",
+                "U86_G": "XD3.XDFFQ.S",
+                "U86_S": "VDD_DIV",
+                "U86_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XTGFBS.XMP",
+              "unit": 87,
+              "ports": {
+                "U87_D": "XD3.XDFFQ.S",
+                "U87_G": "ck3",
+                "U87_S": "XD3.XDFFQ.SB",
+                "U87_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFQ.XBQ.XMP",
+              "unit": 88,
+              "ports": {
+                "U88_D": "ck4",
+                "U88_G": "XD3.XDFFQ.SB",
+                "U88_S": "VDD_DIV",
+                "U88_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XN2.XMP1",
+              "unit": 89,
+              "ports": {
+                "U89_D": "XD3.nm",
+                "U89_G": "mod3",
+                "U89_S": "VDD_DIV",
+                "U89_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XN2.XMP2",
+              "unit": 90,
+              "ports": {
+                "U90_D": "XD3.nm",
+                "U90_G": "ck4",
+                "U90_S": "VDD_DIV",
+                "U90_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XI2.XMP",
+              "unit": 91,
+              "ports": {
+                "U91_D": "XD3.dmodout",
+                "U91_G": "XD3.nm",
+                "U91_S": "VDD_DIV",
+                "U91_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XICLK.XMP",
+              "unit": 92,
+              "ports": {
+                "U92_D": "XD3.XDFFM.CLKB",
+                "U92_G": "ck3",
+                "U92_S": "VDD_DIV",
+                "U92_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTG1.XMP",
+              "unit": 93,
+              "ports": {
+                "U93_D": "XD3.XDFFM.M",
+                "U93_G": "ck3",
+                "U93_S": "XD3.dmodout",
+                "U93_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XIM.XMP",
+              "unit": 94,
+              "ports": {
+                "U94_D": "XD3.XDFFM.MB",
+                "U94_G": "XD3.XDFFM.M",
+                "U94_S": "VDD_DIV",
+                "U94_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTGFBM.XMP",
+              "unit": 95,
+              "ports": {
+                "U95_D": "XD3.XDFFM.M",
+                "U95_G": "XD3.XDFFM.CLKB",
+                "U95_S": "XD3.XDFFM.MB",
+                "U95_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTG2.XMP",
+              "unit": 96,
+              "ports": {
+                "U96_D": "XD3.XDFFM.S",
+                "U96_G": "XD3.XDFFM.CLKB",
+                "U96_S": "XD3.XDFFM.M",
+                "U96_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XIS.XMP",
+              "unit": 97,
+              "ports": {
+                "U97_D": "XD3.XDFFM.SB",
+                "U97_G": "XD3.XDFFM.S",
+                "U97_S": "VDD_DIV",
+                "U97_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XTGFBS.XMP",
+              "unit": 98,
+              "ports": {
+                "U98_D": "XD3.XDFFM.S",
+                "U98_G": "ck3",
+                "U98_S": "XD3.XDFFM.SB",
+                "U98_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD3.XDFFM.XBQ.XMP",
+              "unit": 99,
+              "ports": {
+                "U99_D": "mod2",
+                "U99_G": "XD3.XDFFM.SB",
+                "U99_S": "VDD_DIV",
+                "U99_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMP1",
+              "unit": 100,
+              "ports": {
+                "U100_D": "XD4.nt",
+                "U100_G": "mod4",
+                "U100_S": "VDD_DIV",
+                "U100_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMP2",
+              "unit": 101,
+              "ports": {
+                "U101_D": "XD4.nt",
+                "U101_G": "P4",
+                "U101_S": "VDD_DIV",
+                "U101_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XN3.XMP3",
+              "unit": 102,
+              "ports": {
+                "U102_D": "XD4.nt",
+                "U102_G": "mod3",
+                "U102_S": "VDD_DIV",
+                "U102_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XI1.XMP",
+              "unit": 103,
+              "ports": {
+                "U103_D": "XD4.t1",
+                "U103_G": "XD4.nt",
+                "U103_S": "VDD_DIV",
+                "U103_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XNOR.XMP1",
+              "unit": 104,
+              "ports": {
+                "U104_D": "XD4.XNOR.midp",
+                "U104_G": "ck5",
+                "U104_S": "VDD_DIV",
+                "U104_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XNOR.XMP2",
+              "unit": 105,
+              "ports": {
+                "U105_D": "XD4.dq",
+                "U105_G": "XD4.t1",
+                "U105_S": "XD4.XNOR.midp",
+                "U105_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XICLK.XMP",
+              "unit": 106,
+              "ports": {
+                "U106_D": "XD4.XDFFQ.CLKB",
+                "U106_G": "ck4",
+                "U106_S": "VDD_DIV",
+                "U106_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTG1.XMP",
+              "unit": 107,
+              "ports": {
+                "U107_D": "XD4.XDFFQ.M",
+                "U107_G": "ck4",
+                "U107_S": "XD4.dq",
+                "U107_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XIM.XMP",
+              "unit": 108,
+              "ports": {
+                "U108_D": "XD4.XDFFQ.MB",
+                "U108_G": "XD4.XDFFQ.M",
+                "U108_S": "VDD_DIV",
+                "U108_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTGFBM.XMP",
+              "unit": 109,
+              "ports": {
+                "U109_D": "XD4.XDFFQ.M",
+                "U109_G": "XD4.XDFFQ.CLKB",
+                "U109_S": "XD4.XDFFQ.MB",
+                "U109_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTG2.XMP",
+              "unit": 110,
+              "ports": {
+                "U110_D": "XD4.XDFFQ.S",
+                "U110_G": "XD4.XDFFQ.CLKB",
+                "U110_S": "XD4.XDFFQ.M",
+                "U110_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XIS.XMP",
+              "unit": 111,
+              "ports": {
+                "U111_D": "XD4.XDFFQ.SB",
+                "U111_G": "XD4.XDFFQ.S",
+                "U111_S": "VDD_DIV",
+                "U111_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XTGFBS.XMP",
+              "unit": 112,
+              "ports": {
+                "U112_D": "XD4.XDFFQ.S",
+                "U112_G": "ck4",
+                "U112_S": "XD4.XDFFQ.SB",
+                "U112_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFQ.XBQ.XMP",
+              "unit": 113,
+              "ports": {
+                "U113_D": "ck5",
+                "U113_G": "XD4.XDFFQ.SB",
+                "U113_S": "VDD_DIV",
+                "U113_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XN2.XMP1",
+              "unit": 114,
+              "ports": {
+                "U114_D": "XD4.nm",
+                "U114_G": "mod4",
+                "U114_S": "VDD_DIV",
+                "U114_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XN2.XMP2",
+              "unit": 115,
+              "ports": {
+                "U115_D": "XD4.nm",
+                "U115_G": "ck5",
+                "U115_S": "VDD_DIV",
+                "U115_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XI2.XMP",
+              "unit": 116,
+              "ports": {
+                "U116_D": "XD4.dmodout",
+                "U116_G": "XD4.nm",
+                "U116_S": "VDD_DIV",
+                "U116_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XICLK.XMP",
+              "unit": 117,
+              "ports": {
+                "U117_D": "XD4.XDFFM.CLKB",
+                "U117_G": "ck4",
+                "U117_S": "VDD_DIV",
+                "U117_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTG1.XMP",
+              "unit": 118,
+              "ports": {
+                "U118_D": "XD4.XDFFM.M",
+                "U118_G": "ck4",
+                "U118_S": "XD4.dmodout",
+                "U118_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XIM.XMP",
+              "unit": 119,
+              "ports": {
+                "U119_D": "XD4.XDFFM.MB",
+                "U119_G": "XD4.XDFFM.M",
+                "U119_S": "VDD_DIV",
+                "U119_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTGFBM.XMP",
+              "unit": 120,
+              "ports": {
+                "U120_D": "XD4.XDFFM.M",
+                "U120_G": "XD4.XDFFM.CLKB",
+                "U120_S": "XD4.XDFFM.MB",
+                "U120_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTG2.XMP",
+              "unit": 121,
+              "ports": {
+                "U121_D": "XD4.XDFFM.S",
+                "U121_G": "XD4.XDFFM.CLKB",
+                "U121_S": "XD4.XDFFM.M",
+                "U121_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XIS.XMP",
+              "unit": 122,
+              "ports": {
+                "U122_D": "XD4.XDFFM.SB",
+                "U122_G": "XD4.XDFFM.S",
+                "U122_S": "VDD_DIV",
+                "U122_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XTGFBS.XMP",
+              "unit": 123,
+              "ports": {
+                "U123_D": "XD4.XDFFM.S",
+                "U123_G": "ck4",
+                "U123_S": "XD4.XDFFM.SB",
+                "U123_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD4.XDFFM.XBQ.XMP",
+              "unit": 124,
+              "ports": {
+                "U124_D": "mod3",
+                "U124_G": "XD4.XDFFM.SB",
+                "U124_S": "VDD_DIV",
+                "U124_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMP1",
+              "unit": 125,
+              "ports": {
+                "U125_D": "XD5.nt",
+                "U125_G": "VDD_DIV",
+                "U125_S": "VDD_DIV",
+                "U125_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMP2",
+              "unit": 126,
+              "ports": {
+                "U126_D": "XD5.nt",
+                "U126_G": "P5",
+                "U126_S": "VDD_DIV",
+                "U126_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XN3.XMP3",
+              "unit": 127,
+              "ports": {
+                "U127_D": "XD5.nt",
+                "U127_G": "mod4",
+                "U127_S": "VDD_DIV",
+                "U127_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XI1.XMP",
+              "unit": 128,
+              "ports": {
+                "U128_D": "XD5.t1",
+                "U128_G": "XD5.nt",
+                "U128_S": "VDD_DIV",
+                "U128_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XNOR.XMP1",
+              "unit": 129,
+              "ports": {
+                "U129_D": "XD5.XNOR.midp",
+                "U129_G": "DIVOUT",
+                "U129_S": "VDD_DIV",
+                "U129_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XNOR.XMP2",
+              "unit": 130,
+              "ports": {
+                "U130_D": "XD5.dq",
+                "U130_G": "XD5.t1",
+                "U130_S": "XD5.XNOR.midp",
+                "U130_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XICLK.XMP",
+              "unit": 131,
+              "ports": {
+                "U131_D": "XD5.XDFFQ.CLKB",
+                "U131_G": "ck5",
+                "U131_S": "VDD_DIV",
+                "U131_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTG1.XMP",
+              "unit": 132,
+              "ports": {
+                "U132_D": "XD5.XDFFQ.M",
+                "U132_G": "ck5",
+                "U132_S": "XD5.dq",
+                "U132_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XIM.XMP",
+              "unit": 133,
+              "ports": {
+                "U133_D": "XD5.XDFFQ.MB",
+                "U133_G": "XD5.XDFFQ.M",
+                "U133_S": "VDD_DIV",
+                "U133_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTGFBM.XMP",
+              "unit": 134,
+              "ports": {
+                "U134_D": "XD5.XDFFQ.M",
+                "U134_G": "XD5.XDFFQ.CLKB",
+                "U134_S": "XD5.XDFFQ.MB",
+                "U134_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTG2.XMP",
+              "unit": 135,
+              "ports": {
+                "U135_D": "XD5.XDFFQ.S",
+                "U135_G": "XD5.XDFFQ.CLKB",
+                "U135_S": "XD5.XDFFQ.M",
+                "U135_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XIS.XMP",
+              "unit": 136,
+              "ports": {
+                "U136_D": "XD5.XDFFQ.SB",
+                "U136_G": "XD5.XDFFQ.S",
+                "U136_S": "VDD_DIV",
+                "U136_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XTGFBS.XMP",
+              "unit": 137,
+              "ports": {
+                "U137_D": "XD5.XDFFQ.S",
+                "U137_G": "ck5",
+                "U137_S": "XD5.XDFFQ.SB",
+                "U137_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFQ.XBQ.XMP",
+              "unit": 138,
+              "ports": {
+                "U138_D": "DIVOUT",
+                "U138_G": "XD5.XDFFQ.SB",
+                "U138_S": "VDD_DIV",
+                "U138_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XN2.XMP1",
+              "unit": 139,
+              "ports": {
+                "U139_D": "XD5.nm",
+                "U139_G": "VDD_DIV",
+                "U139_S": "VDD_DIV",
+                "U139_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XN2.XMP2",
+              "unit": 140,
+              "ports": {
+                "U140_D": "XD5.nm",
+                "U140_G": "DIVOUT",
+                "U140_S": "VDD_DIV",
+                "U140_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XI2.XMP",
+              "unit": 141,
+              "ports": {
+                "U141_D": "XD5.dmodout",
+                "U141_G": "XD5.nm",
+                "U141_S": "VDD_DIV",
+                "U141_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XICLK.XMP",
+              "unit": 142,
+              "ports": {
+                "U142_D": "XD5.XDFFM.CLKB",
+                "U142_G": "ck5",
+                "U142_S": "VDD_DIV",
+                "U142_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTG1.XMP",
+              "unit": 143,
+              "ports": {
+                "U143_D": "XD5.XDFFM.M",
+                "U143_G": "ck5",
+                "U143_S": "XD5.dmodout",
+                "U143_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XIM.XMP",
+              "unit": 144,
+              "ports": {
+                "U144_D": "XD5.XDFFM.MB",
+                "U144_G": "XD5.XDFFM.M",
+                "U144_S": "VDD_DIV",
+                "U144_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTGFBM.XMP",
+              "unit": 145,
+              "ports": {
+                "U145_D": "XD5.XDFFM.M",
+                "U145_G": "XD5.XDFFM.CLKB",
+                "U145_S": "XD5.XDFFM.MB",
+                "U145_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTG2.XMP",
+              "unit": 146,
+              "ports": {
+                "U146_D": "XD5.XDFFM.S",
+                "U146_G": "XD5.XDFFM.CLKB",
+                "U146_S": "XD5.XDFFM.M",
+                "U146_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XIS.XMP",
+              "unit": 147,
+              "ports": {
+                "U147_D": "XD5.XDFFM.SB",
+                "U147_G": "XD5.XDFFM.S",
+                "U147_S": "VDD_DIV",
+                "U147_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XTGFBS.XMP",
+              "unit": 148,
+              "ports": {
+                "U148_D": "XD5.XDFFM.S",
+                "U148_G": "ck5",
+                "U148_S": "XD5.XDFFM.SB",
+                "U148_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XD5.XDFFM.XBQ.XMP",
+              "unit": 149,
+              "ports": {
+                "U149_D": "mod4",
+                "U149_G": "XD5.XDFFM.SB",
+                "U149_S": "VDD_DIV",
+                "U149_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XICLK.XMP",
+              "unit": 150,
+              "ports": {
+                "U150_D": "XFRT.CLKB",
+                "U150_G": "CKIN_VCO",
+                "U150_S": "VDD_DIV",
+                "U150_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XTG1.XMP",
+              "unit": 151,
+              "ports": {
+                "U151_D": "XFRT.M",
+                "U151_G": "CKIN_VCO",
+                "U151_S": "DIVOUT",
+                "U151_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XIM.XMP",
+              "unit": 152,
+              "ports": {
+                "U152_D": "XFRT.MB",
+                "U152_G": "XFRT.M",
+                "U152_S": "VDD_DIV",
+                "U152_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XTGFBM.XMP",
+              "unit": 153,
+              "ports": {
+                "U153_D": "XFRT.M",
+                "U153_G": "XFRT.CLKB",
+                "U153_S": "XFRT.MB",
+                "U153_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XTG2.XMP",
+              "unit": 154,
+              "ports": {
+                "U154_D": "XFRT.S",
+                "U154_G": "XFRT.CLKB",
+                "U154_S": "XFRT.M",
+                "U154_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XIS.XMP",
+              "unit": 155,
+              "ports": {
+                "U155_D": "XFRT.SB",
+                "U155_G": "XFRT.S",
+                "U155_S": "VDD_DIV",
+                "U155_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XTGFBS.XMP",
+              "unit": 156,
+              "ports": {
+                "U156_D": "XFRT.S",
+                "U156_G": "CKIN_VCO",
+                "U156_S": "XFRT.SB",
+                "U156_B": "VDD_DIV"
+              }
+            },
+            {
+              "device": "XFRT.XBQ.XMP",
+              "unit": 157,
+              "ports": {
+                "U157_D": "FB",
+                "U157_G": "XFRT.SB",
+                "U157_S": "VDD_DIV",
+                "U157_B": "VDD_DIV"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock_detector",
+      "cell_name": "pll_lock_detector",
+      "device_count": 40,
+      "groups": [
+        {
+          "id": "lock_detector_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "rows": 1,
+            "cols": 19,
+            "dummy": 0,
+            "flavor": "nfet",
+            "topology": "array",
+            "gate_contact": true
+          },
+          "count": 19,
+          "expected": {
+            "class": "nfet",
+            "w_um": 2.0,
+            "l_um": 0.5,
+            "count": 19
+          },
+          "members": [
+            {
+              "device": "XXOR.XN1.XMN1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XXOR.n1",
+                "U0_G": "UP",
+                "U0_S": "XXOR.XN1.mid1",
+                "U0_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN1.XMN2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XXOR.XN1.mid1",
+                "U1_G": "DN",
+                "U1_S": "VSS",
+                "U1_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN2.XMN1",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XXOR.n2",
+                "U2_G": "UP",
+                "U2_S": "XXOR.XN2.mid1",
+                "U2_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN2.XMN2",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XXOR.XN2.mid1",
+                "U3_G": "XXOR.n1",
+                "U3_S": "VSS",
+                "U3_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN3.XMN1",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XXOR.n3",
+                "U4_G": "DN",
+                "U4_S": "XXOR.XN3.mid1",
+                "U4_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN3.XMN2",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XXOR.XN3.mid1",
+                "U5_G": "XXOR.n1",
+                "U5_S": "VSS",
+                "U5_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN4.XMN1",
+              "unit": 6,
+              "ports": {
+                "U6_D": "ERR",
+                "U6_G": "XXOR.n2",
+                "U6_S": "XXOR.XN4.mid1",
+                "U6_B": "VSS"
+              }
+            },
+            {
+              "device": "XXOR.XN4.XMN2",
+              "unit": 7,
+              "ports": {
+                "U7_D": "XXOR.XN4.mid1",
+                "U7_G": "XXOR.n3",
+                "U7_S": "VSS",
+                "U7_B": "VSS"
+              }
+            },
+            {
+              "device": "XDW.XI1.XMN",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XDW.d1",
+                "U8_G": "ERR",
+                "U8_S": "VSS",
+                "U8_B": "VSS"
+              }
+            },
+            {
+              "device": "XDW.XI2.XMN",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XDW.d2",
+                "U9_G": "XDW.d1",
+                "U9_S": "VSS",
+                "U9_B": "VSS"
+              }
+            },
+            {
+              "device": "XDW.XI3.XMN",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XDW.d3",
+                "U10_G": "XDW.d2",
+                "U10_S": "VSS",
+                "U10_B": "VSS"
+              }
+            },
+            {
+              "device": "XDW.XI4.XMN",
+              "unit": 11,
+              "ports": {
+                "U11_D": "ERRD",
+                "U11_G": "XDW.d3",
+                "U11_S": "VSS",
+                "U11_B": "VSS"
+              }
+            },
+            {
+              "device": "XNW.XMN1",
+              "unit": 12,
+              "ports": {
+                "U12_D": "nwide",
+                "U12_G": "ERR",
+                "U12_S": "XNW.mid1",
+                "U12_B": "VSS"
+              }
+            },
+            {
+              "device": "XNW.XMN2",
+              "unit": 13,
+              "ports": {
+                "U13_D": "XNW.mid1",
+                "U13_G": "ERRD",
+                "U13_S": "VSS",
+                "U13_B": "VSS"
+              }
+            },
+            {
+              "device": "XIW.XMN",
+              "unit": 14,
+              "ports": {
+                "U14_D": "WIDE",
+                "U14_G": "nwide",
+                "U14_S": "VSS",
+                "U14_B": "VSS"
+              }
+            },
+            {
+              "device": "XMPD",
+              "unit": 15,
+              "ports": {
+                "U15_D": "VWIN",
+                "U15_G": "WIDE",
+                "U15_S": "VSS",
+                "U15_B": "VSS"
+              }
+            },
+            {
+              "device": "XSCH.XMN1",
+              "unit": 16,
+              "ports": {
+                "U16_D": "LOCK",
+                "U16_G": "VWIN",
+                "U16_S": "XSCH.nn",
+                "U16_B": "VSS"
+              }
+            },
+            {
+              "device": "XSCH.XMN2",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XSCH.nn",
+                "U17_G": "VWIN",
+                "U17_S": "VSS",
+                "U17_B": "VSS"
+              }
+            },
+            {
+              "device": "XSCH.XMN3",
+              "unit": 18,
+              "ports": {
+                "U18_D": "XSCH.nn",
+                "U18_G": "LOCK",
+                "U18_S": "VSS",
+                "U18_B": "VSS"
+              }
+            }
+          ]
+        },
+        {
+          "id": "lock_detector_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "generator": "mos_array",
+          "params": {
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "rows": 3,
+            "cols": 6,
+            "dummy": 0,
+            "flavor": "pfet",
+            "topology": "common_centroid",
+            "gate_contact": true
+          },
+          "count": 18,
+          "expected": {
+            "class": "pfet",
+            "w_um": 5.0,
+            "l_um": 0.5,
+            "count": 18
+          },
+          "members": [
+            {
+              "device": "XXOR.XN1.XMP1",
+              "unit": 0,
+              "ports": {
+                "U0_D": "XXOR.n1",
+                "U0_G": "UP",
+                "U0_S": "VDD",
+                "U0_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN1.XMP2",
+              "unit": 1,
+              "ports": {
+                "U1_D": "XXOR.n1",
+                "U1_G": "DN",
+                "U1_S": "VDD",
+                "U1_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN2.XMP1",
+              "unit": 2,
+              "ports": {
+                "U2_D": "XXOR.n2",
+                "U2_G": "UP",
+                "U2_S": "VDD",
+                "U2_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN2.XMP2",
+              "unit": 3,
+              "ports": {
+                "U3_D": "XXOR.n2",
+                "U3_G": "XXOR.n1",
+                "U3_S": "VDD",
+                "U3_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN3.XMP1",
+              "unit": 4,
+              "ports": {
+                "U4_D": "XXOR.n3",
+                "U4_G": "DN",
+                "U4_S": "VDD",
+                "U4_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN3.XMP2",
+              "unit": 5,
+              "ports": {
+                "U5_D": "XXOR.n3",
+                "U5_G": "XXOR.n1",
+                "U5_S": "VDD",
+                "U5_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN4.XMP1",
+              "unit": 6,
+              "ports": {
+                "U6_D": "ERR",
+                "U6_G": "XXOR.n2",
+                "U6_S": "VDD",
+                "U6_B": "VDD"
+              }
+            },
+            {
+              "device": "XXOR.XN4.XMP2",
+              "unit": 7,
+              "ports": {
+                "U7_D": "ERR",
+                "U7_G": "XXOR.n3",
+                "U7_S": "VDD",
+                "U7_B": "VDD"
+              }
+            },
+            {
+              "device": "XDW.XI1.XMP",
+              "unit": 8,
+              "ports": {
+                "U8_D": "XDW.d1",
+                "U8_G": "ERR",
+                "U8_S": "VDD",
+                "U8_B": "VDD"
+              }
+            },
+            {
+              "device": "XDW.XI2.XMP",
+              "unit": 9,
+              "ports": {
+                "U9_D": "XDW.d2",
+                "U9_G": "XDW.d1",
+                "U9_S": "VDD",
+                "U9_B": "VDD"
+              }
+            },
+            {
+              "device": "XDW.XI3.XMP",
+              "unit": 10,
+              "ports": {
+                "U10_D": "XDW.d3",
+                "U10_G": "XDW.d2",
+                "U10_S": "VDD",
+                "U10_B": "VDD"
+              }
+            },
+            {
+              "device": "XDW.XI4.XMP",
+              "unit": 11,
+              "ports": {
+                "U11_D": "ERRD",
+                "U11_G": "XDW.d3",
+                "U11_S": "VDD",
+                "U11_B": "VDD"
+              }
+            },
+            {
+              "device": "XNW.XMP1",
+              "unit": 12,
+              "ports": {
+                "U12_D": "nwide",
+                "U12_G": "ERR",
+                "U12_S": "VDD",
+                "U12_B": "VDD"
+              }
+            },
+            {
+              "device": "XNW.XMP2",
+              "unit": 13,
+              "ports": {
+                "U13_D": "nwide",
+                "U13_G": "ERRD",
+                "U13_S": "VDD",
+                "U13_B": "VDD"
+              }
+            },
+            {
+              "device": "XIW.XMP",
+              "unit": 14,
+              "ports": {
+                "U14_D": "WIDE",
+                "U14_G": "nwide",
+                "U14_S": "VDD",
+                "U14_B": "VDD"
+              }
+            },
+            {
+              "device": "XSCH.XMP1",
+              "unit": 15,
+              "ports": {
+                "U15_D": "XSCH.np",
+                "U15_G": "VWIN",
+                "U15_S": "VDD",
+                "U15_B": "VDD"
+              }
+            },
+            {
+              "device": "XSCH.XMP2",
+              "unit": 16,
+              "ports": {
+                "U16_D": "LOCK",
+                "U16_G": "VWIN",
+                "U16_S": "XSCH.np",
+                "U16_B": "VDD"
+              }
+            },
+            {
+              "device": "XSCH.XMP3",
+              "unit": 17,
+              "ports": {
+                "U17_D": "XSCH.np",
+                "U17_G": "LOCK",
+                "U17_S": "VDD",
+                "U17_B": "VDD"
+              }
+            }
+          ]
+        },
+        {
+          "id": "lock_detector_resrhigh_w0p5_l6",
+          "kind": "res_array",
+          "generator": "res_array",
+          "params": {
+            "length_um": 6.0,
+            "width_um": 0.5,
+            "num": 1,
+            "dummy": 0,
+            "rows": 1,
+            "flavor": "rhigh"
+          },
+          "count": 1,
+          "expected": {
+            "class": "rhigh",
+            "w_um": 0.5,
+            "l_um": 6.0,
+            "count": 1
+          },
+          "members": [
+            {
+              "device": "XRPU",
+              "unit": 0,
+              "ports": {
+                "R0_A": "VDD",
+                "R0_B": "VWIN",
+                "R0_BULK": "sub!"
+              }
+            }
+          ]
+        },
+        {
+          "id": "lock_detector_XCW",
+          "kind": "capacitor",
+          "generator": "cap_array",
+          "count": 1,
+          "members": [
+            {
+              "device": "XCW",
+              "unit": 0,
+              "ports": {
+                "TOP": "VWIN",
+                "BOT": "VSS"
+              }
+            }
+          ],
+          "params": {
+            "plate_w_um": 6.0,
+            "plate_h_um": 6.0,
+            "num": 1
+          },
+          "expected": {
+            "class": "cap_cmim",
+            "area_um2": 36.0,
+            "perimeter_um": 24.0,
+            "count": 1
+          }
+        },
+        {
+          "id": "lock_detector_XDW.XC1",
+          "kind": "capacitor",
+          "generator": "cap_array",
+          "count": 1,
+          "members": [
+            {
+              "device": "XDW.XC1",
+              "unit": 0,
+              "ports": {
+                "TOP": "ERRD",
+                "BOT": "VSS"
+              }
+            }
+          ],
+          "params": {
+            "plate_w_um": 4.0,
+            "plate_h_um": 4.0,
+            "num": 1
+          },
+          "expected": {
+            "class": "cap_cmim",
+            "area_um2": 16.0,
+            "perimeter_um": 16.0,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ]
+}

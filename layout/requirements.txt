@@ -59,10 +59,35 @@
 #
 #     Verified `5482cfe...` is an ancestor of `04c0fa9...` before pinning, so
 #     nothing the previous pin carried is lost.
+#   * fdf04f71ab39159838acb86e63a92d6fa0c714fa (current pin) -- `main` HEAD as
+#     of this bump (issue #31), picking up the fix issue #24 deliberately did
+#     not chase:
+#
+#     - **klayout-tools#1461** (PR, `25c52af27f5518959f8afa2e11c5449741886c9c`):
+#       `klt gen cap_array` now has a real `sg13g2` MiM-capacitor plate-layer
+#       configuration (`cap_top_plate`/`cap_bottom_plate`/`cap_top_via`/
+#       `cap_top_via_metal`, transcribed from the `sg13g2` deck's own
+#       `cap_cmim` extraction entry), closing **klayout-tools#1455** -- the
+#       gap this repo itself filed from issue #13's own run and the last
+#       thing standing between the SG13G2 record and 482/482. Verified
+#       `25c52af...` is an ancestor of `fdf04f71...` before pinning
+#       (`gh api .../compare/25c52af...fdf04f71` reports `"status": "ahead"`,
+#       5 commits, 0 behind), so the fix is present at this pin.
+#     - Also picks up **klayout-tools#1465** (`b10fa3c6e`, closes #1462): adds
+#       an `sg13cmos5l` role-layer entry so `klt gen mos_array`/`res_array`
+#       resolve that family too -- relevant to `layout/sg13cmos5l-pll/`'s own
+#       non-regression re-run, not this design's SG13G2 side.
+#     - **What this bump does NOT pick up**: klayout-tools#1466 (new
+#       device-recognition/extraction machinery for `cap_cmomi`/`cap_cmomf`,
+#       SG13CMOS5L's own MoM capacitors) is filed but not merged as of this
+#       pin -- `fdf04f71a` (`#1469`) only documents that gap, it does not
+#       close it. The SG13CMOS5L side's two MoM-capacitor devices are
+#       therefore still expected to be undrawable at this pin; see
+#       `layout/sg13cmos5l-pll/README.md`.
 #
 # Bump discipline, mirrored from sky130-pll: pin an exact commit, never
 # floating `main`; state in this header what the bump picks up; and re-run
 # **both** `layout/bin/run-pll-layout-flow.sh` and
 # `layout/bin/run-pll-cmos5l-layout-flow.sh`, checking the refreshed records
 # in as the non-regression (or, hopefully, regression-fixed) proof.
-klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@04c0fa91221364e4983151358b05c135691c4d40
+klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@fdf04f71ab39159838acb86e63a92d6fa0c714fa

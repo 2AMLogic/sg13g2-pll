@@ -1,0 +1,12 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_resrppd_w1_l60
+* pin vsubs
+.SUBCKT vco_resrppd_w1_l60 vsubs
+* device instance $1 r0 *1 30.42,0.5 rppd
+R$1 \$1 \$2 vsubs 15600 rppd
+* device instance $2 r0 *1 91.76,0.5 rppd
+R$2 \$3 \$4 vsubs 15600 rppd
+* device instance $3 r0 *1 153.1,0.5 rppd
+R$3 \$5 \$6 vsubs 15600 rppd
+.ENDS vco_resrppd_w1_l60

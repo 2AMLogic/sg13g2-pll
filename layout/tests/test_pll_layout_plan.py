@@ -248,7 +248,9 @@ def test_plan_block_groups_resistors_by_flavor_w_l():
         assert group["expected"]["count"] == group["count"]
 
 
-def test_plan_block_records_but_never_attempts_capacitors():
+def test_plan_block_plans_cap_cmim_as_a_drawable_cap_array_group():
+    # cap_cmim (SG13G2's own MIM capacitor) draws via `klt gen cap_array`
+    # since klayout-tools#1461 -- issue #31's re-bump.
     devices = [
         {
             "path": "XC1",
@@ -260,8 +262,34 @@ def test_plan_block_records_but_never_attempts_capacitors():
     plan = pll_layout.plan_block("blk", devices)
     (group,) = plan["groups"]
     assert group["kind"] == "capacitor"
+    assert group["generator"] == "cap_array"
+    assert "blocked_reason" not in group
+    assert group["params"] == {"plate_w_um": 40.0, "plate_h_um": 40.0, "num": 1}
+    assert group["expected"] == {
+        "class": "cap_cmim",
+        "area_um2": 1600.0,
+        "perimeter_um": 160.0,
+        "count": 1,
+    }
+
+
+def test_plan_block_records_but_never_attempts_cap_cmomi():
+    # cap_cmomi (the SG13CMOS5L port's MoM capacitor, DR-004) still has no
+    # `klt gen` generator on any PDK family.
+    devices = [
+        {
+            "path": "XC1",
+            "model": "cap_cmomi",
+            "nets": ["TOP", "BOT"],
+            "params": {"w": "40u", "l": "40u"},
+        }
+    ]
+    plan = pll_layout.plan_block("blk", devices)
+    (group,) = plan["groups"]
+    assert group["kind"] == "capacitor"
     assert group["generator"] is None
-    assert "Non-goals" in group["blocked_reason"] or "out of scope" in group["blocked_reason"]
+    assert group["expected"] is None
+    assert "never drawn" in group["blocked_reason"]
 
 
 def test_plan_block_member_port_maps_are_recorded():
@@ -410,23 +438,101 @@ def test_match_group_extraction_flags_device_count_mismatch():
     assert any("expected 2 device" in m for m in result["mismatches"])
 
 
+def test_match_group_extraction_accepts_exact_capacitor_match():
+    # A MiM cap has no single W/L to compare -- `expected` carries
+    # area_um2/perimeter_um instead, and the match branches on that.
+    group = {
+        "expected": {
+            "class": "cap_cmim",
+            "area_um2": 1600.0,
+            "perimeter_um": 160.0,
+            "count": 1,
+        }
+    }
+    extract_report = {
+        "devices": [
+            {
+                "name": "$1",
+                "class": "cap_cmim",
+                "params": {"c_f": 2.4064e-12, "area_um2": 1600.0, "perimeter_um": 160.0},
+            }
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is True
+    assert result["mismatches"] == []
+
+
+def test_match_group_extraction_flags_wrong_capacitor_area():
+    group = {
+        "expected": {
+            "class": "cap_cmim",
+            "area_um2": 1600.0,
+            "perimeter_um": 160.0,
+            "count": 1,
+        }
+    }
+    extract_report = {
+        "devices": [
+            {
+                "name": "$1",
+                "class": "cap_cmim",
+                "params": {"c_f": 2.4e-12, "area_um2": 1599.0, "perimeter_um": 160.0},
+            }
+        ]
+    }
+    result = pll_layout._match_group_extraction(group, extract_report)
+    assert result["matched"] is False
+    assert any("area_um2" in m for m in result["mismatches"])
+
+
 def test_match_block_extraction_sums_expected_counts_by_class():
     block = {
         "groups": [
-            {"kind": "mos_array", "count": 3, "expected": {"class": "nfet"}},
-            {"kind": "mos_array", "count": 2, "expected": {"class": "pfet"}},
-            {"kind": "capacitor", "count": 1, "expected": None},
+            {
+                "kind": "mos_array",
+                "generator": "mos_array",
+                "count": 3,
+                "expected": {"class": "nfet"},
+            },
+            {
+                "kind": "mos_array",
+                "generator": "mos_array",
+                "count": 2,
+                "expected": {"class": "pfet"},
+            },
+            {
+                "kind": "capacitor",
+                "generator": "cap_array",
+                "count": 1,
+                "expected": {"class": "cap_cmim"},
+            },
+            {
+                "kind": "capacitor",
+                "generator": None,
+                "count": 1,
+                "expected": None,
+            },
         ]
     }
-    extract_report = {"device_counts": {"nfet": 3, "pfet": 2}}
+    extract_report = {"device_counts": {"nfet": 3, "pfet": 2, "cap_cmim": 1}}
     result = pll_layout._match_block_extraction(block, extract_report)
-    assert result["expected_counts"] == {"nfet": 3, "pfet": 2}
+    # The blocked (generator: None) capacitor group is excluded -- its
+    # `expected` is None and it was never drawn/composed.
+    assert result["expected_counts"] == {"nfet": 3, "pfet": 2, "cap_cmim": 1}
     assert result["matched"] is True
 
 
 def test_match_block_extraction_flags_count_mismatch():
     block = {
-        "groups": [{"kind": "mos_array", "count": 3, "expected": {"class": "nfet"}}]
+        "groups": [
+            {
+                "kind": "mos_array",
+                "generator": "mos_array",
+                "count": 3,
+                "expected": {"class": "nfet"},
+            }
+        ]
     }
     extract_report = {"device_counts": {"nfet": 2}}
     result = pll_layout._match_block_extraction(block, extract_report)

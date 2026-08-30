@@ -16,15 +16,16 @@ layout/bin/setup-venv.sh            # once, or after bumping requirements.txt
 layout/bin/run-pll-layout-flow.sh   # writes a fresh record
 ```
 
-## Status: 477 / 482 planned devices draw, extract, and match the schematic — every block composes
+## Status: 482 / 482 planned devices draw, extract, and match the schematic — every block composes
 
-**This is the honest headline.** `layout/bin/pll_layout.py` derives a
-complete, schematic-accurate device plan (every device every block's
-netlist declares, grouped by `(class, W, L)` into `klt gen` requests) and
-then, for the two device classes `klt gen` can draw on `sg13g2`
-(`mos_array`/`res_array`), draws each group, re-extracts it
-(`klt extract --deck sg13g2`), and compares the extracted `(class, W, L,
-count)` against the schematic's own — then composes every block's own
+**This is the honest headline, and it is a full pass.** `layout/bin/pll_layout.py`
+derives a complete, schematic-accurate device plan (every device every
+block's netlist declares, grouped by `(class, W, L)` into `klt gen`
+requests) and then, for every device class `klt gen` can draw on `sg13g2`
+today (`mos_array`, `res_array`, and — as of issue #31's re-bump —
+`cap_array` for this design's `cap_cmim` MiM capacitors), draws each group,
+re-extracts it (`klt extract --deck sg13g2`), and compares the extraction
+against the schematic's own expectation — then composes every block's own
 drawn groups into one `pll_<block>` cell (`klt gen-compose`, placement
 only) and re-extracts *that* composed cell too, cross-checking its
 device-count multiset against the block's schematic-derived totals:
@@ -33,35 +34,59 @@ device-count multiset against the block's schematic-derived totals:
 | --- | --- | --- | --- | --- |
 | `pfd` | 64 | 64 | yes | yes |
 | `cp` | 14 | 14 | yes | yes |
-| `loop_filter` | 3 | 1 | yes | yes |
-| `vco` | 45 | 44 | yes | yes |
+| `loop_filter` | 3 | 3 | yes | yes |
+| `vco` | 45 | 45 | yes | yes |
 | `divider_chain` | 316 | 316 | yes | yes |
-| `lock_detector` | 40 | 38 | yes | yes |
-| **Total** | **482** | **477** | **6/6** | **6/6** |
+| `lock_detector` | 40 | 40 | yes | yes |
+| **Total** | **482** | **482** | **6/6** | **6/6** |
 
-The 5-device shortfall is exactly this design's two `cap_cmim` MiM
-capacitors in `loop_filter` and the three MiM/decap capacitor instances in
-`vco`/`lock_detector` (`vco_XCDECAP`, `lock_detector_XCW`,
-`lock_detector_XDW.XC1`) — **never silently dropped**: every one is
-recorded in `plan.json` with `kind: "capacitor"`, and the reason it is
-never attempted is cited on that group itself (`blocked_reason`) and below
-under "Friction". Every other device this design's schematic declares —
-every MOSFET, every resistor — draws, re-extracts, and matches.
+**Every device this design's schematic declares now draws, re-extracts, and
+matches** — every MOSFET, every resistor, and every MiM capacitor. The two
+`cap_cmim` shunt caps in `loop_filter` and the three MiM/decap capacitor
+instances in `vco`/`lock_detector` (`vco_XCDECAP`, `lock_detector_XCW`,
+`lock_detector_XDW.XC1`) — the 5-device shortfall every prior record on this
+issue carried — now draw via `klt gen cap_array` and re-extract as `class:
+"cap_cmim"`, matched on `(area_um2, perimeter_um)` (the two-plate device's
+own dimension pair — see "What changed" below for why that differs from the
+`(w_um, l_um)` pair a MOS/resistor group matches on).
 
 This is not a stale-install artifact or a config mistake in this flow.
 `layout/requirements.txt` pins the exact commit
-(`5482cfe1c67eacf9d2f27d750a11a37ec14b1984`, `main` HEAD as of this record)
-that carries both the fix for `klayout-tools#1450` (`mos_array`/`diff_pair`
-rejecting `sg13g2` outright) and `klayout-tools#1451` (`res_array` only
-exposing the `"generic"` flavour) — the two gaps a prior pass at this issue
-(PR #14) filed after re-verifying `klayout-tools#1448`'s own closure did
-*not*, by itself, unblock drawing this design. Re-verifying *end-to-end*
-against the bumped pin, per this issue's own instruction to confirm rather
-than assume a closed tracker issue means a clean run, found both gaps
-fixed: `klt gen mos_array --pdk ihp-sg13g2 --params '{"flavor": "nfet", ...}'`
-and `klt gen res_array --pdk ihp-sg13g2 --params '{"flavor": "rppd", ...}'`
-(and `"rhigh"`) now draw real geometry, and `klt extract --deck sg13g2`
-re-recognises exactly the requested device class and dimensions back.
+(`fdf04f71ab39159838acb86e63a92d6fa0c714fa`, `main` HEAD as of this record)
+that carries `klayout-tools#1461` (closing #1455): `klt gen cap_array` now
+has a real `sg13g2` MiM-capacitor plate-layer configuration. Re-verifying
+*end-to-end* against the bumped pin, per this issue's own instruction to
+confirm rather than assume a closed tracker issue means a clean run, found
+the fix real: `klt gen cap_array --pdk ihp-sg13g2 --params '{"plate_w_um":
+40, "plate_h_um": 40, "num": 1}'` now draws real MIM-capacitor geometry, and
+`klt extract --deck sg13g2` re-recognises it as `cap_cmim` with the exact
+drawn area/perimeter.
+
+### What changed (issue #31)
+
+`layout/bin/pll_layout.py`'s capacitor handling used to be unconditional:
+every `kind: "capacitor"` group had `generator: None` and was never
+attempted, because no `klt` release drew a MIM capacitor on any PDK family.
+That is no longer true for `cap_cmim` specifically, so the plan/build code
+now branches **per model** (`CAP_GENERATORS`), not per `kind`:
+
+- `cap_cmim` (SG13G2's own MIM capacitor) plans a `cap_array` request
+  (`plate_w_um`/`plate_h_um`/`num`) and an `expected` shaped
+  `{class, area_um2, perimeter_um, count}` — a MiM cap's extraction reports
+  its two-plate geometric overlap (`devices[].params.area_um2`/
+  `perimeter_um`), not a single `w_um`/`l_um` the way a MOS/resistor
+  extraction does, so `_match_group_extraction` now branches on which
+  dimension keys `expected` carries.
+- `cap_cmomi` (the SG13CMOS5L port's own MoM capacitor, DR-004 / issue #22)
+  still has no generator on any `klt` release and stays exactly as before:
+  recorded in the plan, `generator: None`, never attempted — see
+  `layout/sg13cmos5l-pll/README.md`'s own friction log, unaffected by this
+  bump (re-verified as a non-regression check below).
+
+`attempt_build`/`_match_block_extraction` now key "was this group drawn" off
+each group's own `generator` field rather than `kind in ("mos_array",
+"res_array")`, since `kind == "capacitor"` now covers both a drawable model
+and a blocked one.
 
 ## What it is
 
@@ -71,13 +96,15 @@ re-recognises exactly the requested device class and dimensions back.
   (device-set-from-netlist correctness, per-block grouping, the DR-002
   device-flavor assertion, the schematic-vs-extraction match logic) with no
   PDK and no `klt`.
-- A **real, reproduced build**: every `mos_array`/`res_array` group is
-  drawn (`klt gen`), re-extracted (`klt extract --deck sg13g2`), and
-  compared against its own schematic-derived `(class, W, L, count)`
-  expectation — `gen.<group>.json`/`extract.<group>.json` under the current
-  record carry the actual `klt` responses, not an assumption. No group's
-  `match` result is hand-typed; `pll_layout.py`'s `_match_group_extraction`
-  derives it from the extraction report alone.
+- A **real, reproduced build**: every `mos_array`/`res_array`/`cap_array`
+  group is drawn (`klt gen`), re-extracted (`klt extract --deck sg13g2`),
+  and compared against its own schematic-derived expectation —
+  `gen.<group>.json`/`extract.<group>.json` under the current record carry
+  the actual `klt` responses, not an assumption. No group's `match` result
+  is hand-typed; `pll_layout.py`'s `_match_group_extraction` derives it from
+  the extraction report alone (`(class, w_um, l_um, count)` for a
+  MOS/resistor group, `(class, area_um2, perimeter_um, count)` for a
+  capacitor group — see "What changed (issue #31)" above).
 - A **composed cell per block**: every block's own successfully-drawn
   groups are placed into one `pll_<block>` cell (`klt gen-compose`,
   `placement.strategy: "explicit"`, a deterministic shelf-packed floorplan)
@@ -102,9 +129,6 @@ re-recognises exactly the requested device class and dimensions back.
 Stated plainly, mirroring `2AMLogic/sky130-pll`'s own `layout/pll/README.md`
 "What it is not" section:
 
-- **Not fully drawn.** Every device this design's schematic declares that
-  has a `klt gen` generator on `sg13g2` draws — this design's two MiM
-  capacitors do not, for the tracked upstream reason under "Friction".
 - **Not routed.** Block composition here is placement only; even the
   plan's own declared port/net map (`plan.json`, every group member's
   `ports`) is not fed to any router or declared as `gen-compose`
@@ -141,33 +165,35 @@ issue alone):
 | --- | --- | --- | --- |
 | The curated `sg13g2` extraction deck had no `capacitor` device class, so this design's `cap_cmim` shunt caps could not be recognised even once drawn. **This is a gap this repo itself filed and this repo's own bump retired.** | [klayout-tools#1454](https://github.com/2AMLogic/klayout-tools/issues/1454) | [PR #1456](https://github.com/2AMLogic/klayout-tools/pull/1456) (`04c0fa9…`, the current pin itself) | `klt 0.3.0+g04c0fa912213`: `klt deck info --deck sg13g2` now reports `nfet, pfet, cap_cmim, rfcmim, resistor, dantenna, dpantenna` |
 
-**Still open at the current pin**, found/re-confirmed by issue #24's pass:
+**Resolved by issue #31's own pin bump** (`04c0fa9…` → `fdf04f71…`;
+re-verified directly at the new pin, not assumed from the closed tracker
+issue alone — this is the gap that took the SG13G2 record from 477 / 482 to
+482 / 482):
 
-| Gap | Filed | Status |
-| --- | --- | --- |
-| `klt gen cap_array` rejects the `sg13g2` PDK family outright (`"PDK family 'sg13g2' has no MiM capacitor plate layers configured -- supported families: sky130"`) — reproduced directly this pass, not inferred from #1117 (which added `cap_array` for `sky130` only and never covered `sg13g2`, so is not the same gap). This design's two `cap_cmim` shunt caps (`loop_filter.sch`) cannot be drawn via `klt gen` as a result. Re-reproduced verbatim at the current pin (`klt 0.3.0+g04c0fa912213`) by issue #24's pass, so this is a live status, not a carried-forward one. | [klayout-tools#1455](https://github.com/2AMLogic/klayout-tools/issues/1455) (filed by #13's pass) | **closed upstream 2026-08-30T02:41Z, but its fix is _not_ in the current pin** — `klt gen cap_array`'s `sg13g2` plate-layer configuration landed as [PR #1461](https://github.com/2AMLogic/klayout-tools/pull/1461) (`25c52af`), which is *after* `04c0fa9…`. Deliberately not chased in issue #24's bump: the SG13G2 side is a different rung, and pin discipline here means pinning an exact commit rather than tracking a moving `main` mid-PR. Follow-up **#31** tracks the re-bump and the 482 / 482 re-run it should produce. |
+| Gap | Filed | Fixed by | Re-verified against |
+| --- | --- | --- | --- |
+| `klt gen cap_array` rejected the `sg13g2` PDK family outright (`"PDK family 'sg13g2' has no MiM capacitor plate layers configured -- supported families: sky130"`), so this design's two `cap_cmim` shunt caps (`loop_filter.sch`) could not be drawn via `klt gen`. **This is a gap this repo itself filed (from issue #13's own pass) and this repo's own bump retired.** | [klayout-tools#1455](https://github.com/2AMLogic/klayout-tools/issues/1455) (filed by #13's pass; not the same gap as #1117, which added `cap_array` for `sky130` only and never covered `sg13g2`) | [PR #1461](https://github.com/2AMLogic/klayout-tools/pull/1461) (`25c52af27f5518959f8afa2e11c5449741886c9c`) | `klt 0.3.0+gfdf04f71ab39` (`fdf04f71ab39159838acb86e63a92d6fa0c714fa`): `klt gen cap_array --pdk ihp-sg13g2 --params '{"plate_w_um": 40, "plate_h_um": 40, "num": 1}'` draws real geometry, and `klt extract --deck sg13g2` re-recognises it as `cap_cmim` with `area_um2: 1600.0`, `perimeter_um: 160.0` — exactly the drawn 40×40 µm plate. All five of this design's `cap_cmim` instances (`loop_filter` ×2, `vco` ×1, `lock_detector` ×2) drew and matched in the same run — see `reports/LATEST`. |
 
 **Not re-filed** (closed, cited for completeness — the deferral chain the
-still-open gap above builds on): [klayout-tools#1233](https://github.com/2AMLogic/klayout-tools/issues/1233)
+now-resolved gap above builds on): [klayout-tools#1233](https://github.com/2AMLogic/klayout-tools/issues/1233)
 (closed — investigated `cap_cmim`/`rfcmim` recognition, made a deliberate
 "defer until the metals/vias stack reaches Metal5/TopMetal1" call, filed
 #1243 as that prerequisite) and [klayout-tools#1243](https://github.com/2AMLogic/klayout-tools/issues/1243)
 (closed — landed the `metals`/`vias` stack extension itself, via PR #1247;
 does **not** itself declare `capacitors=`, which is exactly the gap #1454
-now tracks).
+tracked).
 
-**Also confirmed, not a gap**: `klt deck info --deck sg13g2` now reports
-`nfet, pfet, cap_cmim, rfcmim, resistor, dantenna, dpantenna` as recognised
-*extraction* device classes (the `cap_cmim`/`rfcmim` pair added by the pin
-bump above) — every class this design's devices need is now recognised for
-extraction. Only the **generator** side remains missing, which is #1455's
-own remaining scope.
+**No open gaps at the current pin.** Every device class this design's
+schematic needs — `nfet`/`pfet` (`mos_array`), `rppd`/`rhigh` (`res_array`),
+`cap_cmim` (`cap_array`) — draws on `sg13g2` and is recognised on
+re-extraction. `klt deck info --deck sg13g2` reports `nfet, pfet, cap_cmim,
+rfcmim, resistor, dantenna, dpantenna` as recognised *extraction* device
+classes, and every one this design uses now also has a working *generator*.
 
-**Non-regression at the current pin.** `layout/bin/run-pll-layout-flow.sh`
-was re-run in full after issue #24's pin bump, per this repo's own bump
-discipline, and reproduces the identical result: 477 / 482 drawn, 477 / 482
-re-extracted matching, 6 / 6 blocks composed and matched. See the record this
-re-run produced (`reports/LATEST`) — the bump changed nothing on this side.
+**Non-regression on the MOS/resistor side, re-verified at the current pin.**
+`mos_array`/`res_array` continue to draw, extract, and match exactly as
+they did after issue #24's own pin bump — this bump did not touch that
+code path or its own upstream fixes (klayout-tools#1450/#1451).
 
 ## Directory layout
 

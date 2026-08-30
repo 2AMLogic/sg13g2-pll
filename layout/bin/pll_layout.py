@@ -31,10 +31,14 @@ no `klt` installed (`layout/tests/test_pll_layout_plan.py` exercises it):
    the block's own schematic-derived totals. `mos_array`/`res_array` now draw
    against `sg13g2` (klayout-tools#1450/#1451, both fixed upstream --
    `layout/requirements.txt`'s own header records the pin bump this depended
-   on); no MiM-capacitor generator exists for this family on any `klt`
-   release, so `cap_cmim` groups are recorded in the plan (never silently
-   dropped) but never attempted here -- see `layout/pll/README.md`'s friction
-   log (klayout-tools#1233/#1243/#1454/#1455).
+   on); `cap_array` now draws `sg13g2`'s `cap_cmim` MiM capacitors too
+   (klayout-tools#1461, closing #1455 -- see `layout/requirements.txt`'s own
+   header for that bump). This design's other capacitor model,
+   `cap_cmomi` (the SG13CMOS5L port's MoM capacitor, `pll_cmos5l_layout.py`),
+   still has no generator on any `klt` release and is recorded in the plan
+   (never silently dropped) but never attempted -- see
+   `layout/pll/README.md`'s friction log
+   (klayout-tools#1233/#1243/#1454/#1455/#1461).
 
 Six blocks, six independent netlist files (`spec/porting-plan.md` §1.4;
 `design/netlist.sh`'s own `BLOCKS` list) -- unlike a single closed-loop
@@ -88,18 +92,28 @@ RESISTOR_MODELS = {
     "rhigh": "rhigh",
 }
 
-#: Capacitor models this plan recognises but never attempts to draw -- one
-#: entry per PDK the design is ported to, because the two ports use
-#: physically different capacitors: `cap_cmim` is SG13G2's MIM capacitor,
-#: `cap_cmomi` is the SG13CMOS5L port's metal-oxide-metal replacement (the
-#: MIM->MoM swap DR-004/issue #22 ratified, because CMOS5L forbids the MIM
-#: plate layers outright). Neither is drawable today -- see
-#: :data:`BLOCKED_REASONS` for each one's own tracked upstream reason. Per
-#: issue #13's own Non-goals, capacitor devices are recorded in the plan (so
-#: they are never silently dropped) but never attempted in the build step.
+#: Capacitor models this plan recognises -- one entry per PDK the design is
+#: ported to, because the two ports use physically different capacitors:
+#: `cap_cmim` is SG13G2's MIM capacitor, `cap_cmomi` is the SG13CMOS5L port's
+#: metal-oxide-metal replacement (the MIM->MoM swap DR-004/issue #22
+#: ratified, because CMOS5L forbids the MIM plate layers outright).
 CAP_MODELS = {
     "cap_cmim": "cap_cmim",
     "cap_cmomi": "cap_cmomi",
+}
+
+#: `klt gen` generator name for each capacitor model, or `None` if no
+#: generator exists on any `klt` release yet. `cap_cmim` draws via
+#: `cap_array` as of `klayout-tools#1461` (closing #1455) --
+#: `layout/requirements.txt`'s own header records the pin bump this depended
+#: on. `cap_cmomi` has no generator on any `klt` release
+#: (:data:`BLOCKED_REASONS` records its own tracked upstream reason); per
+#: issue #13's own Non-goals, a capacitor device with no generator is
+#: recorded in the plan (so it is never silently dropped) but never
+#: attempted in the build step.
+CAP_GENERATORS: dict[str, str | None] = {
+    "cap_cmim": "cap_array",
+    "cap_cmomi": None,
 }
 
 LEAF_MODELS = set(MOS_MODELS) | set(RESISTOR_MODELS) | set(CAP_MODELS)
@@ -323,37 +337,35 @@ def _slug(value: float) -> str:
     return f"{value:g}".replace(".", "p").replace("-", "m")
 
 
-#: Why `capacitor`-kind groups are recorded but never attempted by the build
-#: step -- the only `kind` still genuinely blocked. `mos_array`/`res_array`
+#: Why a capacitor model with no entry in `CAP_GENERATORS` (i.e. mapped to
+#: `None`) is recorded but never attempted by the build step -- the only
+#: still-blocked case is `cap_cmomi` (SG13CMOS5L). `mos_array`/`res_array`
 #: drew against `sg13g2` as of klt commit
 #: `5482cfe1c67eacf9d2f27d750a11a37ec14b1984` (klayout-tools#1450/#1451,
-#: both fixed upstream -- see `layout/requirements.txt`'s own header), so
-#: they carry no such reason any more; a real `klt gen`/`klt extract` result
-#: is what the build step now records for them instead of an assumption.
-#: Keyed by the *model name*, not by `kind`: the two ports' capacitors are
-#: physically different devices blocked for different, separately-tracked
-#: upstream reasons, so a single "capacitor" string would misattribute one
-#: port's gap to the other.
+#: both fixed upstream -- see `layout/requirements.txt`'s own header), and
+#: `cap_cmim` (SG13G2's own MIM capacitor) drew as of klt commit
+#: `fdf04f71ab39159838acb86e63a92d6fa0c714fa` (klayout-tools#1461, closing
+#: #1455 -- see `layout/requirements.txt`'s own header for that bump), so
+#: none of them carry a reason here any more; a real `klt gen`/`klt extract`
+#: result is what the build step now records for them instead of an
+#: assumption. Keyed by the *model name*, not by `kind`: the two ports'
+#: capacitors are physically different devices with separately-tracked
+#: upstream histories, so a single "capacitor" string would misattribute
+#: one port's gap to the other.
 BLOCKED_REASONS = {
-    "cap_cmim": (
-        "klt gen cap_array rejects the sg13g2 PDK family outright "
-        "(klayout-tools#1455, filed by issue #13's own pass -- #1117 added "
-        "cap_array for sky130 only and never covered sg13g2), and the "
-        "curated sg13g2 extraction deck had no capacitor device class "
-        "either at that pass (klayout-tools#1454) -- out of scope per "
-        "issue #13's own Non-goals regardless, never attempted"
-    ),
     "cap_cmomi": (
         "SG13CMOS5L has no MIM capacitor at all (its plate layers are on "
         "cmos5l's own DRC/LVS forbidden-layer lists), so this design's "
         "MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and "
         "neither half of the tooling covers it. Draw side: klt gen "
         "cap_array reports 'PDK family sg13cmos5l has no MiM capacitor "
-        "plate layers configured' -- re-measured for issue #29 at "
-        "klayout-tools main (b10fa3c), i.e. *after* klayout-tools#1462 "
-        "closed and gave the family its role-layer table, so the family "
-        "gap #1462 tracked is no longer the reason; what remains is that "
-        "MoM has no generator on any family. Verify side: the curated "
+        "plate layers configured -- supported families: sky130, sg13g2' -- "
+        "re-verified as a non-regression check for issue #31 at "
+        "klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), "
+        "i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer "
+        "configuration (the message's supported-families list grew by one "
+        "entry as a result), but sg13cmos5l itself is still absent -- MoM "
+        "still has no generator on any family. Verify side: the curated "
         "sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still "
         "empty, so a hand-drawn MoM capacitor extracts as no device at all "
         "(klayout-tools#1463, open, filed by issue #24's pass; "
@@ -473,28 +485,51 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
     for member in sorted(caps, key=lambda d: d["path"]):
         w_um = _um(member["params"], "w", member["path"])
         l_um = _um(member["params"], "l", member["path"])
-        groups.append(
-            {
-                "id": f"{block_name}_{member['path']}",
-                "kind": "capacitor",
-                "generator": None,
-                "params": {"w_um": w_um, "l_um": l_um, "model": member["model"]},
-                "count": 1,
-                "expected": None,
-                "blocked_reason": BLOCKED_REASONS[member["model"]],
-                "members": [
-                    {
-                        "device": member["path"],
-                        "unit": 0,
-                        # `X<name> TOP BOT <model>`.
-                        "ports": {
-                            "TOP": member["nets"][0],
-                            "BOT": member["nets"][1],
-                        },
-                    }
-                ],
+        model = member["model"]
+        generator = CAP_GENERATORS[model]
+        group: dict[str, Any] = {
+            "id": f"{block_name}_{member['path']}",
+            "kind": "capacitor",
+            "generator": generator,
+            "count": 1,
+            "members": [
+                {
+                    "device": member["path"],
+                    "unit": 0,
+                    # `X<name> TOP BOT <model>`.
+                    "ports": {
+                        "TOP": member["nets"][0],
+                        "BOT": member["nets"][1],
+                    },
+                }
+            ],
+        }
+        if generator is not None:
+            # `klt gen cap_array` draws a *square* plate here (every drawn
+            # unit capacitor in this design has w == l -- see
+            # design/netlist/*.spice); `num: 1` mirrors this plan's
+            # one-group-per-instance shape for capacitors (unlike
+            # mos_array/res_array, which batch same-(class, W, L) devices
+            # into one group). `klt extract` reports a MiM cap's own
+            # geometric overlap as `area_um2`/`perimeter_um`, not `w_um`/
+            # `l_um` (there is no single "W"/"L" for a two-plate device) --
+            # see `_match_group_extraction`'s area/perimeter branch.
+            group["params"] = {
+                "plate_w_um": w_um,
+                "plate_h_um": l_um,
+                "num": 1,
             }
-        )
+            group["expected"] = {
+                "class": model,
+                "area_um2": w_um * l_um,
+                "perimeter_um": 2.0 * (w_um + l_um),
+                "count": 1,
+            }
+        else:
+            group["params"] = {"w_um": w_um, "l_um": l_um, "model": model}
+            group["expected"] = None
+            group["blocked_reason"] = BLOCKED_REASONS[model]
+        groups.append(group)
 
     return {
         "name": block_name,
@@ -545,6 +580,15 @@ def plan_totals(plan: dict[str, Any]) -> dict[str, int]:
 #: round-trip values in every group observed while building this flow), so a
 #: mismatch this loose still means the layout and the schematic disagree.
 DEVICE_MATCH_TOL_UM = 1e-6
+
+#: Floating-point tolerance for the capacitor schematic-vs-extracted
+#: area/perimeter cross-check (um^2 for `area_um2`, um for `perimeter_um`).
+#: A drawn `cap_array` unit's plate is an exact rectangle and `klt extract`
+#: computes both from the actual drawn geometry, so this is a sanity
+#: tolerance against floating-point/DBU-snapping noise, not a real physical
+#: margin -- comfortably above the 1e-3 dbu_um `klt extract --deck sg13g2`
+#: reports (0.001 um), well below any real drawing/extraction disagreement.
+CAP_MATCH_TOL_UM2 = 1e-3
 
 #: Spacing left between placed groups inside a block's composed cell (um).
 #: Comfortably above every curated-deck same-layer spacing rule (placement
@@ -736,8 +780,13 @@ def _match_group_extraction(
     group: dict[str, Any], extract_report: dict[str, Any]
 ) -> dict[str, Any]:
     """Compare one group's own drawn-and-extracted device set against its
-    `expected` (class, w_um, l_um, count) -- the schematic-vs-layout
-    cross-check this issue's own pass condition asks for."""
+    `expected` -- the schematic-vs-layout cross-check this issue's own pass
+    condition asks for. Two shapes of `expected`, keyed by which dimension
+    fields it carries: a MOS/resistor group's `(class, w_um, l_um, count)`
+    (a single W/L pair defines the device), or a MiM-capacitor group's
+    `(class, area_um2, perimeter_um, count)` -- `klt extract` reports a
+    two-plate capacitor's geometric overlap as area/perimeter, not a single
+    W/L, so there is no `w_um`/`l_um` to compare for that `kind`."""
     expected = group["expected"]
     devices = extract_report.get("devices", [])
     mismatches: list[str] = []
@@ -745,6 +794,11 @@ def _match_group_extraction(
         mismatches.append(
             f"expected {expected['count']} device(s), extracted {len(devices)}"
         )
+    dimension_keys = (
+        ("w_um", "l_um", DEVICE_MATCH_TOL_UM)
+        if "w_um" in expected
+        else ("area_um2", "perimeter_um", CAP_MATCH_TOL_UM2)
+    )
     for device in devices:
         if device.get("class") != expected["class"]:
             mismatches.append(
@@ -753,10 +807,10 @@ def _match_group_extraction(
             )
             continue
         params = device.get("params", {})
-        for key in ("w_um", "l_um"):
+        for key in dimension_keys[:2]:
             got = params.get(key)
             want = expected[key]
-            if got is None or abs(got - want) > DEVICE_MATCH_TOL_UM:
+            if got is None or abs(got - want) > dimension_keys[2]:
                 mismatches.append(
                     f"{device.get('name')}: {key}={got!r} != expected {want!r}"
                 )
@@ -767,11 +821,14 @@ def _match_block_extraction(
     block: dict[str, Any], extract_report: dict[str, Any]
 ) -> dict[str, Any]:
     """Compare a composed block cell's own extracted device-class counts
-    against the block's schematic-derived totals (drawable kinds only --
-    capacitor groups are never drawn/composed, see BLOCKED_REASONS)."""
+    against the block's schematic-derived totals (drawable groups only --
+    a group whose `generator` is `None` is never drawn/composed, see
+    BLOCKED_REASONS -- checked per-group, not per-`kind`, since `kind ==
+    "capacitor"` covers both a drawable model (`cap_cmim`) and a blocked one
+    (`cap_cmomi`))."""
     expected_counts: dict[str, int] = {}
     for group in block["groups"]:
-        if group["kind"] in ("mos_array", "res_array"):
+        if group.get("generator") is not None:
             expected_counts[group["expected"]["class"]] = (
                 expected_counts.get(group["expected"]["class"], 0) + group["count"]
             )
@@ -797,18 +854,19 @@ def _match_block_extraction(
 
 
 def attempt_build(plan: dict[str, Any], builder: Builder) -> dict[str, Any]:
-    """Draw, extract, and compose every block; skip capacitor groups (never
-    attempted -- see BLOCKED_REASONS[<model>] and issue #13's own
-    Non-goals)."""
+    """Draw, extract, and compose every block; skip only groups with no
+    generator (`generator is None` -- a still-blocked capacitor model, see
+    BLOCKED_REASONS[<model>] and issue #13's own Non-goals). A group is
+    "drawable" by its own `generator` field, not by `kind`: `kind ==
+    "capacitor"` covers both `cap_cmim` (drawn via `cap_array`) and
+    `cap_cmomi` (still blocked)."""
     summary: dict[str, Any] = {"blocks": []}
     for block in plan["blocks"]:
         group_results = []
         gen_reports: dict[str, dict[str, Any]] = {}
-        drawable_groups = [
-            g for g in block["groups"] if g["kind"] in ("mos_array", "res_array")
-        ]
+        drawable_groups = [g for g in block["groups"] if g["generator"] is not None]
         for group in block["groups"]:
-            if group["kind"] not in ("mos_array", "res_array"):
+            if group["generator"] is None:
                 group_results.append(
                     {
                         "group_id": group["id"],

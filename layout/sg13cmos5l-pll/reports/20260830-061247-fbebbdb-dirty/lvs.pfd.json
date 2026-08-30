@@ -1,0 +1,265 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_pfd.gds",
+    "reference": "pfd.reference.spice",
+    "top": "pll_pfd",
+    "reference_top": "PFD",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null
+    },
+    "status": "match",
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 36,
+        "reference": 36,
+        "matched": 36
+      },
+      "devices": {
+        "layout": 64,
+        "reference": 64,
+        "matched": 64
+      },
+      "pins": {
+        "layout": 36,
+        "reference": 6,
+        "matched": 36
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "layout_sha256": "20e6155399e7bb9f71663474b7705c2f37c774c20440150175097feccc3d0a26",
+      "reference_sha256": "57432616107c178f06590c345bb5280ad3f3c2ff53bbdf6812c8f290fba1c82d",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:9b8dfb6543860c77acacfa6e631319857065661fd921d325468b00c09d76bfaa",
+        "released": false
+      },
+      "input": null
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 6 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "DN",
+        "reference": "DN",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.d1",
+        "reference": "ED_DN.D1",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.d2",
+        "reference": "ED_DN.D2",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.d3",
+        "reference": "ED_DN.D3",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.d4",
+        "reference": "ED_DN.D4",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.XN1.mid1",
+        "reference": "ED_DN.N1.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.ntmp",
+        "reference": "ED_DN.NTMP",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN.XD5",
+        "reference": "ED_DN.XD5",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.d1",
+        "reference": "ED_UP.D1",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.d2",
+        "reference": "ED_UP.D2",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.d3",
+        "reference": "ED_UP.D3",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.d4",
+        "reference": "ED_UP.D4",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.XN1.mid1",
+        "reference": "ED_UP.N1.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.ntmp",
+        "reference": "ED_UP.NTMP",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP.XD5",
+        "reference": "ED_UP.XD5",
+        "pin": true
+      },
+      {
+        "layout": "FB",
+        "reference": "FB",
+        "pin": true
+      },
+      {
+        "layout": "XLD.XNQ.mid1",
+        "reference": "LD.NQ.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLD.XNQB.mid1",
+        "reference": "LD.NQB.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLD.RB",
+        "reference": "LD.RB",
+        "pin": true
+      },
+      {
+        "layout": "XLD.SB",
+        "reference": "LD.SB",
+        "pin": true
+      },
+      {
+        "layout": "XLU.XNQ.mid1",
+        "reference": "LU.NQ.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLU.XNQB.mid1",
+        "reference": "LU.NQB.MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLU.RB",
+        "reference": "LU.RB",
+        "pin": true
+      },
+      {
+        "layout": "XLU.SB",
+        "reference": "LU.SB",
+        "pin": true
+      },
+      {
+        "layout": "net1",
+        "reference": "NET1",
+        "pin": true
+      },
+      {
+        "layout": "net2",
+        "reference": "NET2",
+        "pin": true
+      },
+      {
+        "layout": "XNR.mid1",
+        "reference": "NR.MID1",
+        "pin": true
+      },
+      {
+        "layout": "REF",
+        "reference": "REF",
+        "pin": true
+      },
+      {
+        "layout": "reset",
+        "reference": "RESET",
+        "pin": true
+      },
+      {
+        "layout": "reset_d1",
+        "reference": "RESET_D1",
+        "pin": true
+      },
+      {
+        "layout": "reset_raw",
+        "reference": "RESET_RAW",
+        "pin": true
+      },
+      {
+        "layout": "set_dn",
+        "reference": "SET_DN",
+        "pin": true
+      },
+      {
+        "layout": "set_up",
+        "reference": "SET_UP",
+        "pin": true
+      },
+      {
+        "layout": "UP",
+        "reference": "UP",
+        "pin": true
+      },
+      {
+        "layout": "VDD",
+        "reference": "VDD",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": ""
+}

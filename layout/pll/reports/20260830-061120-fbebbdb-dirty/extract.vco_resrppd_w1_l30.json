@@ -1,0 +1,166 @@
+{
+  "top": "vco_resrppd_w1_l30",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "vco_resrppd_w1_l30.gds",
+    "deck": "sg13g2",
+    "top": "vco_resrppd_w1_l30",
+    "dbu_um": 0.001,
+    "netlist_path": "vco_resrppd_w1_l30.spice",
+    "netlist_sha256": "92fe209f2d3efdc96bdcc9f9e897f1858569fba8a67ba6c03d7dde82a62fe9c4",
+    "status": "extracted",
+    "device_count": 2,
+    "net_count": 5,
+    "pin_count": 1,
+    "device_counts": {
+      "rppd": 2
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 2
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 2
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 2
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      },
+      {
+        "name": "$2",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$3",
+          "b": "\\$4",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$3",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$4",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 2
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'vco_resrppd_w1_l30' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "4 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      },
+      {
+        "net": "\\$3",
+        "device": "$2",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$4",
+        "device": "$2",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:aba0acd35098faf7516828be7be1220501a7f0c7aa9743c5cc6b521914a4ff26",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:f1b3249654996fdef8244ce9007517699f1cc324f510bdb002ede47da9304597"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}
