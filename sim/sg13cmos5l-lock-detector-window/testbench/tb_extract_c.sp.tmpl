@@ -1,0 +1,52 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #38, Part of #16)
+* Single-device AC extraction of ONE cap_cmomi instance, at the geometry the
+* caller substitutes. Two geometries are extracted by ../testbench/run.sh,
+* and they are exactly the two `cap_cmomi` instance sites that
+* `spec/decision-records/DR-003-sg13cmos5l-port-readiness.md` Finding 2's own
+* three-instance list (`loop_filter.XC1`/`XC2`, `vco.XCDECAP`) does NOT name:
+*
+*   lock_detector.XCW        w=8u l=8u m=1   -- the integrating-node cap
+*   lock_detector.XDW.XC1    w=4u l=4u m=2   -- the comparator-window cap
+*                                               (inside delaywin_hv)
+*
+* `design/README.md` records both as "not covered by this update; their
+* hysteresis-window sensitivity remains open". This deck is the first half of
+* closing that: it measures what the installed model actually gives for each
+* geometry, so ../testbench/mom_inject.py can express a +/-20%
+* MOM-model-uncertainty band as a parallel ideal delta capacitor of the right
+* absolute size.
+*
+* Why a parallel ideal cap represents the band at all -- the argument is
+* carried over verbatim from ../../sg13cmos5l-loop-filter-momcap/'s own
+* tb_extract_c.sp.tmpl, because it is the same model and the same gap:
+* cap_cmomi.lib's own header states its density coefficients are TRANSFERRED
+* from SG13G2's characterisation and are "NOT YET VALIDATED ON
+* ihp-sg13cmos5l SILICON", and cornerCAP.lib's own header states that EVERY
+* corner/mismatch/stat section maps to the SAME nominal model -- there is no
+* PDK knob to sweep. A parallel delta capacitor of +/-MOM_FRAC * C_nominal is
+* the minimally-invasive way to bound "what if the real silicon capacitance
+* differs from this nominal model by MOM_FRAC" without hacking the compiled
+* OSDI model. MOM_FRAC is applied with the same sign and magnitude to BOTH
+* instances in a given run, representing a *systematic* model/coefficient
+* bias -- not independent per-instance mismatch, which cap_cmomi does not
+* characterise either and which this record does not attempt to bound.
+*
+* Template placeholders (substituted by ../testbench/run.sh, not meant to be
+* run directly): @W@, @L@, @M@ (device geometry), @TEMP@ (degC).
+
+.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+
+Xcap n1 0 cap_cmomi w=@W@ l=@L@ mmin=1 mmax=4 feed=double subblock=0 m=@M@ mm_ok=1
+Rbleed n1 0 1e14
+Iac n1 0 dc 0 ac 1
+
+.control
+* 10 kHz-decade sweep in the flat capacitive region, same extraction the
+* loop-filter MOM record used (see that record for its frequency-flatness
+* check; the same model is being read here, at a different geometry).
+ac dec 5 1k 100k
+let cnom = abs(1/(2*3.14159265*frequency*imag(v(n1))))
+print cnom
+.endc
+.end

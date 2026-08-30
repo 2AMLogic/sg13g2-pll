@@ -304,8 +304,23 @@ pattern for its *layout* phase.
   unaffected by that work and remain `insufficient-evidence` pending
   post-layout parasitics.
   `lock_detector.XCW`/`XDW.XC1` are not named by DR-003 Finding 2's own
-  three-instance list and are not covered by this update; their
-  hysteresis-window sensitivity remains open.
+  three-instance list and were not covered by this update.
+  **Update (issue #38, Part of #16)**: their hysteresis-window sensitivity
+  is now closed —
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md`
+  runs the same ±20% MOM-model-uncertainty sweep on both instances at every
+  PVT/resistor-corner point. The band moves the measured comparator window
+  by 7–8% (not the dominant term). That record also finds, independent of
+  the MOM band, that the block's assert window (0.219–0.409 ns) misses the
+  ported ≥2.5 ns floor by 6–11×, that no hysteresis resolves against the
+  ≥25%-of-window target at any of 92 corner points, and that the block
+  chatters at all 92 — traced to the integrating node's own `XRPU`·`XCW`
+  time constant (0.71–1.71 ns) sitting 1–3 orders of magnitude below the
+  ported 1–25 MHz reference period at every corner, not to `cap_cmomi`'s
+  MOM-model uncertainty specifically. The re-sizing this implies for
+  `XRPU`/`XCW` (and possibly `XDW.XC1`, which also sets the comparator
+  window) is filed as issue #52 (Part of #16), same discipline as the
+  loop-filter `R1` resize proposal above.
 
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,

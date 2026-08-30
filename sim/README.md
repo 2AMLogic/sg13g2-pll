@@ -71,21 +71,23 @@ none to touch).
 
 ## SG13CMOS5L campaign status
 
-Tracks issues #23 and #27 (both Part of #16). #23 owns the specific obligation
-`spec/decision-records/DR-003-sg13cmos5l-port-readiness.md` Finding 2 names:
-every spec row sensitive to the design's three `cap_cmomi` MOM-cap instance
-sites (`loop_filter.XC1`/`XC2`, `vco.XCDECAP`) must be swept across a
-plausible MOM-model-uncertainty band, because the installed PDK's own
-`cap_cmomi`/`cap_cmomf` models carry **no characterised process-corner or
-mismatch spread** (`cornerCAP.lib`'s own header, confirmed directly by this
-campaign — see records below) and are "not validated on CMOS5L silicon."
-#27 picks up the rows #23 explicitly deferred: the ones needing a
+Tracks issues #23, #27, #37 and #38 (all Part of #16). #23 owns the specific
+obligation `spec/decision-records/DR-003-sg13cmos5l-port-readiness.md`
+Finding 2 names: every spec row sensitive to the design's three `cap_cmomi`
+MOM-cap instance sites (`loop_filter.XC1`/`XC2`, `vco.XCDECAP`) must be swept
+across a plausible MOM-model-uncertainty band, because the installed PDK's
+own `cap_cmomi`/`cap_cmomf` models carry **no characterised process-corner
+or mismatch spread** (`cornerCAP.lib`'s own header, confirmed directly by
+this campaign — see records below) and are "not validated on CMOS5L
+silicon." #27 picks up the rows #23 explicitly deferred: the ones needing a
 charge-pump characterisation, a loop-level combination of the three
 measured block records, or a longer/edge-resolved transient. #37 (split out
 of #27) picks up the three rows that specifically need a real
-transistor-level closed loop, none of which #27's own three records is. The
-table below is the whole campaign, all three issues, in the order the
-records landed.
+transistor-level closed loop, none of which #27's own three records is. #38
+measures `lock_detector` (row 16), never attempted in #27, and closes the
+MOM-uncertainty gap on its own two `cap_cmomi` instances (`XCW`/`XDW.XC1`),
+which are outside DR-003 Finding 2's three-instance list. The table below is
+the whole campaign, all four issues, in the order the records landed.
 
 | Slug | Claim under test | Spec row(s) (`spec/porting-plan.md` §1.2) | Status |
 |---|---|---|---|
@@ -96,6 +98,7 @@ records landed.
 | [`sg13cmos5l-loop-bandwidth-pm`](sg13cmos5l-loop-bandwidth-pm/) | Linearised open-loop gain around the **real** `loop_filter` subckt, with `Icp` and `Kvco` taken from the two measured records above | 6/6a (loop bandwidth / phase margin) | **`insufficient-evidence` CLEARED — and the bound is a failure to meet the criteria.** `f_c` = 0.33–4.64 MHz, PM = 1.55–20.33° across 90 real-subckt AC runs; **0 of 90 meet the ≥45° criterion** with the as-drawn filter, and `Icp` cannot trade one criterion against the other. A separate proposal sweep (`corners/proposal.csv`, explicitly *not* the committed design) shows `R1` ×20 with the 10 µA trim code meets both criteria at every PVT bundle. Also records that the ported `f_ref` = 1–25 MHz / `N` = 4–64 rows are mutually inconsistent with the measured VCO band |
 | [`sg13cmos5l-vco-duty-cycle`](sg13cmos5l-vco-duty-cycle/) | Open-loop `vco` output duty cycle (rising *and* falling 50%-of-rail crossings), plus the ring's own average supply current | 13 (output duty cycle), 11 (power, one domain) | Duty cycle **bounded** by 300 real transient runs (5 MOS corners — including the `mos_sf`/`mos_fs` split corners the Kvco record left open — x 3 temps x 4 band codes x 5 `VCTRL` points): 43.74–51.56%, with **30 of 300 points below the 45% floor**, all at −40 C. Reproduces gf180-pll's own carried-forward duty-cycle design flag on a different process. Row 11 stays `insufficient-evidence` (only the `vdd_vco` and `cp` domains are measured) |
 | [`sg13cmos5l-closed-loop-lock`](sg13cmos5l-closed-loop-lock/) | Transistor-level closed loop (`pfd`+`cp`+`loop_filter`+`vco`+`divider_chain`+`lock_detector`, testbench-local wiring — no `pll_top` schematic exists), single PVT point (runtime-cost subset, see that record's own `corners/matrix.md`) | 7 (lock time), 10 (reference spur), 11 (power, remaining domains) | **Row 11 bounded** (with caveats): all five remaining domains measured simultaneously at one operating point — `pfd`+`cp`+`vco`+`lock_detector` = 2.483 mA (8.20 mW); `divider_chain` alone = 7.653 mA (25.26 mW), but flagged as very likely inflated by that block's own known malfunction (see below), not a clean design figure. **Rows 7 and 10 stay `insufficient-evidence`** — neither the as-drawn loop (Part A: `fb` never toggles, consistent with the divider defect) nor a proposal loop with both known defects addressed (Part B: resized filter + working behavioural divider) acquires lock within the simulated window; Part B's own non-convergence is a new, unresolved finding (a polarity-swap diagnostic did not explain it — filed as issue #50). See `records/RECORD-001` for the full disposition |
+| [`sg13cmos5l-lock-detector-window`](sg13cmos5l-lock-detector-window/) | Real-subckt `lock_detector` assert window, hysteresis, chatter and supply current, plus the `XCW`/`XDW.XC1` MOM-uncertainty sensitivity | 16 (lock-detector targets), 11 (power, one more domain) | **Window, hysteresis and no-chatter all bounded, and all three fail the ported criteria at every corner.** Window = 0.219–0.409 ns (target ≥2.5 ns); no hysteresis resolves at the ladder's 0.15×-window step at any of 92 points (target ≥25% of window); **92/92 points chatter**, including at a 10×-window static phase error. Cause is measured directly: the integrating node's own `XRPU`·`XCW` time constant (0.71–1.71 ns) is 23–1412× shorter than the reference period across the whole ported 1–25 MHz range, so `VWIN` fully re-settles every cycle regardless of phase-error size. The ±20% MOM band moves the window 7–8% (not the dominant term) and does not change the chatter/no-hysteresis verdict at any point. Static-phase-offset comparison stays `insufficient-evidence` (needs an unmeasured PFD/CP record); `lock_detector`'s own supply current (0.79–60.3 µA) is bounded, corroborating the combined figure in the `sg13cmos5l-closed-loop-lock` row above with a dedicated per-domain measurement |
 
 **Still deferred, and explicitly `insufficient-evidence`** (follow-up issues
 filed off #27, each Part of #16):
@@ -105,10 +108,12 @@ filed off #27, each Part of #16):
 | 3 — divider retiming margin (#36) | Needs a functional `divider_chain` testbench. An exploratory testbench built during #27 did **not** produce a trustworthy result (the chain's first ÷2 stage divides correctly at 600 MHz but the inner stages do not toggle, and the block has no reset pin, so an initialisation artifact could not be ruled out inside that session). `sg13cmos5l-closed-loop-lock`'s own Part A independently observes the same non-toggling feedback node in a real closed loop, but does not itself close row 3 (that needs the divider's own dedicated testbench, still #36's scope) |
 | 7 — lock time (#37) | `sg13cmos5l-closed-loop-lock` attempted this directly: neither the as-drawn loop nor a proposal loop (both known defects addressed) acquires lock within the simulated window. See that record's `records/RECORD-001` and follow-up issue #50 (Part B's own unexplained non-convergence) |
 | 10 — reference spur (#37) | `sg13cmos5l-closed-loop-lock` attempted this directly; stays `insufficient-evidence` for the same reason as row 7 — neither deck reaches a stable carrier to define a spur around |
-| 16 — lock-detector window / hysteresis (#38) | Not attempted in #27. Note `lock_detector.XCW`/`XDW.XC1` are `cap_cmomi` instances that DR-003 Finding 2's own three-instance list does **not** name, so any MOM-cap sensitivity found there is new scope. `sg13cmos5l-closed-loop-lock` substitutes ideal caps at a density-extrapolated value for both instances (host constraint, not a measurement of them) — that substitution does not close row 16 |
 
-None of the deferred rows is MOM-cap-sensitive in DR-003 Finding 2's own
-sense *except* row 16 (see above), so they remain outside that record's
+Row 16 (lock-detector window/hysteresis/chatter) is no longer deferred —
+`sg13cmos5l-lock-detector-window` (#38) bounds it, and the bound is a
+failure to meet the ported criteria at every corner (see the campaign table
+above). None of the remaining deferred rows is MOM-cap-sensitive in DR-003
+Finding 2's own
 specific obligation even though they are open `spec/porting-plan.md`
 "re-derive" rows.
 
