@@ -70,6 +70,39 @@ VSUP_NOM=3.3
 TRST=1n
 
 # ---------------------------------------------------------------------------
+# ngspice invocation wrapper (issue #54).
+#
+# Two things this fixes: a way for a deck to die fatally, and the way that
+# death was previously swallowed into a silent `NA` row indistinguishable
+# from a real "the measurement did not resolve" result.
+#
+#  1. The templates no longer carry a literal `$PDK_ROOT/$PDK` into their
+#     `.lib`/`.include` lines; run.sh substitutes @PDK_ROOT@/@PDK@ with the
+#     resolved filesystem path before ngspice ever parses the deck.  ngspice's
+#     netlist parser only resolves such a `$VAR` if the variable is present in
+#     ngspice's own process environment -- a deck whose PDK path is spelled
+#     that way dies with `Error: Cannot read environmental variable PDK_ROOT`
+#     the moment it is run with PDK_ROOT merely set and not exported (or from
+#     any other caller), which is exactly the failure #43/#44 hit.
+#
+#  2. Every ngspice call goes through run_ngspice_or_die, which captures
+#     stderr instead of discarding it and stops the campaign on a non-zero
+#     exit, printing what ngspice actually said.  The previous
+#     `2>/dev/null`(+`|| true`) calls threw that away.
+# ---------------------------------------------------------------------------
+run_ngspice_or_die() {
+  local name="$1"
+  local err="$WORK/${name}.err"
+  local out
+  if ! out="$( cd "$WORK" && ngspice -b "$name" 2>"$err" )"; then
+    echo "ERROR: ngspice exited non-zero for $name:" >&2
+    cat "$err" >&2
+    return 1
+  fi
+  printf '%s\n' "$out"
+}
+
+# ---------------------------------------------------------------------------
 # 1. Device extraction: R (rhigh, XRPU) and C (the two cap_cmomi instances)
 # ---------------------------------------------------------------------------
 echo "kind,instance,corner,temp_c,w,l,m,value" > "$CORNERS/rc_extract.csv"
@@ -78,8 +111,9 @@ for rc in res_typ res_bcs res_wcs; do
   for temp in -40 27 125; do
     sed -e "s/@RES_CORNER@/$rc/g" -e "s/@TEMP@/$temp/g" \
         -e "s/@W@/0.5u/g" -e "s/@L@/6u/g" \
+        -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
       "$HERE/tb_extract_r.sp.tmpl" > "$WORK/r.sp"
-    val="$( ( cd "$WORK" && ngspice -b r.sp ) 2>/dev/null \
+    val="$( run_ngspice_or_die r.sp \
             | sed -n 's/^rval *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "R,XRPU(rhigh),${rc},${temp},0.5u,6u,1,${val:-NA}" >> "$CORNERS/rc_extract.csv"
     echo "[R] ${rc}/${temp}C: ${val:-NA} ohm" >&2
@@ -91,8 +125,9 @@ for geom in "XCW 8u 8u 1" "XDW.XC1 4u 4u 2"; do
   read -r inst w l m <<< "$geom"
   for temp in -40 27 125; do
     sed -e "s/@W@/$w/g" -e "s/@L@/$l/g" -e "s/@M@/$m/g" -e "s/@TEMP@/$temp/g" \
+        -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
       "$HERE/tb_extract_c.sp.tmpl" > "$WORK/c.sp"
-    val="$( ( cd "$WORK" && ngspice -b c.sp ) 2>/dev/null \
+    val="$( run_ngspice_or_die c.sp \
             | awk '/^0[[:space:]]/ {print $3; exit}' )"
     echo "C,${inst}(cap_cmomi),none,${temp},${w},${l},${m},${val:-NA}" \
       >> "$CORNERS/rc_extract.csv"
@@ -167,9 +202,13 @@ run_point() {
   sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@CORNER_RES@/$res/g" -e "s/@TEMP@/$temp/g" \
       -e "s/@VSUP@/$vsup/g" -e "s/@VMID@/$vmid/g" -e "s/@TSTEP@/20p/g" \
       -e "s|@DUT@|$dut|g" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
     "$HERE/tb_window.sp.tmpl" > "$WORK/w.sp"
   local wlog twin_r twin_f
-  wlog="$( ( cd "$WORK" && ngspice -b w.sp ) 2>/dev/null || true )"
+  # No `|| true` here (issue #54): a non-zero ngspice exit is a broken deck,
+  # not a corner whose window happens not to resolve -- the latter still shows
+  # up as an empty twin_r below and is recorded as NA.
+  wlog="$( run_ngspice_or_die w.sp )"
   twin_r="$(printf '%s\n' "$wlog" | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
   twin_f="$(printf '%s\n' "$wlog" | sed -n 's/^twin_f *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
   echo "${tag},${mos},${res},${temp},${vsup},${fref},${variant},${twin_r:-NA},${twin_f:-NA}" \
@@ -200,9 +239,10 @@ print('%.6e %.6e %.6e %.6e' % (t, 4*t, 2*t, t/500))")"
     --template "$HERE/tb_lock_ladder.sp.tmpl" --out "$WORK/l.sp" --dut "$dut" \
     --corner-mos "$mos" --corner-res "$res" --temp "$temp" --vsup "$vsup" \
     --tref "$tref" --trst "$TRST" --twin "$twin_r" \
-    --tstep "$tstep" --tstop "$tstop" --tsettle "$tsettle" > /dev/null
+    --tstep "$tstep" --tstop "$tstop" --tsettle "$tsettle" \
+    --pdk-root "$PDK_ROOT" --pdk "$PDK" > /dev/null
 
-  ( cd "$WORK" && ngspice -b l.sp ) 2>/dev/null \
+  run_ngspice_or_die l.sp \
     | python3 "$HERE/gen_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
         --twin "$twin_r" --raw "$CORNERS/ladder_raw.csv" \
     >> "$CORNERS/ladder.csv"
@@ -231,8 +271,9 @@ for mos in mos_tt mos_ss mos_ff mos_sf mos_fs; do
       vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
       sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@TEMP@/$temp/g" -e "s/@VSUP@/$vsup/g" \
           -e "s/@VMID@/$vmid/g" -e "s|@DUT@|$WORK/dut_real.spice|g" \
+          -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
         "$HERE/tb_schmitt_hyst.sp.tmpl" > "$WORK/s.sp"
-      slog="$( ( cd "$WORK" && ngspice -b s.sp ) 2>/dev/null || true )"
+      slog="$( run_ngspice_or_die s.sp )"
       vup="$(printf '%s\n' "$slog" | sed -n 's/^vth_up *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
       vdn="$(printf '%s\n' "$slog" | sed -n 's/^vth_dn *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
       row="$(python3 -c "
@@ -266,8 +307,9 @@ for tstep in 20p 5p 1.25p; do
     sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@CORNER_RES@/$res/g" -e "s/@TEMP@/$temp/g" \
         -e "s/@VSUP@/$VSUP_NOM/g" -e "s/@VMID@/1.65/g" -e "s/@TSTEP@/$tstep/g" \
         -e "s|@DUT@|$WORK/dut_${variant}.spice|g" \
+        -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
       "$HERE/tb_window.sp.tmpl" > "$WORK/w.sp"
-    tw="$( ( cd "$WORK" && ngspice -b w.sp ) 2>/dev/null \
+    tw="$( run_ngspice_or_die w.sp \
            | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "${mos},${res},${temp},${variant},${tstep},${tw:-NA}" \
       >> "$CORNERS/tstep_convergence.csv"

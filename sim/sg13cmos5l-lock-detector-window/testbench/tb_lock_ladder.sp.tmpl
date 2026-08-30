@@ -57,11 +57,13 @@
 * generated ladder (@LADDER_DEVICES@ / @LADDER_IC@ / @LADDER_MEAS@) as well
 * as the scalar placeholders @CORNER_MOS@, @CORNER_RES@, @TEMP@, @VSUP@,
 * @VMID@, @VHI@, @VLO@, @TREF@, @TRST@, @TAUBIG@, @TSTEP@, @TSTOP@,
-* @TSETTLE@, @DUT@. It is not meant to be run directly.
+* @TSETTLE@, @DUT@, and @PDK_ROOT@/@PDK@ (resolved filesystem path --
+* ngspice's `.lib`/`.include` parser does not expand shell/OS environment
+* variables, issue #54). It is not meant to be run directly.
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
-.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.include @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cap_cmomi.lib
 .option scale=1 temp=@TEMP@
 .global sub!
 

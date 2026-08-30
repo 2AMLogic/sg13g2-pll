@@ -71,6 +71,84 @@ only works if `R&middot;C &gg; T_ref`. The measured values are the reverse:
 the ported 1–25 MHz range (row 2), so the "integrator" instead tracks
 `WIDE` almost combinationally, cycle by cycle.
 
+## Post-fix verification (issue #54)
+
+**What changed.** All five `../testbench/*.sp.tmpl` files carried the PDK
+path into their `.lib`/`.include` lines as a literal `$PDK_ROOT/$PDK`;
+issue #54 switched them to `@PDK_ROOT@`/`@PDK@` tokens that
+`../testbench/run.sh` (and, for the ladder skeleton,
+`../testbench/gen_ladder.py`'s new `--pdk-root`/`--pdk`) substitute with the
+resolved filesystem path before ngspice sees the deck — the convention
+PR #55 landed for the sibling issue #43. Every `ngspice -b` call in
+`run.sh` also now goes through `run_ngspice_or_die`, which keeps ngspice's
+stderr and stops on a non-zero exit instead of discarding it with
+`2>/dev/null` (two of the five call sites additionally had `|| true`).
+
+**The failure mode this removes, demonstrated directly.** ngspice resolves a
+`$VAR` inside a `.lib`/`.include` line only if that variable is in ngspice's
+*own process environment*. Running the pre-fix `tb_window` deck with
+`PDK_ROOT`/`PDK` merely unexported (`env -u PDK_ROOT -u PDK ngspice -b
+wpre.sp`) gives `Error: Cannot read environmental variable PDK_ROOT` and
+`ERROR: fatal error in ngspice, exit(1)`; the patched deck, generated with
+the same tokens substituted, runs to completion under the identical stripped
+environment and prints `twin_r = 2.894635e-10`. The committed results in
+this record were **not** produced through that failure path — they were run
+with both variables exported, which is why no row here is `NA` — but the
+deck's correctness no longer depends on that.
+
+**Silent absorption, also demonstrated.** On the verification host (below),
+`cap_cmomi.osdi` fails to load, which is fatal for any deck instantiating it.
+The *pre-fix* `run.sh` reacts by exiting 1 after the `[R]` block with **no
+diagnostic whatsoever** (`set -o pipefail` propagates the failure, but
+`2>/dev/null` had already thrown away the reason); the patched `run.sh`
+prints `ERROR: ngspice exited non-zero for c.sp:` followed by ngspice's
+actual `Error opening osdi lib …` text. Same abort, a stated cause instead
+of a blank one.
+
+**What was re-run, and what reproduced.** Verification host for this fix:
+macOS 26.6.2 / arm64, `ngspice-47`, same `~/share/pdk`, `PDK=ihp-sg13cmos5l` —
+**not** the x86-64 Linux / `ngspice-46` host that produced the committed
+data (see "Tooling" above).
+
+- `rc_extract.csv`'s **9 `XRPU` rows re-ran end-to-end through the patched
+  `run.sh` and are byte-for-byte identical** to the committed file.
+- `tb_window.sp.tmpl` at `mos_tt`/`res_typ`/27 °C/3.3 V/`ideal0.00`
+  reproduces `window.csv`'s committed row **exactly**: `twin_r =
+  2.89463e-10`, `twin_f = 2.97452e-10`.
+- The full phase-error ladder at that same point (through the patched
+  `gen_ladder.py gen --pdk-root/--pdk`, 31 `lock_detector` copies, ~2 min)
+  reproduces the committed `ladder.csv` row **exactly in every column except
+  the two supply-current columns**, which come out 0.08% higher
+  (`idd_inlock` 1.964260e-05 vs 1.962670e-05 A; `idd_outlock` 4.949770e-05
+  vs 4.945770e-05 A). Both settled-state strings (`IIIITTTTTTTTTT`), the
+  assert/de-assert thresholds, the zero hysteresis, the `chatter` verdict and
+  `trec` are bit-identical, so **no conclusion in this record moves**.
+- That 0.08% delta is **not** caused by the fix: re-running the *pre-fix*
+  ladder deck (literal `$PDK_ROOT/$PDK`, both variables exported so ngspice
+  resolves them) on this host produces a row bit-identical to the patched
+  run's. The residual is a host/ngspice-version difference (47 vs 46), which
+  is the expected place for an averaged branch current to move.
+
+**What could not be re-run here, stated plainly.** The full 92-point campaign
+did **not** complete on this host. `ihp-sg13cmos5l` ships
+`libs.tech/ngspice/osdi/cap_cmomi.osdi` (and `cap_cmomf.osdi`) as prebuilt
+**x86-64 ELF** objects, while the neighbouring `psp103`/`mosvar`/`r3_cmc`
+OSDI files in this install are arm64 Mach-O; `dlopen` therefore refuses
+`cap_cmomi.osdi` ("slice is not valid mach-o file") on an arm64 macOS host,
+and no `openvaf` is available locally to rebuild it. Every deck that
+instantiates `cap_cmomi` — the `C` half of `rc_extract.csv`, and all
+`real`-variant window/ladder/Schmitt runs — is therefore unrunnable here and
+was not re-derived. The `ideal`-variant decks above are runnable precisely
+because `mom_inject.py` replaces those instances with ideal linear
+capacitors. Reproducing the whole matrix requires an x86-64 Linux host (or a
+locally rebuilt arm64 `cap_cmomi.osdi`); tracked as its own follow-up rather
+than silently claimed here.
+
+**Net**: the committed numbers below stand as-is. Nothing in this record was
+re-derived; the subset that could be re-run on this host reproduces exactly
+(or, for two averaged current columns, to 0.08% for a reason shown to be
+independent of the fix).
+
 ## Results — R/C extraction (`../corners/rc_extract.csv`)
 
 | Device | Corner axis | Range |
