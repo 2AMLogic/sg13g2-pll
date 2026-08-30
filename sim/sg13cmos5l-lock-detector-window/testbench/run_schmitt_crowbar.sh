@@ -1,0 +1,183 @@
+#!/usr/bin/env bash
+# sg13g2-pll :: sim/sg13cmos5l-lock-detector-window/testbench/run_schmitt_crowbar.sh
+# (issue #76, Part of #16 -- is schmitt_hv's in-band crowbar current a defect or
+# an accepted residual?)
+#
+# Measures ./tb_schmitt_crowbar.sp.tmpl over the full PVT grid
+# (5 MOS corners x 3 temperatures x 3 supplies = 45 points) for the committed
+# schmitt_hv AND for three candidate mitigations, and writes
+# ../corners/schmitt_crowbar_variants.csv (one row per variant x corner).
+#
+# WHY THE VARIANTS ARE WHAT THEY ARE.  Issue #76 lists three candidate
+# mitigations.  Two of them are testable here, cheaply, and one is not a
+# mitigation at all -- which is itself worth measuring rather than asserting:
+#
+#   `asdrawn`   the cell as ../records/RECORD-003 committed it, all six devices
+#               at l=0.5u.  BASELINE -- this is the revision whose 233.8 uA
+#               RECORD-003 measured through the whole block.
+#   `long2u`    all six devices at l=2u, W unchanged.  This is the revision
+#               ../records/RECORD-004 (issue #76) LANDS; it is measured here as
+#               a candidate, on the same footing as the other two, and the
+#               choice between the three is made from these numbers.
+#   `long4u`    all six devices at l=4u, W unchanged.
+#   `long8u`    all six devices at l=8u, W unchanged.
+#
+# The DUT source is deliberately ../netlist-snapshots/lock_detector_hystfix.spice
+# (RECORD-003's frozen snapshot) and NOT whatever design/ says today, so this
+# before/after comparison stays valid and re-runnable after RECORD-004's change
+# has landed in design/.  A re-run of this script after that change still
+# regenerates the identical four variants from the identical baseline.
+#
+# The three `long*` variants are issue #76's "current-starved / tail-limited"
+# candidate in its ratio-preserving form.  The crowbar is a contention between a
+# FEEDBACK device and an INPUT device in the same stack (see the deck header),
+# so it scales with the devices' absolute strength; the trip points are set by
+# the RATIO of those strengths.  Scaling every channel length by the same factor
+# therefore attacks the current without, to first order, spending the hysteresis
+# -- unlike weakening the feedback devices alone, which buys the same current
+# reduction by giving the hysteresis back.  Second-order effects (DIBL,
+# velocity saturation, the W/L-dependent Vth roll-off) do move the trip points,
+# so the trip points are RE-MEASURED for every variant at every corner rather
+# than assumed to be preserved.  The three lengths bracket the trade-off instead
+# of proposing one.
+#
+# NOT SWEPT, and why: an "output stage after schmitt_hv" (issue #76's second
+# candidate) cannot appear in this sweep because it does not touch the
+# mechanism.  The crowbar path is INSIDE the cell, between VDD and VSS through
+# a feedback/input device pair; a buffer on OUT changes what LOCK drives, not
+# what the contending pair conducts.  That is a structural fact about the
+# topology, and the `asdrawn` rows here are the measurement that pins the
+# current to the cell's own supply pin rather than to anything downstream of
+# OUT.
+#
+#   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
+#   export PDK=ihp-sg13cmos5l
+#   ./run_schmitt_crowbar.sh
+#   PDK=ihp-sg13g2 ./run_schmitt_crowbar.sh   # the shared cell on the other PDK
+#
+# Requires: ngspice on PATH, python3.  No cap_cmomi instance exists inside
+# schmitt_hv, so this deck needs no MOM-capacitor OSDI object and no
+# ../../tools/check-osdi-arch.sh preflight -- it runs on any host that can load
+# psp103.  (Same reasoning ./run_schmitt_rewire.sh states for itself.)
+
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RECORD_DIR="$(cd "$HERE/.." && pwd)"
+OUT="$RECORD_DIR/corners/schmitt_crowbar_variants.csv"
+WORK="$(mktemp -d)"
+trap 'rm -rf "$WORK"' EXIT
+
+: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
+: "${PDK:?set PDK=ihp-sg13cmos5l}"
+
+OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
+{
+  echo "osdi $OSDI/psp103.osdi"
+  echo "osdi $OSDI/psp103_nqs.osdi"
+  echo "osdi $OSDI/mosvar.osdi"
+  echo "set num_threads=1"
+} > "$WORK/.spiceinit"
+
+# The DUT is the committed cell, taken from THIS record's own frozen snapshot
+# (../netlist-snapshots/lock_detector_hystfix.spice), so what is measured is the
+# netlist the record names and not whatever design/ says today.
+SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_hystfix.spice"
+[ -f "$SNAP" ] || { echo "ERROR: missing $SNAP" >&2; exit 1; }
+
+python3 - "$SNAP" "$WORK" <<'PY'
+import re, sys
+snap, work = sys.argv[1], sys.argv[2]
+text = open(snap).read()
+m = re.search(r'(?ms)^\.subckt\s+schmitt_hv\b.*?^\.ends\s*$', text)
+assert m, "schmitt_hv subckt not found in the frozen snapshot"
+cell = m.group(0)
+assert cell.count("l=0.5u") == 6, \
+    "expected all six schmitt_hv devices at l=0.5u, got %d" % cell.count("l=0.5u")
+
+hdr = ("* generated by run_schmitt_crowbar.sh from the frozen snapshot -- "
+       "do not edit\n")
+open(f"{work}/sch_asdrawn.spice", "w").write(hdr + cell + "\n")
+for tag, l in (("long2u", "2u"), ("long4u", "4u"), ("long8u", "8u")):
+    var = cell.replace("l=0.5u", "l=" + l)
+    assert var.count("l=" + l) == 6
+    open(f"{work}/sch_{tag}.spice", "w").write(hdr + var + "\n")
+print("variants written: asdrawn long2u long4u long8u", file=sys.stderr)
+PY
+
+echo "variant,pdk,mos_corner,temp_c,vsup_v,vth_rising_v,vth_falling_v,hysteresis_v,hysteresis_pct_of_vdd,i_peak_rise_a,v_at_i_peak_rise_v,i_peak_fall_a,v_at_i_peak_fall_v,i_midband_rise_a,i_midband_fall_a,i_worst_a,i_rail_lo_a,i_rail_hi_a" \
+  > "$OUT"
+
+n=0
+for variant in asdrawn long2u long4u long8u; do
+  for mos in mos_tt mos_ss mos_ff mos_sf mos_fs; do
+    for temp in -40 27 125; do
+      for vsup in 2.97 3.3 3.63; do
+        vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
+        sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@TEMP@/$temp/g" \
+            -e "s/@VSUP@/$vsup/g" -e "s/@VMID@/$vmid/g" \
+            -e "s|@DUT@|$WORK/sch_${variant}.spice|g" \
+            -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
+          "$HERE/tb_schmitt_crowbar.sp.tmpl" > "$WORK/cb.sp"
+        if ! ( cd "$WORK" && ngspice -b cb.sp > cb.log 2>&1 ); then
+          echo "ERROR: ngspice failed for $variant/$mos/${temp}C/${vsup}V:" >&2
+          tail -20 "$WORK/cb.log" >&2
+          exit 1
+        fi
+        row="$(python3 - "$WORK/cb.dat" "$WORK/cb.log" "$vsup" <<'PY'
+import sys
+dat, log, vsup = sys.argv[1], sys.argv[2], float(sys.argv[3])
+
+# wrdata writes (t,value) PAIRS: vin, i(Vdd), sout.
+t, vin, idd, sout = [], [], [], []
+for line in open(dat):
+    p = line.split()
+    if len(p) < 6:
+        continue
+    try:
+        v = [float(x) for x in p[:6]]
+    except ValueError:
+        continue
+    t.append(v[0]); vin.append(v[1]); idd.append(abs(v[3])); sout.append(v[5])
+
+vth_up = vth_dn = float("nan")
+for line in open(log):
+    s = line.split()
+    if len(s) >= 3 and s[0] == "vth_up" and s[1] == "=":
+        vth_up = float(s[2])
+    if len(s) >= 3 and s[0] == "vth_dn" and s[1] == "=":
+        vth_dn = float(s[2])
+
+# The ramp is 0 -> vsup over the first 2 us, vsup -> 0 over the second.
+rise = [i for i in range(len(t)) if t[i] <= 2e-6]
+fall = [i for i in range(len(t)) if t[i] > 2e-6]
+
+def peak(idxs):
+    j = max(idxs, key=lambda i: idd[i])
+    return idd[j], vin[j]
+
+def at_v(idxs, target):
+    j = min(idxs, key=lambda i: abs(vin[i] - target))
+    return idd[j]
+
+i_pk_r, v_pk_r = peak(rise)
+i_pk_f, v_pk_f = peak(fall)
+mid = 0.5 * (vth_up + vth_dn)
+i_mid_r = at_v(rise, mid)
+i_mid_f = at_v(fall, mid)
+hyst = vth_up - vth_dn
+print("%.6e,%.6e,%.6e,%.4f,%.6e,%.4f,%.6e,%.4f,%.6e,%.6e,%.6e,%.6e,%.6e"
+      % (vth_up, vth_dn, hyst, 100 * hyst / vsup,
+         i_pk_r, v_pk_r, i_pk_f, v_pk_f, i_mid_r, i_mid_f,
+         max(i_pk_r, i_pk_f), at_v(rise, 0.0), at_v(rise, vsup)))
+PY
+)"
+        echo "${variant},${PDK},${mos},${temp},${vsup},${row}" >> "$OUT"
+        n=$((n + 1))
+        echo "[cb $n/180] ${variant}/${mos}/${temp}C/${vsup}V: ${row}" >&2
+      done
+    done
+  done
+done
+
+echo "done: $(wc -l < "$OUT") lines (incl. header) -> $OUT" >&2

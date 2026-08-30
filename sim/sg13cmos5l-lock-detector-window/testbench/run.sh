@@ -4,40 +4,44 @@
 # Part of #16, to re-run the same campaign against the resized block; extended
 # again by issue #66, Part of #16, to re-run it against the block whose
 # schmitt_hv feedback devices are on the classic connection and whose XMPD is
-# re-sized to widen the settled-VWIN-vs-phase-error transition)
+# re-sized to widen the settled-VWIN-vs-phase-error transition; and again by
+# issue #76, Part of #16, to re-run it against the block whose schmitt_hv
+# channel lengths are 4x longer, which cuts the in-band crowbar current #66
+# measured as a side effect of restoring the hysteresis)
 #
 # Runs the whole lock_detector campaign this slug's ../records/ describe
 # (spec/porting-plan.md row 16: assert window, hysteresis, chatter; plus
 # row 11's lock_detector power domain), and writes six CSVs into ../corners/:
 #
-#   rc_extract_hystfix.csv   XRPU (rhigh) resistance and the two un-swept
+#   rc_extract_crowbarfix.csv   XRPU (rhigh) resistance and the two un-swept
 #                     cap_cmomi instances' capacitance -- the R and the C that
 #                     set the integrating node's time constant
-#   window_hystfix.csv       the comparator window twin_r / twin_f, per corner,
+#   window_crowbarfix.csv       the comparator window twin_r / twin_f, per corner,
 #                     per MOM band point (full matrix)
-#   schmitt_hystfix.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
-#   ladder_hystfix.csv       one row per corner point: assert threshold,
+#   schmitt_crowbarfix.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
+#   ladder_crowbarfix.csv       one row per corner point: assert threshold,
 #                     de-assert threshold, hysteresis, chatter verdict,
 #                     recovery time, in-lock and out-of-lock supply current
 #                     (REDUCED matrix -- see "LADDER MATRIX" below)
-#   ladder_raw_hystfix.csv   every ladder point's per-copy settled state/levels
-#   tstep_convergence_hystfix.csv   twin_r vs. maximum internal timestep
+#   ladder_raw_crowbarfix.csv   every ladder point's per-copy settled state/levels
+#   tstep_convergence_crowbarfix.csv   twin_r vs. maximum internal timestep
 #
 # APPEND-ONLY EVIDENCE (sim/README.md).  Each record in ../records/ owns its
 # own frozen netlist snapshot and its own CSV suffix, and this script only ever
 # writes the NEWEST record's set:
 #
-#   RECORD-001  netlist-snapshots/lock_detector.spice          corners/*.csv
-#   RECORD-002  netlist-snapshots/lock_detector_resized.spice  corners/*_resized.csv
-#   RECORD-003  netlist-snapshots/lock_detector_hystfix.spice  corners/*_hystfix.csv
+#   RECORD-001  netlist-snapshots/lock_detector.spice            corners/*.csv
+#   RECORD-002  netlist-snapshots/lock_detector_resized.spice    corners/*_resized.csv
+#   RECORD-003  netlist-snapshots/lock_detector_hystfix.spice    corners/*_hystfix.csv
+#   RECORD-004  netlist-snapshots/lock_detector_crowbarfix.spice corners/*_crowbarfix.csv
 #
-# This script now simulates ../netlist-snapshots/lock_detector_hystfix.spice
-# (issue #66) and writes the `*_hystfix.csv` files above.  RECORD-001's and
-# RECORD-002's own inputs and outputs are NEVER written by it and stay exactly
-# as those records left them, so re-running this file cannot invalidate a
-# record that measured an earlier revision of the block.  (Same convention as
-# ../../sg13cmos5l-closed-loop-lock/corners/results_as_drawn.csv vs.
-# results_proposal.csv.)
+# This script now simulates ../netlist-snapshots/lock_detector_crowbarfix.spice
+# (issue #76) and writes the `*_crowbarfix.csv` files above.  RECORD-001's,
+# RECORD-002's and RECORD-003's own inputs and outputs are NEVER written by it
+# and stay exactly as those records left them, so re-running this file cannot
+# invalidate a record that measured an earlier revision of the block.  (Same
+# convention as ../../sg13cmos5l-closed-loop-lock/corners/results_as_drawn.csv
+# vs. results_proposal.csv.)
 #
 # Usage:
 #   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
@@ -97,7 +101,7 @@
 #     -- the model's own closed-form low-frequency capacitance, self-tested
 #     against the two geometries RECORD-001 measured on the real OSDI model.
 #   * anything else -> the preflight's own hard abort, unchanged.
-# Either way ../corners/rc_extract_hystfix.csv records WHICH path produced each
+# Either way ../corners/rc_extract_crowbarfix.csv records WHICH path produced each
 # C in its own `source` column, and the record states it.
 #
 # Why a static header classification is enough here, now that run.sh no longer
@@ -140,7 +144,7 @@
 # at TSTOP_MAX for tractability, and then rounded UP to a whole number of
 # reference periods (the deck's natural unit -- every stimulus repeats every
 # tref).  The achieved settling fraction 1-e^(-tstop/RC) is written to
-# ladder_hystfix.csv's own `settle_frac` column rather than silently assumed complete.
+# ladder_crowbarfix.csv's own `settle_frac` column rather than silently assumed complete.
 #
 # Coverage reduction (explicit, per this repo's CLAUDE.md "no claim without a
 # testbench" / sim/README.md's append-only-evidence discipline).  rc_extract,
@@ -198,7 +202,7 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
 CORNERS="$RECORD_DIR/corners"
-SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_hystfix.spice"
+SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_crowbarfix.spice"
 
 VSUP_NOM=3.3
 TRST=1n
@@ -213,7 +217,8 @@ RPU_W=0.5u; RPU_L=700u                      # XRPU  (rhigh),   was w=0.5u l=6u
 XCW_W=40;  XCW_L=40;  XCW_M=1               # XCW   (cap_cmomi), was 8u x 8u m=1
 XC1_W=40;  XC1_L=40;  XC1_M=2               # XDW.XC1 (cap_cmomi), was 4u x 4u m=2
 # Issue #66's XMPD re-size (w=2u l=0.5u -> w=0.25u l=16u) and schmitt_hv
-# feedback rewiring live in the frozen SNAP above, not here -- they are
+# feedback rewiring, and issue #76's schmitt_hv channel-length change (all six
+# devices l=0.5u -> l=2u), live in the frozen SNAP above, not here -- they are
 # connectivity/geometry inside the netlist rather than parameters this script
 # substitutes.  Recorded here so the one place that lists "what this campaign's
 # DUT differs from RECORD-002's in" is complete.
@@ -355,7 +360,7 @@ python3 "$HERE/cmomi_nominal.py" selftest >&2
 # (appended to, not truncated, when resuming -- see LADDER_RESUME below).
 if [ "${LADDER_RESUME:-0}" != 1 ]; then : > "$CORNERS/solver_retries.txt"; fi
 
-echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_hystfix.csv"
+echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_crowbarfix.csv"
 
 declare -A RVAL
 for rc in res_typ res_bcs res_wcs; do
@@ -367,7 +372,7 @@ for rc in res_typ res_bcs res_wcs; do
     val="$( run_ngspice_or_die r.sp \
             | sed -n 's/^rval *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "R,XRPU(rhigh),${rc},${temp},${RPU_W},${RPU_L},1,${val:-NA},ngspice-osdi" \
-      >> "$CORNERS/rc_extract_hystfix.csv"
+      >> "$CORNERS/rc_extract_crowbarfix.csv"
     echo "[R] ${rc}/${temp}C: ${val:-NA} ohm" >&2
     RVAL["${rc},${temp}"]="$val"
   done
@@ -392,7 +397,7 @@ for geom in "XCW $XCW_W $XCW_L $XCW_M" "XDW.XC1 $XC1_W $XC1_L $XC1_M"; do
       src=va-formula
     fi
     echo "C,${inst}(cap_cmomi),none,${temp},${w}u,${l}u,${m},${val:-NA},${src}" \
-      >> "$CORNERS/rc_extract_hystfix.csv"
+      >> "$CORNERS/rc_extract_crowbarfix.csv"
     echo "[C] ${inst}/${temp}C: ${val:-NA} F (${src})" >&2
     if [ "$temp" = "27" ]; then CNOM[$inst]="$val"; fi
   done
@@ -476,22 +481,26 @@ for variant in ideal-0.20 "$PRIMARY"; do
 done
 
 echo "corner_tag,mos_corner,res_corner,temp_c,vsup_v,fref_hz,dut_variant,twin_r_s,twin_f_s" \
-  > "$CORNERS/window_hystfix.csv"
+  > "$CORNERS/window_crowbarfix.csv"
 
-measure_window() {  # measure_window mos res temp vsup dutfile -> "twin_r twin_f"
+measure_window() {  # measure_window mos res temp vsup dutfile [scratch] -> "twin_r twin_f"
   local mos="$1" res="$2" temp="$3" vsup="$4" dut="$5"
+  # Sixth argument names the scratch deck.  It exists so that ladder corners
+  # running CONCURRENTLY (LADDER_JOBS > 1, issue #76) cannot overwrite each
+  # other's deck between the sed that writes it and the ngspice that reads it.
+  local scratch="${6:-w.sp}"
   local vmid
   vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
   sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@CORNER_RES@/$res/g" -e "s/@TEMP@/$temp/g" \
       -e "s/@VSUP@/$vsup/g" -e "s/@VMID@/$vmid/g" -e "s/@TSTEP@/20p/g" \
       -e "s|@DUT@|$dut|g" \
       -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
-    "$HERE/tb_window.sp.tmpl" > "$WORK/w.sp"
+    "$HERE/tb_window.sp.tmpl" > "$WORK/$scratch"
   local wlog tr tf
   # No `|| true` here (issue #54): a non-zero ngspice exit is a broken deck,
   # not a corner whose window happens not to resolve -- the latter still shows
   # up as an empty tr below and is recorded as NA.
-  wlog="$( run_ngspice_or_die w.sp )"
+  wlog="$( run_ngspice_or_die "$scratch" )"
   tr="$(printf '%s\n' "$wlog" | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
   tf="$(printf '%s\n' "$wlog" | sed -n 's/^twin_f *= *\([0-9.eE+-]*\).*/\1/p' | head -1)"
   # ONE line, so the caller's `read -r a b` gets both fields (a two-line
@@ -512,7 +521,7 @@ for pt in "${WINDOW_POINTS[@]}"; do
   wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut")"
   read -r twin_r twin_f <<< "$wpair"
   echo "${tag},${mos},${res},${temp},${vsup},${fref},${variant},${twin_r},${twin_f}" \
-    >> "$CORNERS/window_hystfix.csv"
+    >> "$CORNERS/window_crowbarfix.csv"
   n=$((n + 1))
   echo "  [window $n/${#WINDOW_POINTS[@]}] ${tag}: twin_r=${twin_r}" >&2
 done
@@ -521,8 +530,8 @@ done
 # 4. Ladder matrix (reduced -- see header).  Rows: mos res temp vsup fref
 #    variant.
 #
-#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_hystfix.csv
-#    and ladder_raw_hystfix.csv exactly as a previous full run left them.  The
+#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_crowbarfix.csv
+#    and ladder_raw_crowbarfix.csv exactly as a previous full run left them.  The
 #    ladder is ~99% of this script's runtime (roughly 200 s per slow-end corner
 #    and 20 min per fast-end corner, vs. ~1 s for a window point), and nothing
 #    in sections 1/2/3/5/6 feeds it, so adding a window corner or a Schmitt
@@ -586,16 +595,16 @@ done
 # with it must say so.  Combining it with a changed DUT, a changed template or
 # a different host would silently mix evidence -- do not.
 DONE_TAGS=""
-if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_hystfix.csv" ]; then
-  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_hystfix.csv" | cut -d, -f1)"
+if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_crowbarfix.csv" ]; then
+  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_crowbarfix.csv" | cut -d, -f1)"
   echo "[ladder] LADDER_RESUME=1 -- $(printf '%s\n' "$DONE_TAGS" | grep -c . ) corner(s) already present will be skipped" >&2
 fi
 
 if [ "${SKIP_LADDER:-0}" != 1 ] && [ "${LADDER_RESUME:-0}" != 1 ]; then
 echo "corner_tag,twin_r_s,in_window_lock_rail,tau_assert_s,tau_assert_xwin,tau_deassert_s,tau_deassert_xwin,hysteresis_s,hysteresis_pct_of_window,chatter,lock_min_deep_v,lock_max_deep_v,trec_s,vwin_min_zeroerr_v,vwin_max_zeroerr_v,idd_inlock_a,idd_outlock_a,ladder_states_discharged_start,ladder_states_charged_start,rc_s,tref_s,rc_over_tref,n_cycles,settle_frac" \
-  > "$CORNERS/ladder_hystfix.csv"
+  > "$CORNERS/ladder_crowbarfix.csv"
 echo "corner_tag,tau_xwin,tau_s,state_discharged_start,state_charged_start,lka_min_v,lka_max_v,lka_avg_v,lkb_min_v,lkb_max_v,lkb_avg_v,vwin_a_min_v,vwin_a_max_v,vwin_a_avg_v" \
-  > "$CORNERS/ladder_raw_hystfix.csv"
+  > "$CORNERS/ladder_raw_crowbarfix.csv"
 fi
 
 N_LADDER_PTS="$(python3 -c "
@@ -604,11 +613,27 @@ spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/gen_ladder.py
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 
+#    LADDER_JOBS=<n> (issue #76) runs up to n ladder corners CONCURRENTLY.  It
+#    is legitimate for the same reason LADDER_RESUME is: every ladder corner is
+#    an independent ngspice invocation against the same frozen snapshot, the
+#    same templates and the same host, and nothing in one corner's result feeds
+#    another's -- so concurrency is concatenation, not a change of method.  Each
+#    corner writes its OWN row files under $WORK and the driver concatenates
+#    them in LADDER_POINTS order afterwards, so the CSVs come out in exactly the
+#    order a serial run produces and are byte-comparable with one.  It defaults
+#    to 1 (unchanged serial behaviour); a record produced with it > 1 must say
+#    so, and must not also claim the per-corner wall times a serial run reports,
+#    since concurrent corners contend for the host.
 run_ladder_corner() {
   local mos="$1" res="$2" temp="$3" vsup="$4" fref="$5" variant="$6"
   local tag="${mos}_${res}_${temp}c_${vsup}v_$(ftag "$fref")_${variant}"
+  # Per-corner output files: written here, concatenated by the driver.  Nothing
+  # in this function appends to a shared CSV, which is what makes LADDER_JOBS>1
+  # safe.
+  local rowf="$WORK/ladderrow_${tag}" rawf="$WORK/ladderraw_${tag}"
+  : > "$rowf"; : > "$rawf"
   if printf '%s\n' "$DONE_TAGS" | grep -qxF "$tag"; then
-    echo "[L] ${tag}: already in ladder_hystfix.csv, skipped (LADDER_RESUME=1)" >&2
+    echo "[L] ${tag}: already in ladder_crowbarfix.csv, skipped (LADDER_RESUME=1)" >&2
     return
   fi
   local RETRY_TAG="ladder ${tag}"
@@ -622,11 +647,11 @@ run_ladder_corner() {
   # its word -- a died-inside-measure_window ngspice would silently produce an
   # empty row instead of stopping the campaign.  A plain assignment does.
   local wpair
-  wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut")"
+  wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut" "w_${tag}.sp")"
   read -r twin_r twin_f <<< "$wpair"
   if [ "$twin_r" = NA ]; then
     echo "${tag},NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA" \
-      >> "$CORNERS/ladder_hystfix.csv"
+      >> "$rowf"
     echo "[!] ${tag}: window measurement failed, ladder skipped" >&2
     return
   fi
@@ -674,45 +699,68 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
       -e "s/@TRST@/$TRST/g" -e "s/@TAUBIG@/$taubig/g" -e "s/@TSTEP@/$tstep/g" \
       -e "s/@TSTOP@/$tstop/g" -e "s/@TSETTLE@/$tsettle/g" -e "s|@DUT@|$dut|g" \
       -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
-    "$HERE/tb_lock_recovery.sp.tmpl" > "$WORK/base.sp"
-  local combined="$WORK/combined.log"
-  run_ngspice_or_die base.sp > "$combined"
+    "$HERE/tb_lock_recovery.sp.tmpl" > "$WORK/base_${tag}.sp"
+  local combined="$WORK/combined_${tag}.log"
+  run_ngspice_or_die "base_${tag}.sp" > "$combined"
 
   # One ladder point at a time (see gen_ladder.py's "ONE-POINT-AT-A-TIME
   # MODE" docstring section).
   local k
   for k in $(seq 0 $((N_LADDER_PTS - 1))); do
     python3 "$HERE/gen_ladder.py" gen \
-      --template "$HERE/tb_lock_ladder_point.sp.tmpl" --out "$WORK/pt.sp" --dut "$dut" \
+      --template "$HERE/tb_lock_ladder_point.sp.tmpl" --out "$WORK/pt_${tag}.sp" --dut "$dut" \
       --fracs-set "$LADDER_SET" \
       --corner-mos "$mos" --corner-res "$res" --temp "$temp" --vsup "$vsup" \
       --tref "$tref" --trst "$TRST" --twin "$twin_r" \
       --tstep "$tstep" --tstop "$tstop" --tsettle "$tsettle" \
       --pdk-root "$PDK_ROOT" --pdk "$PDK" \
       --only-index "$k" > /dev/null
-    run_ngspice_or_die pt.sp >> "$combined"
+    run_ngspice_or_die "pt_${tag}.sp" >> "$combined"
   done
 
   # `reduce` has no notion of this issue's per-corner run-length budget, so
   # the R*C / cycle-count columns are appended to its row here.
   python3 "$HERE/gen_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
       --fracs-set "$LADDER_SET" \
-      --twin "$twin_r" --raw "$CORNERS/ladder_raw_hystfix.csv" < "$combined" \
+      --twin "$twin_r" --raw "$rawf" < "$combined" \
     | python3 -c "
 import sys
 print(sys.stdin.read().strip() +
       ',%.6e,%.6e,%s,%s,%s' % ($rc, $tref, '$rc_over', '$n_cycles', '$settle_frac'))" \
-    >> "$CORNERS/ladder_hystfix.csv"
-  echo "[L] ${tag}: $(tail -1 "$CORNERS/ladder_hystfix.csv" | cut -d, -f3-10)" >&2
+    >> "$rowf"
+  echo "[L] ${tag}: $(tail -1 "$rowf" | cut -d, -f3-10)" >&2
 }
 
 n=0
 if [ "${SKIP_LADDER:-0}" != 1 ]; then
+LADDER_TAGS=()
+JOBS="${LADDER_JOBS:-1}"
 for pt in "${LADDER_POINTS[@]}"; do
   read -r mos res temp vsup fref variant <<< "$pt"
-  run_ladder_corner "$mos" "$res" "$temp" "$vsup" "$fref" "$variant"
+  LADDER_TAGS+=("${mos}_${res}_${temp}c_${vsup}v_$(ftag "$fref")_${variant}")
+  if [ "$JOBS" -gt 1 ]; then
+    while [ "$(jobs -rp | wc -l)" -ge "$JOBS" ]; do wait -n; done
+    run_ladder_corner "$mos" "$res" "$temp" "$vsup" "$fref" "$variant" &
+  else
+    run_ladder_corner "$mos" "$res" "$temp" "$vsup" "$fref" "$variant"
+  fi
   n=$((n + 1))
-  echo "  (ladder $n/${#LADDER_POINTS[@]})" >&2
+  echo "  (ladder $n/${#LADDER_POINTS[@]} dispatched)" >&2
+done
+if [ "$JOBS" -gt 1 ]; then
+  # errexit does not propagate out of a background job, so a corner that died
+  # has to be caught here: `wait` returns the first non-zero status.
+  wait || { echo "ERROR: at least one concurrent ladder corner failed" >&2; exit 1; }
+fi
+# Concatenate in LADDER_POINTS order, so the CSVs are identical in content AND
+# in row order to what a serial run of the same matrix produces.
+for tag in "${LADDER_TAGS[@]}"; do
+  if [ -s "$WORK/ladderrow_$tag" ]; then
+    cat "$WORK/ladderrow_$tag" >> "$CORNERS/ladder_crowbarfix.csv"
+  fi
+  if [ -s "$WORK/ladderraw_$tag" ]; then
+    cat "$WORK/ladderraw_$tag" >> "$CORNERS/ladder_raw_crowbarfix.csv"
+  fi
 done
 fi
 
@@ -730,7 +778,7 @@ fi
 #    committed, at a wider MOS-corner grid.
 # ---------------------------------------------------------------------------
 echo "mos_corner,temp_c,vsup_v,vth_rising_v,vth_falling_v,hysteresis_v,hysteresis_pct_of_vdd" \
-  > "$CORNERS/schmitt_hystfix.csv"
+  > "$CORNERS/schmitt_crowbarfix.csv"
 for mos in mos_tt mos_ss mos_ff mos_sf mos_fs; do
   for temp in -40 27 125; do
     for vsup in 2.97 3.3 3.63; do
@@ -749,7 +797,7 @@ if u and d:
     print('%s,%s,%.6e,%.4f' % (u, d, h, 100*h/float('$vsup')))
 else:
     print('NA,NA,NA,NA')")"
-      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_hystfix.csv"
+      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_crowbarfix.csv"
       echo "[S] ${mos}/${temp}C/${vsup}V: ${row}" >&2
     done
   done
@@ -765,7 +813,7 @@ done
 #    of asserting it is small.
 # ---------------------------------------------------------------------------
 echo "mos_corner,res_corner,temp_c,dut_variant,tstep,twin_r_s" \
-  > "$CORNERS/tstep_convergence_hystfix.csv"
+  > "$CORNERS/tstep_convergence_crowbarfix.csv"
 for tstep in 20p 5p 1.25p; do
   for probe in "mos_tt res_typ 27 $PRIMARY" "mos_ss res_wcs 125 ideal0.20" \
                "mos_ff res_bcs -40 ideal-0.20" "mos_sf res_typ 27 $PRIMARY"; do
@@ -778,7 +826,7 @@ for tstep in 20p 5p 1.25p; do
     tw="$( run_ngspice_or_die w.sp \
            | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "${mos},${res},${temp},${variant},${tstep},${tw:-NA}" \
-      >> "$CORNERS/tstep_convergence_hystfix.csv"
+      >> "$CORNERS/tstep_convergence_crowbarfix.csv"
     echo "[conv ${tstep}] ${mos}/${temp}C/${variant}: twin_r=${tw:-NA}" >&2
   done
 done
@@ -792,5 +840,5 @@ fi
 
 echo "done (primary DUT variant: $PRIMARY, cap_cmomi loadable: $HAVE_CMOMI):" >&2
 for f in rc_extract window schmitt ladder ladder_raw tstep_convergence; do
-  echo "  $(wc -l < "$CORNERS/${f}_hystfix.csv") lines (incl. header) -> $CORNERS/${f}_hystfix.csv" >&2
+  echo "  $(wc -l < "$CORNERS/${f}_crowbarfix.csv") lines (incl. header) -> $CORNERS/${f}_crowbarfix.csv" >&2
 done

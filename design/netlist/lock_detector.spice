@@ -86,11 +86,11 @@ XMN Y A VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
 *.opin OUT
 *.iopin VDD
 *.iopin VSS
-XMP1 np IN VDD VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMP2 OUT IN np VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMP3 VSS OUT np VDD sg13_hv_pmos w=5u l=0.5u ng=1 m=1
-XMN1 OUT IN nn VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-XMN2 nn IN VSS VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
-XMN3 VDD OUT nn VSS sg13_hv_nmos w=2u l=0.5u ng=1 m=1
+XMP1 np IN VDD VDD sg13_hv_pmos w=5u l=2u ng=1 m=1
+XMP2 OUT IN np VDD sg13_hv_pmos w=5u l=2u ng=1 m=1
+XMP3 VSS OUT np VDD sg13_hv_pmos w=5u l=2u ng=1 m=1
+XMN1 OUT IN nn VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
+XMN2 nn IN VSS VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
+XMN3 VDD OUT nn VSS sg13_hv_nmos w=2u l=2u ng=1 m=1
 .ends
 
