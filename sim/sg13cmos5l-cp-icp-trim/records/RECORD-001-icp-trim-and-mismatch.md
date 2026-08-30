@@ -185,7 +185,7 @@ its band sits exactly there.
   reference cycle, and (c) a stable closed loop to define a carrier at all —
   and per the sibling loop-bandwidth record, the as-drawn loop has no stable
   operating point to measure a spur around. Marked `insufficient-evidence`
-  explicitly; a follow-up issue is filed.
+  explicitly; deferred to issue #37 (Part of #16).
 
 ## What this does not bound
 

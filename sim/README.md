@@ -94,15 +94,15 @@ below is the whole campaign, both issues, in the order the records landed.
 | [`sg13cmos5l-vco-duty-cycle`](sg13cmos5l-vco-duty-cycle/) | Open-loop `vco` output duty cycle (rising *and* falling 50%-of-rail crossings), plus the ring's own average supply current | 13 (output duty cycle), 11 (power, one domain) | Duty cycle **bounded** by 300 real transient runs (5 MOS corners — including the `mos_sf`/`mos_fs` split corners the Kvco record left open — x 3 temps x 4 band codes x 5 `VCTRL` points): 43.74–51.56%, with **30 of 300 points below the 45% floor**, all at −40 C. Reproduces gf180-pll's own carried-forward duty-cycle design flag on a different process. Row 11 stays `insufficient-evidence` (only the `vdd_vco` and `cp` domains are measured) |
 
 **Still deferred, and explicitly `insufficient-evidence`** (follow-up issues
-filed off #27, Part of #16):
+filed off #27, each Part of #16):
 
 | Spec row | Why it is still open |
 |---|---|
-| 3 — divider retiming margin | Needs a functional `divider_chain` testbench. An exploratory testbench built during #27 did **not** produce a trustworthy result (the chain's first ÷2 stage divides correctly at 600 MHz but the inner stages do not toggle, and the block has no reset pin, so an initialisation artifact could not be ruled out inside that session). Nothing was published rather than publishing an unverified "the divider is broken" claim |
-| 7 — lock time | Needs a transistor-level closed-loop transient. The linearised loop's own measured PM ≤ 20.3° means a settling time derived from that linearisation would not describe the committed design, so none is reported |
-| 10 — reference spur | Static charge-pump mismatch is now real (`sg13cmos5l-cp-icp-trim`); the dBc figure additionally needs switching charge mismatch, the PFD reset window, and a *stable* closed loop to define a carrier around |
-| 11 — power | `vdd_vco` (measured, 3.09–8.88 mW) and `cp` (measured, ≈66 µW at the 10 µA code) are bounded; `pfd`, `divider_chain` and `lock_detector` are not, so no whole-PLL total is claimed |
-| 16 — lock-detector window / hysteresis | Not attempted in #27. Note `lock_detector.XCW`/`XDW.XC1` are `cap_cmomi` instances that DR-003 Finding 2's own three-instance list does **not** name, so any MOM-cap sensitivity found there is new scope |
+| 3 — divider retiming margin (#36) | Needs a functional `divider_chain` testbench. An exploratory testbench built during #27 did **not** produce a trustworthy result (the chain's first ÷2 stage divides correctly at 600 MHz but the inner stages do not toggle, and the block has no reset pin, so an initialisation artifact could not be ruled out inside that session). Nothing was published rather than publishing an unverified "the divider is broken" claim |
+| 7 — lock time (#37) | Needs a transistor-level closed-loop transient. The linearised loop's own measured PM ≤ 20.3° means a settling time derived from that linearisation would not describe the committed design, so none is reported |
+| 10 — reference spur (#37) | Static charge-pump mismatch is now real (`sg13cmos5l-cp-icp-trim`); the dBc figure additionally needs switching charge mismatch, the PFD reset window, and a *stable* closed loop to define a carrier around |
+| 11 — power (#37) | `vdd_vco` (measured, 3.09–8.88 mW) and `cp` (measured, ≈66 µW at the 10 µA code) are bounded; `pfd`, `divider_chain` and `lock_detector` are not, so no whole-PLL total is claimed |
+| 16 — lock-detector window / hysteresis (#38) | Not attempted in #27. Note `lock_detector.XCW`/`XDW.XC1` are `cap_cmomi` instances that DR-003 Finding 2's own three-instance list does **not** name, so any MOM-cap sensitivity found there is new scope |
 
 None of the deferred rows is MOM-cap-sensitive in DR-003 Finding 2's own
 sense *except* row 16 (see above), so they remain outside that record's

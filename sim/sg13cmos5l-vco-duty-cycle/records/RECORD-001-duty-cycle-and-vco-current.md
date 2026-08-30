@@ -142,7 +142,7 @@ row 11.
   contributes ≈2 × 10 µA × 3.3 V ≈ 66 µW, three orders of magnitude below
   the ring). The `pfd`, `divider_chain` and `lock_detector` domains are not
   measured by any record yet, so **the row as a whole stays
-  `insufficient-evidence`** and is deferred to a filed follow-up issue —
+  `insufficient-evidence`** and is deferred to issue #37 (Part of #16) —
   explicitly, rather than by summing the two domains that happen to exist
   and calling the sum a total.
 - **Row 8 — period jitter**: not addressed. This record measures a

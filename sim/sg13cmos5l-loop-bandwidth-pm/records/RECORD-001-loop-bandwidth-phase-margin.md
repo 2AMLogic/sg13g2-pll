@@ -165,8 +165,8 @@ combinations admit an in-range `N` (the rest need N > 64). Recorded here
 because it constrains row 6/6a directly — the `f_c < f_ref/10` ceiling is
 set by `f_ref`, and the usable `f_ref` range is much narrower than the
 ported row implies. Whether the resolution is a wider `N` range, a lower
-VCO band, or an amended row 2 is a spec question, not a sim question; a
-follow-up issue is filed.
+VCO band, or an amended row 2 is a spec question, not a sim question;
+deferred to issue #40 (Part of #16).
 
 **A related structural note on `N`, read from the netlist rather than
 simulated.** The scenario table above derives `N` from the *spec's* range
@@ -176,8 +176,8 @@ simulated.** The scenario table above derives `N` from the *spec's* range
 ratio is `N = 2⁶ + Σ pᵢ2ⁱ`, i.e. **`N ∈ [64, 127]`** — a range that barely
 touches the spec's and has no overlap below 64. This is a reading of
 `divider_chain.spice`'s topology, **not** a measured division ratio; this
-record makes no simulated claim about the divider (see the deferred row 3
-follow-up). It is noted here only because `N` is a loop-gain term: a larger
+record makes no simulated claim about the divider (deferred to issue #36,
+Part of #16). It is noted here only because `N` is a loop-gain term: a larger
 `N` lowers loop gain, which lowers `f_c`, which — at `f_c ≪ f_z` — lowers
 phase margin further. So if the real `N` range is 64–127 rather than the
 21–58 used above, this record's headline conclusion is **strengthened**,
@@ -194,7 +194,7 @@ never weakened.
   passing result, and this record does not relax the criterion to make it
   pass (this repo's CLAUDE.md: "agents do not relax the ratified spec to
   make results pass"). The concrete, evidence-backed remedy is in
-  "Proposal" above.
+  "Proposal" above, and is filed as issue #41 (Part of #16).
 - **Row 6/6a — Icp-trim mechanism**: **bounded**, by the sibling record
   `sg13cmos5l-cp-icp-trim`, and shown here to be usable once the filter is
   resized (one code step of margin either side of the working point).
@@ -207,8 +207,8 @@ never weakened.
   number derived from this linearisation would describe the committed
   design. This record deliberately does not report one, and does **not**
   substitute the linearised second-order settling formula for the
-  transistor-level closed-loop transient that row needs. Deferred to a
-  filed follow-up issue.
+  transistor-level closed-loop transient that row needs. Deferred to issue
+  #37 (Part of #16).
 
 ## What this does not bound
 
