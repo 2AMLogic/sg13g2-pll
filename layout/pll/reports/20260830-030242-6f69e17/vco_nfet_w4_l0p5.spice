@@ -1,0 +1,20 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_nfet_w4_l0p5
+* pin vsubs
+.SUBCKT vco_nfet_w4_l0p5 vsubs
+* device instance $1 r0 *1 0.67,2 nfet
+M$1 \$2 \$15 \$1 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $2 r0 *1 2.41,2 nfet
+M$2 \$4 \$16 \$3 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $3 r0 *1 4.15,2 nfet
+M$3 \$6 \$17 \$5 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $4 r0 *1 5.89,2 nfet
+M$4 \$8 \$18 \$7 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $5 r0 *1 7.63,2 nfet
+M$5 \$10 \$19 \$9 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $6 r0 *1 9.37,2 nfet
+M$6 \$12 \$20 \$11 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $7 r0 *1 11.11,2 nfet
+M$7 \$14 \$21 \$13 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+.ENDS vco_nfet_w4_l0p5

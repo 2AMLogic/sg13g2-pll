@@ -1,0 +1,12 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell cp_pfet_w24_l1
+* pin cp_pfet_w24_l1_B
+.SUBCKT cp_pfet_w24_l1 cp_pfet_w24_l1_B
+* device instance $1 r0 *1 13.2,3.36 pfet
+X$1 \$6 \$2 \$3 cp_pfet_w24_l1_B sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
+* device instance $2 r0 *1 38.96,3.36 pfet
+X$2 \$7 \$4 \$5 cp_pfet_w24_l1_B sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
+.ENDS cp_pfet_w24_l1

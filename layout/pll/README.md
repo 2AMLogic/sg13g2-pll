@@ -133,12 +133,19 @@ bumped pin, not assumed from the closed tracker issues alone):
 | `klt gen mos_array`/`diff_pair` rejected the `sg13g2` PDK family outright — the unit device's shared gate-poly landing pad tripped `sg13g2`'s real `gatpoly.separation.activ.1` DRC rule. | [klayout-tools#1450](https://github.com/2AMLogic/klayout-tools/issues/1450) | [PR #1453](https://github.com/2AMLogic/klayout-tools/pull/1453) (narrowed unit-device gate-poly landing pad) | `klt 0.3.0+g5482cfe1c67e` (`5482cfe1c67eacf9d2f27d750a11a37ec14b1984`) against a real `ihp-sg13g2` install |
 | `klt gen res_array` exposed only the `"generic"` (`rsil`, 7 Ω/□) `sg13g2` poly-resistor flavour; `rppd` (260 Ω/□) and `rhigh` (1360 Ω/□) — the two flavours this design actually uses — were rejected with `supported flavours: generic`. | [klayout-tools#1451](https://github.com/2AMLogic/klayout-tools/issues/1451) | [PR #1452](https://github.com/2AMLogic/klayout-tools/pull/1452) (widened `res_array`'s `sg13g2` flavour mechanism to a 3/4-slot `requires` set) | same |
 
-**Still open**, found/re-confirmed by this pass:
+**Resolved by issue #24's own pin bump** (`5482cfe…` → `04c0fa9…`;
+re-verified directly at the new pin, not assumed from the closed tracker
+issue alone):
+
+| Gap | Filed | Fixed by | Re-verified against |
+| --- | --- | --- | --- |
+| The curated `sg13g2` extraction deck had no `capacitor` device class, so this design's `cap_cmim` shunt caps could not be recognised even once drawn. **This is a gap this repo itself filed and this repo's own bump retired.** | [klayout-tools#1454](https://github.com/2AMLogic/klayout-tools/issues/1454) | [PR #1456](https://github.com/2AMLogic/klayout-tools/pull/1456) (`04c0fa9…`, the current pin itself) | `klt 0.3.0+g04c0fa912213`: `klt deck info --deck sg13g2` now reports `nfet, pfet, cap_cmim, rfcmim, resistor, dantenna, dpantenna` |
+
+**Still open at the current pin**, found/re-confirmed by issue #24's pass:
 
 | Gap | Filed | Status |
 | --- | --- | --- |
-| `klt gen cap_array` rejects the `sg13g2` PDK family outright (`"PDK family 'sg13g2' has no MiM capacitor plate layers configured -- supported families: sky130"`) — reproduced directly this pass, not inferred from #1117 (which added `cap_array` for `sky130` only and never covered `sg13g2`, so is not the same gap). This design's two `cap_cmim` shunt caps (`loop_filter.sch`) cannot be drawn via `klt gen` as a result. | [klayout-tools#1455](https://github.com/2AMLogic/klayout-tools/issues/1455) (new, filed by this pass) | tracked, open |
-| The curated `sg13g2` extraction deck still has no `capacitor` device class — confirmed directly this pass via `klt deck info --deck sg13g2` (`device_classes: nfet, pfet, resistor, dantenna, dpantenna`, no `capacitor` entry) — even though the Metal2-stack limit issue #1233 originally deferred `cap_cmim`/`rfcmim` recognition on (issue #1243) has since landed. The deck's own current source comment (`sg13g2.py`'s "MIM capacitors" section) says recognition is "now a standalone follow-on (issue #1233, reopened against the extended stack)", but #1233 is still closed with no open successor — filed fresh as [klayout-tools#1454](https://github.com/2AMLogic/klayout-tools/issues/1454) rather than assuming push/reopen access to #1233. | [klayout-tools#1454](https://github.com/2AMLogic/klayout-tools/issues/1454) (new, filed by this pass) | tracked, open |
+| `klt gen cap_array` rejects the `sg13g2` PDK family outright (`"PDK family 'sg13g2' has no MiM capacitor plate layers configured -- supported families: sky130"`) — reproduced directly this pass, not inferred from #1117 (which added `cap_array` for `sky130` only and never covered `sg13g2`, so is not the same gap). This design's two `cap_cmim` shunt caps (`loop_filter.sch`) cannot be drawn via `klt gen` as a result. Re-reproduced verbatim at the current pin (`klt 0.3.0+g04c0fa912213`) by issue #24's pass, so this is a live status, not a carried-forward one. | [klayout-tools#1455](https://github.com/2AMLogic/klayout-tools/issues/1455) (filed by #13's pass) | **closed upstream 2026-08-30T02:41Z, but its fix is _not_ in the current pin** — `klt gen cap_array`'s `sg13g2` plate-layer configuration landed as [PR #1461](https://github.com/2AMLogic/klayout-tools/pull/1461) (`25c52af`), which is *after* `04c0fa9…`. Deliberately not chased in issue #24's bump: the SG13G2 side is a different rung, and pin discipline here means pinning an exact commit rather than tracking a moving `main` mid-PR. Follow-up **#31** tracks the re-bump and the 482 / 482 re-run it should produce. |
 
 **Not re-filed** (closed, cited for completeness — the deferral chain the
 still-open gap above builds on): [klayout-tools#1233](https://github.com/2AMLogic/klayout-tools/issues/1233)
@@ -149,10 +156,18 @@ still-open gap above builds on): [klayout-tools#1233](https://github.com/2AMLogi
 does **not** itself declare `capacitors=`, which is exactly the gap #1454
 now tracks).
 
-**Also confirmed, not a gap**: `klt deck info --deck sg13g2` reports
-`nfet, pfet, resistor, dantenna, dpantenna` as recognised *extraction*
-device classes — every class this design's drawn devices (MOSFETs,
-resistors) need is covered; only the capacitor class remains missing.
+**Also confirmed, not a gap**: `klt deck info --deck sg13g2` now reports
+`nfet, pfet, cap_cmim, rfcmim, resistor, dantenna, dpantenna` as recognised
+*extraction* device classes (the `cap_cmim`/`rfcmim` pair added by the pin
+bump above) — every class this design's devices need is now recognised for
+extraction. Only the **generator** side remains missing, which is #1455's
+own remaining scope.
+
+**Non-regression at the current pin.** `layout/bin/run-pll-layout-flow.sh`
+was re-run in full after issue #24's pin bump, per this repo's own bump
+discipline, and reproduces the identical result: 477 / 482 drawn, 477 / 482
+re-extracted matching, 6 / 6 blocks composed and matched. See the record this
+re-run produced (`reports/LATEST`) — the bump changed nothing on this side.
 
 ## Directory layout
 

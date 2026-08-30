@@ -1,0 +1,197 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_pfd
+* pin pfd_pfet_w10_l0p5_B
+* pin pfd_pfet_w5_l0p5_B
+* pin vsubs
+.SUBCKT pll_pfd pfd_pfet_w10_l0p5_B pfd_pfet_w5_l0p5_B vsubs
+* device instance $1 r0 *1 1.89,3.11 nfet
+X$1 \$132 \$4 \$5 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $2 r0 *1 5.03,3.11 nfet
+X$2 \$133 \$6 \$7 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $3 r0 *1 8.17,3.11 nfet
+X$3 \$134 \$8 \$9 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $4 r0 *1 11.31,3.11 nfet
+X$4 \$135 \$10 \$11 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $5 r0 *1 14.45,3.11 nfet
+X$5 \$136 \$12 \$13 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $6 r0 *1 17.59,3.11 nfet
+X$6 \$137 \$14 \$15 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $7 r0 *1 20.73,3.11 nfet
+X$7 \$138 \$16 \$17 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $8 r0 *1 23.87,3.11 nfet
+X$8 \$139 \$18 \$19 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $9 r0 *1 27.01,3.11 nfet
+X$9 \$140 \$20 \$21 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $10 r0 *1 30.15,3.11 nfet
+X$10 \$141 \$22 \$23 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $11 r0 *1 33.29,3.11 nfet
+X$11 \$142 \$24 \$25 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $12 r0 *1 36.43,3.11 nfet
+X$12 \$143 \$26 \$27 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $13 r0 *1 39.57,3.11 nfet
+X$13 \$144 \$28 \$29 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $14 r0 *1 42.71,3.11 nfet
+X$14 \$145 \$30 \$31 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $15 r0 *1 45.85,3.11 nfet
+X$15 \$146 \$32 \$33 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $16 r0 *1 48.99,3.11 nfet
+X$16 \$147 \$34 \$35 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $17 r0 *1 52.13,3.11 nfet
+X$17 \$148 \$36 \$37 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $18 r0 *1 55.27,3.11 nfet
+X$18 \$149 \$38 \$39 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $19 r0 *1 58.41,3.11 nfet
+X$19 \$150 \$40 \$41 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $20 r0 *1 61.55,3.11 nfet
+X$20 \$151 \$42 \$43 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $21 r0 *1 64.69,3.11 nfet
+X$21 \$152 \$44 \$45 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $22 r0 *1 67.83,3.11 nfet
+X$22 \$153 \$46 \$47 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $23 r0 *1 70.97,3.11 nfet
+X$23 \$154 \$48 \$49 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $24 r0 *1 74.11,3.11 nfet
+X$24 \$155 \$50 \$51 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $25 r0 *1 77.25,3.11 nfet
+X$25 \$156 \$52 \$53 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $26 r0 *1 80.39,3.11 nfet
+X$26 \$157 \$54 \$55 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $27 r0 *1 83.53,3.11 nfet
+X$27 \$158 \$56 \$57 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $28 r0 *1 86.67,3.11 nfet
+X$28 \$159 \$58 \$59 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $29 r0 *1 89.81,3.11 nfet
+X$29 \$160 \$60 \$61 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $30 r0 *1 92.95,3.11 nfet
+X$30 \$161 \$62 \$63 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $31 r0 *1 96.09,3.11 nfet
+X$31 \$162 \$64 \$65 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $32 r0 *1 106.87,3.11 nfet
+X$32 \$163 \$66 \$67 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $33 r0 *1 119.46,3.11 pfet
+X$33 \$164 \$68 \$69 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $34 r0 *1 126.22,3.11 pfet
+X$34 \$165 \$70 \$71 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $35 r0 *1 132.98,3.11 pfet
+X$35 \$166 \$72 \$73 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $36 r0 *1 139.74,3.11 pfet
+X$36 \$167 \$74 \$75 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $37 r0 *1 146.5,3.11 pfet
+X$37 \$168 \$76 \$77 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $38 r0 *1 153.26,3.11 pfet
+X$38 \$169 \$78 \$79 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $39 r0 *1 160.02,3.11 pfet
+X$39 \$170 \$80 \$81 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $40 r0 *1 166.78,3.11 pfet
+X$40 \$171 \$82 \$83 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $41 r0 *1 173.54,3.11 pfet
+X$41 \$172 \$84 \$85 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $42 r0 *1 180.3,3.11 pfet
+X$42 \$173 \$86 \$87 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $43 r0 *1 187.06,3.11 pfet
+X$43 \$174 \$88 \$89 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $44 r0 *1 193.82,3.11 pfet
+X$44 \$175 \$90 \$91 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $45 r0 *1 200.58,3.11 pfet
+X$45 \$176 \$92 \$93 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $46 r0 *1 207.34,3.11 pfet
+X$46 \$177 \$94 \$95 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $47 r0 *1 214.1,3.11 pfet
+X$47 \$178 \$96 \$97 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $48 r0 *1 220.86,3.11 pfet
+X$48 \$179 \$98 \$99 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $49 r0 *1 227.62,3.11 pfet
+X$49 \$180 \$100 \$101 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $50 r0 *1 234.38,3.11 pfet
+X$50 \$181 \$102 \$103 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $51 r0 *1 241.14,3.11 pfet
+X$51 \$182 \$104 \$105 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $52 r0 *1 247.9,3.11 pfet
+X$52 \$183 \$106 \$107 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $53 r0 *1 254.66,3.11 pfet
+X$53 \$184 \$108 \$109 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $54 r0 *1 261.42,3.11 pfet
+X$54 \$185 \$110 \$111 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $55 r0 *1 268.18,3.11 pfet
+X$55 \$186 \$112 \$113 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $56 r0 *1 274.94,3.11 pfet
+X$56 \$187 \$114 \$115 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $57 r0 *1 281.7,3.11 pfet
+X$57 \$188 \$116 \$117 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $58 r0 *1 288.46,3.11 pfet
+X$58 \$189 \$118 \$119 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $59 r0 *1 295.22,3.11 pfet
+X$59 \$190 \$120 \$121 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $60 r0 *1 301.98,3.11 pfet
+X$60 \$191 \$122 \$123 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $61 r0 *1 308.74,3.11 pfet
+X$61 \$192 \$124 \$125 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $62 r0 *1 315.5,3.11 pfet
+X$62 \$193 \$126 \$127 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $63 r0 *1 322.26,3.11 pfet
+X$63 \$194 \$128 \$129 pfd_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $64 r0 *1 338.16,3.11 pfet
+X$64 \$195 \$130 \$131 pfd_pfet_w10_l0p5_B sg13_hv_pmos L=0.5U W=10U AS=4P
++ AD=4P PS=20.8U PD=20.8U
+.ENDS pll_pfd

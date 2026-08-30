@@ -1,0 +1,171 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "vco_resrppd_w1_l30.gds",
+    "deck": "sg13cmos5l",
+    "top": "vco_resrppd_w1_l30",
+    "dbu_um": 0.001,
+    "netlist_path": "vco_resrppd_w1_l30.extracted.spice",
+    "netlist_sha256": "bd05af445ae0c6b8bd9c07db6f9cf292c18684863278f7bfc3abeea3867e67b8",
+    "status": "extracted",
+    "device_count": 2,
+    "net_count": 5,
+    "pin_count": 1,
+    "device_counts": {
+      "rppd": 2
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 2
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 2
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 2
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      },
+      {
+        "name": "$2",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$3",
+          "b": "\\$4",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 7800.0,
+          "l_um": 30.0,
+          "w_um": 1.0,
+          "area_um2": 30.0,
+          "perimeter_um": 62.0
+        }
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$3",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "\\$4",
+        "pin": false,
+        "device_count": 1
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 2
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (31/2, 8/2, 10/2, 30/2, 50/2, 126/2) anywhere in 'vco_resrppd_w1_l30' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "4 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      },
+      {
+        "net": "\\$3",
+        "device": "$2",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$4",
+        "device": "$2",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:3a7a3bb0ef9533e0f5bff10e84ee26c3df1c56c13cea4048412f686944d917f9",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:43972054081b08b020c4511f1162db413b1574f727e8a946b52bc28b61cec101"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null
+  },
+  "stderr": ""
+}

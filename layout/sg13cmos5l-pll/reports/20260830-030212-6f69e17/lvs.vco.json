@@ -1,0 +1,12 @@
+{
+  "returncode": 1,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "error": {
+      "command": "lvs",
+      "message": "could not convert subckt-call reference netlist '/home/ubuntu/loom-workspaces/sg13g2-pll/.loom/worktrees/issue-24/layout/sg13cmos5l-pll/reports/20260830-030212-6f69e17/vco.reference.spice' to plain-element form: subcircuit 'cap_cmomi' is not a known device for the requested deck (known: rhigh, rppd, sg13_hv_nmos, sg13_hv_pmos, sg13_lv_nmos, sg13_lv_pmos); if it is a real device, pass reference.device_map to map it explicitly"
+    }
+  },
+  "stderr": "{\n  \"schema_version\": 1,\n  \"error\": {\n    \"command\": \"lvs\",\n    \"message\": \"could not convert subckt-call reference netlist '/home/ubuntu/loom-workspaces/sg13g2-pll/.loom/worktrees/issue-24/layout/sg13cmos5l-pll/reports/20260830-030212-6f69e17/vco.reference.spice' to plain-element form: subcircuit 'cap_cmomi' is not a known device for the requested deck (known: rhigh, rppd, sg13_hv_nmos, sg13_hv_pmos, sg13_lv_nmos, sg13_lv_pmos); if it is a real device, pass reference.device_map to map it explicitly\"\n  }\n}"
+}
