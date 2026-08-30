@@ -20,16 +20,26 @@ placement. Two separate, both-measured reasons it is not used here:
    re-check.
 
 2. **Past that fix it still cannot route a block this size** -- which is why
-   the pin moving would not retire this module. Measured directly against
-   `klt` at `b10fa3c` (upstream `main`, i.e. #1462's own merge commit), with
-   this flow's own placed groups, declared ports and schematic-derived
-   `connectivity[]`: on `cp`, the *smallest* block here (8 groups, 14
-   devices, 13 multi-pin nets), `klt gen-compose` routes **1 of 13 nets** and
-   rejects the other twelve, essentially all with
+   the pin moving does not retire this module. Measured directly against
+   `klt`, with this flow's own placed groups, declared ports and
+   schematic-derived `connectivity[]`: on `cp`, the *smallest* block here (8
+   groups, 14 devices, 13 multi-pin nets), `klt gen-compose` routes **1 of 13
+   nets** and rejects the other twelve, essentially all with
    ``crosses already-routed net 'DN'``. Its router has no track or layer
    assignment between nets, so the first net accepted rejects the rest
    regardless of how much empty space the composition has. Filed upstream as
    **klayout-tools#1467**.
+
+   First measured at `b10fa3c` (#1462's own merge commit) and, since issue
+   #35, **re-measured on every run** rather than remembered:
+   :func:`pll_cmos5l_layout.probe_gen_compose_block_routing` rebuilds exactly
+   that request from this run's own drawn groups and commits the raw
+   responses as `gen-compose.probe.block-*.json`. It reproduces unchanged at
+   the current pin. The same probe also asks for
+   ``routing.cross_block_layer_role`` -- the one mechanism `gen-compose` has
+   for moving a rejected net onto a different metal -- and this PDK family
+   has no second routing metal role to name (the role table exposes exactly
+   one, ``metal``), so that escape is unavailable here too.
 
 So this module draws the interconnect the same way `cmos5l_devices.py` draws
 the devices -- locally, with `klayout.db` -- and leaves the whole verification

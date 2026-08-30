@@ -413,3 +413,50 @@ def test_single_row_pack_never_stacks_two_groups_in_y():
     assert [o["y"] for o in origins.values()] == [0.0, 0.0, 0.0]
     assert origins["b"]["x"] == pytest.approx(16.0)
     assert origins["c"]["x"] == pytest.approx(42.0)
+
+
+# --- Generator-vs-local footprint probe helpers (issue #35) ----------------
+#
+# The probes themselves run `klt` and are recorded as evidence, not simulated
+# here (same split as everywhere else in this file). What *is* unit-testable
+# is the two pure reducers the probe's verdict is computed from -- if either
+# is wrong, the record would report a compatible footprint that is not one.
+
+
+def test_port_column_pitch_finds_the_tightest_pair_not_the_average():
+    """The riser-column invariant is decided by the *closest* two columns."""
+    ports = [
+        {"name": "U0_S", "x_um": 0.21},
+        {"name": "U0_G", "x_um": 0.67},
+        {"name": "U0_D", "x_um": 1.13},
+        {"name": "U1_S", "x_um": 10.0},
+    ]
+    assert flow._port_column_pitch(ports) == pytest.approx(0.46)
+
+
+def test_port_column_pitch_ignores_terminals_sharing_one_column():
+    """Two ports at the same x are one column, not a zero-width gap: a shared
+    column is `check_riser_columns`'s own fatal error, and reporting 0.0 here
+    would conflate "too tight" with "identical"."""
+    ports = [
+        {"name": "R0_A", "x_um": 0.21},
+        {"name": "R0_B", "x_um": 0.21},
+        {"name": "R1_A", "x_um": 1.11},
+    ]
+    assert flow._port_column_pitch(ports) == pytest.approx(0.90)
+    assert flow._port_column_pitch([{"name": "P", "x_um": 1.0}]) is None
+
+
+def test_extracted_models_reads_the_pdk_binding_not_the_deck_class(tmp_path):
+    """`sg13_hv_*` vs `sg13_lv_*` is the whole generator-vs-local question on
+    the MOS side, and it appears only on the emitted `X` cards -- the JSON
+    response reports the deck class (`nfet`/`pfet`) for both."""
+    (tmp_path / "probe.extracted.spice").write_text(
+        "* extracted by klt extract --deck sg13cmos5l\n"
+        ".SUBCKT probe vsubs\n"
+        "X$1 \\$3 \\$1 \\$4 vsubs sg13_hv_nmos L=0.5U W=2U\n"
+        "X$2 \\$5 \\$2 \\$6 vsubs sg13_hv_nmos L=0.5U W=2U\n"
+        ".ENDS probe\n"
+    )
+    assert flow._extracted_models(tmp_path, "probe") == ["sg13_hv_nmos"]
+    assert flow._extracted_models(tmp_path, "absent") == []

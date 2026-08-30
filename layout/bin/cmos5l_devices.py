@@ -14,15 +14,46 @@ own the footprints. That route is **not available on SG13CMOS5L**: every
 
 filed upstream as the sg13cmos5l sibling of the SG13G2 family-support gaps
 `klayout-tools#1448`/`#1450`/`#1451` -- see `layout/sg13cmos5l-pll/README.md`'s
-friction log for the issue number and for its status (it **closed upstream
-2026-08-30**, after this repo's pin; the README records what a pin bump would
-and would not change). This module is therefore **not** a
-work-around that hides a deck gap (the curated `sg13cmos5l` *deck* is fine and
-is used unmodified below): it is the same route `2AMLogic/sg13g2-bandgap`
-already took for its own SG13CMOS5L port -- draw the footprints locally with
-`klayout.db`, then verify them with `klt drc --deck sg13cmos5l` /
-`klt extract --deck sg13cmos5l` exactly as before. The generator gap stays
-filed and open upstream either way.
+friction log for the issue number (klayout-tools#1462). This module is
+therefore **not** a work-around that hides a deck gap (the curated
+`sg13cmos5l` *deck* is fine and is used unmodified below): it is the same
+route `2AMLogic/sg13g2-bandgap` already took for its own SG13CMOS5L port --
+draw the footprints locally with `klayout.db`, then verify them with `klt drc
+--deck sg13cmos5l` / `klt extract --deck sg13cmos5l` exactly as before.
+
+**That gap has since closed, and the footprints stay local anyway (issue
+#35).** klayout-tools#1462 closed upstream on 2026-08-30 and this repo's pin
+carries it, so `klt gen mos_array`/`res_array` *do* now draw on
+`ihp-sg13cmos5l`. Drawing was never the whole bar, though, and the difference
+is re-measured on every run by
+:func:`pll_cmos5l_layout.probe_generator_footprints` (raw responses committed
+as `gen.probe.*.json`) rather than argued:
+
+* **Device flavour.** `mos_array` has no thick-oxide marker layer configured
+  for this PDK family -- it reports, in its own `drc_hints.notes`, that
+  ``params.voltage_flavor`` "has no marker layer resolved for the resolved PDK
+  family". Its output therefore carries no `ThickGateOx` (44/0) and extracts
+  as **`sg13_lv_nmos`/`sg13_lv_pmos`**, where this module's footprints extract
+  as the ratified `sg13_hv_*` (DR-002 Decision 0) the committed netlists
+  instantiate.
+* **PMOS body.** `mos_array --flavor pfet` draws the shared `NWell` but no
+  well tap and no `NWell.pin`, so every generated PMOS body extracts onto an
+  anonymous net and `klt extract` reports it in `unbiased_pmos_body_nets[]`.
+  :func:`draw_pfet_array_well` below draws the tap, names the well with the
+  *schematic's* own body net, and is what keeps that list empty.
+* **Terminal columns.** `mos_array`'s reported `ports[]` do give one x per
+  terminal and (with `gate_contact`) a contacted gate landing pad, but at this
+  design's narrowest device they are 0.46 um apart -- under
+  :data:`ROUTE_PITCH_UM` (0.60 um), and under the 0.51 um that
+  `metal2.width.1` + `metal2.space.1` alone require -- so `cmos5l_route`'s
+  per-terminal riser cannot escape them.
+
+`res_array` clears all of that (it draws, is DRC-clean, and extracts as
+`rppd`), so the resistor half is the one place a future swap could start; it
+is not taken today because this design's poly resistors live only in the three
+blocks that cannot LVS-convert at all, so the swap would move no result while
+splitting the flow across two footprint sources. Every gap above is filed
+upstream -- see the README's friction log.
 
 **Provenance.** Layer numbers, process constants and the four device
 footprints below are adapted from `2AMLogic/sg13g2-bandgap`'s own

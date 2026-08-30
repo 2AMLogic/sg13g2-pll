@@ -34,7 +34,12 @@ closure are later, separate T1 checklist items on this side. (The
 SG13CMOS5L side reached DRC-clean and then LVS-`match` first, because it
 draws its own footprints *and* its own interconnect rather than waiting on a
 generator — see `sg13cmos5l-pll/README.md` for why both are filed upstream
-tool gaps, klayout-tools#1462 and #1467, rather than deck work-arounds.)
+tool gaps rather than deck work-arounds. The footprint half of that
+(klayout-tools#1462) has since closed upstream; issue #35 re-measured
+generator output against it and **kept the local footprints**, because the
+generator draws the thin-oxide device class and leaves the PMOS body
+unbiased on this family — klayout-tools#1472/#1473. The interconnect half,
+klayout-tools#1467, reproduces unchanged at the current pin.)
 
 Two rules from the root `CLAUDE.md` shape this directory:
 

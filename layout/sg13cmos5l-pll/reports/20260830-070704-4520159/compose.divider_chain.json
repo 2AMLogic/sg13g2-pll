@@ -1,0 +1,2971 @@
+{
+  "cell_name": "pll_divider_chain",
+  "gds": "pll_divider_chain.gds",
+  "strategy": "single_row",
+  "spacing_um": 6.0,
+  "placements": {
+    "divider_chain_nfet_w2_l0p5": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "divider_chain_pfet_w5_l0p5": {
+      "x": 632.32,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 950,
+  "unrouted_ports": [],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 6.72,
+    "net_count": 142,
+    "routed_net_count": 142,
+    "wire_length_um": 147145.24,
+    "nets": [
+      {
+        "net": "CKIN",
+        "track": 0,
+        "trunk_y_um": 6.72,
+        "trunk_x_um": [
+          24.63,
+          793.27
+        ],
+        "pin_count": 12,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U6_G",
+          "divider_chain_nfet_w2_l0p5.U9_G",
+          "divider_chain_nfet_w2_l0p5.U10_G",
+          "divider_chain_nfet_w2_l0p5.U17_G",
+          "divider_chain_nfet_w2_l0p5.U20_G",
+          "divider_chain_nfet_w2_l0p5.U21_G",
+          "divider_chain_pfet_w5_l0p5.U6_G",
+          "divider_chain_pfet_w5_l0p5.U7_G",
+          "divider_chain_pfet_w5_l0p5.U12_G",
+          "divider_chain_pfet_w5_l0p5.U17_G",
+          "divider_chain_pfet_w5_l0p5.U18_G",
+          "divider_chain_pfet_w5_l0p5.U23_G"
+        ],
+        "routed": true,
+        "route_length_um": 811.96
+      },
+      {
+        "net": "CKIN_VCO",
+        "track": 1,
+        "trunk_y_um": 7.32,
+        "trunk_x_um": [
+          594.87,
+          1718.95
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U150_G",
+          "divider_chain_nfet_w2_l0p5.U153_G",
+          "divider_chain_nfet_w2_l0p5.U154_G",
+          "divider_chain_pfet_w5_l0p5.U150_G",
+          "divider_chain_pfet_w5_l0p5.U151_G",
+          "divider_chain_pfet_w5_l0p5.U156_G"
+        ],
+        "routed": true,
+        "route_length_um": 1149.34
+      },
+      {
+        "net": "DIVOUT",
+        "track": 2,
+        "trunk_y_um": 7.92,
+        "trunk_x_um": [
+          511.71,
+          1685.03
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U129_G",
+          "divider_chain_nfet_w2_l0p5.U138_D",
+          "divider_chain_nfet_w2_l0p5.U140_G",
+          "divider_chain_nfet_w2_l0p5.U151_D",
+          "divider_chain_pfet_w5_l0p5.U129_G",
+          "divider_chain_pfet_w5_l0p5.U138_D",
+          "divider_chain_pfet_w5_l0p5.U140_G",
+          "divider_chain_pfet_w5_l0p5.U151_S"
+        ],
+        "routed": true,
+        "route_length_um": 1210.76
+      },
+      {
+        "net": "FB",
+        "track": 3,
+        "trunk_y_um": 8.52,
+        "trunk_x_um": [
+          624.07,
+          1727.39
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U157_D",
+          "divider_chain_pfet_w5_l0p5.U157_D"
+        ],
+        "routed": true,
+        "route_length_um": 1113.1
+      },
+      {
+        "net": "P0",
+        "track": 4,
+        "trunk_y_um": 9.12,
+        "trunk_x_um": [
+          4.83,
+          640.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U1_G",
+          "divider_chain_pfet_w5_l0p5.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 647.34
+      },
+      {
+        "net": "P1",
+        "track": 5,
+        "trunk_y_um": 9.72,
+        "trunk_x_um": [
+          103.83,
+          814.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U26_G",
+          "divider_chain_pfet_w5_l0p5.U26_G"
+        ],
+        "routed": true,
+        "route_length_um": 723.54
+      },
+      {
+        "net": "P2",
+        "track": 6,
+        "trunk_y_um": 10.32,
+        "trunk_x_um": [
+          202.83,
+          988.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U51_G",
+          "divider_chain_pfet_w5_l0p5.U51_G"
+        ],
+        "routed": true,
+        "route_length_um": 799.74
+      },
+      {
+        "net": "P3",
+        "track": 7,
+        "trunk_y_um": 10.92,
+        "trunk_x_um": [
+          301.83,
+          1162.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U76_G",
+          "divider_chain_pfet_w5_l0p5.U76_G"
+        ],
+        "routed": true,
+        "route_length_um": 875.94
+      },
+      {
+        "net": "P4",
+        "track": 8,
+        "trunk_y_um": 11.52,
+        "trunk_x_um": [
+          400.83,
+          1336.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U101_G",
+          "divider_chain_pfet_w5_l0p5.U101_G"
+        ],
+        "routed": true,
+        "route_length_um": 952.14
+      },
+      {
+        "net": "P5",
+        "track": 9,
+        "trunk_y_um": 12.12,
+        "trunk_x_um": [
+          499.83,
+          1510.15
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U126_G",
+          "divider_chain_pfet_w5_l0p5.U126_G"
+        ],
+        "routed": true,
+        "route_length_um": 1028.34
+      },
+      {
+        "net": "VDD_DIV",
+        "track": 10,
+        "trunk_y_um": 12.72,
+        "trunk_x_um": [
+          495.87,
+          1726.79
+        ],
+        "pin_count": 105,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U125_G",
+          "divider_chain_nfet_w2_l0p5.U139_G",
+          "divider_chain_pfet_w5_l0p5.nwell_tap",
+          "divider_chain_pfet_w5_l0p5.U0_S",
+          "divider_chain_pfet_w5_l0p5.U1_S",
+          "divider_chain_pfet_w5_l0p5.U2_S",
+          "divider_chain_pfet_w5_l0p5.U3_S",
+          "divider_chain_pfet_w5_l0p5.U4_S",
+          "divider_chain_pfet_w5_l0p5.U6_S",
+          "divider_chain_pfet_w5_l0p5.U8_S",
+          "divider_chain_pfet_w5_l0p5.U11_S",
+          "divider_chain_pfet_w5_l0p5.U13_S",
+          "divider_chain_pfet_w5_l0p5.U14_S",
+          "divider_chain_pfet_w5_l0p5.U15_S",
+          "divider_chain_pfet_w5_l0p5.U16_S",
+          "divider_chain_pfet_w5_l0p5.U17_S",
+          "divider_chain_pfet_w5_l0p5.U19_S",
+          "divider_chain_pfet_w5_l0p5.U22_S",
+          "divider_chain_pfet_w5_l0p5.U24_S",
+          "divider_chain_pfet_w5_l0p5.U25_S",
+          "divider_chain_pfet_w5_l0p5.U26_S",
+          "divider_chain_pfet_w5_l0p5.U27_S",
+          "divider_chain_pfet_w5_l0p5.U28_S",
+          "divider_chain_pfet_w5_l0p5.U29_S",
+          "divider_chain_pfet_w5_l0p5.U31_S",
+          "divider_chain_pfet_w5_l0p5.U33_S",
+          "divider_chain_pfet_w5_l0p5.U36_S",
+          "divider_chain_pfet_w5_l0p5.U38_S",
+          "divider_chain_pfet_w5_l0p5.U39_S",
+          "divider_chain_pfet_w5_l0p5.U40_S",
+          "divider_chain_pfet_w5_l0p5.U41_S",
+          "divider_chain_pfet_w5_l0p5.U42_S",
+          "divider_chain_pfet_w5_l0p5.U44_S",
+          "divider_chain_pfet_w5_l0p5.U47_S",
+          "divider_chain_pfet_w5_l0p5.U49_S",
+          "divider_chain_pfet_w5_l0p5.U50_S",
+          "divider_chain_pfet_w5_l0p5.U51_S",
+          "divider_chain_pfet_w5_l0p5.U52_S",
+          "divider_chain_pfet_w5_l0p5.U53_S",
+          "divider_chain_pfet_w5_l0p5.U54_S",
+          "divider_chain_pfet_w5_l0p5.U56_S",
+          "divider_chain_pfet_w5_l0p5.U58_S",
+          "divider_chain_pfet_w5_l0p5.U61_S",
+          "divider_chain_pfet_w5_l0p5.U63_S",
+          "divider_chain_pfet_w5_l0p5.U64_S",
+          "divider_chain_pfet_w5_l0p5.U65_S",
+          "divider_chain_pfet_w5_l0p5.U66_S",
+          "divider_chain_pfet_w5_l0p5.U67_S",
+          "divider_chain_pfet_w5_l0p5.U69_S",
+          "divider_chain_pfet_w5_l0p5.U72_S",
+          "divider_chain_pfet_w5_l0p5.U74_S",
+          "divider_chain_pfet_w5_l0p5.U75_S",
+          "divider_chain_pfet_w5_l0p5.U76_S",
+          "divider_chain_pfet_w5_l0p5.U77_S",
+          "divider_chain_pfet_w5_l0p5.U78_S",
+          "divider_chain_pfet_w5_l0p5.U79_S",
+          "divider_chain_pfet_w5_l0p5.U81_S",
+          "divider_chain_pfet_w5_l0p5.U83_S",
+          "divider_chain_pfet_w5_l0p5.U86_S",
+          "divider_chain_pfet_w5_l0p5.U88_S",
+          "divider_chain_pfet_w5_l0p5.U89_S",
+          "divider_chain_pfet_w5_l0p5.U90_S",
+          "divider_chain_pfet_w5_l0p5.U91_S",
+          "divider_chain_pfet_w5_l0p5.U92_S",
+          "divider_chain_pfet_w5_l0p5.U94_S",
+          "divider_chain_pfet_w5_l0p5.U97_S",
+          "divider_chain_pfet_w5_l0p5.U99_S",
+          "divider_chain_pfet_w5_l0p5.U100_S",
+          "divider_chain_pfet_w5_l0p5.U101_S",
+          "divider_chain_pfet_w5_l0p5.U102_S",
+          "divider_chain_pfet_w5_l0p5.U103_S",
+          "divider_chain_pfet_w5_l0p5.U104_S",
+          "divider_chain_pfet_w5_l0p5.U106_S",
+          "divider_chain_pfet_w5_l0p5.U108_S",
+          "divider_chain_pfet_w5_l0p5.U111_S",
+          "divider_chain_pfet_w5_l0p5.U113_S",
+          "divider_chain_pfet_w5_l0p5.U114_S",
+          "divider_chain_pfet_w5_l0p5.U115_S",
+          "divider_chain_pfet_w5_l0p5.U116_S",
+          "divider_chain_pfet_w5_l0p5.U117_S",
+          "divider_chain_pfet_w5_l0p5.U119_S",
+          "divider_chain_pfet_w5_l0p5.U122_S",
+          "divider_chain_pfet_w5_l0p5.U124_S",
+          "divider_chain_pfet_w5_l0p5.U125_G",
+          "divider_chain_pfet_w5_l0p5.U125_S",
+          "divider_chain_pfet_w5_l0p5.U126_S",
+          "divider_chain_pfet_w5_l0p5.U127_S",
+          "divider_chain_pfet_w5_l0p5.U128_S",
+          "divider_chain_pfet_w5_l0p5.U129_S",
+          "divider_chain_pfet_w5_l0p5.U131_S",
+          "divider_chain_pfet_w5_l0p5.U133_S",
+          "divider_chain_pfet_w5_l0p5.U136_S",
+          "divider_chain_pfet_w5_l0p5.U138_S",
+          "divider_chain_pfet_w5_l0p5.U139_G",
+          "divider_chain_pfet_w5_l0p5.U139_S",
+          "divider_chain_pfet_w5_l0p5.U140_S",
+          "divider_chain_pfet_w5_l0p5.U141_S",
+          "divider_chain_pfet_w5_l0p5.U142_S",
+          "divider_chain_pfet_w5_l0p5.U144_S",
+          "divider_chain_pfet_w5_l0p5.U147_S",
+          "divider_chain_pfet_w5_l0p5.U149_S",
+          "divider_chain_pfet_w5_l0p5.U150_S",
+          "divider_chain_pfet_w5_l0p5.U152_S",
+          "divider_chain_pfet_w5_l0p5.U155_S",
+          "divider_chain_pfet_w5_l0p5.U157_S"
+        ],
+        "routed": true,
+        "route_length_um": 2293.87
+      },
+      {
+        "net": "VSS",
+        "track": 11,
+        "trunk_y_um": 13.32,
+        "trunk_x_um": [
+          0.25,
+          623.47
+        ],
+        "pin_count": 89,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.substrate_tap",
+          "divider_chain_nfet_w2_l0p5.U2_S",
+          "divider_chain_nfet_w2_l0p5.U3_S",
+          "divider_chain_nfet_w2_l0p5.U4_S",
+          "divider_chain_nfet_w2_l0p5.U5_S",
+          "divider_chain_nfet_w2_l0p5.U6_S",
+          "divider_chain_nfet_w2_l0p5.U8_S",
+          "divider_chain_nfet_w2_l0p5.U11_S",
+          "divider_chain_nfet_w2_l0p5.U13_S",
+          "divider_chain_nfet_w2_l0p5.U15_S",
+          "divider_chain_nfet_w2_l0p5.U16_S",
+          "divider_chain_nfet_w2_l0p5.U17_S",
+          "divider_chain_nfet_w2_l0p5.U19_S",
+          "divider_chain_nfet_w2_l0p5.U22_S",
+          "divider_chain_nfet_w2_l0p5.U24_S",
+          "divider_chain_nfet_w2_l0p5.U27_S",
+          "divider_chain_nfet_w2_l0p5.U28_S",
+          "divider_chain_nfet_w2_l0p5.U29_S",
+          "divider_chain_nfet_w2_l0p5.U30_S",
+          "divider_chain_nfet_w2_l0p5.U31_S",
+          "divider_chain_nfet_w2_l0p5.U33_S",
+          "divider_chain_nfet_w2_l0p5.U36_S",
+          "divider_chain_nfet_w2_l0p5.U38_S",
+          "divider_chain_nfet_w2_l0p5.U40_S",
+          "divider_chain_nfet_w2_l0p5.U41_S",
+          "divider_chain_nfet_w2_l0p5.U42_S",
+          "divider_chain_nfet_w2_l0p5.U44_S",
+          "divider_chain_nfet_w2_l0p5.U47_S",
+          "divider_chain_nfet_w2_l0p5.U49_S",
+          "divider_chain_nfet_w2_l0p5.U52_S",
+          "divider_chain_nfet_w2_l0p5.U53_S",
+          "divider_chain_nfet_w2_l0p5.U54_S",
+          "divider_chain_nfet_w2_l0p5.U55_S",
+          "divider_chain_nfet_w2_l0p5.U56_S",
+          "divider_chain_nfet_w2_l0p5.U58_S",
+          "divider_chain_nfet_w2_l0p5.U61_S",
+          "divider_chain_nfet_w2_l0p5.U63_S",
+          "divider_chain_nfet_w2_l0p5.U65_S",
+          "divider_chain_nfet_w2_l0p5.U66_S",
+          "divider_chain_nfet_w2_l0p5.U67_S",
+          "divider_chain_nfet_w2_l0p5.U69_S",
+          "divider_chain_nfet_w2_l0p5.U72_S",
+          "divider_chain_nfet_w2_l0p5.U74_S",
+          "divider_chain_nfet_w2_l0p5.U77_S",
+          "divider_chain_nfet_w2_l0p5.U78_S",
+          "divider_chain_nfet_w2_l0p5.U79_S",
+          "divider_chain_nfet_w2_l0p5.U80_S",
+          "divider_chain_nfet_w2_l0p5.U81_S",
+          "divider_chain_nfet_w2_l0p5.U83_S",
+          "divider_chain_nfet_w2_l0p5.U86_S",
+          "divider_chain_nfet_w2_l0p5.U88_S",
+          "divider_chain_nfet_w2_l0p5.U90_S",
+          "divider_chain_nfet_w2_l0p5.U91_S",
+          "divider_chain_nfet_w2_l0p5.U92_S",
+          "divider_chain_nfet_w2_l0p5.U94_S",
+          "divider_chain_nfet_w2_l0p5.U97_S",
+          "divider_chain_nfet_w2_l0p5.U99_S",
+          "divider_chain_nfet_w2_l0p5.U102_S",
+          "divider_chain_nfet_w2_l0p5.U103_S",
+          "divider_chain_nfet_w2_l0p5.U104_S",
+          "divider_chain_nfet_w2_l0p5.U105_S",
+          "divider_chain_nfet_w2_l0p5.U106_S",
+          "divider_chain_nfet_w2_l0p5.U108_S",
+          "divider_chain_nfet_w2_l0p5.U111_S",
+          "divider_chain_nfet_w2_l0p5.U113_S",
+          "divider_chain_nfet_w2_l0p5.U115_S",
+          "divider_chain_nfet_w2_l0p5.U116_S",
+          "divider_chain_nfet_w2_l0p5.U117_S",
+          "divider_chain_nfet_w2_l0p5.U119_S",
+          "divider_chain_nfet_w2_l0p5.U122_S",
+          "divider_chain_nfet_w2_l0p5.U124_S",
+          "divider_chain_nfet_w2_l0p5.U127_S",
+          "divider_chain_nfet_w2_l0p5.U128_S",
+          "divider_chain_nfet_w2_l0p5.U129_S",
+          "divider_chain_nfet_w2_l0p5.U130_S",
+          "divider_chain_nfet_w2_l0p5.U131_S",
+          "divider_chain_nfet_w2_l0p5.U133_S",
+          "divider_chain_nfet_w2_l0p5.U136_S",
+          "divider_chain_nfet_w2_l0p5.U138_S",
+          "divider_chain_nfet_w2_l0p5.U140_S",
+          "divider_chain_nfet_w2_l0p5.U141_S",
+          "divider_chain_nfet_w2_l0p5.U142_S",
+          "divider_chain_nfet_w2_l0p5.U144_S",
+          "divider_chain_nfet_w2_l0p5.U147_S",
+          "divider_chain_nfet_w2_l0p5.U149_S",
+          "divider_chain_nfet_w2_l0p5.U150_S",
+          "divider_chain_nfet_w2_l0p5.U152_S",
+          "divider_chain_nfet_w2_l0p5.U155_S",
+          "divider_chain_nfet_w2_l0p5.U157_S"
+        ],
+        "routed": true,
+        "route_length_um": 1579.57
+      },
+      {
+        "net": "XD0.XDFFM.CLKB",
+        "track": 12,
+        "trunk_y_um": 13.92,
+        "trunk_x_um": [
+          69.67,
+          779.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U17_D",
+          "divider_chain_nfet_w2_l0p5.U18_G",
+          "divider_chain_nfet_w2_l0p5.U23_G",
+          "divider_chain_pfet_w5_l0p5.U17_D",
+          "divider_chain_pfet_w5_l0p5.U20_G",
+          "divider_chain_pfet_w5_l0p5.U21_G"
+        ],
+        "routed": true,
+        "route_length_um": 773.5
+      },
+      {
+        "net": "XD0.XDFFM.M",
+        "track": 13,
+        "trunk_y_um": 14.52,
+        "trunk_x_um": [
+          73.03,
+          780.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U18_S",
+          "divider_chain_nfet_w2_l0p5.U19_G",
+          "divider_chain_nfet_w2_l0p5.U20_S",
+          "divider_chain_nfet_w2_l0p5.U21_D",
+          "divider_chain_pfet_w5_l0p5.U18_D",
+          "divider_chain_pfet_w5_l0p5.U19_G",
+          "divider_chain_pfet_w5_l0p5.U20_D",
+          "divider_chain_pfet_w5_l0p5.U21_S"
+        ],
+        "routed": true,
+        "route_length_um": 798.48
+      },
+      {
+        "net": "XD0.XDFFM.MB",
+        "track": 14,
+        "trunk_y_um": 15.12,
+        "trunk_x_um": [
+          77.59,
+          773.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U19_D",
+          "divider_chain_nfet_w2_l0p5.U20_D",
+          "divider_chain_pfet_w5_l0p5.U19_D",
+          "divider_chain_pfet_w5_l0p5.U20_S"
+        ],
+        "routed": true,
+        "route_length_um": 742.68
+      },
+      {
+        "net": "XD0.XDFFM.S",
+        "track": 15,
+        "trunk_y_um": 15.72,
+        "trunk_x_um": [
+          84.91,
+          794.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U21_S",
+          "divider_chain_nfet_w2_l0p5.U22_G",
+          "divider_chain_nfet_w2_l0p5.U23_S",
+          "divider_chain_pfet_w5_l0p5.U21_D",
+          "divider_chain_pfet_w5_l0p5.U22_G",
+          "divider_chain_pfet_w5_l0p5.U23_D"
+        ],
+        "routed": true,
+        "route_length_um": 785.5
+      },
+      {
+        "net": "XD0.XDFFM.SB",
+        "track": 16,
+        "trunk_y_um": 16.32,
+        "trunk_x_um": [
+          89.47,
+          800.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U22_D",
+          "divider_chain_nfet_w2_l0p5.U23_D",
+          "divider_chain_nfet_w2_l0p5.U24_G",
+          "divider_chain_pfet_w5_l0p5.U22_D",
+          "divider_chain_pfet_w5_l0p5.U23_S",
+          "divider_chain_pfet_w5_l0p5.U24_G"
+        ],
+        "routed": true,
+        "route_length_um": 788.98
+      },
+      {
+        "net": "XD0.XDFFQ.CLKB",
+        "track": 17,
+        "trunk_y_um": 16.92,
+        "trunk_x_um": [
+          26.11,
+          702.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U6_D",
+          "divider_chain_nfet_w2_l0p5.U7_G",
+          "divider_chain_nfet_w2_l0p5.U12_G",
+          "divider_chain_pfet_w5_l0p5.U6_D",
+          "divider_chain_pfet_w5_l0p5.U9_G",
+          "divider_chain_pfet_w5_l0p5.U10_G"
+        ],
+        "routed": true,
+        "route_length_um": 758.5
+      },
+      {
+        "net": "XD0.XDFFQ.M",
+        "track": 18,
+        "trunk_y_um": 17.52,
+        "trunk_x_um": [
+          29.47,
+          703.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U7_S",
+          "divider_chain_nfet_w2_l0p5.U8_G",
+          "divider_chain_nfet_w2_l0p5.U9_S",
+          "divider_chain_nfet_w2_l0p5.U10_D",
+          "divider_chain_pfet_w5_l0p5.U7_D",
+          "divider_chain_pfet_w5_l0p5.U8_G",
+          "divider_chain_pfet_w5_l0p5.U9_D",
+          "divider_chain_pfet_w5_l0p5.U10_S"
+        ],
+        "routed": true,
+        "route_length_um": 789.48
+      },
+      {
+        "net": "XD0.XDFFQ.MB",
+        "track": 19,
+        "trunk_y_um": 18.12,
+        "trunk_x_um": [
+          34.03,
+          696.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U8_D",
+          "divider_chain_nfet_w2_l0p5.U9_D",
+          "divider_chain_pfet_w5_l0p5.U8_D",
+          "divider_chain_pfet_w5_l0p5.U9_S"
+        ],
+        "routed": true,
+        "route_length_um": 721.68
+      },
+      {
+        "net": "XD0.XDFFQ.S",
+        "track": 20,
+        "trunk_y_um": 18.72,
+        "trunk_x_um": [
+          41.35,
+          718.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U10_S",
+          "divider_chain_nfet_w2_l0p5.U11_G",
+          "divider_chain_nfet_w2_l0p5.U12_S",
+          "divider_chain_pfet_w5_l0p5.U10_D",
+          "divider_chain_pfet_w5_l0p5.U11_G",
+          "divider_chain_pfet_w5_l0p5.U12_D"
+        ],
+        "routed": true,
+        "route_length_um": 770.5
+      },
+      {
+        "net": "XD0.XDFFQ.SB",
+        "track": 21,
+        "trunk_y_um": 19.32,
+        "trunk_x_um": [
+          45.91,
+          723.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U11_D",
+          "divider_chain_nfet_w2_l0p5.U12_D",
+          "divider_chain_nfet_w2_l0p5.U13_G",
+          "divider_chain_pfet_w5_l0p5.U11_D",
+          "divider_chain_pfet_w5_l0p5.U12_S",
+          "divider_chain_pfet_w5_l0p5.U13_G"
+        ],
+        "routed": true,
+        "route_length_um": 773.98
+      },
+      {
+        "net": "XD0.XN2.mid1",
+        "track": 22,
+        "trunk_y_um": 19.92,
+        "trunk_x_um": [
+          57.19,
+          61.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U14_S",
+          "divider_chain_nfet_w2_l0p5.U15_D"
+        ],
+        "routed": true,
+        "route_length_um": 38.18
+      },
+      {
+        "net": "XD0.XN3.mid1",
+        "track": 23,
+        "trunk_y_um": 20.52,
+        "trunk_x_um": [
+          1.75,
+          6.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U0_S",
+          "divider_chain_nfet_w2_l0p5.U1_D"
+        ],
+        "routed": true,
+        "route_length_um": 39.38
+      },
+      {
+        "net": "XD0.XN3.mid2",
+        "track": 24,
+        "trunk_y_um": 21.12,
+        "trunk_x_um": [
+          5.71,
+          10.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U1_S",
+          "divider_chain_nfet_w2_l0p5.U2_D"
+        ],
+        "routed": true,
+        "route_length_um": 40.58
+      },
+      {
+        "net": "XD0.XNOR.midp",
+        "track": 25,
+        "trunk_y_um": 21.72,
+        "trunk_x_um": [
+          662.51,
+          668.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U4_D",
+          "divider_chain_pfet_w5_l0p5.U5_S"
+        ],
+        "routed": true,
+        "route_length_um": 43.58
+      },
+      {
+        "net": "XD0.dmodout",
+        "track": 26,
+        "trunk_y_um": 22.32,
+        "trunk_x_um": [
+          65.71,
+          759.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U16_D",
+          "divider_chain_nfet_w2_l0p5.U18_D",
+          "divider_chain_pfet_w5_l0p5.U16_D",
+          "divider_chain_pfet_w5_l0p5.U18_S"
+        ],
+        "routed": true,
+        "route_length_um": 769.44
+      },
+      {
+        "net": "XD0.dq",
+        "track": 27,
+        "trunk_y_um": 22.92,
+        "trunk_x_um": [
+          18.19,
+          682.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U4_D",
+          "divider_chain_nfet_w2_l0p5.U5_D",
+          "divider_chain_nfet_w2_l0p5.U7_D",
+          "divider_chain_pfet_w5_l0p5.U5_D",
+          "divider_chain_pfet_w5_l0p5.U7_S"
+        ],
+        "routed": true,
+        "route_length_um": 762.09
+      },
+      {
+        "net": "XD0.nm",
+        "track": 28,
+        "trunk_y_um": 23.52,
+        "trunk_x_um": [
+          57.79,
+          744.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U14_D",
+          "divider_chain_nfet_w2_l0p5.U16_G",
+          "divider_chain_pfet_w5_l0p5.U14_D",
+          "divider_chain_pfet_w5_l0p5.U15_D",
+          "divider_chain_pfet_w5_l0p5.U16_G"
+        ],
+        "routed": true,
+        "route_length_um": 787.25
+      },
+      {
+        "net": "XD0.nt",
+        "track": 29,
+        "trunk_y_um": 24.12,
+        "trunk_x_um": [
+          2.35,
+          654.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U0_D",
+          "divider_chain_nfet_w2_l0p5.U3_G",
+          "divider_chain_pfet_w5_l0p5.U0_D",
+          "divider_chain_pfet_w5_l0p5.U1_D",
+          "divider_chain_pfet_w5_l0p5.U2_D",
+          "divider_chain_pfet_w5_l0p5.U3_G"
+        ],
+        "routed": true,
+        "route_length_um": 775.7
+      },
+      {
+        "net": "XD0.t1",
+        "track": 30,
+        "trunk_y_um": 24.72,
+        "trunk_x_um": [
+          14.23,
+          667.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U3_D",
+          "divider_chain_nfet_w2_l0p5.U5_G",
+          "divider_chain_pfet_w5_l0p5.U3_D",
+          "divider_chain_pfet_w5_l0p5.U5_G"
+        ],
+        "routed": true,
+        "route_length_um": 739.16
+      },
+      {
+        "net": "XD1.XDFFM.CLKB",
+        "track": 31,
+        "trunk_y_um": 25.32,
+        "trunk_x_um": [
+          168.67,
+          953.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U42_D",
+          "divider_chain_nfet_w2_l0p5.U43_G",
+          "divider_chain_nfet_w2_l0p5.U48_G",
+          "divider_chain_pfet_w5_l0p5.U42_D",
+          "divider_chain_pfet_w5_l0p5.U45_G",
+          "divider_chain_pfet_w5_l0p5.U46_G"
+        ],
+        "routed": true,
+        "route_length_um": 916.9
+      },
+      {
+        "net": "XD1.XDFFM.M",
+        "track": 32,
+        "trunk_y_um": 25.92,
+        "trunk_x_um": [
+          172.03,
+          954.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U43_S",
+          "divider_chain_nfet_w2_l0p5.U44_G",
+          "divider_chain_nfet_w2_l0p5.U45_S",
+          "divider_chain_nfet_w2_l0p5.U46_D",
+          "divider_chain_pfet_w5_l0p5.U43_D",
+          "divider_chain_pfet_w5_l0p5.U44_G",
+          "divider_chain_pfet_w5_l0p5.U45_D",
+          "divider_chain_pfet_w5_l0p5.U46_S"
+        ],
+        "routed": true,
+        "route_length_um": 964.68
+      },
+      {
+        "net": "XD1.XDFFM.MB",
+        "track": 33,
+        "trunk_y_um": 26.52,
+        "trunk_x_um": [
+          176.59,
+          947.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U44_D",
+          "divider_chain_nfet_w2_l0p5.U45_D",
+          "divider_chain_pfet_w5_l0p5.U44_D",
+          "divider_chain_pfet_w5_l0p5.U45_S"
+        ],
+        "routed": true,
+        "route_length_um": 863.28
+      },
+      {
+        "net": "XD1.XDFFM.S",
+        "track": 34,
+        "trunk_y_um": 27.12,
+        "trunk_x_um": [
+          183.91,
+          968.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U46_S",
+          "divider_chain_nfet_w2_l0p5.U47_G",
+          "divider_chain_nfet_w2_l0p5.U48_S",
+          "divider_chain_pfet_w5_l0p5.U46_D",
+          "divider_chain_pfet_w5_l0p5.U47_G",
+          "divider_chain_pfet_w5_l0p5.U48_D"
+        ],
+        "routed": true,
+        "route_length_um": 928.9
+      },
+      {
+        "net": "XD1.XDFFM.SB",
+        "track": 35,
+        "trunk_y_um": 27.72,
+        "trunk_x_um": [
+          188.47,
+          974.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U47_D",
+          "divider_chain_nfet_w2_l0p5.U48_D",
+          "divider_chain_nfet_w2_l0p5.U49_G",
+          "divider_chain_pfet_w5_l0p5.U47_D",
+          "divider_chain_pfet_w5_l0p5.U48_S",
+          "divider_chain_pfet_w5_l0p5.U49_G"
+        ],
+        "routed": true,
+        "route_length_um": 932.38
+      },
+      {
+        "net": "XD1.XDFFQ.CLKB",
+        "track": 36,
+        "trunk_y_um": 28.32,
+        "trunk_x_um": [
+          125.11,
+          876.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U31_D",
+          "divider_chain_nfet_w2_l0p5.U32_G",
+          "divider_chain_nfet_w2_l0p5.U37_G",
+          "divider_chain_pfet_w5_l0p5.U31_D",
+          "divider_chain_pfet_w5_l0p5.U34_G",
+          "divider_chain_pfet_w5_l0p5.U35_G"
+        ],
+        "routed": true,
+        "route_length_um": 901.9
+      },
+      {
+        "net": "XD1.XDFFQ.M",
+        "track": 37,
+        "trunk_y_um": 28.92,
+        "trunk_x_um": [
+          128.47,
+          877.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U32_S",
+          "divider_chain_nfet_w2_l0p5.U33_G",
+          "divider_chain_nfet_w2_l0p5.U34_S",
+          "divider_chain_nfet_w2_l0p5.U35_D",
+          "divider_chain_pfet_w5_l0p5.U32_D",
+          "divider_chain_pfet_w5_l0p5.U33_G",
+          "divider_chain_pfet_w5_l0p5.U34_D",
+          "divider_chain_pfet_w5_l0p5.U35_S"
+        ],
+        "routed": true,
+        "route_length_um": 955.68
+      },
+      {
+        "net": "XD1.XDFFQ.MB",
+        "track": 38,
+        "trunk_y_um": 29.52,
+        "trunk_x_um": [
+          133.03,
+          870.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U33_D",
+          "divider_chain_nfet_w2_l0p5.U34_D",
+          "divider_chain_pfet_w5_l0p5.U33_D",
+          "divider_chain_pfet_w5_l0p5.U34_S"
+        ],
+        "routed": true,
+        "route_length_um": 842.28
+      },
+      {
+        "net": "XD1.XDFFQ.S",
+        "track": 39,
+        "trunk_y_um": 30.12,
+        "trunk_x_um": [
+          140.35,
+          892.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U35_S",
+          "divider_chain_nfet_w2_l0p5.U36_G",
+          "divider_chain_nfet_w2_l0p5.U37_S",
+          "divider_chain_pfet_w5_l0p5.U35_D",
+          "divider_chain_pfet_w5_l0p5.U36_G",
+          "divider_chain_pfet_w5_l0p5.U37_D"
+        ],
+        "routed": true,
+        "route_length_um": 913.9
+      },
+      {
+        "net": "XD1.XDFFQ.SB",
+        "track": 40,
+        "trunk_y_um": 30.72,
+        "trunk_x_um": [
+          144.91,
+          897.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U36_D",
+          "divider_chain_nfet_w2_l0p5.U37_D",
+          "divider_chain_nfet_w2_l0p5.U38_G",
+          "divider_chain_pfet_w5_l0p5.U36_D",
+          "divider_chain_pfet_w5_l0p5.U37_S",
+          "divider_chain_pfet_w5_l0p5.U38_G"
+        ],
+        "routed": true,
+        "route_length_um": 917.38
+      },
+      {
+        "net": "XD1.XN2.mid1",
+        "track": 41,
+        "trunk_y_um": 31.32,
+        "trunk_x_um": [
+          156.19,
+          160.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U39_S",
+          "divider_chain_nfet_w2_l0p5.U40_D"
+        ],
+        "routed": true,
+        "route_length_um": 60.98
+      },
+      {
+        "net": "XD1.XN3.mid1",
+        "track": 42,
+        "trunk_y_um": 31.92,
+        "trunk_x_um": [
+          100.75,
+          105.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U25_S",
+          "divider_chain_nfet_w2_l0p5.U26_D"
+        ],
+        "routed": true,
+        "route_length_um": 62.18
+      },
+      {
+        "net": "XD1.XN3.mid2",
+        "track": 43,
+        "trunk_y_um": 32.52,
+        "trunk_x_um": [
+          104.71,
+          109.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U26_S",
+          "divider_chain_nfet_w2_l0p5.U27_D"
+        ],
+        "routed": true,
+        "route_length_um": 63.38
+      },
+      {
+        "net": "XD1.XNOR.midp",
+        "track": 44,
+        "trunk_y_um": 33.12,
+        "trunk_x_um": [
+          836.51,
+          842.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U29_D",
+          "divider_chain_pfet_w5_l0p5.U30_S"
+        ],
+        "routed": true,
+        "route_length_um": 66.38
+      },
+      {
+        "net": "XD1.dmodout",
+        "track": 45,
+        "trunk_y_um": 33.72,
+        "trunk_x_um": [
+          164.71,
+          933.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U41_D",
+          "divider_chain_nfet_w2_l0p5.U43_D",
+          "divider_chain_pfet_w5_l0p5.U41_D",
+          "divider_chain_pfet_w5_l0p5.U43_S"
+        ],
+        "routed": true,
+        "route_length_um": 890.04
+      },
+      {
+        "net": "XD1.dq",
+        "track": 46,
+        "trunk_y_um": 34.32,
+        "trunk_x_um": [
+          117.19,
+          856.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U29_D",
+          "divider_chain_nfet_w2_l0p5.U30_D",
+          "divider_chain_nfet_w2_l0p5.U32_D",
+          "divider_chain_pfet_w5_l0p5.U30_D",
+          "divider_chain_pfet_w5_l0p5.U32_S"
+        ],
+        "routed": true,
+        "route_length_um": 894.09
+      },
+      {
+        "net": "XD1.nm",
+        "track": 47,
+        "trunk_y_um": 34.92,
+        "trunk_x_um": [
+          156.79,
+          918.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U39_D",
+          "divider_chain_nfet_w2_l0p5.U41_G",
+          "divider_chain_pfet_w5_l0p5.U39_D",
+          "divider_chain_pfet_w5_l0p5.U40_D",
+          "divider_chain_pfet_w5_l0p5.U41_G"
+        ],
+        "routed": true,
+        "route_length_um": 919.25
+      },
+      {
+        "net": "XD1.nt",
+        "track": 48,
+        "trunk_y_um": 35.52,
+        "trunk_x_um": [
+          101.35,
+          828.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U25_D",
+          "divider_chain_nfet_w2_l0p5.U28_G",
+          "divider_chain_pfet_w5_l0p5.U25_D",
+          "divider_chain_pfet_w5_l0p5.U26_D",
+          "divider_chain_pfet_w5_l0p5.U27_D",
+          "divider_chain_pfet_w5_l0p5.U28_G"
+        ],
+        "routed": true,
+        "route_length_um": 919.1
+      },
+      {
+        "net": "XD1.t1",
+        "track": 49,
+        "trunk_y_um": 36.12,
+        "trunk_x_um": [
+          113.23,
+          841.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U28_D",
+          "divider_chain_nfet_w2_l0p5.U30_G",
+          "divider_chain_pfet_w5_l0p5.U28_D",
+          "divider_chain_pfet_w5_l0p5.U30_G"
+        ],
+        "routed": true,
+        "route_length_um": 859.76
+      },
+      {
+        "net": "XD2.XDFFM.CLKB",
+        "track": 50,
+        "trunk_y_um": 36.72,
+        "trunk_x_um": [
+          267.67,
+          1127.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U67_D",
+          "divider_chain_nfet_w2_l0p5.U68_G",
+          "divider_chain_nfet_w2_l0p5.U73_G",
+          "divider_chain_pfet_w5_l0p5.U67_D",
+          "divider_chain_pfet_w5_l0p5.U70_G",
+          "divider_chain_pfet_w5_l0p5.U71_G"
+        ],
+        "routed": true,
+        "route_length_um": 1060.3
+      },
+      {
+        "net": "XD2.XDFFM.M",
+        "track": 51,
+        "trunk_y_um": 37.32,
+        "trunk_x_um": [
+          271.03,
+          1128.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U68_S",
+          "divider_chain_nfet_w2_l0p5.U69_G",
+          "divider_chain_nfet_w2_l0p5.U70_S",
+          "divider_chain_nfet_w2_l0p5.U71_D",
+          "divider_chain_pfet_w5_l0p5.U68_D",
+          "divider_chain_pfet_w5_l0p5.U69_G",
+          "divider_chain_pfet_w5_l0p5.U70_D",
+          "divider_chain_pfet_w5_l0p5.U71_S"
+        ],
+        "routed": true,
+        "route_length_um": 1130.88
+      },
+      {
+        "net": "XD2.XDFFM.MB",
+        "track": 52,
+        "trunk_y_um": 37.92,
+        "trunk_x_um": [
+          275.59,
+          1121.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U69_D",
+          "divider_chain_nfet_w2_l0p5.U70_D",
+          "divider_chain_pfet_w5_l0p5.U69_D",
+          "divider_chain_pfet_w5_l0p5.U70_S"
+        ],
+        "routed": true,
+        "route_length_um": 983.88
+      },
+      {
+        "net": "XD2.XDFFM.S",
+        "track": 53,
+        "trunk_y_um": 38.52,
+        "trunk_x_um": [
+          282.91,
+          1142.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U71_S",
+          "divider_chain_nfet_w2_l0p5.U72_G",
+          "divider_chain_nfet_w2_l0p5.U73_S",
+          "divider_chain_pfet_w5_l0p5.U71_D",
+          "divider_chain_pfet_w5_l0p5.U72_G",
+          "divider_chain_pfet_w5_l0p5.U73_D"
+        ],
+        "routed": true,
+        "route_length_um": 1072.3
+      },
+      {
+        "net": "XD2.XDFFM.SB",
+        "track": 54,
+        "trunk_y_um": 39.12,
+        "trunk_x_um": [
+          287.47,
+          1148.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U72_D",
+          "divider_chain_nfet_w2_l0p5.U73_D",
+          "divider_chain_nfet_w2_l0p5.U74_G",
+          "divider_chain_pfet_w5_l0p5.U72_D",
+          "divider_chain_pfet_w5_l0p5.U73_S",
+          "divider_chain_pfet_w5_l0p5.U74_G"
+        ],
+        "routed": true,
+        "route_length_um": 1075.78
+      },
+      {
+        "net": "XD2.XDFFQ.CLKB",
+        "track": 55,
+        "trunk_y_um": 39.72,
+        "trunk_x_um": [
+          224.11,
+          1050.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U56_D",
+          "divider_chain_nfet_w2_l0p5.U57_G",
+          "divider_chain_nfet_w2_l0p5.U62_G",
+          "divider_chain_pfet_w5_l0p5.U56_D",
+          "divider_chain_pfet_w5_l0p5.U59_G",
+          "divider_chain_pfet_w5_l0p5.U60_G"
+        ],
+        "routed": true,
+        "route_length_um": 1045.3
+      },
+      {
+        "net": "XD2.XDFFQ.M",
+        "track": 56,
+        "trunk_y_um": 40.32,
+        "trunk_x_um": [
+          227.47,
+          1051.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U57_S",
+          "divider_chain_nfet_w2_l0p5.U58_G",
+          "divider_chain_nfet_w2_l0p5.U59_S",
+          "divider_chain_nfet_w2_l0p5.U60_D",
+          "divider_chain_pfet_w5_l0p5.U57_D",
+          "divider_chain_pfet_w5_l0p5.U58_G",
+          "divider_chain_pfet_w5_l0p5.U59_D",
+          "divider_chain_pfet_w5_l0p5.U60_S"
+        ],
+        "routed": true,
+        "route_length_um": 1121.88
+      },
+      {
+        "net": "XD2.XDFFQ.MB",
+        "track": 57,
+        "trunk_y_um": 40.92,
+        "trunk_x_um": [
+          232.03,
+          1044.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U58_D",
+          "divider_chain_nfet_w2_l0p5.U59_D",
+          "divider_chain_pfet_w5_l0p5.U58_D",
+          "divider_chain_pfet_w5_l0p5.U59_S"
+        ],
+        "routed": true,
+        "route_length_um": 962.88
+      },
+      {
+        "net": "XD2.XDFFQ.S",
+        "track": 58,
+        "trunk_y_um": 41.52,
+        "trunk_x_um": [
+          239.35,
+          1066.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U60_S",
+          "divider_chain_nfet_w2_l0p5.U61_G",
+          "divider_chain_nfet_w2_l0p5.U62_S",
+          "divider_chain_pfet_w5_l0p5.U60_D",
+          "divider_chain_pfet_w5_l0p5.U61_G",
+          "divider_chain_pfet_w5_l0p5.U62_D"
+        ],
+        "routed": true,
+        "route_length_um": 1057.3
+      },
+      {
+        "net": "XD2.XDFFQ.SB",
+        "track": 59,
+        "trunk_y_um": 42.12,
+        "trunk_x_um": [
+          243.91,
+          1071.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U61_D",
+          "divider_chain_nfet_w2_l0p5.U62_D",
+          "divider_chain_nfet_w2_l0p5.U63_G",
+          "divider_chain_pfet_w5_l0p5.U61_D",
+          "divider_chain_pfet_w5_l0p5.U62_S",
+          "divider_chain_pfet_w5_l0p5.U63_G"
+        ],
+        "routed": true,
+        "route_length_um": 1060.78
+      },
+      {
+        "net": "XD2.XN2.mid1",
+        "track": 60,
+        "trunk_y_um": 42.72,
+        "trunk_x_um": [
+          255.19,
+          259.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U64_S",
+          "divider_chain_nfet_w2_l0p5.U65_D"
+        ],
+        "routed": true,
+        "route_length_um": 83.78
+      },
+      {
+        "net": "XD2.XN3.mid1",
+        "track": 61,
+        "trunk_y_um": 43.32,
+        "trunk_x_um": [
+          199.75,
+          204.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U50_S",
+          "divider_chain_nfet_w2_l0p5.U51_D"
+        ],
+        "routed": true,
+        "route_length_um": 84.98
+      },
+      {
+        "net": "XD2.XN3.mid2",
+        "track": 62,
+        "trunk_y_um": 43.92,
+        "trunk_x_um": [
+          203.71,
+          208.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U51_S",
+          "divider_chain_nfet_w2_l0p5.U52_D"
+        ],
+        "routed": true,
+        "route_length_um": 86.18
+      },
+      {
+        "net": "XD2.XNOR.midp",
+        "track": 63,
+        "trunk_y_um": 44.52,
+        "trunk_x_um": [
+          1010.51,
+          1016.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U54_D",
+          "divider_chain_pfet_w5_l0p5.U55_S"
+        ],
+        "routed": true,
+        "route_length_um": 89.18
+      },
+      {
+        "net": "XD2.dmodout",
+        "track": 64,
+        "trunk_y_um": 45.12,
+        "trunk_x_um": [
+          263.71,
+          1107.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U66_D",
+          "divider_chain_nfet_w2_l0p5.U68_D",
+          "divider_chain_pfet_w5_l0p5.U66_D",
+          "divider_chain_pfet_w5_l0p5.U68_S"
+        ],
+        "routed": true,
+        "route_length_um": 1010.64
+      },
+      {
+        "net": "XD2.dq",
+        "track": 65,
+        "trunk_y_um": 45.72,
+        "trunk_x_um": [
+          216.19,
+          1030.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U54_D",
+          "divider_chain_nfet_w2_l0p5.U55_D",
+          "divider_chain_nfet_w2_l0p5.U57_D",
+          "divider_chain_pfet_w5_l0p5.U55_D",
+          "divider_chain_pfet_w5_l0p5.U57_S"
+        ],
+        "routed": true,
+        "route_length_um": 1026.09
+      },
+      {
+        "net": "XD2.nm",
+        "track": 66,
+        "trunk_y_um": 46.32,
+        "trunk_x_um": [
+          255.79,
+          1092.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U64_D",
+          "divider_chain_nfet_w2_l0p5.U66_G",
+          "divider_chain_pfet_w5_l0p5.U64_D",
+          "divider_chain_pfet_w5_l0p5.U65_D",
+          "divider_chain_pfet_w5_l0p5.U66_G"
+        ],
+        "routed": true,
+        "route_length_um": 1051.25
+      },
+      {
+        "net": "XD2.nt",
+        "track": 67,
+        "trunk_y_um": 46.92,
+        "trunk_x_um": [
+          200.35,
+          1002.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U50_D",
+          "divider_chain_nfet_w2_l0p5.U53_G",
+          "divider_chain_pfet_w5_l0p5.U50_D",
+          "divider_chain_pfet_w5_l0p5.U51_D",
+          "divider_chain_pfet_w5_l0p5.U52_D",
+          "divider_chain_pfet_w5_l0p5.U53_G"
+        ],
+        "routed": true,
+        "route_length_um": 1062.5
+      },
+      {
+        "net": "XD2.t1",
+        "track": 68,
+        "trunk_y_um": 47.52,
+        "trunk_x_um": [
+          212.23,
+          1015.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U53_D",
+          "divider_chain_nfet_w2_l0p5.U55_G",
+          "divider_chain_pfet_w5_l0p5.U53_D",
+          "divider_chain_pfet_w5_l0p5.U55_G"
+        ],
+        "routed": true,
+        "route_length_um": 980.36
+      },
+      {
+        "net": "XD3.XDFFM.CLKB",
+        "track": 69,
+        "trunk_y_um": 48.12,
+        "trunk_x_um": [
+          366.67,
+          1301.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U92_D",
+          "divider_chain_nfet_w2_l0p5.U93_G",
+          "divider_chain_nfet_w2_l0p5.U98_G",
+          "divider_chain_pfet_w5_l0p5.U92_D",
+          "divider_chain_pfet_w5_l0p5.U95_G",
+          "divider_chain_pfet_w5_l0p5.U96_G"
+        ],
+        "routed": true,
+        "route_length_um": 1203.7
+      },
+      {
+        "net": "XD3.XDFFM.M",
+        "track": 70,
+        "trunk_y_um": 48.72,
+        "trunk_x_um": [
+          370.03,
+          1302.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U93_S",
+          "divider_chain_nfet_w2_l0p5.U94_G",
+          "divider_chain_nfet_w2_l0p5.U95_S",
+          "divider_chain_nfet_w2_l0p5.U96_D",
+          "divider_chain_pfet_w5_l0p5.U93_D",
+          "divider_chain_pfet_w5_l0p5.U94_G",
+          "divider_chain_pfet_w5_l0p5.U95_D",
+          "divider_chain_pfet_w5_l0p5.U96_S"
+        ],
+        "routed": true,
+        "route_length_um": 1297.08
+      },
+      {
+        "net": "XD3.XDFFM.MB",
+        "track": 71,
+        "trunk_y_um": 49.32,
+        "trunk_x_um": [
+          374.59,
+          1295.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U94_D",
+          "divider_chain_nfet_w2_l0p5.U95_D",
+          "divider_chain_pfet_w5_l0p5.U94_D",
+          "divider_chain_pfet_w5_l0p5.U95_S"
+        ],
+        "routed": true,
+        "route_length_um": 1104.48
+      },
+      {
+        "net": "XD3.XDFFM.S",
+        "track": 72,
+        "trunk_y_um": 49.92,
+        "trunk_x_um": [
+          381.91,
+          1316.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U96_S",
+          "divider_chain_nfet_w2_l0p5.U97_G",
+          "divider_chain_nfet_w2_l0p5.U98_S",
+          "divider_chain_pfet_w5_l0p5.U96_D",
+          "divider_chain_pfet_w5_l0p5.U97_G",
+          "divider_chain_pfet_w5_l0p5.U98_D"
+        ],
+        "routed": true,
+        "route_length_um": 1215.7
+      },
+      {
+        "net": "XD3.XDFFM.SB",
+        "track": 73,
+        "trunk_y_um": 50.52,
+        "trunk_x_um": [
+          386.47,
+          1322.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U97_D",
+          "divider_chain_nfet_w2_l0p5.U98_D",
+          "divider_chain_nfet_w2_l0p5.U99_G",
+          "divider_chain_pfet_w5_l0p5.U97_D",
+          "divider_chain_pfet_w5_l0p5.U98_S",
+          "divider_chain_pfet_w5_l0p5.U99_G"
+        ],
+        "routed": true,
+        "route_length_um": 1219.18
+      },
+      {
+        "net": "XD3.XDFFQ.CLKB",
+        "track": 74,
+        "trunk_y_um": 51.12,
+        "trunk_x_um": [
+          323.11,
+          1224.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U81_D",
+          "divider_chain_nfet_w2_l0p5.U82_G",
+          "divider_chain_nfet_w2_l0p5.U87_G",
+          "divider_chain_pfet_w5_l0p5.U81_D",
+          "divider_chain_pfet_w5_l0p5.U84_G",
+          "divider_chain_pfet_w5_l0p5.U85_G"
+        ],
+        "routed": true,
+        "route_length_um": 1188.7
+      },
+      {
+        "net": "XD3.XDFFQ.M",
+        "track": 75,
+        "trunk_y_um": 51.72,
+        "trunk_x_um": [
+          326.47,
+          1225.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U82_S",
+          "divider_chain_nfet_w2_l0p5.U83_G",
+          "divider_chain_nfet_w2_l0p5.U84_S",
+          "divider_chain_nfet_w2_l0p5.U85_D",
+          "divider_chain_pfet_w5_l0p5.U82_D",
+          "divider_chain_pfet_w5_l0p5.U83_G",
+          "divider_chain_pfet_w5_l0p5.U84_D",
+          "divider_chain_pfet_w5_l0p5.U85_S"
+        ],
+        "routed": true,
+        "route_length_um": 1288.08
+      },
+      {
+        "net": "XD3.XDFFQ.MB",
+        "track": 76,
+        "trunk_y_um": 52.32,
+        "trunk_x_um": [
+          331.03,
+          1218.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U83_D",
+          "divider_chain_nfet_w2_l0p5.U84_D",
+          "divider_chain_pfet_w5_l0p5.U83_D",
+          "divider_chain_pfet_w5_l0p5.U84_S"
+        ],
+        "routed": true,
+        "route_length_um": 1083.48
+      },
+      {
+        "net": "XD3.XDFFQ.S",
+        "track": 77,
+        "trunk_y_um": 52.92,
+        "trunk_x_um": [
+          338.35,
+          1240.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U85_S",
+          "divider_chain_nfet_w2_l0p5.U86_G",
+          "divider_chain_nfet_w2_l0p5.U87_S",
+          "divider_chain_pfet_w5_l0p5.U85_D",
+          "divider_chain_pfet_w5_l0p5.U86_G",
+          "divider_chain_pfet_w5_l0p5.U87_D"
+        ],
+        "routed": true,
+        "route_length_um": 1200.7
+      },
+      {
+        "net": "XD3.XDFFQ.SB",
+        "track": 78,
+        "trunk_y_um": 53.52,
+        "trunk_x_um": [
+          342.91,
+          1245.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U86_D",
+          "divider_chain_nfet_w2_l0p5.U87_D",
+          "divider_chain_nfet_w2_l0p5.U88_G",
+          "divider_chain_pfet_w5_l0p5.U86_D",
+          "divider_chain_pfet_w5_l0p5.U87_S",
+          "divider_chain_pfet_w5_l0p5.U88_G"
+        ],
+        "routed": true,
+        "route_length_um": 1204.18
+      },
+      {
+        "net": "XD3.XN2.mid1",
+        "track": 79,
+        "trunk_y_um": 54.12,
+        "trunk_x_um": [
+          354.19,
+          358.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U89_S",
+          "divider_chain_nfet_w2_l0p5.U90_D"
+        ],
+        "routed": true,
+        "route_length_um": 106.58
+      },
+      {
+        "net": "XD3.XN3.mid1",
+        "track": 80,
+        "trunk_y_um": 54.72,
+        "trunk_x_um": [
+          298.75,
+          303.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U75_S",
+          "divider_chain_nfet_w2_l0p5.U76_D"
+        ],
+        "routed": true,
+        "route_length_um": 107.78
+      },
+      {
+        "net": "XD3.XN3.mid2",
+        "track": 81,
+        "trunk_y_um": 55.32,
+        "trunk_x_um": [
+          302.71,
+          307.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U76_S",
+          "divider_chain_nfet_w2_l0p5.U77_D"
+        ],
+        "routed": true,
+        "route_length_um": 108.98
+      },
+      {
+        "net": "XD3.XNOR.midp",
+        "track": 82,
+        "trunk_y_um": 55.92,
+        "trunk_x_um": [
+          1184.51,
+          1190.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U79_D",
+          "divider_chain_pfet_w5_l0p5.U80_S"
+        ],
+        "routed": true,
+        "route_length_um": 111.98
+      },
+      {
+        "net": "XD3.dmodout",
+        "track": 83,
+        "trunk_y_um": 56.52,
+        "trunk_x_um": [
+          362.71,
+          1281.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U91_D",
+          "divider_chain_nfet_w2_l0p5.U93_D",
+          "divider_chain_pfet_w5_l0p5.U91_D",
+          "divider_chain_pfet_w5_l0p5.U93_S"
+        ],
+        "routed": true,
+        "route_length_um": 1131.24
+      },
+      {
+        "net": "XD3.dq",
+        "track": 84,
+        "trunk_y_um": 57.12,
+        "trunk_x_um": [
+          315.19,
+          1204.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U79_D",
+          "divider_chain_nfet_w2_l0p5.U80_D",
+          "divider_chain_nfet_w2_l0p5.U82_D",
+          "divider_chain_pfet_w5_l0p5.U80_D",
+          "divider_chain_pfet_w5_l0p5.U82_S"
+        ],
+        "routed": true,
+        "route_length_um": 1158.09
+      },
+      {
+        "net": "XD3.nm",
+        "track": 85,
+        "trunk_y_um": 57.72,
+        "trunk_x_um": [
+          354.79,
+          1266.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U89_D",
+          "divider_chain_nfet_w2_l0p5.U91_G",
+          "divider_chain_pfet_w5_l0p5.U89_D",
+          "divider_chain_pfet_w5_l0p5.U90_D",
+          "divider_chain_pfet_w5_l0p5.U91_G"
+        ],
+        "routed": true,
+        "route_length_um": 1183.25
+      },
+      {
+        "net": "XD3.nt",
+        "track": 86,
+        "trunk_y_um": 58.32,
+        "trunk_x_um": [
+          299.35,
+          1176.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U75_D",
+          "divider_chain_nfet_w2_l0p5.U78_G",
+          "divider_chain_pfet_w5_l0p5.U75_D",
+          "divider_chain_pfet_w5_l0p5.U76_D",
+          "divider_chain_pfet_w5_l0p5.U77_D",
+          "divider_chain_pfet_w5_l0p5.U78_G"
+        ],
+        "routed": true,
+        "route_length_um": 1205.9
+      },
+      {
+        "net": "XD3.t1",
+        "track": 87,
+        "trunk_y_um": 58.92,
+        "trunk_x_um": [
+          311.23,
+          1189.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U78_D",
+          "divider_chain_nfet_w2_l0p5.U80_G",
+          "divider_chain_pfet_w5_l0p5.U78_D",
+          "divider_chain_pfet_w5_l0p5.U80_G"
+        ],
+        "routed": true,
+        "route_length_um": 1100.96
+      },
+      {
+        "net": "XD4.XDFFM.CLKB",
+        "track": 88,
+        "trunk_y_um": 59.52,
+        "trunk_x_um": [
+          465.67,
+          1475.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U117_D",
+          "divider_chain_nfet_w2_l0p5.U118_G",
+          "divider_chain_nfet_w2_l0p5.U123_G",
+          "divider_chain_pfet_w5_l0p5.U117_D",
+          "divider_chain_pfet_w5_l0p5.U120_G",
+          "divider_chain_pfet_w5_l0p5.U121_G"
+        ],
+        "routed": true,
+        "route_length_um": 1347.1
+      },
+      {
+        "net": "XD4.XDFFM.M",
+        "track": 89,
+        "trunk_y_um": 60.12,
+        "trunk_x_um": [
+          469.03,
+          1476.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U118_S",
+          "divider_chain_nfet_w2_l0p5.U119_G",
+          "divider_chain_nfet_w2_l0p5.U120_S",
+          "divider_chain_nfet_w2_l0p5.U121_D",
+          "divider_chain_pfet_w5_l0p5.U118_D",
+          "divider_chain_pfet_w5_l0p5.U119_G",
+          "divider_chain_pfet_w5_l0p5.U120_D",
+          "divider_chain_pfet_w5_l0p5.U121_S"
+        ],
+        "routed": true,
+        "route_length_um": 1463.28
+      },
+      {
+        "net": "XD4.XDFFM.MB",
+        "track": 90,
+        "trunk_y_um": 60.72,
+        "trunk_x_um": [
+          473.59,
+          1469.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U119_D",
+          "divider_chain_nfet_w2_l0p5.U120_D",
+          "divider_chain_pfet_w5_l0p5.U119_D",
+          "divider_chain_pfet_w5_l0p5.U120_S"
+        ],
+        "routed": true,
+        "route_length_um": 1225.08
+      },
+      {
+        "net": "XD4.XDFFM.S",
+        "track": 91,
+        "trunk_y_um": 61.32,
+        "trunk_x_um": [
+          480.91,
+          1490.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U121_S",
+          "divider_chain_nfet_w2_l0p5.U122_G",
+          "divider_chain_nfet_w2_l0p5.U123_S",
+          "divider_chain_pfet_w5_l0p5.U121_D",
+          "divider_chain_pfet_w5_l0p5.U122_G",
+          "divider_chain_pfet_w5_l0p5.U123_D"
+        ],
+        "routed": true,
+        "route_length_um": 1359.1
+      },
+      {
+        "net": "XD4.XDFFM.SB",
+        "track": 92,
+        "trunk_y_um": 61.92,
+        "trunk_x_um": [
+          485.47,
+          1496.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U122_D",
+          "divider_chain_nfet_w2_l0p5.U123_D",
+          "divider_chain_nfet_w2_l0p5.U124_G",
+          "divider_chain_pfet_w5_l0p5.U122_D",
+          "divider_chain_pfet_w5_l0p5.U123_S",
+          "divider_chain_pfet_w5_l0p5.U124_G"
+        ],
+        "routed": true,
+        "route_length_um": 1362.58
+      },
+      {
+        "net": "XD4.XDFFQ.CLKB",
+        "track": 93,
+        "trunk_y_um": 62.52,
+        "trunk_x_um": [
+          422.11,
+          1398.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U106_D",
+          "divider_chain_nfet_w2_l0p5.U107_G",
+          "divider_chain_nfet_w2_l0p5.U112_G",
+          "divider_chain_pfet_w5_l0p5.U106_D",
+          "divider_chain_pfet_w5_l0p5.U109_G",
+          "divider_chain_pfet_w5_l0p5.U110_G"
+        ],
+        "routed": true,
+        "route_length_um": 1332.1
+      },
+      {
+        "net": "XD4.XDFFQ.M",
+        "track": 94,
+        "trunk_y_um": 63.12,
+        "trunk_x_um": [
+          425.47,
+          1399.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U107_S",
+          "divider_chain_nfet_w2_l0p5.U108_G",
+          "divider_chain_nfet_w2_l0p5.U109_S",
+          "divider_chain_nfet_w2_l0p5.U110_D",
+          "divider_chain_pfet_w5_l0p5.U107_D",
+          "divider_chain_pfet_w5_l0p5.U108_G",
+          "divider_chain_pfet_w5_l0p5.U109_D",
+          "divider_chain_pfet_w5_l0p5.U110_S"
+        ],
+        "routed": true,
+        "route_length_um": 1454.28
+      },
+      {
+        "net": "XD4.XDFFQ.MB",
+        "track": 95,
+        "trunk_y_um": 63.72,
+        "trunk_x_um": [
+          430.03,
+          1392.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U108_D",
+          "divider_chain_nfet_w2_l0p5.U109_D",
+          "divider_chain_pfet_w5_l0p5.U108_D",
+          "divider_chain_pfet_w5_l0p5.U109_S"
+        ],
+        "routed": true,
+        "route_length_um": 1204.08
+      },
+      {
+        "net": "XD4.XDFFQ.S",
+        "track": 96,
+        "trunk_y_um": 64.32,
+        "trunk_x_um": [
+          437.35,
+          1414.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U110_S",
+          "divider_chain_nfet_w2_l0p5.U111_G",
+          "divider_chain_nfet_w2_l0p5.U112_S",
+          "divider_chain_pfet_w5_l0p5.U110_D",
+          "divider_chain_pfet_w5_l0p5.U111_G",
+          "divider_chain_pfet_w5_l0p5.U112_D"
+        ],
+        "routed": true,
+        "route_length_um": 1344.1
+      },
+      {
+        "net": "XD4.XDFFQ.SB",
+        "track": 97,
+        "trunk_y_um": 64.92,
+        "trunk_x_um": [
+          441.91,
+          1419.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U111_D",
+          "divider_chain_nfet_w2_l0p5.U112_D",
+          "divider_chain_nfet_w2_l0p5.U113_G",
+          "divider_chain_pfet_w5_l0p5.U111_D",
+          "divider_chain_pfet_w5_l0p5.U112_S",
+          "divider_chain_pfet_w5_l0p5.U113_G"
+        ],
+        "routed": true,
+        "route_length_um": 1347.58
+      },
+      {
+        "net": "XD4.XN2.mid1",
+        "track": 98,
+        "trunk_y_um": 65.52,
+        "trunk_x_um": [
+          453.19,
+          457.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U114_S",
+          "divider_chain_nfet_w2_l0p5.U115_D"
+        ],
+        "routed": true,
+        "route_length_um": 129.38
+      },
+      {
+        "net": "XD4.XN3.mid1",
+        "track": 99,
+        "trunk_y_um": 66.12,
+        "trunk_x_um": [
+          397.75,
+          402.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U100_S",
+          "divider_chain_nfet_w2_l0p5.U101_D"
+        ],
+        "routed": true,
+        "route_length_um": 130.58
+      },
+      {
+        "net": "XD4.XN3.mid2",
+        "track": 100,
+        "trunk_y_um": 66.72,
+        "trunk_x_um": [
+          401.71,
+          406.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U101_S",
+          "divider_chain_nfet_w2_l0p5.U102_D"
+        ],
+        "routed": true,
+        "route_length_um": 131.78
+      },
+      {
+        "net": "XD4.XNOR.midp",
+        "track": 101,
+        "trunk_y_um": 67.32,
+        "trunk_x_um": [
+          1358.51,
+          1364.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U104_D",
+          "divider_chain_pfet_w5_l0p5.U105_S"
+        ],
+        "routed": true,
+        "route_length_um": 134.78
+      },
+      {
+        "net": "XD4.dmodout",
+        "track": 102,
+        "trunk_y_um": 67.92,
+        "trunk_x_um": [
+          461.71,
+          1455.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U116_D",
+          "divider_chain_nfet_w2_l0p5.U118_D",
+          "divider_chain_pfet_w5_l0p5.U116_D",
+          "divider_chain_pfet_w5_l0p5.U118_S"
+        ],
+        "routed": true,
+        "route_length_um": 1251.84
+      },
+      {
+        "net": "XD4.dq",
+        "track": 103,
+        "trunk_y_um": 68.52,
+        "trunk_x_um": [
+          414.19,
+          1378.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U104_D",
+          "divider_chain_nfet_w2_l0p5.U105_D",
+          "divider_chain_nfet_w2_l0p5.U107_D",
+          "divider_chain_pfet_w5_l0p5.U105_D",
+          "divider_chain_pfet_w5_l0p5.U107_S"
+        ],
+        "routed": true,
+        "route_length_um": 1290.09
+      },
+      {
+        "net": "XD4.nm",
+        "track": 104,
+        "trunk_y_um": 69.12,
+        "trunk_x_um": [
+          453.79,
+          1440.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U114_D",
+          "divider_chain_nfet_w2_l0p5.U116_G",
+          "divider_chain_pfet_w5_l0p5.U114_D",
+          "divider_chain_pfet_w5_l0p5.U115_D",
+          "divider_chain_pfet_w5_l0p5.U116_G"
+        ],
+        "routed": true,
+        "route_length_um": 1315.25
+      },
+      {
+        "net": "XD4.nt",
+        "track": 105,
+        "trunk_y_um": 69.72,
+        "trunk_x_um": [
+          398.35,
+          1350.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U100_D",
+          "divider_chain_nfet_w2_l0p5.U103_G",
+          "divider_chain_pfet_w5_l0p5.U100_D",
+          "divider_chain_pfet_w5_l0p5.U101_D",
+          "divider_chain_pfet_w5_l0p5.U102_D",
+          "divider_chain_pfet_w5_l0p5.U103_G"
+        ],
+        "routed": true,
+        "route_length_um": 1349.3
+      },
+      {
+        "net": "XD4.t1",
+        "track": 106,
+        "trunk_y_um": 70.32,
+        "trunk_x_um": [
+          410.23,
+          1363.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U103_D",
+          "divider_chain_nfet_w2_l0p5.U105_G",
+          "divider_chain_pfet_w5_l0p5.U103_D",
+          "divider_chain_pfet_w5_l0p5.U105_G"
+        ],
+        "routed": true,
+        "route_length_um": 1221.56
+      },
+      {
+        "net": "XD5.XDFFM.CLKB",
+        "track": 107,
+        "trunk_y_um": 70.92,
+        "trunk_x_um": [
+          564.67,
+          1649.35
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U142_D",
+          "divider_chain_nfet_w2_l0p5.U143_G",
+          "divider_chain_nfet_w2_l0p5.U148_G",
+          "divider_chain_pfet_w5_l0p5.U142_D",
+          "divider_chain_pfet_w5_l0p5.U145_G",
+          "divider_chain_pfet_w5_l0p5.U146_G"
+        ],
+        "routed": true,
+        "route_length_um": 1490.5
+      },
+      {
+        "net": "XD5.XDFFM.M",
+        "track": 108,
+        "trunk_y_um": 71.52,
+        "trunk_x_um": [
+          568.03,
+          1650.23
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U143_S",
+          "divider_chain_nfet_w2_l0p5.U144_G",
+          "divider_chain_nfet_w2_l0p5.U145_S",
+          "divider_chain_nfet_w2_l0p5.U146_D",
+          "divider_chain_pfet_w5_l0p5.U143_D",
+          "divider_chain_pfet_w5_l0p5.U144_G",
+          "divider_chain_pfet_w5_l0p5.U145_D",
+          "divider_chain_pfet_w5_l0p5.U146_S"
+        ],
+        "routed": true,
+        "route_length_um": 1629.48
+      },
+      {
+        "net": "XD5.XDFFM.MB",
+        "track": 109,
+        "trunk_y_um": 72.12,
+        "trunk_x_um": [
+          572.59,
+          1643.27
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U144_D",
+          "divider_chain_nfet_w2_l0p5.U145_D",
+          "divider_chain_pfet_w5_l0p5.U144_D",
+          "divider_chain_pfet_w5_l0p5.U145_S"
+        ],
+        "routed": true,
+        "route_length_um": 1345.68
+      },
+      {
+        "net": "XD5.XDFFM.S",
+        "track": 110,
+        "trunk_y_um": 72.72,
+        "trunk_x_um": [
+          579.91,
+          1664.75
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U146_S",
+          "divider_chain_nfet_w2_l0p5.U147_G",
+          "divider_chain_nfet_w2_l0p5.U148_S",
+          "divider_chain_pfet_w5_l0p5.U146_D",
+          "divider_chain_pfet_w5_l0p5.U147_G",
+          "divider_chain_pfet_w5_l0p5.U148_D"
+        ],
+        "routed": true,
+        "route_length_um": 1502.5
+      },
+      {
+        "net": "XD5.XDFFM.SB",
+        "track": 111,
+        "trunk_y_um": 73.32,
+        "trunk_x_um": [
+          584.47,
+          1670.23
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U147_D",
+          "divider_chain_nfet_w2_l0p5.U148_D",
+          "divider_chain_nfet_w2_l0p5.U149_G",
+          "divider_chain_pfet_w5_l0p5.U147_D",
+          "divider_chain_pfet_w5_l0p5.U148_S",
+          "divider_chain_pfet_w5_l0p5.U149_G"
+        ],
+        "routed": true,
+        "route_length_um": 1505.98
+      },
+      {
+        "net": "XD5.XDFFQ.CLKB",
+        "track": 112,
+        "trunk_y_um": 73.92,
+        "trunk_x_um": [
+          521.11,
+          1572.79
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U131_D",
+          "divider_chain_nfet_w2_l0p5.U132_G",
+          "divider_chain_nfet_w2_l0p5.U137_G",
+          "divider_chain_pfet_w5_l0p5.U131_D",
+          "divider_chain_pfet_w5_l0p5.U134_G",
+          "divider_chain_pfet_w5_l0p5.U135_G"
+        ],
+        "routed": true,
+        "route_length_um": 1475.5
+      },
+      {
+        "net": "XD5.XDFFQ.M",
+        "track": 113,
+        "trunk_y_um": 74.52,
+        "trunk_x_um": [
+          524.47,
+          1573.67
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U132_S",
+          "divider_chain_nfet_w2_l0p5.U133_G",
+          "divider_chain_nfet_w2_l0p5.U134_S",
+          "divider_chain_nfet_w2_l0p5.U135_D",
+          "divider_chain_pfet_w5_l0p5.U132_D",
+          "divider_chain_pfet_w5_l0p5.U133_G",
+          "divider_chain_pfet_w5_l0p5.U134_D",
+          "divider_chain_pfet_w5_l0p5.U135_S"
+        ],
+        "routed": true,
+        "route_length_um": 1620.48
+      },
+      {
+        "net": "XD5.XDFFQ.MB",
+        "track": 114,
+        "trunk_y_um": 75.12,
+        "trunk_x_um": [
+          529.03,
+          1566.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U133_D",
+          "divider_chain_nfet_w2_l0p5.U134_D",
+          "divider_chain_pfet_w5_l0p5.U133_D",
+          "divider_chain_pfet_w5_l0p5.U134_S"
+        ],
+        "routed": true,
+        "route_length_um": 1324.68
+      },
+      {
+        "net": "XD5.XDFFQ.S",
+        "track": 115,
+        "trunk_y_um": 75.72,
+        "trunk_x_um": [
+          536.35,
+          1588.19
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U135_S",
+          "divider_chain_nfet_w2_l0p5.U136_G",
+          "divider_chain_nfet_w2_l0p5.U137_S",
+          "divider_chain_pfet_w5_l0p5.U135_D",
+          "divider_chain_pfet_w5_l0p5.U136_G",
+          "divider_chain_pfet_w5_l0p5.U137_D"
+        ],
+        "routed": true,
+        "route_length_um": 1487.5
+      },
+      {
+        "net": "XD5.XDFFQ.SB",
+        "track": 116,
+        "trunk_y_um": 76.32,
+        "trunk_x_um": [
+          540.91,
+          1593.67
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U136_D",
+          "divider_chain_nfet_w2_l0p5.U137_D",
+          "divider_chain_nfet_w2_l0p5.U138_G",
+          "divider_chain_pfet_w5_l0p5.U136_D",
+          "divider_chain_pfet_w5_l0p5.U137_S",
+          "divider_chain_pfet_w5_l0p5.U138_G"
+        ],
+        "routed": true,
+        "route_length_um": 1490.98
+      },
+      {
+        "net": "XD5.XN2.mid1",
+        "track": 117,
+        "trunk_y_um": 76.92,
+        "trunk_x_um": [
+          552.19,
+          556.75
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U139_S",
+          "divider_chain_nfet_w2_l0p5.U140_D"
+        ],
+        "routed": true,
+        "route_length_um": 152.18
+      },
+      {
+        "net": "XD5.XN3.mid1",
+        "track": 118,
+        "trunk_y_um": 77.52,
+        "trunk_x_um": [
+          496.75,
+          501.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U125_S",
+          "divider_chain_nfet_w2_l0p5.U126_D"
+        ],
+        "routed": true,
+        "route_length_um": 153.38
+      },
+      {
+        "net": "XD5.XN3.mid2",
+        "track": 119,
+        "trunk_y_um": 78.12,
+        "trunk_x_um": [
+          500.71,
+          505.27
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U126_S",
+          "divider_chain_nfet_w2_l0p5.U127_D"
+        ],
+        "routed": true,
+        "route_length_um": 154.58
+      },
+      {
+        "net": "XD5.XNOR.midp",
+        "track": 120,
+        "trunk_y_um": 78.72,
+        "trunk_x_um": [
+          1532.51,
+          1538.87
+        ],
+        "pin_count": 2,
+        "pins": [
+          "divider_chain_pfet_w5_l0p5.U129_D",
+          "divider_chain_pfet_w5_l0p5.U130_S"
+        ],
+        "routed": true,
+        "route_length_um": 157.58
+      },
+      {
+        "net": "XD5.dmodout",
+        "track": 121,
+        "trunk_y_um": 79.32,
+        "trunk_x_um": [
+          560.71,
+          1629.35
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U141_D",
+          "divider_chain_nfet_w2_l0p5.U143_D",
+          "divider_chain_pfet_w5_l0p5.U141_D",
+          "divider_chain_pfet_w5_l0p5.U143_S"
+        ],
+        "routed": true,
+        "route_length_um": 1372.44
+      },
+      {
+        "net": "XD5.dq",
+        "track": 122,
+        "trunk_y_um": 79.92,
+        "trunk_x_um": [
+          513.19,
+          1552.79
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U129_D",
+          "divider_chain_nfet_w2_l0p5.U130_D",
+          "divider_chain_nfet_w2_l0p5.U132_D",
+          "divider_chain_pfet_w5_l0p5.U130_D",
+          "divider_chain_pfet_w5_l0p5.U132_S"
+        ],
+        "routed": true,
+        "route_length_um": 1422.09
+      },
+      {
+        "net": "XD5.nm",
+        "track": 123,
+        "trunk_y_um": 80.52,
+        "trunk_x_um": [
+          552.79,
+          1614.55
+        ],
+        "pin_count": 5,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U139_D",
+          "divider_chain_nfet_w2_l0p5.U141_G",
+          "divider_chain_pfet_w5_l0p5.U139_D",
+          "divider_chain_pfet_w5_l0p5.U140_D",
+          "divider_chain_pfet_w5_l0p5.U141_G"
+        ],
+        "routed": true,
+        "route_length_um": 1447.25
+      },
+      {
+        "net": "XD5.nt",
+        "track": 124,
+        "trunk_y_um": 81.12,
+        "trunk_x_um": [
+          497.35,
+          1524.07
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U125_D",
+          "divider_chain_nfet_w2_l0p5.U128_G",
+          "divider_chain_pfet_w5_l0p5.U125_D",
+          "divider_chain_pfet_w5_l0p5.U126_D",
+          "divider_chain_pfet_w5_l0p5.U127_D",
+          "divider_chain_pfet_w5_l0p5.U128_G"
+        ],
+        "routed": true,
+        "route_length_um": 1492.7
+      },
+      {
+        "net": "XD5.t1",
+        "track": 125,
+        "trunk_y_um": 81.72,
+        "trunk_x_um": [
+          509.23,
+          1537.99
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U128_D",
+          "divider_chain_nfet_w2_l0p5.U130_G",
+          "divider_chain_pfet_w5_l0p5.U128_D",
+          "divider_chain_pfet_w5_l0p5.U130_G"
+        ],
+        "routed": true,
+        "route_length_um": 1342.16
+      },
+      {
+        "net": "XFRT.CLKB",
+        "track": 126,
+        "trunk_y_um": 82.32,
+        "trunk_x_um": [
+          596.35,
+          1705.03
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U150_D",
+          "divider_chain_nfet_w2_l0p5.U151_G",
+          "divider_chain_nfet_w2_l0p5.U156_G",
+          "divider_chain_pfet_w5_l0p5.U150_D",
+          "divider_chain_pfet_w5_l0p5.U153_G",
+          "divider_chain_pfet_w5_l0p5.U154_G"
+        ],
+        "routed": true,
+        "route_length_um": 1582.9
+      },
+      {
+        "net": "XFRT.M",
+        "track": 127,
+        "trunk_y_um": 82.92,
+        "trunk_x_um": [
+          599.71,
+          1705.91
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U151_S",
+          "divider_chain_nfet_w2_l0p5.U152_G",
+          "divider_chain_nfet_w2_l0p5.U153_S",
+          "divider_chain_nfet_w2_l0p5.U154_D",
+          "divider_chain_pfet_w5_l0p5.U151_D",
+          "divider_chain_pfet_w5_l0p5.U152_G",
+          "divider_chain_pfet_w5_l0p5.U153_D",
+          "divider_chain_pfet_w5_l0p5.U154_S"
+        ],
+        "routed": true,
+        "route_length_um": 1744.68
+      },
+      {
+        "net": "XFRT.MB",
+        "track": 128,
+        "trunk_y_um": 83.52,
+        "trunk_x_um": [
+          604.27,
+          1698.95
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U152_D",
+          "divider_chain_nfet_w2_l0p5.U153_D",
+          "divider_chain_pfet_w5_l0p5.U152_D",
+          "divider_chain_pfet_w5_l0p5.U153_S"
+        ],
+        "routed": true,
+        "route_length_um": 1415.28
+      },
+      {
+        "net": "XFRT.S",
+        "track": 129,
+        "trunk_y_um": 84.12,
+        "trunk_x_um": [
+          611.59,
+          1720.43
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U154_S",
+          "divider_chain_nfet_w2_l0p5.U155_G",
+          "divider_chain_nfet_w2_l0p5.U156_S",
+          "divider_chain_pfet_w5_l0p5.U154_D",
+          "divider_chain_pfet_w5_l0p5.U155_G",
+          "divider_chain_pfet_w5_l0p5.U156_D"
+        ],
+        "routed": true,
+        "route_length_um": 1594.9
+      },
+      {
+        "net": "XFRT.SB",
+        "track": 130,
+        "trunk_y_um": 84.72,
+        "trunk_x_um": [
+          616.15,
+          1725.91
+        ],
+        "pin_count": 6,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U155_D",
+          "divider_chain_nfet_w2_l0p5.U156_D",
+          "divider_chain_nfet_w2_l0p5.U157_G",
+          "divider_chain_pfet_w5_l0p5.U155_D",
+          "divider_chain_pfet_w5_l0p5.U156_S",
+          "divider_chain_pfet_w5_l0p5.U157_G"
+        ],
+        "routed": true,
+        "route_length_um": 1598.38
+      },
+      {
+        "net": "ck1",
+        "track": 131,
+        "trunk_y_um": 85.32,
+        "trunk_x_um": [
+          16.71,
+          967.27
+        ],
+        "pin_count": 18,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U4_G",
+          "divider_chain_nfet_w2_l0p5.U13_D",
+          "divider_chain_nfet_w2_l0p5.U15_G",
+          "divider_chain_nfet_w2_l0p5.U31_G",
+          "divider_chain_nfet_w2_l0p5.U34_G",
+          "divider_chain_nfet_w2_l0p5.U35_G",
+          "divider_chain_nfet_w2_l0p5.U42_G",
+          "divider_chain_nfet_w2_l0p5.U45_G",
+          "divider_chain_nfet_w2_l0p5.U46_G",
+          "divider_chain_pfet_w5_l0p5.U4_G",
+          "divider_chain_pfet_w5_l0p5.U13_D",
+          "divider_chain_pfet_w5_l0p5.U15_G",
+          "divider_chain_pfet_w5_l0p5.U31_G",
+          "divider_chain_pfet_w5_l0p5.U32_G",
+          "divider_chain_pfet_w5_l0p5.U37_G",
+          "divider_chain_pfet_w5_l0p5.U42_G",
+          "divider_chain_pfet_w5_l0p5.U43_G",
+          "divider_chain_pfet_w5_l0p5.U48_G"
+        ],
+        "routed": true,
+        "route_length_um": 2429.3
+      },
+      {
+        "net": "ck2",
+        "track": 132,
+        "trunk_y_um": 85.92,
+        "trunk_x_um": [
+          115.71,
+          1141.27
+        ],
+        "pin_count": 18,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U29_G",
+          "divider_chain_nfet_w2_l0p5.U38_D",
+          "divider_chain_nfet_w2_l0p5.U40_G",
+          "divider_chain_nfet_w2_l0p5.U56_G",
+          "divider_chain_nfet_w2_l0p5.U59_G",
+          "divider_chain_nfet_w2_l0p5.U60_G",
+          "divider_chain_nfet_w2_l0p5.U67_G",
+          "divider_chain_nfet_w2_l0p5.U70_G",
+          "divider_chain_nfet_w2_l0p5.U71_G",
+          "divider_chain_pfet_w5_l0p5.U29_G",
+          "divider_chain_pfet_w5_l0p5.U38_D",
+          "divider_chain_pfet_w5_l0p5.U40_G",
+          "divider_chain_pfet_w5_l0p5.U56_G",
+          "divider_chain_pfet_w5_l0p5.U57_G",
+          "divider_chain_pfet_w5_l0p5.U62_G",
+          "divider_chain_pfet_w5_l0p5.U67_G",
+          "divider_chain_pfet_w5_l0p5.U68_G",
+          "divider_chain_pfet_w5_l0p5.U73_G"
+        ],
+        "routed": true,
+        "route_length_um": 2515.1
+      },
+      {
+        "net": "ck3",
+        "track": 133,
+        "trunk_y_um": 86.52,
+        "trunk_x_um": [
+          214.71,
+          1315.27
+        ],
+        "pin_count": 18,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U54_G",
+          "divider_chain_nfet_w2_l0p5.U63_D",
+          "divider_chain_nfet_w2_l0p5.U65_G",
+          "divider_chain_nfet_w2_l0p5.U81_G",
+          "divider_chain_nfet_w2_l0p5.U84_G",
+          "divider_chain_nfet_w2_l0p5.U85_G",
+          "divider_chain_nfet_w2_l0p5.U92_G",
+          "divider_chain_nfet_w2_l0p5.U95_G",
+          "divider_chain_nfet_w2_l0p5.U96_G",
+          "divider_chain_pfet_w5_l0p5.U54_G",
+          "divider_chain_pfet_w5_l0p5.U63_D",
+          "divider_chain_pfet_w5_l0p5.U65_G",
+          "divider_chain_pfet_w5_l0p5.U81_G",
+          "divider_chain_pfet_w5_l0p5.U82_G",
+          "divider_chain_pfet_w5_l0p5.U87_G",
+          "divider_chain_pfet_w5_l0p5.U92_G",
+          "divider_chain_pfet_w5_l0p5.U93_G",
+          "divider_chain_pfet_w5_l0p5.U98_G"
+        ],
+        "routed": true,
+        "route_length_um": 2600.9
+      },
+      {
+        "net": "ck4",
+        "track": 134,
+        "trunk_y_um": 87.12,
+        "trunk_x_um": [
+          313.71,
+          1489.27
+        ],
+        "pin_count": 18,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U79_G",
+          "divider_chain_nfet_w2_l0p5.U88_D",
+          "divider_chain_nfet_w2_l0p5.U90_G",
+          "divider_chain_nfet_w2_l0p5.U106_G",
+          "divider_chain_nfet_w2_l0p5.U109_G",
+          "divider_chain_nfet_w2_l0p5.U110_G",
+          "divider_chain_nfet_w2_l0p5.U117_G",
+          "divider_chain_nfet_w2_l0p5.U120_G",
+          "divider_chain_nfet_w2_l0p5.U121_G",
+          "divider_chain_pfet_w5_l0p5.U79_G",
+          "divider_chain_pfet_w5_l0p5.U88_D",
+          "divider_chain_pfet_w5_l0p5.U90_G",
+          "divider_chain_pfet_w5_l0p5.U106_G",
+          "divider_chain_pfet_w5_l0p5.U107_G",
+          "divider_chain_pfet_w5_l0p5.U112_G",
+          "divider_chain_pfet_w5_l0p5.U117_G",
+          "divider_chain_pfet_w5_l0p5.U118_G",
+          "divider_chain_pfet_w5_l0p5.U123_G"
+        ],
+        "routed": true,
+        "route_length_um": 2686.7
+      },
+      {
+        "net": "ck5",
+        "track": 135,
+        "trunk_y_um": 87.72,
+        "trunk_x_um": [
+          412.71,
+          1663.27
+        ],
+        "pin_count": 18,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U104_G",
+          "divider_chain_nfet_w2_l0p5.U113_D",
+          "divider_chain_nfet_w2_l0p5.U115_G",
+          "divider_chain_nfet_w2_l0p5.U131_G",
+          "divider_chain_nfet_w2_l0p5.U134_G",
+          "divider_chain_nfet_w2_l0p5.U135_G",
+          "divider_chain_nfet_w2_l0p5.U142_G",
+          "divider_chain_nfet_w2_l0p5.U145_G",
+          "divider_chain_nfet_w2_l0p5.U146_G",
+          "divider_chain_pfet_w5_l0p5.U104_G",
+          "divider_chain_pfet_w5_l0p5.U113_D",
+          "divider_chain_pfet_w5_l0p5.U115_G",
+          "divider_chain_pfet_w5_l0p5.U131_G",
+          "divider_chain_pfet_w5_l0p5.U132_G",
+          "divider_chain_pfet_w5_l0p5.U137_G",
+          "divider_chain_pfet_w5_l0p5.U142_G",
+          "divider_chain_pfet_w5_l0p5.U143_G",
+          "divider_chain_pfet_w5_l0p5.U148_G"
+        ],
+        "routed": true,
+        "route_length_um": 2772.5
+      },
+      {
+        "net": "mod0",
+        "track": 136,
+        "trunk_y_um": 88.32,
+        "trunk_x_um": [
+          0.87,
+          975.71
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U0_G",
+          "divider_chain_nfet_w2_l0p5.U14_G",
+          "divider_chain_nfet_w2_l0p5.U27_G",
+          "divider_chain_nfet_w2_l0p5.U49_D",
+          "divider_chain_pfet_w5_l0p5.U0_G",
+          "divider_chain_pfet_w5_l0p5.U14_G",
+          "divider_chain_pfet_w5_l0p5.U27_G",
+          "divider_chain_pfet_w5_l0p5.U49_D"
+        ],
+        "routed": true,
+        "route_length_um": 1655.48
+      },
+      {
+        "net": "mod1",
+        "track": 137,
+        "trunk_y_um": 88.92,
+        "trunk_x_um": [
+          99.87,
+          1149.71
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U25_G",
+          "divider_chain_nfet_w2_l0p5.U39_G",
+          "divider_chain_nfet_w2_l0p5.U52_G",
+          "divider_chain_nfet_w2_l0p5.U74_D",
+          "divider_chain_pfet_w5_l0p5.U25_G",
+          "divider_chain_pfet_w5_l0p5.U39_G",
+          "divider_chain_pfet_w5_l0p5.U52_G",
+          "divider_chain_pfet_w5_l0p5.U74_D"
+        ],
+        "routed": true,
+        "route_length_um": 1735.28
+      },
+      {
+        "net": "mod2",
+        "track": 138,
+        "trunk_y_um": 89.52,
+        "trunk_x_um": [
+          198.87,
+          1323.71
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U50_G",
+          "divider_chain_nfet_w2_l0p5.U64_G",
+          "divider_chain_nfet_w2_l0p5.U77_G",
+          "divider_chain_nfet_w2_l0p5.U99_D",
+          "divider_chain_pfet_w5_l0p5.U50_G",
+          "divider_chain_pfet_w5_l0p5.U64_G",
+          "divider_chain_pfet_w5_l0p5.U77_G",
+          "divider_chain_pfet_w5_l0p5.U99_D"
+        ],
+        "routed": true,
+        "route_length_um": 1815.08
+      },
+      {
+        "net": "mod3",
+        "track": 139,
+        "trunk_y_um": 90.12,
+        "trunk_x_um": [
+          297.87,
+          1497.71
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U75_G",
+          "divider_chain_nfet_w2_l0p5.U89_G",
+          "divider_chain_nfet_w2_l0p5.U102_G",
+          "divider_chain_nfet_w2_l0p5.U124_D",
+          "divider_chain_pfet_w5_l0p5.U75_G",
+          "divider_chain_pfet_w5_l0p5.U89_G",
+          "divider_chain_pfet_w5_l0p5.U102_G",
+          "divider_chain_pfet_w5_l0p5.U124_D"
+        ],
+        "routed": true,
+        "route_length_um": 1894.88
+      },
+      {
+        "net": "mod4",
+        "track": 140,
+        "trunk_y_um": 90.72,
+        "trunk_x_um": [
+          396.87,
+          1671.71
+        ],
+        "pin_count": 8,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U100_G",
+          "divider_chain_nfet_w2_l0p5.U114_G",
+          "divider_chain_nfet_w2_l0p5.U127_G",
+          "divider_chain_nfet_w2_l0p5.U149_D",
+          "divider_chain_pfet_w5_l0p5.U100_G",
+          "divider_chain_pfet_w5_l0p5.U114_G",
+          "divider_chain_pfet_w5_l0p5.U127_G",
+          "divider_chain_pfet_w5_l0p5.U149_D"
+        ],
+        "routed": true,
+        "route_length_um": 1974.68
+      },
+      {
+        "net": "net1",
+        "track": 141,
+        "trunk_y_um": 91.32,
+        "trunk_x_um": [
+          8.79,
+          801.71
+        ],
+        "pin_count": 4,
+        "pins": [
+          "divider_chain_nfet_w2_l0p5.U2_G",
+          "divider_chain_nfet_w2_l0p5.U24_D",
+          "divider_chain_pfet_w5_l0p5.U2_G",
+          "divider_chain_pfet_w5_l0p5.U24_D"
+        ],
+        "routed": true,
+        "route_length_um": 1144.72
+      }
+    ],
+    "incomplete_nets": []
+  }
+}
