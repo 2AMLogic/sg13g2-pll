@@ -1,0 +1,11 @@
+Cross-check: real `loop_filter` subckt vs. lumped R/C equivalent built
+from the predecessor record's own measured R1/C1/C2, at the nominal
+point (bundle=typ, band=11, Kvco interval=top,
+f_ref=25 MHz, N=50, trim code 10u, mom_frac=0.00).
+
+  R1 = 7.794170e+03 ohm   C1 = 1.691196e-12 F   C2 = 1.001529e-13 F
+  Icp = 1.004607e-05 A   Kvco = 3.286114e+08 Hz/V
+
+  real subckt : f_c = 9.546166e+05 Hz   PM = 4.275 deg
+  lumped R/C  : f_c = 9.677821e+05 Hz   PM = 4.326 deg
+  difference  : f_c +1.379 %   PM +0.051 deg

@@ -1,0 +1,75 @@
+* sg13g2-pll :: sim/sg13cmos5l-cp-icp-trim (issue #27, Part of #16)
+* Charge-pump DC characterisation: output current vs. output voltage
+* (compliance sweep) at a fixed cascode-mirror reference current (the trim
+* code), PVT corner, supply and UP/DN switch state.
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@ (cornerMOShv.lib section:
+* mos_tt/mos_ss/mos_ff/mos_sf/mos_fs), @TEMP@ (degC), @VDD@ (supply, V),
+* @IREF@ (mirror reference current, A) and @UPV@/@DNV@ (the two switch-input
+* voltages, each 0 or @VDD@) per ../corners/matrix.md.
+*
+* Includes `cp_snap.spice`, a verbatim copy of the frozen
+* ../netlist-snapshots/cp.spice (no edit, no strip -- unlike the
+* sg13cmos5l-vco-kvco-table record, this DUT needs no netlist derivation).
+*
+* ---------------------------------------------------------------------------
+* TESTBENCH-LOCAL BIAS REPLICA -- NOT PART OF THE COMMITTED DESIGN
+* ---------------------------------------------------------------------------
+* `cp.sch` exposes its two current legs' tail/cascode gates as four external
+* pins (IBP/ICP, IBN/ICN) and contains NO bias generator of its own
+* (design/README.md, "Charge pump ... single fixed-current leg per polarity,
+* no 2-bit unit-element Icp trim"). Driving those pins with fixed *voltages*
+* would make the measured Icp a strong function of process/temperature, which
+* is a property of the (absent) bias network, not of the charge pump.
+*
+* This testbench therefore biases the block the way a cascode current mirror
+* is normally biased: a diode-connected replica stack built from devices of
+* exactly the same W/L as the leg it mirrors (24u/1u PMOS, 8u/1u NMOS, both
+* l=1u -- read off the frozen snapshot, not assumed), driven by an ideal
+* reference current @IREF@. The trim code is then @IREF@ itself, and the
+* measured Icp is the mirror's own copy of it. The replica devices are
+* explicitly labelled XMREF* below so no reader mistakes them for design
+* content; ../records/RECORD-001 states the same boundary, and records the
+* missing on-chip bias generator as a real design gap rather than papering
+* over it.
+* ---------------------------------------------------------------------------
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include cp_snap.spice
+
+Vdd VDD 0 dc @VDD@
+
+* --- P-side cascode mirror reference (testbench-local, see header) ---
+XMREFP1 nrp1 nbp  VDD  VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMREFP2 nbp  nbp  nrp1 VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+Irefp nbp 0 dc @IREF@
+
+* --- N-side cascode mirror reference (testbench-local, see header) ---
+XMREFN1 nrn1 nbn  0    0 sg13_hv_nmos w=8u l=1u ng=1 m=1
+XMREFN2 nbn  nbn  nrn1 0 sg13_hv_nmos w=8u l=1u ng=1 m=1
+Irefn 0 nbn dc @IREF@
+
+* --- DUT: the real, unmodified cp subckt ---
+* .subckt cp UP DN IBP ICP IBN ICN VOUT VDD VSS
+XCP up dn nbp nbp nbn nbn vout VDD 0 cp
+
+Vup up 0 dc @UPV@
+Vdn dn 0 dc @DNV@
+Vout vout 0 dc 1.65
+
+* Compliance sweep: 0.15 V to (VDD - 0.15 V) in 50 mV steps. `icp` below is
+* the current the charge pump DELIVERS INTO the vout node (positive = the
+* pump SOURCES current into the filter, negative = it SINKS current out of
+* it). ngspice's own sign convention for a voltage source's branch current
+* -- positive flowing in at the `+` terminal and out through the source --
+* makes that exactly `i(Vout)`, with no flip; verified empirically against
+* the UP=1/DN=0 case, which must and does come out positive (see
+* ../records/RECORD-001 "Sign convention").
+.control
+dc Vout 0.15 @VOUTMAX@ 0.05
+let icp = i(Vout)
+wrdata sweep.dat icp
+.endc
+.end

@@ -284,6 +284,21 @@ pattern for its *layout* phase.
   figure) still need the not-yet-re-derived Kvco and Icp-trim tables plus
   post-layout parasitics, and stay `insufficient-evidence` until those land
   — see each record's own "Spec-row disposition" section.
+  **Update (issue #27, Part of #16)**: the Kvco table
+  (`sim/sg13cmos5l-vco-kvco-table/`) and the Icp-trim table
+  (`sim/sg13cmos5l-cp-icp-trim/`) have both now landed, and
+  `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-001-loop-bandwidth-phase-margin.md`
+  combines them with the loop-filter R/C data above to produce the actual
+  loop-bandwidth/phase-margin numbers — **clearing** the
+  `insufficient-evidence` marking on that row. The result is that the
+  as-drawn filter meets neither stability criterion at any trim code
+  (phase margin 1.55–20.33° against a ≥45° requirement, 0 of 90 corner
+  combinations passing), and that record's own proposal section quantifies
+  the `R1` resizing that would close it. The MOM band turns out to
+  contribute ≈0.9° of that ~40° shortfall, so MOM-model uncertainty is not
+  the binding term here. The jitter / ripple-attenuation figures are
+  unaffected by that work and remain `insufficient-evidence` pending
+  post-layout parasitics.
   `lock_detector.XCW`/`XDW.XC1` are not named by DR-003 Finding 2's own
   three-instance list and are not covered by this update; their
   hysteresis-window sensitivity remains open.

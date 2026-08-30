@@ -1,0 +1,63 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-duty-cycle (issue #27, Part of #16)
+* Open-loop VCO output duty-cycle measurement (spec/porting-plan.md row 13)
+* at a fixed band-select code, VCTRL and PVT corner, plus the ring's own
+* average supply current at the same operating point (a real input to row
+* 11's power budget -- see ../records/RECORD-001 for what that does and does
+* not bound).
+*
+* `../testbench/run.sh` substitutes @CORNER_MOS@ (cornerMOShv.lib section:
+* mos_tt/mos_ss/mos_ff/mos_sf/mos_fs -- the split sf/fs corners the
+* sg13cmos5l-vco-kvco-table record explicitly named as the open duty-cycle
+* axis it did not sweep), @CORNER_RES@, @TEMP@, @VCTRL@, @B0V@/@B1V@ per
+* ../corners/matrix.md.
+*
+* Methodology, and why it differs from the Kvco record's own deck: that
+* record measured period only, between two rising crossings of the same
+* threshold. Duty cycle additionally needs the FALLING crossing, so this deck
+* measures t_high = t(fall_k) - t(rise_k) and T = t(rise_k+1) - t(rise_k) at
+* the same 50%-of-rail (1.65 V) threshold, at two different k, so a reader
+* can see cycle-to-cycle consistency rather than trusting a single edge pair.
+* `.tran` is shortened from the Kvco deck's 40 ns to 25 ns because this
+* measurement needs only a handful of settled cycles, not the full sweep --
+* the ring's own startup transient is still skipped by starting at k = 4.
+*
+* Includes `vco_open.spice`: the same XCDECAP-stripped local derivation of
+* the frozen ../netlist-snapshots/vco.spice the Kvco record uses, for the
+* same reason (ideal, zero-impedance VDD_VCO/GND_VCO drive makes XCDECAP's
+* own value inconsequential to any node voltage measured here) -- see
+* ../testbench/run.sh's header.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include vco_open.spice
+
+Vvctrl vctrl 0 dc @VCTRL@
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+Vdd vdd 0 dc 3.3
+Vsub sub! 0 dc 0
+
+Xvco vctrl b0 b1 clk vdd 0 vco
+
+* Same symmetry-breaking initial condition the Kvco record's deck uses; see
+* that record for why a perfectly symmetric ring needs one in a noiseless
+* simulator.
+.ic v(xvco.ring1)=0.5
+
+.tran @TSTEP@ 25n
+
+.control
+run
+meas tran rise1 when v(clk)=1.65 rise=4
+meas tran fall1 when v(clk)=1.65 fall=4
+meas tran rise2 when v(clk)=1.65 rise=5
+meas tran rise3 when v(clk)=1.65 rise=6
+meas tran fall3 when v(clk)=1.65 fall=6
+meas tran rise4 when v(clk)=1.65 rise=7
+meas tran idd_avg avg i(vdd) from=10n to=25n
+print rise1 fall1 rise2 rise3 fall3 rise4 idd_avg
+.endc
+.end
