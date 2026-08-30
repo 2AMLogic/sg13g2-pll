@@ -1,0 +1,9 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell genprobe_mos_pfet
+.SUBCKT genprobe_mos_pfet
+* device instance $1 r0 *1 0.67,2.5 pfet
+X$1 \$2 \$5 \$1 \$7 sg13_lv_pmos L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $2 r0 *1 2.41,2.5 pfet
+X$2 \$4 \$6 \$3 \$7 sg13_lv_pmos L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+.ENDS genprobe_mos_pfet
