@@ -102,7 +102,31 @@ Xiu upu dnu lkiu vddu 0 lock_detector
 .ic v(xr.vwin)=0 v(xil.vwin)=@VSUP@ v(xiu.vwin)=0
 @LADDER_IC@
 
-.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+* SOLVER-EFFORT NOTE -- itl4=5000 (issue #66, Part of #16).
+* ngspice's default transient Newton-iteration limit (ITL4 = 10) is not enough
+* for this block once XMPD is the weak, long-channel device issue #66 sizes it
+* to: the integrating node then SITS at intermediate voltages for the whole run
+* instead of railing, which holds schmitt_hv's input in its own high-gain
+* region and keeps the coincidence gate's own nodes near their switching
+* points.  Two measured aborts, both at mos_ff/res_wcs/-40C (fastest MOS,
+* highest R, coldest) at 24.4 MHz -- "Timestep too small; ... timestep =
+* 2.04918e-21: trouble with node xa.xxor.n1" at tau = 1.4 x twin_r, and the
+* same message on node xa.wide at tau = 1.6 x twin_r -- each an ngspice exit 1,
+* i.e. a hard campaign abort under run.sh's run_ngspice_or_die.
+*
+* ITL4 raises the Newton-iteration budget before the step is cut.  It is NOT an
+* accuracy relaxation: reltol/abstol/vntol/chgtol are untouched, and it costs
+* nothing where the default already converged.  Measured, on the decks above:
+*   - neighbouring already-converging points, ITL4 10 -> 500:
+*     2.41949 -> 2.41919 V (0.012%) and 1.46963 -> 1.46963 V (0.000%).
+*   - the first failing point, ITL4 500 -> 5000: 1.84852 -> 1.84980 V (0.07%).
+* ITL4 = 500 cleared the first abort but not the second, so the value used is
+* 5000.  Alternatives that were measured and rejected: method=gear cleared the
+* first abort but moves the answer materially (1.849 -> 1.733 V) and did not
+* clear the second; gmin=1e-15 and reltol=5e-4 cleared neither.  trtol=1
+* cleared the second but is a truncation-error relaxation, i.e. an accuracy
+* knob, so ITL4 was preferred.
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000
 .tran @TSTEP@ @TSTOP@
 
 .control

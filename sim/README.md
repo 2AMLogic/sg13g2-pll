@@ -121,8 +121,12 @@ never attempted in #27, and closes the MOM-uncertainty gap on its own two
 **change the design and re-measure it**: it re-sizes the three
 `lock_detector` devices #38's own record root-caused (`XRPU`, `XCW`,
 `XDW.XC1`) and re-runs #38's campaign against the resized block, appending
-`RECORD-002` beside `RECORD-001` rather than replacing it. The table below
-is the whole campaign, all six issues, in the order the records landed.
+`RECORD-002` beside `RECORD-001` rather than replacing it. #66 then fixes the
+two mechanisms RECORD-002 measured but was out of scope to change
+(`schmitt_hv`'s feedback wiring and the `XRPU`/`XMPD` strength ratio) and
+runs the campaign a third time, appending `RECORD-003` — closing row 16's
+last measurable criterion. The table below is the whole campaign, in the
+order the records landed.
 
 | Slug | Claim under test | Spec row(s) (`spec/porting-plan.md` §1.2) | Status |
 |---|---|---|---|
