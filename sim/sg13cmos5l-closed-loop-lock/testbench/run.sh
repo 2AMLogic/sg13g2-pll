@@ -51,22 +51,14 @@
 # silently applied.
 # ---------------------------------------------------------------------------
 
-set -euo pipefail
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
 OUT_A="$RECORD_DIR/corners/results_as_drawn.csv"
 OUT_B="$RECORD_DIR/corners/results_proposal.csv"
-WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
 
 QUICK=0
 [[ "${1:-}" == "--quick" ]] && QUICK=1
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
 
 # psp103 (+ its NQS/variability companions) for every MOS device, r3_cmc for
 # rppd/rhigh. NOT cap_cmomi/cap_cmomf -- see header above.

@@ -18,18 +18,10 @@
 # Requires: ngspice on PATH, PDK_ROOT/PDK resolving the installed
 # ihp-sg13cmos5l tree (same variables design/sg13cmos5l/netlist.sh reads).
 
-set -euo pipefail
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
 OUT_CSV="$RECORD_DIR/corners/results.csv"
-WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
 
 # This testbench's DUT (the ring + bias core) uses only sg13_hv_nmos/pmos
 # (PSP103, via psp103.osdi/psp103_nqs.osdi/mosvar.osdi) and rppd/rhigh (via

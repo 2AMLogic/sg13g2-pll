@@ -194,19 +194,11 @@
 # reason a ruler too short to reach reports "length = end of ruler".
 # ---------------------------------------------------------------------------
 
-set -euo pipefail
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
 CORNERS="$RECORD_DIR/corners"
 SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_hystfix.spice"
-WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
 
 VSUP_NOM=3.3
 TRST=1n
