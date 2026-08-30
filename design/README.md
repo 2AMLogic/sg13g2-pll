@@ -16,7 +16,11 @@ design/
   xschemrc               project-local xschem config (resolves the SG13G2
                           PDK, adds this repo's own design/ to the symbol path)
   netlist.sh              batch netlist exporter -- every block, one script
+                          (thin wrapper over lib/netlist-export.sh, shared
+                          with sg13cmos5l/netlist.sh -- issue #45)
   netlist/*.spice          committed exports (checked by `netlist.sh --check`)
+  lib/netlist-export.sh   shared xschem-export pipeline sourced by both
+                          netlist.sh and sg13cmos5l/netlist.sh
 
   # The six blocks spec/porting-plan.md Sec1.4 names (issue #7 Test Plan:
   # every one of these must be represented, not a partial subset)
@@ -312,10 +316,13 @@ band-select, `divider_chain`'s `P0`–`P5` N-select, `lock_detector`'s `LOCK`)
 as evidence — see that record for the full reasoning and its own scope
 boundary (no chip-level `pll_top`/pad-ring wrapper is drawn by this port).
 
-**Netlist export**: `design/sg13cmos5l/netlist.sh` mirrors `design/
-netlist.sh` exactly (same `--top`/`--check` interface, same six blocks, same
-expected-`.subckt` connectivity guard), pointed at `design/sg13cmos5l/` and
-`ihp-sg13cmos5l` instead of `design/` and `ihp-sg13g2`:
+**Netlist export**: `design/sg13cmos5l/netlist.sh` and `design/netlist.sh`
+are both thin wrappers over the same shared pipeline,
+`design/lib/netlist-export.sh` (issue #45) -- same `--top`/`--check`
+interface, same six blocks, same expected-`.subckt` connectivity guard --
+each wrapper just parameterizes the shared script with its own design
+directory (`design/sg13cmos5l/` vs `design/`) and PDK label
+(`ihp-sg13cmos5l` vs `ihp-sg13g2`):
 
 ```bash
 export PDK_ROOT=/path/to/pdk/root
