@@ -62,6 +62,20 @@ Maturity ladder: porting plan → spec ratified → schematic simulated across
 PVT → layout DRC/LVS-clean → post-layout re-verification → shuttle seat →
 measured silicon. **Current position: just opened, pre-plan.**
 
+## Chipalooza
+
+This design is also entered against [Chipalooza Challenge #6](https://opencircuitdesign.com/chipalooza/challenge-6.html)
+(IHP SG13CMOS5L), part of the fleet's own program epic
+([2AMLogic/2am#542](https://github.com/2AMLogic/2am/issues/542)). The
+submission document — block type, I/O mapped to the challenge's slot
+budget, functional description, and a spec table re-derived from real
+SG13CMOS5L `sim/`/`layout/` evidence, with every unmet or
+insufficient-evidence row stated explicitly — is
+[`docs/chipalooza/challenge-6-proposal.md`](docs/chipalooza/challenge-6-proposal.md).
+**Status: not sign-off-ready.** Schematic port and device-level layout have
+landed; the PVT sim campaign is intentionally partial (see the document's
+own "Status" line for what is and is not yet evidenced).
+
 ## Repo layout
 
 ```
