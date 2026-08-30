@@ -144,3 +144,78 @@ measures (and it comes out at 0.004% on the window — see RECORD-001).
   charge-domain behaviour a static phase offset comes out of, and `pfd` has
   no record at all). That half of the comparison is marked
   `insufficient-evidence` in RECORD-001 rather than silently dropped.
+
+---
+
+# Corner matrix — the issue #52 re-run (RECORD-002)
+
+Everything above describes the campaign **as issue #38 ran it against the
+pre-resize block**, and it is left unedited: `RECORD-001` is the record of
+that matrix, and `ladder.csv` / `window.csv` / `rc_extract.csv` /
+`schmitt.csv` / `ladder_raw.csv` / `tstep_convergence.csv` (all unsuffixed)
+are its raw results.
+
+Issue #52 re-sized three devices in the DUT (`XRPU` `l=6u`→`l=700u`, `XCW`
+`w=8u l=8u`→`w=40u l=40u`, `XDW.XC1` `w=4u l=4u`→`w=40u l=40u`) and re-ran
+the same campaign against `../netlist-snapshots/lock_detector_resized.spice`,
+writing a parallel set of `*_resized.csv` files plus two new diagnostic
+CSVs. This section describes **that** matrix. Same convention as
+`../../sg13cmos5l-closed-loop-lock/corners/` (`results_as_drawn.csv` vs.
+`results_proposal.csv`).
+
+## What changed in the matrix, and why
+
+| Axis | #38 / RECORD-001 | #52 / RECORD-002 | Reason |
+|---|---|---|---|
+| Reference frequency | 25 MHz main grid + 1 / 5 MHz sub-axis (row 2 as then written: 1–25 MHz) | **24.4 MHz** main grid + **3.5 MHz** and 12 MHz; the ladder runs its full res × temp grid at **3.5 MHz** and spot-checks **24.4 MHz** | Row 2 was amended by **DR-005** (PR #46) to ≈3.5–24.4 MHz. The binding end for an `R·C ≫ T_ref` claim is the SLOWEST reference, so that end carries the full grid |
+| DUT variant | `real`, `ideal−0.20`, `ideal0.00`, `ideal0.20` | **`ideal−0.20`, `ideal0.00`, `ideal0.20`** — `real` unavailable on the run host | `cap_cmomi.osdi` ships as x86-64 ELF and cannot load on an arm64 host; `run.sh` probes for it and promotes `ideal0.00` to primary when it is missing. See RECORD-002 "Host limitation" |
+| `cap_cmomi` nominal C | measured by `tb_extract_c.sp.tmpl` | `../testbench/cmomi_nominal.py` (the model's own closed form), self-tested against RECORD-001's two measured geometries to 0.004% / 0.014% | same cause; `rc_extract_resized.csv` records which path was used per row in its `source` column |
+| Window matrix | 92 rows | **81 rows** — same 7 bundles × 3 temperatures × the available variants, plus supply sub-axis at two variants, plus an explicit **worst-case stack** (`mos_ff`/`res_bcs`/−40 °C/3.63 V at the −20% MOM band) | A ≥2.5 ns *floor* is a worst-case claim. RECORD-001's grid never stacked all the fast-direction axes at once, so its own minimum was not the true worst case |
+| Ladder matrix | 92 corner points | **18 corner points** (full res × temp at 3.5 MHz; 24.4 MHz at typ + both `R·C` extremes; ±20% MOM, `mos_ff`/`mos_ss`, ±10% supply as 2-point spot checks each) | Runtime. See "Run length" below |
+| Ladder step | 14 points, 0.15× window | **9 points, 0.20× window** | Runtime. Still below row 16's own 25%-of-window criterion, so the criterion would still resolve; the resulting bound is weaker (< 20% vs < 15%) and RECORD-002 says so |
+| Schmitt / `tstep_convergence` | 45 / 12 rows | **45 / 12 rows** (unchanged) | cheap, and `schmitt_hv` is untouched by the resize |
+
+## Run length — why the ladder had to be split and shortened
+
+The resize is exactly what makes the old ladder deck impractical. An
+integrator whose `R·C` is ~10 reference periods needs a transient tens to
+hundreds of reference periods long before anything has settled, where
+RECORD-001 ran 4. Measured at `mos_tt`/`res_typ`/27 °C/3.3 V/3.5 MHz with a
+54-cycle `tstop`: the merged 21-copy deck did **not** complete in 400 s,
+while the same corner run as 1 recovery deck + 9 independent 2-copy
+ladder-point decks completed in about **200 s**. `../testbench/run.sh`
+therefore runs each ladder point as its own ngspice invocation
+(`tb_lock_ladder_point.sp.tmpl`) alongside one recovery/current deck
+(`tb_lock_recovery.sp.tmpl`) and concatenates their logs before reduction.
+
+Per corner, `tstop` = `min(4·R·C, 16 µs)` rounded up to a whole number of
+reference periods (41–391 cycles across the matrix), with the achieved
+settling fraction `1 − e^(−tstop/RC)` written to `ladder_resized.csv`'s own
+`settle_frac` column (0.943–0.983) rather than assumed.
+
+`SKIP_LADDER=1 ./run.sh` regenerates everything **except** the ladder,
+leaving `ladder_resized.csv` / `ladder_raw_resized.csv` untouched — the
+ladder is ~99% of the runtime and nothing else feeds it, so adding a window
+or Schmitt corner does not cost a full re-run. A plain `./run.sh` still
+regenerates the whole set consistently.
+
+## The two diagnostic CSVs (`hysteresis_diag*.csv`)
+
+Written by `../testbench/run_hysteresis_diag.sh`, not by `run.sh`. They exist
+because row 16's hysteresis criterion still fails after the resize, and
+RECORD-002 attributes that to a mechanism rather than leaving it
+unexplained. Both are single-corner
+(`mos_tt`/`res_typ`/27 °C/3.3 V/3.5 MHz for the phase sweep; 3 MOS corners ×
+3 temperatures for the Schmitt sweep) — they are *attribution* measurements
+for a failure the full matrix above already bounds, not claims in their own
+right, so they are deliberately not swept over PVT.
+
+- `hysteresis_diag.csv` — settled `VWIN` (not just the thresholded `LOCK`
+  pin) vs. phase error, finely swept across the transition, for three DUTs:
+  the block as drawn, a **scratch** control with `schmitt_hv`'s two feedback
+  devices re-tied to the classic connection, and a **scratch** control with
+  `XMPD` weakened ~64× at unchanged `XRPU`/`XCW`/`R·C`. Neither scratch
+  variant is written back into `design/` or `../netlist-snapshots/`.
+- `hysteresis_diag_schmitt.csv` — `schmitt_hv`'s own input-referred
+  hysteresis, as drawn vs. the rewired control, over 3 MOS corners × 3
+  temperatures.

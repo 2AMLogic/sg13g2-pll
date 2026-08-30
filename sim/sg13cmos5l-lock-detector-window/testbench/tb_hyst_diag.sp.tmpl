@@ -1,0 +1,81 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #52, Part of #16)
+* HYSTERESIS DIAGNOSTIC -- one phase-error point, two start states, reporting
+* the settled INTEGRATING-NODE VOLTAGE as well as the LOCK pin.
+*
+* WHY THIS DECK EXISTS.  ../testbench/tb_lock_ladder_point.sp.tmpl answers
+* "which state does the block settle into at this phase error", which is what
+* spec/porting-plan.md row 16's assert / de-assert / chatter criteria are
+* stated in.  It cannot answer "why is the phase-error hysteresis what it
+* is", because the LOCK pin is a thresholded view of VWIN and throws away the
+* shape of the VWIN-vs-phase-error characteristic that the threshold sits on.
+*
+* Row 16's hysteresis criterion ("hysteresis >= 25% of window") is a
+* PHASE-ERROR width, and in this topology it is the product of two separate
+* quantities:
+*
+*   1. the readout Schmitt's own hysteresis in VOLTS on VWIN
+*      (../testbench/tb_schmitt_hyst.sp.tmpl measures that directly), and
+*   2. the SLOPE of the settled VWIN against phase error, dVWIN/dtau, which
+*      converts those volts into a phase-error width.
+*
+* ../records/RECORD-001 measured (1) and found it ~1 mV.  Nothing has ever
+* measured (2) on this block, so this deck does: it sweeps tau finely across
+* the transition and reports the settled VWIN, so the record can state the
+* measured width of the transition region in units of the window instead of
+* arguing it from R, Ron and T_ref.
+*
+* Two copies at each tau, as the ladder deck uses: copy A starts fully
+* DISCHARGED, copy B fully CHARGED, so any state-dependence (i.e. any real
+* hysteresis) shows up as a difference between the two settled results at the
+* same tau rather than having to be inferred across ladder points.
+*
+* Placeholders (substituted by ../testbench/run_hysteresis_diag.sh, not meant
+* to be run directly): @CORNER_MOS@, @CORNER_RES@, @TEMP@, @VSUP@, @TREF@,
+* @TRST@, @TAU@, @TSTEP@, @TSTOP@, @TSETTLE@, @DUT@.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.include @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param tau=@TAU@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* Same PFD stimulus model the ladder deck uses: XOR(UP,DN) is high for
+* exactly tau, and the reset-path overlap common to both is rejected.
+Vup up 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'tau+trst' 'tref')
+Vdn dn 0 pulse(0 @VSUP@ 'ttd+tau' 'ttr' 'ttr' 'trst' 'tref')
+
+Xa up dn lka vdd 0 lock_detector
+Xb up dn lkb vdd 0 lock_detector
+
+.ic v(xa.vwin)=0 v(xb.vwin)=@VSUP@
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran @TSTEP@ @TSTOP@
+
+.control
+save lka lkb xa.vwin xb.vwin
+run
+meas tran va_avg avg v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran va_min min v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran va_max max v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran vb_avg avg v(xb.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran la_avg avg v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran la_min min v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran la_max max v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_avg avg v(lkb) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_min min v(lkb) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_max max v(lkb) from=@TSETTLE@ to=@TSTOP@
+.endc
+.end

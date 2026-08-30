@@ -37,15 +37,49 @@
 # cross-check protocol that must be satisfied before a locally rebuilt model
 # is trusted for a new sim/ record.
 #
+# HARD ABORT IS THE DEFAULT; --soft IS THE ONE OPT-OUT (issue #52)
+# ----------------------------------------------------------------
+# Aborting is right whenever an unloadable object has no substitute: the deck
+# simply cannot be simulated, and a run that continues would either die inside
+# ngspice with a misleading message or -- worse -- record a number produced by
+# a silently different circuit.  That is every caller's default here and it
+# stays the default.
+#
+# But it is not right for EVERY object.  A caller may have a validated,
+# self-tested substitute for one specific model and a policy for recording
+# which one it used.  sim/sg13cmos5l-lock-detector-window/testbench/run.sh is
+# exactly that case for cap_cmomi: when the tracked x86-64 object cannot load,
+# it falls back to the model's own closed-form low-frequency capacitance
+# (testbench/cmomi_nominal.py, self-tested against the two geometries
+# RECORD-001 measured on the real OSDI model) and stamps every affected row's
+# `source` column `va-formula` instead of `ngspice-osdi`.  For that caller a
+# hard abort would be wrong -- it would refuse to run a campaign that CAN be
+# run, honestly labelled.
+#
+# `--soft <basename>` (repeatable) names the objects for which the caller has
+# such a fallback.  Those objects are still classified, still reported by
+# name, and still get their rebuild command printed -- but as a WARNING, and
+# they do not fail the run.  Instead the script exits 3 and prints the
+# basename of every soft object that could not load on **stdout**, so the
+# caller can branch on it deterministically rather than re-deriving the
+# answer with a parallel probe of its own.  Any object NOT named by --soft
+# keeps the hard-abort behaviour exactly as before, so a caller cannot
+# accidentally soften the whole check.
+#
 # USAGE
-#   check-osdi-arch.sh [--warn-only] [--quiet] <osdi-file> [<osdi-file>...]
-#   check-osdi-arch.sh --osdi-dir <dir> [--warn-only] [--quiet]
+#   check-osdi-arch.sh [--warn-only] [--quiet] [--soft <name>]... <osdi-file> [<osdi-file>...]
+#   check-osdi-arch.sh --osdi-dir <dir> [--warn-only] [--quiet] [--soft <name>]...
 #   check-osdi-arch.sh --self-test
 #
 # EXIT
-#   0  every object is loadable by this host (or --warn-only was given)
-#   1  at least one object is built for a different architecture/format
-#   2  usage error, or a named object does not exist
+#   0  every object is loadable by this host (or --warn-only downgraded a
+#      hard failure)
+#   1  at least one NON-soft object is built for a different
+#      architecture/format
+#   2  usage error, or a non-soft object does not exist
+#   3  every unloadable object was declared --soft; their basenames are on
+#      stdout, one per line, and the caller is expected to engage its own
+#      fallback.  Not a failure, so --warn-only does not affect it.
 #
 # Deliberately does NOT shell out to file(1): its output wording differs
 # between GNU file and the macOS/BSD build, and the hosts that need this check
@@ -310,6 +344,50 @@ self_test() {
     *) echo "NOT OK   remedy psp103.osdi did not name ihp-sg13g2"; rc=1 ;;
   esac
 
+  # --------------------------------------------------------------------
+  # End-to-end exit-status / stdout contract, including --soft (issue #52).
+  # Driven by re-invoking this same script with the fake-uname hooks set, so
+  # the arm64-macOS host these rows describe is exercised from any host.
+  # The classifier rows above are pure functions; these rows are the part a
+  # CALLER actually branches on, and run.sh's fallback correctness depends on
+  # exactly this contract.
+  # --------------------------------------------------------------------
+  _e2e() { # want_rc want_stdout description args...
+    local want_rc="$1" want_out="$2" desc="$3"; shift 3
+    local out got_rc
+    out="$( OSDI_CHECK_FAKE_UNAME_S=Darwin OSDI_CHECK_FAKE_UNAME_M=arm64 \
+            bash "$0" --quiet "$@" 2>/dev/null )"; got_rc=$?
+    if [ "$got_rc" = "$want_rc" ] && [ "$out" = "$want_out" ]; then
+      echo "ok       e2e $desc -> rc=$got_rc out='$out'"
+    else
+      echo "NOT OK   e2e $desc -> rc=$got_rc out='$out' (want rc=$want_rc out='$want_out')"
+      rc=1
+    fi
+  }
+
+  # An x86-64 ELF object on an arm64-macOS host: the exact issue-#59 failure.
+  _e2e 1 "" "hard failure, no --soft" "$dir/elf_x86_64.osdi"
+  _e2e 0 "" "hard failure downgraded by --warn-only" \
+       --warn-only "$dir/elf_x86_64.osdi"
+  # Declared soft -> exit 3 and the basename on stdout, nothing else.
+  _e2e 3 "elf_x86_64.osdi" "soft failure alone" \
+       --soft elf_x86_64.osdi "$dir/elf_x86_64.osdi"
+  # A loadable object alongside a soft-failed one must not appear on stdout.
+  _e2e 3 "elf_x86_64.osdi" "soft failure beside a loadable object" \
+       --soft cap_cmomi.osdi --soft elf_x86_64.osdi \
+       "$dir/macho_arm64.osdi" "$dir/elf_x86_64.osdi"
+  # --soft must NOT soften anything it did not name: a second, non-soft
+  # unloadable object still fails hard (this is the whole safety property).
+  _e2e 1 "" "non-soft object still fails hard beside a soft one" \
+       --soft elf_x86_64.osdi "$dir/elf_aarch64.osdi" "$dir/elf_x86_64.osdi"
+  # Everything loadable: --soft present but inert.
+  _e2e 0 "" "all loadable with --soft present" \
+       --soft elf_x86_64.osdi "$dir/macho_arm64.osdi"
+  # Absent object: a usage error normally, the fallback case when soft.
+  _e2e 2 "" "absent non-soft object is a usage error" "$dir/nope.osdi"
+  _e2e 3 "nope.osdi" "absent soft object is a fallback case" \
+       --soft nope.osdi "$dir/nope.osdi"
+
   if [ "$rc" -eq 0 ]; then echo "self-test: PASS"; else echo "self-test: FAIL"; fi
   return "$rc"
 }
@@ -329,14 +407,69 @@ usage() {
   exit 2
 }
 
+# `--soft` membership.  Matched on BASENAME so a caller can write
+# `--soft cap_cmomi.osdi` without repeating the whole $OSDI path, and so the
+# same flag works with --osdi-dir.  SOFT_NAMES is set by main().
+SOFT_NAMES=()
+is_soft() { # path -> 0 if this object was declared --soft
+  local b; b="$(basename "$1")"
+  local s
+  for s in ${SOFT_NAMES+"${SOFT_NAMES[@]}"}; do
+    [ "$b" = "$(basename "$s")" ] && return 0
+  done
+  return 1
+}
+
+# Shared reporter for both the fatal and the warning block, so the two can
+# never drift into saying different things about the same object.
+report_block() { # severity entry...
+  local sev="$1"; shift
+  local hfmt harch
+  hfmt="$(host_format)"; harch="$(host_arch)"
+  {
+    echo
+    if [ "$sev" = warning ]; then
+      echo "$PROG: WARNING -- OSDI object(s) not loadable by this host" \
+           "($hfmt/$harch, $(_uname_s)/$(_uname_m)); the caller declared a" \
+           "fallback for these:"
+    else
+      echo "$PROG: OSDI object(s) not loadable by this host ($hfmt/$harch, $(_uname_s)/$(_uname_m)):"
+    fi
+    local entry f cls
+    for entry in "$@"; do
+      f="${entry%%|*}"; cls="${entry#*|}"
+      echo "    $f"
+      echo "        built for: $cls"
+      echo "        rebuild:   $(remedy_for "$f")"
+    done
+    echo
+    if [ "$sev" = warning ]; then
+      echo "  This is a HOST/PDK-PROVISIONING gap, not a broken testbench, and it"
+      echo "  is NOT being ignored: the caller substitutes its own validated value"
+      echo "  and must record which source produced every affected number.  Rebuild"
+      echo "  the object above to get the real model back."
+    else
+      echo "  This is a HOST/PDK-PROVISIONING gap, not a broken testbench: ngspice"
+      echo "  will fail these with 'Error opening osdi lib ... couldn't be loaded'"
+      echo "  and then 'Unable to find definition of model ...'."
+    fi
+    echo "  Full finding, remedy and the mandatory numeric cross-check before a"
+    echo "  rebuilt model is trusted for a new record:"
+    echo "      sim/PORTING-osdi-host-arch.md   (issue #59)"
+    echo
+  } >&2
+}
+
 main() {
   local warn_only=0 quiet=0 files=() osdi_dir=""
+  SOFT_NAMES=()
 
   while [ $# -gt 0 ]; do
     case "$1" in
       --self-test) self_test; exit $? ;;
       --warn-only) warn_only=1; shift ;;
       --quiet)     quiet=1; shift ;;
+      --soft)      [ -n "${2:-}" ] || usage; SOFT_NAMES+=("$2"); shift 2 ;;
       --osdi-dir)  osdi_dir="${2:-}"; [ -n "$osdi_dir" ] || usage; shift 2 ;;
       -h|--help)   usage ;;
       -*)          echo "$PROG: unknown option '$1'" >&2; usage ;;
@@ -355,44 +488,51 @@ main() {
   local hfmt harch
   hfmt="$(host_format)"; harch="$(host_arch)"
 
-  local bad=() f cls
+  local bad=() soft_bad=() f cls
   for f in "${files[@]}"; do
     if [ ! -e "$f" ]; then
+      # A missing object is still "cannot be loaded".  For a --soft object
+      # that is the caller's fallback case, not a usage error: an absent
+      # cap_cmomi.osdi and a wrong-architecture one are the same situation
+      # from the deck's point of view.
+      if is_soft "$f"; then
+        soft_bad+=("$f|absent")
+        continue
+      fi
       echo "$PROG: no such OSDI object: $f" >&2
       exit 2
     fi
     cls="$(classify_osdi "$f")"
     if is_loadable "$cls" "$hfmt" "$harch"; then
       [ "$quiet" -eq 1 ] || echo "$PROG: ok   $(basename "$f"): $cls (host $hfmt/$harch)" >&2
+    elif is_soft "$f"; then
+      soft_bad+=("$f|$cls")
     else
       bad+=("$f|$cls")
     fi
   done
 
-  [ "${#bad[@]}" -eq 0 ] && return 0
+  if [ "${#bad[@]}" -gt 0 ]; then
+    # Report the soft ones too when there is a hard failure, so the operator
+    # sees the whole picture in one pass -- but the hard failure is what
+    # decides the exit status.
+    report_block fatal "${bad[@]}"
+    [ "${#soft_bad[@]}" -eq 0 ] || report_block warning "${soft_bad[@]}"
+    [ "$warn_only" -eq 1 ] && return 0
+    return 1
+  fi
 
-  {
-    echo
-    echo "$PROG: OSDI object(s) not loadable by this host ($hfmt/$harch, $(_uname_s)/$(_uname_m)):"
-    local entry
-    for entry in "${bad[@]}"; do
-      f="${entry%%|*}"; cls="${entry#*|}"
-      echo "    $f"
-      echo "        built for: $cls"
-      echo "        rebuild:   $(remedy_for "$f")"
-    done
-    echo
-    echo "  This is a HOST/PDK-PROVISIONING gap, not a broken testbench: ngspice"
-    echo "  will fail these with 'Error opening osdi lib ... couldn't be loaded'"
-    echo "  and then 'Unable to find definition of model ...'."
-    echo "  Full finding, remedy and the mandatory numeric cross-check before a"
-    echo "  rebuilt model is trusted for a new record:"
-    echo "      sim/PORTING-osdi-host-arch.md   (issue #59)"
-    echo
-  } >&2
+  [ "${#soft_bad[@]}" -eq 0 ] && return 0
 
-  [ "$warn_only" -eq 1 ] && return 0
-  return 1
+  report_block warning "${soft_bad[@]}"
+  # Machine-readable, on stdout: exactly which soft objects the caller must
+  # substitute for.  Everything else this script prints goes to stderr, so
+  # this is unambiguous to capture.
+  local entry
+  for entry in "${soft_bad[@]}"; do
+    basename "${entry%%|*}"
+  done
+  return 3
 }
 
 main "$@"
