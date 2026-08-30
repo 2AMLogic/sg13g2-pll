@@ -179,6 +179,15 @@ correctly did not route around it. None of them is edited by this note:
 The remaining upstream-side gap is that `cap_cmomi.osdi` / `cap_cmomf.osdi`
 are **architecture-specific binaries tracked in git**, and nothing outside the
 `test-gnucap` Makefile guard tells a non-x86-64 user to run
-`libs.tech/verilog-a/openvaf-compile-va.sh` after checkout. Reporting that to
-`IHP-GmbH/ihp-sg13cmos5l` is tracked separately (see the issue cross-links on
-#59) rather than filed silently from an automated run.
+`libs.tech/verilog-a/openvaf-compile-va.sh` after checkout. Worse, the guard's
+own message routes an architecture mismatch to `git pull`, which on a non-x86-64
+host re-delivers the same unloadable object.
+
+Reporting that upstream is tracked as **issue #63**, with the report drafted
+there ready to send. It is deliberately not filed from an automated run:
+opening an issue on a third-party public tracker under an automated account is
+an irreversible external disclosure that speaks for this project, which is an
+operator act. CLAUDE.md's friction protocol mandates filing tool gaps at
+`2AMLogic/klayout-tools` — a fleet-owned tracker, where that question does not
+arise — and this is a PDK packaging gap on someone else's, so it was not
+treated as covered by that standing mandate.
