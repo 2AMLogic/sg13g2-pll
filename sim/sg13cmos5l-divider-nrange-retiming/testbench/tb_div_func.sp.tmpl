@@ -25,14 +25,16 @@
 * (= @VDD@/2), @TPER@ / @TON@ (CKIN period / high time), @P0@..@P5@ (the
 * programming word, 0 or @VDD@), @TSTEP@, @TSTOP@, @TMEAS@ (start of the
 * averaging/excursion window), @DIVA@/@DIVB@, @RELTOL@ and @NETLIST@ per
-* ../corners/matrix.md.
+* ../corners/matrix.md. Also substitutes @PDK_ROOT@/@PDK@ (resolved
+* filesystem path -- ngspice's `.lib` parser does not expand shell/OS
+* environment variables, issue #61).
 *
 * @NETLIST@ selects the DUT variant -- `divider_chain.spice` (the committed
 * design, verbatim from the frozen ../netlist-snapshots/ copy) or
 * `divider_chain_fbfix.spice` (the PROPOSAL variant run.sh derives locally;
 * NOT the committed design). See run.sh's header for the exact derivation.
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
 .option scale=1 temp=@TEMP@
 .options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
 .global sub!

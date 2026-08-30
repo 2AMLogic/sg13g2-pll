@@ -157,18 +157,97 @@ subst() {  # subst <template> <outfile> <key=value>...
   local tmpl="$1" out="$2"; shift 2
   local sedargs=()
   for kv in "$@"; do sedargs+=(-e "s|@${kv%%=*}@|${kv#*=}|g"); done
+  # @PDK_ROOT@/@PDK@ (issue #61): every template `.lib`s the PDK model
+  # tree, and ngspice's `.lib` parser does not expand shell/OS environment
+  # variables -- the path has to be a real filesystem path by the time
+  # ngspice parses the deck. Applied here, once, rather than at each of the
+  # four call sites below, so no future template addition can forget it.
+  sedargs+=(-e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g")
   sed "${sedargs[@]}" "$tmpl" > "$out"
 }
 
-runsp() {  # runsp <deckfile> ; echoes ngspice stdout, bounded, never fatal
-  # `timeout` guards the `opconv` stage's bare `op` analysis, observed in
-  # this record to hang indefinitely (5+ CPU-minutes, no output) on the
-  # as-drawn design with no `.ic` -- see ../records/RECORD-001 Finding 1.
-  # The trailing `|| true` means a timeout or a non-zero ngspice exit never
-  # propagates through `set -euo pipefail` to kill the whole campaign; a
-  # killed/failed run simply yields no "key = value" lines, which
-  # extract.py already turns into "NA" rather than erroring.
-  ( cd "$WORK" && timeout "${NGSPICE_TIMEOUT:-150}" ngspice -b "$1" ) 2>/dev/null || true
+# ---------------------------------------------------------------------------
+# ngspice invocation wrapper (issue #61, matching the fix pattern PR #58
+# landed for the sibling sg13cmos5l-lock-detector-window dir under issue #54).
+#
+# Two things this fixes: a way for a deck to die fatally, and the way that
+# death was previously swallowed into a silent `NA` row indistinguishable
+# from a genuine "the measurement did not resolve" result.
+#
+#  1. The templates no longer carry a literal `$PDK_ROOT/$PDK` into their
+#     `.lib` lines; run.sh substitutes @PDK_ROOT@/@PDK@ with the resolved
+#     filesystem path before ngspice ever parses the deck. ngspice's netlist
+#     parser only resolves such a `$VAR` if the variable is present in
+#     ngspice's own process environment -- a deck whose PDK path is spelled
+#     that way dies with `Error: Cannot read environmental variable PDK_ROOT`
+#     the moment it is run with PDK_ROOT merely set and not exported.
+#
+#  2. runsp captures stderr instead of discarding it (2>/dev/null) and
+#     distinguishes a `timeout`-killed run (exit 124, or 137 if TERM did not
+#     land and the shell escalates to KILL -- the *documented, intentional*
+#     fate of the `opconv` stage's bare `op` analysis on the as-drawn design,
+#     see ../records/RECORD-001 Finding 1) from any OTHER non-zero ngspice
+#     exit, which is treated as a fatal deck error and aborts the campaign
+#     with the captured stderr printed, instead of silently degrading to an
+#     "NA" row.
+# ---------------------------------------------------------------------------
+runsp() {  # runsp <deckfile> ; echoes ngspice stdout; fatal on a real error
+  local deck="$1"
+  local err="$WORK/${deck}.err"
+  local out rc=0
+  # `|| rc=$?` (not a bare assignment) is deliberate: under `set -e`, a plain
+  # `out="$(...)"` whose command substitution exits non-zero would abort the
+  # whole script right here, before the timeout-vs-error check below ever
+  # runs. Routing the failure through `||` keeps that check reachable.
+  out="$( cd "$WORK" && timeout "${NGSPICE_TIMEOUT:-150}" ngspice -b "$deck" 2>"$err" )" || rc=$?
+  if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+    # Documented, tolerated timeout (see header above) -- not a deck error.
+    echo "[runsp] ${deck}: timed out after ${NGSPICE_TIMEOUT:-150}s (rc=${rc}), continuing" >&2
+  elif [ "$rc" -ne 0 ]; then
+    echo "ERROR: ngspice exited non-zero (rc=${rc}) for ${deck}:" >&2
+    cat "$err" >&2
+    exit "$rc"
+  fi
+  printf '%s\n' "$out"
+}
+
+# ---------------------------------------------------------------------------
+# runsp_opconv: the `opconv` stage's own wrapper, deliberately NOT `runsp`
+# (issue #61, found while re-verifying this fix -- not anticipated by the
+# issue's own suggested-work text, which assumed every non-timeout failure
+# was a deck bug).
+#
+# Unlike hold/setup/func/retime, `opconv` (see its stage header below) is
+# MEASURING op-convergence itself: a failed `.op` analysis --
+# `Error: Transient op failed, timestep too small` after gmin/source
+# stepping both fail -- is the SUBSTANTIVE result this stage records
+# (`converged=no`), not a deck bug, and must never abort the campaign; that
+# is exactly what the pre-existing `|| true` below was already for, and
+# stays true after this fix.
+#
+# What WAS a real bug: that failure path prints its diagnostic messages
+# (`Warning: ... stepping failed`, `Error: Transient op failed`) to
+# ngspice's STDERR, and the old `2>/dev/null` discarded them before the
+# note-classification `grep` a few lines down ever saw them -- so a fast
+# (order-90s), well-diagnosed OP failure and an actual 150s `timeout` kill
+# were both misclassified identically as `note=no-message-before-timeout`,
+# even though only one of them is actually a timeout. Merging stderr back
+# into the text the classifier reads (not discarding it) is the fix; this
+# wrapper is intentionally still never fatal.
+# ---------------------------------------------------------------------------
+runsp_opconv() {  # runsp_opconv <deckfile> ; echoes merged stdout+stderr, never fatal
+  local deck="$1"
+  local err="$WORK/${deck}.err"
+  local out rc=0
+  out="$( cd "$WORK" && timeout "${NGSPICE_TIMEOUT:-150}" ngspice -b "$deck" 2>"$err" )" || rc=$?
+  if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+    echo "[runsp_opconv] ${deck}: timed out after ${NGSPICE_TIMEOUT:-150}s (rc=${rc})" >&2
+  elif [ "$rc" -ne 0 ]; then
+    echo "[runsp_opconv] ${deck}: ngspice exited non-zero (rc=${rc}) -- non-fatal for this stage, stderr follows:" >&2
+    cat "$err" >&2
+  fi
+  printf '%s\n' "$out"
+  cat "$err"
 }
 
 STAGES=("$@")
@@ -192,7 +271,15 @@ if want opconv; then
       deck="$WORK/op_${vname}_${ic}.sp"
       {
         echo "* OP-convergence probe -- $vname, ic=$ic"
-        echo ".lib \$PDK_ROOT/\$PDK/libs.tech/ngspice/models/cornerMOShv.lib mos_tt"
+        # Resolved bash variables, not escaped $PDK_ROOT/$PDK (issue #61):
+        # this deck is generated straight from bash `echo`, not a
+        # sed-substituted @PDK_ROOT@/@PDK@ template, so writing the escaped
+        # form here would hand ngspice's `.lib` parser a literal shell-style
+        # `$VAR` it cannot expand -- it only resolves such a `$VAR` from its
+        # own process environment, which is exactly the bug this issue
+        # fixes. Expanding the path here, before it ever reaches ngspice,
+        # is the local equivalent of that token substitution.
+        echo ".lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib mos_tt"
         echo ".option scale=1 temp=27"
         echo ".global sub!"
         echo ".include $vnet"
@@ -213,10 +300,20 @@ if want opconv; then
         echo ".endc"
         echo ".end"
       } > "$deck"
-      log="$(runsp "$(basename "$deck")")"
+      log="$(runsp_opconv "$(basename "$deck")")"
       if echo "$log" | grep -qiE "doAnalyses: iteration limit reached|no convergence|singular matrix|Transient op failed"; then
         conv=no
-      elif echo "$log" | grep -qE "^divout\s"; then
+      # `print v(divout) v(fb)` (above) is what ngspice actually echoes back
+      # -- literally `v(divout) = <value>`, never a bare `divout = <value>`.
+      # The previous `^divout\s` pattern could never match that, so the
+      # `conv=yes` branch was structurally unreachable and every corner
+      # silently fell through to the `else` below regardless of whether OP
+      # actually converged (found while re-verifying issue #61 with stderr
+      # now visible: the `fbfix` variant's OP genuinely converges --
+      # `Note: Dynamic gmin stepping completed`, printing a real
+      # `v(divout)`/`v(fb)` value -- but pre-fix opconv.csv recorded it as
+      # `converged=no` regardless). See ../records/RECORD-002.
+      elif echo "$log" | grep -qE "^v\(divout\)"; then
         conv=yes
       else
         conv=no
@@ -224,8 +321,10 @@ if want opconv; then
       # `grep -oiE ... | head -1 | tr -d ','` exits 1 (no match) whenever
       # none of the four listed phrases appears -- true both for a clean
       # convergence AND for a bare `timeout` kill (the process is killed
-      # before printing any of these specific messages; see runsp's own
-      # comment). Under `set -o pipefail` that non-zero would otherwise
+      # before printing any of these specific messages; see runsp_opconv's
+      # own comment, which also explains why those phrases now reliably
+      # appear in $log for a genuine OP failure that stderr previously hid --
+      # issue #61). Under `set -o pipefail` that non-zero would otherwise
       # abort the whole campaign via `set -e` at this assignment -- the
       # root cause this record's own predecessor attempt hit (0 rows ever
       # written to opconv.csv). The trailing `|| true` is the fix.

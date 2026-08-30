@@ -20,9 +20,11 @@
 * arithmetically instead of hunting for it with a fragile indexed `meas`.
 *
 * Substituted by ../testbench/run.sh: @CORNER_MOS@, @TEMP@, @VDD@, @VDD50@,
-* @TPER@, @TON@, @TSTEP@, @TSTOP@, @TMEAS@, @P0@..@P5@, @RELTOL@, @NETLIST@.
+* @TPER@, @TON@, @TSTEP@, @TSTOP@, @TMEAS@, @P0@..@P5@, @RELTOL@, @NETLIST@,
+* and @PDK_ROOT@/@PDK@ (resolved filesystem path -- ngspice's `.lib` parser
+* does not expand shell/OS environment variables, issue #61).
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
 .option scale=1 temp=@TEMP@
 .options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
 .global sub!
