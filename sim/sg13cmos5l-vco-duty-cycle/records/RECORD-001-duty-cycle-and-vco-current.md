@@ -15,6 +15,25 @@
 - **Reproduce**: `PDK_ROOT=<pdk-root> PDK=ihp-sg13cmos5l ./testbench/run.sh`
   writes `../corners/results.csv` (300 rows) and
   `../corners/tstep_convergence.csv` (8 rows).
+- **Reproducibility fix (issue #44)**: `../testbench/tb_vco_duty.sp.tmpl`
+  used literal `.lib $PDK_ROOT/$PDK/...cornerMOShv.lib` and
+  `.lib $PDK_ROOT/$PDK/...cornerRES.lib` lines. Env-var expansion inside
+  ngspice's `.lib`/`.include` parser is not portable across builds (see the
+  identical finding on the sibling `sg13cmos5l-cp-icp-trim` and
+  `sg13cmos5l-loop-bandwidth-pm` records); a reproduction attempt on a
+  different ngspice build hit a fatal "library file not found" error on
+  every run, which `run.sh`'s `2>/dev/null` silently turned into a false
+  `NA` result. Fixed by substituting `@PDK_ROOT@`/`@PDK@` tokens via
+  `run.sh`'s own `sed` line (matching the `@CORNER_MOS@`-style convention
+  already in use), and `run.sh`'s `2>/dev/null` was replaced with an
+  explicit ngspice exit-code check that surfaces stderr on failure.
+  **Re-ran the full 300-row campaign plus the 8-row tstep-convergence check
+  after the fix** (`ngspice-46`, the same `~/share/pdk/ihp-sg13cmos5l`
+  install this record already named): zero `NA` rows, zero fatal errors,
+  and both `results.csv` and `tstep_convergence.csv` reproduce
+  **byte-for-byte identical** to the values already committed here — the
+  original numbers were real, not fabricated; only the template's env-var
+  portability was broken.
 
 ## Methodology
 

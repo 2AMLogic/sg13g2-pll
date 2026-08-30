@@ -21,6 +21,24 @@
 - **Reproduce**: `PDK_ROOT=<pdk-root> PDK=ihp-sg13cmos5l ./testbench/run.sh`
   writes `../corners/results.csv` (306 rows) and `../corners/compliance.csv`
   (3111 rows).
+- **Reproducibility fix (issue #44)**: `../testbench/tb_cp_dc.sp.tmpl` used a
+  literal `.lib $PDK_ROOT/$PDK/...` line. ngspice's `.lib`/`.include`
+  directive parser only reliably expands OS environment variables on some
+  builds (this record's own `ngspice-46`, evidently, since the numbers below
+  did reproduce); a reproduction attempt on a different `ngspice-47` build
+  hit a fatal "library file not found" error on every run instead, which the
+  original `run.sh`'s `2>/dev/null` silently turned into a false `NA`
+  result. Fixed by substituting `@PDK_ROOT@`/`@PDK@` tokens via `run.sh`'s
+  own `sed` line (the same convention `@CORNER_MOS@` already used, and the
+  same fix shape issue #43 applied to the pre-existing `vco-kvco-table`/
+  `loop-filter-momcap`/`vco-decap-momcap` testbenches), and `run.sh`'s
+  `2>/dev/null` was replaced with an explicit ngspice exit-code check.
+  **Re-ran the full 306-row/3111-row matrix after the fix**
+  (`ngspice-46`, same `~/share/pdk/ihp-sg13cmos5l` install this record
+  already named): zero `NA` rows, zero fatal errors, and both
+  `results.csv` and `compliance.csv` reproduce **byte-for-byte identical**
+  to the values already committed here — the original numbers were real,
+  not fabricated; only the template's env-var portability was broken.
 
 ## What is real here, and what is testbench
 

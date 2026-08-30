@@ -77,8 +77,16 @@ run_one() {
   sed -e "s/@CORNER_MOS@/$mos/" -e "s/@CORNER_RES@/$res/" -e "s/@TEMP@/$temp/" \
       -e "s/@VCTRL@/$vctrl/" -e "s/@B0V@/$b0v/" -e "s/@B1V@/$b1v/" \
       -e "s/@TSTEP@/$tstep/" \
+      -e "s#@PDK_ROOT@#$PDK_ROOT#" -e "s#@PDK@#$PDK#" \
     "$HERE/tb_vco_duty.sp.tmpl" > "$WORK/$name"
-  ( cd "$WORK" && ngspice -b "$name" ) 2>/dev/null
+  local errlog="$WORK/${name%.sp}.err"
+  local out
+  if ! out="$( cd "$WORK" && ngspice -b "$name" 2>"$errlog" )"; then
+    echo "ngspice failed for $name; stderr:" >&2
+    cat "$errlog" >&2
+    return 1
+  fi
+  printf '%s\n' "$out"
 }
 
 # The extractor is written to a file rather than fed to `python3 -` from a

@@ -23,6 +23,25 @@
 - **Reproduce**: `PDK_ROOT=<pdk-root> PDK=ihp-sg13cmos5l ./testbench/run.sh`
   writes `../corners/results.csv` (90 rows), `../corners/mom_band.csv` (54),
   `../corners/proposal.csv` (108) and `../corners/crosscheck.txt`.
+- **Reproducibility fix (issue #44)**: `../testbench/tb_loop_ac_real.sp.tmpl`
+  used literal `.lib $PDK_ROOT/$PDK/...cornerRES.lib` and
+  `.include $PDK_ROOT/$PDK/...cap_cmomi.lib` lines. Env-var expansion inside
+  ngspice's `.lib`/`.include` parser is not portable across builds (see the
+  identical finding on the sibling `sg13cmos5l-cp-icp-trim` record); a
+  reproduction attempt on a different ngspice build hit a fatal
+  "library file not found" error, which `run.sh`'s exception handling did
+  not previously surface as clearly as it does now. Fixed by substituting
+  `@PDK_ROOT@`/`@PDK@` tokens via `run.sh`'s own substitution step (matching
+  the `@CORNER_RES@`-style convention already in use), and the Python
+  `subprocess.run(..., check=True)` swallowed-stderr call was replaced with
+  an explicit exit-code check that prints ngspice's own stdout/stderr on
+  failure. **Re-ran the full campaign after the fix** (`ngspice-46`, the
+  same `~/share/pdk/ihp-sg13cmos5l` install this record already named):
+  zero `NA` rows, zero fatal errors, and `results.csv`, `mom_band.csv`,
+  `proposal.csv` and `crosscheck.txt` all reproduce **byte-for-byte
+  identical** to the values already committed here — the original numbers
+  were real, not fabricated; only the template's env-var portability was
+  broken.
 
 ## Headline result
 

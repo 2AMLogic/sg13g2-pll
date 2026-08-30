@@ -9,7 +9,9 @@
 * mos_tt/mos_ss/mos_ff/mos_sf/mos_fs -- the split sf/fs corners the
 * sg13cmos5l-vco-kvco-table record explicitly named as the open duty-cycle
 * axis it did not sweep), @CORNER_RES@, @TEMP@, @VCTRL@, @B0V@/@B1V@ per
-* ../corners/matrix.md.
+* ../corners/matrix.md, and @PDK_ROOT@/@PDK@ (resolved filesystem path --
+* ngspice's `.lib` parser does not expand shell/OS environment variables,
+* issue #44).
 *
 * Methodology, and why it differs from the Kvco record's own deck: that
 * record measured period only, between two rising crossings of the same
@@ -27,8 +29,8 @@
 * own value inconsequential to any node voltage measured here) -- see
 * ../testbench/run.sh's header.
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
 .option scale=1 temp=@TEMP@
 .global sub!
 
