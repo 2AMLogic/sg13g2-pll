@@ -29,13 +29,24 @@ Per the current record (`reports/LATEST`):
 
 | Block | Devices (schematic) | Drawn | Group DRC clean | Group re-extract matches | Composed + routed | Terminals routed | Nets | Block DRC | Block re-extract matches | **`klt lvs`** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `pfd` | 64 | 64 | 64 | 64 | yes | 196 | 36 | clean | yes | **`match`** — devices 64/64, nets 36/36 |
+| `pfd` | 66 | 66 | 66 | 66 | yes | 202 | 37 | clean | yes | **`match`** — devices 66/66, nets 37/37 |
 | `cp` | 14 | 14 | 14 | 14 | yes | 50 | 16 | clean | yes | **`match`** — devices 14/14, nets 16/16 |
 | `loop_filter` | 3 | 1 | 1 | 1 | yes | 2 | 2 (3 incomplete) | clean | yes | not converted (#1463) |
 | `vco` | 45 | 44 | 44 | 44 | yes | 137 | 33 (2 incomplete) | clean | yes | not converted (#1463) |
 | `divider_chain` | 316 | 316 | 316 | 316 | yes | 950 | 142 | clean | yes | **`match`** — devices 316/316, nets 142/142 |
 | `lock_detector` | 40 | 38 | 38 | 38 | yes | 115 | 23 (3 incomplete) | clean | yes | not converted (#1463) |
-| **Total** | **482** | **477** | **477** | **477** | **6/6** | **1450** | **252** | **6/6 clean** | **6/6** | **3 `match`, 3 not converted** |
+| **Total** | **484** | **479** | **479** | **479** | **6/6** | **1456** | **253** | **6/6 clean** | **6/6** | **3 `match`, 3 not converted** |
+
+**Re-run for issue #56** (record `20260830-105633-4cbf817`), after `pfd.sch`'s
+self-reset chain gained a third inverter stage to fix its inverter-parity
+defect (see `design/README.md` / `sim/sg13cmos5l-closed-loop-lock/records/RECORD-002-…`
+for the defect and `RECORD-003-…` for the closed-loop re-run this layout
+change was verified alongside). `pfd`'s own device/net counts move by exactly
+the two devices (+1 `inv_hv`) and one net (`reset_d2`) the new stage adds —
+66/66 devices, 37/37 nets, still `match`. Every other block is byte-for-byte
+unchanged from the prior record (`20260830-070704-4520159`): 479/484 drawn,
+6/6 DRC-clean, 3/6 LVS `match`. This table's per-block rows and totals above
+already reflect this re-run.
 
 Three claims in that table are worth stating in words, because they are the
 ones a reviewer would otherwise have to take on trust:

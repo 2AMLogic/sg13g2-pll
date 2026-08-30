@@ -1,0 +1,1027 @@
+{
+  "returncode": 3,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "gencompose_cp_probe",
+    "gds_path": "gencompose_cp_probe.gds",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "variant": "ihp-sg13cmos5l",
+      "version": null
+    },
+    "bbox_um": {
+      "x0": 0.125,
+      "y0": 0.34,
+      "x1": 178.495,
+      "y1": 4.88
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "cp_nfet_w2_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w2_l0p5",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.125,
+          "y0": 0.78,
+          "x1": 7.53,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w4_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w4_l1",
+        "offset_um": {
+          "x": 13.405000000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 13.530000000000001,
+          "y0": 0.78,
+          "x1": 18.975,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p3",
+        "offset_um": {
+          "x": 24.85,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 24.975,
+          "y0": 0.78,
+          "x1": 40.38,
+          "y1": 3.9
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p5",
+        "offset_um": {
+          "x": 46.255,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 46.38,
+          "y0": 0.78,
+          "x1": 53.825,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w8_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w8_l1",
+        "offset_um": {
+          "x": 59.7,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 59.825,
+          "y0": 0.78,
+          "x1": 79.23,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w5_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w5_l0p5",
+        "offset_um": {
+          "x": 85.105,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 85.23,
+          "y0": 0.34,
+          "x1": 98.985,
+          "y1": 4.38
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w6_l0p3",
+        "offset_um": {
+          "x": 104.86,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 104.985,
+          "y0": 0.34,
+          "x1": 120.74,
+          "y1": 4.18
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w24_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w24_l1",
+        "offset_um": {
+          "x": 126.615,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 126.74,
+          "y0": 0.34,
+          "x1": 178.495,
+          "y1": 4.88
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [
+      {
+        "net": "DN",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "DNB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "ICN",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "UP",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "UPB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "VDD",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "VDUMP",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "VOUT",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "VSS",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.sw",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.tail",
+        "pins": [
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.sw",
+        "pins": [
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.tail",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "routing not requested"
+          }
+        ]
+      }
+    ],
+    "pins": [],
+    "unrouted_nets": [
+      "DN",
+      "DNB",
+      "ICN",
+      "UP",
+      "UPB",
+      "VDD",
+      "VDUMP",
+      "VOUT",
+      "VSS",
+      "XLEGN.sw",
+      "XLEGN.tail",
+      "XLEGP.sw",
+      "XLEGP.tail"
+    ],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [],
+      "notes": [
+        "net 'DN' could not be routed: routing not requested",
+        "net 'DNB' could not be routed: routing not requested",
+        "net 'ICN' could not be routed: routing not requested",
+        "net 'UP' could not be routed: routing not requested",
+        "net 'UPB' could not be routed: routing not requested",
+        "net 'VDD' could not be routed: routing not requested",
+        "net 'VDUMP' could not be routed: routing not requested",
+        "net 'VOUT' could not be routed: routing not requested",
+        "net 'VSS' could not be routed: routing not requested",
+        "net 'XLEGN.sw' could not be routed: routing not requested",
+        "net 'XLEGN.tail' could not be routed: routing not requested",
+        "net 'XLEGP.sw' could not be routed: routing not requested",
+        "net 'XLEGP.tail' could not be routed: routing not requested"
+      ]
+    },
+    "warnings": []
+  },
+  "stderr": ""
+}
