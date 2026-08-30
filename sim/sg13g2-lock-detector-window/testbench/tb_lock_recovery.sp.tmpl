@@ -1,0 +1,80 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #81, Part of #16 via #78)
+* Recovery + supply-current sub-deck: the base 3-copy block (XR/XIL/XIU),
+* run as its own small independent ngspice invocation so it can be simulated
+* separately from the phase-error ladder points
+* (../testbench/tb_lock_ladder_point.sp.tmpl).
+*
+* Carried over (topology, not device-specific) from
+* ../../sg13cmos5l-lock-detector-window/testbench/tb_lock_recovery.sp.tmpl
+* (issue #52). Reports exactly the same trec/lr_*/vr_*/idd_* .meas names, so
+* ../testbench/gen_ladder.py's `reduce` subcommand reads this file's output
+* the same way -- ../testbench/run.sh concatenates this deck's stdout with
+* every per-point deck's stdout before handing the combined text to `reduce`.
+*
+* Placeholders (substituted by ../testbench/run.sh, not meant to be run
+* directly): @CORNER_MOS@, @CORNER_RES@, @CORNER_CAP@, @TEMP@, @VSUP@,
+* @VMID@, @TREF@, @TRST@, @TAUBIG@ (the deepest ladder point's own tau, for
+* XIU's out-of-window supply-current copy), @TSTEP@, @TSTOP@, @TSETTLE@,
+* @DUT@.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib @CORNER_CAP@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* ---- zero-phase-error stimulus (UP and DN identical: XOR sees nothing) ----
+Vup0 up0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+Vdn0 dn0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+
+* ---- recovery copy: starts fully discharged with no phase error ----------
+Xr up0 dn0 lkr vdd 0 lock_detector
+
+* ---- per-block supply current, on their own ideal rails ------------------
+* XIL: in-window steady state (tau = 0), the current the block draws while
+*      the PLL is locked.  XIU: out-of-window (tau = @TAUBIG@), the current it
+*      draws while the flag is being exercised every reference cycle.
+Vddl vddl 0 dc @VSUP@
+Vddu vddu 0 dc @VSUP@
+Xil up0 dn0 lkil vddl 0 lock_detector
+Vupu upu 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' '@TAUBIG@+trst' 'tref')
+Vdnu dnu 0 pulse(0 @VSUP@ 'ttd+@TAUBIG@' 'ttr' 'ttr' 'trst' 'tref')
+Xiu upu dnu lkiu vddu 0 lock_detector
+
+.ic v(xr.vwin)=0 v(xil.vwin)=@VSUP@ v(xiu.vwin)=0
+
+* SOLVER-EFFORT NOTE -- itl4=5000 gmin=1e-11, reused verbatim from the
+* SG13CMOS5L sibling (issue #66, Part of #16) per issue #81's own Scope item
+* 1 -- see ../testbench/tb_lock_ladder_point.sp.tmpl's own note for the
+* topology-level reason (nand2_hv's floating series-stack node `mid1`, plus
+* the high-impedance integrator), which applies identically here.
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000 gmin=1e-11
+.tran @TSTEP@ @TSTOP@
+
+.control
+save lkr xr.vwin vddl#branch vddu#branch
+run
+meas tran trec when v(xr.vwin)=@VMID@ rise=1
+* The recovery copy's own settled LOCK level defines which rail this block
+* drives in the in-window state.  The reduction reads the polarity from here
+* instead of assuming it.
+meas tran lr_min min v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_max max v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_avg avg v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_min min v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_max max v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_lock   avg i(vddl) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_unlock avg i(vddu) from=@TSETTLE@ to=@TSTOP@
+.endc
+.end
