@@ -1,0 +1,31 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-decap-momcap (issue #23, Part of #16)
+* AC sweep of a single-pole R_src-C_decap network: an ideal series source
+* resistance R_src (representing a plausible, NOT measured, on-chip/PDN
+* source impedance feeding vco.VDD_VCO -- no post-layout parasitic
+* extraction exists yet, see RECORD-001 "What this does not bound") driving
+* XCDECAP (cap_cmomi, w=70u l=70u) plus a parallel MOM-uncertainty delta cap.
+* Reports the resulting -3dB corner frequency directly from a real ngspice
+* AC sweep, rather than only the closed-form 1/(2*pi*R*C) -- this exercises
+* the same compact cap_cmomi model the real VCO decap instance uses, not an
+* idealized linear capacitor alone.
+*
+* Template placeholders: @RSRC@ (source resistance, ohms), @DELTA_F@ (a
+* linear delta capacitor in Farads added in parallel, representing
+* +/-MOM_FRAC * C_nominal -- see
+* ../../sg13cmos5l-loop-filter-momcap/testbench/tb_extract_c.sp.tmpl for the
+* rationale), @TEMP@ (degC).
+
+.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+
+Vsrc vdd 0 dc 0 ac 1
+Rsrc vdd vdd_vco @RSRC@
+Xcdecap vdd_vco 0 cap_cmomi w=70u l=70u mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+Cdelta vdd_vco 0 @DELTA_F@
+
+.control
+ac dec 20 1 1000meg
+let magdb = db(vm(vdd_vco))
+print magdb
+.endc
+.end

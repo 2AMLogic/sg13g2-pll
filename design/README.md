@@ -271,6 +271,23 @@ pattern for its *layout* phase.
   `sg13g2-bandgap#63`'s own rework never applies here (DR-003's own
   Context).
 
+  **Update (issue #23, Part of #16)**: the sim-campaign follow-up issue has
+  now run that sweep for the three instances DR-003 Finding 2 names by name
+  (`loop_filter.XC1`/`XC2`, `vco.XCDECAP`) — see
+  `sim/sg13cmos5l-loop-filter-momcap/records/RECORD-001-rc-corner-momcap-sensitivity.md`
+  and
+  `sim/sg13cmos5l-vco-decap-momcap/records/RECORD-001-decap-momcap-sensitivity.md`.
+  Each instance's own capacitance-value sensitivity to a +/-20% MOM-model-
+  uncertainty band is now bounded by a real PVT-cornered testbench; the
+  downstream spec rows' *final numeric values* (an actual loop-bandwidth-in-
+  kHz / phase-margin-in-degrees figure, an actual jitter/ripple-attenuation
+  figure) still need the not-yet-re-derived Kvco and Icp-trim tables plus
+  post-layout parasitics, and stay `insufficient-evidence` until those land
+  — see each record's own "Spec-row disposition" section.
+  `lock_detector.XCW`/`XDW.XC1` are not named by DR-003 Finding 2's own
+  three-instance list and are not covered by this update; their
+  hysteresis-window sensitivity remains open.
+
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,
 internal design stays all-3.3V per DR-002) is ratified by
