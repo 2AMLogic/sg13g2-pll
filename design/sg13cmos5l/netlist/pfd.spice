@@ -14,7 +14,8 @@ XLU set_up reset UP net1 VDD VSS srlatch
 XLD set_dn reset DN net2 VDD VSS srlatch
 XNR UP DN reset_raw VDD VSS nand2_hv
 XI1 reset_raw reset_d1 VDD VSS inv_hv
-XI2 reset_d1 reset VDD VSS inv2x_hv
+XI1B reset_d1 reset_d2 VDD VSS inv_hv
+XI2 reset_d2 reset VDD VSS inv2x_hv
 .ends
 
 * expanding   symbol:  edgedet.sym # of pins=4
