@@ -20,6 +20,15 @@
 #                      temp/process axis is swept for the caps themselves.
 #   Total: 9 x 3 = 27 (R, C1, C2, fz, fp) rows written to results.csv.
 #
+# APPEND-ONLY EVIDENCE (sim/README.md).  Issue #41 (DR-006) resized XR1 from
+# w=4u l=120u to w=0.9u l=546u ("R1 x20", the closed-loop PM/f_c fix from
+# sim/sg13cmos5l-loop-bandwidth-pm RECORD-001).  This script now ALSO
+# simulates ../netlist-snapshots/loop_filter_resized.spice's XR1 geometry and
+# writes the extra ../corners/results_resized.csv below, alongside (not
+# instead of) the as-drawn ../corners/results.csv above -- RECORD-001's own
+# citations of results.csv are left byte-identical, per this record's own
+# ../records/RECORD-002.
+#
 # Requires: ngspice on PATH, PDK_ROOT/PDK resolving the installed
 # ihp-sg13cmos5l tree (same variables design/sg13cmos5l/netlist.sh reads).
 
@@ -72,6 +81,11 @@ R1_W=4u; R1_L=120u
 C1_W=40u; C1_L=40u
 C2_W=10u; C2_L=10u
 
+# Resized R1 geometry (issue #41, DR-006) -- must match
+# netlist-snapshots/loop_filter_resized.spice's XR1 line. C1/C2 are
+# untouched by the resize, so R1_RESIZED_* is the only new pair.
+R1_RESIZED_W=0.6u; R1_RESIZED_L=810u
+
 # Do not silently discard ngspice's stderr (issue #43): a fatal error (e.g.
 # an unresolved .lib/.include path) must be visible, not masked into a
 # blank/NA result indistinguishable from real behavior.
@@ -88,10 +102,10 @@ run_ngspice_or_die() {
 }
 
 extract_r() {
-  local corner="$1" temp="$2"
-  local name="r_${corner}_${temp}.sp"
+  local corner="$1" temp="$2" w="${3:-$R1_W}" l="${4:-$R1_L}"
+  local name="r_${corner}_${temp}_${w}_${l}.sp"
   sed -e "s/@RES_CORNER@/$corner/" -e "s/@TEMP@/$temp/" \
-      -e "s/@W@/$R1_W/" -e "s/@L@/$R1_L/" \
+      -e "s/@W@/$w/" -e "s/@L@/$l/" \
       -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
     "$HERE/tb_extract_r.sp.tmpl" > "$WORK/$name"
   run_ngspice_or_die "$WORK/$name" | grep '^rval' | awk '{print $3}'
@@ -143,3 +157,32 @@ PYEOF
 done
 
 echo "wrote $(wc -l < "$OUT_CSV") lines (incl. header) to $OUT_CSV" >&2
+
+# ---------------------------------------------------------------------------
+# Resized R1 (issue #41, DR-006).  Same matrix, same C1/C2 (untouched by the
+# resize), different XR1 geometry -- writes ../corners/results_resized.csv,
+# NOT ../corners/results.csv (append-only: RECORD-001's own citations of
+# results.csv are left exactly as they were).
+# ---------------------------------------------------------------------------
+OUT_CSV_RESIZED="$RECORD_DIR/corners/results_resized.csv"
+echo "res_corner,temp_c,mom_frac,r1_ohm,c1_f,c2_f,fz_hz,fp_hz" > "$OUT_CSV_RESIZED"
+
+for corner in "${RES_CORNERS[@]}"; do
+  for temp in "${TEMPS[@]}"; do
+    r1="$(extract_r "$corner" "$temp" "$R1_RESIZED_W" "$R1_RESIZED_L")"
+    for frac in "${MOM_FRACS[@]}"; do
+      python3 - "$r1" "$C1_NOM" "$C2_NOM" "$frac" "$corner" "$temp" >> "$OUT_CSV_RESIZED" <<'PYEOF'
+import sys, math
+r1, c1_nom, c2_nom, frac, corner, temp = sys.argv[1:7]
+r1 = float(r1); c1_nom = float(c1_nom); c2_nom = float(c2_nom); frac = float(frac)
+c1 = c1_nom * (1 + frac)
+c2 = c2_nom * (1 + frac)
+fz = 1 / (2 * math.pi * r1 * c1)
+fp = (c1 + c2) / (2 * math.pi * r1 * c1 * c2)
+print(f"{corner},{temp},{frac:.2f},{r1:.6e},{c1:.6e},{c2:.6e},{fz:.6e},{fp:.6e}")
+PYEOF
+    done
+  done
+done
+
+echo "wrote $(wc -l < "$OUT_CSV_RESIZED") lines (incl. header) to $OUT_CSV_RESIZED" >&2

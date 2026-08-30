@@ -30,6 +30,23 @@ supplies it.
 | B | `tb_loop_ac_lumped.sp.tmpl` | lumped, from the predecessor record's measured R1/C1/C2 | 54 | `mom_band.csv` |
 | C | `tb_loop_ac_lumped.sp.tmpl` | lumped, `R1` scaled (proposal) | 108 | `proposal.csv` |
 
+## Part D (issue #41, DR-006) — resized filter, full amended `f_ref` range
+
+RECORD-002 re-verifies the resized filter (`R1` ~x44.2, `w=0.6u l=810u`)
+against the amended `f_ref` range DR-005 ratified (3.5–24.4 MHz, `N` in
+[64,127]) — not the single 25 MHz point Parts A–C above were computed at.
+
+| Axis | Values | Why |
+|---|---|---|
+| `f_ref` | 3.6, 4.5, 5.5, 6.5, 7.5, 9, 11, 13, 16, 19, 22, 24.4 MHz | Spans DR-005's amended `[3.51, 24.4]` MHz range, denser near the tighter floor |
+| `Kvco` interval | `low` (0.3 → 0.9 V secant), plus `mid`/`top` as above | **New**: `low` is added because DR-005's own floor derivation (445.3 MHz VCO floor / 127) is only reachable near this VCTRL region — Parts A–C never probed it |
+| `N` bound | `[64, 127]` (DR-005), not the pre-DR-005 `[4, 64]` Parts A–C used | Matches the amended `spec/porting-plan.md` row 3 |
+| Real subckt | `tb_loop_ac_real_resized.sp.tmpl` against `../netlist-snapshots/loop_filter_resized.spice` | Same "real, not lumped" standard Part A used, applied to the resized filter |
+
+426 rows -> `results_resized.csv` (Part D), plus a real-vs-lumped
+cross-check at one point inside the amended range -> `crosscheck_resized.txt`
+(Part D′). See `../records/RECORD-002` for the full result.
+
 ## What is NOT swept, and why
 
 - **Supply.** The loop-gain terms this record combines are `Icp` (measured
