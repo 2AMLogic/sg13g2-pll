@@ -1,0 +1,127 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #38, Part of #16)
+* Block-level lock_detector testbench: assert threshold, de-assert threshold
+* (i.e. hysteresis) and chatter, over a phase-error ladder, at one PVT +
+* MOM-band point.
+*
+* STIMULUS MODEL of the PFD interface (carried over from gf180-pll's own
+* sim/lock-detector/testbench/tb_lock_detector.sp, which this deck is a port
+* of -- CLAUDE.md: start from the sibling repo's testbench, not a blank
+* page). With the reference edge leading the divided feedback edge by tau, a
+* tri-state PFD holds
+*     UP high for tau + t_reset,   DN high for t_reset,
+* both falling together on the reset path. XOR(UP,DN) is therefore high for
+* exactly tau -- the phase error -- and the reset-path overlap common to both
+* is rejected. That is the whole reason the DUT starts with an XOR rather
+* than looking at UP alone.
+*
+* WHAT IS DIFFERENT FROM THE gf180 DECK, and why:
+*
+*  1. Two start states per phase-error point, not one. gf180's deck put the
+*     assert case, the deassert case and the frequency-error case in
+*     *separate* copies at *different* phase errors. That measures "does it
+*     assert / does it deassert", which is a pass/fail, but it does not
+*     directly produce the two THRESHOLDS whose difference is the hysteresis
+*     row 16 asks for. Here every ladder point instantiates the DUT twice
+*     from the same stimulus -- copy A starting fully DISCHARGED (VWIN = 0,
+*     i.e. "just saw a wide error") and copy B starting fully CHARGED
+*     (VWIN = VDD, i.e. "has been clean for a long time"). The largest tau at
+*     which A still reaches the in-window state is the assert threshold; the
+*     largest at which B still holds it is the de-assert threshold; the
+*     difference is the hysteresis, in phase-error units, measured rather
+*     than derived.
+*
+*  2. The ladder is scaled by THIS corner's own measured comparator window
+*     (tb_window.sp.tmpl's twin_r), not by absolute nanoseconds. Row 16's
+*     hysteresis criterion is a fraction OF THE WINDOW, so a ladder in units
+*     of the window resolves it to a fixed fraction at every corner instead
+*     of to a fixed number of picoseconds that means different things at
+*     mos_ff/-40 C and mos_ss/125 C.
+*
+*  3. Per-copy supply rails for the two current-measurement copies (XIL,
+*     XIU), so `spec/porting-plan.md` row 11's lock_detector domain is a
+*     single-block number rather than a shared-rail total that has to be
+*     divided by a copy count (which is what gf180's record had to do, and
+*     said so).
+*
+*  4. A dedicated recovery copy (XR): VWIN forced to 0 at t = 0 with a
+*     ZERO-phase-error stimulus. trec is then the time the block takes to
+*     return to the in-window state after a wide error -- the detector's own
+*     hold-off. Comparing trec with the reference period is what decides
+*     whether this block integrates over reference cycles at all, and it is
+*     measured here rather than argued from R and C.
+*
+* Every VWIN is set by .ic, so no copy inherits its state from the DC
+* operating point; each has to reach its settled state inside the run.
+*
+* This file is a SKELETON: ../testbench/gen_ladder.py substitutes the
+* generated ladder (@LADDER_DEVICES@ / @LADDER_IC@ / @LADDER_MEAS@) as well
+* as the scalar placeholders @CORNER_MOS@, @CORNER_RES@, @TEMP@, @VSUP@,
+* @VMID@, @VHI@, @VLO@, @TREF@, @TRST@, @TAUBIG@, @TSTEP@, @TSTOP@,
+* @TSETTLE@, @DUT@. It is not meant to be run directly.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* ---- zero-phase-error stimulus (UP and DN identical: XOR sees nothing) ----
+Vup0 up0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+Vdn0 dn0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+
+* ---- recovery copy: starts fully discharged with no phase error ----------
+Xr up0 dn0 lkr vdd 0 lock_detector
+
+* ---- per-block supply current, on their own ideal rails ------------------
+* XIL: in-window steady state (tau = 0), the current the block draws while
+*      the PLL is locked.  XIU: out-of-window (tau = @TAUBIG@), the current it
+*      draws while the flag is being exercised every reference cycle.
+Vddl vddl 0 dc @VSUP@
+Vddu vddu 0 dc @VSUP@
+Xil up0 dn0 lkil vddl 0 lock_detector
+Vupu upu 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' '@TAUBIG@+trst' 'tref')
+Vdnu dnu 0 pulse(0 @VSUP@ 'ttd+@TAUBIG@' 'ttr' 'ttr' 'trst' 'tref')
+Xiu upu dnu lkiu vddu 0 lock_detector
+
+* ---- phase-error ladder: copy A (discharged start) + copy B (charged) ----
+@LADDER_DEVICES@
+
+.ic v(xr.vwin)=0 v(xil.vwin)=@VSUP@ v(xiu.vwin)=0
+@LADDER_IC@
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran @TSTEP@ @TSTOP@
+
+.control
+* Keep ONLY the vectors the measurements below read.  This deck instantiates
+* ~37 lock_detector copies in one transient; saving every node of every copy
+* at every timestep asks ngspice for ~0.9 GB and it aborts with
+* "Error: memory required (888800000 Bytes)".  The `save` list is generated
+* alongside the ladder so it can never drift out of sync with the .meas list.
+@LADDER_SAVE@
+run
+meas tran trec when v(xr.vwin)=@VMID@ rise=1
+* The recovery copy's own settled LOCK level defines which rail this block
+* drives in the in-window state.  The reduction reads the polarity from here
+* instead of assuming it -- see ../records/RECORD-001 Finding 1.
+meas tran lr_min min v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_max max v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_avg avg v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_min min v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_max max v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_lock   avg i(vddl) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_unlock avg i(vddu) from=@TSETTLE@ to=@TSTOP@
+@LADDER_MEAS@
+.endc
+.end

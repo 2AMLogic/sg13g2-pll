@@ -1,0 +1,59 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #38, Part of #16)
+* Schmitt-readout hysteresis, measured on the DUT's OWN schmitt_hv instance
+* (XSCH) in isolation: a quasi-static triangular ramp on the integrating-node
+* voltage, up then down, so the rising and falling trip points are separated
+* by real state memory rather than by DC-sweep solution continuation.
+*
+* Why this deck exists separately from the block transient. `schmitt_hv` is
+* the only element in lock_detector that has hysteresis at all, so V_TH+ and
+* V_TH- are the block's hysteresis *mechanism*, in volts on VWIN. Row 16's
+* criterion is stated in PHASE ERROR ("hysteresis >= 25% of window"), and the
+* map from volts-on-VWIN to phase error runs through the integrating node's
+* own dynamics. Measuring the mechanism here and the phase-error thresholds
+* in tb_lock_ladder.sp.tmpl lets ../records/RECORD-001 say WHY the
+* phase-error hysteresis comes out the way it does, instead of only that it
+* does.
+*
+* A 2 us ramp is ~1700x slower than the integrating node's own measured RC
+* (see ../corners/rc_extract.csv), so the trip points read here are
+* quasi-static; the deck is cheap enough to run at every corner point rather
+* than at a subset.
+*
+* NOTE ON POLARITY (see ../records/RECORD-001 Finding 1): schmitt_hv is an
+* INVERTING Schmitt trigger, and in this design its output IS the block's
+* LOCK pin -- there is no output inverter after it. So "OUT falls" is the
+* rising input trip point. The measurement below is written in terms of the
+* input voltage at which OUT crosses mid-rail, in each ramp direction, which
+* is polarity-neutral.
+*
+* Substituted by ../testbench/run.sh: @CORNER_MOS@, @TEMP@, @VSUP@, @VMID@,
+* @DUT@.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib res_typ
+.include $PDK_ROOT/$PDK/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+Vin vin 0 pwl(0 0 2u @VSUP@ 4u 0)
+Xsch vin sout vdd 0 schmitt_hv
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran 1n 4u
+
+.control
+run
+* Trip point on the way UP: the input voltage when the (inverting) output
+* first crosses mid-rail downward.  On the way DOWN: when it crosses back up.
+meas tran t_up   when v(sout)=@VMID@ fall=1
+meas tran t_dn   when v(sout)=@VMID@ rise=1
+meas tran vth_up find v(vin) when v(sout)=@VMID@ fall=1
+meas tran vth_dn find v(vin) when v(sout)=@VMID@ rise=1
+print t_up t_dn vth_up vth_dn
+.endc
+.end
