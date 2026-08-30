@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13g2
+
+* cell pfd_nfet_w4_l0p5
+* pin vsubs
+.SUBCKT pfd_nfet_w4_l0p5 vsubs
+* device instance $1 r0 *1 0.67,2 nfet
+M$1 \$2 \$3 \$1 vsubs nfet L=0.5U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+.ENDS pfd_nfet_w4_l0p5

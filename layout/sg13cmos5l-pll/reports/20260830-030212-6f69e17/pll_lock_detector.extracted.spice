@@ -1,0 +1,117 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_lock_detector
+* pin lock_detector_pfet_w5_l0p5_B
+* pin vsubs
+.SUBCKT pll_lock_detector lock_detector_pfet_w5_l0p5_B vsubs
+* device instance $1 r0 *1 1.89,3.11 nfet
+X$1 \$55 \$5 \$6 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $2 r0 *1 5.03,3.11 nfet
+X$2 \$56 \$7 \$8 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $3 r0 *1 8.17,3.11 nfet
+X$3 \$57 \$9 \$10 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $4 r0 *1 11.31,3.11 nfet
+X$4 \$58 \$11 \$12 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $5 r0 *1 14.45,3.11 nfet
+X$5 \$59 \$13 \$14 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $6 r0 *1 17.59,3.11 nfet
+X$6 \$60 \$15 \$16 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $7 r0 *1 20.73,3.11 nfet
+X$7 \$61 \$17 \$18 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $8 r0 *1 23.87,3.11 nfet
+X$8 \$62 \$19 \$20 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $9 r0 *1 27.01,3.11 nfet
+X$9 \$63 \$21 \$22 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $10 r0 *1 30.15,3.11 nfet
+X$10 \$64 \$23 \$24 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $11 r0 *1 33.29,3.11 nfet
+X$11 \$65 \$25 \$26 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $12 r0 *1 36.43,3.11 nfet
+X$12 \$66 \$27 \$28 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $13 r0 *1 39.57,3.11 nfet
+X$13 \$67 \$29 \$30 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $14 r0 *1 42.71,3.11 nfet
+X$14 \$68 \$31 \$32 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $15 r0 *1 45.85,3.11 nfet
+X$15 \$69 \$33 \$34 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $16 r0 *1 48.99,3.11 nfet
+X$16 \$70 \$35 \$36 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $17 r0 *1 52.13,3.11 nfet
+X$17 \$71 \$37 \$38 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $18 r0 *1 55.27,3.11 nfet
+X$18 \$72 \$39 \$40 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $19 r0 *1 58.41,3.11 nfet
+X$19 \$73 \$41 \$42 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $20 r0 *1 70,3.11 pfet
+X$20 \$74 \$43 \$44 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $21 r0 *1 76.76,3.11 pfet
+X$21 \$75 \$45 \$46 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $22 r0 *1 83.52,3.11 pfet
+X$22 \$76 \$47 \$48 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $23 r0 *1 90.28,3.11 pfet
+X$23 \$77 \$49 \$50 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $24 r0 *1 97.04,3.11 pfet
+X$24 \$78 \$51 \$52 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $25 r0 *1 103.8,3.11 pfet
+X$25 \$79 \$53 \$54 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $26 r0 *1 70,5.69 pfet
+X$26 \$83 \$80 \$81 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $27 r0 *1 76.76,5.69 pfet
+X$27 \$85 \$84 \$86 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $28 r0 *1 83.52,5.69 pfet
+X$28 \$91 \$88 \$89 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $29 r0 *1 90.28,5.69 pfet
+X$29 \$94 \$92 \$95 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $30 r0 *1 97.04,5.69 pfet
+X$30 \$98 \$96 \$97 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $31 r0 *1 103.8,5.69 pfet
+X$31 \$101 \$100 \$103 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $32 r0 *1 70,8.27 pfet
+X$32 \$105 \$104 \$82 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $33 r0 *1 76.76,8.27 pfet
+X$33 \$107 \$106 \$87 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $34 r0 *1 83.52,8.27 pfet
+X$34 \$109 \$108 \$90 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $35 r0 *1 90.28,8.27 pfet
+X$35 \$111 \$110 \$93 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $36 r0 *1 97.04,8.27 pfet
+X$36 \$113 \$112 \$99 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $37 r0 *1 103.8,8.27 pfet
+X$37 \$115 \$114 \$102 lock_detector_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $38 r0 *1 117,0.45 rhigh
+R$38 \$1 \$2 vsubs 16320 rhigh
+.ENDS pll_lock_detector

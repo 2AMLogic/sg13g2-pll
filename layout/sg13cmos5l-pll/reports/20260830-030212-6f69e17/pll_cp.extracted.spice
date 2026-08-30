@@ -1,0 +1,48 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_cp
+* pin cp_pfet_w24_l1_B
+* pin cp_pfet_w5_l0p5_B
+* pin cp_pfet_w6_l0p3_B
+* pin vsubs
+.SUBCKT pll_cp cp_pfet_w24_l1_B cp_pfet_w5_l0p5_B cp_pfet_w6_l0p3_B vsubs
+* device instance $1 r0 *1 1.89,3.11 nfet
+X$1 \$37 \$5 \$6 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $2 r0 *1 5.03,3.11 nfet
+X$2 \$38 \$7 \$8 vsubs sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $3 r0 *1 15.81,3.36 nfet
+X$3 \$39 \$9 \$10 vsubs sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $4 r0 *1 28.59,3.01 nfet
+X$4 \$33 \$11 \$12 vsubs sg13_hv_nmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $5 r0 *1 35.73,3.01 nfet
+X$5 \$34 \$13 \$14 vsubs sg13_hv_nmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $6 r0 *1 49.51,3.11 nfet
+X$6 \$40 \$15 \$16 vsubs sg13_hv_nmos L=0.5U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $7 r0 *1 64.29,3.36 nfet
+X$7 \$41 \$17 \$18 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
++ PD=16.8U
+* device instance $8 r0 *1 73.43,3.36 nfet
+X$8 \$42 \$19 \$20 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
++ PD=16.8U
+* device instance $9 r0 *1 88.02,3.11 pfet
+X$9 \$43 \$21 \$22 cp_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $10 r0 *1 94.78,3.11 pfet
+X$10 \$44 \$23 \$24 cp_pfet_w5_l0p5_B sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $11 r0 *1 108.68,3.01 pfet
+X$11 \$35 \$25 \$26 cp_pfet_w6_l0p3_B sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $12 r0 *1 116.44,3.01 pfet
+X$12 \$36 \$27 \$28 cp_pfet_w6_l0p3_B sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $13 r0 *1 139.84,3.36 pfet
+X$13 \$45 \$29 \$30 cp_pfet_w24_l1_B sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
+* device instance $14 r0 *1 165.6,3.36 pfet
+X$14 \$46 \$31 \$32 cp_pfet_w24_l1_B sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
+.ENDS pll_cp

@@ -1,9 +1,22 @@
 # layout/ — the klayout-tools (`klt`) layout flow
 
-[`pll/`](pll/) is the PLL's **device-level layout** work: start at
-[`pll/README.md`](pll/README.md), then the current record's `record.md`
-(`pll/reports/LATEST`). This is T1 checklist item 2 for the block tracked by
-`2AMLogic/sg13g2-pll#6` (this repo's own T1 tracker), issue #13.
+Two ports, two evidence trails:
+
+- [`pll/`](pll/) — the **SG13G2** device-level layout (issue #13). Start at
+  [`pll/README.md`](pll/README.md), then the current record's `record.md`
+  (`pll/reports/LATEST`). T1 checklist item 2 for the block tracked by
+  `2AMLogic/sg13g2-pll#6` (this repo's own T1 tracker).
+- [`sg13cmos5l-pll/`](sg13cmos5l-pll/) — the **SG13CMOS5L** device-level
+  layout (issue #24, part of the #16 Chipalooza port). Start at
+  [`sg13cmos5l-pll/README.md`](sg13cmos5l-pll/README.md), then
+  `sg13cmos5l-pll/reports/LATEST`. Unlike the SG13G2 side, this one is
+  **DRC-checked**: 477 / 482 devices draw, pass `klt drc --deck sg13cmos5l`
+  with zero violations, and re-extract matching the schematic, with all six
+  blocks composing and re-extracting clean.
+
+Both flows share one pinned `klt` install (`requirements.txt`) and one plan
+half (`bin/pll_layout.py`), so what "the schematic's device set" means cannot
+drift between them.
 
 As of #13's own record, every device the six committed block netlists
 (`design/netlist/*.spice`) declare that has a `klt gen` generator on
@@ -11,11 +24,14 @@ As of #13's own record, every device the six committed block netlists
 `(class, W, L)`**, per block (composed into one `pll_<block>` cell per
 block, placement only — no routing). The one exception is this design's two
 MiM capacitors (`loop_filter.sch`'s `cap_cmim` shunt caps): no `klt gen`
-generator draws a MIM capacitor for `sg13g2` on any family, and the curated
-`sg13g2` extraction deck still has no capacitor device class either — a
-real, tracked upstream gap, not a silently dropped device; see
-`pll/README.md`'s own "Status"/"Friction" sections. Routing, DRC-clean
-closure, and LVS-clean closure are later, separate T1 checklist items.
+generator draws a MIM capacitor for `sg13g2` at the current pin — a real,
+tracked upstream gap, not a silently dropped device; see `pll/README.md`'s
+own "Status"/"Friction" sections. Routing, DRC-clean closure, and LVS-clean
+closure are later, separate T1 checklist items on this side. (The
+SG13CMOS5L side reached DRC-clean first, because it draws its own footprints
+rather than waiting on a generator — see `sg13cmos5l-pll/README.md` for why
+that is a filed-and-open generator gap, klayout-tools#1462, rather than a
+deck work-around.)
 
 Two rules from the root `CLAUDE.md` shape this directory:
 
@@ -35,15 +51,20 @@ Two rules from the root `CLAUDE.md` shape this directory:
 #    and its own bump history)
 layout/bin/setup-venv.sh
 
-# 2. sanity-check the SG13G2 PDK resolves
+# 2. sanity-check both PDKs resolve (setup-venv.sh already checks both)
 layout/.venv/bin/klt pdk find --pdk ihp-sg13g2
+layout/.venv/bin/klt pdk find --pdk ihp-sg13cmos5l
 
-# 3. derive the plan, draw it, extract + compose every block
+# 3a. SG13G2: derive the plan, draw it, extract + compose every block
 layout/bin/run-pll-layout-flow.sh
+
+# 3b. SG13CMOS5L: the same, plus DRC and LVS on every group and block
+layout/bin/run-pll-cmos5l-layout-flow.sh
 ```
 
-The last command writes a fresh, timestamped record under
-`pll/reports/<record-id>/` and updates `pll/reports/LATEST` to point at it.
+Each command writes a fresh, timestamped record under its own port's
+`reports/<record-id>/` and updates that port's `reports/LATEST` to point at
+it.
 
 ## Directory layout
 
@@ -52,11 +73,16 @@ layout/
   README.md                  # this file
   requirements.txt           # pinned klt install (git commit; see its own header)
   bin/
-    pll_layout.py             # schematic -> device plan -> klt gen/extract/gen-compose
-    run-pll-layout-flow.sh    # the driver: plan -> draw/extract/compose -> record.md
-    render-pll-record.py      # renders a record's record.md from plan/build json
-    setup-venv.sh              # create/refresh layout/.venv from requirements.txt
-  tests/                      # PDK-free unit coverage (the "plan" half only)
-  .venv/                      # gitignored -- klt install, created by setup-venv.sh
-  pll/                        # the PLL device-level layout + its records (see pll/README.md)
+    pll_layout.py                  # schematic -> device plan -> klt gen/extract/gen-compose (SG13G2)
+    run-pll-layout-flow.sh         # SG13G2 driver: plan -> draw/extract/compose -> record.md
+    render-pll-record.py           # renders a SG13G2 record's record.md
+    cmos5l_devices.py              # SG13CMOS5L device footprints (klayout.db)
+    pll_cmos5l_layout.py           # SG13CMOS5L: plan -> draw -> klt drc/extract/lvs -> compose
+    run-pll-cmos5l-layout-flow.sh  # SG13CMOS5L driver
+    render-pll-cmos5l-record.py    # renders a SG13CMOS5L record's record.md
+    setup-venv.sh                  # create/refresh layout/.venv from requirements.txt
+  tests/                           # PDK-free unit coverage (plan + geometry, no klt subprocess)
+  .venv/                           # gitignored -- klt install, created by setup-venv.sh
+  pll/                             # SG13G2 layout + records (see pll/README.md)
+  sg13cmos5l-pll/                  # SG13CMOS5L layout + records (see its README.md)
 ```

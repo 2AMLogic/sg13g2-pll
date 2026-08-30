@@ -1,0 +1,1819 @@
+{
+  "blocks": [
+    {
+      "name": "pfd",
+      "cell_name": "pll_pfd",
+      "device_count": 64,
+      "group_count": 4,
+      "groups_drawn": 4,
+      "devices_drawn": 64,
+      "devices_drc_clean": 64,
+      "devices_matched": 64,
+      "results": [
+        {
+          "group_id": "pfd_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "count": 31,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 31,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                97.09,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                97.09,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "pfd_nfet_w4_l0p5",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 5.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                4.89,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                4.89,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "pfd_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "count": 31,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 31,
+            "pitch_x_um": 6.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "pfd_pfet_w5_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                209.62,
+                4.38
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                209.0,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                209.0,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "pfd_pfet_w10_l0p5",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 11.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "pfd_pfet_w10_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                11.82,
+                4.38
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                11.2,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                11.2,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_pfd",
+        "gds": "pll_pfd.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "pfd_nfet_w2_l0p5": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "pfd_nfet_w4_l0p5": {
+            "x": 103.98,
+            "y": 0.0
+          },
+          "pfd_pfet_w5_l0p5": {
+            "x": 115.76,
+            "y": 0.0
+          },
+          "pfd_pfet_w10_l0p5": {
+            "x": 331.96,
+            "y": 0.0
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "nfet": 32,
+          "pfet": 32
+        },
+        "extracted_counts": {
+          "nfet": 32,
+          "pfet": 32
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": true,
+        "status": "mismatch",
+        "mismatch_count": 297,
+        "category_counts": {
+          "device.body_unverified": 1,
+          "device.unmatched": 64,
+          "net.unmatched": 231,
+          "topology.flattened": 1
+        },
+        "counts": {
+          "nets": {
+            "layout": 195,
+            "reference": 36,
+            "matched": 0
+          },
+          "devices": {
+            "layout": 64,
+            "reference": 64,
+            "matched": 0
+          },
+          "pins": {
+            "layout": 3,
+            "reference": 6,
+            "matched": 9
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "cp",
+      "cell_name": "pll_cp",
+      "device_count": 14,
+      "group_count": 8,
+      "groups_drawn": 8,
+      "devices_drawn": 14,
+      "devices_drc_clean": 14,
+      "devices_matched": 14,
+      "results": [
+        {
+          "group_id": "cp_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                6.03,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                6.03,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_nfet_w4_l1",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 5.14,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                4.89,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                4.89,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_nfet_w6_l0p3",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 7.14,
+            "pitch_y_um": 2.38,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                14.03,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                14.03,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_nfet_w6_l0p5",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 7.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                6.89,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                6.89,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_nfet_w8_l1",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 9.14,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                18.03,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                18.03,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 6.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "cp_pfet_w5_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                13.58,
+                4.38
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                12.96,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                12.96,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_pfet_w6_l0p3",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 7.76,
+            "pitch_y_um": 2.38,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "cp_pfet_w6_l0p3_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                15.58,
+                4.18
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                14.96,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                14.96,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "cp_pfet_w24_l1",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 25.76,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "cp_pfet_w24_l1_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                51.58,
+                4.88
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                50.96,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                50.96,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_cp",
+        "gds": "pll_cp.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "cp_nfet_w2_l0p5": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "cp_nfet_w4_l1": {
+            "x": 12.92,
+            "y": 0.0
+          },
+          "cp_nfet_w6_l0p3": {
+            "x": 24.7,
+            "y": 0.0
+          },
+          "cp_nfet_w6_l0p5": {
+            "x": 45.62,
+            "y": 0.0
+          },
+          "cp_nfet_w8_l1": {
+            "x": 59.4,
+            "y": 0.0
+          },
+          "cp_pfet_w5_l0p5": {
+            "x": 84.32,
+            "y": 0.0
+          },
+          "cp_pfet_w6_l0p3": {
+            "x": 104.48,
+            "y": 0.0
+          },
+          "cp_pfet_w24_l1": {
+            "x": 126.64,
+            "y": 0.0
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "nfet": 8,
+          "pfet": 6
+        },
+        "extracted_counts": {
+          "nfet": 8,
+          "pfet": 6
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": true,
+        "status": "mismatch",
+        "mismatch_count": 78,
+        "category_counts": {
+          "device.body_unverified": 1,
+          "device.unmatched": 14,
+          "net.unmatched": 62,
+          "topology.flattened": 1
+        },
+        "counts": {
+          "nets": {
+            "layout": 46,
+            "reference": 16,
+            "matched": 0
+          },
+          "devices": {
+            "layout": 14,
+            "reference": 14,
+            "matched": 0
+          },
+          "pins": {
+            "layout": 4,
+            "reference": 9,
+            "matched": 13
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "loop_filter",
+      "cell_name": "pll_loop_filter",
+      "device_count": 3,
+      "group_count": 3,
+      "groups_drawn": 1,
+      "devices_drawn": 1,
+      "devices_drc_clean": 1,
+      "devices_matched": 1,
+      "results": [
+        {
+          "group_id": "loop_filter_resrppd_w4_l120",
+          "kind": "res_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "bars": 1,
+            "bar_size_um": [
+              121.0,
+              4.4
+            ],
+            "stack_pitch_um": 5.0
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "loop_filter_XC1",
+          "kind": "capacitor",
+          "count": 1,
+          "attempted": false,
+          "ok": false,
+          "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it: every klt gen generator rejects the ihp-sg13cmos5l PDK family outright (klayout-tools#1462, filed by issue #24's pass), and the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, so a hand-drawn MoM capacitor would extract as no device at all (klayout-tools#1463, also filed by that pass). Recorded here, never drawn, never silently dropped"
+        },
+        {
+          "group_id": "loop_filter_XC2",
+          "kind": "capacitor",
+          "count": 1,
+          "attempted": false,
+          "ok": false,
+          "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it: every klt gen generator rejects the ihp-sg13cmos5l PDK family outright (klayout-tools#1462, filed by issue #24's pass), and the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, so a hand-drawn MoM capacitor would extract as no device at all (klayout-tools#1463, also filed by that pass). Recorded here, never drawn, never silently dropped"
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_loop_filter",
+        "gds": "pll_loop_filter.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "loop_filter_resrppd_w4_l120": {
+            "x": 0.0,
+            "y": 0.0
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "rppd": 1
+        },
+        "extracted_counts": {
+          "rppd": 1
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": false,
+        "status": null,
+        "mismatch_count": null,
+        "category_counts": null,
+        "counts": null,
+        "error": "could not convert subckt-call reference netlist '/home/ubuntu/loom-workspaces/sg13g2-pll/.loom/worktrees/issue-24/layout/sg13cmos5l-pll/reports/20260830-030212-6f69e17/loop_filter.reference.spice' to plain-element form: subcircuit 'cap_cmomi' is not a known device for the requested deck (known: rhigh, rppd, sg13_hv_nmos, sg13_hv_pmos, sg13_lv_nmos, sg13_lv_pmos); if it is a real device, pass reference.device_map to map it explicitly"
+      }
+    },
+    {
+      "name": "vco",
+      "cell_name": "pll_vco",
+      "device_count": 45,
+      "group_count": 15,
+      "groups_drawn": 14,
+      "devices_drawn": 44,
+      "devices_drc_clean": 44,
+      "devices_matched": 44,
+      "results": [
+        {
+          "group_id": "vco_nfet_w2_l0p28",
+          "kind": "mos_array",
+          "count": 5,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 5,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 2.36,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                15.45,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                15.45,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_nfet_w2_l1",
+          "kind": "mos_array",
+          "count": 3,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 3,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                9.17,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                9.17,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_nfet_w4_l0p3",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 5.14,
+            "pitch_y_um": 2.38,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                10.03,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                10.03,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_nfet_w4_l0p5",
+          "kind": "mos_array",
+          "count": 7,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 7,
+            "pitch_x_um": 5.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                35.73,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                35.73,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_nfet_w4_l1",
+          "kind": "mos_array",
+          "count": 3,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 3,
+            "pitch_x_um": 5.14,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                15.17,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                15.17,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_nfet_w8_l1",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 9.14,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                8.89,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                8.89,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_pfet_w3_l1",
+          "kind": "mos_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 1,
+            "pitch_x_um": 4.76,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "vco_pfet_w3_l1_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                4.82,
+                4.88
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                4.2,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                4.2,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_pfet_w5_l0p28",
+          "kind": "mos_array",
+          "count": 5,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 5,
+            "pitch_x_um": 6.76,
+            "pitch_y_um": 2.36,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "vco_pfet_w5_l0p28_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                33.86,
+                4.16
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                33.24,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                33.24,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_pfet_w6_l1",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 7.76,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "vco_pfet_w6_l1_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                15.58,
+                4.88
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                14.96,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                14.96,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_pfet_w10_l0p5",
+          "kind": "mos_array",
+          "count": 7,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 7,
+            "pitch_x_um": 11.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "vco_pfet_w10_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                82.38,
+                4.38
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                81.76,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                81.76,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_pfet_w10_l1",
+          "kind": "mos_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 2,
+            "pitch_x_um": 11.76,
+            "pitch_y_um": 3.08,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "vco_pfet_w10_l1_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                23.58,
+                4.88
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                22.96,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                22.96,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_resrhigh_w0p5_l8",
+          "kind": "res_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "bars": 1,
+            "bar_size_um": [
+              9.0,
+              0.9
+            ],
+            "stack_pitch_um": 1.5
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_resrppd_w1_l30",
+          "kind": "res_array",
+          "count": 2,
+          "attempted": true,
+          "geometry": {
+            "bars": 2,
+            "bar_size_um": [
+              31.0,
+              1.4
+            ],
+            "stack_pitch_um": 2.0
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_resrppd_w1_l60",
+          "kind": "res_array",
+          "count": 3,
+          "attempted": true,
+          "geometry": {
+            "bars": 3,
+            "bar_size_um": [
+              61.0,
+              1.4
+            ],
+            "stack_pitch_um": 2.0
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "vco_XCDECAP",
+          "kind": "capacitor",
+          "count": 1,
+          "attempted": false,
+          "ok": false,
+          "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it: every klt gen generator rejects the ihp-sg13cmos5l PDK family outright (klayout-tools#1462, filed by issue #24's pass), and the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, so a hand-drawn MoM capacitor would extract as no device at all (klayout-tools#1463, also filed by that pass). Recorded here, never drawn, never silently dropped"
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_vco",
+        "gds": "pll_vco.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "vco_nfet_w2_l0p28": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "vco_nfet_w2_l1": {
+            "x": 22.34,
+            "y": 0.0
+          },
+          "vco_nfet_w4_l0p3": {
+            "x": 38.4,
+            "y": 0.0
+          },
+          "vco_nfet_w4_l0p5": {
+            "x": 55.32,
+            "y": 0.0
+          },
+          "vco_nfet_w4_l1": {
+            "x": 97.94,
+            "y": 0.0
+          },
+          "vco_nfet_w8_l1": {
+            "x": 120.0,
+            "y": 0.0
+          },
+          "vco_pfet_w3_l1": {
+            "x": 135.78,
+            "y": 0.0
+          },
+          "vco_pfet_w5_l0p28": {
+            "x": 147.18,
+            "y": 0.0
+          },
+          "vco_pfet_w6_l1": {
+            "x": 187.62,
+            "y": 0.0
+          },
+          "vco_pfet_w10_l0p5": {
+            "x": 209.78,
+            "y": 0.0
+          },
+          "vco_pfet_w10_l1": {
+            "x": 298.74,
+            "y": 0.0
+          },
+          "vco_resrhigh_w0p5_l8": {
+            "x": 328.9,
+            "y": 0.0
+          },
+          "vco_resrppd_w1_l30": {
+            "x": 343.9,
+            "y": 0.0
+          },
+          "vco_resrppd_w1_l60": {
+            "x": 380.9,
+            "y": 0.0
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "nfet": 21,
+          "pfet": 17,
+          "rhigh": 1,
+          "rppd": 5
+        },
+        "extracted_counts": {
+          "nfet": 21,
+          "pfet": 17,
+          "rhigh": 1,
+          "rppd": 5
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": false,
+        "status": null,
+        "mismatch_count": null,
+        "category_counts": null,
+        "counts": null,
+        "error": "could not convert subckt-call reference netlist '/home/ubuntu/loom-workspaces/sg13g2-pll/.loom/worktrees/issue-24/layout/sg13cmos5l-pll/reports/20260830-030212-6f69e17/vco.reference.spice' to plain-element form: subcircuit 'cap_cmomi' is not a known device for the requested deck (known: rhigh, rppd, sg13_hv_nmos, sg13_hv_pmos, sg13_lv_nmos, sg13_lv_pmos); if it is a real device, pass reference.device_map to map it explicitly"
+      }
+    },
+    {
+      "name": "divider_chain",
+      "cell_name": "pll_divider_chain",
+      "device_count": 316,
+      "group_count": 2,
+      "groups_drawn": 2,
+      "devices_drawn": 316,
+      "devices_drc_clean": 316,
+      "devices_matched": 316,
+      "results": [
+        {
+          "group_id": "divider_chain_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "count": 158,
+          "attempted": true,
+          "geometry": {
+            "rows": 2,
+            "cols": 79,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                247.81,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                247.81,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "divider_chain_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "count": 158,
+          "attempted": true,
+          "geometry": {
+            "rows": 2,
+            "cols": 79,
+            "pitch_x_um": 6.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "divider_chain_pfet_w5_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                534.1,
+                6.96
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                533.48,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                533.48,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_divider_chain",
+        "gds": "pll_divider_chain.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "divider_chain_nfet_w2_l0p5": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "divider_chain_pfet_w5_l0p5": {
+            "x": 0.0,
+            "y": 13.3
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "nfet": 158,
+          "pfet": 158
+        },
+        "extracted_counts": {
+          "nfet": 158,
+          "pfet": 158
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": true,
+        "status": "mismatch",
+        "mismatch_count": 1410,
+        "category_counts": {
+          "device.body_unverified": 1,
+          "device.unmatched": 316,
+          "net.unmatched": 1092,
+          "topology.flattened": 1
+        },
+        "counts": {
+          "nets": {
+            "layout": 950,
+            "reference": 142,
+            "matched": 0
+          },
+          "devices": {
+            "layout": 316,
+            "reference": 316,
+            "matched": 0
+          },
+          "pins": {
+            "layout": 2,
+            "reference": 12,
+            "matched": 14
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "name": "lock_detector",
+      "cell_name": "pll_lock_detector",
+      "device_count": 40,
+      "group_count": 5,
+      "groups_drawn": 3,
+      "devices_drawn": 38,
+      "devices_drc_clean": 38,
+      "devices_matched": 38,
+      "results": [
+        {
+          "group_id": "lock_detector_nfet_w2_l0p5",
+          "kind": "mos_array",
+          "count": 19,
+          "attempted": true,
+          "geometry": {
+            "rows": 1,
+            "cols": 19,
+            "pitch_x_um": 3.14,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "substrate_tap",
+              "net_label": null
+            },
+            "tap": {
+              "tap_active": [
+                0.89,
+                0.96,
+                59.41,
+                1.46
+              ],
+              "tap_pad": [
+                0.89,
+                0.96,
+                59.41,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "lock_detector_pfet_w5_l0p5",
+          "kind": "mos_array",
+          "count": 18,
+          "attempted": true,
+          "geometry": {
+            "rows": 3,
+            "cols": 6,
+            "pitch_x_um": 6.76,
+            "pitch_y_um": 2.58,
+            "body_tie": {
+              "kind": "nwell_tap",
+              "net_label": "lock_detector_pfet_w5_l0p5_B"
+            },
+            "tap": {
+              "nwell": [
+                0.58,
+                0.34,
+                40.62,
+                9.54
+              ],
+              "tap_active": [
+                1.2,
+                0.96,
+                40.0,
+                1.46
+              ],
+              "tap_pad": [
+                1.2,
+                0.96,
+                40.0,
+                1.46
+              ]
+            }
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "lock_detector_resrhigh_w0p5_l6",
+          "kind": "res_array",
+          "count": 1,
+          "attempted": true,
+          "geometry": {
+            "bars": 1,
+            "bar_size_um": [
+              7.0,
+              0.9
+            ],
+            "stack_pitch_um": 1.5
+          },
+          "drc": {
+            "clean": true,
+            "violation_count": 0,
+            "rule_counts": {}
+          },
+          "extract_ok": true,
+          "match": {
+            "matched": true,
+            "mismatches": []
+          },
+          "ok": true
+        },
+        {
+          "group_id": "lock_detector_XCW",
+          "kind": "capacitor",
+          "count": 1,
+          "attempted": false,
+          "ok": false,
+          "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it: every klt gen generator rejects the ihp-sg13cmos5l PDK family outright (klayout-tools#1462, filed by issue #24's pass), and the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, so a hand-drawn MoM capacitor would extract as no device at all (klayout-tools#1463, also filed by that pass). Recorded here, never drawn, never silently dropped"
+        },
+        {
+          "group_id": "lock_detector_XDW.XC1",
+          "kind": "capacitor",
+          "count": 1,
+          "attempted": false,
+          "ok": false,
+          "reason": "SG13CMOS5L has no MIM capacitor at all (its plate layers are on cmos5l's own DRC/LVS forbidden-layer lists), so this design's MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and neither half of the tooling covers it: every klt gen generator rejects the ihp-sg13cmos5l PDK family outright (klayout-tools#1462, filed by issue #24's pass), and the curated sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, so a hand-drawn MoM capacitor would extract as no device at all (klayout-tools#1463, also filed by that pass). Recorded here, never drawn, never silently dropped"
+        }
+      ],
+      "composed": true,
+      "compose": {
+        "cell_name": "pll_lock_detector",
+        "gds": "pll_lock_detector.gds",
+        "strategy": "shelf_pack",
+        "spacing_um": 6.0,
+        "target_width_um": 600.0,
+        "placements": {
+          "lock_detector_nfet_w2_l0p5": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "lock_detector_pfet_w5_l0p5": {
+            "x": 66.3,
+            "y": 0.0
+          },
+          "lock_detector_resrhigh_w0p5_l6": {
+            "x": 113.5,
+            "y": 0.0
+          }
+        },
+        "routing": null
+      },
+      "block_drc_clean": true,
+      "block_drc_violations": 0,
+      "block_extract_ok": true,
+      "block_match": {
+        "expected_counts": {
+          "nfet": 19,
+          "pfet": 18,
+          "rhigh": 1
+        },
+        "extracted_counts": {
+          "nfet": 19,
+          "pfet": 18,
+          "rhigh": 1
+        },
+        "matched": true,
+        "mismatches": []
+      },
+      "block_lvs": {
+        "ran": false,
+        "status": null,
+        "mismatch_count": null,
+        "category_counts": null,
+        "counts": null,
+        "error": "could not convert subckt-call reference netlist '/home/ubuntu/loom-workspaces/sg13g2-pll/.loom/worktrees/issue-24/layout/sg13cmos5l-pll/reports/20260830-030212-6f69e17/lock_detector.reference.spice' to plain-element form: subcircuit 'cap_cmomi' is not a known device for the requested deck (known: rhigh, rppd, sg13_hv_nmos, sg13_hv_pmos, sg13_lv_nmos, sg13_lv_pmos); if it is a real device, pass reference.device_map to map it explicitly"
+      }
+    }
+  ]
+}
