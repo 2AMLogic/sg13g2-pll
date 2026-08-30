@@ -74,6 +74,28 @@ product). Summary: 3 PVT bundles (`typ`/`slow`/`fast`) x 4 band codes
 (`00`/`10`/`01`/`11`) x 5 `VCTRL` points (0.3/0.9/1.5/2.1/2.7 V) = 60 runs,
 `../corners/results.csv`.
 
+## Post-fix verification (issue #43)
+
+`testbench/tb_vco_kvco.sp.tmpl` and `testbench/run.sh` were patched by #43 to
+resolve `$PDK_ROOT`/`$PDK` to a real filesystem path (via `@PDK_ROOT@`/`@PDK@`
+tokens) before the netlist's `.lib` lines reach ngspice — the unpatched
+version fails every run with a fatal `library file ... not found` error that
+`run.sh`'s prior `2>/dev/null` silently absorbed into a false "no oscillation
+measured" NA result (see #43 for the full root cause). Re-running the patched
+`testbench/run.sh` against a real installed PDK (`~/share/pdk`,
+`PDK=ihp-sg13cmos5l`, ngspice-46) confirms the fix resolves the corner-model
+libraries and produces real numeric output with zero fatal errors. A full
+60-run re-run was not completed in the fixing session — each transient run
+takes on the order of several minutes on that host, making the full matrix
+impractical within one bounded session — but the two fastest points that did
+complete (`typ`/band `00`/`VCTRL=0.3V` and `VCTRL=0.9V`) reproduce the
+already-committed `../corners/results.csv` values **exactly**
+(`period_s`/`freq_hz` bit-for-bit identical), which is the expected result
+for a fix that only changes how the corner-lib path is resolved, not the
+circuit or the corner/bias values themselves. The full-matrix re-run remains
+open verification work; see #43's PR for the exact reproduce command and
+this caveat.
+
 ## Results
 
 Full data (all 60 runs, no `NA`/non-oscillating points): `../corners/results.csv`.

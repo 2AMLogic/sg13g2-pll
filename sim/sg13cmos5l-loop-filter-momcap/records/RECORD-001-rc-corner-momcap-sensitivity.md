@@ -116,6 +116,20 @@ number**. This band should be revisited (tightened or widened) once
 `cap_cmomi.lib`'s own promised re-fit against cmos5l silicon lands ("a
 re-fit is pending silicon (~3-6 months)" per the same header).
 
+## Post-fix verification (issue #43)
+
+`testbench/tb_extract_r.sp.tmpl`, `testbench/tb_extract_c.sp.tmpl`, and
+`testbench/run.sh` were patched by #43 to resolve `$PDK_ROOT`/`$PDK` to a
+real filesystem path (via `@PDK_ROOT@`/`@PDK@` tokens) before the netlist's
+`.lib`/`.include` lines reach ngspice — the unpatched version fails every
+run with a fatal `library file ... not found` error (see #43 for the full
+root cause). The patched `testbench/run.sh` was re-run end-to-end against a
+real installed PDK (`~/share/pdk`, `PDK=ihp-sg13cmos5l`, ngspice-46): all 27
+matrix rows plus the temperature-invariance check completed with zero fatal
+errors and zero `NA` rows, and the resulting `../corners/results.csv` is
+**byte-for-byte identical** to the already-committed file — the numbers
+below reproduce as-is; nothing needed re-deriving.
+
 ## Results
 
 Full data: `../corners/results.csv`. Nominal corner (`res_typ`, 27C,

@@ -88,8 +88,19 @@ run_one() {
   sed -e "s/@CORNER_MOS@/$mos_corner/" -e "s/@CORNER_RES@/$res_corner/" \
       -e "s/@TEMP@/$temp/" -e "s/@VCTRL@/$vctrl/" \
       -e "s/@B0V@/$b0v/" -e "s/@B1V@/$b1v/" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
     "$HERE/tb_vco_kvco.sp.tmpl" > "$WORK/$name"
-  (cd "$WORK" && ngspice -b "$name") 2>/dev/null | grep -E '^per1 = ' | awk '{print $3}'
+  # Do not silently discard ngspice's stderr (issue #43): a fatal error (e.g.
+  # an unresolved .lib path) must be visible, not masked into a "no
+  # oscillation measured" NA result indistinguishable from real behavior.
+  local err="$WORK/${name}.err"
+  local out
+  if ! out="$(cd "$WORK" && ngspice -b "$name" 2>"$err")"; then
+    echo "ERROR: ngspice exited non-zero for $name:" >&2
+    cat "$err" >&2
+    return 1
+  fi
+  printf '%s\n' "$out" | grep -E '^per1 = ' | awk '{print $3}'
 }
 
 for bundle in "${BUNDLES[@]}"; do

@@ -54,19 +54,37 @@ EOF
 MOM_FRACS=(-0.20 0.00 0.20)
 RSRC=3000
 
+# Do not silently discard ngspice's stderr (issue #43): a fatal error (e.g.
+# an unresolved .include path) must be visible, not masked into a blank/NA
+# result indistinguishable from real behavior.
+run_ngspice_or_die() {
+  local sp="$1"
+  local err="${sp}.err"
+  local out
+  if ! out="$(cd "$WORK" && ngspice -b "$(basename "$sp")" 2>"$err")"; then
+    echo "ERROR: ngspice exited non-zero for $(basename "$sp"):" >&2
+    cat "$err" >&2
+    return 1
+  fi
+  printf '%s\n' "$out"
+}
+
 extract_cdecap() {
   local temp="$1"
   local name="cdecap_${temp}.sp"
-  sed -e "s/@TEMP@/$temp/" "$HERE/tb_extract_cdecap.sp.tmpl" > "$WORK/$name"
-  (cd "$WORK" && ngspice -b "$name") 2>/dev/null | grep -E '^[0-9]+[[:space:]]' | tail -1 | awk '{print $3}'
+  sed -e "s/@TEMP@/$temp/" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
+    "$HERE/tb_extract_cdecap.sp.tmpl" > "$WORK/$name"
+  run_ngspice_or_die "$WORK/$name" | grep -E '^[0-9]+[[:space:]]' | tail -1 | awk '{print $3}'
 }
 
 pole_freq_db3() {
   local delta_f="$1"
   local name="pole_${delta_f}.sp"
   sed -e "s/@RSRC@/$RSRC/" -e "s/@DELTA_F@/$delta_f/" -e "s/@TEMP@/27/" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
     "$HERE/tb_decap_pole_ac.sp.tmpl" > "$WORK/$name"
-  (cd "$WORK" && ngspice -b "$name") 2>/dev/null | grep -E '^[0-9]+[[:space:]]' \
+  run_ngspice_or_die "$WORK/$name" | grep -E '^[0-9]+[[:space:]]' \
     | awk '{print $2, $3}' | python3 -c "
 import sys
 rows = [tuple(map(float, l.split())) for l in sys.stdin]

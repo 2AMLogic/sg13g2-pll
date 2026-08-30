@@ -59,24 +59,41 @@ R1_W=4u; R1_L=120u
 C1_W=40u; C1_L=40u
 C2_W=10u; C2_L=10u
 
+# Do not silently discard ngspice's stderr (issue #43): a fatal error (e.g.
+# an unresolved .lib/.include path) must be visible, not masked into a
+# blank/NA result indistinguishable from real behavior.
+run_ngspice_or_die() {
+  local sp="$1"
+  local err="${sp}.err"
+  local out
+  if ! out="$(cd "$WORK" && ngspice -b "$(basename "$sp")" 2>"$err")"; then
+    echo "ERROR: ngspice exited non-zero for $(basename "$sp"):" >&2
+    cat "$err" >&2
+    return 1
+  fi
+  printf '%s\n' "$out"
+}
+
 extract_r() {
   local corner="$1" temp="$2"
   local name="r_${corner}_${temp}.sp"
   sed -e "s/@RES_CORNER@/$corner/" -e "s/@TEMP@/$temp/" \
       -e "s/@W@/$R1_W/" -e "s/@L@/$R1_L/" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
     "$HERE/tb_extract_r.sp.tmpl" > "$WORK/$name"
-  (cd "$WORK" && ngspice -b "$name") 2>/dev/null | grep '^rval' | awk '{print $3}'
+  run_ngspice_or_die "$WORK/$name" | grep '^rval' | awk '{print $3}'
 }
 
 extract_c_nominal() {
   local w="$1" l="$2" temp="$3"
   local name="c_${w}_${l}_${temp}.sp"
   sed -e "s/@W@/$w/" -e "s/@L@/$l/" -e "s/@TEMP@/$temp/" \
+      -e "s|@PDK_ROOT@|$PDK_ROOT|" -e "s|@PDK@|$PDK|" \
     "$HERE/tb_extract_c.sp.tmpl" > "$WORK/$name"
   # AC sweep prints an "Index  frequency  cnom" table; the cap is flat across
   # the swept band (see RECORD-001 "Frequency-flatness check"), so take the
   # last row's cnom column.
-  (cd "$WORK" && ngspice -b "$name") 2>/dev/null | grep -E '^[0-9]+[[:space:]]' | tail -1 | awk '{print $3}'
+  run_ngspice_or_die "$WORK/$name" | grep -E '^[0-9]+[[:space:]]' | tail -1 | awk '{print $3}'
 }
 
 echo "res_corner,temp_c,mom_frac,r1_ohm,c1_f,c2_f,fz_hz,fp_hz" > "$OUT_CSV"

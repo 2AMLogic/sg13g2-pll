@@ -63,6 +63,21 @@ guaranteed to preserve exact inverse proportionality) but was confirmed to.
 
 `../corners/results.csv`: 3 temperature-invariance rows + 3 MOM-frac rows.
 
+## Post-fix verification (issue #43)
+
+`testbench/tb_extract_cdecap.sp.tmpl`, `testbench/tb_decap_pole_ac.sp.tmpl`,
+and `testbench/run.sh` were patched by #43 to resolve `$PDK_ROOT`/`$PDK` to a
+real filesystem path (via `@PDK_ROOT@`/`@PDK@` tokens) before the netlist's
+`.include` lines reach ngspice — the unpatched version fails every run with
+a fatal `library file ... not found` error (see #43 for the full root
+cause). The patched `testbench/run.sh` was re-run end-to-end against a real
+installed PDK (`~/share/pdk`, `PDK=ihp-sg13cmos5l`, ngspice-46): the nominal
+extraction, both temperature-invariance checks, and all 3 MOM-frac pole-AC
+sweeps completed with zero fatal errors and zero `NA` rows, and the
+resulting `../corners/results.csv` is **byte-for-byte identical** to the
+already-committed file — the numbers below reproduce as-is; nothing needed
+re-deriving.
+
 ## Results
 
 Nominal `XCDECAP` (27C, mom_frac=0): **5.2862 pF** — matches

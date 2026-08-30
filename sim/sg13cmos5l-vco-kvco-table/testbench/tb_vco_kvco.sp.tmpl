@@ -5,7 +5,10 @@
 * mos_ss/mos_ff), @CORNER_RES@ (cornerRES.lib section: res_typ/res_wcs/
 * res_bcs), and @TEMP@ (degC) per ../corners/matrix.md's 3-bundle PVT
 * convention (see that file for why a 3-bundle subset, not the full
-* 5(mos)x3(res)x3(temp) cross product).
+* 5(mos)x3(res)x3(temp) cross product). @PDK_ROOT@/@PDK@ are also
+* substituted by run.sh -- ngspice's `.lib`/`.include` netlist parser does
+* not expand shell/OS environment variables (issue #43), so the corner-lib
+* path below must be a real filesystem path by the time ngspice parses it.
 *
 * Includes `vco_open.spice` (see ../run.sh's own header for why this is a
 * locally-derived, XCDECAP-stripped copy of the frozen
@@ -15,8 +18,8 @@
 * trig/targ between two later rising edges (skipping the ring's own
 * startup transient).
 
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
-.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
 .option scale=1 temp=@TEMP@
 .global sub!
 
