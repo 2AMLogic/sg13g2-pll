@@ -221,7 +221,7 @@ remedy_for() {
 
 _mkhdr() { # out_file hexstring
   local out="$1" hex="$2"
-  printf '%s' "$hex" | sed 's/../\\x&/g' | xargs -0 printf > "$out"
+  printf '%b' "$(printf '%s' "$hex" | sed 's/../\\x&/g')" > "$out"
 }
 
 self_test() {
@@ -317,7 +317,15 @@ self_test() {
 # ---------------------------------------------------------------------------
 
 usage() {
-  sed -n '2,40p' "$0" | sed 's/^# \{0,1\}//'
+  # Prints from the "# USAGE" header through the line just before
+  # `set -uo pipefail` -- sentinel-driven so a future edit to the comment
+  # block above (WHY THIS EXISTS) can't silently truncate this, the way a
+  # hard-coded line range once did.
+  awk '
+    /^# USAGE/          { p = 1 }
+    /^set -uo pipefail/ { exit }
+    p                   { print }
+  ' "$0" | sed 's/^# \{0,1\}//'
   exit 2
 }
 
