@@ -48,7 +48,18 @@ def main(argv: list[str]) -> int:
     if pdk_root:
         pdk_cmd[2:2] = ["--pdk-root", pdk_root]
     pdk_info = _run_json(pdk_cmd)
-    deck_info = _run_json([klt, "deck", "info", "--deck", deck, "--format", "json"])
+    # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
+    # object `klt pdk find` returns -- unwrap the requested deck's entry.
+    deck_info = next(
+        (
+            entry
+            for entry in _run_json(
+                [klt, "deck", "info", "--deck", deck, "--format", "json"]
+            ).get("decks", [])
+            if entry.get("deck") == deck
+        ),
+        {},
+    )
     klt_version = subprocess.run(
         [klt, "--version"], capture_output=True, text=True
     ).stdout.strip()

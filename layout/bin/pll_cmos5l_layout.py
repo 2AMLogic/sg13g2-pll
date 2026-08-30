@@ -278,6 +278,13 @@ class Verifier:
             "reference": {
                 "netlist": reference,
                 "form": "subckt-call",
+                # `deck` and `device_map` are both required, and the pairing
+                # is load-bearing: `device_map` alone *replaces* the curated
+                # table (so the MOS subcircuits stop resolving), while `deck`
+                # alone gives only that deck's MOS entries (klayout-tools#1464).
+                # Together they merge -- `device_map` on top of `deck` -- which
+                # is the only combination that resolves both.
+                "deck": self.deck,
                 "device_map": REFERENCE_DEVICE_MAP,
             },
             "options": {"flatten_layout": True, "flatten_reference": True},
