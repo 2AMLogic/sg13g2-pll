@@ -78,17 +78,22 @@ sibling records for the full candidate table.
 
 **Re-verified at the committed geometry with the real subckt** (not the
 lumped exploratory search):
-`sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized.csv`, 426 rows.
-28 of 29 distinct (band, `Kvco` interval, `f_ref`) combinations with all
-3 PVT bundles present meet both criteria simultaneously, real margins
-+0.3 to +14 deg. **One does not**: `band=00`, low `VCTRL`, `f_ref` =
-4.5 MHz -- best trim code (10 uA) gives PM = 44.13 deg (fast bundle, the
-binding one), **0.87 deg short**. This is a 25x improvement in worst-case
-margin over x20 at the identical corner (22.0 deg -> 44.13 deg), for
-**zero additional area cost** (see below) -- but it is not a complete
-closure of the amended envelope, and this record does not claim it is.
-That one remaining gap is filed as a follow-up issue rather than iterated
-further here (see "Consequences").
+`sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized.csv`, 426 rows,
+spanning 30 distinct (band, `Kvco` interval, `f_ref`) combinations. Of
+those, 17 have all 3 PVT bundles present; 16 of those 17 meet both
+criteria simultaneously, real margins +0.3 to +14 deg. **One does not**:
+`band=00`, low `VCTRL`, `f_ref` = 4.5 MHz -- best trim code (10 uA) gives
+PM = 44.13 deg (fast bundle, the binding one), **0.87 deg short** (issue
+#79). The remaining 13 combinations have only 1-2 of 3 PVT bundles
+simulated; of those, 12 pass at every bundle simulated and one fails
+outright -- `band=00`, mid `Kvco` interval, `f_ref` = 4.5 MHz (`slow`
+bundle only), 1.36 deg short at its best `f_c`-ceiling-compliant code
+(issue #83). This is a 25x improvement in worst-case margin over x20 at
+the `band=00`/low/4.5MHz corner (22.0 deg -> 44.13 deg), for **zero
+additional area cost** (see below) -- but it is not a complete closure of
+the amended envelope, and this record does not claim it is. Both remaining
+gaps are filed as follow-up issues rather than iterated further here (see
+"Consequences").
 
 ### Geometry: why co-scale `l` and `w`, not scale either alone
 
@@ -161,32 +166,38 @@ as-drawn instance's own convention.
   operating regions bind at different scale factors), so continued search
   within this issue's scope risked an open-ended optimization loop rather
   than a bounded decision. x44.2 (the best margin found in a real,
-  documented search) is adopted, and the one remaining gap is filed as a
-  follow-up issue instead.
+  documented search) is adopted, and the remaining gaps are filed as
+  follow-up issues instead.
 
 ## Consequences
 
 **What this makes possible**:
 
 - `spec/porting-plan.md` row 6/6a moves from "0 of 90 combinations meet the
-  criteria" to "28 of 29 distinct amended-range operating regions meet both
-  criteria, with real margin" -- a substantial, evidence-backed
+  criteria" to "16 of 17 distinct amended-range operating regions with full
+  3-bundle PVT coverage meet both criteria, plus 12 more with partial
+  coverage, with real margin" -- a substantial, evidence-backed
   improvement, not a full closure.
 - The `R1`-vs-`C1` area question `RECORD-001` raised but did not settle is
   now settled quantitatively, and settled in a way that is robust to the
   specific `R1` scale factor chosen (the co-scaling geometry construction
   holds `Area` ~constant across the whole 20-44x range tested), so a future
-  record revisiting the remaining near-floor gap does not need to re-open
-  this area trade.
+  record revisiting the remaining gaps does not need to re-open this area
+  trade.
 
 **What this makes harder / what is accepted**:
 
-- One operating region (`band=00`, low `VCTRL`, `f_ref` around 4.5 MHz) is
-  **not** closed with margin -- 0.87 deg short at the real subckt's best
-  trim code. This is a real, quantified, accepted gap, not glossed over.
-  Filed as a follow-up issue for a future record to close (via finer trim
-  granularity, a further `R1` search, or a `C1`/`C2` re-tuning this record
-  does not attempt).
+- Two operating regions are **not** closed with margin. `band=00`, low
+  `VCTRL`, `f_ref` around 4.5 MHz (full 3-bundle coverage) is 0.87 deg
+  short at the real subckt's best trim code (issue #79). `band=00`, mid
+  `Kvco` interval, `f_ref` = 4.5 MHz (`slow` bundle only) is 1.36 deg short
+  at its best `f_c`-ceiling-compliant code (issue #83). Both are real,
+  quantified, accepted gaps, not glossed over, each filed as a follow-up
+  issue for a future record to close (via finer trim granularity, a
+  further `R1` search, or a `C1`/`C2` re-tuning this record does not
+  attempt). 13 of the 30 distinct operating regions in the sweep grid also
+  have only 1-2 of 3 PVT bundles simulated -- a sampling-coverage gap
+  distinct from the two outright failures above, also not closed here.
 - The lumped-equivalent testbench (`tb_loop_ac_lumped.sp.tmpl`), used for
   the exploratory scale search, was found to diverge from the real subckt
   by up to +8.16% `f_c` / +6.41 deg PM at this larger `R1` scale (versus
@@ -201,12 +212,15 @@ as-drawn instance's own convention.
 
 **What remains open**:
 
-- Whether the one remaining gap needs a `C1`/`C2` re-tuning (not just
-  `R1`), a finer trim-code ladder, or is acceptable as-is given its small
-  (<1 deg) size relative to model/process uncertainty already documented
-  elsewhere in this repo (e.g. the ±20% MOM-cap band's own ~0.4-2 deg PM
-  swing at other operating points) is a design judgement call this record
-  does not make. Filed as a follow-up issue.
+- Whether the two remaining gaps (#79, #83) need a `C1`/`C2` re-tuning (not
+  just `R1`), a finer trim-code ladder, or are acceptable as-is given their
+  small (<1.5 deg) size relative to model/process uncertainty already
+  documented elsewhere in this repo (e.g. the ±20% MOM-cap band's own
+  ~0.4-2 deg PM swing at other operating points) is a design judgement call
+  this record does not make. Filed as follow-up issues.
+- Whether the 13 partial-PVT-coverage combinations should be swept to full
+  3-bundle coverage, and whether any of the 12 that currently pass would
+  fail once fully covered, is likewise not settled here.
 - Whether `f_ref` operation this close to the amended floor (3.5-5 MHz) is
   actually used by any real system-level frequency plan, or is a
   theoretical corner of the ratified range that a future frequency-planning

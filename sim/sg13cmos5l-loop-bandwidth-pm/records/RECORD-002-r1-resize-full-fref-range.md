@@ -101,23 +101,41 @@ allows. See "What this does not close" below.
 ## Result at the committed geometry (x44.2, real subckt, Part D)
 
 `../corners/results_resized.csv`, 426 rows, real resized `loop_filter`
-subckt (not the lumped exploratory search above): **28 of 29** distinct
-(band, `Kvco` interval, `f_ref`) combinations with all 3 PVT bundles present
-have a trim code meeting **both** criteria (`f_c < f_ref/10`, PM >= 45 deg)
-simultaneously at every bundle, with real margins from +0.3 deg up to
-+14 deg. **One does not**: `band=00, low interval, f_ref=4.5 MHz` -- the
-same near-floor corner the x20-vs-x44.2 search above identified -- where the
-best single code (10 uA) gives PM = 44.13 deg (fast bundle, the binding
-one; typ = 47.62 deg, slow = 52.23 deg), **0.87 deg short** of the 45 deg
-criterion, real subckt.
+subckt (not the lumped exploratory search above): the full amended-range
+sweep spans **30** distinct (band, `Kvco` interval, `f_ref`) combinations.
+Of those, only **17** have all 3 PVT bundles present. Restricting to those
+17: **16** have a trim code meeting **both** criteria (`f_c < f_ref/10`,
+PM >= 45 deg) simultaneously at every bundle, with real margins from
++0.3 deg up to +14 deg, and **one does not**: `band=00, low interval,
+f_ref=4.5 MHz` -- the same near-floor corner the x20-vs-x44.2 search above
+identified -- where the best single code (10 uA) gives PM = 44.13 deg (fast
+bundle, the binding one; typ = 47.62 deg, slow = 52.23 deg), **0.87 deg
+short** of the 45 deg criterion, real subckt (tracked in issue #79).
 
-This is a **25x improvement** in worst-case margin over x20 at the same
-corner (x20: PM = 22.0 deg, a 23 deg shortfall; x44.2: PM = 44.13 deg, a
-0.87 deg shortfall) for **no additional area cost** (see
-`sim/sg13cmos5l-loop-filter-momcap/records/RECORD-002` "Why the geometry
-chosen" -- `Area` is held constant by the co-scaling construction regardless
-of scale factor). It is not a complete closure of every point in the
-amended envelope.
+The remaining **13** combinations have only 1 or 2 of the 3 PVT bundles
+simulated -- a sampling gap in this record's grid not disclosed in an
+earlier draft of this record. Of those 13, **one also fails outright**:
+`band=00, mid interval, f_ref=4.5 MHz`, where only the `slow` bundle was
+simulated (`n_div=119`) and no trim code meets both criteria at that
+bundle (2.5 uA meets the `f_c` ceiling but PM = 43.639 deg, 1.36 deg short;
+5 uA and above clear PM but exceed the ceiling) -- tracked separately in
+issue #83, since it is a different (band, interval, `f_ref`) tuple than
+#79 with different (partial) PVT coverage. The other 12 partial-coverage
+combinations pass at every bundle actually simulated, but are not verified
+across all 3 PVT bundles.
+
+**Full accounting, all 30 combinations**: 16 pass with full 3-bundle
+coverage, 12 pass with only 1-2 bundles simulated, 2 fail outright
+(`band=00/low/f_ref=4.5MHz`, full 3-bundle coverage, issue #79;
+`band=00/mid/f_ref=4.5MHz`, 1-bundle coverage, issue #83).
+
+This is a **25x improvement** in worst-case margin over x20 at the
+`band=00/low/f_ref=4.5MHz` corner (x20: PM = 22.0 deg, a 23 deg shortfall;
+x44.2: PM = 44.13 deg, a 0.87 deg shortfall) for **no additional area cost**
+(see `sim/sg13cmos5l-loop-filter-momcap/records/RECORD-002` "Why the
+geometry chosen" -- `Area` is held constant by the co-scaling construction
+regardless of scale factor). It is not a complete closure of every point in
+the amended envelope.
 
 ### The pre-existing proposal's own scenario, re-verified
 
@@ -168,23 +186,36 @@ a real-subckt spot-check, which is exactly what this cross-check is for.
 
 ## What this does not close
 
-- **The single near-floor corner** (`band=00`, low `VCTRL`, `f_ref` around
+- **The near-floor corner** (`band=00`, low `VCTRL`, `f_ref` around
   4.5 MHz) is **not** closed with margin -- it is 0.87 deg short at the best
-  trim code, real subckt. This is close enough that it may be recoverable by
-  further R1 tuning, by a coarser or finer trim-code choice this record did
-  not sweep (only the standard 6-code ladder), or it may need a `C1`/`C2`
-  re-tuning that a pure `R1` resize cannot reach -- this record does not
-  settle which. **Filed as a follow-up issue** rather than iterated further
-  here (see the PR this record ships in for the issue number) -- this
-  record's own search already showed margin is not monotonic in `R1` scale,
-  so continued search within this issue's scope risked exactly the kind of
-  open-ended optimization `builder.md`'s scope-management guidance warns
-  against.
+  trim code, real subckt, at all 3 PVT bundles. This is close enough that
+  it may be recoverable by further R1 tuning, by a coarser or finer
+  trim-code choice this record did not sweep (only the standard 6-code
+  ladder), or it may need a `C1`/`C2` re-tuning that a pure `R1` resize
+  cannot reach -- this record does not settle which. **Filed as issue #79**
+  rather than iterated further here -- this record's own search already
+  showed margin is not monotonic in `R1` scale, so continued search within
+  this issue's scope risked exactly the kind of open-ended optimization
+  `builder.md`'s scope-management guidance warns against.
+- **A second operating point also fails outright**: `band=00`, mid `Kvco`
+  interval, `f_ref` = 4.5 MHz, where only the `slow` PVT bundle was
+  simulated and no trim code meets both criteria (best case 1.36 deg PM
+  short at the `f_c`-ceiling-compliant code). This is a distinct (band,
+  interval, `f_ref`) tuple from the corner above, with only partial (1 of 3
+  bundles) PVT coverage. **Filed as issue #83.**
+- **13 of the 30 distinct (band, interval, `f_ref`) combinations in this
+  record's own sweep grid have only 1 or 2 of the 3 PVT bundles
+  simulated**, not the full 3-bundle coverage the "28 of 29" framing in an
+  earlier draft of this record implied. The 12 of those 13 that pass at
+  every bundle actually simulated are not verified across all 3 PVT
+  bundles; a future campaign should extend the grid to close this coverage
+  gap, not just re-check the one region (`band=00/mid/f_ref=4.5MHz`, issue
+  #83) known to fail.
 - **Every (band, interval) x `f_ref` combination was not exhaustively
   swept** -- the 12-point `f_ref` grid and 3 Kvco intervals are a
   representative sampling of the amended range, not every possible
-  operating point. A future campaign could sweep finer if the near-floor
-  gap above is worked further.
+  operating point. A future campaign could sweep finer if the gaps above
+  are worked further.
 - Everything `RECORD-001` already stated as out of scope (large-signal/
   acquisition behaviour, sampled-loop z-domain effects beyond the
   `f_c < f_ref/10` guard, reference spur/jitter/phase noise, a full
@@ -193,9 +224,13 @@ a real-subckt spot-check, which is exactly what this cross-check is for.
 ## Spec-row disposition (per this repo's CLAUDE.md — no claim without a testbench)
 
 - **Row 6/6a**: **substantially improved, not fully closed.** The resized
-  filter (x44.2) meets both criteria at 28 of 29 distinct operating regions
-  spanning the full amended `f_ref` range, with real, PVT-cornered,
-  real-subckt margins; the as-drawn filter met 0 of 90. The one exception
-  (near-floor, low-`VCTRL`, `band=00`) is quantified above, not hidden, and
-  is not claimed as passing -- this record does not relax the criterion to
-  make it pass, per this repo's own CLAUDE.md.
+  filter (x44.2) meets both criteria at 16 of the 17 distinct operating
+  regions with full 3-bundle PVT coverage, plus 12 more with partial (1-2
+  bundle) coverage, spanning the full amended `f_ref` range, with real,
+  PVT-cornered, real-subckt margins; the as-drawn filter met 0 of 90. Two
+  exceptions are
+  quantified above, not hidden, and are not claimed as passing -- this
+  record does not relax the criterion to make them pass, per this repo's
+  own CLAUDE.md: near-floor, low-`VCTRL`, `band=00` (full 3-bundle
+  coverage, issue #79), and mid-interval, `band=00`, `f_ref`=4.5MHz
+  (1-bundle coverage, issue #83).

@@ -1,7 +1,7 @@
 * sg13g2-pll :: sim/sg13cmos5l-loop-bandwidth-pm (issue #41, Part of #16)
 * Same as tb_loop_ac_real.sp.tmpl, but built around the RESIZED `loop_filter`
 * subckt (`../netlist-snapshots/loop_filter_resized.spice`, issue #41 /
-* DR-006: XR1 rppd w=4u l=120u -> w=0.9u l=546u), not the as-drawn one.
+* DR-006: XR1 rppd w=4u l=120u -> w=0.6u l=810u), not the as-drawn one.
 * ../records/RECORD-001 stays the as-drawn filter's own record; this
 * template exists so ../records/RECORD-002 re-measures the SAME open-loop
 * AC scenario against the post-resize filter without touching
@@ -17,7 +17,7 @@
 * WHAT IS REAL HERE AND WHAT IS BEHAVIOURAL
 * ---------------------------------------------------------------------------
 * REAL (extracted compact models, swept over their own corners):
-*   - the RESIZED loop filter's R1 (`rppd`, w=0.9u l=546u) and C1/C2
+*   - the RESIZED loop filter's R1 (`rppd`, w=0.6u l=810u) and C1/C2
 *     (`cap_cmomi`, unchanged), instantiated from the frozen post-resize
 *     design export with no further edit.
 * BEHAVIOURAL (linearised small-signal stand-ins, each with its own numeric

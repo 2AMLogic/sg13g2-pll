@@ -21,8 +21,10 @@
 #   Total: 9 x 3 = 27 (R, C1, C2, fz, fp) rows written to results.csv.
 #
 # APPEND-ONLY EVIDENCE (sim/README.md).  Issue #41 (DR-006) resized XR1 from
-# w=4u l=120u to w=0.9u l=546u ("R1 x20", the closed-loop PM/f_c fix from
-# sim/sg13cmos5l-loop-bandwidth-pm RECORD-001).  This script now ALSO
+# w=4u l=120u to w=0.6u l=810u ("R1 ~x44.2", superseding the originally
+# proposed "R1 x20" from sim/sg13cmos5l-loop-bandwidth-pm RECORD-001 once
+# the full amended f_ref range showed x20 was insufficient -- see DR-006).
+# This script now ALSO
 # simulates ../netlist-snapshots/loop_filter_resized.spice's XR1 geometry and
 # writes the extra ../corners/results_resized.csv below, alongside (not
 # instead of) the as-drawn ../corners/results.csv above -- RECORD-001's own
