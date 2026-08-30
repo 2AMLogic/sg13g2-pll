@@ -122,7 +122,24 @@ def main(argv: list[str]) -> int:
     probe_routing_ok = bool(
         (build.get("gen_compose_probe") or {}).get("routing", {}).get("ok")
     )
-    if probe_routing_ok:
+    block_probe = build.get("gen_compose_block_probe") or {}
+    block_routing = (block_probe.get("attempts") or {}).get("block-routing") or {}
+    if probe_routing_ok and block_probe.get("ran"):
+        family_clause = (
+            "at an earlier pin, every `klt gen` generator and `klt "
+            "gen-compose`'s router rejected the `ihp-sg13cmos5l` PDK family "
+            "(klayout-tools#1462); **this run's own re-probe (below) shows "
+            "that gap fixed at the current pin**, and this run *also* "
+            "re-measured `klt gen-compose`'s router against a real "
+            f"multi-net block (`{block_probe.get('block')}`, "
+            f"{block_probe.get('nets_declared')} multi-pin nets), where it "
+            f"routes **{block_routing.get('routed_net_count')} of "
+            f"{block_routing.get('net_count')}** nets — "
+            "klayout-tools#1467, reproduced at this pin, and the reason this "
+            "flow keeps drawing and routing via this repo's own "
+            "`cmos5l_devices.py`/`cmos5l_route.py`"
+        )
+    elif probe_routing_ok:
         family_clause = (
             "at an earlier pin, every `klt gen` generator and `klt "
             "gen-compose`'s router rejected the `ihp-sg13cmos5l` PDK family "
@@ -222,18 +239,8 @@ def main(argv: list[str]) -> int:
                 "`klt gen-compose`'s router no longer rejects the "
                 "`ihp-sg13cmos5l` PDK family outright on this throwaway "
                 "two-pad probe cell. That is **not**, by itself, "
-                "confirmation that `gen-compose`'s router now handles a "
-                "real multi-net block: the separate, independent finding "
-                "that it routed only 1 of 13 nets on `cp` (rejecting the "
-                "rest with `crosses already-routed net`, filed upstream as "
-                "**klayout-tools#1467**) was measured at an earlier "
-                "commit and has not been re-measured against the current "
-                "pin by this run. Until that re-measurement happens, this "
-                "flow continues to draw and route with this repo's own "
-                "`cmos5l_devices.py`/`cmos5l_route.py` rather than switch on "
-                "an unconfirmed fix; see "
-                "`layout/sg13cmos5l-pll/README.md`'s friction log for the "
-                "follow-up.\n"
+                "confirmation that `gen-compose`'s router handles a real "
+                "multi-net block — which is what the next probe measures.\n"
             )
         else:
             lines.append(
@@ -252,6 +259,142 @@ def main(argv: list[str]) -> int:
                 "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
                 "log.\n"
             )
+
+    if block_probe.get("ran"):
+        attempts = block_probe.get("attempts") or {}
+        declare = attempts.get("block-declare") or {}
+        routed = attempts.get("block-routing") or {}
+        two_layer = attempts.get("block-routing-two-layer") or {}
+        lines.append(
+            "#### Re-measured against a real block (klayout-tools#1467)\n"
+        )
+        lines.append(
+            "The two-pad probe above is far too small to exercise the finding "
+            "that actually decides whether this flow's own router can be "
+            "retired. So `klt gen-compose` is *also* re-probed every run "
+            f"against **`{block_probe.get('block')}`**, this design's smallest "
+            f"composed block — {block_probe.get('group_count')} already-drawn "
+            f"group cells, {block_probe.get('device_count')} devices, "
+            f"{block_probe.get('port_count')} declared ports and "
+            f"{block_probe.get('nets_declared')} multi-pin `connectivity[]` "
+            "nets, all taken straight from this run's own `plan.json` "
+            "port→net map and drawn group geometry (never a synthetic case). "
+            "Raw requests and responses are "
+            "`gen-compose.probe.block-*.json`:\n"
+        )
+        lines.append(
+            f"- declare-only (no `routing`): exit {declare.get('returncode')}, "
+            f"{declare.get('net_count')} nets validated"
+            + (f" — `{declare.get('error')}`" if declare.get("error") else "")
+        )
+        lines.append(
+            f"- with `routing` (`layer_role: \"metal\"`): exit "
+            f"{routed.get('returncode')} — **"
+            f"{routed.get('routed_net_count')} of {routed.get('net_count')} "
+            "nets routed**"
+            + (f" — `{routed.get('error')}`" if routed.get("error") else "")
+        )
+        lines.append(
+            "- with a second routing plane "
+            "(`routing.cross_block_layer_role`): exit "
+            f"{two_layer.get('returncode')}"
+            + (f" — `{two_layer.get('error')}`" if two_layer.get("error") else "")
+        )
+        lines.append("")
+        reasons = routed.get("leg_rejection_reasons") or {}
+        if reasons:
+            lines.append(
+                "Per-leg rejection reasons on the routed attempt, most "
+                "frequent first (the full strings are in the committed "
+                "response):\n"
+            )
+            for reason, count in list(reasons.items())[:6]:
+                lines.append(f"- {count} × `{reason}`")
+            lines.append("")
+        if (routed.get("routed_net_count") or 0) < (routed.get("net_count") or 0):
+            lines.append(
+                "**klayout-tools#1467 reproduces at this pin.** The first net "
+                "accepted rejects the rest, and the second routing plane that "
+                "would let a rejected net move out of the way cannot be "
+                "selected on this PDK family at all — the error above lists "
+                "the roles that family *does* expose, and `metal` is the only "
+                "routing metal among them. That is why a pin bump past "
+                "klayout-tools#1462 does not retire `cmos5l_route.py`.\n"
+            )
+        else:
+            lines.append(
+                "**klayout-tools#1467 no longer reproduces at this pin.** "
+                "Every declared net routed. This flow's own router is no "
+                "longer required on the routing side; see "
+                "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"
+            )
+
+    footprints = build.get("generator_footprint_probe") or []
+    if footprints:
+        lines.append("#### Generator-drawn footprints, re-measured\n")
+        lines.append(
+            "klayout-tools#1462 — the gap that made this flow draw its own "
+            "footprints — is closed, and `klt gen mos_array`/`res_array` do "
+            "now draw on `ihp-sg13cmos5l`. Drawing is not the bar, though: a "
+            "generator-drawn footprint has to carry the **ratified "
+            "thick-oxide flavour** (DR-002 Decision 0), put a **biased, "
+            "schematic-named body** under every PMOS, and report **terminal "
+            "columns at least "
+            f"{footprints[0].get('required_column_pitch_um')} µm apart** so "
+            "`cmos5l_route.py`'s riser scheme can escape them. Each is "
+            "measured below on this design's own group parameters, with the "
+            "raw responses in `gen.probe.*.json` / `drc.genprobe_*.json` / "
+            "`extract.genprobe_*.json`:\n"
+        )
+        lines.append(
+            "| Generator probe | Source group | Draws | DRC | Extracts as | "
+            "Riser column pitch | Body port | Unbiased PMOS bodies |"
+        )
+        lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
+        for entry in footprints:
+            if not entry.get("drew"):
+                lines.append(
+                    f"| `{entry['generator']}` (`{entry['key']}`) | "
+                    f"`{entry['source_group']}` | no — `{entry.get('error')}` "
+                    "| — | — | — | — | — |"
+                )
+                continue
+            models = entry.get("pdk_models") or []
+            counts = entry.get("device_counts") or {}
+            pitch = entry.get("min_port_column_pitch_um")
+            lines.append(
+                f"| `{entry['generator']}` (`{entry['key']}`) | "
+                f"`{entry['source_group']}` | yes | "
+                f"{'clean' if entry.get('drc_clean') else entry.get('drc_violation_count')} | "
+                f"{', '.join(f'`{k}`×{v}' for k, v in counts.items()) or '—'}"
+                + (f" → {', '.join('`' + m + '`' for m in models)}" if models else "")
+                + " | "
+                + (
+                    f"{pitch} µm "
+                    + ("✅" if entry.get("column_pitch_ok") else "❌ under "
+                       f"{entry.get('required_column_pitch_um')} µm")
+                    if pitch is not None
+                    else "—"
+                )
+                + " | "
+                + ("yes" if entry.get("body_port_declared") else "**no**")
+                + f" | {entry.get('unbiased_pmos_body_nets')} |"
+            )
+        lines.append("")
+        notes = [
+            note
+            for entry in footprints
+            for note in entry.get("drc_hint_notes") or []
+        ]
+        if notes:
+            lines.append(
+                "`drc_hints.notes[]` the generator itself reported on these "
+                "requests:\n"
+            )
+            for note in sorted(set(notes)):
+                lines.append(f"- `{note}`")
+            lines.append("")
+
     lines.append(
         "Interconnect is therefore drawn by `cmos5l_route.py`: one vertical "
         "`Metal2` riser per device terminal, one horizontal `Metal3` trunk per "
