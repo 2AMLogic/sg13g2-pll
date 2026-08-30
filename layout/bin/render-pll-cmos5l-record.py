@@ -121,14 +121,16 @@ def main(argv: list[str]) -> int:
     )
     lines.append(
         "Drawn *and routed* by this repo's own `cmos5l_devices.py` / "
-        "`cmos5l_route.py` (every `klt gen` generator — and `klt gen-compose`'s "
-        "router — rejects the `ihp-sg13cmos5l` PDK family, klayout-tools#1462; "
-        "see \"Routing\" below for this run's own re-probe); **verified "
-        f"entirely by `klt`**: `klt drc --deck {deck}`, `klt extract --deck "
-        f"{deck} --pdk {pdk}` and `klt lvs`. Every device not drawn is a "
-        "recorded, tracked upstream gap — see "
-        "`layout/sg13cmos5l-pll/README.md`'s friction log, never a silent "
-        "drop.\n"
+        "`cmos5l_route.py` — at this repo's pin every `klt gen` generator, "
+        "and `klt gen-compose`'s router, rejects the `ihp-sg13cmos5l` PDK "
+        "family (the gap klayout-tools#1462 tracked, **closed upstream "
+        "2026-08-30, after this pin**; re-probed below), and past that fix "
+        "`gen-compose` still routes 1 of 13 nets on this design's smallest "
+        "block (klayout-tools#1467). **Verified entirely by `klt`**: "
+        f"`klt drc --deck {deck}`, `klt extract --deck {deck} --pdk {pdk}` "
+        "and `klt lvs`. Every device not drawn is a recorded, tracked "
+        "upstream gap — see `layout/sg13cmos5l-pll/README.md`'s friction "
+        "log, never a silent drop.\n"
     )
 
     lines.append("### Per-block\n")
@@ -188,6 +190,20 @@ def main(argv: list[str]) -> int:
             + (f" — `{routing.get('error')}`" if routing.get("error") else "")
         )
         lines.append("")
+        lines.append(
+            "That rejection is the gap **klayout-tools#1462** tracked, and it "
+            "**closed upstream on 2026-08-30T04:31Z** — after this repo's "
+            "`layout/requirements.txt` pin, which is why the probe above "
+            "still rejects. Measured separately at that fix's own merge "
+            "commit (`b10fa3c`), `klt gen mos_array --pdk ihp-sg13cmos5l` "
+            "does now draw and `gen-compose` does accept a `routing` block — "
+            "but on `cp`, the smallest block here, it routes **1 of 13 "
+            "nets**, rejecting the rest with `crosses already-routed net`, "
+            "because it has no track or layer assignment between nets. Filed "
+            "upstream as **klayout-tools#1467**. A pin bump therefore does "
+            "not retire this flow's own router; see "
+            "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"
+        )
     lines.append(
         "Interconnect is therefore drawn by `cmos5l_route.py`: one vertical "
         "`Metal2` riser per device terminal, one horizontal `Metal3` trunk per "
@@ -224,18 +240,23 @@ def main(argv: list[str]) -> int:
         lines.append(
             "A net listed as incomplete is routed between the terminals that "
             "*do* exist and reported here with the undrawn device's own "
-            "blocked reason — never dropped, never counted as fully routed:\n"
+            "blocked reason — never dropped, never counted as fully routed. "
+            "Grouped by reason (the full text is in each block's own "
+            "`compose.<block>.json` and in `plan.json`'s `blocked_reason`):\n"
         )
+        by_reason: dict[str, list[str]] = {}
         seen: set[tuple[str, str]] = set()
         for note in incomplete_all:
             key = (note["net"], note["missing_pin"])
             if key in seen:
                 continue
             seen.add(key)
-            lines.append(
-                f"- net `{note['net']}` is missing `{note['missing_pin']}` "
-                f"({note['device']}) — {note['reason']}"
+            by_reason.setdefault(note["reason"], []).append(
+                f"`{note['net']}` (missing `{note['missing_pin']}`)"
             )
+        for reason, entries in by_reason.items():
+            lines.append(f"- {', '.join(entries)}")
+            lines.append(f"  - reason: {reason}")
         lines.append("")
 
     lines.append("### Devices recorded but never drawn\n")
@@ -316,6 +337,29 @@ def main(argv: list[str]) -> int:
         "reference that declares it."
     )
     lines.append("")
+    if any(
+        "net.merged"
+        in (((b.get("block_lvs") or {}).get("capacitor_probe") or {}).get(
+            "category_counts"
+        ) or {})
+        for b in build["blocks"]
+    ):
+        lines.append(
+            "One probe result above is **not** capacitor-attributable and is "
+            "called out rather than absorbed: the `net.merged` entry, and the "
+            "poly resistors unmatched on *both* sides alongside it. Those "
+            "blocks' resistors declare their bulk terminal on the schematic's "
+            "own floating `sub!` global, while the layout puts every drawn "
+            "resistor's bulk on the curated deck's real substrate net "
+            "(`vsubs`) — which the NMOS body ties also land on, so the layout "
+            "has one substrate node where the reference has two. That is a "
+            "schematic-netlist property, not a routing or deck defect, and it "
+            "only shows up on the three blocks that carry both a resistor and "
+            "a capacitor. It is recorded here rather than resolved: changing "
+            "which node a device's bulk is declared on is a schematic change, "
+            "and this increment does not make one."
+        )
+        lines.append("")
 
     lines.append("### Device flavor\n")
     lines.append(plan["device_flavor"])

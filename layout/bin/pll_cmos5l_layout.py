@@ -335,6 +335,20 @@ class Verifier:
         self.pdk_root = pdk_root
         self.out_dir = out_dir
 
+    def _relativise(self, text: str) -> str:
+        """Replace this record's own absolute path with `.` in `klt` output.
+
+        A record is committed evidence, so an absolute path inside it is a
+        reproducibility defect, not cosmetics: the same run in a different
+        checkout would produce a byte-different record for no reason anyone
+        could act on, and a reader diffing two records would see machine
+        noise. Only this record directory's own prefix is rewritten -- every
+        other byte of `klt`'s response is committed unedited.
+        """
+        return text.replace(str(self.out_dir.resolve()), ".").replace(
+            str(self.out_dir), "."
+        )
+
     def _run(self, args: list[str]) -> dict[str, Any]:
         proc = subprocess.run(
             [self.klt, *args], capture_output=True, text=True, cwd=self.out_dir
@@ -343,7 +357,7 @@ class Verifier:
         # to stderr on error, so read whichever stream is non-empty rather
         # than silently swallowing a captured error as `{}` (the same
         # behaviour `pll_layout.Builder._parse_json_envelope` documents).
-        raw = proc.stdout.strip() or proc.stderr.strip()
+        raw = self._relativise(proc.stdout.strip() or proc.stderr.strip())
         try:
             report = json.loads(raw) if raw else {}
         except json.JSONDecodeError:
@@ -352,7 +366,7 @@ class Verifier:
             "returncode": proc.returncode,
             "ok": proc.returncode == 0 and "error" not in report,
             "response": report,
-            "stderr": proc.stderr.strip()[:2000],
+            "stderr": self._relativise(proc.stderr.strip())[:2000],
         }
 
     def drc(self, gds: str, top: str, report_name: str) -> dict[str, Any]:
