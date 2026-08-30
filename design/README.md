@@ -438,6 +438,26 @@ pattern for its *layout* phase.
   not 2.5×. The readout has no output stage and its input is now *designed* to
   dwell between the rails; that residual is filed as a follow-up.
 
+  **Usable phase-error threshold bound — `f_ref`-dependent by construction,
+  accepted (issue #77, Part of #16):** `VWIN` settles to the balance between
+  `XRPU`'s continuous charge over one *reference period* and `XMPD`'s
+  discharge over one `WIDE` pulse, so `T_ref` sits in the denominator of the
+  settling slope and the assert/de-assert phase-error thresholds scale with
+  `1/f_ref`. At the DR-005-amended 3.5–24.4 MHz `f_ref` range, RECORD-003
+  measures the assert threshold at **11.7–24.4% of `T_ref`** and the
+  de-assert threshold at **18.7–36.6% of `T_ref`** (both at
+  `mos_tt`/`res_typ`/27 °C; see RECORD-003 "What the re-size costs" for the
+  full corner table). **[DR-006](../spec/decision-records/DR-006-lock-detector-fref-dependent-threshold.md)
+  ratifies accepting this as intended topology behaviour rather than
+  redesigning it**: `2AMLogic/gf180-pll`'s own `lock_detector` uses the
+  identical continuous-pull-up / event-gated-pull-down integrator and has
+  already disclosed the same `T_ref`-proportional limitation across three of
+  its own records without a topology change. A consumer gating logic on
+  `LOCK` should treat the phase-error threshold as a `T_ref`-relative
+  quantity in this range, not a fixed number; DR-006 leaves open what happens
+  below the ported 3.5 MHz floor, where gf180-pll's own (unmeasured) hand
+  argument predicts chatter — this repo has not measured that regime either.
+
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,
 internal design stays all-3.3V per DR-002) is ratified by
