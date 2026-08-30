@@ -1,0 +1,48 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-kvco-table (issue #23, Part of #16)
+* Open-loop VCO frequency-vs-VCTRL sweep at a fixed band-select code and PVT
+* corner. `../run.sh` sweeps @VCTRL@/@B0V@/@B1V@ over the campaign's own
+* matrix and substitutes @CORNER_MOS@ (cornerMOShv.lib section: mos_tt/
+* mos_ss/mos_ff), @CORNER_RES@ (cornerRES.lib section: res_typ/res_wcs/
+* res_bcs), and @TEMP@ (degC) per ../corners/matrix.md's 3-bundle PVT
+* convention (see that file for why a 3-bundle subset, not the full
+* 5(mos)x3(res)x3(temp) cross product).
+*
+* Includes `vco_open.spice` (see ../run.sh's own header for why this is a
+* locally-derived, XCDECAP-stripped copy of the frozen
+* ../netlist-snapshots/vco.spice, not that file directly), instantiates the
+* real `vco` subckt with ideal DC sources on VCTRL/B0/B1/VDD_VCO, and
+* measures the CLK output's steady-state period via ngspice `.meas`
+* trig/targ between two later rising edges (skipping the ring's own
+* startup transient).
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include vco_open.spice
+
+Vvctrl vctrl 0 dc @VCTRL@
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+Vdd vdd 0 dc 3.3
+Vsub sub! 0 dc 0
+
+Xvco vctrl b0 b1 clk vdd 0 vco
+
+* Breaks the ring's own node symmetry so ngspice's transient solver does not
+* sit at the (unstable, but numerically exact) all-equal-nodes equilibrium
+* indefinitely -- a real ring self-starts from any physical noise/mismatch;
+* this is the same role a deliberate mismatch or a noise source plays in a
+* real self-starting ring, applied as an explicit .ic since this compact
+* model does not inject its own transient noise.
+.ic v(xvco.ring1)=0.5
+
+.tran 20p 40n
+
+.control
+run
+meas tran per1 trig v(clk) val=1.65 rise=3 targ v(clk) val=1.65 rise=4
+print per1
+.endc
+.end
