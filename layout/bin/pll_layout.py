@@ -88,15 +88,18 @@ RESISTOR_MODELS = {
     "rhigh": "rhigh",
 }
 
-#: `cap_cmim` (MIM) has no `klt gen` generator on any family for sg13g2 --
-#: `cap_array` (sky130-only) explicitly rejects the family
-#: (klayout-tools#1455), and no MiM capacitor extraction device class exists
-#: in the curated sg13g2 deck either (`klt deck info --deck sg13g2`: no
-#: `capacitor` entry, klayout-tools#1454). Per this issue's own Non-goals,
-#: capacitor devices are recorded in the plan (so they are never silently
-#: dropped) but never attempted in the build step.
+#: Capacitor models this plan recognises but never attempts to draw -- one
+#: entry per PDK the design is ported to, because the two ports use
+#: physically different capacitors: `cap_cmim` is SG13G2's MIM capacitor,
+#: `cap_cmomi` is the SG13CMOS5L port's metal-oxide-metal replacement (the
+#: MIM->MoM swap DR-004/issue #22 ratified, because CMOS5L forbids the MIM
+#: plate layers outright). Neither is drawable today -- see
+#: :data:`BLOCKED_REASONS` for each one's own tracked upstream reason. Per
+#: issue #13's own Non-goals, capacitor devices are recorded in the plan (so
+#: they are never silently dropped) but never attempted in the build step.
 CAP_MODELS = {
     "cap_cmim": "cap_cmim",
+    "cap_cmomi": "cap_cmomi",
 }
 
 LEAF_MODELS = set(MOS_MODELS) | set(RESISTOR_MODELS) | set(CAP_MODELS)
@@ -327,19 +330,30 @@ def _slug(value: float) -> str:
 #: both fixed upstream -- see `layout/requirements.txt`'s own header), so
 #: they carry no such reason any more; a real `klt gen`/`klt extract` result
 #: is what the build step now records for them instead of an assumption.
+#: Keyed by the *model name*, not by `kind`: the two ports' capacitors are
+#: physically different devices blocked for different, separately-tracked
+#: upstream reasons, so a single "capacitor" string would misattribute one
+#: port's gap to the other.
 BLOCKED_REASONS = {
-    "capacitor": (
+    "cap_cmim": (
         "klt gen cap_array rejects the sg13g2 PDK family outright "
-        "(klayout-tools#1455, filed by this pass -- #1117 added cap_array "
-        "for sky130 only and never covered sg13g2), and the curated sg13g2 "
-        "extraction deck still has no capacitor device class either, even "
-        "though the metals/vias stack extension (klayout-tools#1243) that "
-        "issue #1233 deferred capacitor recognition on has since landed -- "
-        "see klayout-tools#1233 (closed, 'defer' decision), #1243 (closed, "
-        "prerequisite landed) and #1454 (filed by this pass: the actual "
-        "cap_cmim/rfcmim recognition follow-on the deck's own source "
-        "comment expects but no open issue tracks) -- out of scope per "
-        "this issue's own Non-goals regardless, never attempted"
+        "(klayout-tools#1455, filed by issue #13's own pass -- #1117 added "
+        "cap_array for sky130 only and never covered sg13g2), and the "
+        "curated sg13g2 extraction deck had no capacitor device class "
+        "either at that pass (klayout-tools#1454) -- out of scope per "
+        "issue #13's own Non-goals regardless, never attempted"
+    ),
+    "cap_cmomi": (
+        "SG13CMOS5L has no MIM capacitor at all (its plate layers are on "
+        "cmos5l's own DRC/LVS forbidden-layer lists), so this design's "
+        "MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and "
+        "neither half of the tooling covers it: every klt gen generator "
+        "rejects the ihp-sg13cmos5l PDK family outright "
+        "(klayout-tools#1462, filed by issue #24's pass), and the curated "
+        "sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is empty, "
+        "so a hand-drawn MoM capacitor would extract as no device at all "
+        "(klayout-tools#1463, also filed by that pass). Recorded here, "
+        "never drawn, never silently dropped"
     ),
 }
 
@@ -461,7 +475,7 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
                 "params": {"w_um": w_um, "l_um": l_um, "model": member["model"]},
                 "count": 1,
                 "expected": None,
-                "blocked_reason": BLOCKED_REASONS["capacitor"],
+                "blocked_reason": BLOCKED_REASONS[member["model"]],
                 "members": [
                     {
                         "device": member["path"],
@@ -778,7 +792,7 @@ def _match_block_extraction(
 
 def attempt_build(plan: dict[str, Any], builder: Builder) -> dict[str, Any]:
     """Draw, extract, and compose every block; skip capacitor groups (never
-    attempted -- see BLOCKED_REASONS["capacitor"] and this issue's own
+    attempted -- see BLOCKED_REASONS[<model>] and issue #13's own
     Non-goals)."""
     summary: dict[str, Any] = {"blocks": []}
     for block in plan["blocks"]:
