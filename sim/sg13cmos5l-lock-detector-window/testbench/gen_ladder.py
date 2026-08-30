@@ -20,6 +20,24 @@ Two subcommands:
            point raw states, and the one-line per-corner summary (assert
            threshold, de-assert threshold, hysteresis, chatter, currents).
 
+ONE-POINT-AT-A-TIME MODE (issue #52, Part of #16).  `gen --only-index K`
+generates a deck for JUST ladder point K (using
+../testbench/tb_lock_ladder_point.sp.tmpl, no XR/XIL/XIU base section),
+keeping the SAME global index K in every device/.meas/.ic name the merged
+whole-ladder deck would have used, so `reduce`'s own log parsing cannot tell the
+difference between one merged deck's stdout and several single-point decks'
+stdout concatenated together. This exists because issue #52 makes the
+integrating node's R*C time constant many multiples of the reference
+period BY DESIGN -- correct on its own terms, but it also means a corner's
+own full settling now spans many reference cycles, and this deck's own
+per-timestep cost was measured to scale worse than linearly with
+simultaneous copy count (every copy's own pulse edges are new ngspice
+breakpoints shared by the whole transient's adaptive step control). Running
+one ladder point (2 copies) at a time, as many independent ngspice
+invocations, is what keeps the sweep tractable -- see
+../testbench/tb_lock_recovery.sp.tmpl's header for the measured numbers.
+../testbench/run.sh drives this mode; see its own per-corner N_cycles note.
+
 Ladder point k instantiates the DUT TWICE from one stimulus pair:
   * copy A starts fully DISCHARGED (VWIN = 0)  -- "just saw a wide error";
     the largest tau at which A still settles into the in-window state is the
@@ -52,13 +70,27 @@ import re
 import sys
 
 # Ladder in units of the corner's own measured comparator window twin_r.
-# Dense (0.15 x window) from 1.0 to 2.5 x window because that is where the
-# threshold sits (the coincidence gate needs the error pulse to exceed the
-# window by enough to actually discharge the integrating node, not merely to
-# exceed it); coarse outside, where only "clearly in" / "clearly out" matters.
+# Dense (0.20 x window steps) from 1.0 to 2.0 x window because that is where
+# the threshold sits (the coincidence gate needs the error pulse to exceed
+# the window by enough to actually discharge the integrating node, not
+# merely to exceed it); coarse outside, where only "clearly in" / "clearly
+# out" matters.
+#
+# Reduced from RECORD-001's own 14-point list to 9 (issue #52, Part of #16):
+# the per-point cost of the now much-longer settling window (many multiples
+# of T_ref by design, see ../testbench/tb_lock_recovery.sp.tmpl's header)
+# makes running every corner at the original density computationally
+# impractical.  The dense region's step is therefore 0.20 x window here vs.
+# 0.15 x window in RECORD-001 -- still strictly BELOW row 16's own
+# 25%-of-window hysteresis criterion, so a hysteresis that met the criterion
+# would still have to resolve at this step; the points dropped are the ones
+# that only restated "clearly in" / "clearly out" rather than bracketing the
+# threshold.  The resulting bound is correspondingly weaker than
+# RECORD-001's (< 20% of window rather than < 15%) and the record says so.
 LADDER_FRACS = [
-    0.25, 0.50,
-    1.00, 1.15, 1.30, 1.45, 1.60, 1.75, 1.90, 2.05, 2.20, 2.35, 2.50,
+    0.50,
+    1.00, 1.20, 1.40, 1.60, 1.80, 2.00,
+    2.50,
     10.00,
 ]
 
@@ -72,9 +104,21 @@ def gen(args):
     tref = float(args.tref)
     taus = [f * twin for f in LADDER_FRACS]
 
+    only_index = args.only_index
+    if only_index is not None and not (0 <= only_index < len(LADDER_FRACS)):
+        raise SystemExit("gen_ladder: --only-index {} out of range "
+                         "0..{}".format(only_index, len(LADDER_FRACS) - 1))
+    indices = range(len(LADDER_FRACS)) if only_index is None else [only_index]
+
+    # The base recovery/idd signals (lkr, xr.vwin, vddl#branch, vddu#branch)
+    # belong to ../testbench/tb_lock_recovery.sp.tmpl now (issue #52, Part of
+    # #16) -- only kept here when this deck ALSO carries the base section
+    # (only_index is None, i.e. the historical merged-deck path).
     devices, ics, meas = [], [], []
-    keep = ["lkr", "xr.vwin", "vddl#branch", "vddu#branch"]
-    for k, (frac, tau) in enumerate(zip(LADDER_FRACS, taus)):
+    keep = ([] if only_index is not None else
+            ["lkr", "xr.vwin", "vddl#branch", "vddu#branch"])
+    for k in indices:
+        frac, tau = LADDER_FRACS[k], taus[k]
         devices.append(
             "* ladder point {k}: tau = {f:.2f} x twin_r = {tau:.6e} s".format(
                 k=k, f=frac, tau=tau))
@@ -306,6 +350,12 @@ def main():
     g.add_argument("--tsettle", required=True)
     g.add_argument("--pdk-root", required=True)
     g.add_argument("--pdk", required=True)
+    g.add_argument("--only-index", type=int, default=None,
+                    help="generate just ladder point K (0-based index into "
+                         "LADDER_FRACS), with tb_lock_ladder_point.sp.tmpl "
+                         "and no XR/XIL/XIU base section -- issue #52's "
+                         "one-point-at-a-time mode. Default: all points, "
+                         "the historical merged-deck path.")
     g.set_defaults(func=gen)
 
     r = sub.add_parser("reduce")

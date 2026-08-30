@@ -11,7 +11,9 @@ Connectivity is label-driven (lab_pin stubs on every device terminal),
 matching the gf180-pll/sky130-pll fleet convention documented in
 design/README.md.
 DR-001 Decision 2 Consequences / DR-002 Decision 4: passive monitor, no FSM, no loop-node drive.
-SG13CMOS5L port (issue #22, DR-004): cap_cmim (MIM, unavailable on SG13CMOS5L per DR-003 Finding 2) replaced by cap_cmomi (interdigitated MOM). Sizes are chosen so cap_cmomi.tcl's own display-capacitance formula lands within ~10% of the original cap_cmim instance's value -- a provisional placeholder, not a re-derived size (mmin/mmax/feed/subblock/mm_ok have no cap_cmim equivalent and are set to the PDK's own documented defaults: full M1-M4 stack, double-sided feed). See design/README.md SG13CMOS5L section for the full per-instance mapping table and DR-004 for the MoM 'not validated on CMOS5L silicon' caveat this carries forward from DR-003 Finding 2.
+SG13CMOS5L port (issue #22, DR-004): cap_cmim (MIM, unavailable on SG13CMOS5L per DR-003 Finding 2) replaced by cap_cmomi (interdigitated MOM). mmin/mmax/feed/subblock/mm_ok have no cap_cmim equivalent and are set to the PDK's own documented defaults: full M1-M4 stack, double-sided feed. See design/README.md SG13CMOS5L section for the full per-instance mapping table and DR-004 for the MoM 'not validated on CMOS5L silicon' caveat this carries forward from DR-003 Finding 2.
+Issue #52 (Part of #16) re-derived XRPU (rhigh, was w=0.5u l=6u) and XCW (cap_cmomi, was w=8u l=8u m=1) from issue #38's RECORD-001 measurement that the integrating node's R*C time constant sat 23-1412x BELOW the reference period at every corner, so the node tracked the coincidence gate almost combinationally instead of averaging it over many reference cycles. XRPU l=700u (R = 1.35-3.30 MOhm over res_bcs/res_typ/res_wcs x -40/27/125C) with XCW w=40u l=40u m=1 (1.691 pF nominal) puts R*C at 2.29-5.58 us, i.e. 8.0-19.5x ABOVE the slowest period of row 2's DR-005-amended f_ref range (3.5-24.4 MHz, T_ref <= 286 ns), and 6.4-23.4x once the +/-20% MOM-model-uncertainty band on XCW is included. Measured consequence: the block is steady at the deep out-of-lock phase error at every ladder corner re-measured, where RECORD-001 found chatter at 92/92 -- see sim/sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md. XCW is therefore no longer the "provisional placeholder size" design/README.md's cap_cmomi table used to record for this instance (delaywin_hv's own XC1, one schematic level down, was re-derived by the same issue -- see delaywin_hv.sch's own header).
+NOT fixed by issue #52, and NOT to be read as passing row 16 in full: the hysteresis criterion (>= 25% of window) still fails, and RECORD-002 attributes that to two things outside the three instances #52 resized -- XSCH (schmitt_hv) has its two feedback devices tied to the wrong rails, measuring 1.1 mV of input-referred hysteresis where the classic connection measures 932 mV; and the settled-VWIN-vs-phase-error characteristic is far too steep for any Schmitt hysteresis to become a >= 25%-of-window PHASE-ERROR width, that steepness being set by the XRPU/XMPD strength ratio rather than by R*C. Do not "fix" either by moving XRPU or XCW: that trades the R*C margin above straight back for it.
 }
 G {}
 K {}
@@ -40,7 +42,7 @@ C {lab_pin.sym} 960 -150 0 0 {name=l15 lab=nwide}
 C {lab_pin.sym} 1040 -150 0 0 {name=l16 lab=WIDE}
 C {lab_pin.sym} 980 -190 0 0 {name=l17 lab=VDD}
 C {lab_pin.sym} 1020 -110 0 0 {name=l18 lab=VSS}
-C {sg13cmos5l_pr/rhigh.sym} 1300 -400 0 0 {name=RPU model=rhigh body=sub! spiceprefix=X w=0.5u l=6u b=0 m=1}
+C {sg13cmos5l_pr/rhigh.sym} 1300 -400 0 0 {name=RPU model=rhigh body=sub! spiceprefix=X w=0.5u l=700u b=0 m=1}
 C {lab_pin.sym} 1300 -430 0 0 {name=l19 lab=VDD}
 C {lab_pin.sym} 1300 -370 0 0 {name=l20 lab=VWIN}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1300 -100 0 0 {name=MPD model=sg13_hv_nmos w=2u l=0.5u ng=1 m=1 spiceprefix=X}
@@ -48,7 +50,7 @@ C {lab_pin.sym} 1320 -130 0 0 {name=l21 lab=VWIN}
 C {lab_pin.sym} 1280 -100 0 0 {name=l22 lab=WIDE}
 C {lab_pin.sym} 1320 -70 0 0 {name=l23 lab=VSS}
 C {lab_pin.sym} 1320 -100 0 0 {name=l24 lab=VSS}
-C {sg13cmos5l_pr/cap_cmomi.sym} 1600 -400 0 0 {name=CW model=cap_cmomi w=8u l=8u mmin=1 mmax=4 feed=double subblock=0 mm_ok=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/cap_cmomi.sym} 1600 -400 0 0 {name=CW model=cap_cmomi w=40u l=40u mmin=1 mmax=4 feed=double subblock=0 mm_ok=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 1600 -430 0 0 {name=l25 lab=VWIN}
 C {lab_pin.sym} 1600 -370 0 0 {name=l26 lab=VSS}
 C {schmitt_hv.sym} 1300 200 0 0 {name=XSCH }

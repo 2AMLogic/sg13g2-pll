@@ -250,19 +250,54 @@ pattern for its *layout* phase.
   defaults, used unchanged for every instance. Per-instance `w`/`l` (and, for
   `delaywin_hv`, an `m` multiplier) were chosen so the PDK's own
   `cap_cmomi.tcl` display-capacitance formula lands close to the original
-  `cap_cmim` instance's nominal capacitance — **a provisional placeholder
-  size, not a re-derived one** (this issue's own scope explicitly excludes
-  numeric sizing; a real characterization/tuning pass is owed to the
-  sim-campaign follow-up issue, same as every other numeric value in this
-  repo per "Sizing is provisional throughout" above):
+  `cap_cmim` instance's nominal capacitance — **originally a provisional
+  placeholder size, not a re-derived one** (issue #22's own scope explicitly
+  excluded numeric sizing; a real characterization/tuning pass was owed to
+  the sim-campaign follow-up issues, same as every other numeric value in
+  this repo per "Sizing is provisional throughout" above). **Two of the five
+  are no longer provisional**: `lock_detector.XCW` and
+  `lock_detector.XDW.XC1` were re-derived from measurement by issue #52 (see
+  the "Re-derived, no longer provisional" note below the table); the other
+  three are still placeholders.
 
-  | Instance                      | `cap_cmim` (was)      | `cap_cmomi` (now)                                   | ~C (cmim → cmomi)   |
-  |--------------------------------|-----------------------|------------------------------------------------------|----------------------|
-  | `loop_filter.XC1`              | `w=40u l=40u m=1`     | `w=40u l=40u mmin=1 mmax=4 feed=double m=1`           | 2.41 pF → 1.69 pF    |
-  | `loop_filter.XC2`               | `w=8u l=8u m=1`       | `w=10u l=10u mmin=1 mmax=4 feed=double m=1`           | 97 fF → 100 fF       |
-  | `vco.XCDECAP`                  | `w=60u l=60u m=1`     | `w=70u l=70u mmin=1 mmax=4 feed=double m=1`           | 5.41 pF → 5.29 pF    |
-  | `lock_detector.XCW`             | `w=6u l=6u m=1`       | `w=8u l=8u mmin=1 mmax=4 feed=double m=1`             | 55 fF → 60 fF        |
-  | `lock_detector.XDW.XC1` (in `delaywin_hv`) | `w=4u l=4u m=1` | `w=4u l=4u mmin=1 mmax=4 feed=double m=2`      | 25 fF → 27 fF        |
+  | Instance                      | `cap_cmim` (was)      | `cap_cmomi` (now)                                   | ~C (cmim → cmomi)   | Basis |
+  |--------------------------------|-----------------------|------------------------------------------------------|----------------------|-------|
+  | `loop_filter.XC1`              | `w=40u l=40u m=1`     | `w=40u l=40u mmin=1 mmax=4 feed=double m=1`           | 2.41 pF → 1.69 pF    | provisional placeholder (#22) |
+  | `loop_filter.XC2`               | `w=8u l=8u m=1`       | `w=10u l=10u mmin=1 mmax=4 feed=double m=1`           | 97 fF → 100 fF       | provisional placeholder (#22) |
+  | `vco.XCDECAP`                  | `w=60u l=60u m=1`     | `w=70u l=70u mmin=1 mmax=4 feed=double m=1`           | 5.41 pF → 5.29 pF    | provisional placeholder (#22) |
+  | `lock_detector.XCW`             | `w=6u l=6u m=1`       | `w=40u l=40u mmin=1 mmax=4 feed=double m=1`           | 55 fF → **1.69 pF**  | **re-derived (#52)**, was `w=8u l=8u` → 60 fF |
+  | `lock_detector.XDW.XC1` (in `delaywin_hv`) | `w=4u l=4u m=1` | `w=40u l=40u mmin=1 mmax=4 feed=double m=2`  | 25 fF → **3.38 pF**  | **re-derived (#52)**, was `w=4u l=4u m=2` → 27 fF |
+
+  **Re-derived, no longer provisional (issue #52, Part of #16)**: the two
+  `lock_detector` instances above, together with `lock_detector.XRPU`
+  (`rhigh`, `w=0.5u` `l=6u` → **`l=700u`**, which is not a `cap_cmomi`
+  instance and so is not in the table), were re-sized against
+  `spec/porting-plan.md` row 16 from the PVT-cornered measurements in
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md`
+  and re-verified in
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md`.
+  The two sizings answer two independent criteria:
+
+  - `XRPU`·`XCW` sets the integrating node's `R·C`. RECORD-001 measured it at
+    0.71–1.71 ns, i.e. 23–1412× *below* the reference period, which is why
+    the block chattered at all 92 corner points it swept. `l=700u` +
+    `w=40u l=40u` puts `R·C` at **2.29–5.58 µs**, i.e. **8.0–19.5×** the
+    *slowest* reference period in row 2's DR-005-amended 3.5–24.4 MHz range
+    (`T_ref` ≤ 286 ns) at every resistor-corner × temperature point.
+  - `XDW.XC1` sets the comparator window `twin_r` (`delaywin_hv`'s own
+    low→high propagation delay), which RECORD-001 measured at 0.219–0.409 ns
+    against row 16's ported ≥2.5 ns floor. `w=40u l=40u m=2` puts `twin_r` at
+    **3.68–13.66 ns**, clearing the floor at every corner including the
+    −20% MOM-uncertainty band.
+
+  These are the *first* two `cap_cmomi` instances in this design whose size
+  comes from a measured spec criterion rather than from matching the
+  displaced `cap_cmim` instance's nominal value. The area cost is real and
+  is stated rather than hidden: `XCW` grows from 64 µm² to 1 600 µm² of
+  drawn MOM array and `XDW.XC1` from 2 × 16 µm² to 2 × 1 600 µm², and
+  `XRPU`'s `rhigh` strip grows from 6 µm to 700 µm of drawn length (it will
+  need snaking in layout). The `lock_detector` layout that landed in PR #39
+  predates all three and does not reflect them.
 
   Per DR-003 Finding 2 and this repo's own CLAUDE.md ("no claim without a
   testbench"), `cap_cmomi`'s vendor model is explicitly **not validated on
@@ -321,6 +356,24 @@ pattern for its *layout* phase.
   `XRPU`/`XCW` (and possibly `XDW.XC1`, which also sets the comparator
   window) is filed as issue #52 (Part of #16), same discipline as the
   loop-filter `R1` resize proposal above.
+  **Update (issue #52, Part of #16)**: that re-sizing has now landed and been
+  re-verified —
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md`.
+  `XRPU` `l=6u`→`l=700u`, `XCW` `w=8u l=8u`→`w=40u l=40u`, `XDW.XC1`
+  `w=4u l=4u`→`w=40u l=40u` (all three tabulated above). Two of row 16's
+  three measurable criteria that RECORD-001 found failing are now **met at
+  every corner re-measured**: the comparator window is 3.68–13.66 ns against
+  the ≥2.5 ns floor (was 0.219–0.409 ns), and the block is **steady at the
+  deep out-of-lock phase error at every ladder corner** (RECORD-001:
+  chatter at 92/92). The **hysteresis criterion still fails**, and
+  RECORD-002 root-causes it to two mechanisms that are both *outside* the
+  three instances issue #52 resized — `schmitt_hv`'s two feedback devices
+  are tied to the wrong rails (measured 1.1 mV of input-referred hysteresis
+  as drawn vs. 932 mV for the classic connection), and the settled-`VWIN`
+  vs. phase-error characteristic is far too steep for any Schmitt hysteresis
+  to map onto a ≥25%-of-window phase-error width, which is set by the
+  `XRPU`/`XMPD` strength ratio rather than by `R·C`. Both are filed as issue #66,
+  not silently fixed here.
 
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,

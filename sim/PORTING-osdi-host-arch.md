@@ -150,9 +150,49 @@ sim/tools/check-osdi-arch.sh --self-test        # classifier unit tests, no PDK 
 ```
 
 Exit `0` = every named object is loadable here, `1` = at least one is not,
-`2` = usage error / missing file. The four `sim/` campaigns that `osdi`-load
+`2` = usage error / missing file. The `sim/` campaigns that `osdi`-load
 `cap_cmomi` call it as a preflight, so they abort with the diagnosis instead
 of with ngspice's message.
+
+### `--soft`: the one deliberate exception to the hard abort (issue #52)
+
+Aborting is right whenever the unloadable object has no substitute — the deck
+cannot be simulated, and continuing could only yield ngspice's misleading
+message or a number from a silently different circuit. That is the default and
+it does not change.
+
+It is *not* right when the caller has a validated substitute for one specific
+model and a policy for recording which source produced each number.
+`sim/sg13cmos5l-lock-detector-window/` is exactly that case: when `cap_cmomi`
+cannot load it falls back to the model's own closed-form low-frequency
+capacitance (`testbench/cmomi_nominal.py`, self-tested against the two
+geometries `RECORD-001` measured on the real OSDI model) and stamps every
+affected `corners/rc_extract_resized.csv` row's `source` column `va-formula`
+instead of `ngspice-osdi`.
+
+```bash
+sim/tools/check-osdi-arch.sh --quiet --soft cap_cmomi.osdi \
+  "$OSDI/psp103.osdi" "$OSDI/psp103_nqs.osdi" "$OSDI/mosvar.osdi" \
+  "$OSDI/r3_cmc.osdi" "$OSDI/cap_cmomi.osdi"
+```
+
+`--soft <basename>` (repeatable) names only the objects the caller has a
+fallback for. Those are still classified, still named, and still get their
+rebuild command printed — as a **warning** — but they do not fail the run.
+Exit **`3`** then means "the only unloadable objects were ones you declared
+soft", and their basenames are printed on **stdout**, one per line, so the
+caller branches on the shared classifier's answer rather than re-deriving it
+with a probe of its own. Anything *not* named by `--soft` keeps the hard
+abort, so a caller cannot accidentally soften the whole check; `--warn-only`
+(which downgrades a genuine failure to exit `0`) is unrelated and does not
+affect exit `3`. `--self-test` covers this end-to-end exit/stdout contract,
+not just the classifier.
+
+A caller taking the exit-`3` branch owes the record two things: the substituted
+value must be independently validated (here, `cmomi_nominal.py`'s self-test
+against RECORD-001's measured geometries), and every number derived from it
+must be attributable to the substitute in the committed evidence, not only in
+prose.
 
 Because it reads header bytes rather than shelling out to `file(1)` (whose
 wording differs between the GNU and macOS builds), it behaves the same on the

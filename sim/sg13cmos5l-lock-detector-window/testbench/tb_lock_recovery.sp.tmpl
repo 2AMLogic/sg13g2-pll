@@ -1,0 +1,99 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #52, Part of #16)
+* Recovery + supply-current sub-deck: the base 3-copy block
+* (XR/XIL/XIU) split out of ../testbench/tb_lock_ladder.sp.tmpl's own
+* skeleton, on its own so it can be simulated separately from the
+* phase-error ladder points (../testbench/tb_lock_ladder_point.sp.tmpl).
+*
+* WHY THIS SPLIT EXISTS (issue #52).  Issue #38's RECORD-001 found the
+* integrating node's R*C time constant 23-1412x SHORTER than one reference
+* period at every corner -- issue #52's fix makes R*C many multiples of the
+* SLOWEST reference period instead (spec/porting-plan.md row 2, amended by
+* DR-005 to ~3.5-24.4 MHz). That inherently means the block's own settling
+* now takes many reference cycles (by design -- that is what makes it an
+* integrator instead of a combinational pass-through), so a corner's own
+* full-ladder settling transient can no longer complete in a handful of
+* reference periods the way ../records/RECORD-001's original tstop=4*tref
+* did. Measured directly, at mos_tt/res_typ/27C/3.3V/3.5 MHz with the resized
+* block and a 54-reference-cycle tstop: the merged tb_lock_ladder.sp.tmpl
+* deck (21 copies -- 9 ladder points x 2 start states + XR/XIL/XIU) did NOT
+* complete in 400 s, while the same corner run as 1 recovery deck + 9
+* separate 2-copy ladder-point decks completed in about 200 s total. The
+* per-timestep cost does not scale linearly with copy count on this deck:
+* every copy's own independently-timed pulse edges are new ngspice
+* breakpoints shared by the WHOLE transient's adaptive step control, so more
+* simultaneous copies force smaller globally-accepted steps everywhere, not
+* just proportionally more work.
+* Splitting one big deck into many small, independent ngspice invocations
+* (this file, plus one ../testbench/tb_lock_ladder_point.sp.tmpl invocation
+* per ladder point) turns that into an embarrassingly-parallel, tractable
+* sweep -- see ../testbench/run.sh's own "per-corner N_cycles" note for the
+* settling-duration side of the same fix.
+*
+* Reports exactly the same trec/lr_*/vr_*/idd_* .meas names
+* ../testbench/tb_lock_ladder.sp.tmpl's own base section did, so
+* ../testbench/gen_ladder.py's `reduce` subcommand reads this file's output
+* exactly the way it always read the base section of the merged deck --
+* run.sh concatenates this deck's stdout with every per-point deck's stdout
+* before handing the combined text to `reduce`.
+*
+* Placeholders (substituted by ../testbench/run.sh, not meant to be run
+* directly): @CORNER_MOS@, @CORNER_RES@, @TEMP@, @VSUP@, @VMID@, @TREF@,
+* @TRST@, @TAUBIG@ (the deepest ladder point's own tau, for XIU's
+* out-of-window supply-current copy), @TSTEP@, @TSTOP@, @TSETTLE@, @DUT@.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.include @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* ---- zero-phase-error stimulus (UP and DN identical: XOR sees nothing) ----
+Vup0 up0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+Vdn0 dn0 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'trst' 'tref')
+
+* ---- recovery copy: starts fully discharged with no phase error ----------
+Xr up0 dn0 lkr vdd 0 lock_detector
+
+* ---- per-block supply current, on their own ideal rails ------------------
+* XIL: in-window steady state (tau = 0), the current the block draws while
+*      the PLL is locked.  XIU: out-of-window (tau = @TAUBIG@), the current it
+*      draws while the flag is being exercised every reference cycle.
+Vddl vddl 0 dc @VSUP@
+Vddu vddu 0 dc @VSUP@
+Xil up0 dn0 lkil vddl 0 lock_detector
+Vupu upu 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' '@TAUBIG@+trst' 'tref')
+Vdnu dnu 0 pulse(0 @VSUP@ 'ttd+@TAUBIG@' 'ttr' 'ttr' 'trst' 'tref')
+Xiu upu dnu lkiu vddu 0 lock_detector
+
+.ic v(xr.vwin)=0 v(xil.vwin)=@VSUP@ v(xiu.vwin)=0
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran @TSTEP@ @TSTOP@
+
+.control
+save lkr xr.vwin vddl#branch vddu#branch
+run
+meas tran trec when v(xr.vwin)=@VMID@ rise=1
+* The recovery copy's own settled LOCK level defines which rail this block
+* drives in the in-window state.  The reduction reads the polarity from here
+* instead of assuming it -- see ../records/RECORD-001 Finding 1.
+meas tran lr_min min v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_max max v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran lr_avg avg v(lkr) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_min min v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran vr_max max v(xr.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_lock   avg i(vddl) from=@TSETTLE@ to=@TSTOP@
+meas tran idd_unlock avg i(vddu) from=@TSETTLE@ to=@TSTOP@
+.endc
+.end
