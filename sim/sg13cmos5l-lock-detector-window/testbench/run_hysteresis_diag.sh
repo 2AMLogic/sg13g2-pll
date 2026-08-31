@@ -63,19 +63,11 @@
 #   export PDK=ihp-sg13cmos5l
 #   ./run_hysteresis_diag.sh
 
-set -euo pipefail
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
 CORNERS="$RECORD_DIR/corners"
 SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_resized.spice"
-WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
 
 # Same OSDI host-architecture preflight run.sh uses, with the same single
 # `--soft` opt-out for cap_cmomi -- see run.sh's own HOST NOTE for why this
