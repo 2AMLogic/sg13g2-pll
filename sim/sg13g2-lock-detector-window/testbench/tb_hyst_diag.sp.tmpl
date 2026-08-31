@@ -1,0 +1,104 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #82, Part of #16 via #78)
+* HYSTERESIS DIAGNOSTIC -- one phase-error point, two start states, reporting
+* the settled INTEGRATING-NODE VOLTAGE as well as the LOCK pin.
+*
+* Ported (topology, not device-specific) from
+* ../../sg13cmos5l-lock-detector-window/testbench/tb_hyst_diag.sp.tmpl (issue
+* #66).  Two differences from that deck, both mechanical and both following
+* ../testbench/tb_window.sp.tmpl's own precedent for this PDK:
+*
+*   1. `cap_cmim` (this PDK's MIM device) has its own real process corner --
+*      swept here via a `.lib cornerCAP.lib @CORNER_CAP@` call, mirroring
+*      @CORNER_MOS@/@CORNER_RES@ -- instead of the SG13CMOS5L sibling's flat
+*      `.include cap_cmomi.lib`, which exists only because that PDK's
+*      cap_cmomi has no corner axis of its own (see
+*      ../testbench/tb_extract_c.sp.tmpl's header).
+*   2. @DUT@ is `.include`d directly with no MOM-band-variant substitution --
+*      there is exactly one DUT file per resize step here (see
+*      ../testbench/run.sh's own "why no --soft" note), not several
+*      dut_<variant>.spice files.
+*
+* WHY THIS DECK EXISTS.  ../testbench/tb_lock_ladder_point.sp.tmpl answers
+* "which state does the block settle into at this phase error", which is what
+* spec/porting-plan.md row 16's assert / de-assert / chatter criteria are
+* stated in.  It cannot answer "why is the phase-error hysteresis what it
+* is", because the LOCK pin is a thresholded view of VWIN and throws away the
+* shape of the VWIN-vs-phase-error characteristic that the threshold sits on.
+*
+* Row 16's hysteresis criterion ("hysteresis >= 25% of window") is a
+* PHASE-ERROR width, and in this topology it is the product of two separate
+* quantities (RECORD-002/RECORD-003 established this on the SG13CMOS5L
+* sibling by control, and it is topology, not PDK, per issue #78's own
+* "Reusable facts"):
+*
+*   1. the readout Schmitt's own hysteresis in VOLTS on VWIN
+*      (../testbench/tb_schmitt_hyst.sp.tmpl measures that directly), and
+*   2. the SLOPE of the settled VWIN against phase error, dVWIN/dtau, which
+*      converts those volts into a phase-error width.
+*
+* This deck measures (2): it sweeps tau finely across the transition and
+* reports the settled VWIN, so ../records/RECORD-001 can state the measured
+* width of the transition region in units of the window instead of arguing it
+* from R, Ron and T_ref.
+*
+* Two copies at each tau, as the ladder deck uses: copy A starts fully
+* DISCHARGED, copy B fully CHARGED, so any state-dependence (i.e. any real
+* hysteresis) shows up as a difference between the two settled results at the
+* same tau rather than having to be inferred across ladder points.
+*
+* Placeholders (substituted by ../testbench/run_xmpd_sizing.sh, not meant to
+* be run directly): @CORNER_MOS@, @CORNER_RES@, @CORNER_CAP@, @TEMP@, @VSUP@,
+* @TREF@, @TRST@, @TAU@, @TSTEP@, @TSTOP@, @TSETTLE@, @DUT@, @PDK_ROOT@/@PDK@.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib @CORNER_CAP@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param tau=@TAU@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* Same PFD stimulus model the ladder deck uses: XOR(UP,DN) is high for
+* exactly tau, and the reset-path overlap common to both is rejected.
+Vup up 0 pulse(0 @VSUP@ 'ttd' 'ttr' 'ttr' 'tau+trst' 'tref')
+Vdn dn 0 pulse(0 @VSUP@ 'ttd+tau' 'ttr' 'ttr' 'trst' 'tref')
+
+Xa up dn lka vdd 0 lock_detector
+Xb up dn lkb vdd 0 lock_detector
+
+.ic v(xa.vwin)=0 v(xb.vwin)=@VSUP@
+
+* SOLVER-EFFORT NOTE -- itl4=5000 gmin=1e-11, carried over from the
+* SG13CMOS5L sibling verbatim (issue #66, Part of #16): the mechanism (a
+* weak, long-channel XMPD holding the integrating node at intermediate
+* voltages for the whole run, plus nand2_hv's floating series-stack node
+* mid1) is the same topology on both PDKs, not a PDK-specific tuning. See
+* that file's own header for the measured impact and rejected alternatives.
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000 gmin=1e-11
+.tran @TSTEP@ @TSTOP@
+
+.control
+save lka lkb xa.vwin xb.vwin
+run
+meas tran va_avg avg v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran va_min min v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran va_max max v(xa.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran vb_avg avg v(xb.vwin) from=@TSETTLE@ to=@TSTOP@
+meas tran la_avg avg v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran la_min min v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran la_max max v(lka) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_avg avg v(lkb) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_min min v(lkb) from=@TSETTLE@ to=@TSTOP@
+meas tran lb_max max v(lkb) from=@TSETTLE@ to=@TSTOP@
+.endc
+.end

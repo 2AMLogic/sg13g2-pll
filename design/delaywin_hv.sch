@@ -7,6 +7,12 @@ simulation-grounded against real SG13G2 device data) -- a future
 device-characterization / tuning-range campaign (T1 items 8-9, out of
 this issue's scope per spec/porting-plan.md and issue #7's Non-goals)
 re-derives every number here, per spec/decision-records/DR-001-pll-architecture.md.
+EXCEPTION (issue #82): XC1 is no longer a placeholder. w=45u l=45u m=1 is
+derived from sim/sg13g2-lock-detector-window/corners/window_sizing.csv --
+the smallest cap_cmim geometry swept whose worst-case (fast-stack) twin_r
+clears spec/porting-plan.md row 16's 2.5 ns assert-window floor with margin;
+measured 3.732-10.249 ns over the PVT grid. See that slug's RECORD-001.
+The four inverters are untouched and remain provisional.
 Connectivity is label-driven (lab_pin stubs on every device terminal),
 matching the gf180-pll/sky130-pll fleet convention documented in
 design/README.md.
@@ -36,7 +42,7 @@ C {lab_pin.sym} 710 0 0 0 {name=l13 lab=d3}
 C {lab_pin.sym} 790 0 0 0 {name=l14 lab=OUT}
 C {lab_pin.sym} 730 -40 0 0 {name=l15 lab=VDD}
 C {lab_pin.sym} 770 40 0 0 {name=l16 lab=VSS}
-C {sg13g2_pr/cap_cmim.sym} 1100 0 0 0 {name=C1 model=cap_cmim w=4u l=4u m=1 spiceprefix=X}
+C {sg13g2_pr/cap_cmim.sym} 1100 0 0 0 {name=C1 model=cap_cmim w=45u l=45u m=1 spiceprefix=X}
 C {lab_pin.sym} 1100 -30 0 0 {name=l17 lab=OUT}
 C {lab_pin.sym} 1100 30 0 0 {name=l18 lab=VSS}
 C {ipin.sym} -250 0 0 0 {name=p1 lab=IN}
