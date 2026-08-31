@@ -446,6 +446,55 @@ pattern for its *layout* phase.
   not 2.5×. The readout has no output stage and its input is now *designed* to
   dwell between the rails; that residual is filed as a follow-up.
 
+  **Update (issue #76, Part of #16)**: that follow-up is resolved —
+  `sim/sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md`.
+  **Decided by measurement, not argument, that the crowbar current is an
+  accepted residual in realistic operation, and mitigated anyway.** A
+  closed-loop deck (`sim/sg13cmos5l-closed-loop-lock/testbench/run_closed_loop_vwin_dwell.sh`)
+  instruments the pre-mitigation block inside a real acquisition — the same
+  Part B proposal loop RECORD-003/004 of `sg13cmos5l-closed-loop-lock` measure
+  genuine frequency lock on — at three initial control voltages, now a
+  representative operating point since issue #72's `cp` mismatch (which had
+  made the closed loop settle at an unrepresentative ~9.18%-of-`T_ref` static
+  phase error) closed via #85. **`VWIN` never enters the hysteresis band in
+  any of the three 20 µs acquisitions measured** (`dwell_frac` = 0.000000 at
+  all three; the pre-#52 control block hits 0.0001 — 2 ns out of 20 µs — at
+  one of the three). `RECORD-003`'s crowbar figure requires a *held, static*
+  phase error the loop does not produce once it has acquired to within a few
+  percent of `T_ref`.
+
+  That result does not rule out every path to the band (a larger initial
+  frequency error, a different PVT corner, or a mid-lock disturbance are
+  untested), so `schmitt_hv`'s six channel lengths are lengthened `l=0.5u` →
+  `l=2u` anyway — every `W` unchanged, so the trip-point *ratio* that sets
+  hysteresis is nearly preserved (**0.978–1.036×** the hysteresis-in-volts,
+  trip points moving at most −9/+27 mV rising and −34/+45 mV falling) while
+  the crowbar current the feedback devices conduct against the input devices
+  in the same stack — the mechanism a 6T Schmitt's hysteresis and its crowbar
+  path share — drops **3.2–4.3×** at every measured corner (per-device I(V)
+  sweep, `sim/sg13cmos5l-lock-detector-window/corners/schmitt_crowbar_variants.csv`,
+  180 rows). Longer candidates (`l=4u`, `l=8u`) buy more reduction but were
+  rejected: they measurably widen the static in-band phase-error zone enough
+  to spend `XMPD`'s two-sided bound and push the slow-end de-assert threshold
+  off the ladder that measures it — `l=2u` was verified *not* to have that
+  cost (`band_zone_static_hystfix.csv` vs. `band_zone_static_crowbarfix.csv`,
+  every corner within ~1.4 percentage points of `T_ref`, no systematic
+  widening). **The identical change is landed on the SG13G2 sibling
+  `design/schmitt_hv.sch` in this same change** — the crowbar mechanism is a
+  property of the 6T Schmitt topology, not of either PDK's device models —
+  matching the "both PDKs" precedent issue #66 set for the feedback rewiring.
+
+  Re-verified against row 16 rather than assumed carried over: all three
+  measurable criteria still pass, byte-identical to RECORD-003 on the two
+  criteria `schmitt_hv` cannot touch (assert window, `R·C`) and unchanged in
+  substance on hysteresis (50–800% of window, 0/21 below the 25% floor) and
+  chatter (`steady` 21/21 at 20×-window phase error). Row 11's
+  `lock_detector` domain re-bounds to **2.48–113 µA** (10×-window probe,
+  down from 234 µA) / 40.75–103.29 µA (20×-window probe, now measured across
+  the full 21-corner matrix rather than the single corner RECORD-003 spot-
+  checked) — the ceiling on the residual is lowered without claiming the
+  residual is common.
+
   **Usable phase-error threshold bound — `f_ref`-dependent by construction,
   accepted (issue #77, Part of #16):** `VWIN` settles to the balance between
   `XRPU`'s continuous charge over one *reference period* and `XMPD`'s

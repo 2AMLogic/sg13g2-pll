@@ -40,7 +40,13 @@ CAVEATS, stated rather than buried:
     corner: schmitt_hv contains no cap_cmomi instance, so the MOM axis cannot
     move its trip points.
 
-Usage: band_zone.py <corners-dir>   -- writes <corners-dir>/band_zone_static.csv
+Usage: band_zone.py <corners-dir> [suffix]
+
+`suffix` selects which record's CSV set to score -- `_hystfix` (RECORD-003, the
+default) or `_crowbarfix` (RECORD-004) -- and names the output
+<corners-dir>/band_zone_static<suffix>.csv.  Running it for both is how
+RECORD-004 shows that lengthening schmitt_hv's channels did not widen the
+in-band zone it is trying to make cheaper.
 """
 import csv
 import os
@@ -79,27 +85,28 @@ def main():
     corners = sys.argv[1] if len(sys.argv) > 1 else \
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "corners")
     corners = os.path.abspath(corners)
+    suffix = sys.argv[2] if len(sys.argv) > 2 else "_hystfix"
 
     trips = {}
-    with open(os.path.join(corners, "schmitt_hystfix.csv")) as f:
+    with open(os.path.join(corners, f"schmitt{suffix}.csv")) as f:
         for r in csv.DictReader(f):
             key = (r["mos_corner"], r["temp_c"], r["vsup_v"])
             trips[key] = (float(r["vth_rising_v"]), float(r["vth_falling_v"]))
 
     meta = {}
-    with open(os.path.join(corners, "ladder_hystfix.csv")) as f:
+    with open(os.path.join(corners, f"ladder{suffix}.csv")) as f:
         for r in csv.DictReader(f):
             if r["twin_r_s"] == "NA":
                 continue
             meta[r["corner_tag"]] = r
 
     raw = {}
-    with open(os.path.join(corners, "ladder_raw_hystfix.csv")) as f:
+    with open(os.path.join(corners, f"ladder_raw{suffix}.csv")) as f:
         for r in csv.DictReader(f):
             raw.setdefault(r["corner_tag"], []).append(
                 (float(r["tau_xwin"]), float(r["vwin_a_avg_v"])))
 
-    out = os.path.join(corners, "band_zone_static.csv")
+    out = os.path.join(corners, f"band_zone_static{suffix}.csv")
     with open(out, "w") as f:
         f.write("corner_tag,mos_corner,res_corner,temp_c,vsup_v,fref,dut_variant,"
                 "twin_r_s,tref_s,vth_rising_v,vth_falling_v,"
