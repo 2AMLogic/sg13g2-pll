@@ -32,18 +32,10 @@
 # ../corners/lock_trace_proposal_icpeq.csv. Override with
 # TSTOP_OVERRIDE/TAVG0_OVERRIDE for a quicker sanity pass.
 
-set -euo pipefail
+# shellcheck source=../../../design/lib/testbench-preamble.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RECORD_DIR="$(cd "$HERE/.." && pwd)"
 OUT="$RECORD_DIR/corners/lock_trace_proposal_cascbias.csv"
-WORK="$(mktemp -d)"
-trap 'rm -rf "$WORK"' EXIT
-
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
-
-OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
 cat > "$WORK/.spiceinit" <<EOF
 osdi $OSDI/psp103.osdi
 osdi $OSDI/psp103_nqs.osdi
