@@ -1,0 +1,57 @@
+* sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #76, Part of #16)
+* schmitt_hv static supply current vs. input voltage -- the CROWBAR PROFILE.
+*
+* WHY.  ../records/RECORD-003 measured, at ONE corner and through the whole
+* lock_detector, that the readout draws 233.8 uA when VWIN parks between the
+* trip points (1.483 V, against 1.14 V / 2.07 V) and 57.9 uA when it does not.
+* That is the block-level symptom.  This deck measures the MECHANISM directly
+* and at every corner: schmitt_hv alone, its input swept quasi-statically, its
+* own supply current recorded at every input voltage.
+*
+* WHAT THE MECHANISM IS.  A 6T CMOS Schmitt gets its hysteresis from two
+* feedback devices that pull each series stack's internal node toward the
+* OPPOSITE rail:
+*     NMOS stack   VSS -- XMN2 -- nn -- XMN1 -- OUT,   XMN3: VDD -> nn, gate OUT
+*     PMOS stack   VDD -- XMP1 -- np -- XMP2 -- OUT,   XMP3: VSS -> np, gate OUT
+* With OUT high and IN inside the band, XMN3 (on, gate = OUT) fights XMN2 (on,
+* gate = IN) and VDD -> XMN3 -> nn -> XMN2 -> VSS is a DC path.  With OUT low
+* the mirror path VDD -> XMP1 -> np -> XMP3 -> VSS conducts.  The current is
+* set by the WEAKER of the contending pair, so it scales with the devices'
+* absolute strength and NOT with the ratios that set the trip points -- which
+* is exactly why the `long` variants ../testbench/run_schmitt_crowbar.sh sweeps
+* can trade it away without giving back hysteresis.  Measured here, not argued.
+*
+* The ramp is the same quasi-static 2 us up / 2 us down triangle
+* ./tb_schmitt_hyst.sp.tmpl uses, so the trip points this deck reports are
+* directly comparable with ../corners/schmitt_hystfix.csv's, and each ramp
+* direction is a separate branch of the I(V) curve with its own state.
+*
+* Substituted by ../testbench/run_schmitt_crowbar.sh: @CORNER_MOS@, @TEMP@,
+* @VSUP@, @VMID@, @DUT@, @PDK_ROOT@/@PDK@ (resolved filesystem path -- ngspice's
+* .lib/.include parser does not expand shell environment variables, issue #54).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+Vin vin 0 pwl(0 0 2u @VSUP@ 4u 0)
+Xsch vin sout vdd 0 schmitt_hv
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran 1n 4u
+
+.control
+run
+* Trip points, same convention as ./tb_schmitt_hyst.sp.tmpl: schmitt_hv is an
+* INVERTING Schmitt, so "OUT falls" is the rising-input trip point.
+meas tran vth_up find v(vin) when v(sout)=@VMID@ fall=1
+meas tran vth_dn find v(vin) when v(sout)=@VMID@ rise=1
+print vth_up vth_dn
+wrdata cb.dat v(vin) i(Vdd) v(sout)
+.endc
+.end

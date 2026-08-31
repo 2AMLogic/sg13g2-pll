@@ -18,12 +18,12 @@ K {}
 V {}
 S {}
 E {}
-C {sg13g2_pr/sg13_hv_pmos.sym} 0 -300 0 0 {name=MP1 model=sg13_hv_pmos w=5u l=0.5u ng=1 m=1 spiceprefix=X}
-C {sg13g2_pr/sg13_hv_pmos.sym} 0 -150 0 0 {name=MP2 model=sg13_hv_pmos w=5u l=0.5u ng=1 m=1 spiceprefix=X}
-C {sg13g2_pr/sg13_hv_pmos.sym} 300 -300 0 0 {name=MP3 model=sg13_hv_pmos w=5u l=0.5u ng=1 m=1 spiceprefix=X}
-C {sg13g2_pr/sg13_hv_nmos.sym} 0 150 0 0 {name=MN1 model=sg13_hv_nmos w=2u l=0.5u ng=1 m=1 spiceprefix=X}
-C {sg13g2_pr/sg13_hv_nmos.sym} 0 300 0 0 {name=MN2 model=sg13_hv_nmos w=2u l=0.5u ng=1 m=1 spiceprefix=X}
-C {sg13g2_pr/sg13_hv_nmos.sym} 300 300 0 0 {name=MN3 model=sg13_hv_nmos w=2u l=0.5u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_pmos.sym} 0 -300 0 0 {name=MP1 model=sg13_hv_pmos w=5u l=2u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_pmos.sym} 0 -150 0 0 {name=MP2 model=sg13_hv_pmos w=5u l=2u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_pmos.sym} 300 -300 0 0 {name=MP3 model=sg13_hv_pmos w=5u l=2u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 0 150 0 0 {name=MN1 model=sg13_hv_nmos w=2u l=2u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 0 300 0 0 {name=MN2 model=sg13_hv_nmos w=2u l=2u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 300 300 0 0 {name=MN3 model=sg13_hv_nmos w=2u l=2u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 20 -330 0 0 {name=l1 lab=VDD}
 C {lab_pin.sym} -20 -300 0 0 {name=l2 lab=IN}
 C {lab_pin.sym} 20 -270 0 0 {name=l3 lab=np}
