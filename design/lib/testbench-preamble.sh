@@ -62,8 +62,8 @@ else
   trap 'rm -rf "$WORK"' EXIT
 fi
 
-: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
-: "${PDK:?set PDK=ihp-sg13cmos5l}"
+: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing the ihp-<pdk> tree the caller needs (e.g. ihp-sg13cmos5l or ihp-sg13g2 -- see the caller run.sh header)}"
+: "${PDK:?set PDK to the ihp-<pdk> tree under PDK_ROOT the caller needs (e.g. PDK=ihp-sg13cmos5l or PDK=ihp-sg13g2 -- see the caller run.sh header)}"
 
 # shellcheck disable=SC2034  # consumed by the sourcing run.sh, not this file
 OSDI="$PDK_ROOT/$PDK/libs.tech/ngspice/osdi"
