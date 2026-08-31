@@ -1,0 +1,40 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #81, Part of #16 via #78)
+* Single-device DC extraction: lock_detector.XRPU (rhigh, w=0.5u l=6u), the
+* same instance parameters as ../netlist-snapshots/lock_detector.spice's XRPU
+* line. Forces 1 uA through the resistor and reads V(N1)/I to get R at the
+* resistor corner + temperature this run.sh instantiation substitutes below.
+*
+* Carried over verbatim (topology, not device-specific) from
+* ../../sg13cmos5l-lock-detector-window/testbench/tb_extract_r.sp.tmpl (issue
+* #38) -- `rhigh` is the same device model on both PDKs (the SG13CMOS5L tree
+* only symlinks in the SG13G2-built OSDI objects for the transistor models;
+* rhigh's cornerRES.lib is the same file, same res_typ/res_bcs/res_wcs labels,
+* same 1360/1020/1700 ohm/sq values, confirmed directly against the installed
+* ihp-sg13g2 and ihp-sg13cmos5l trees before writing this deck).
+*
+* Why this record needs the resistor value as its OWN measurement rather than
+* only as an implicit part of the block transient: XRPU and XCW together are
+* the integrating node's time constant, and whether that time constant is
+* long or short compared with one reference period is the single fact that
+* decides whether this block is an integrator (a lock detector) or a
+* combinational pass-through of `WIDE` (a chatter generator).
+*
+* Template placeholders (substituted by ../testbench/run.sh, not meant to be
+* run directly): @RES_CORNER@ (res_typ|res_bcs|res_wcs, cornerRES.lib),
+* @TEMP@ (degC), @W@, @L@ (device geometry), @PDK_ROOT@/@PDK@ (resolved
+* filesystem path -- ngspice's `.lib` parser does not expand shell/OS
+* environment variables).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @RES_CORNER@
+.option scale=1 temp=@TEMP@
+
+Xrpu n1 0 sub! rhigh w=@W@ l=@L@ m=1 b=0
+Vsub sub! 0 0
+I1 n1 0 dc 1u
+
+.control
+op
+let rval = abs(v(n1)/1e-6)
+print rval
+.endc
+.end

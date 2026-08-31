@@ -92,10 +92,12 @@ port"): the original SG13G2 design directly under `design/`, and the
 SG13CMOS5L port under `design/sg13cmos5l/`. Both campaigns use the directory
 convention above, distinguished by the `<slug>` prefix (`sg13cmos5l-*` here;
 an unprefixed or `sg13g2-*` slug for the original PDK once that campaign
-starts). **SG13G2 still has no `sim/` results of its own** — every campaign issue to
-date is scoped to the SG13CMOS5L port only, and none adds or edits an SG13G2
-result (there are none to touch). **One exception worth naming, because it is
-a measurement of an SG13G2 netlist living in a `sg13cmos5l-*` slug**:
+starts). **SG13G2 now has its own campaign** (`sg13g2-lock-detector-window`,
+issue #81, Part of #16 via #78) — see "SG13G2 campaign status" below. Every
+earlier campaign issue was scoped to the SG13CMOS5L port only, and none of
+those add or edit an SG13G2 result. **One exception worth naming, because it
+predates #81 and is a measurement of an SG13G2 netlist living in a
+`sg13cmos5l-*` slug**:
 `sg13cmos5l-lock-detector-window/corners/schmitt_rewire.csv` (issue #66)
 carries a `pdk` column and 54 of its 108 rows measure
 `design/netlist/lock_detector.spice`'s `schmitt_hv` on `ihp-sg13g2`. That is
@@ -180,6 +182,23 @@ sub-bound stays open. None of the remaining deferred rows is
 MOM-cap-sensitive in DR-003 Finding 2's own sense, so they remain outside
 that record's specific obligation even though they are open
 `spec/porting-plan.md` "re-derive" rows.
+
+## SG13G2 campaign status
+
+Tracks issue #81 (Part of #16 via #78), Phase 1/2 of the decomposition #78's
+own Scope section calls for ("stand up the slug + extract R/C" then
+"re-derive and re-measure").
+
+| Slug | Claim under test | Spec row(s) (`spec/porting-plan.md` §1.2) | Status |
+|---|---|---|---|
+| [`sg13g2-lock-detector-window`](sg13g2-lock-detector-window/) | `lock_detector`'s own `R` (`rhigh`, `XRPU`) and `C` (`cap_cmim`, `XCW`/`XDW.XC1`) extracted over a real PVT grid; testbench structure stood up for the follow-up re-derivation | 16 (lock-detector targets) — extraction only, no verdict yet | **No `RECORD-NNN` yet — extraction and stand-up only, per this issue's own explicit deferral of resizing/pass-fail to issue #82.** `rc_extract.csv`: `R` = 11.8–28.6 kΩ across `res_typ`/`res_bcs`/`res_wcs` × −40/27/125 °C; `C` = 22.2–27.1 fF (`XDW.XC1`, precisely 22.23–27.05 fF) and 49.5–60.4 fF (`XCW`) across `cap_cmim`'s own real `cap_typ`/`cap_bcs`/`cap_wcs` corner × temperature (a real corner axis this device has and SG13CMOS5L's `cap_cmomi` does not — see the slug's own README for the finding). `run.sh` also stood up and ran the window/ladder/schmitt/tstep_convergence measurements the SG13CMOS5L sibling uses (35/36/45/12 rows), reusing its topology-generic testbench pieces and `itl4=5000 gmin=1e-11` solver settings verbatim; a first read shows the same pre-resize signature the SG13CMOS5L sibling's own `RECORD-001` found (`R·C` = 0.65–1.57 ns, orders of magnitude below `T_ref`, chatter at every corner swept) — evidence for issue #82's own re-derivation, not this issue's conclusion to draw |
+
+Issue #82 (Part of #16 via #78, depends on #81) re-derives
+`XRPU`/`XCW`/`XDW.XC1` against `R·C ≫ T_ref` and `XMPD` against the
+hysteresis criterion using this slug's `rc_extract.csv`, and records the
+result as this slug's own `RECORD-001` — following the SG13CMOS5L sibling's
+`RECORD-001`→`RECORD-002` precedent (issue #38 measures, issue #52 resizes
+and re-measures) on this PDK for the first time.
 
 ## Provenance of this convention
 

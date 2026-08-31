@@ -1,0 +1,61 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #81, Part of #16 via #78)
+* ONE phase-error ladder point (copy A discharged-start + copy B
+* charged-start) -- see ../testbench/tb_lock_recovery.sp.tmpl's header for why
+* the ladder is split into one small independent ngspice invocation per point
+* rather than one large merged deck.
+*
+* Carried over (topology, not device-specific) from
+* ../../sg13cmos5l-lock-detector-window/testbench/tb_lock_ladder_point.sp.tmpl
+* (issue #52). ../testbench/gen_ladder.py's `gen --fracs-set <set>
+* --only-index <k>` fills in @LADDER_DEVICES@ / @LADDER_IC@ / @LADDER_MEAS@ /
+* @LADDER_SAVE@ exactly the way it does for the SG13CMOS5L sibling.
+*
+* Placeholders (substituted by ../testbench/run.sh via gen_ladder.py, not
+* meant to be run directly): @CORNER_MOS@, @CORNER_RES@, @CORNER_CAP@,
+* @TEMP@, @VSUP@, @VMID@, @TREF@, @TRST@, @TSTEP@, @TSTOP@, @TSETTLE@, @DUT@,
+* @LADDER_DEVICES@, @LADDER_IC@, @LADDER_MEAS@, @LADDER_SAVE@.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib @CORNER_CAP@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+.param vsup=@VSUP@
+.param tref=@TREF@
+.param trst=@TRST@
+.param ttr=100p
+.param ttd='tref'
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* ---- phase-error ladder point: copy A (discharged start) + copy B (charged) --
+@LADDER_DEVICES@
+
+@LADDER_IC@
+
+* SOLVER-EFFORT NOTE -- itl4=5000 gmin=1e-11, reused verbatim from the
+* SG13CMOS5L sibling (issue #66, Part of #16) per issue #81's own Scope item
+* 1. Neither is an accuracy relaxation: reltol/abstol/vntol/chgtol are
+* untouched. Both are needed for the same topology-level reason on THIS PDK:
+* nand2_hv's own series-stack internal node `mid1` has no DC path to either
+* rail whenever both stacked NMOS are off (gmin is exactly what that floating
+* node needs), and the high-impedance integrating node (driven only by
+* XRPU's weak pull-up and XMPD's pull-down) can sit at intermediate voltages
+* for the whole run, which is where ngspice's default Newton-iteration budget
+* gives out (itl4). Both cells (nand2_hv, and the XRPU/XMPD/XCW integrator)
+* are identical topology on both PDKs -- only the device models differ -- so
+* the same solver settings apply here even though this PDK's block has not
+* yet had the SG13CMOS5L XMPD re-size (issue #66) applied to it.
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000 gmin=1e-11
+.tran @TSTEP@ @TSTOP@
+
+.control
+@LADDER_SAVE@
+run
+@LADDER_MEAS@
+.endc
+.end

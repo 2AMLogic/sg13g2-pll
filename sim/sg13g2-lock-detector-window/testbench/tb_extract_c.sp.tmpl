@@ -1,0 +1,63 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #81, Part of #16 via #78)
+* Single-device AC extraction of ONE cap_cmim instance, at the geometry the
+* caller substitutes. Two geometries are extracted by ../testbench/run.sh --
+* the same two instance sites the SG13CMOS5L sibling record swept, ported to
+* this PDK's own capacitor device:
+*
+*   lock_detector.XCW        w=6u l=6u m=1   -- the integrating-node cap
+*   lock_detector.XDW.XC1    w=4u l=4u m=1   -- the comparator-window cap
+*                                               (inside delaywin_hv)
+*
+* WHY THIS DECK LOOKS DIFFERENT FROM THE SG13CMOS5L SIBLING (issue #81 Scope
+* item 2). SG13G2 does not use `cap_cmomi` (SG13CMOS5L's interdigitated MOM
+* cap, an OSDI compact model) -- this design's netlist uses `cap_cmim`, a
+* plain SPICE .subckt (capacitors_mod.lib) with NO OSDI object at all. Two
+* consequences, both checked directly against the installed ihp-sg13g2 tree
+* before writing this deck:
+*
+*   1. `cap_cmim` has a REAL characterised process corner
+*      (cornerCAP.lib: cap_typ / cap_bcs / cap_wcs, +/-10% area+perimeter
+*      scaling) and a genuine TNOM=27 temperature coefficient (TC1=3.6e-6,
+*      TC2=2e-9 on the `cmim_core` .model card) -- unlike `cap_cmomi`, whose
+*      installed cornerCAP.lib maps every corner/mismatch/stat section to the
+*      SAME nominal model (sim/README.md's own "Host requirement" section).
+*      So this deck sweeps the REAL corner + temperature grid directly,
+*      instead of extracting one nominal value and re-injecting a synthetic
+*      +/-20% band via a separate ideal-capacitor substitution
+*      (../../sg13cmos5l-lock-detector-window/testbench/mom_inject.py) --
+*      that whole mechanism (mom_inject.py, cmomi_nominal.py, the --soft
+*      cap_cmomi.osdi preflight branch) does not carry over here; it exists
+*      only because `cap_cmomi` has no corner axis of its own to sweep.
+*   2. No OSDI `osdi`-load line is needed for this device at all -- `cap_cmim`
+*      resolves purely from `.lib`/`.include` text, so there is no
+*      host-architecture risk (sim/PORTING-osdi-host-arch.md) for this
+*      instance the way there was for `cap_cmomi`'s prebuilt x86-64 ELF.
+*
+* Template placeholders (substituted by ../testbench/run.sh, not meant to be
+* run directly): @CAP_CORNER@ (cap_typ|cap_bcs|cap_wcs, cornerCAP.lib), @W@,
+* @L@, @M@ (device geometry), @TEMP@ (degC), @PDK_ROOT@/@PDK@ (resolved
+* filesystem path -- ngspice's `.lib`/`.include` parser does not expand
+* shell/OS environment variables).
+
+* cornerCAP.lib's own .LIB block already `.include`s capacitors_mod.lib (the
+* file that defines the cap_cmim subckt) -- a second .include here redefines
+* it and ngspice warns and ignores the redefinition, so only the corner-scaled
+* @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib call is needed.
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib @CAP_CORNER@
+.option scale=1 temp=@TEMP@
+
+Xcap n1 0 cap_cmim w=@W@ l=@L@ m=@M@
+Rbleed n1 0 1e14
+Iac n1 0 dc 0 ac 1
+
+.control
+* 10 kHz-decade sweep in the flat capacitive region, same extraction range
+* the SG13CMOS5L sibling record used (cmim_core is a plain linear .model C,
+* so there is no frequency-flatness question here the way there was for
+* cap_cmomi's RF-equivalent-circuit model -- confirmed by inspection of
+* capacitors_mod.lib's cap_cmim subckt, which is a single series R + linear C).
+ac dec 5 1k 100k
+let cval = abs(1/(2*3.14159265*frequency*imag(v(n1))))
+print cval
+.endc
+.end

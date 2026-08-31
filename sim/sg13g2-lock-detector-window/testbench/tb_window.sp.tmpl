@@ -1,0 +1,66 @@
+* sg13g2-pll :: sim/sg13g2-lock-detector-window (issue #81, Part of #16 via #78)
+* Comparator-window measurement: a BARE delaywin_hv (the four-inverter chain
+* plus XC1, the second of this record's two cap_cmim instances) driven by an
+* ideal step, so the window that sets the whole detector's phase-error
+* threshold is measured DIRECTLY rather than inferred from where the block's
+* LOCK output happens to change state.
+*
+* Carried over (topology, not device-specific) from
+* ../../sg13cmos5l-lock-detector-window/testbench/tb_window.sp.tmpl (issue
+* #38). The one substantive difference: that deck swaps in a mom_inject.py-
+* built DUT variant to express a +/-20% MOM-model-uncertainty band on
+* cap_cmomi (which has no real corner of its own); this deck instead
+* `.include`s the frozen snapshot directly and sweeps `cap_cmim`'s OWN real
+* process corner via @CAP_CORNER@, alongside @CORNER_RES@ -- see
+* ../testbench/tb_extract_c.sp.tmpl's header for why that axis exists here
+* and did not exist for cap_cmomi.
+*
+* This is the number `spec/porting-plan.md` row 16's ported target
+* ("assert window >= 2.5 ns / >= 2x worst static phase offset") applies to.
+* The block's coincidence gate is WIDE = ERR AND delaywin_hv(ERR), so an
+* XOR(UP,DN) error pulse only produces a WIDE pulse when it is wider than
+* this element's LOW-to-HIGH propagation delay -- twin_r below is therefore
+* the quantity the phase-error threshold is built out of, and twin_f is
+* reported alongside it because the two are not equal in a chain whose last
+* node carries an asymmetrically-driven cap_cmim load.
+*
+* run.sh runs this deck FIRST at every corner point, and then scales the
+* block-level phase-error ladder (tb_lock_ladder_point.sp.tmpl /
+* tb_lock_recovery.sp.tmpl) in units of this corner's own measured twin_r.
+*
+* Substituted by ../testbench/run.sh: @CORNER_MOS@, @CORNER_RES@,
+* @CORNER_CAP@, @TEMP@, @VSUP@, @VMID@ (= VSUP/2, pre-computed because
+* ngspice's .meas val= does not evaluate a .param expression inside a
+* .control block), @TSTEP@, @DUT@ (the frozen netlist-snapshot file, included
+* directly -- no MOM-band variant substitution is needed here, see this
+* file's own header), @PDK_ROOT@/@PDK@ (resolved filesystem path --
+* ngspice's `.lib`/`.include` parser does not expand shell/OS environment
+* variables).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerCAP.lib @CORNER_CAP@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+
+Vsub sub! 0 0
+Vdd vdd 0 dc @VSUP@
+
+* Ideal step in, 100 ps edges: 20 ns high, then low, inside a 60 ns window,
+* so both the rising and the falling propagation delay are measured in one
+* transient with the chain fully settled before each edge.
+Vstep wstep 0 pulse(0 @VSUP@ 10n 100p 100p 20n 1000n)
+Xw wstep wout vdd 0 delaywin_hv
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13
+.tran @TSTEP@ 60n
+
+.control
+run
+meas tran twin_r trig v(wstep) val=@VMID@ rise=1 targ v(wout) val=@VMID@ rise=1
+meas tran twin_f trig v(wstep) val=@VMID@ fall=1 targ v(wout) val=@VMID@ fall=1
+print twin_r twin_f
+.endc
+.end
