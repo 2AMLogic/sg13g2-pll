@@ -139,10 +139,43 @@ comment, not silently:
 - **`lock_detector.sch`**'s integrating window (`VWIN`) uses a fixed
   `rhigh` pull-up + `WIDE`-gated NMOS pull-down + `cap_cmim` load, rather
   than a sized, corner-swept RC — same "topology now, numbers later"
-  disposition as everywhere else in this pass. **On the SG13CMOS5L port this
-  is no longer true**: `XRPU`/`XCW`/`XDW.XC1` were re-derived from measurement
-  by issue #52 and `XMPD` by issue #66 (see the SG13CMOS5L section below).
-  The SG13G2 hierarchy here still carries the pre-#52 numbers.
+  disposition as everywhere else in this pass. **This is no longer true of
+  the four devices that set that window, on EITHER PDK.** `XRPU`, `XCW`,
+  `XDW.XC1` and `XMPD` were re-derived from measurement on the SG13CMOS5L
+  port by issues #52/#66 (see the SG13CMOS5L section below), and **on SG13G2
+  by issue #82** (`sim/sg13g2-lock-detector-window/`, Phase 2 of the campaign
+  #81 stood up) — see "SG13G2 `lock_detector`: re-derived, no longer
+  provisional" immediately below. `XXOR`/`XDW`'s inverter chain/`XNW`/`XIW`/
+  `XSCH` are still provisional on both.
+
+### SG13G2 `lock_detector`: re-derived, no longer provisional (issue #82, Part of #16 via #78)
+
+Issue #78 recorded that this repo's *native* SG13G2 `lock_detector` still
+carried the pre-#52/#66 numbers with no measurement behind them on this PDK,
+and that dropping SG13CMOS5L's measured values across would be "four numbers
+with no derivation on that PDK". Issue #81 stood up
+`sim/sg13g2-lock-detector-window/` and extracted `R`/`C` over the PVT grid;
+issue #82 re-derived all four values from that data. **The two PDKs'
+`lock_detector` sizings are now both measured, and they are deliberately
+NOT identical** — the divergence is the campaign's result, not an oversight:
+
+| Instance | SG13G2 (issue #82) | SG13CMOS5L (issues #52/#66) | Why they differ |
+|---|---|---|---|
+| `XRPU` (`rhigh`) | `w=0.5u l=500u` → 0.97–2.36 MΩ | `w=0.5u l=700u` → 1.35–3.30 MΩ | `rhigh` *is* the same device on both PDKs (same `cornerRES.lib`, same 1360/1020/1700 Ω/sq), so this difference is a **choice**, not a device difference: SG13G2's denser MIM lets the same `R·C` be reached at a lower node impedance, which is the leakage/coupling-sensitive direction |
+| `XCW` | `cap_cmim w=45u l=45u m=1` → 3.04 pF | `cap_cmomi w=40u l=40u m=1` → 1.69 pF | different device entirely: `cap_cmim` (MIM, ≈1.5 fF/µm² + a small perimeter term) vs. `cap_cmomi` (interdigitated MoM, ≈1.06 fF/µm²) |
+| `XDW.XC1` | `cap_cmim w=45u l=45u m=1` → 3.04 pF | `cap_cmomi w=40u l=40u m=2` → 3.38 pF | same; SG13G2 reaches an equivalent window delay from **2025 µm² of MIM** instead of 2 × 1600 µm² of MoM |
+| `XMPD` (`sg13_hv_nmos`) | `w=0.25u l=12u` | `w=0.25u l=16u` | the two-sided bound is a function of `R(XRPU)`, `twin_r` and `T_ref`, all of which differ above |
+
+Each number is read off a committed CSV under
+`sim/sg13g2-lock-detector-window/corners/` (`rc_sizing.csv`,
+`rc_pairing.csv`, `window_sizing.csv`, `xmpd_sizing.csv`), and the block as
+committed is re-measured against `spec/porting-plan.md` row 16 in
+`sim/sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md`.
+That record is also where the campaign's two uncomfortable findings live —
+a settled-`VWIN` "narrow-pulse knee" that makes the hysteresis criterion
+non-monotonic in `XMPD`'s length, and the resulting narrowness of the
+admissible `XMPD` band — so they are read alongside the numbers rather than
+only in a commit message.
 
 None of these simplifications changes a DR-001/DR-002 architecture decision;
 each is a sizing/implementation-detail reduction explicitly flagged here and

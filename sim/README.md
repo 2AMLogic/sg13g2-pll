@@ -93,7 +93,7 @@ SG13CMOS5L port under `design/sg13cmos5l/`. Both campaigns use the directory
 convention above, distinguished by the `<slug>` prefix (`sg13cmos5l-*` here;
 an unprefixed or `sg13g2-*` slug for the original PDK once that campaign
 starts). **SG13G2 now has its own campaign** (`sg13g2-lock-detector-window`,
-issue #81, Part of #16 via #78) — see "SG13G2 campaign status" below. Every
+issues #81 and #82, Part of #16 via #78) — see "SG13G2 campaign status" below. Every
 earlier campaign issue was scoped to the SG13CMOS5L port only, and none of
 those add or edit an SG13G2 result. **One exception worth naming, because it
 predates #81 and is a measurement of an SG13G2 netlist living in a
@@ -185,20 +185,27 @@ that record's specific obligation even though they are open
 
 ## SG13G2 campaign status
 
-Tracks issue #81 (Part of #16 via #78), Phase 1/2 of the decomposition #78's
-own Scope section calls for ("stand up the slug + extract R/C" then
-"re-derive and re-measure").
+Tracks issues #81 and #82 (Part of #16 via #78) — Phases 1/2 and 2/2 of the
+decomposition #78's own Scope section calls for ("stand up the slug + extract
+R/C" then "re-derive and re-measure"). Both phases have now landed.
 
 | Slug | Claim under test | Spec row(s) (`spec/porting-plan.md` §1.2) | Status |
 |---|---|---|---|
-| [`sg13g2-lock-detector-window`](sg13g2-lock-detector-window/) | `lock_detector`'s own `R` (`rhigh`, `XRPU`) and `C` (`cap_cmim`, `XCW`/`XDW.XC1`) extracted over a real PVT grid; testbench structure stood up for the follow-up re-derivation | 16 (lock-detector targets) — extraction only, no verdict yet | **No `RECORD-NNN` yet — extraction and stand-up only, per this issue's own explicit deferral of resizing/pass-fail to issue #82.** `rc_extract.csv`: `R` = 11.8–28.6 kΩ across `res_typ`/`res_bcs`/`res_wcs` × −40/27/125 °C; `C` = 22.2–27.1 fF (`XDW.XC1`, precisely 22.23–27.05 fF) and 49.5–60.4 fF (`XCW`) across `cap_cmim`'s own real `cap_typ`/`cap_bcs`/`cap_wcs` corner × temperature (a real corner axis this device has and SG13CMOS5L's `cap_cmomi` does not — see the slug's own README for the finding). `run.sh` also stood up and ran the window/ladder/schmitt/tstep_convergence measurements the SG13CMOS5L sibling uses (35/36/45/12 rows), reusing its topology-generic testbench pieces and `itl4=5000 gmin=1e-11` solver settings verbatim; a first read shows the same pre-resize signature the SG13CMOS5L sibling's own `RECORD-001` found (`R·C` = 0.65–1.57 ns, orders of magnitude below `T_ref`, chatter at every corner swept) — evidence for issue #82's own re-derivation, not this issue's conclusion to draw |
+| [`sg13g2-lock-detector-window`](sg13g2-lock-detector-window/) | Real-subckt SG13G2 `lock_detector` assert window, hysteresis, chatter and supply current, plus `cap_cmim`'s own real process-corner sensitivity | 16 (lock-detector targets), 11 (power, `lock_detector` domain) | **Phase 1 (#81, pre-resize): extraction and stand-up only, no `RECORD-NNN`** — `rc_extract.csv`: `R` = 11.8–28.6 kΩ, `C` = 22.2–27.1 fF (`XDW.XC1`) and 49.5–60.4 fF (`XCW`) across `cap_cmim`'s own real `cap_typ`/`cap_bcs`/`cap_wcs` corner × temperature (a real corner axis this device has and SG13CMOS5L's `cap_cmomi` does not — see the slug's README). The window/ladder/schmitt/tstep CSVs from that run show the same pre-resize signature the SG13CMOS5L sibling's `RECORD-001` found (`R·C` = 0.65–1.57 ns, 0.0023–0.038× `T_ref`; chatter at 36/36; window 0.219–0.393 ns).<br><br>**`RECORD-001` (#82, post-re-derivation): `XRPU` `l=6u`→`l=500u`, `XCW` `w=6u l=6u`→`w=45u l=45u`, `XDW.XC1` `w=4u l=4u`→`w=45u l=45u`, `XMPD` `w=2u l=0.5u`→`w=0.25u l=12u` — ALL THREE of row 16's measurable criteria PASS.** Assert window **3.732–10.249 ns at 37/37** points (worst case 1.493× the ≥2.5 ns floor, at an explicit worst-case axis stack #81's grid did not contain); **`steady` at 21/21** ladder corners at a **20×**-window static phase error; hysteresis **25–800% of window, 0 of 21 corners below the ≥25% criterion**, and the single 25.0% corner — which is the ladder's own 0.25×-window quantum — resolves to **43.0% (1.72×)** on a 0.05×-window sweep interpolated against that corner's own measured Schmitt trip points (`hysteresis_diag.csv`). `R·C` = **2.65–7.88 µs = 9.26–27.59×** the slowest reference period, against 0.0023–0.038× before. **Every one of the four numbers is derived on THIS PDK, and none equals the SG13CMOS5L sibling's** (`rc_sizing.csv`/`rc_pairing.csv`, `window_sizing.csv`, `xmpd_sizing.csv` are the sizing evidence) — `cap_cmim` is ≈1.5 fF/µm² against `cap_cmomi`'s ≈1.06, so SG13G2 reaches the same window delay from 2025 µm² of MIM instead of 2 × 1600 µm² of MoM, and can afford a lower-impedance 0.97–2.36 MΩ integrating node. **Two findings recorded beyond the pass**: (a) the settled-`VWIN` characteristic has a *narrow-pulse knee* that makes row 16's hysteresis criterion **non-monotonic in `XMPD`'s length** (`l=8u` measures 13.0%, worse than the stronger `l=6u`'s 20.3%), so a bisecting sizing pass would converge to the wrong answer; (b) the admissible `XMPD` band is narrow (~1.6× in `L`, ~1.03× if de-assert must stay inside half a reference period) because row 16's hysteresis and the de-assert threshold's reach pull against each other across row 2's 7× `f_ref` span — structural, not fixable with the four devices in scope. Row 11's `lock_detector` domain bounded at **2.44–100.5 µA** (20×-window out-of-lock probe, not comparable with #81's 10× probe). The record also documents a **measurement error it made and corrected**: a 16 µs settling cap left `settle_frac` = 0.893 at the `res_wcs`/−40 °C corner, and an under-settled two-start-state ladder **manufactures hysteresis** — the committed data runs at 32 µs, `settle_frac` ≥ 0.9817 everywhere |
 
-Issue #82 (Part of #16 via #78, depends on #81) re-derives
-`XRPU`/`XCW`/`XDW.XC1` against `R·C ≫ T_ref` and `XMPD` against the
-hysteresis criterion using this slug's `rc_extract.csv`, and records the
-result as this slug's own `RECORD-001` — following the SG13CMOS5L sibling's
-`RECORD-001`→`RECORD-002` precedent (issue #38 measures, issue #52 resizes
-and re-measures) on this PDK for the first time.
+Issue #82 (Part of #16 via #78) has since closed that loop: it re-derived
+`XRPU`/`XCW`/`XDW.XC1` against `R·C ≫ T_ref` and `XMPD` against a two-sided
+hysteresis / de-assert-reach bound using this slug's own `rc_extract.csv`,
+and recorded the result as this slug's
+`records/RECORD-001-resized-window-hysteresis-chatter.md` — following the
+SG13CMOS5L sibling's `RECORD-001`→`RECORD-002`→`RECORD-003` precedent
+(issue #38 measures, #52 resizes `XRPU`/`XCW`/`XDW.XC1`, #66 resizes `XMPD`)
+but compressed into a single record on this PDK, because `schmitt_hv`'s
+feedback wiring was already fixed here by #66 and so the second half of that
+sibling sequence had nothing left to repair. **The two PDKs' `lock_detector`
+sizings are now both measured and are deliberately not identical** — see
+`design/README.md` § "SG13G2 `lock_detector`: re-derived, no longer
+provisional" for the device-by-device comparison.
 
 ## Provenance of this convention
 

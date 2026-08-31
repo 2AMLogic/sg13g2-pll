@@ -7,6 +7,14 @@ simulation-grounded against real SG13G2 device data) -- a future
 device-characterization / tuning-range campaign (T1 items 8-9, out of
 this issue's scope per spec/porting-plan.md and issue #7's Non-goals)
 re-derives every number here, per spec/decision-records/DR-001-pll-architecture.md.
+EXCEPTION (issue #82): RPU, CW and MPD are no longer placeholders, and neither
+is XDW.C1 in delaywin_hv.sch. RPU w=0.5u l=500u and CW w=45u l=45u m=1 are
+derived from sim/sg13g2-lock-detector-window/corners/rc_sizing.csv +
+rc_pairing.csv against R*C >> T_ref (9.26-27.59x row 2's slowest reference
+period); MPD w=0.25u l=12u is the two-sided bound in that slug's own
+corners/xmpd_sizing.csv (fast end of row 2's f_ref range binds row 16's
+hysteresis criterion, slow end binds de-assert threshold reach). See that
+slug's RECORD-001. XXOR/XDW/XNW/XIW/XSCH remain provisional.
 Connectivity is label-driven (lab_pin stubs on every device terminal),
 matching the gf180-pll/sky130-pll fleet convention documented in
 design/README.md.
@@ -39,15 +47,15 @@ C {lab_pin.sym} 960 -150 0 0 {name=l15 lab=nwide}
 C {lab_pin.sym} 1040 -150 0 0 {name=l16 lab=WIDE}
 C {lab_pin.sym} 980 -190 0 0 {name=l17 lab=VDD}
 C {lab_pin.sym} 1020 -110 0 0 {name=l18 lab=VSS}
-C {sg13g2_pr/rhigh.sym} 1300 -400 0 0 {name=RPU model=rhigh body=sub! spiceprefix=X w=0.5u l=6u b=0 m=1}
+C {sg13g2_pr/rhigh.sym} 1300 -400 0 0 {name=RPU model=rhigh body=sub! spiceprefix=X w=0.5u l=500u b=0 m=1}
 C {lab_pin.sym} 1300 -430 0 0 {name=l19 lab=VDD}
 C {lab_pin.sym} 1300 -370 0 0 {name=l20 lab=VWIN}
-C {sg13g2_pr/sg13_hv_nmos.sym} 1300 -100 0 0 {name=MPD model=sg13_hv_nmos w=2u l=0.5u ng=1 m=1 spiceprefix=X}
+C {sg13g2_pr/sg13_hv_nmos.sym} 1300 -100 0 0 {name=MPD model=sg13_hv_nmos w=0.25u l=12u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 1320 -130 0 0 {name=l21 lab=VWIN}
 C {lab_pin.sym} 1280 -100 0 0 {name=l22 lab=WIDE}
 C {lab_pin.sym} 1320 -70 0 0 {name=l23 lab=VSS}
 C {lab_pin.sym} 1320 -100 0 0 {name=l24 lab=VSS}
-C {sg13g2_pr/cap_cmim.sym} 1600 -400 0 0 {name=CW model=cap_cmim w=6u l=6u m=1 spiceprefix=X}
+C {sg13g2_pr/cap_cmim.sym} 1600 -400 0 0 {name=CW model=cap_cmim w=45u l=45u m=1 spiceprefix=X}
 C {lab_pin.sym} 1600 -430 0 0 {name=l25 lab=VWIN}
 C {lab_pin.sym} 1600 -370 0 0 {name=l26 lab=VSS}
 C {schmitt_hv.sym} 1300 200 0 0 {name=XSCH }

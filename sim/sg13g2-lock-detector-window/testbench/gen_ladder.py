@@ -70,15 +70,46 @@ import re
 import sys
 
 # Ladder in units of the corner's own measured comparator window twin_r.
-# Reused verbatim from the SG13CMOS5L sibling's "record002" set: dense
-# (0.20 x window steps) from 1.0 to 2.0 x window because that is where the
-# threshold sits, coarse outside, plus a 10x-window static point for chatter.
+#
+# `record002` is reused verbatim from the SG13CMOS5L sibling's set of the same
+# name: dense (0.20 x window steps) from 1.0 to 2.0 x window because that is
+# where the pre-resize threshold sits, coarse outside, plus a 10x-window
+# static point for chatter.  Issue #81 (this slug's Phase 1, pre-resize) ran
+# it.  FROZEN -- do not edit.
+#
+# `resized` is the ladder issue #82 (Phase 2, post-resize) runs, and it is
+# longer and denser for two measured reasons, both read off
+# ../corners/xmpd_sizing.csv:
+#
+#   1. A 0.20x-window step can only ever BOUND row 16's ">= 25% of window"
+#      hysteresis criterion from below; resolving a PASS needs a step at or
+#      under the criterion itself with points either side of both trip
+#      points.  The 0.25x step from 1.00 to 2.50 x window covers the whole
+#      band the fast end of row 2's f_ref range puts the two trip points in
+#      (measured at the corner that minimises their separation: assert
+#      1.285x, de-assert 1.712x window at the landed XMPD).
+#   2. Restoring the hysteresis pushes BOTH thresholds out, and the amount is
+#      proportional to T_ref -- so at the SLOW end of the same f_ref range the
+#      de-assert threshold reaches 19.9x the window at the corner that
+#      maximises it (mos_ss/res_bcs/125 C, measured).  A ladder that stopped
+#      at 2.50x would report "hysteresis = 0" there for the same reason a
+#      ruler too short to reach reports "length = end of ruler".  Hence
+#      coverage out to 24x, which brackets it at every corner with margin.
 LADDER_FRACS_SETS = {
+    # Issue #81's pre-resize ladder.  FROZEN -- do not edit.
     "record002": [
         0.50,
         1.00, 1.20, 1.40, 1.60, 1.80, 2.00,
         2.50,
         10.00,
+    ],
+    # Issue #82's post-resize ladder (RECORD-001).
+    "resized": [
+        0.50,
+        1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50,
+        3.00, 3.50, 4.00, 5.00, 6.00, 7.00, 8.00,
+        10.00, 12.00, 14.00, 16.00, 18.00, 20.00,
+        22.00, 24.00,
     ],
 }
 LADDER_FRACS = LADDER_FRACS_SETS["record002"]
