@@ -5,7 +5,7 @@
   "top": "pll_divider_chain",
   "dbu_um": 0.001,
   "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-30/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_divider_chain.pex.spice",
-  "netlist_sha256": "9d823da8d18c7b65a6ef735533b26d7fdfc1db50b6e1ec7fb0d6df6e84c25246",
+  "netlist_sha256": "60df7e8f5aa1f4bb545026d3c75e69e5dc10c72eff235ab2d345256bc7e23c87",
   "status": "extracted",
   "device_count": 316,
   "net_count": 142,
@@ -9626,11 +9626,22 @@
   "single_terminal_nets": [],
   "dead_metal": [],
   "matched_device_groups": [],
-  "pdk": null,
+  "pdk": {
+    "variant": "ihp-sg13cmos5l",
+    "root": {
+      "path": null,
+      "scope": "external"
+    },
+    "version": null
+  },
   "provenance": {
     "klt_version": "0.4.0",
     "klayout_version": "0.30.10",
-    "pdk": null,
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "source": "--pdk-root flag",
+      "version": null
+    },
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",

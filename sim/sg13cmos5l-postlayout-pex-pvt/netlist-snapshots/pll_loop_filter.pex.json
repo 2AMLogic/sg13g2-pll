@@ -111,11 +111,22 @@
   "single_terminal_nets": [],
   "dead_metal": [],
   "matched_device_groups": [],
-  "pdk": null,
+  "pdk": {
+    "variant": "ihp-sg13cmos5l",
+    "root": {
+      "path": null,
+      "scope": "external"
+    },
+    "version": null
+  },
   "provenance": {
     "klt_version": "0.4.0",
     "klayout_version": "0.30.10",
-    "pdk": null,
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "source": "--pdk-root flag",
+      "version": null
+    },
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",

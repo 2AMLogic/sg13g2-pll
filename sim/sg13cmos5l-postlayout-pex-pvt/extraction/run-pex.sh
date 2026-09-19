@@ -30,6 +30,9 @@
 
 set -euo pipefail
 
+: "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
+: "${PDK:=ihp-sg13cmos5l}"
+
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RECORD_DIR="$(cd "$HERE/.." && pwd)"
 REPO_ROOT="$(cd "$RECORD_DIR/../.." && pwd)"
@@ -105,8 +108,13 @@ for block in "${BLOCKS[@]}"; do
     echo "FATAL: $block has no compose.${block}.json in $LAYOUT_RECORD --" >&2
     echo "       it is not a routed block of this record." >&2; exit 1; }
 
+  # `--pdk`/`--pdk-root` is what binds an extracted MOS to the PDK's own
+  # `sg13_hv_nmos`/`sg13_hv_pmos` subcircuits instead of the deck's bare
+  # device-class name -- the same binding layout/bin/pll_cmos5l_layout.py
+  # uses, and a precondition for the netlist being simulatable at all.
   echo "extracting pll_${block} ..." >&2
   klt_run extract --deck sg13cmos5l --parasitics \
+    --pdk "$PDK" --pdk-root "$PDK_ROOT" \
     --top "pll_${block}" --format json \
     -o "$SNAP/pll_${block}.pex.spice" "$gds" \
     > "$SNAP/pll_${block}.pex.json"

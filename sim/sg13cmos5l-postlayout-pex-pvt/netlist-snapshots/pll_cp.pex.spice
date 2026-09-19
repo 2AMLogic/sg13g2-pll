@@ -28,65 +28,65 @@
 .SUBCKT pll_cp DN DNB IBN IBP ICN ICP UP UPB VDD VDUMP VOUT VSS XLEGN.sw
 + XLEGN.tail XLEGP.sw XLEGP.tail nxn nxp
 * device instance $1 r0 *1 2.3,3.11 nfet
-M$1 UPB__t0 UP__t2 VSS__t0 VSS__t6 nfet L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
-+ PD=4.8U
+X$1 UPB__t0 UP__t2 VSS__t0 VSS__t6 sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
 * device instance $2 r0 *1 6.26,3.11 nfet
-M$2 DNB__t1 DN__t1 VSS__t5 VSS__t7 nfet L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
-+ PD=4.8U
+X$2 DNB__t1 DN__t1 VSS__t5 VSS__t7 sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
 * device instance $3 r0 *1 16.86,4.36 nfet
-M$3 ICN__t0 ICN__t1 VSS__t1 VSS__t8 nfet L=3U W=2U AS=0.8P AD=0.8P PS=4.8U
-+ PD=4.8U
+X$3 ICN__t0 ICN__t1 VSS__t1 VSS__t8 sg13_hv_nmos L=3U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
 * device instance $4 r0 *1 28.46,3.36 nfet
-M$4 VDUMP__t0 IBN__t0 VSS__t2 VSS__t9 nfet L=1U W=4U AS=1.6P AD=1.6P PS=8.8U
-+ PD=8.8U
+X$4 VDUMP__t0 IBN__t0 VSS__t2 VSS__t9 sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
 * device instance $5 r0 *1 42.06,3.01 nfet
-M$5 VOUT__t2 DN__t0 XLEGN.sw__t1 VSS__t10 nfet L=0.3U W=6U AS=2.4P AD=2.4P
-+ PS=12.8U PD=12.8U
+X$5 VOUT__t2 DN__t0 XLEGN.sw__t1 VSS__t10 sg13_hv_nmos L=0.3U W=6U AS=2.4P
++ AD=2.4P PS=12.8U PD=12.8U
 * device instance $6 r0 *1 50.02,3.01 nfet
-M$6 VDUMP__t2 DNB__t2 XLEGN.sw__t2 VSS__t11 nfet L=0.3U W=6U AS=2.4P AD=2.4P
-+ PS=12.8U PD=12.8U
+X$6 VDUMP__t2 DNB__t2 XLEGN.sw__t2 VSS__t11 sg13_hv_nmos L=0.3U W=6U AS=2.4P
++ AD=2.4P PS=12.8U PD=12.8U
 * device instance $7 r0 *1 64.62,3.11 nfet
-M$7 VDD__t0 VOUT__t1 VDUMP__t1 VSS__t12 nfet L=0.5U W=6U AS=2.4P AD=2.4P
-+ PS=12.8U PD=12.8U
+X$7 VDD__t0 VOUT__t1 VDUMP__t1 VSS__t12 sg13_hv_nmos L=0.5U W=6U AS=2.4P
++ AD=2.4P PS=12.8U PD=12.8U
 * device instance $8 r0 *1 80.22,3.36 nfet
-M$8 XLEGN.tail__t0 IBN__t1 VSS__t3 VSS__t13 nfet L=1U W=8U AS=3.2P AD=3.2P
-+ PS=16.8U PD=16.8U
+X$8 XLEGN.tail__t0 IBN__t1 VSS__t3 VSS__t13 sg13_hv_nmos L=1U W=8U AS=3.2P
++ AD=3.2P PS=16.8U PD=16.8U
 * device instance $9 r0 *1 90.18,3.36 nfet
-M$9 XLEGN.sw__t0 ICN__t2 XLEGN.tail__t1 VSS__t14 nfet L=1U W=8U AS=3.2P AD=3.2P
-+ PS=16.8U PD=16.8U
+X$9 XLEGN.sw__t0 ICN__t2 XLEGN.tail__t1 VSS__t14 sg13_hv_nmos L=1U W=8U AS=3.2P
++ AD=3.2P PS=16.8U PD=16.8U
 * device instance $10 r0 *1 100.14,3.36 nfet
-M$10 nxn__t0 IBN__t2 VSS__t4 VSS__t15 nfet L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
-+ PD=16.8U
+X$10 nxn__t0 IBN__t2 VSS__t4 VSS__t15 sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P
++ PS=16.8U PD=16.8U
 * device instance $11 r0 *1 110.1,3.36 nfet
-M$11 IBN__t3 ICN__t3 nxn__t1 VSS__t16 nfet L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
-+ PD=16.8U
+X$11 IBN__t3 ICN__t3 nxn__t1 VSS__t16 sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P
++ PS=16.8U PD=16.8U
 * device instance $12 r0 *1 125.2,3.11 pfet
-M$12 UPB__t1 UP__t1 VDD__t2 VDD__t1 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
-+ PD=10.8U
+X$12 UPB__t1 UP__t1 VDD__t2 VDD__t1 sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
 * device instance $13 r0 *1 132.16,3.11 pfet
-M$13 DNB__t0 DN__t2 VDD__t13 VDD__t14 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
-+ PD=10.8U
+X$13 DNB__t0 DN__t2 VDD__t13 VDD__t14 sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
 * device instance $14 r0 *1 146.26,3.01 pfet
-M$14 VOUT__t0 UPB__t2 XLEGP.sw__t0 VDD__t3 pfet L=0.3U W=6U AS=2.4P AD=2.4P
-+ PS=12.8U PD=12.8U
+X$14 VOUT__t0 UPB__t2 XLEGP.sw__t0 VDD__t3 sg13_hv_pmos L=0.3U W=6U AS=2.4P
++ AD=2.4P PS=12.8U PD=12.8U
 * device instance $15 r0 *1 154.22,3.01 pfet
-M$15 VDUMP__t3 UP__t0 XLEGP.sw__t1 VDD__t12 pfet L=0.3U W=6U AS=2.4P AD=2.4P
-+ PS=12.8U PD=12.8U
+X$15 VDUMP__t3 UP__t0 XLEGP.sw__t1 VDD__t12 sg13_hv_pmos L=0.3U W=6U AS=2.4P
++ AD=2.4P PS=12.8U PD=12.8U
 * device instance $16 r0 *1 168.82,4.36 pfet
-M$16 ICP__t0 ICP__t1 VDD__t5 VDD__t4 pfet L=3U W=6U AS=2.4P AD=2.4P PS=12.8U
-+ PD=12.8U
+X$16 ICP__t0 ICP__t1 VDD__t5 VDD__t4 sg13_hv_pmos L=3U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
 * device instance $17 r0 *1 192.42,3.36 pfet
-M$17 XLEGP.tail__t0 IBP__t0 VDD__t7 VDD__t6 pfet L=1U W=24U AS=9.6P AD=9.6P
-+ PS=48.8U PD=48.8U
-* device instance $18 r0 *1 218.38,3.36 pfet
-M$18 XLEGP.sw__t2 ICP__t3 XLEGP.tail__t1 VDD__t11 pfet L=1U W=24U AS=9.6P
+X$17 XLEGP.tail__t0 IBP__t0 VDD__t7 VDD__t6 sg13_hv_pmos L=1U W=24U AS=9.6P
 + AD=9.6P PS=48.8U PD=48.8U
+* device instance $18 r0 *1 218.38,3.36 pfet
+X$18 XLEGP.sw__t2 ICP__t3 XLEGP.tail__t1 VDD__t11 sg13_hv_pmos L=1U W=24U
++ AS=9.6P AD=9.6P PS=48.8U PD=48.8U
 * device instance $19 r0 *1 244.34,3.36 pfet
-M$19 nxp__t0 IBP__t1 VDD__t8 VDD__t10 pfet L=1U W=24U AS=9.6P AD=9.6P PS=48.8U
-+ PD=48.8U
+X$19 nxp__t0 IBP__t1 VDD__t8 VDD__t10 sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
 * device instance $20 r0 *1 270.3,3.36 pfet
-M$20 IBP__t2 ICP__t2 nxp__t1 VDD__t9 pfet L=1U W=24U AS=9.6P AD=9.6P PS=48.8U
-+ PD=48.8U
+X$20 IBP__t2 ICP__t2 nxp__t1 VDD__t9 sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
 * device instance DN_t0 r0 *1 0,0 
 RDN_t0 DN__t0 DN 5.49296709671
 * device instance DN_t1 r0 *1 0,0 
