@@ -1,0 +1,42 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #30, Part of #16)
+* SCHEMATIC-LEVEL control arm for the post-layout charge-pump comparison.
+*
+* This is ../../sg13cmos5l-cp-icp-trim/testbench/tb_cp_dc.sp.tmpl with NO
+* deliberate difference at all: same corner library, same `.option scale=1`,
+* same four ideal trim-code reference currents into the block's own on-chip
+* cascode bias replica, same compliance sweep, same `i(Vout)` sign
+* convention. It is duplicated into this record rather than invoked in place
+* only so that both arms of this comparison are driven by one run script and
+* one host, which is the whole point of having a control arm: the deviation
+* this record analyses must be "what did the extracted interconnect do", not
+* "what did a different host/ngspice do".
+*
+* That this arm reproduces the committed
+* ../../sg13cmos5l-cp-icp-trim/corners/results.csv is itself checked and
+* reported -- see ../records/RECORD-001.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include cp_snap.spice
+
+Vdd VDD 0 dc @VDD@
+
+* .subckt cp UP DN IBP ICP IBN ICN VOUT VDD VSS
+XCP up dn ibp icp ibn icn vout VDD 0 cp
+
+Irefbp ibp 0 dc @IREF@
+Irefcp icp 0 dc @IREF@
+Irefbn 0 ibn dc @IREF@
+Irefcn 0 icn dc @IREF@
+
+Vup up 0 dc @UPV@
+Vdn dn 0 dc @DNV@
+Vout vout 0 dc 1.65
+
+.control
+dc Vout 0.15 @VOUTMAX@ 0.05
+let icp = i(Vout)
+wrdata sweep.dat icp
+.endc
+.end
