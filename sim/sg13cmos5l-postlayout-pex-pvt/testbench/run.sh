@@ -26,10 +26,22 @@
 #   ./run.sh                            # both arms
 #   PEX_ARMS=postlayout ./run.sh        # one arm only
 #   PEX_JOBS=4 ./run.sh                 # parallel ngspice processes (default 4)
+#   PEX_WORK=/path/to/dir ./run.sh      # persistent, RESUMABLE scratch dir
+#
+# `PEX_WORK` makes the run resumable: each (arm, bundle, band, VCTRL) point
+# writes its own `res.<tag>` file, and a point whose `res.<tag>` already
+# exists is skipped rather than re-simulated. The post-layout arm is ~15x
+# more expensive per point than the schematic arm (170 extracted parasitic
+# resistors and 344 parasitic capacitors), so a full matrix is long enough
+# that losing a partially-complete run to an interrupted session is a real
+# cost. Without `PEX_WORK` the scratch dir is a `mktemp -d` torn down on
+# exit, exactly as before -- the resume path is opt-in and never silently
+# reuses a stale result.
 #
 # Requires: ngspice on PATH, and ../netlist-snapshots/ already populated by
 # ../extraction/run-pex.sh.
 
+WORK="${PEX_WORK:-}"
 # shellcheck source=../../../design/lib/testbench-preamble.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
@@ -113,6 +125,11 @@ worker() {
   local arm="$1" bname="$2" mos="$3" res="$4" temp="$5" blabel="$6" b0v="$7" b1v="$8" vctrl="$9"
   local tag="${arm}_${bname}_${blabel}_${vctrl}"
   local period
+  # Resume: a point already solved in a persistent PEX_WORK is not re-run.
+  if [[ -s "$WORK/res.$tag" ]]; then
+    echo "resume: ${tag} already solved -- $(cat "$WORK/res.$tag")" >&2
+    return 0
+  fi
   period="$(run_one "$arm" "$mos" "$res" "$temp" "$b0v" "$b1v" "$vctrl" || true)"
   if [[ -z "$period" ]]; then
     echo "WARNING: no oscillation measured at ${arm}/${bname}/${blabel}/VCTRL=${vctrl} -- recording NA" >&2
