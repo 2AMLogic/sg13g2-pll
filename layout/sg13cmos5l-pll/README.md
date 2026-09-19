@@ -277,7 +277,9 @@ Two caller-side declarations are in the request and are deliberately visible:
   deck that recognises those resistors for extraction — filed as
   **[klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464)**.
   `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py` says so at its definition,
-  so it can be deleted when that lands.
+  so it can be deleted when that lands. **That issue closed as completed on
+  2026-08-30, but the map has not been dropped or re-tested here** — see the
+  #1464 row in "Friction" below for what would retire it.
 - **A clearly-labelled *secondary* probe** runs on each block that fails to
   convert, mapping `cap_cmomi` on the reference side so the comparison runs
   anyway (`lvs.<block>.cap-probe.json`). This corrects a stale premise in
@@ -322,22 +324,85 @@ cannot convert.
   linear array, not a common-centroid one.
 - **Not a top-level assembly.** Six separate block cells; nothing composes
   them into one PLL.
-- **Not post-layout-simulated.** No parasitic extraction, no post-layout PVT
-  re-simulation. See below.
+- **~~Not post-layout-simulated.~~ Superseded by #30** — all six blocks now
+  have a parasitic-annotated netlist and two (`vco`, `cp`) have had their
+  ratified PVT matrices re-run against it. What stays true is the *reason*
+  this bullet used to be here: the routing is not a plausible floorplan, so
+  those results are an upper bound on parasitic loading rather than a
+  prediction. See "Post-layout PVT" below.
 
-## Post-layout PVT: still scoped out, with a reason
+## Post-layout PVT: **done** (#30), with three caveats that must travel with it
 
-Tracked as **#30** on this repo (post-layout PEX + PVT re-simulation). #29
-removed the first of that issue's two blockers — there *is* now real
-interconnect to extract parasitics from — but the second stands: `klt extract
---parasitics` rejects the `sg13cmos5l` deck as unknown
-([klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440),
-re-verified open by this pass). Worth stating plainly for whoever picks up
-#30: the wire this layout draws is *not* a plausible parasitic model of a real
-PLL. 147 mm of Metal3 on `divider_chain` alone would dominate any post-layout
-result, and that number is an artifact of the routing style (see "What it is
-not"), not of the circuit. A meaningful post-layout PVT run needs a real
-floorplan first, not just PEX support.
+Both of the blockers this section used to record are gone. #29 landed the
+routing, and `klt extract --deck sg13cmos5l --parasitics` now works with
+**real curated metal R/C coefficients**:
+[klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440)
+closed via #2012 (deck registered in the parasitics registry), and the
+follow-on gap where the deck registered but reported zero R/C
+([#2113](https://github.com/2AMLogic/klayout-tools/issues/2113)) closed via
+#2126 (curated Metal1–TopMetal1 coefficients plus four overlap pairs).
+
+The work lives in [`sim/sg13cmos5l-postlayout-pex-pvt/`](../../sim/sg13cmos5l-postlayout-pex-pvt/)
+— all six routed blocks have a committed parasitic-annotated netlist, and two
+of them (`vco`, `cp`) had their ratified PVT matrices re-run against those
+netlists with a schematic-level control arm. **Real extracted parasitics were
+modelled** — `metals_without_coefficient` is empty for every block; nothing
+fell back to a zero coefficient.
+
+Three caveats belong with every number that campaign produced, and are
+repeated here because this file is where a layout reader arrives first:
+
+1. **The floorplan is not representative, so every post-layout number is an
+   upper bound on parasitic loading, not a prediction.** The wire this flow
+   draws is still not a plausible parasitic model of a real PLL: 147 mm of
+   Metal3 on `divider_chain`, and 7 178 µm on `vco` — 413 µm of it on `ring1`
+   alone, a node a compact ring closes in single-digit microns. That is an
+   artifact of the routing style (see "What it is not"), not of the circuit.
+   The record quantifies the consequence rather than just warning about it:
+   the `vco` loses ~50% of its frequency as routed, ~99% of that is parasitic
+   *capacitance*, and a C-scaling bracket puts a floorplan with an order of
+   magnitude less wire nearer −6 … −10%.
+2. **Only three of six blocks have a confirmed layout↔schematic topology
+   match.** See the next section — `pfd`/`cp`/`divider_chain` match;
+   `loop_filter`/`vco` now compare and **mismatch**; `lock_detector` still
+   cannot be compared. `cp`'s post-layout numbers rest on a confirmed match;
+   `vco`'s do not, and the record says so instead of presenting its deviation
+   as a clean parasitic effect.
+3. **The coefficients are uncalibrated.** klayout-tools' own `LayerRC`
+   docstring calls them "representative, uncalibrated, order-of-magnitude
+   starter values" from public process data, with silicon calibration an
+   explicit non-goal. Real numbers with a cited source — not silicon-correlated.
+
+**Still open, and not tracked anywhere upstream**: a real floorplan. That is
+the one prerequisite a *meaningful* (rather than upper-bound) post-layout PVT
+result still needs, and no issue currently owns it.
+
+## LVS: three blocks were never compared; they are now
+
+The per-record `lvs.<block>.json` artifacts show `pfd`/`cp`/`divider_chain`
+comparing cleanly and `loop_filter`/`vco`/`lock_detector` failing with *"could
+not convert subckt-call reference netlist … `cap_cmomi` is not a known
+device"*. That is **not** "LVS failed" — it is *LVS never ran*, on exactly the
+three blocks whose schematics instantiate a MoM capacitor.
+
+Issue #30 re-ran all six at the current `klt`, changing one thing: adding the
+`reference.device_map` entry klt's own error message names (`cap_cmomi` →
+`{"kind": "capacitor"}`). Same GDS, same reference netlist, same deck, same
+options. Evidence and the script are in
+[`sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/`](../../sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/).
+
+| Block | Verdict | Devices | Note |
+| --- | --- | --- | --- |
+| `pfd` | **match** | 66/66 | 0 errors |
+| `cp` | **match** | 20/20 | 0 errors |
+| `divider_chain` | **match** | 316/316 | 0 errors |
+| `loop_filter` | **mismatch** | **0/3** | newly comparable. The routed cell has only the `rppd`; both `cap_cmomi` capacitors are undrawn, so it is not a loop filter |
+| `vco` | **mismatch** | 38/45 | newly comparable. Unmatched: the undrawn `DECAP` (`cap_cmomi`) and the six `XBIAS` resistors, plus one `net.merged` on `BIAS.SUB!`. Not root-caused |
+| `lock_detector` | **not compared** | — | blocker has *changed*: no longer the missing device class but `m=2` on a `cap_cmomi` card, the documented plain-element limitation recorded below |
+
+This does not update the committed layout records (they are append-only
+evidence of what that run produced); it is a later, separately-recorded
+re-check.
 
 ## Friction: `klt`/deck gaps found on this port
 
@@ -352,9 +417,12 @@ first and filed there — generic tool-gap description only, no design content.
 | Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z, and now present at this repo's pin** (issue #31's own re-bump — `layout/requirements.txt` pins past its merge commit `b10fa3c6e`) | `klt gen mos_array`/`res_array` do now draw here, DRC-clean. **#35 re-evaluated the local footprints against that output and kept them** — see "Generator-vs-local footprints" above for the three measurements and the two upstream issues (#1472/#1473) that would have to land first. The `res_array` half already clears the bar and is the place a future swap starts. |
 | `mos_array`'s `voltage_flavor` param resolves to **no marker layer on either IHP family** (`_PDK_VOLTAGE_FLAVOR_LAYERS` has entries for gf180mcu and sky130 only), so a generated unit device carries no `ThickGateOx` (44/0) and extracts as the *thin*-oxide `sg13_lv_*` class. Reported honestly in `drc_hints.notes[]`, but with no params-level override to recover from. | [klayout-tools#1472](https://github.com/2AMLogic/klayout-tools/issues/1472) (new, filed by #35's pass; the family-coverage tail of the closed #1054) | open | One of the two reasons `cmos5l_devices.py` still draws the MOS footprints: this design's devices are the ratified HV flavour (DR-002 Decision 0), and generator output would extract as the wrong device class against every reference netlist. |
 | `klt gen mos_array --flavor pfet` draws the shared `NWell` but **no well tap and no `NWell.pin`**, and declares no body port, so every generated PMOS body extracts onto an anonymous net — `klt extract` reports it in `unbiased_pmos_body_nets[]`. Distinct from the closed deck-side #1414: the deck's tie derivation works fine, the generator just draws nothing for it to recognise. | [klayout-tools#1473](https://github.com/2AMLogic/klayout-tools/issues/1473) (new, filed by #35's pass) | open | The other reason the MOS footprints stay local: `draw_pfet_array_well` draws the tap and names the well with the *schematic's* own body net, which is what keeps `unbiased_pmos_body_nets[]` empty and gives LVS a body net to match. |
-| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | open ([#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) is its follow-on on what recognition shape a MoM plate pair needs) | The 5 `cap_cmomi` devices are recorded and never drawn; 3 blocks' LVS cannot convert; 10 net→pin connections are incomplete. **Unaffected by issue #31's bump** — that bump gave `sg13g2`'s `cap_cmim` a generator (klayout-tools#1461), not `sg13cmos5l`'s `cap_cmomi`; re-verified this pass: `klt gen cap_array --pdk ihp-sg13cmos5l` still rejects with `"PDK family 'sg13cmos5l' has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2"`. |
-| `klt lvs`'s `reference.deck` subckt-call conversion table is MOS-only, so a deck's own recognised `rppd`/`rhigh` resistors still need an explicit `reference.device_map`. | [klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) | open | `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py`, deletable when this lands. |
-| `klt extract --parasitics` rejects the `sg13cmos5l` deck as "unknown" despite its own `PARASITICS` being defined. | [klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440) | open (re-verified by this pass) | Half the reason post-layout PVT is still scoped out above. |
+| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | **closed 2026-08-30**, with [#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) (its follow-on on the MoM plate-pair recognition shape) also closed — the deck now carries a `mom_capacitors` entry for `cap_cmomi`/`cap_cmomf`. **But the LVS half was NOT retired by that**: as #30 re-verified live, the reference-netlist conversion path still does not know `cap_cmomi` on its own and needs an explicit `reference.device_map` (which is #1464's territory, next row) | The 5 `cap_cmomi` devices are recorded and never drawn; 10 net→pin connections are incomplete. **The "3 blocks' LVS cannot convert" half is now partly retired** — with the `device_map` entry, `loop_filter` and `vco` compare (and mismatch); only `lock_detector` still cannot, for the different `m=2` reason below. See "LVS: three blocks were never compared" above. **Unaffected by issue #31's bump** — that bump gave `sg13g2`'s `cap_cmim` a generator (klayout-tools#1461), not `sg13cmos5l`'s `cap_cmomi`; re-verified this pass: `klt gen cap_array --pdk ihp-sg13cmos5l` still rejects with `"PDK family 'sg13cmos5l' has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2"`. |
+| `klt lvs`'s `reference.deck` subckt-call conversion table is MOS-only, so a deck's own recognised `rppd`/`rhigh` resistors still need an explicit `reference.device_map`. | [klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) | **closed 2026-08-30 as completed** (status corrected by #30's pass — the row said `open`) | `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py`. **Not yet deletable, and not yet re-verified**: the request documents #30 re-ran still carry the `rppd`/`rhigh` `device_map` entries from #24's layout pass, so whether the closed fix retires them at this repo's pin is untested. Dropping the entries and re-running `lvs-recheck` is what would retire this row. |
+| `klt extract --parasitics` rejects the `sg13cmos5l` deck as "unknown" despite its own `PARASITICS` being defined. | [klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440) | **closed 2026-09-19 via #2012** (deck registered in the parasitics registry) | Was half the reason post-layout PVT was scoped out. Retired — see "Post-layout PVT" above. |
+| Registering the deck was necessary but not sufficient: `--parasitics` then *succeeded* while reporting `r_count`/`c_count` of 0 and listing all five metal levels in `metals_without_coefficient` — a "post-layout" netlist with no wire parasitics in it, disclosed but easy to miss. | [klayout-tools#2113](https://github.com/2AMLogic/klayout-tools/issues/2113) (filed by #30's Curator pass) | **closed 2026-09-19 via #2126** (curated Metal1–TopMetal1 `LayerRC` + 4 overlap pairs, each citing its public source line) | The reason `sim/sg13cmos5l-postlayout-pex-pvt/` can say real parasitics were modelled. Its `extraction/run-pex.sh` still hard-fails on a `klt` without them, so a silently-zero extraction cannot be produced by accident. |
+| `klt extract --parasitics` emits **three-terminal `R` cards** for deck-recognised `rppd`/`rhigh` resistors (`R$39 a b bulk 7800 rppd L=30U W=1U`). ngspice's `R` card takes two nodes, so the extracted netlist is unparseable as written. | the already-filed [klayout-tools#1157](https://github.com/2AMLogic/klayout-tools/issues/1157) (*"klt extract's bare (non-`--pdk`) output for a 3-terminal drawn-resistor class is not ngspice-simulatable"*) — #30's pass recorded a [confirmation comment](https://github.com/2AMLogic/klayout-tools/issues/1157#issuecomment-5740464634) on it (2026-09-19) rather than opening a duplicate, **narrowing that issue's own scope condition**: the 3-node `R` card is emitted *with* `--pdk` supplied too, so it is not limited to bare mode | open | `sim/sg13cmos5l-postlayout-pex-pvt/testbench/pex-to-ngspice.py` (transform 2) rebinds them to the PDK's own resistor subcircuit call — the identical binding the schematic netlist uses — and self-checks that no parasitic R/C card count changes. |
+| `klt extract` writes hierarchical net names joined with a **`.`** (`XBIAS.n2s` for a net that came from a sub-instance). `.` is ngspice's own hierarchy separator, so such a node cannot be probed, `.meas`'d or `.ic`'d by its written name, and the same token parses as a path expression wherever a node reference is read. | [klayout-tools#2145](https://github.com/2AMLogic/klayout-tools/issues/2145) (new, filed by #30's pass; the net-name sibling of #1157's device-card gap) | open | `pex-to-ngspice.py` (transform 1) rewrites `A.b` → `A_b`, matched only between two identifier characters so numeric literals (`L=0.28U`) and dot commands (`.SUBCKT`/`.ENDS`/`.GLOBAL`) are never touched. Cost: the simulated net names diverge from the names in the extraction JSON report and the SPEF, so cross-referencing a result back to the report is a manual mapping step. |
 
 **Also confirmed, not a gap** (checked rather than assumed):
 

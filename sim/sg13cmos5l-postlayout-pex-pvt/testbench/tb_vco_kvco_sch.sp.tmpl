@@ -1,0 +1,48 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #30, Part of #16)
+* SCHEMATIC-LEVEL control arm for the post-layout comparison.
+*
+* This is ../../sg13cmos5l-vco-kvco-table/testbench/tb_vco_kvco.sp.tmpl with
+* exactly ONE deliberate difference: `.tran`'s stop time is 30n rather than
+* 40n, matching the post-layout arm so both arms are solved over an identical
+* window. The measurement itself (`per1`, between the 3rd and 4th rising edge
+* of CLK) is a steady-state period and is reached well inside 30 ns on every
+* corner of this matrix -- the slowest committed schematic period is 2.25 ns,
+* and the slowest post-layout period measured by this record is under 4 ns, so
+* the 4th rising edge lands near 17 ns at worst. The shortened window is a
+* runtime measure for the post-layout arm (whose 170 extracted parasitic
+* resistors and 344 parasitic capacitors make each transient roughly 15x more
+* expensive), applied to BOTH arms so it cannot bias the comparison. That this
+* arm still reproduces the committed 40 ns-window results is checked
+* explicitly -- see ../records/RECORD-001, "Does the control arm reproduce the
+* committed campaign?".
+*
+* Everything else -- corner libraries, `.option scale=1`, the ideal DC sources
+* on VCTRL/B0/B1/VDD_VCO, the XCDECAP-stripped netlist derivation, the
+* symmetry-breaking `.ic`, and the `.meas` line -- is byte-for-byte the
+* original campaign's.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include vco_open.spice
+
+Vvctrl vctrl 0 dc @VCTRL@
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+Vdd vdd 0 dc 3.3
+Vsub sub! 0 dc 0
+
+Xvco vctrl b0 b1 clk vdd 0 vco
+
+.ic v(xvco.ring1)=0.5
+
+.tran 20p 30n
+
+.control
+run
+meas tran per1 trig v(clk) val=1.65 rise=3 targ v(clk) val=1.65 rise=4
+print per1
+.endc
+.end

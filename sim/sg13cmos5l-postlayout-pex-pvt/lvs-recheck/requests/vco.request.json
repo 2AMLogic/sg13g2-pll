@@ -1,0 +1,32 @@
+{
+  "engine": "klayout",
+  "layout": {
+    "deck": "sg13cmos5l",
+    "file": "pll_vco.gds",
+    "top": "pll_vco"
+  },
+  "options": {
+    "flatten_layout": true,
+    "flatten_reference": true
+  },
+  "reference": {
+    "deck": "sg13cmos5l",
+    "device_map": {
+      "cap_cmomi": {
+        "class": "cap_cmomi",
+        "kind": "capacitor"
+      },
+      "rhigh": {
+        "class": "rhigh",
+        "kind": "resistor"
+      },
+      "rppd": {
+        "class": "rppd",
+        "kind": "resistor"
+      }
+    },
+    "form": "subckt-call",
+    "netlist": "vco.reference.spice"
+  },
+  "schema": "klt.lvs.request/1"
+}

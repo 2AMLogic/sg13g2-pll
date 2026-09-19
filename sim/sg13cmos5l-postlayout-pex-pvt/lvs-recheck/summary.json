@@ -1,0 +1,154 @@
+{
+  "blocks": {
+    "cp": {
+      "category_counts": {
+        "topology.flattened": 1
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 20,
+          "matched": 20,
+          "reference": 20
+        },
+        "nets": {
+          "layout": 18,
+          "matched": 18,
+          "reference": 18
+        },
+        "pins": {
+          "layout": 18,
+          "matched": 18,
+          "reference": 9
+        }
+      },
+      "error_count": 0,
+      "mismatch_count": 1,
+      "status": "match"
+    },
+    "divider_chain": {
+      "category_counts": {
+        "topology.flattened": 1
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 316,
+          "matched": 316,
+          "reference": 316
+        },
+        "nets": {
+          "layout": 142,
+          "matched": 142,
+          "reference": 142
+        },
+        "pins": {
+          "layout": 142,
+          "matched": 142,
+          "reference": 12
+        }
+      },
+      "error_count": 0,
+      "mismatch_count": 1,
+      "status": "match"
+    },
+    "lock_detector": {
+      "compared": false,
+      "error": "could not convert subckt-call reference netlist '/tmp/tmp.IfSuXy8jwj/lock_detector.reference.spice' to plain-element form: device 'C1' (subcircuit 'cap_cmomi'): m=2 describes a multi-finger/multiplied device the curated plain-element form cannot represent; flatten it in the schematic netlist (one device per drawn gate) before comparing",
+      "status": null
+    },
+    "loop_filter": {
+      "category_counts": {
+        "device.placeholder_value": 1,
+        "device.unmatched": 3,
+        "net.unmatched": 5,
+        "topology": 3
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 1,
+          "matched": 0,
+          "reference": 3
+        },
+        "nets": {
+          "layout": 3,
+          "matched": 1,
+          "reference": 4
+        },
+        "pins": {
+          "layout": 3,
+          "matched": 5,
+          "reference": 2
+        }
+      },
+      "error_count": 9,
+      "mismatch_count": 12,
+      "status": "mismatch"
+    },
+    "pfd": {
+      "category_counts": {
+        "topology.flattened": 1
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 66,
+          "matched": 66,
+          "reference": 66
+        },
+        "nets": {
+          "layout": 37,
+          "matched": 37,
+          "reference": 37
+        },
+        "pins": {
+          "layout": 37,
+          "matched": 37,
+          "reference": 6
+        }
+      },
+      "error_count": 0,
+      "mismatch_count": 1,
+      "status": "match"
+    },
+    "vco": {
+      "category_counts": {
+        "device.placeholder_value": 2,
+        "device.unmatched": 7,
+        "net.merged": 1,
+        "topology": 1,
+        "topology.flattened": 1
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 44,
+          "matched": 38,
+          "reference": 45
+        },
+        "nets": {
+          "layout": 33,
+          "matched": 25,
+          "reference": 34
+        },
+        "pins": {
+          "layout": 33,
+          "matched": 33,
+          "reference": 6
+        }
+      },
+      "error_count": 9,
+      "mismatch_count": 12,
+      "status": "mismatch"
+    }
+  },
+  "device_map_addition": {
+    "classes": [
+      "cap_cmomi"
+    ],
+    "why": "the committed layout record's own lvs.<block>.json shows loop_filter/vco/lock_detector were never compared -- klt refused to convert their subckt-call reference netlists because cap_cmomi was not a known device for the deck. klt's own error names device_map as the fix; nothing else in any request changed."
+  },
+  "klt_version": "klt 0.4.0+unknown",
+  "layout_record": "20260830-204105-457cf5b"
+}
