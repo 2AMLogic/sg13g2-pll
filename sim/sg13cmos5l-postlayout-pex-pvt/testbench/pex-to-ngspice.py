@@ -14,7 +14,9 @@ many times each fired so the record can state what was changed:
    name is a parse hazard. `XBIAS.n2s` -> `XBIAS_n2s`. Applied only where a
    dot sits between two identifier characters whose left side starts with a
    letter/underscore, so numeric literals (`L=0.28U`, `AS=0.8P`) and dot
-   commands (`.SUBCKT`, `.ENDS`, `.GLOBAL`) are never matched.
+   commands (`.SUBCKT`, `.ENDS`, `.GLOBAL`) are never matched. This is a
+   tooling gap, not a modelling choice -- filed upstream as
+   klayout-tools#2145 (see the record's section 7, "Friction encountered").
 
 2. **Three-terminal resistor cards -> the PDK's own resistor subcircuit
    call.** `klt` binds MOS devices to the PDK subcircuits when `--pdk` is
@@ -35,8 +37,10 @@ many times each fired so the record can state what was changed:
    computes its own resistance from W/L; that is the same binding the
    schematic-level campaign already simulates, so the two sides of the
    comparison stay on the same resistor model. This is a tooling gap, not a
-   modelling choice -- filed upstream (see the record's "Friction filed
-   upstream" section).
+   modelling choice -- already filed upstream as klayout-tools#1157, whose
+   scope condition this pass narrowed by confirmation comment (the 3-node R
+   card is emitted with `--pdk` supplied too). See the record's section 7,
+   "Friction encountered".
 
 3. **Nothing else.** Every `M`/`X` device line, every parasitic `R*__t*` /
    `C*` card, every value, is passed through byte-for-byte apart from

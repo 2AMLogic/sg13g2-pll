@@ -416,10 +416,34 @@ a gap:
   card takes two nodes). `testbench/pex-to-ngspice.py` rebinds them to the
   PDK's own resistor subcircuit call — the identical binding the schematic
   netlist uses — and self-checks that no parasitic R/C card count changes.
-  This is a real tool gap; it is the extraction-side twin of the already-filed
-  **klayout-tools#1464** (`klt lvs`'s subckt-call conversion table being
-  MOS-only, so recognised resistors need an explicit `reference.device_map`).
-  Recorded against that issue rather than opened as a duplicate.
+  This is a real tool gap, and it is already filed as
+  **[klayout-tools#1157](https://github.com/2AMLogic/klayout-tools/issues/1157)**
+  (*"klt extract's bare (non-`--pdk`) output for a 3-terminal drawn-resistor
+  class is not ngspice-simulatable"*, **open**). Rather than open a duplicate,
+  this pass recorded a
+  [confirmation comment](https://github.com/2AMLogic/klayout-tools/issues/1157#issuecomment-5740464634)
+  on it (2026-09-19) that **narrows that issue's own scope condition**: the
+  3-node `R` card is emitted *with* `--pdk` supplied too — MOS devices bind to
+  the PDK subcircuits, the resistor still does not — so the gap is not limited
+  to bare mode as the title says. The comment also records the exact rewrite
+  used here and its cost (the extractor's own resistance value is discarded,
+  because the PDK subcircuit recomputes R from W/L).
+- **`klt extract` writes hierarchical net names joined with a `.`** — a net
+  that came from a sub-instance is written `XBIAS.n2s`. `.` is ngspice's own
+  hierarchy separator, so `v(xvco.XBIAS.n2s)` is parsed as a path through an
+  instance that does not exist in the flattened cell: the node cannot be
+  probed, `.meas`'d or `.ic`'d by its written name, which for a `--parasitics`
+  netlist is exactly the set of internal nodes a post-layout run wants to look
+  at. `testbench/pex-to-ngspice.py` (transform 1) rewrites `A.b` → `A_b`,
+  matched only where the dot sits between two identifier characters, so
+  numeric literals (`L=0.28U`) and dot commands (`.SUBCKT`/`.ENDS`/`.GLOBAL`)
+  are never touched. Filed upstream as
+  **[klayout-tools#2145](https://github.com/2AMLogic/klayout-tools/issues/2145)**
+  (**open**, new this pass; the net-name sibling of #1157's device-card gap).
+  The workaround is not free and the issue says so: the simulated net names
+  diverge from the names in the extraction JSON report and the SPEF, so
+  cross-referencing any result in this record back to those artifacts is a
+  manual mapping step.
 - **ngspice's OpenMP fan-out is a large pessimization on these netlists.** One
   post-layout point costs 10.9 s wall / 64 s CPU at the default thread count
   and **0.87 s wall / 0.86 s CPU** at `set num_threads=1`, returning the
