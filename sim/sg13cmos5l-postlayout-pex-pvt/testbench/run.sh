@@ -27,16 +27,32 @@
 #   PEX_ARMS=postlayout ./run.sh        # one arm only
 #   PEX_JOBS=4 ./run.sh                 # parallel ngspice processes (default 4)
 #   PEX_WORK=/path/to/dir ./run.sh      # persistent, RESUMABLE scratch dir
+#   PEX_OMP_THREADS=1 ./run.sh          # OpenMP threads per ngspice (default 1)
 #
 # `PEX_WORK` makes the run resumable: each (arm, bundle, band, VCTRL) point
 # writes its own `res.<tag>` file, and a point whose `res.<tag>` already
-# exists is skipped rather than re-simulated. The post-layout arm is ~15x
-# more expensive per point than the schematic arm (170 extracted parasitic
-# resistors and 344 parasitic capacitors), so a full matrix is long enough
-# that losing a partially-complete run to an interrupted session is a real
-# cost. Without `PEX_WORK` the scratch dir is a `mktemp -d` torn down on
-# exit, exactly as before -- the resume path is opt-in and never silently
-# reuses a stale result.
+# holds a MEASURED result is skipped rather than re-simulated. The post-layout
+# arm is ~15x more expensive per point than the schematic arm (170 extracted
+# parasitic resistors and 344 parasitic capacitors), so a full matrix is long
+# enough that losing a partially-complete run to an interrupted session is a
+# real cost. Without `PEX_WORK` the scratch dir is a `mktemp -d` torn down on
+# exit, exactly as before -- the resume path is opt-in.
+#
+# A recorded `NA` is deliberately NOT resumable: an interrupted session kills
+# its in-flight ngspice processes, and each of those points records `NA`
+# ("no oscillation measured") on the way down. Treating those as done would
+# silently convert "this session was killed" into a committed measurement of
+# "this corner does not oscillate", which is the single worst failure mode
+# this script has. `NA` rows are therefore always re-simulated on resume, and
+# only a row that survives a full, uninterrupted run is a real `NA`.
+#
+# `PEX_OMP_THREADS` matters more than it looks. This ngspice is built with
+# OpenMP and will otherwise spawn one thread per core PER PROCESS, so
+# `PEX_JOBS` parallel ngspice runs oversubscribe the host by `JOBS x ncores`
+# and each individual transient slows down by roughly an order of magnitude
+# (measured here: ~26 s/point at one unpinned process vs. >4 min/point at four
+# of them on an 8-core host). One thread per process, fanned out by `PEX_JOBS`,
+# is both faster end-to-end and a better-behaved neighbour on a shared host.
 #
 # Requires: ngspice on PATH, and ../netlist-snapshots/ already populated by
 # ../extraction/run-pex.sh.
@@ -50,6 +66,8 @@ SNAP="$RECORD_DIR/netlist-snapshots"
 OUT_CSV="$RECORD_DIR/corners/results.csv"
 JOBS="${PEX_JOBS:-4}"
 ARMS="${PEX_ARMS:-postlayout schematic}"
+THREADS="${PEX_OMP_THREADS:-1}"
+export OMP_NUM_THREADS="$THREADS"
 
 mkdir -p "$RECORD_DIR/corners"
 
@@ -58,7 +76,19 @@ mkdir -p "$RECORD_DIR/corners"
 # no MOM cap drawn, and the schematic arm strips XCDECAP for the reason the
 # original campaign's run.sh states -- so those two OSDI objects are
 # deliberately not loaded (see ../../PORTING-osdi-host-arch.md).
+#
+# `set num_threads` is what actually bounds this ngspice's OpenMP fan-out --
+# `OMP_NUM_THREADS` alone does not (exported above anyway, for any other
+# OpenMP consumer in the process). On this circuit the default fan-out is a
+# large PESSIMIZATION rather than a speed-up: one post-layout point measures
+# 10.9 s wall / 64 s CPU at the default, and 0.87 s wall / 0.86 s CPU at
+# `num_threads=1`, returning the identical `per1 = 3.900038e-09`. The
+# extracted cell is 44 devices plus 515 parasitic elements -- far too small
+# for the per-timestep thread barrier to pay for itself. Pinning to one
+# thread per process and fanning out over `PEX_JOBS` instead is ~12x faster
+# per point here AND leaves the rest of a shared host alone.
 cat > "$WORK/.spiceinit" <<EOF
+set num_threads=$THREADS
 osdi $OSDI/psp103.osdi
 osdi $OSDI/psp103_nqs.osdi
 osdi $OSDI/mosvar.osdi
@@ -125,8 +155,10 @@ worker() {
   local arm="$1" bname="$2" mos="$3" res="$4" temp="$5" blabel="$6" b0v="$7" b1v="$8" vctrl="$9"
   local tag="${arm}_${bname}_${blabel}_${vctrl}"
   local period
-  # Resume: a point already solved in a persistent PEX_WORK is not re-run.
-  if [[ -s "$WORK/res.$tag" ]]; then
+  # Resume: a point already MEASURED in a persistent PEX_WORK is not re-run.
+  # A recorded NA is never resumed -- see the header's "A recorded `NA` is
+  # deliberately NOT resumable".
+  if [[ -s "$WORK/res.$tag" ]] && ! grep -q ',NA,NA$' "$WORK/res.$tag"; then
     echo "resume: ${tag} already solved -- $(cat "$WORK/res.$tag")" >&2
     return 0
   fi
