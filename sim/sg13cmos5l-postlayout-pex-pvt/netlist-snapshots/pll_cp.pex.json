@@ -1,0 +1,4037 @@
+{
+  "schema_version": 3,
+  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-30/layout/sg13cmos5l-pll/reports/20260830-204105-457cf5b/pll_cp.gds",
+  "deck": "sg13cmos5l",
+  "top": "pll_cp",
+  "dbu_um": 0.001,
+  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-30/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_cp.pex.spice",
+  "netlist_sha256": "8ce2c443bf1c76366a44ebac873d526a5bffbe44bd923b647063bd2d2c783878",
+  "status": "extracted",
+  "device_count": 20,
+  "net_count": 18,
+  "pin_count": 18,
+  "device_counts": {
+    "nfet": 11,
+    "pfet": 9
+  },
+  "dummy_devices_dropped": 0,
+  "ignored_layers": [],
+  "device_recognition_only_layers": [
+    {
+      "layer": 44,
+      "datatype": 0,
+      "shapes": 20
+    }
+  ],
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor"
+  ],
+  "devices": [
+    {
+      "name": "$1",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "UP",
+        "d": "UPB",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 0.5,
+        "w_um": 2.0,
+        "as_um2": 0.8,
+        "ad_um2": 0.8,
+        "ps_um": 4.8,
+        "pd_um": 4.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w2_l0p5",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$10",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "IBN",
+        "d": "nxn",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 8.0,
+        "as_um2": 3.2,
+        "ad_um2": 3.2,
+        "ps_um": 16.8,
+        "pd_um": 16.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w8_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$11",
+      "class": "nfet",
+      "nets": {
+        "s": "nxn",
+        "g": "ICN",
+        "d": "IBN",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 8.0,
+        "as_um2": 3.2,
+        "ad_um2": 3.2,
+        "ps_um": 16.8,
+        "pd_um": 16.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w8_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$12",
+      "class": "pfet",
+      "nets": {
+        "s": "VDD",
+        "g": "UP",
+        "d": "UPB",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 0.5,
+        "w_um": 5.0,
+        "as_um2": 2.0,
+        "ad_um2": 2.0,
+        "ps_um": 10.8,
+        "pd_um": 10.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w5_l0p5",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$13",
+      "class": "pfet",
+      "nets": {
+        "s": "VDD",
+        "g": "DN",
+        "d": "DNB",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 0.5,
+        "w_um": 5.0,
+        "as_um2": 2.0,
+        "ad_um2": 2.0,
+        "ps_um": 10.8,
+        "pd_um": 10.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w5_l0p5",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$14",
+      "class": "pfet",
+      "nets": {
+        "s": "XLEGP.sw",
+        "g": "UPB",
+        "d": "VOUT",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 0.3,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w6_l0p3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$15",
+      "class": "pfet",
+      "nets": {
+        "s": "XLEGP.sw",
+        "g": "UP",
+        "d": "VDUMP",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 0.3,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w6_l0p3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$16",
+      "class": "pfet",
+      "nets": {
+        "s": "VDD",
+        "g": "ICP",
+        "d": "ICP",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 3.0,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w6_l3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$17",
+      "class": "pfet",
+      "nets": {
+        "s": "VDD",
+        "g": "IBP",
+        "d": "XLEGP.tail",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 24.0,
+        "as_um2": 9.6,
+        "ad_um2": 9.6,
+        "ps_um": 48.8,
+        "pd_um": 48.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w24_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$18",
+      "class": "pfet",
+      "nets": {
+        "s": "XLEGP.tail",
+        "g": "ICP",
+        "d": "XLEGP.sw",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 24.0,
+        "as_um2": 9.6,
+        "ad_um2": 9.6,
+        "ps_um": 48.8,
+        "pd_um": 48.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w24_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$19",
+      "class": "pfet",
+      "nets": {
+        "s": "VDD",
+        "g": "IBP",
+        "d": "nxp",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 24.0,
+        "as_um2": 9.6,
+        "ad_um2": 9.6,
+        "ps_um": 48.8,
+        "pd_um": 48.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w24_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$2",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "DN",
+        "d": "DNB",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 0.5,
+        "w_um": 2.0,
+        "as_um2": 0.8,
+        "ad_um2": 0.8,
+        "ps_um": 4.8,
+        "pd_um": 4.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w2_l0p5",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$20",
+      "class": "pfet",
+      "nets": {
+        "s": "nxp",
+        "g": "ICP",
+        "d": "IBP",
+        "b": "VDD"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 24.0,
+        "as_um2": 9.6,
+        "ad_um2": 9.6,
+        "ps_um": 48.8,
+        "pd_um": 48.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_pfet_w24_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$3",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "ICN",
+        "d": "ICN",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 3.0,
+        "w_um": 2.0,
+        "as_um2": 0.8,
+        "ad_um2": 0.8,
+        "ps_um": 4.8,
+        "pd_um": 4.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w2_l3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$4",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "IBN",
+        "d": "VDUMP",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 4.0,
+        "as_um2": 1.6,
+        "ad_um2": 1.6,
+        "ps_um": 8.8,
+        "pd_um": 8.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w4_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$5",
+      "class": "nfet",
+      "nets": {
+        "s": "XLEGN.sw",
+        "g": "DN",
+        "d": "VOUT",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 0.3,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w6_l0p3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$6",
+      "class": "nfet",
+      "nets": {
+        "s": "XLEGN.sw",
+        "g": "DNB",
+        "d": "VDUMP",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 0.3,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w6_l0p3",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$7",
+      "class": "nfet",
+      "nets": {
+        "s": "VDUMP",
+        "g": "VOUT",
+        "d": "VDD",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 0.5,
+        "w_um": 6.0,
+        "as_um2": 2.4,
+        "ad_um2": 2.4,
+        "ps_um": 12.8,
+        "pd_um": 12.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w6_l0p5",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$8",
+      "class": "nfet",
+      "nets": {
+        "s": "VSS",
+        "g": "IBN",
+        "d": "XLEGN.tail",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 8.0,
+        "as_um2": 3.2,
+        "ad_um2": 3.2,
+        "ps_um": 16.8,
+        "pd_um": 16.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w8_l1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$9",
+      "class": "nfet",
+      "nets": {
+        "s": "XLEGN.tail",
+        "g": "ICN",
+        "d": "XLEGN.sw",
+        "b": "VSS"
+      },
+      "params": {
+        "l_um": 1.0,
+        "w_um": 8.0,
+        "as_um2": 3.2,
+        "ad_um2": 3.2,
+        "ps_um": 16.8,
+        "pd_um": 16.8
+      },
+      "instance_path": [
+        {
+          "cell": "cp_nfet_w8_l1",
+          "array_index": null
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "DN",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 4,
+      "pin_index": 0,
+      "label_positions_um": [
+        {
+          "text": "DN",
+          "x_um": 67.03,
+          "y_um": 9.22
+        }
+      ]
+    },
+    {
+      "name": "DNB",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 9,
+      "pin_index": 1,
+      "label_positions_um": [
+        {
+          "text": "DNB",
+          "x_um": 68.51,
+          "y_um": 9.82
+        }
+      ]
+    },
+    {
+      "name": "IBN",
+      "pin": true,
+      "device_count": 4,
+      "net_id": 6,
+      "pin_index": 2,
+      "label_positions_um": [
+        {
+          "text": "IBN",
+          "x_um": 66.59,
+          "y_um": 10.42
+        }
+      ]
+    },
+    {
+      "name": "IBP",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 16,
+      "pin_index": 3,
+      "label_positions_um": [
+        {
+          "text": "IBP",
+          "x_um": 219.67,
+          "y_um": 11.02
+        }
+      ]
+    },
+    {
+      "name": "ICN",
+      "pin": true,
+      "device_count": 4,
+      "net_id": 17,
+      "pin_index": 4,
+      "label_positions_um": [
+        {
+          "text": "ICN",
+          "x_um": 60.55,
+          "y_um": 11.62
+        }
+      ]
+    },
+    {
+      "name": "ICP",
+      "pin": true,
+      "device_count": 4,
+      "net_id": 18,
+      "pin_index": 5,
+      "label_positions_um": [
+        {
+          "text": "ICP",
+          "x_um": 211.63,
+          "y_um": 12.22
+        }
+      ]
+    },
+    {
+      "name": "UP",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 3,
+      "pin_index": 6,
+      "label_positions_um": [
+        {
+          "text": "UP",
+          "x_um": 75.83,
+          "y_um": 12.82
+        }
+      ]
+    },
+    {
+      "name": "UPB",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 12,
+      "pin_index": 7,
+      "label_positions_um": [
+        {
+          "text": "UPB",
+          "x_um": 72.59,
+          "y_um": 13.42
+        }
+      ]
+    },
+    {
+      "name": "VDD",
+      "pin": true,
+      "device_count": 15,
+      "net_id": 2,
+      "pin_index": 8,
+      "label_positions_um": [
+        {
+          "text": "VDD",
+          "x_um": 128.68,
+          "y_um": 1.21
+        },
+        {
+          "text": "VDD",
+          "x_um": 128.68,
+          "y_um": 2.36
+        },
+        {
+          "text": "VDD",
+          "x_um": 147.73,
+          "y_um": 14.02
+        },
+        {
+          "text": "VDD",
+          "x_um": 150.24,
+          "y_um": 1.21
+        },
+        {
+          "text": "VDD",
+          "x_um": 150.24,
+          "y_um": 2.26
+        },
+        {
+          "text": "VDD",
+          "x_um": 168.82,
+          "y_um": 1.21
+        },
+        {
+          "text": "VDD",
+          "x_um": 168.82,
+          "y_um": 3.61
+        },
+        {
+          "text": "VDD",
+          "x_um": 231.36,
+          "y_um": 1.21
+        },
+        {
+          "text": "VDD",
+          "x_um": 231.36,
+          "y_um": 2.61
+        }
+      ]
+    },
+    {
+      "name": "VDUMP",
+      "pin": true,
+      "device_count": 4,
+      "net_id": 8,
+      "pin_index": 9,
+      "label_positions_um": [
+        {
+          "text": "VDUMP",
+          "x_um": 89.89,
+          "y_um": 14.62
+        }
+      ]
+    },
+    {
+      "name": "VOUT",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 7,
+      "pin_index": 10,
+      "label_positions_um": [
+        {
+          "text": "VOUT",
+          "x_um": 92.21,
+          "y_um": 15.22
+        }
+      ]
+    },
+    {
+      "name": "VSS",
+      "pin": true,
+      "device_count": 17,
+      "net_id": 19,
+      "pin_index": 11,
+      "label_positions_um": [
+        {
+          "text": "VSS",
+          "x_um": 48.42,
+          "y_um": 15.82
+        }
+      ]
+    },
+    {
+      "name": "XLEGN.sw",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 5,
+      "pin_index": 12,
+      "label_positions_um": [
+        {
+          "text": "XLEGN.sw",
+          "x_um": 63.37,
+          "y_um": 16.42
+        }
+      ]
+    },
+    {
+      "name": "XLEGN.tail",
+      "pin": true,
+      "device_count": 2,
+      "net_id": 10,
+      "pin_index": 13,
+      "label_positions_um": [
+        {
+          "text": "XLEGN.tail",
+          "x_um": 81.95,
+          "y_um": 17.02
+        }
+      ]
+    },
+    {
+      "name": "XLEGP.sw",
+      "pin": true,
+      "device_count": 3,
+      "net_id": 14,
+      "pin_index": 14,
+      "label_positions_um": [
+        {
+          "text": "XLEGP.sw",
+          "x_um": 175.57,
+          "y_um": 17.62
+        }
+      ]
+    },
+    {
+      "name": "XLEGP.tail",
+      "pin": true,
+      "device_count": 2,
+      "net_id": 13,
+      "pin_index": 15,
+      "label_positions_um": [
+        {
+          "text": "XLEGP.tail",
+          "x_um": 194.15,
+          "y_um": 18.22
+        }
+      ]
+    },
+    {
+      "name": "nxn",
+      "pin": true,
+      "device_count": 2,
+      "net_id": 11,
+      "pin_index": 16,
+      "label_positions_um": [
+        {
+          "text": "nxn",
+          "x_um": 101.87,
+          "y_um": 18.82
+        }
+      ]
+    },
+    {
+      "name": "nxp",
+      "pin": true,
+      "device_count": 2,
+      "net_id": 15,
+      "pin_index": 17,
+      "label_positions_um": [
+        {
+          "text": "nxp",
+          "x_um": 246.07,
+          "y_um": 19.42
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "black_box_regions": [],
+  "abstracted_cells": [],
+  "unmodelled_poly": [],
+  "merged_net_labels": [],
+  "voltage_domain_warnings": [],
+  "unbiased_pmos_body_nets": [],
+  "single_terminal_nets": [],
+  "dead_metal": [],
+  "matched_device_groups": [],
+  "pdk": null,
+  "provenance": {
+    "klt_version": "0.4.0",
+    "klayout_version": "0.30.10",
+    "pdk": null,
+    "deck": {
+      "name": "sg13cmos5l",
+      "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c"
+    }
+  },
+  "parasitics": {
+    "r_count": 80,
+    "c_count": 18,
+    "cc_count": 88,
+    "l_count": 0,
+    "total_resistance_ohm": 914.8625,
+    "total_capacitance_ff": 219.401508,
+    "total_coupling_capacitance_ff": 1.569022,
+    "total_inductance_nh": 0.0,
+    "nets": [
+      {
+        "net": "DN",
+        "net_id": 4,
+        "resistance_ohm": 43.7007,
+        "capacitance_ff": 9.822729,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 1.0889,
+            "capacitance_ff": 0.20635
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 6.0331,
+            "capacitance_ff": 1.543374
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 36.5787,
+            "capacitance_ff": 8.073006
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "DN",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$5",
+            "terminal": "G",
+            "leg_net": "DN__t0",
+            "resistance_ohm": 5.493
+          },
+          {
+            "device": "$2",
+            "terminal": "G",
+            "leg_net": "DN__t1",
+            "resistance_ohm": 16.3574
+          },
+          {
+            "device": "$13",
+            "terminal": "G",
+            "leg_net": "DN__t2",
+            "resistance_ohm": 21.8503
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.060502,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "DNB",
+        "net_id": 9,
+        "resistance_ohm": 46.4567,
+        "capacitance_ff": 10.39438,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 3.6223,
+            "capacitance_ff": 0.720948
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 6.2557,
+            "capacitance_ff": 1.598268
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 36.5787,
+            "capacitance_ff": 8.075164
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "DNB",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$13",
+            "terminal": "D",
+            "leg_net": "DNB__t0",
+            "resistance_ohm": 23.2283
+          },
+          {
+            "device": "$2",
+            "terminal": "D",
+            "leg_net": "DNB__t1",
+            "resistance_ohm": 18.9431
+          },
+          {
+            "device": "$6",
+            "terminal": "G",
+            "leg_net": "DNB__t2",
+            "resistance_ohm": 4.2853
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.029445,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.059696,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "IBN",
+        "net_id": 6,
+        "resistance_ohm": 37.4951,
+        "capacitance_ff": 8.476104,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 4.6602,
+            "capacitance_ff": 0.928791
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 8.9517,
+            "capacitance_ff": 2.266436
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 23.8832,
+            "capacitance_ff": 5.280877
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "IBN",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$4",
+            "terminal": "G",
+            "leg_net": "IBN__t0",
+            "resistance_ohm": 18.7476
+          },
+          {
+            "device": "$8",
+            "terminal": "G",
+            "leg_net": "IBN__t1",
+            "resistance_ohm": 0.1792
+          },
+          {
+            "device": "$10",
+            "terminal": "G",
+            "leg_net": "IBN__t2",
+            "resistance_ohm": 7.4632
+          },
+          {
+            "device": "$11",
+            "terminal": "D",
+            "leg_net": "IBN__t3",
+            "resistance_ohm": 11.1052
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.036302,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "IBP",
+        "net_id": 16,
+        "resistance_ohm": 41.4996,
+        "capacitance_ff": 9.281544,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 10.9925,
+            "capacitance_ff": 2.269287
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 7.1401,
+            "capacitance_ff": 1.832673
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 23.3669,
+            "capacitance_ff": 5.179585
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "IBP",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$17",
+            "terminal": "G",
+            "leg_net": "IBP__t0",
+            "resistance_ohm": 20.7498
+          },
+          {
+            "device": "$19",
+            "terminal": "G",
+            "leg_net": "IBP__t1",
+            "resistance_ohm": 4.15
+          },
+          {
+            "device": "$20",
+            "terminal": "D",
+            "leg_net": "IBP__t2",
+            "resistance_ohm": 16.5998
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "ICP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxp",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "ICN",
+        "net_id": 17,
+        "resistance_ohm": 38.2004,
+        "capacitance_ff": 8.675193,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 2.1631,
+            "capacitance_ff": 0.400312
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.4789,
+            "capacitance_ff": 2.400925
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 26.5584,
+            "capacitance_ff": 5.873956
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "ICN",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$3",
+            "terminal": "D",
+            "leg_net": "ICN__t0",
+            "resistance_ohm": 9.5501
+          },
+          {
+            "device": "$3",
+            "terminal": "G",
+            "leg_net": "ICN__t1",
+            "resistance_ohm": 9.5501
+          },
+          {
+            "device": "$9",
+            "terminal": "G",
+            "leg_net": "ICN__t2",
+            "resistance_ohm": 7.2661
+          },
+          {
+            "device": "$11",
+            "terminal": "G",
+            "leg_net": "ICN__t3",
+            "resistance_ohm": 11.8341
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.053646,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "ICP",
+        "net_id": 18,
+        "resistance_ohm": 41.2181,
+        "capacitance_ff": 9.38264,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 3.8207,
+            "capacitance_ff": 0.752632
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 10.182,
+            "capacitance_ff": 2.597696
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 27.2155,
+            "capacitance_ff": 6.032312
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "ICP",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$16",
+            "terminal": "D",
+            "leg_net": "ICP__t0",
+            "resistance_ohm": 10.3041
+          },
+          {
+            "device": "$16",
+            "terminal": "G",
+            "leg_net": "ICP__t1",
+            "resistance_ohm": 10.3041
+          },
+          {
+            "device": "$20",
+            "terminal": "G",
+            "leg_net": "ICP__t2",
+            "resistance_ohm": 17.3872
+          },
+          {
+            "device": "$18",
+            "terminal": "G",
+            "leg_net": "ICP__t3",
+            "resistance_ohm": 3.2226
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "IBP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.029445,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxp",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "UP",
+        "net_id": 3,
+        "resistance_ohm": 54.3506,
+        "capacitance_ff": 12.306901,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 1.0889,
+            "capacitance_ff": 0.20635
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.1972,
+            "capacitance_ff": 2.366669
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 44.0645,
+            "capacitance_ff": 9.733883
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "UP",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$15",
+            "terminal": "G",
+            "leg_net": "UP__t0",
+            "resistance_ohm": 17.8921
+          },
+          {
+            "device": "$12",
+            "terminal": "G",
+            "leg_net": "UP__t1",
+            "resistance_ohm": 9.2832
+          },
+          {
+            "device": "$1",
+            "terminal": "G",
+            "leg_net": "UP__t2",
+            "resistance_ohm": 27.1753
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.030251,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.066553,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "UPB",
+        "net_id": 12,
+        "resistance_ohm": 54.3378,
+        "capacitance_ff": 12.268462,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 3.6223,
+            "capacitance_ff": 0.720948
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.4199,
+            "capacitance_ff": 2.419926
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 41.2955,
+            "capacitance_ff": 9.127588
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "UPB",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$1",
+            "terminal": "D",
+            "leg_net": "UPB__t0",
+            "resistance_ohm": 27.1689
+          },
+          {
+            "device": "$12",
+            "terminal": "D",
+            "leg_net": "UPB__t1",
+            "resistance_ohm": 10.3683
+          },
+          {
+            "device": "$14",
+            "terminal": "G",
+            "leg_net": "UPB__t2",
+            "resistance_ohm": 16.8006
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.035495,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.065746,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "VDD",
+        "net_id": 2,
+        "resistance_ohm": 144.433,
+        "capacitance_ff": 40.315933,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 57.1155,
+            "capacitance_ff": 19.765839
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 37.3276,
+            "capacitance_ff": 9.485555
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 49.9899,
+            "capacitance_ff": 11.064539
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VDD",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$7",
+            "terminal": "D",
+            "leg_net": "VDD__t0",
+            "resistance_ohm": 23.4588
+          },
+          {
+            "device": "$12",
+            "terminal": "B",
+            "leg_net": "VDD__t1",
+            "resistance_ohm": 10.2215
+          },
+          {
+            "device": "$12",
+            "terminal": "S",
+            "leg_net": "VDD__t2",
+            "resistance_ohm": 10.2215
+          },
+          {
+            "device": "$14",
+            "terminal": "B",
+            "leg_net": "VDD__t3",
+            "resistance_ohm": 5.62
+          },
+          {
+            "device": "$16",
+            "terminal": "B",
+            "leg_net": "VDD__t4",
+            "resistance_ohm": 0.7235
+          },
+          {
+            "device": "$16",
+            "terminal": "S",
+            "leg_net": "VDD__t5",
+            "resistance_ohm": 0.7235
+          },
+          {
+            "device": "$17",
+            "terminal": "B",
+            "leg_net": "VDD__t6",
+            "resistance_ohm": 4.4669
+          },
+          {
+            "device": "$17",
+            "terminal": "S",
+            "leg_net": "VDD__t7",
+            "resistance_ohm": 4.4669
+          },
+          {
+            "device": "$19",
+            "terminal": "S",
+            "leg_net": "VDD__t8",
+            "resistance_ohm": 15.812
+          },
+          {
+            "device": "$20",
+            "terminal": "B",
+            "leg_net": "VDD__t9",
+            "resistance_ohm": 21.4846
+          },
+          {
+            "device": "$19",
+            "terminal": "B",
+            "leg_net": "VDD__t10",
+            "resistance_ohm": 15.812
+          },
+          {
+            "device": "$18",
+            "terminal": "B",
+            "leg_net": "VDD__t11",
+            "resistance_ohm": 10.1395
+          },
+          {
+            "device": "$15",
+            "terminal": "B",
+            "leg_net": "VDD__t12",
+            "resistance_ohm": 3.8809
+          },
+          {
+            "device": "$13",
+            "terminal": "S",
+            "leg_net": "VDD__t13",
+            "resistance_ohm": 8.7007
+          },
+          {
+            "device": "$13",
+            "terminal": "B",
+            "leg_net": "VDD__t14",
+            "resistance_ohm": 8.7007
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.029445,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICP",
+            "capacitance_ff": 0.029445,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.030251,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.035495,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.011294,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.tail",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxp",
+            "capacitance_ff": 0.005244,
+            "levels": [
+              [
+                0,
+                1
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "VDUMP",
+        "net_id": 8,
+        "resistance_ohm": 60.7308,
+        "capacitance_ff": 13.71067,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 9.9873,
+            "capacitance_ff": 2.011699
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 14.0593,
+            "capacitance_ff": 3.581008
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 36.6843,
+            "capacitance_ff": 8.117963
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VDUMP",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$4",
+            "terminal": "D",
+            "leg_net": "VDUMP__t0",
+            "resistance_ohm": 17.4349
+          },
+          {
+            "device": "$7",
+            "terminal": "S",
+            "leg_net": "VDUMP__t1",
+            "resistance_ohm": 3.6907
+          },
+          {
+            "device": "$6",
+            "terminal": "D",
+            "leg_net": "VDUMP__t2",
+            "resistance_ohm": 9.24
+          },
+          {
+            "device": "$15",
+            "terminal": "D",
+            "leg_net": "VDUMP__t3",
+            "resistance_ohm": 30.3652
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.011294,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.035495,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.023394,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "VOUT",
+        "net_id": 7,
+        "resistance_ohm": 47.4722,
+        "capacitance_ff": 10.787728,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 5.728,
+            "capacitance_ff": 1.161347
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 11.0909,
+            "capacitance_ff": 2.836536
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 30.6533,
+            "capacitance_ff": 6.789845
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VOUT",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$14",
+            "terminal": "D",
+            "leg_net": "VOUT__t0",
+            "resistance_ohm": 23.7361
+          },
+          {
+            "device": "$7",
+            "terminal": "G",
+            "leg_net": "VOUT__t1",
+            "resistance_ohm": 7.5459
+          },
+          {
+            "device": "$5",
+            "terminal": "D",
+            "leg_net": "VOUT__t2",
+            "resistance_ohm": 16.1902
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.011294,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "VSS",
+        "net_id": 19,
+        "resistance_ohm": 109.3657,
+        "capacitance_ff": 29.488515,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 29.0054,
+            "capacitance_ff": 10.003251
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 52.0125,
+            "capacitance_ff": 13.199152
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 28.3477,
+            "capacitance_ff": 6.286112
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VSS",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$1",
+            "terminal": "S",
+            "leg_net": "VSS__t0",
+            "resistance_ohm": 8.8064
+          },
+          {
+            "device": "$3",
+            "terminal": "S",
+            "leg_net": "VSS__t1",
+            "resistance_ohm": 6.0373
+          },
+          {
+            "device": "$4",
+            "terminal": "S",
+            "leg_net": "VSS__t2",
+            "resistance_ohm": 3.8259
+          },
+          {
+            "device": "$8",
+            "terminal": "S",
+            "leg_net": "VSS__t3",
+            "resistance_ohm": 6.0281
+          },
+          {
+            "device": "$10",
+            "terminal": "S",
+            "leg_net": "VSS__t4",
+            "resistance_ohm": 9.8204
+          },
+          {
+            "device": "$2",
+            "terminal": "S",
+            "leg_net": "VSS__t5",
+            "resistance_ohm": 8.0525
+          },
+          {
+            "device": "$1",
+            "terminal": "B",
+            "leg_net": "VSS__t6",
+            "resistance_ohm": 8.8064
+          },
+          {
+            "device": "$2",
+            "terminal": "B",
+            "leg_net": "VSS__t7",
+            "resistance_ohm": 8.0525
+          },
+          {
+            "device": "$3",
+            "terminal": "B",
+            "leg_net": "VSS__t8",
+            "resistance_ohm": 6.0373
+          },
+          {
+            "device": "$4",
+            "terminal": "B",
+            "leg_net": "VSS__t9",
+            "resistance_ohm": 3.8259
+          },
+          {
+            "device": "$5",
+            "terminal": "B",
+            "leg_net": "VSS__t10",
+            "resistance_ohm": 1.2386
+          },
+          {
+            "device": "$6",
+            "terminal": "B",
+            "leg_net": "VSS__t11",
+            "resistance_ohm": 0.2866
+          },
+          {
+            "device": "$7",
+            "terminal": "B",
+            "leg_net": "VSS__t12",
+            "resistance_ohm": 3.0585
+          },
+          {
+            "device": "$8",
+            "terminal": "B",
+            "leg_net": "VSS__t13",
+            "resistance_ohm": 6.0281
+          },
+          {
+            "device": "$9",
+            "terminal": "B",
+            "leg_net": "VSS__t14",
+            "resistance_ohm": 7.9242
+          },
+          {
+            "device": "$10",
+            "terminal": "B",
+            "leg_net": "VSS__t15",
+            "resistance_ohm": 9.8204
+          },
+          {
+            "device": "$11",
+            "terminal": "B",
+            "leg_net": "VSS__t16",
+            "resistance_ohm": 11.7166
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.060502,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.059696,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.036302,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.053646,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.066553,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.065746,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.035495,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.024201,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "nxn",
+            "capacitance_ff": 0.005244,
+            "levels": [
+              [
+                0,
+                1
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.sw",
+        "net_id": 5,
+        "resistance_ohm": 35.3388,
+        "capacitance_ff": 8.09716,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 8.9131,
+            "capacitance_ff": 1.820468
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 12.3399,
+            "capacitance_ff": 3.143372
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 14.0859,
+            "capacitance_ff": 3.133319
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "XLEGN.sw",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$9",
+            "terminal": "D",
+            "leg_net": "XLEGN.sw__t0",
+            "resistance_ohm": 17.6694
+          },
+          {
+            "device": "$5",
+            "terminal": "S",
+            "leg_net": "XLEGN.sw__t1",
+            "resistance_ohm": 11.2244
+          },
+          {
+            "device": "$6",
+            "terminal": "S",
+            "leg_net": "XLEGN.sw__t2",
+            "resistance_ohm": 6.4451
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.023394,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.tail",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.tail",
+        "net_id": 10,
+        "resistance_ohm": 18.197,
+        "capacitance_ff": 4.235124,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 6.9947,
+            "capacitance_ff": 1.447615
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 8.3687,
+            "capacitance_ff": 2.142063
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 2.8336,
+            "capacitance_ff": 0.645446
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "XLEGN.tail",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$8",
+            "terminal": "D",
+            "leg_net": "XLEGN.tail__t0",
+            "resistance_ohm": 9.0985
+          },
+          {
+            "device": "$9",
+            "terminal": "S",
+            "leg_net": "XLEGN.tail__t1",
+            "resistance_ohm": 9.0985
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGN.sw",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.sw",
+        "net_id": 14,
+        "resistance_ohm": 47.8518,
+        "capacitance_ff": 10.850007,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 15.6771,
+            "capacitance_ff": 3.229747
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 13.3954,
+            "capacitance_ff": 3.448346
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 18.7792,
+            "capacitance_ff": 4.171914
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "XLEGP.sw",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$14",
+            "terminal": "S",
+            "leg_net": "XLEGP.sw__t0",
+            "resistance_ohm": 14.0591
+          },
+          {
+            "device": "$15",
+            "terminal": "S",
+            "leg_net": "XLEGP.sw__t1",
+            "resistance_ohm": 9.8668
+          },
+          {
+            "device": "$18",
+            "terminal": "D",
+            "leg_net": "XLEGP.sw__t2",
+            "resistance_ohm": 23.9259
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "IBP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.018151,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.011294,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.tail",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.tail",
+        "net_id": 13,
+        "resistance_ohm": 37.1289,
+        "capacitance_ff": 8.298864,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 20.5295,
+            "capacitance_ff": 4.266172
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.0725,
+            "capacitance_ff": 2.348651
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 7.5269,
+            "capacitance_ff": 1.684041
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "XLEGP.tail",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$17",
+            "terminal": "D",
+            "leg_net": "XLEGP.tail__t0",
+            "resistance_ohm": 18.5645
+          },
+          {
+            "device": "$18",
+            "terminal": "S",
+            "leg_net": "XLEGP.tail__t1",
+            "resistance_ohm": 18.5644
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "IBP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XLEGP.sw",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "nxn",
+        "net_id": 11,
+        "resistance_ohm": 19.2526,
+        "capacitance_ff": 4.518827,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 6.9947,
+            "capacitance_ff": 1.447615
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.4244,
+            "capacitance_ff": 2.425766
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 2.8336,
+            "capacitance_ff": 0.645446
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "nxn",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$10",
+            "terminal": "D",
+            "leg_net": "nxn__t0",
+            "resistance_ohm": 9.6263
+          },
+          {
+            "device": "$11",
+            "terminal": "S",
+            "leg_net": "nxn__t1",
+            "resistance_ohm": 9.6263
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "DN",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "DNB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "IBN",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICN",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "UPB",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDUMP",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VOUT",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.005244,
+            "levels": [
+              [
+                0,
+                1
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "nxp",
+        "net_id": 15,
+        "resistance_ohm": 37.8327,
+        "capacitance_ff": 8.490727,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 20.5295,
+            "capacitance_ff": 4.266172
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 9.7763,
+            "capacitance_ff": 2.540514
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 7.5269,
+            "capacitance_ff": 1.684041
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "nxp",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$19",
+            "terminal": "D",
+            "leg_net": "nxp__t0",
+            "resistance_ohm": 18.9164
+          },
+          {
+            "device": "$20",
+            "terminal": "S",
+            "leg_net": "nxp__t1",
+            "resistance_ohm": 18.9163
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "IBP",
+            "capacitance_ff": 0.017344,
+            "levels": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "ICP",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "VDD",
+            "capacitance_ff": 0.005244,
+            "levels": [
+              [
+                0,
+                1
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      }
+    ],
+    "substrate_dc_tie": {
+      "resistance_ohm": 1000000000000.0,
+      "nets": [
+        {
+          "net": "vsubs",
+          "device": "Rvsubs_dctie"
+        }
+      ],
+      "node_scope": "global"
+    },
+    "metals_without_coefficient": [],
+    "overlap_pairs_without_coefficient": [],
+    "critical_nets": [],
+    "parasitics_nets": [],
+    "distributed_rc": false,
+    "top_cell_only": false,
+    "model": {
+      "capacitance": "net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net",
+      "coupling": "vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled",
+      "resistance": "single lumped series resistance per net, distributed as a star across that net's device terminals (issue #592) -- not a per-segment, distributed RC ladder, *unless* `--distributed-rc` names this net via `--critical-net` (issue #977, Epic #709 Phase 2b): then the net's terminals are ordered along their approximate physical spread and its total R/C is broken into a chain of per-segment resistors (segment length proportional to inter-terminal distance) with a ground capacitor at each terminal node (proportional to its adjacent segment length/2), instead of one star hub -- still an approximation (terminal position is a device-placement proxy, not true per-segment routing geometry), but a strictly finer-grained one than the single-hub star",
+      "frequency": "quasi-static -- one frequency-independent R and C per net; no skin effect, no distributed transmission-line behavior"
+    },
+    "mom_crosscheck": null,
+    "mom_rlc_override": null
+  },
+  "spef_path": null,
+  "metrics": {
+    "extract__device__count": 20,
+    "extract__net__count": 18,
+    "extract__pin__count": 18,
+    "extract__resistor__count": 80,
+    "extract__capacitor__count": 18,
+    "extract__coupling__capacitor__count": 88,
+    "extract__inductor__count": 0,
+    "extract__resistance__ohm": 914.8625,
+    "extract__capacitance__ff": 219.401508,
+    "extract__coupling__capacitance__ff": 1.569022,
+    "extract__inductance__nh": 0.0
+  }
+}

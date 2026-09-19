@@ -1,0 +1,1940 @@
+* extracted by klt extract --deck sg13cmos5l
+* parasitic model (--parasitics):
+* - capacitance: net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net
+* - coupling: vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled
+* - resistance: single lumped series resistance per net, distributed as a star across that net's device terminals (issue #592) -- not a per-segment, distributed RC ladder, *unless* `--distributed-rc` names this net via `--critical-net` (issue #977, Epic #709 Phase 2b): then the net's terminals are ordered along their approximate physical spread and its total R/C is broken into a chain of per-segment resistors (segment length proportional to inter-terminal distance) with a ground capacitor at each terminal node (proportional to its adjacent segment length/2), instead of one star hub -- still an approximation (terminal position is a device-placement proxy, not true per-segment routing geometry), but a strictly finer-grained one than the single-hub star
+* - frequency: quasi-static -- one frequency-independent R and C per net; no skin effect, no distributed transmission-line behavior
+.GLOBAL vsubs
+
+* cell pll_pfd
+* pin DN
+* pin FB
+* pin REF
+* pin UP
+* pin VDD
+* pin VSS
+* pin XED_DN.XD5
+* pin XED_DN.XN1.mid1
+* pin XED_DN.d1
+* pin XED_DN.d2
+* pin XED_DN.d3
+* pin XED_DN.d4
+* pin XED_DN.ntmp
+* pin XED_UP.XD5
+* pin XED_UP.XN1.mid1
+* pin XED_UP.d1
+* pin XED_UP.d2
+* pin XED_UP.d3
+* pin XED_UP.d4
+* pin XED_UP.ntmp
+* pin XLD.RB
+* pin XLD.SB
+* pin XLD.XNQ.mid1
+* pin XLD.XNQB.mid1
+* pin XLU.RB
+* pin XLU.SB
+* pin XLU.XNQ.mid1
+* pin XLU.XNQB.mid1
+* pin XNR.mid1
+* pin net1
+* pin net2
+* pin reset
+* pin reset_d1
+* pin reset_d2
+* pin reset_raw
+* pin set_dn
+* pin set_up
+.SUBCKT pll_pfd DN FB REF UP VDD VSS XED_DN.XD5 XED_DN.XN1.mid1 XED_DN.d1
++ XED_DN.d2 XED_DN.d3 XED_DN.d4 XED_DN.ntmp XED_UP.XD5 XED_UP.XN1.mid1
++ XED_UP.d1 XED_UP.d2 XED_UP.d3 XED_UP.d4 XED_UP.ntmp XLD.RB XLD.SB
++ XLD.XNQ.mid1 XLD.XNQB.mid1 XLU.RB XLU.SB XLU.XNQ.mid1 XLU.XNQB.mid1 XNR.mid1
++ net1 net2 reset reset_d1 reset_d2 reset_raw set_dn set_up
+* device instance $1 r0 *1 2.3,3.11 nfet
+M$1 XED_UP.d1__t3 REF__t0 VSS__t0 VSS__t26 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $2 r0 *1 6.26,3.11 nfet
+M$2 XED_UP.d2__t3 XED_UP.d1__t2 VSS__t19 VSS__t27 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $3 r0 *1 10.22,3.11 nfet
+M$3 XED_UP.d3__t3 XED_UP.d2__t2 VSS__t12 VSS__t28 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $4 r0 *1 14.18,3.11 nfet
+M$4 XED_UP.d4__t3 XED_UP.d3__t2 VSS__t11 VSS__t29 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $5 r0 *1 18.14,3.11 nfet
+M$5 XED_UP.XD5__t3 XED_UP.d4__t2 VSS__t10 VSS__t30 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $6 r0 *1 22.1,3.11 nfet
+M$6 XED_UP.ntmp__t4 REF__t3 XED_UP.XN1.mid1__t1 VSS__t31 nfet L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $7 r0 *1 26.06,3.11 nfet
+M$7 XED_UP.XN1.mid1__t0 XED_UP.XD5__t2 VSS__t9 VSS__t32 nfet L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $8 r0 *1 30.02,3.11 nfet
+M$8 set_up__t3 XED_UP.ntmp__t3 VSS__t8 VSS__t33 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $9 r0 *1 33.98,3.11 nfet
+M$9 XED_DN.d1__t3 FB__t3 VSS__t7 VSS__t34 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $10 r0 *1 37.94,3.11 nfet
+M$10 XED_DN.d2__t3 XED_DN.d1__t2 VSS__t6 VSS__t35 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $11 r0 *1 41.9,3.11 nfet
+M$11 XED_DN.d3__t3 XED_DN.d2__t2 VSS__t5 VSS__t36 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $12 r0 *1 45.86,3.11 nfet
+M$12 XED_DN.d4__t3 XED_DN.d3__t2 VSS__t4 VSS__t37 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $13 r0 *1 49.82,3.11 nfet
+M$13 XED_DN.XD5__t3 XED_DN.d4__t2 VSS__t3 VSS__t38 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $14 r0 *1 53.78,3.11 nfet
+M$14 XED_DN.ntmp__t4 FB__t2 XED_DN.XN1.mid1__t1 VSS__t39 nfet L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $15 r0 *1 57.74,3.11 nfet
+M$15 XED_DN.XN1.mid1__t0 XED_DN.XD5__t2 VSS__t2 VSS__t40 nfet L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $16 r0 *1 61.7,3.11 nfet
+M$16 set_dn__t3 XED_DN.ntmp__t3 VSS__t14 VSS__t41 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $17 r0 *1 65.66,3.11 nfet
+M$17 XLU.SB__t3 set_up__t2 VSS__t13 VSS__t42 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $18 r0 *1 69.62,3.11 nfet
+M$18 XLU.RB__t3 reset__t5 VSS__t24 VSS__t43 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $19 r0 *1 73.58,3.11 nfet
+M$19 UP__t6 XLU.SB__t2 XLU.XNQ.mid1__t1 VSS__t44 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $20 r0 *1 77.54,3.11 nfet
+M$20 XLU.XNQ.mid1__t0 net1__t3 VSS__t23 VSS__t45 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $21 r0 *1 81.5,3.11 nfet
+M$21 net1__t4 XLU.RB__t2 XLU.XNQB.mid1__t1 VSS__t46 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $22 r0 *1 85.46,3.11 nfet
+M$22 XLU.XNQB.mid1__t0 UP__t5 VSS__t22 VSS__t47 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $23 r0 *1 89.42,3.11 nfet
+M$23 XLD.SB__t3 set_dn__t2 VSS__t21 VSS__t48 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $24 r0 *1 93.38,3.11 nfet
+M$24 XLD.RB__t3 reset__t4 VSS__t20 VSS__t49 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $25 r0 *1 97.34,3.11 nfet
+M$25 DN__t6 XLD.SB__t2 XLD.XNQ.mid1__t1 VSS__t50 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $26 r0 *1 101.3,3.11 nfet
+M$26 XLD.XNQ.mid1__t0 net2__t3 VSS__t25 VSS__t51 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $27 r0 *1 105.26,3.11 nfet
+M$27 net2__t4 XLD.RB__t2 XLD.XNQB.mid1__t1 VSS__t52 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $28 r0 *1 109.22,3.11 nfet
+M$28 XLD.XNQB.mid1__t0 DN__t5 VSS__t18 VSS__t53 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $29 r0 *1 113.18,3.11 nfet
+M$29 reset_raw__t4 UP__t4 XNR.mid1__t1 VSS__t54 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $30 r0 *1 117.14,3.11 nfet
+M$30 XNR.mid1__t0 DN__t4 VSS__t17 VSS__t55 nfet L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $31 r0 *1 121.1,3.11 nfet
+M$31 reset_d1__t3 reset_raw__t3 VSS__t16 VSS__t56 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $32 r0 *1 125.06,3.11 nfet
+M$32 reset_d2__t3 reset_d1__t2 VSS__t15 VSS__t57 nfet L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $33 r0 *1 136.66,3.11 nfet
+M$33 reset__t0 reset_d2__t0 VSS__t1 VSS__t58 nfet L=0.5U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $34 r0 *1 149.76,3.11 pfet
+M$34 XED_UP.d1__t0 REF__t1 VDD__t1 VDD__t0 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $35 r0 *1 156.72,3.11 pfet
+M$35 XED_UP.d2__t0 XED_UP.d1__t1 VDD__t18 VDD__t49 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $36 r0 *1 163.68,3.11 pfet
+M$36 XED_UP.d3__t0 XED_UP.d2__t1 VDD__t17 VDD__t48 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $37 r0 *1 170.64,3.11 pfet
+M$37 XED_UP.d4__t0 XED_UP.d3__t1 VDD__t16 VDD__t47 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $38 r0 *1 177.6,3.11 pfet
+M$38 XED_UP.XD5__t0 XED_UP.d4__t1 VDD__t15 VDD__t46 pfet L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $39 r0 *1 184.56,3.11 pfet
+M$39 XED_UP.ntmp__t1 REF__t2 VDD__t14 VDD__t45 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $40 r0 *1 191.52,3.11 pfet
+M$40 XED_UP.ntmp__t0 XED_UP.XD5__t1 VDD__t13 VDD__t44 pfet L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $41 r0 *1 198.48,3.11 pfet
+M$41 set_up__t0 XED_UP.ntmp__t2 VDD__t12 VDD__t43 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $42 r0 *1 205.44,3.11 pfet
+M$42 XED_DN.d1__t0 FB__t1 VDD__t11 VDD__t42 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $43 r0 *1 212.4,3.11 pfet
+M$43 XED_DN.d2__t0 XED_DN.d1__t1 VDD__t10 VDD__t41 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $44 r0 *1 219.36,3.11 pfet
+M$44 XED_DN.d3__t0 XED_DN.d2__t1 VDD__t9 VDD__t40 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $45 r0 *1 226.32,3.11 pfet
+M$45 XED_DN.d4__t0 XED_DN.d3__t1 VDD__t8 VDD__t39 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $46 r0 *1 233.28,3.11 pfet
+M$46 XED_DN.XD5__t0 XED_DN.d4__t1 VDD__t7 VDD__t38 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $47 r0 *1 240.24,3.11 pfet
+M$47 XED_DN.ntmp__t1 FB__t0 VDD__t6 VDD__t37 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $48 r0 *1 247.2,3.11 pfet
+M$48 XED_DN.ntmp__t0 XED_DN.XD5__t1 VDD__t5 VDD__t36 pfet L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $49 r0 *1 254.16,3.11 pfet
+M$49 set_dn__t0 XED_DN.ntmp__t2 VDD__t19 VDD__t50 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $50 r0 *1 261.12,3.11 pfet
+M$50 XLU.SB__t0 set_up__t1 VDD__t4 VDD__t35 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $51 r0 *1 268.08,3.11 pfet
+M$51 XLU.RB__t0 reset__t3 VDD__t34 VDD__t65 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $52 r0 *1 275.04,3.11 pfet
+M$52 UP__t1 XLU.SB__t1 VDD__t33 VDD__t64 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $53 r0 *1 282,3.11 pfet
+M$53 UP__t0 net1__t2 VDD__t32 VDD__t63 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $54 r0 *1 288.96,3.11 pfet
+M$54 net1__t1 XLU.RB__t1 VDD__t31 VDD__t62 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $55 r0 *1 295.92,3.11 pfet
+M$55 net1__t0 UP__t3 VDD__t30 VDD__t61 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $56 r0 *1 302.88,3.11 pfet
+M$56 XLD.SB__t0 set_dn__t1 VDD__t29 VDD__t60 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $57 r0 *1 309.84,3.11 pfet
+M$57 XLD.RB__t0 reset__t2 VDD__t28 VDD__t59 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $58 r0 *1 316.8,3.11 pfet
+M$58 DN__t1 XLD.SB__t1 VDD__t27 VDD__t58 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $59 r0 *1 323.76,3.11 pfet
+M$59 DN__t0 net2__t2 VDD__t26 VDD__t57 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $60 r0 *1 330.72,3.11 pfet
+M$60 net2__t1 XLD.RB__t1 VDD__t25 VDD__t56 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $61 r0 *1 337.68,3.11 pfet
+M$61 net2__t0 DN__t3 VDD__t24 VDD__t55 pfet L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $62 r0 *1 344.64,3.11 pfet
+M$62 reset_raw__t1 UP__t2 VDD__t23 VDD__t54 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $63 r0 *1 351.6,3.11 pfet
+M$63 reset_raw__t0 DN__t2 VDD__t22 VDD__t53 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $64 r0 *1 358.56,3.11 pfet
+M$64 reset_d1__t0 reset_raw__t2 VDD__t21 VDD__t52 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $65 r0 *1 365.52,3.11 pfet
+M$65 reset_d2__t2 reset_d1__t1 VDD__t20 VDD__t51 pfet L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $66 r0 *1 381.62,3.11 pfet
+M$66 reset__t1 reset_d2__t1 VDD__t3 VDD__t2 pfet L=0.5U W=10U AS=4P AD=4P
++ PS=20.8U PD=20.8U
+* device instance DN_t0 r0 *1 0,0 
+RDN_t0 DN__t0 DN 10.2013912173
+* device instance DN_t1 r0 *1 0,0 
+RDN_t1 DN__t1 DN 9.39031419108
+* device instance DN_t2 r0 *1 0,0 
+RDN_t2 DN__t2 DN 13.445699322
+* device instance DN_t3 r0 *1 0,0 
+RDN_t3 DN__t3 DN 11.8235452696
+* device instance DN_t4 r0 *1 0,0 
+RDN_t4 DN__t4 DN 13.8768753273
+* device instance DN_t5 r0 *1 0,0 
+RDN_t5 DN__t5 DN 14.7998250468
+* device instance DN_t6 r0 *1 0,0 
+RDN_t6 DN__t6 DN 16.1842496259
+* device instance DN r0 *1 0,0 
+CDN DN vsubs 1.9742534e-14
+* device instance FB_t0 r0 *1 0,0 
+RFB_t0 FB__t0 FB 20.163895038
+* device instance FB_t1 r0 *1 0,0 
+RFB_t1 FB__t1 FB 13.598554962
+* device instance FB_t2 r0 *1 0,0 
+RFB_t2 FB__t2 FB 15.0134989439
+* device instance FB_t3 r0 *1 0,0 
+RFB_t3 FB__t3 FB 18.7489510561
+* device instance FB r0 *1 0,0 
+CFB FB vsubs 1.4948379e-14
+* device instance REF_t0 r0 *1 0,0 
+RREF_t0 REF__t0 REF 17.2510934886
+* device instance REF_t1 r0 *1 0,0 
+RREF_t1 REF__t1 REF 11.8613606866
+* device instance REF_t2 r0 *1 0,0 
+RREF_t2 REF__t2 REF 18.7317893134
+* device instance REF_t3 r0 *1 0,0 
+RREF_t3 REF__t3 REF 13.3420565114
+* device instance REF r0 *1 0,0 
+CREF REF vsubs 1.3573054e-14
+* device instance UP_t0 r0 *1 0,0 
+RUP_t0 UP__t0 UP 9.89966104428
+* device instance UP_t1 r0 *1 0,0 
+RUP_t1 UP__t1 UP 8.943035462
+* device instance UP_t2 r0 *1 0,0 
+RUP_t2 UP__t2 UP 18.5092912849
+* device instance UP_t3 r0 *1 0,0 
+RUP_t3 UP__t3 UP 11.8129122089
+* device instance UP_t4 r0 *1 0,0 
+RUP_t4 UP__t4 UP 13.3040071744
+* device instance UP_t5 r0 *1 0,0 
+RUP_t5 UP__t5 UP 17.114015959
+* device instance UP_t6 r0 *1 0,0 
+RUP_t6 UP__t6 UP 18.7468768667
+* device instance UP r0 *1 0,0 
+CUP UP vsubs 2.1773992e-14
+* device instance VDD_t0 r0 *1 0,0 
+RVDD_t0 VDD__t0 VDD 7.67516978019
+* device instance VDD_t1 r0 *1 0,0 
+RVDD_t1 VDD__t1 VDD 7.67516978019
+* device instance VDD_t2 r0 *1 0,0 
+RVDD_t2 VDD__t2 VDD 8.26547130014
+* device instance VDD_t3 r0 *1 0,0 
+RVDD_t3 VDD__t3 VDD 8.26547130014
+* device instance VDD_t4 r0 *1 0,0 
+RVDD_t4 VDD__t4 VDD 0.0190419845145
+* device instance VDD_t5 r0 *1 0,0 
+RVDD_t5 VDD__t5 VDD 0.976057958974
+* device instance VDD_t6 r0 *1 0,0 
+RVDD_t6 VDD__t6 VDD 1.4545659462
+* device instance VDD_t7 r0 *1 0,0 
+RVDD_t7 VDD__t7 VDD 1.93307393343
+* device instance VDD_t8 r0 *1 0,0 
+RVDD_t8 VDD__t8 VDD 2.41158192066
+* device instance VDD_t9 r0 *1 0,0 
+RVDD_t9 VDD__t9 VDD 2.89008990789
+* device instance VDD_t10 r0 *1 0,0 
+RVDD_t10 VDD__t10 VDD 3.36859789512
+* device instance VDD_t11 r0 *1 0,0 
+RVDD_t11 VDD__t11 VDD 3.84710588235
+* device instance VDD_t12 r0 *1 0,0 
+RVDD_t12 VDD__t12 VDD 4.32561386958
+* device instance VDD_t13 r0 *1 0,0 
+RVDD_t13 VDD__t13 VDD 4.80412185681
+* device instance VDD_t14 r0 *1 0,0 
+RVDD_t14 VDD__t14 VDD 5.28262984404
+* device instance VDD_t15 r0 *1 0,0 
+RVDD_t15 VDD__t15 VDD 5.76113783127
+* device instance VDD_t16 r0 *1 0,0 
+RVDD_t16 VDD__t16 VDD 6.2396458185
+* device instance VDD_t17 r0 *1 0,0 
+RVDD_t17 VDD__t17 VDD 6.71815380573
+* device instance VDD_t18 r0 *1 0,0 
+RVDD_t18 VDD__t18 VDD 7.19666179296
+* device instance VDD_t19 r0 *1 0,0 
+RVDD_t19 VDD__t19 VDD 0.497549971744
+* device instance VDD_t20 r0 *1 0,0 
+RVDD_t20 VDD__t20 VDD 7.15857782393
+* device instance VDD_t21 r0 *1 0,0 
+RVDD_t21 VDD__t21 VDD 6.6800698367
+* device instance VDD_t22 r0 *1 0,0 
+RVDD_t22 VDD__t22 VDD 6.20156184947
+* device instance VDD_t23 r0 *1 0,0 
+RVDD_t23 VDD__t23 VDD 5.72305386224
+* device instance VDD_t24 r0 *1 0,0 
+RVDD_t24 VDD__t24 VDD 5.24454587501
+* device instance VDD_t25 r0 *1 0,0 
+RVDD_t25 VDD__t25 VDD 4.76603788778
+* device instance VDD_t26 r0 *1 0,0 
+RVDD_t26 VDD__t26 VDD 4.28752990055
+* device instance VDD_t27 r0 *1 0,0 
+RVDD_t27 VDD__t27 VDD 3.80902191332
+* device instance VDD_t28 r0 *1 0,0 
+RVDD_t28 VDD__t28 VDD 3.33051392609
+* device instance VDD_t29 r0 *1 0,0 
+RVDD_t29 VDD__t29 VDD 2.85200593886
+* device instance VDD_t30 r0 *1 0,0 
+RVDD_t30 VDD__t30 VDD 2.37349795163
+* device instance VDD_t31 r0 *1 0,0 
+RVDD_t31 VDD__t31 VDD 1.8949899644
+* device instance VDD_t32 r0 *1 0,0 
+RVDD_t32 VDD__t32 VDD 1.41648197717
+* device instance VDD_t33 r0 *1 0,0 
+RVDD_t33 VDD__t33 VDD 0.937973989945
+* device instance VDD_t34 r0 *1 0,0 
+RVDD_t34 VDD__t34 VDD 0.459466002715
+* device instance VDD_t35 r0 *1 0,0 
+RVDD_t35 VDD__t35 VDD 0.0190419845145
+* device instance VDD_t36 r0 *1 0,0 
+RVDD_t36 VDD__t36 VDD 0.976057958974
+* device instance VDD_t37 r0 *1 0,0 
+RVDD_t37 VDD__t37 VDD 1.4545659462
+* device instance VDD_t38 r0 *1 0,0 
+RVDD_t38 VDD__t38 VDD 1.93307393343
+* device instance VDD_t39 r0 *1 0,0 
+RVDD_t39 VDD__t39 VDD 2.41158192066
+* device instance VDD_t40 r0 *1 0,0 
+RVDD_t40 VDD__t40 VDD 2.89008990789
+* device instance VDD_t41 r0 *1 0,0 
+RVDD_t41 VDD__t41 VDD 3.36859789512
+* device instance VDD_t42 r0 *1 0,0 
+RVDD_t42 VDD__t42 VDD 3.84710588235
+* device instance VDD_t43 r0 *1 0,0 
+RVDD_t43 VDD__t43 VDD 4.32561386958
+* device instance VDD_t44 r0 *1 0,0 
+RVDD_t44 VDD__t44 VDD 4.80412185681
+* device instance VDD_t45 r0 *1 0,0 
+RVDD_t45 VDD__t45 VDD 5.28262984404
+* device instance VDD_t46 r0 *1 0,0 
+RVDD_t46 VDD__t46 VDD 5.76113783127
+* device instance VDD_t47 r0 *1 0,0 
+RVDD_t47 VDD__t47 VDD 6.2396458185
+* device instance VDD_t48 r0 *1 0,0 
+RVDD_t48 VDD__t48 VDD 6.71815380573
+* device instance VDD_t49 r0 *1 0,0 
+RVDD_t49 VDD__t49 VDD 7.19666179296
+* device instance VDD_t50 r0 *1 0,0 
+RVDD_t50 VDD__t50 VDD 0.497549971744
+* device instance VDD_t51 r0 *1 0,0 
+RVDD_t51 VDD__t51 VDD 7.15857782393
+* device instance VDD_t52 r0 *1 0,0 
+RVDD_t52 VDD__t52 VDD 6.6800698367
+* device instance VDD_t53 r0 *1 0,0 
+RVDD_t53 VDD__t53 VDD 6.20156184947
+* device instance VDD_t54 r0 *1 0,0 
+RVDD_t54 VDD__t54 VDD 5.72305386224
+* device instance VDD_t55 r0 *1 0,0 
+RVDD_t55 VDD__t55 VDD 5.24454587501
+* device instance VDD_t56 r0 *1 0,0 
+RVDD_t56 VDD__t56 VDD 4.76603788778
+* device instance VDD_t57 r0 *1 0,0 
+RVDD_t57 VDD__t57 VDD 4.28752990055
+* device instance VDD_t58 r0 *1 0,0 
+RVDD_t58 VDD__t58 VDD 3.80902191332
+* device instance VDD_t59 r0 *1 0,0 
+RVDD_t59 VDD__t59 VDD 3.33051392609
+* device instance VDD_t60 r0 *1 0,0 
+RVDD_t60 VDD__t60 VDD 2.85200593886
+* device instance VDD_t61 r0 *1 0,0 
+RVDD_t61 VDD__t61 VDD 2.37349795163
+* device instance VDD_t62 r0 *1 0,0 
+RVDD_t62 VDD__t62 VDD 1.8949899644
+* device instance VDD_t63 r0 *1 0,0 
+RVDD_t63 VDD__t63 VDD 1.41648197717
+* device instance VDD_t64 r0 *1 0,0 
+RVDD_t64 VDD__t64 VDD 0.937973989945
+* device instance VDD_t65 r0 *1 0,0 
+RVDD_t65 VDD__t65 VDD 0.459466002715
+* device instance VDD r0 *1 0,0 
+CVDD VDD vsubs 7.2244129e-14
+* device instance VSS_t0 r0 *1 0,0 
+RVSS_t0 VSS__t0 VSS 4.98016444314
+* device instance VSS_t1 r0 *1 0,0 
+RVSS_t1 VSS__t1 VSS 5.78760742579
+* device instance VSS_t2 r0 *1 0,0 
+RVSS_t2 VSS__t2 VSS 0.537136217378
+* device instance VSS_t3 r0 *1 0,0 
+RVSS_t3 VSS__t3 VSS 1.17185453534
+* device instance VSS_t4 r0 *1 0,0 
+RVSS_t4 VSS__t4 VSS 1.48921369433
+* device instance VSS_t5 r0 *1 0,0 
+RVSS_t5 VSS__t5 VSS 1.80657285331
+* device instance VSS_t6 r0 *1 0,0 
+RVSS_t6 VSS__t6 VSS 2.12393201229
+* device instance VSS_t7 r0 *1 0,0 
+RVSS_t7 VSS__t7 VSS 2.44129117128
+* device instance VSS_t8 r0 *1 0,0 
+RVSS_t8 VSS__t8 VSS 2.75865033026
+* device instance VSS_t9 r0 *1 0,0 
+RVSS_t9 VSS__t9 VSS 3.07600948924
+* device instance VSS_t10 r0 *1 0,0 
+RVSS_t10 VSS__t10 VSS 3.71072780721
+* device instance VSS_t11 r0 *1 0,0 
+RVSS_t11 VSS__t11 VSS 4.02808696619
+* device instance VSS_t12 r0 *1 0,0 
+RVSS_t12 VSS__t12 VSS 4.34544612518
+* device instance VSS_t13 r0 *1 0,0 
+RVSS_t13 VSS__t13 VSS 0.0975821005878
+* device instance VSS_t14 r0 *1 0,0 
+RVSS_t14 VSS__t14 VSS 0.219777058395
+* device instance VSS_t15 r0 *1 0,0 
+RVSS_t15 VSS__t15 VSS 4.85796948533
+* device instance VSS_t16 r0 *1 0,0 
+RVSS_t16 VSS__t16 VSS 4.54061032635
+* device instance VSS_t17 r0 *1 0,0 
+RVSS_t17 VSS__t17 VSS 4.22325116737
+* device instance VSS_t18 r0 *1 0,0 
+RVSS_t18 VSS__t18 VSS 3.5885328494
+* device instance VSS_t19 r0 *1 0,0 
+RVSS_t19 VSS__t19 VSS 4.66280528416
+* device instance VSS_t20 r0 *1 0,0 
+RVSS_t20 VSS__t20 VSS 2.31909621347
+* device instance VSS_t21 r0 *1 0,0 
+RVSS_t21 VSS__t21 VSS 2.00173705449
+* device instance VSS_t22 r0 *1 0,0 
+RVSS_t22 VSS__t22 VSS 1.6843778955
+* device instance VSS_t23 r0 *1 0,0 
+RVSS_t23 VSS__t23 VSS 1.04965957754
+* device instance VSS_t24 r0 *1 0,0 
+RVSS_t24 VSS__t24 VSS 0.414941259571
+* device instance VSS_t25 r0 *1 0,0 
+RVSS_t25 VSS__t25 VSS 2.95381453144
+* device instance VSS_t26 r0 *1 0,0 
+RVSS_t26 VSS__t26 VSS 4.98016444314
+* device instance VSS_t27 r0 *1 0,0 
+RVSS_t27 VSS__t27 VSS 4.66280528416
+* device instance VSS_t28 r0 *1 0,0 
+RVSS_t28 VSS__t28 VSS 4.34544612518
+* device instance VSS_t29 r0 *1 0,0 
+RVSS_t29 VSS__t29 VSS 4.02808696619
+* device instance VSS_t30 r0 *1 0,0 
+RVSS_t30 VSS__t30 VSS 3.71072780721
+* device instance VSS_t31 r0 *1 0,0 
+RVSS_t31 VSS__t31 VSS 3.39336864823
+* device instance VSS_t32 r0 *1 0,0 
+RVSS_t32 VSS__t32 VSS 3.07600948924
+* device instance VSS_t33 r0 *1 0,0 
+RVSS_t33 VSS__t33 VSS 2.75865033026
+* device instance VSS_t34 r0 *1 0,0 
+RVSS_t34 VSS__t34 VSS 2.44129117128
+* device instance VSS_t35 r0 *1 0,0 
+RVSS_t35 VSS__t35 VSS 2.12393201229
+* device instance VSS_t36 r0 *1 0,0 
+RVSS_t36 VSS__t36 VSS 1.80657285331
+* device instance VSS_t37 r0 *1 0,0 
+RVSS_t37 VSS__t37 VSS 1.48921369433
+* device instance VSS_t38 r0 *1 0,0 
+RVSS_t38 VSS__t38 VSS 1.17185453534
+* device instance VSS_t39 r0 *1 0,0 
+RVSS_t39 VSS__t39 VSS 0.854495376361
+* device instance VSS_t40 r0 *1 0,0 
+RVSS_t40 VSS__t40 VSS 0.537136217378
+* device instance VSS_t41 r0 *1 0,0 
+RVSS_t41 VSS__t41 VSS 0.219777058395
+* device instance VSS_t42 r0 *1 0,0 
+RVSS_t42 VSS__t42 VSS 0.0975821005878
+* device instance VSS_t43 r0 *1 0,0 
+RVSS_t43 VSS__t43 VSS 0.414941259571
+* device instance VSS_t44 r0 *1 0,0 
+RVSS_t44 VSS__t44 VSS 0.732300418554
+* device instance VSS_t45 r0 *1 0,0 
+RVSS_t45 VSS__t45 VSS 1.04965957754
+* device instance VSS_t46 r0 *1 0,0 
+RVSS_t46 VSS__t46 VSS 1.36701873652
+* device instance VSS_t47 r0 *1 0,0 
+RVSS_t47 VSS__t47 VSS 1.6843778955
+* device instance VSS_t48 r0 *1 0,0 
+RVSS_t48 VSS__t48 VSS 2.00173705449
+* device instance VSS_t49 r0 *1 0,0 
+RVSS_t49 VSS__t49 VSS 2.31909621347
+* device instance VSS_t50 r0 *1 0,0 
+RVSS_t50 VSS__t50 VSS 2.63645537245
+* device instance VSS_t51 r0 *1 0,0 
+RVSS_t51 VSS__t51 VSS 2.95381453144
+* device instance VSS_t52 r0 *1 0,0 
+RVSS_t52 VSS__t52 VSS 3.27117369042
+* device instance VSS_t53 r0 *1 0,0 
+RVSS_t53 VSS__t53 VSS 3.5885328494
+* device instance VSS_t54 r0 *1 0,0 
+RVSS_t54 VSS__t54 VSS 3.90589200838
+* device instance VSS_t55 r0 *1 0,0 
+RVSS_t55 VSS__t55 VSS 4.22325116737
+* device instance VSS_t56 r0 *1 0,0 
+RVSS_t56 VSS__t56 VSS 4.54061032635
+* device instance VSS_t57 r0 *1 0,0 
+RVSS_t57 VSS__t57 VSS 4.85796948533
+* device instance VSS_t58 r0 *1 0,0 
+RVSS_t58 VSS__t58 VSS 5.78760742579
+* device instance VSS r0 *1 0,0 
+CVSS VSS vsubs 4.3310767e-14
+* device instance XED_DN_XD5_t0 r0 *1 0,0 
+RXED_DN_XD5_t0 XED_DN.XD5__t0 XED_DN.XD5 16.2427588464
+* device instance XED_DN_XD5_t1 r0 *1 0,0 
+RXED_DN_XD5_t1 XED_DN.XD5__t1 XED_DN.XD5 18.8635911536
+* device instance XED_DN_XD5_t2 r0 *1 0,0 
+RXED_DN_XD5_t2 XED_DN.XD5__t2 XED_DN.XD5 16.8075933954
+* device instance XED_DN_XD5_t3 r0 *1 0,0 
+RXED_DN_XD5_t3 XED_DN.XD5__t3 XED_DN.XD5 18.2987566046
+* device instance XED_DN_XD5 r0 *1 0,0 
+CXED_DN_XD5 XED_DN.XD5 vsubs 1.5664195e-14
+* device instance XED_DN_XN1_mid1_t0 r0 *1 0,0 
+RXED_DN_XN1_mid1_t0 XED_DN.XN1.mid1__t0 XED_DN.XN1.mid1 4.14955
+* device instance XED_DN_XN1_mid1_t1 r0 *1 0,0 
+RXED_DN_XN1_mid1_t1 XED_DN.XN1.mid1__t1 XED_DN.XN1.mid1 4.14955
+* device instance XED_DN_XN1_mid1 r0 *1 0,0 
+CXED_DN_XN1_mid1 XED_DN.XN1.mid1 vsubs 1.992966e-15
+* device instance XED_DN_d1_t0 r0 *1 0,0 
+RXED_DN_d1_t0 XED_DN.d1__t0 XED_DN.d1 15.849756013
+* device instance XED_DN_d1_t1 r0 *1 0,0 
+RXED_DN_d1_t1 XED_DN.d1__t1 XED_DN.d1 17.178843987
+* device instance XED_DN_d1_t2 r0 *1 0,0 
+RXED_DN_d1_t2 XED_DN.d1__t2 XED_DN.d1 16.1361973867
+* device instance XED_DN_d1_t3 r0 *1 0,0 
+RXED_DN_d1_t3 XED_DN.d1__t3 XED_DN.d1 16.8924026133
+* device instance XED_DN_d1 r0 *1 0,0 
+CXED_DN_d1 XED_DN.d1 vsubs 1.4801311e-14
+* device instance XED_DN_d2_t0 r0 *1 0,0 
+RXED_DN_d2_t0 XED_DN.d2__t0 XED_DN.d2 16.2412303933
+* device instance XED_DN_d2_t1 r0 *1 0,0 
+RXED_DN_d2_t1 XED_DN.d2__t1 XED_DN.d2 17.5789696067
+* device instance XED_DN_d2_t2 r0 *1 0,0 
+RXED_DN_d2_t2 XED_DN.d2__t2 XED_DN.d2 16.5295362582
+* device instance XED_DN_d2_t3 r0 *1 0,0 
+RXED_DN_d2_t3 XED_DN.d2__t3 XED_DN.d2 17.2906637418
+* device instance XED_DN_d2 r0 *1 0,0 
+CXED_DN_d2 XED_DN.d2 vsubs 1.5178616e-14
+* device instance XED_DN_d3_t0 r0 *1 0,0 
+RXED_DN_d3_t0 XED_DN.d3__t0 XED_DN.d3 16.6328738266
+* device instance XED_DN_d3_t1 r0 *1 0,0 
+RXED_DN_d3_t1 XED_DN.d3__t1 XED_DN.d3 17.9789761734
+* device instance XED_DN_d3_t2 r0 *1 0,0 
+RXED_DN_d3_t2 XED_DN.d3__t2 XED_DN.d3 16.922982091
+* device instance XED_DN_d3_t3 r0 *1 0,0 
+RXED_DN_d3_t3 XED_DN.d3__t3 XED_DN.d3 17.688867909
+* device instance XED_DN_d3 r0 *1 0,0 
+CXED_DN_d3 XED_DN.d3 vsubs 1.5555921e-14
+* device instance XED_DN_d4_t0 r0 *1 0,0 
+RXED_DN_d4_t0 XED_DN.d4__t0 XED_DN.d4 17.0246791877
+* device instance XED_DN_d4_t1 r0 *1 0,0 
+RXED_DN_d4_t1 XED_DN.d4__t1 XED_DN.d4 18.3788708123
+* device instance XED_DN_d4_t2 r0 *1 0,0 
+RXED_DN_d4_t2 XED_DN.d4__t2 XED_DN.d4 17.316530831
+* device instance XED_DN_d4_t3 r0 *1 0,0 
+RXED_DN_d4_t3 XED_DN.d4__t3 XED_DN.d4 18.087019169
+* device instance XED_DN_d4 r0 *1 0,0 
+CXED_DN_d4 XED_DN.d4 vsubs 1.5933226e-14
+* device instance XED_DN_ntmp_t0 r0 *1 0,0 
+RXED_DN_ntmp_t0 XED_DN.ntmp__t0 XED_DN.ntmp 13.4892
+* device instance XED_DN_ntmp_t1 r0 *1 0,0 
+RXED_DN_ntmp_t1 XED_DN.ntmp__t1 XED_DN.ntmp 12.2503523277
+* device instance XED_DN_ntmp_t2 r0 *1 0,0 
+RXED_DN_ntmp_t2 XED_DN.ntmp__t2 XED_DN.ntmp 14.7280476723
+* device instance XED_DN_ntmp_t3 r0 *1 0,0 
+RXED_DN_ntmp_t3 XED_DN.ntmp__t3 XED_DN.ntmp 19.5289383933
+* device instance XED_DN_ntmp_t4 r0 *1 0,0 
+RXED_DN_ntmp_t4 XED_DN.ntmp__t4 XED_DN.ntmp 20.9386616067
+* device instance XED_DN_ntmp r0 *1 0,0 
+CXED_DN_ntmp XED_DN.ntmp vsubs 1.8242168e-14
+* device instance XED_UP_XD5_t0 r0 *1 0,0 
+RXED_UP_XD5_t0 XED_UP.XD5__t0 XED_UP.XD5 15.5652703404
+* device instance XED_UP_XD5_t1 r0 *1 0,0 
+RXED_UP_XD5_t1 XED_UP.XD5__t1 XED_UP.XD5 18.4825796596
+* device instance XED_UP_XD5_t2 r0 *1 0,0 
+RXED_UP_XD5_t2 XED_UP.XD5__t2 XED_UP.XD5 16.1940007971
+* device instance XED_UP_XD5_t3 r0 *1 0,0 
+RXED_UP_XD5_t3 XED_UP.XD5__t3 XED_UP.XD5 17.8538492029
+* device instance XED_UP_XD5 r0 *1 0,0 
+CXED_UP_XD5 XED_UP.XD5 vsubs 1.5386472e-14
+* device instance XED_UP_XN1_mid1_t0 r0 *1 0,0 
+RXED_UP_XN1_mid1_t0 XED_UP.XN1.mid1__t0 XED_UP.XN1.mid1 5.3807
+* device instance XED_UP_XN1_mid1_t1 r0 *1 0,0 
+RXED_UP_XN1_mid1_t1 XED_UP.XN1.mid1__t1 XED_UP.XN1.mid1 5.3807
+* device instance XED_UP_XN1_mid1 r0 *1 0,0 
+CXED_UP_XN1_mid1 XED_UP.XN1.mid1 vsubs 2.639124e-15
+* device instance XED_UP_d1_t0 r0 *1 0,0 
+RXED_UP_d1_t0 XED_UP.d1__t0 XED_UP.d1 15.2384035983
+* device instance XED_UP_d1_t1 r0 *1 0,0 
+RXED_UP_d1_t1 XED_UP.d1__t1 XED_UP.d1 16.7321964017
+* device instance XED_UP_d1_t2 r0 *1 0,0 
+RXED_UP_d1_t2 XED_UP.d1__t2 XED_UP.d1 15.5603417025
+* device instance XED_UP_d1_t3 r0 *1 0,0 
+RXED_UP_d1_t3 XED_UP.d1__t3 XED_UP.d1 16.4102582975
+* device instance XED_UP_d1 r0 *1 0,0 
+CXED_UP_d1 XED_UP.d1 vsubs 1.4523588e-14
+* device instance XED_UP_d2_t0 r0 *1 0,0 
+RXED_UP_d2_t0 XED_UP.d2__t0 XED_UP.d2 15.6309398855
+* device instance XED_UP_d2_t1 r0 *1 0,0 
+RXED_UP_d2_t1 XED_UP.d2__t1 XED_UP.d2 17.1315101145
+* device instance XED_UP_d2_t2 r0 *1 0,0 
+RXED_UP_d2_t2 XED_UP.d2__t2 XED_UP.d2 15.9543386417
+* device instance XED_UP_d2_t3 r0 *1 0,0 
+RXED_UP_d2_t3 XED_UP.d2__t3 XED_UP.d2 16.8081113583
+* device instance XED_UP_d2 r0 *1 0,0 
+CXED_UP_d2 XED_UP.d2 vsubs 1.4900893e-14
+* device instance XED_UP_d3_t0 r0 *1 0,0 
+RXED_UP_d3_t0 XED_UP.d3__t0 XED_UP.d3 16.0236073826
+* device instance XED_UP_d3_t1 r0 *1 0,0 
+RXED_UP_d3_t1 XED_UP.d3__t1 XED_UP.d3 17.5306926174
+* device instance XED_UP_d3_t2 r0 *1 0,0 
+RXED_UP_d3_t2 XED_UP.d3__t2 XED_UP.d3 16.3484102349
+* device instance XED_UP_d3_t3 r0 *1 0,0 
+RXED_UP_d3_t3 XED_UP.d3__t3 XED_UP.d3 17.2058897651
+* device instance XED_UP_d3 r0 *1 0,0 
+CXED_UP_d3 XED_UP.d3 vsubs 1.5278198e-14
+* device instance XED_UP_d4_t0 r0 *1 0,0 
+RXED_UP_d4_t0 XED_UP.d4__t0 XED_UP.d4 16.4163986136
+* device instance XED_UP_d4_t1 r0 *1 0,0 
+RXED_UP_d4_t1 XED_UP.d4__t1 XED_UP.d4 17.9297513864
+* device instance XED_UP_d4_t2 r0 *1 0,0 
+RXED_UP_d4_t2 XED_UP.d4__t2 XED_UP.d4 16.7425522284
+* device instance XED_UP_d4_t3 r0 *1 0,0 
+RXED_UP_d4_t3 XED_UP.d4__t3 XED_UP.d4 17.6035977716
+* device instance XED_UP_d4 r0 *1 0,0 
+CXED_UP_d4 XED_UP.d4 vsubs 1.5655502e-14
+* device instance XED_UP_ntmp_t0 r0 *1 0,0 
+RXED_UP_ntmp_t0 XED_UP.ntmp__t0 XED_UP.ntmp 13.3419833333
+* device instance XED_UP_ntmp_t1 r0 *1 0,0 
+RXED_UP_ntmp_t1 XED_UP.ntmp__t1 XED_UP.ntmp 11.9389221101
+* device instance XED_UP_ntmp_t2 r0 *1 0,0 
+RXED_UP_ntmp_t2 XED_UP.ntmp__t2 XED_UP.ntmp 14.7450445566
+* device instance XED_UP_ntmp_t3 r0 *1 0,0 
+RXED_UP_ntmp_t3 XED_UP.ntmp__t3 XED_UP.ntmp 19.2146815454
+* device instance XED_UP_ntmp_t4 r0 *1 0,0 
+RXED_UP_ntmp_t4 XED_UP.ntmp__t4 XED_UP.ntmp 20.8112684546
+* device instance XED_UP_ntmp r0 *1 0,0 
+CXED_UP_ntmp XED_UP.ntmp vsubs 1.8274435e-14
+* device instance XLD_RB_t0 r0 *1 0,0 
+RXLD_RB_t0 XLD.RB__t0 XLD.RB 20.7774287563
+* device instance XLD_RB_t1 r0 *1 0,0 
+RXLD_RB_t1 XLD.RB__t1 XLD.RB 25.1140212437
+* device instance XLD_RB_t2 r0 *1 0,0 
+RXLD_RB_t2 XLD.RB__t2 XLD.RB 21.7120392062
+* device instance XLD_RB_t3 r0 *1 0,0 
+RXLD_RB_t3 XLD.RB__t3 XLD.RB 24.1794107938
+* device instance XLD_RB r0 *1 0,0 
+CXLD_RB XLD.RB vsubs 2.0818392e-14
+* device instance XLD_SB_t0 r0 *1 0,0 
+RXLD_SB_t0 XLD.SB__t0 XLD.SB 20.9513482329
+* device instance XLD_SB_t1 r0 *1 0,0 
+RXLD_SB_t1 XLD.SB__t1 XLD.SB 23.8312017671
+* device instance XLD_SB_t2 r0 *1 0,0 
+RXLD_SB_t2 XLD.SB__t2 XLD.SB 21.5720063222
+* device instance XLD_SB_t3 r0 *1 0,0 
+RXLD_SB_t3 XLD.SB__t3 XLD.SB 23.2105436778
+* device instance XLD_SB r0 *1 0,0 
+CXLD_SB XLD.SB vsubs 2.0355514e-14
+* device instance XLD_XNQ_mid1_t0 r0 *1 0,0 
+RXLD_XNQ_mid1_t0 XLD.XNQ.mid1__t0 XLD.XNQ.mid1 6.7882
+* device instance XLD_XNQ_mid1_t1 r0 *1 0,0 
+RXLD_XNQ_mid1_t1 XLD.XNQ.mid1__t1 XLD.XNQ.mid1 6.7882
+* device instance XLD_XNQ_mid1 r0 *1 0,0 
+CXLD_XNQ_mid1 XLD.XNQ.mid1 vsubs 3.323128e-15
+* device instance XLD_XNQB_mid1_t0 r0 *1 0,0 
+RXLD_XNQB_mid1_t0 XLD.XNQB.mid1__t0 XLD.XNQB.mid1 6.9642
+* device instance XLD_XNQB_mid1_t1 r0 *1 0,0 
+RXLD_XNQB_mid1_t1 XLD.XNQB.mid1__t1 XLD.XNQB.mid1 6.9642
+* device instance XLD_XNQB_mid1 r0 *1 0,0 
+CXLD_XNQB_mid1 XLD.XNQB.mid1 vsubs 3.413333e-15
+* device instance XLU_RB_t0 r0 *1 0,0 
+RXLU_RB_t0 XLU.RB__t0 XLU.RB 20.0323212061
+* device instance XLU_RB_t1 r0 *1 0,0 
+RXLU_RB_t1 XLU.RB__t1 XLU.RB 24.6267287939
+* device instance XLU_RB_t2 r0 *1 0,0 
+RXLU_RB_t2 XLU.RB__t2 XLU.RB 21.0224952552
+* device instance XLU_RB_t3 r0 *1 0,0 
+RXLU_RB_t3 XLU.RB__t3 XLU.RB 23.6365547448
+* device instance XLU_RB r0 *1 0,0 
+CXLU_RB XLU.RB vsubs 2.0386824e-14
+* device instance XLU_SB_t0 r0 *1 0,0 
+RXLU_SB_t0 XLU.SB__t0 XLU.SB 20.2477695279
+* device instance XLU_SB_t1 r0 *1 0,0 
+RXLU_SB_t1 XLU.SB__t1 XLU.SB 23.3023804721
+* device instance XLU_SB_t2 r0 *1 0,0 
+RXLU_SB_t2 XLU.SB__t2 XLU.SB 20.9060908521
+* device instance XLU_SB_t3 r0 *1 0,0 
+RXLU_SB_t3 XLU.SB__t3 XLU.SB 22.6440591479
+* device instance XLU_SB r0 *1 0,0 
+CXLU_SB XLU.SB vsubs 1.9923946e-14
+* device instance XLU_XNQ_mid1_t0 r0 *1 0,0 
+RXLU_XNQ_mid1_t0 XLU.XNQ.mid1__t0 XLU.XNQ.mid1 7.4921
+* device instance XLU_XNQ_mid1_t1 r0 *1 0,0 
+RXLU_XNQ_mid1_t1 XLU.XNQ.mid1__t1 XLU.XNQ.mid1 7.4921
+* device instance XLU_XNQ_mid1 r0 *1 0,0 
+CXLU_XNQ_mid1 XLU.XNQ.mid1 vsubs 3.693764e-15
+* device instance XLU_XNQB_mid1_t0 r0 *1 0,0 
+RXLU_XNQB_mid1_t0 XLU.XNQB.mid1__t0 XLU.XNQB.mid1 7.66805
+* device instance XLU_XNQB_mid1_t1 r0 *1 0,0 
+RXLU_XNQB_mid1_t1 XLU.XNQB.mid1__t1 XLU.XNQB.mid1 7.66805
+* device instance XLU_XNQB_mid1 r0 *1 0,0 
+CXLU_XNQB_mid1 XLU.XNQB.mid1 vsubs 3.783968e-15
+* device instance XNR_mid1_t0 r0 *1 0,0 
+RXNR_mid1_t0 XNR.mid1__t0 XNR.mid1 7.844
+* device instance XNR_mid1_t1 r0 *1 0,0 
+RXNR_mid1_t1 XNR.mid1__t1 XNR.mid1 7.844
+* device instance XNR_mid1 r0 *1 0,0 
+CXNR_mid1 XNR.mid1 vsubs 3.865992e-15
+* device instance net1_t0 r0 *1 0,0 
+Rnet1_t0 net1__t0 net1 18.4191610581
+* device instance net1_t1 r0 *1 0,0 
+Rnet1_t1 net1__t1 net1 17.0063
+* device instance net1_t2 r0 *1 0,0 
+Rnet1_t2 net1__t2 net1 15.5934389419
+* device instance net1_t3 r0 *1 0,0 
+Rnet1_t3 net1__t3 net1 25.9113846113
+* device instance net1_t4 r0 *1 0,0 
+Rnet1_t4 net1__t4 net1 25.1075153887
+* device instance net1 r0 *1 0,0 
+Cnet1 net1 vsubs 2.3497407e-14
+* device instance net2_t0 r0 *1 0,0 
+Rnet2_t0 net2__t0 net2 19.412519334
+* device instance net2_t1 r0 *1 0,0 
+Rnet2_t1 net2__t1 net2 18.0329333333
+* device instance net2_t2 r0 *1 0,0 
+Rnet2_t2 net2__t2 net2 16.6533473326
+* device instance net2_t3 r0 *1 0,0 
+Rnet2_t3 net2__t3 net2 27.4418684312
+* device instance net2_t4 r0 *1 0,0 
+Rnet2_t4 net2__t4 net2 26.6569315688
+* device instance net2 r0 *1 0,0 
+Cnet2 net2 vsubs 2.4894315e-14
+* device instance reset_t0 r0 *1 0,0 
+Rreset_t0 reset__t0 reset 15.4113301681
+* device instance reset_t1 r0 *1 0,0 
+Rreset_t1 reset__t1 reset 36.1571896112
+* device instance reset_t2 r0 *1 0,0 
+Rreset_t2 reset__t2 reset 21.0461986341
+* device instance reset_t3 r0 *1 0,0 
+Rreset_t3 reset__t3 reset 12.2549617547
+* device instance reset_t4 r0 *1 0,0 
+Rreset_t4 reset__t4 reset 24.5225545968
+* device instance reset_t5 r0 *1 0,0 
+Rreset_t5 reset__t5 reset 29.5244652351
+* device instance reset r0 *1 0,0 
+Creset reset vsubs 3.191691e-14
+* device instance reset_d1_t0 r0 *1 0,0 
+Rreset_d1_t0 reset_d1__t0 reset_d1 24.8314805825
+* device instance reset_d1_t1 r0 *1 0,0 
+Rreset_d1_t1 reset_d1__t1 reset_d1 26.3213694175
+* device instance reset_d1_t2 r0 *1 0,0 
+Rreset_d1_t2 reset_d1__t2 reset_d1 25.1525773142
+* device instance reset_d1_t3 r0 *1 0,0 
+Rreset_d1_t3 reset_d1__t3 reset_d1 26.0002726858
+* device instance reset_d1 r0 *1 0,0 
+Creset_d1 reset_d1 vsubs 2.3485706e-14
+* device instance reset_d2_t0 r0 *1 0,0 
+Rreset_d2_t0 reset_d2__t0 reset_d2 25.1947607371
+* device instance reset_d2_t1 r0 *1 0,0 
+Rreset_d2_t1 reset_d2__t1 reset_d2 28.2145126839
+* device instance reset_d2_t2 r0 *1 0,0 
+Rreset_d2_t2 reset_d2__t2 reset_d2 24.7041873161
+* device instance reset_d2_t3 r0 *1 0,0 
+Rreset_d2_t3 reset_d2__t3 reset_d2 27.7239392629
+* device instance reset_d2 r0 *1 0,0 
+Creset_d2 reset_d2 vsubs 2.4294028e-14
+* device instance reset_raw_t0 r0 *1 0,0 
+Rreset_raw_t0 reset_raw__t0 reset_raw 18.9147833333
+* device instance reset_raw_t1 r0 *1 0,0 
+Rreset_raw_t1 reset_raw__t1 reset_raw 17.5110589027
+* device instance reset_raw_t2 r0 *1 0,0 
+Rreset_raw_t2 reset_raw__t2 reset_raw 20.3185077639
+* device instance reset_raw_t3 r0 *1 0,0 
+Rreset_raw_t3 reset_raw__t3 reset_raw 27.5735042033
+* device instance reset_raw_t4 r0 *1 0,0 
+Rreset_raw_t4 reset_raw__t4 reset_raw 29.1708457967
+* device instance reset_raw r0 *1 0,0 
+Creset_raw reset_raw vsubs 2.6204691e-14
+* device instance set_dn_t0 r0 *1 0,0 
+Rset_dn_t0 set_dn__t0 set_dn 19.6575065037
+* device instance set_dn_t1 r0 *1 0,0 
+Rset_dn_t1 set_dn__t1 set_dn 32.0759934963
+* device instance set_dn_t2 r0 *1 0,0 
+Rset_dn_t2 set_dn__t2 set_dn 22.3339045625
+* device instance set_dn_t3 r0 *1 0,0 
+Rset_dn_t3 set_dn__t3 set_dn 29.3995954375
+* device instance set_dn r0 *1 0,0 
+Cset_dn set_dn vsubs 2.3823095e-14
+* device instance set_up_t0 r0 *1 0,0 
+Rset_up_t0 set_up__t0 set_up 16.5927489723
+* device instance set_up_t1 r0 *1 0,0 
+Rset_up_t1 set_up__t1 set_up 34.0143010277
+* device instance set_up_t2 r0 *1 0,0 
+Rset_up_t2 set_up__t2 set_up 20.3473938118
+* device instance set_up_t3 r0 *1 0,0 
+Rset_up_t3 set_up__t3 set_up 30.2596561882
+* device instance set_up r0 *1 0,0 
+Cset_up set_up vsubs 2.3354064e-14
+* device instance cc_DN_FB r0 *1 0,0 
+Ccc_DN_FB DN FB 1.21e-17
+* device instance cc_DN_REF r0 *1 0,0 
+Ccc_DN_REF DN REF 1.21e-17
+* device instance cc_DN_UP r0 *1 0,0 
+Ccc_DN_UP DN UP 3.0251e-17
+* device instance cc_DN_VDD r0 *1 0,0 
+Ccc_DN_VDD DN VDD 1.91995e-16
+* device instance cc_DN_VSS r0 *1 0,0 
+Ccc_DN_VSS DN VSS 4.2352e-17
+* device instance cc_DN_XED_DN_XD5 r0 *1 0,0 
+Ccc_DN_XED_DN_XD5 DN XED_DN.XD5 1.21e-17
+* device instance cc_DN_XED_DN_d1 r0 *1 0,0 
+Ccc_DN_XED_DN_d1 DN XED_DN.d1 1.21e-17
+* device instance cc_DN_XED_DN_d2 r0 *1 0,0 
+Ccc_DN_XED_DN_d2 DN XED_DN.d2 1.21e-17
+* device instance cc_DN_XED_DN_d3 r0 *1 0,0 
+Ccc_DN_XED_DN_d3 DN XED_DN.d3 1.21e-17
+* device instance cc_DN_XED_DN_d4 r0 *1 0,0 
+Ccc_DN_XED_DN_d4 DN XED_DN.d4 1.21e-17
+* device instance cc_DN_XED_DN_ntmp r0 *1 0,0 
+Ccc_DN_XED_DN_ntmp DN XED_DN.ntmp 1.8151e-17
+* device instance cc_DN_XED_UP_XD5 r0 *1 0,0 
+Ccc_DN_XED_UP_XD5 DN XED_UP.XD5 1.21e-17
+* device instance cc_DN_XED_UP_d1 r0 *1 0,0 
+Ccc_DN_XED_UP_d1 DN XED_UP.d1 1.21e-17
+* device instance cc_DN_XED_UP_d2 r0 *1 0,0 
+Ccc_DN_XED_UP_d2 DN XED_UP.d2 1.21e-17
+* device instance cc_DN_XED_UP_d3 r0 *1 0,0 
+Ccc_DN_XED_UP_d3 DN XED_UP.d3 1.21e-17
+* device instance cc_DN_XED_UP_d4 r0 *1 0,0 
+Ccc_DN_XED_UP_d4 DN XED_UP.d4 1.21e-17
+* device instance cc_DN_XED_UP_ntmp r0 *1 0,0 
+Ccc_DN_XED_UP_ntmp DN XED_UP.ntmp 1.8151e-17
+* device instance cc_DN_XLD_RB r0 *1 0,0 
+Ccc_DN_XLD_RB DN XLD.RB 1.8151e-17
+* device instance cc_DN_XLD_SB r0 *1 0,0 
+Ccc_DN_XLD_SB DN XLD.SB 1.21e-17
+* device instance cc_DN_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_DN_XLD_XNQ_mid1 DN XLD.XNQ.mid1 1.1294e-17
+* device instance cc_DN_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_DN_XLD_XNQB_mid1 DN XLD.XNQB.mid1 1.21e-17
+* device instance cc_DN_XLU_RB r0 *1 0,0 
+Ccc_DN_XLU_RB DN XLU.RB 1.21e-17
+* device instance cc_DN_XLU_SB r0 *1 0,0 
+Ccc_DN_XLU_SB DN XLU.SB 1.21e-17
+* device instance cc_DN_XNR_mid1 r0 *1 0,0 
+Ccc_DN_XNR_mid1 DN XNR.mid1 1.21e-17
+* device instance cc_DN_net1 r0 *1 0,0 
+Ccc_DN_net1 DN net1 1.8151e-17
+* device instance cc_DN_net2 r0 *1 0,0 
+Ccc_DN_net2 DN net2 3.0251e-17
+* device instance cc_DN_reset r0 *1 0,0 
+Ccc_DN_reset DN reset 1.8151e-17
+* device instance cc_DN_reset_d1 r0 *1 0,0 
+Ccc_DN_reset_d1 DN reset_d1 1.21e-17
+* device instance cc_DN_reset_d2 r0 *1 0,0 
+Ccc_DN_reset_d2 DN reset_d2 1.21e-17
+* device instance cc_DN_reset_raw r0 *1 0,0 
+Ccc_DN_reset_raw DN reset_raw 1.8151e-17
+* device instance cc_DN_set_dn r0 *1 0,0 
+Ccc_DN_set_dn DN set_dn 1.21e-17
+* device instance cc_DN_set_up r0 *1 0,0 
+Ccc_DN_set_up DN set_up 1.21e-17
+* device instance cc_FB_REF r0 *1 0,0 
+Ccc_FB_REF FB REF 1.21e-17
+* device instance cc_FB_UP r0 *1 0,0 
+Ccc_FB_UP FB UP 1.8151e-17
+* device instance cc_FB_VDD r0 *1 0,0 
+Ccc_FB_VDD FB VDD 8.4703e-17
+* device instance cc_FB_VSS r0 *1 0,0 
+Ccc_FB_VSS FB VSS 1.21005e-16
+* device instance cc_FB_XED_DN_XD5 r0 *1 0,0 
+Ccc_FB_XED_DN_XD5 FB XED_DN.XD5 1.8151e-17
+* device instance cc_FB_XED_DN_XN1_mid1 r0 *1 0,0 
+Ccc_FB_XED_DN_XN1_mid1 FB XED_DN.XN1.mid1 1.21e-17
+* device instance cc_FB_XED_DN_d1 r0 *1 0,0 
+Ccc_FB_XED_DN_d1 FB XED_DN.d1 2.4201e-17
+* device instance cc_FB_XED_DN_d2 r0 *1 0,0 
+Ccc_FB_XED_DN_d2 FB XED_DN.d2 2.4201e-17
+* device instance cc_FB_XED_DN_d3 r0 *1 0,0 
+Ccc_FB_XED_DN_d3 FB XED_DN.d3 2.4201e-17
+* device instance cc_FB_XED_DN_d4 r0 *1 0,0 
+Ccc_FB_XED_DN_d4 FB XED_DN.d4 2.4201e-17
+* device instance cc_FB_XED_DN_ntmp r0 *1 0,0 
+Ccc_FB_XED_DN_ntmp FB XED_DN.ntmp 1.21e-17
+* device instance cc_FB_XED_UP_XD5 r0 *1 0,0 
+Ccc_FB_XED_UP_XD5 FB XED_UP.XD5 1.21e-17
+* device instance cc_FB_XED_UP_d1 r0 *1 0,0 
+Ccc_FB_XED_UP_d1 FB XED_UP.d1 1.21e-17
+* device instance cc_FB_XED_UP_d2 r0 *1 0,0 
+Ccc_FB_XED_UP_d2 FB XED_UP.d2 1.21e-17
+* device instance cc_FB_XED_UP_d3 r0 *1 0,0 
+Ccc_FB_XED_UP_d3 FB XED_UP.d3 1.21e-17
+* device instance cc_FB_XED_UP_d4 r0 *1 0,0 
+Ccc_FB_XED_UP_d4 FB XED_UP.d4 1.21e-17
+* device instance cc_FB_XED_UP_ntmp r0 *1 0,0 
+Ccc_FB_XED_UP_ntmp FB XED_UP.ntmp 1.8151e-17
+* device instance cc_FB_XLD_RB r0 *1 0,0 
+Ccc_FB_XLD_RB FB XLD.RB 1.21e-17
+* device instance cc_FB_XLD_SB r0 *1 0,0 
+Ccc_FB_XLD_SB FB XLD.SB 1.21e-17
+* device instance cc_FB_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_FB_XLD_XNQ_mid1 FB XLD.XNQ.mid1 1.21e-17
+* device instance cc_FB_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_FB_XLD_XNQB_mid1 FB XLD.XNQB.mid1 1.21e-17
+* device instance cc_FB_XLU_RB r0 *1 0,0 
+Ccc_FB_XLU_RB FB XLU.RB 1.21e-17
+* device instance cc_FB_XLU_SB r0 *1 0,0 
+Ccc_FB_XLU_SB FB XLU.SB 1.21e-17
+* device instance cc_FB_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_FB_XLU_XNQ_mid1 FB XLU.XNQ.mid1 1.21e-17
+* device instance cc_FB_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_FB_XLU_XNQB_mid1 FB XLU.XNQB.mid1 1.21e-17
+* device instance cc_FB_XNR_mid1 r0 *1 0,0 
+Ccc_FB_XNR_mid1 FB XNR.mid1 1.21e-17
+* device instance cc_FB_net1 r0 *1 0,0 
+Ccc_FB_net1 FB net1 1.21e-17
+* device instance cc_FB_net2 r0 *1 0,0 
+Ccc_FB_net2 FB net2 1.21e-17
+* device instance cc_FB_reset r0 *1 0,0 
+Ccc_FB_reset FB reset 1.8151e-17
+* device instance cc_FB_reset_d1 r0 *1 0,0 
+Ccc_FB_reset_d1 FB reset_d1 1.21e-17
+* device instance cc_FB_reset_d2 r0 *1 0,0 
+Ccc_FB_reset_d2 FB reset_d2 1.21e-17
+* device instance cc_FB_reset_raw r0 *1 0,0 
+Ccc_FB_reset_raw FB reset_raw 1.21e-17
+* device instance cc_FB_set_dn r0 *1 0,0 
+Ccc_FB_set_dn FB set_dn 1.21e-17
+* device instance cc_FB_set_up r0 *1 0,0 
+Ccc_FB_set_up FB set_up 1.21e-17
+* device instance cc_REF_UP r0 *1 0,0 
+Ccc_REF_UP REF UP 1.8151e-17
+* device instance cc_REF_VDD r0 *1 0,0 
+Ccc_REF_VDD REF VDD 3.6302e-17
+* device instance cc_REF_VSS r0 *1 0,0 
+Ccc_REF_VSS REF VSS 1.63357e-16
+* device instance cc_REF_XED_DN_XD5 r0 *1 0,0 
+Ccc_REF_XED_DN_XD5 REF XED_DN.XD5 1.21e-17
+* device instance cc_REF_XED_DN_XN1_mid1 r0 *1 0,0 
+Ccc_REF_XED_DN_XN1_mid1 REF XED_DN.XN1.mid1 1.21e-17
+* device instance cc_REF_XED_DN_d1 r0 *1 0,0 
+Ccc_REF_XED_DN_d1 REF XED_DN.d1 1.21e-17
+* device instance cc_REF_XED_DN_d2 r0 *1 0,0 
+Ccc_REF_XED_DN_d2 REF XED_DN.d2 1.21e-17
+* device instance cc_REF_XED_DN_d3 r0 *1 0,0 
+Ccc_REF_XED_DN_d3 REF XED_DN.d3 1.21e-17
+* device instance cc_REF_XED_DN_d4 r0 *1 0,0 
+Ccc_REF_XED_DN_d4 REF XED_DN.d4 1.21e-17
+* device instance cc_REF_XED_DN_ntmp r0 *1 0,0 
+Ccc_REF_XED_DN_ntmp REF XED_DN.ntmp 1.21e-17
+* device instance cc_REF_XED_UP_XD5 r0 *1 0,0 
+Ccc_REF_XED_UP_XD5 REF XED_UP.XD5 1.8151e-17
+* device instance cc_REF_XED_UP_XN1_mid1 r0 *1 0,0 
+Ccc_REF_XED_UP_XN1_mid1 REF XED_UP.XN1.mid1 1.21e-17
+* device instance cc_REF_XED_UP_d1 r0 *1 0,0 
+Ccc_REF_XED_UP_d1 REF XED_UP.d1 2.4201e-17
+* device instance cc_REF_XED_UP_d2 r0 *1 0,0 
+Ccc_REF_XED_UP_d2 REF XED_UP.d2 2.4201e-17
+* device instance cc_REF_XED_UP_d3 r0 *1 0,0 
+Ccc_REF_XED_UP_d3 REF XED_UP.d3 2.4201e-17
+* device instance cc_REF_XED_UP_d4 r0 *1 0,0 
+Ccc_REF_XED_UP_d4 REF XED_UP.d4 2.4201e-17
+* device instance cc_REF_XED_UP_ntmp r0 *1 0,0 
+Ccc_REF_XED_UP_ntmp REF XED_UP.ntmp 1.21e-17
+* device instance cc_REF_XLD_RB r0 *1 0,0 
+Ccc_REF_XLD_RB REF XLD.RB 1.21e-17
+* device instance cc_REF_XLD_SB r0 *1 0,0 
+Ccc_REF_XLD_SB REF XLD.SB 1.21e-17
+* device instance cc_REF_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_REF_XLD_XNQ_mid1 REF XLD.XNQ.mid1 1.21e-17
+* device instance cc_REF_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_REF_XLD_XNQB_mid1 REF XLD.XNQB.mid1 1.21e-17
+* device instance cc_REF_XLU_RB r0 *1 0,0 
+Ccc_REF_XLU_RB REF XLU.RB 1.21e-17
+* device instance cc_REF_XLU_SB r0 *1 0,0 
+Ccc_REF_XLU_SB REF XLU.SB 1.21e-17
+* device instance cc_REF_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_REF_XLU_XNQ_mid1 REF XLU.XNQ.mid1 1.21e-17
+* device instance cc_REF_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_REF_XLU_XNQB_mid1 REF XLU.XNQB.mid1 1.21e-17
+* device instance cc_REF_XNR_mid1 r0 *1 0,0 
+Ccc_REF_XNR_mid1 REF XNR.mid1 1.21e-17
+* device instance cc_REF_net1 r0 *1 0,0 
+Ccc_REF_net1 REF net1 1.21e-17
+* device instance cc_REF_net2 r0 *1 0,0 
+Ccc_REF_net2 REF net2 1.21e-17
+* device instance cc_REF_reset r0 *1 0,0 
+Ccc_REF_reset REF reset 1.8151e-17
+* device instance cc_REF_reset_d1 r0 *1 0,0 
+Ccc_REF_reset_d1 REF reset_d1 1.21e-17
+* device instance cc_REF_reset_d2 r0 *1 0,0 
+Ccc_REF_reset_d2 REF reset_d2 1.21e-17
+* device instance cc_REF_reset_raw r0 *1 0,0 
+Ccc_REF_reset_raw REF reset_raw 1.21e-17
+* device instance cc_REF_set_dn r0 *1 0,0 
+Ccc_REF_set_dn REF set_dn 1.21e-17
+* device instance cc_REF_set_up r0 *1 0,0 
+Ccc_REF_set_up REF set_up 1.21e-17
+* device instance cc_UP_VDD r0 *1 0,0 
+Ccc_UP_VDD UP VDD 1.85944e-16
+* device instance cc_UP_VSS r0 *1 0,0 
+Ccc_UP_VSS UP VSS 6.6553e-17
+* device instance cc_UP_XED_DN_XD5 r0 *1 0,0 
+Ccc_UP_XED_DN_XD5 UP XED_DN.XD5 1.21e-17
+* device instance cc_UP_XED_DN_d1 r0 *1 0,0 
+Ccc_UP_XED_DN_d1 UP XED_DN.d1 1.21e-17
+* device instance cc_UP_XED_DN_d2 r0 *1 0,0 
+Ccc_UP_XED_DN_d2 UP XED_DN.d2 1.21e-17
+* device instance cc_UP_XED_DN_d3 r0 *1 0,0 
+Ccc_UP_XED_DN_d3 UP XED_DN.d3 1.21e-17
+* device instance cc_UP_XED_DN_d4 r0 *1 0,0 
+Ccc_UP_XED_DN_d4 UP XED_DN.d4 1.21e-17
+* device instance cc_UP_XED_DN_ntmp r0 *1 0,0 
+Ccc_UP_XED_DN_ntmp UP XED_DN.ntmp 1.8151e-17
+* device instance cc_UP_XED_UP_XD5 r0 *1 0,0 
+Ccc_UP_XED_UP_XD5 UP XED_UP.XD5 1.21e-17
+* device instance cc_UP_XED_UP_d1 r0 *1 0,0 
+Ccc_UP_XED_UP_d1 UP XED_UP.d1 1.21e-17
+* device instance cc_UP_XED_UP_d2 r0 *1 0,0 
+Ccc_UP_XED_UP_d2 UP XED_UP.d2 1.21e-17
+* device instance cc_UP_XED_UP_d3 r0 *1 0,0 
+Ccc_UP_XED_UP_d3 UP XED_UP.d3 1.21e-17
+* device instance cc_UP_XED_UP_d4 r0 *1 0,0 
+Ccc_UP_XED_UP_d4 UP XED_UP.d4 1.21e-17
+* device instance cc_UP_XED_UP_ntmp r0 *1 0,0 
+Ccc_UP_XED_UP_ntmp UP XED_UP.ntmp 1.8151e-17
+* device instance cc_UP_XLD_RB r0 *1 0,0 
+Ccc_UP_XLD_RB UP XLD.RB 2.4201e-17
+* device instance cc_UP_XLD_SB r0 *1 0,0 
+Ccc_UP_XLD_SB UP XLD.SB 2.4201e-17
+* device instance cc_UP_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_UP_XLD_XNQ_mid1 UP XLD.XNQ.mid1 1.21e-17
+* device instance cc_UP_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_UP_XLD_XNQB_mid1 UP XLD.XNQB.mid1 1.21e-17
+* device instance cc_UP_XLU_RB r0 *1 0,0 
+Ccc_UP_XLU_RB UP XLU.RB 1.8151e-17
+* device instance cc_UP_XLU_SB r0 *1 0,0 
+Ccc_UP_XLU_SB UP XLU.SB 1.21e-17
+* device instance cc_UP_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_UP_XLU_XNQ_mid1 UP XLU.XNQ.mid1 1.1294e-17
+* device instance cc_UP_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_UP_XLU_XNQB_mid1 UP XLU.XNQB.mid1 1.21e-17
+* device instance cc_UP_XNR_mid1 r0 *1 0,0 
+Ccc_UP_XNR_mid1 UP XNR.mid1 1.21e-17
+* device instance cc_UP_net1 r0 *1 0,0 
+Ccc_UP_net1 UP net1 3.0251e-17
+* device instance cc_UP_net2 r0 *1 0,0 
+Ccc_UP_net2 UP net2 3.0251e-17
+* device instance cc_UP_reset r0 *1 0,0 
+Ccc_UP_reset UP reset 2.4201e-17
+* device instance cc_UP_reset_d1 r0 *1 0,0 
+Ccc_UP_reset_d1 UP reset_d1 1.21e-17
+* device instance cc_UP_reset_d2 r0 *1 0,0 
+Ccc_UP_reset_d2 UP reset_d2 1.21e-17
+* device instance cc_UP_reset_raw r0 *1 0,0 
+Ccc_UP_reset_raw UP reset_raw 1.21e-17
+* device instance cc_UP_set_dn r0 *1 0,0 
+Ccc_UP_set_dn UP set_dn 1.8151e-17
+* device instance cc_UP_set_up r0 *1 0,0 
+Ccc_UP_set_up UP set_up 1.21e-17
+* device instance cc_VDD_XED_DN_XD5 r0 *1 0,0 
+Ccc_VDD_XED_DN_XD5 VDD XED_DN.XD5 1.7344e-17
+* device instance cc_VDD_XED_DN_d1 r0 *1 0,0 
+Ccc_VDD_XED_DN_d1 VDD XED_DN.d1 1.7344e-17
+* device instance cc_VDD_XED_DN_d2 r0 *1 0,0 
+Ccc_VDD_XED_DN_d2 VDD XED_DN.d2 1.7344e-17
+* device instance cc_VDD_XED_DN_d3 r0 *1 0,0 
+Ccc_VDD_XED_DN_d3 VDD XED_DN.d3 1.7344e-17
+* device instance cc_VDD_XED_DN_d4 r0 *1 0,0 
+Ccc_VDD_XED_DN_d4 VDD XED_DN.d4 1.7344e-17
+* device instance cc_VDD_XED_DN_ntmp r0 *1 0,0 
+Ccc_VDD_XED_DN_ntmp VDD XED_DN.ntmp 2.8638e-17
+* device instance cc_VDD_XED_UP_XD5 r0 *1 0,0 
+Ccc_VDD_XED_UP_XD5 VDD XED_UP.XD5 1.7344e-17
+* device instance cc_VDD_XED_UP_d1 r0 *1 0,0 
+Ccc_VDD_XED_UP_d1 VDD XED_UP.d1 1.7344e-17
+* device instance cc_VDD_XED_UP_d2 r0 *1 0,0 
+Ccc_VDD_XED_UP_d2 VDD XED_UP.d2 1.7344e-17
+* device instance cc_VDD_XED_UP_d3 r0 *1 0,0 
+Ccc_VDD_XED_UP_d3 VDD XED_UP.d3 1.7344e-17
+* device instance cc_VDD_XED_UP_d4 r0 *1 0,0 
+Ccc_VDD_XED_UP_d4 VDD XED_UP.d4 1.7344e-17
+* device instance cc_VDD_XED_UP_ntmp r0 *1 0,0 
+Ccc_VDD_XED_UP_ntmp VDD XED_UP.ntmp 2.8638e-17
+* device instance cc_VDD_XLD_RB r0 *1 0,0 
+Ccc_VDD_XLD_RB VDD XLD.RB 1.7344e-17
+* device instance cc_VDD_XLD_SB r0 *1 0,0 
+Ccc_VDD_XLD_SB VDD XLD.SB 1.7344e-17
+* device instance cc_VDD_XLU_RB r0 *1 0,0 
+Ccc_VDD_XLU_RB VDD XLU.RB 1.7344e-17
+* device instance cc_VDD_XLU_SB r0 *1 0,0 
+Ccc_VDD_XLU_SB VDD XLU.SB 1.7344e-17
+* device instance cc_VDD_net1 r0 *1 0,0 
+Ccc_VDD_net1 VDD net1 2.8638e-17
+* device instance cc_VDD_net2 r0 *1 0,0 
+Ccc_VDD_net2 VDD net2 2.8638e-17
+* device instance cc_VDD_reset r0 *1 0,0 
+Ccc_VDD_reset VDD reset 1.7344e-17
+* device instance cc_VDD_reset_d1 r0 *1 0,0 
+Ccc_VDD_reset_d1 VDD reset_d1 1.7344e-17
+* device instance cc_VDD_reset_d2 r0 *1 0,0 
+Ccc_VDD_reset_d2 VDD reset_d2 1.7344e-17
+* device instance cc_VDD_reset_raw r0 *1 0,0 
+Ccc_VDD_reset_raw VDD reset_raw 2.8638e-17
+* device instance cc_VDD_set_dn r0 *1 0,0 
+Ccc_VDD_set_dn VDD set_dn 1.7344e-17
+* device instance cc_VDD_set_up r0 *1 0,0 
+Ccc_VDD_set_up VDD set_up 1.7344e-17
+* device instance cc_VSS_XED_DN_XD5 r0 *1 0,0 
+Ccc_VSS_XED_DN_XD5 VSS XED_DN.XD5 1.7344e-17
+* device instance cc_VSS_XED_DN_XN1_mid1 r0 *1 0,0 
+Ccc_VSS_XED_DN_XN1_mid1 VSS XED_DN.XN1.mid1 1.7344e-17
+* device instance cc_VSS_XED_DN_d1 r0 *1 0,0 
+Ccc_VSS_XED_DN_d1 VSS XED_DN.d1 1.7344e-17
+* device instance cc_VSS_XED_DN_d2 r0 *1 0,0 
+Ccc_VSS_XED_DN_d2 VSS XED_DN.d2 1.7344e-17
+* device instance cc_VSS_XED_DN_d3 r0 *1 0,0 
+Ccc_VSS_XED_DN_d3 VSS XED_DN.d3 1.7344e-17
+* device instance cc_VSS_XED_DN_d4 r0 *1 0,0 
+Ccc_VSS_XED_DN_d4 VSS XED_DN.d4 1.7344e-17
+* device instance cc_VSS_XED_DN_ntmp r0 *1 0,0 
+Ccc_VSS_XED_DN_ntmp VSS XED_DN.ntmp 1.21e-17
+* device instance cc_VSS_XED_UP_XD5 r0 *1 0,0 
+Ccc_VSS_XED_UP_XD5 VSS XED_UP.XD5 1.7344e-17
+* device instance cc_VSS_XED_UP_XN1_mid1 r0 *1 0,0 
+Ccc_VSS_XED_UP_XN1_mid1 VSS XED_UP.XN1.mid1 1.7344e-17
+* device instance cc_VSS_XED_UP_d1 r0 *1 0,0 
+Ccc_VSS_XED_UP_d1 VSS XED_UP.d1 1.7344e-17
+* device instance cc_VSS_XED_UP_d2 r0 *1 0,0 
+Ccc_VSS_XED_UP_d2 VSS XED_UP.d2 1.7344e-17
+* device instance cc_VSS_XED_UP_d3 r0 *1 0,0 
+Ccc_VSS_XED_UP_d3 VSS XED_UP.d3 1.7344e-17
+* device instance cc_VSS_XED_UP_d4 r0 *1 0,0 
+Ccc_VSS_XED_UP_d4 VSS XED_UP.d4 1.7344e-17
+* device instance cc_VSS_XED_UP_ntmp r0 *1 0,0 
+Ccc_VSS_XED_UP_ntmp VSS XED_UP.ntmp 1.21e-17
+* device instance cc_VSS_XLD_RB r0 *1 0,0 
+Ccc_VSS_XLD_RB VSS XLD.RB 1.7344e-17
+* device instance cc_VSS_XLD_SB r0 *1 0,0 
+Ccc_VSS_XLD_SB VSS XLD.SB 1.7344e-17
+* device instance cc_VSS_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_VSS_XLD_XNQ_mid1 VSS XLD.XNQ.mid1 1.7344e-17
+* device instance cc_VSS_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_VSS_XLD_XNQB_mid1 VSS XLD.XNQB.mid1 1.7344e-17
+* device instance cc_VSS_XLU_RB r0 *1 0,0 
+Ccc_VSS_XLU_RB VSS XLU.RB 1.7344e-17
+* device instance cc_VSS_XLU_SB r0 *1 0,0 
+Ccc_VSS_XLU_SB VSS XLU.SB 1.7344e-17
+* device instance cc_VSS_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_VSS_XLU_XNQ_mid1 VSS XLU.XNQ.mid1 1.7344e-17
+* device instance cc_VSS_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_VSS_XLU_XNQB_mid1 VSS XLU.XNQB.mid1 1.7344e-17
+* device instance cc_VSS_XNR_mid1 r0 *1 0,0 
+Ccc_VSS_XNR_mid1 VSS XNR.mid1 1.7344e-17
+* device instance cc_VSS_net1 r0 *1 0,0 
+Ccc_VSS_net1 VSS net1 1.21e-17
+* device instance cc_VSS_net2 r0 *1 0,0 
+Ccc_VSS_net2 VSS net2 1.21e-17
+* device instance cc_VSS_reset r0 *1 0,0 
+Ccc_VSS_reset VSS reset 1.7344e-17
+* device instance cc_VSS_reset_d1 r0 *1 0,0 
+Ccc_VSS_reset_d1 VSS reset_d1 1.7344e-17
+* device instance cc_VSS_reset_d2 r0 *1 0,0 
+Ccc_VSS_reset_d2 VSS reset_d2 1.7344e-17
+* device instance cc_VSS_reset_raw r0 *1 0,0 
+Ccc_VSS_reset_raw VSS reset_raw 1.21e-17
+* device instance cc_VSS_set_dn r0 *1 0,0 
+Ccc_VSS_set_dn VSS set_dn 1.7344e-17
+* device instance cc_VSS_set_up r0 *1 0,0 
+Ccc_VSS_set_up VSS set_up 1.7344e-17
+* device instance cc_XED_DN_XD5_XED_DN_XN1_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_XN1_mid1 XED_DN.XD5 XED_DN.XN1.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_XED_DN_d1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_d1 XED_DN.XD5 XED_DN.d1 1.21e-17
+* device instance cc_XED_DN_XD5_XED_DN_d2 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_d2 XED_DN.XD5 XED_DN.d2 1.21e-17
+* device instance cc_XED_DN_XD5_XED_DN_d3 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_d3 XED_DN.XD5 XED_DN.d3 1.21e-17
+* device instance cc_XED_DN_XD5_XED_DN_d4 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_d4 XED_DN.XD5 XED_DN.d4 1.21e-17
+* device instance cc_XED_DN_XD5_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_DN_ntmp XED_DN.XD5 XED_DN.ntmp 1.8151e-17
+* device instance cc_XED_DN_XD5_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_XD5 XED_DN.XD5 XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_XD5_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_d1 XED_DN.XD5 XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_XD5_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_d2 XED_DN.XD5 XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_XD5_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_d3 XED_DN.XD5 XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_XD5_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_d4 XED_DN.XD5 XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_XD5_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_XD5_XED_UP_ntmp XED_DN.XD5 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_XD5_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_XD5_XLD_RB XED_DN.XD5 XLD.RB 1.21e-17
+* device instance cc_XED_DN_XD5_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_XD5_XLD_SB XED_DN.XD5 XLD.SB 1.21e-17
+* device instance cc_XED_DN_XD5_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XLD_XNQ_mid1 XED_DN.XD5 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XLD_XNQB_mid1 XED_DN.XD5 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_XD5_XLU_RB XED_DN.XD5 XLU.RB 1.21e-17
+* device instance cc_XED_DN_XD5_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_XD5_XLU_SB XED_DN.XD5 XLU.SB 1.21e-17
+* device instance cc_XED_DN_XD5_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XLU_XNQ_mid1 XED_DN.XD5 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XLU_XNQB_mid1 XED_DN.XD5 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_XD5_XNR_mid1 XED_DN.XD5 XNR.mid1 1.21e-17
+* device instance cc_XED_DN_XD5_net1 r0 *1 0,0 
+Ccc_XED_DN_XD5_net1 XED_DN.XD5 net1 1.21e-17
+* device instance cc_XED_DN_XD5_net2 r0 *1 0,0 
+Ccc_XED_DN_XD5_net2 XED_DN.XD5 net2 1.21e-17
+* device instance cc_XED_DN_XD5_reset r0 *1 0,0 
+Ccc_XED_DN_XD5_reset XED_DN.XD5 reset 1.8151e-17
+* device instance cc_XED_DN_XD5_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_XD5_reset_d1 XED_DN.XD5 reset_d1 1.21e-17
+* device instance cc_XED_DN_XD5_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_XD5_reset_d2 XED_DN.XD5 reset_d2 1.21e-17
+* device instance cc_XED_DN_XD5_reset_raw r0 *1 0,0 
+Ccc_XED_DN_XD5_reset_raw XED_DN.XD5 reset_raw 1.21e-17
+* device instance cc_XED_DN_XD5_set_dn r0 *1 0,0 
+Ccc_XED_DN_XD5_set_dn XED_DN.XD5 set_dn 1.21e-17
+* device instance cc_XED_DN_XD5_set_up r0 *1 0,0 
+Ccc_XED_DN_XD5_set_up XED_DN.XD5 set_up 1.21e-17
+* device instance cc_XED_DN_XN1_mid1_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_XN1_mid1_XED_DN_ntmp XED_DN.XN1.mid1 XED_DN.ntmp 1.1294e-17
+* device instance cc_XED_DN_d1_XED_DN_d2 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_DN_d2 XED_DN.d1 XED_DN.d2 1.21e-17
+* device instance cc_XED_DN_d1_XED_DN_d3 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_DN_d3 XED_DN.d1 XED_DN.d3 1.21e-17
+* device instance cc_XED_DN_d1_XED_DN_d4 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_DN_d4 XED_DN.d1 XED_DN.d4 1.21e-17
+* device instance cc_XED_DN_d1_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_d1_XED_DN_ntmp XED_DN.d1 XED_DN.ntmp 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_XD5 XED_DN.d1 XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_d1 XED_DN.d1 XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_d2 XED_DN.d1 XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_d3 XED_DN.d1 XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_d4 XED_DN.d1 XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_d1_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_d1_XED_UP_ntmp XED_DN.d1 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_d1_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_d1_XLD_RB XED_DN.d1 XLD.RB 1.21e-17
+* device instance cc_XED_DN_d1_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_d1_XLD_SB XED_DN.d1 XLD.SB 1.21e-17
+* device instance cc_XED_DN_d1_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d1_XLD_XNQ_mid1 XED_DN.d1 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d1_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d1_XLD_XNQB_mid1 XED_DN.d1 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d1_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_d1_XLU_RB XED_DN.d1 XLU.RB 1.21e-17
+* device instance cc_XED_DN_d1_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_d1_XLU_SB XED_DN.d1 XLU.SB 1.21e-17
+* device instance cc_XED_DN_d1_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d1_XLU_XNQ_mid1 XED_DN.d1 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d1_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d1_XLU_XNQB_mid1 XED_DN.d1 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d1_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_d1_XNR_mid1 XED_DN.d1 XNR.mid1 1.21e-17
+* device instance cc_XED_DN_d1_net1 r0 *1 0,0 
+Ccc_XED_DN_d1_net1 XED_DN.d1 net1 1.21e-17
+* device instance cc_XED_DN_d1_net2 r0 *1 0,0 
+Ccc_XED_DN_d1_net2 XED_DN.d1 net2 1.21e-17
+* device instance cc_XED_DN_d1_reset r0 *1 0,0 
+Ccc_XED_DN_d1_reset XED_DN.d1 reset 1.8151e-17
+* device instance cc_XED_DN_d1_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_d1_reset_d1 XED_DN.d1 reset_d1 1.21e-17
+* device instance cc_XED_DN_d1_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_d1_reset_d2 XED_DN.d1 reset_d2 1.21e-17
+* device instance cc_XED_DN_d1_reset_raw r0 *1 0,0 
+Ccc_XED_DN_d1_reset_raw XED_DN.d1 reset_raw 1.21e-17
+* device instance cc_XED_DN_d1_set_dn r0 *1 0,0 
+Ccc_XED_DN_d1_set_dn XED_DN.d1 set_dn 1.21e-17
+* device instance cc_XED_DN_d1_set_up r0 *1 0,0 
+Ccc_XED_DN_d1_set_up XED_DN.d1 set_up 1.21e-17
+* device instance cc_XED_DN_d2_XED_DN_d3 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_DN_d3 XED_DN.d2 XED_DN.d3 1.21e-17
+* device instance cc_XED_DN_d2_XED_DN_d4 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_DN_d4 XED_DN.d2 XED_DN.d4 1.21e-17
+* device instance cc_XED_DN_d2_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_d2_XED_DN_ntmp XED_DN.d2 XED_DN.ntmp 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_XD5 XED_DN.d2 XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_d1 XED_DN.d2 XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_d2 XED_DN.d2 XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_d3 XED_DN.d2 XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_d4 XED_DN.d2 XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_d2_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_d2_XED_UP_ntmp XED_DN.d2 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_d2_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_d2_XLD_RB XED_DN.d2 XLD.RB 1.21e-17
+* device instance cc_XED_DN_d2_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_d2_XLD_SB XED_DN.d2 XLD.SB 1.21e-17
+* device instance cc_XED_DN_d2_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d2_XLD_XNQ_mid1 XED_DN.d2 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d2_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d2_XLD_XNQB_mid1 XED_DN.d2 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d2_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_d2_XLU_RB XED_DN.d2 XLU.RB 1.21e-17
+* device instance cc_XED_DN_d2_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_d2_XLU_SB XED_DN.d2 XLU.SB 1.21e-17
+* device instance cc_XED_DN_d2_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d2_XLU_XNQ_mid1 XED_DN.d2 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d2_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d2_XLU_XNQB_mid1 XED_DN.d2 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d2_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_d2_XNR_mid1 XED_DN.d2 XNR.mid1 1.21e-17
+* device instance cc_XED_DN_d2_net1 r0 *1 0,0 
+Ccc_XED_DN_d2_net1 XED_DN.d2 net1 1.21e-17
+* device instance cc_XED_DN_d2_net2 r0 *1 0,0 
+Ccc_XED_DN_d2_net2 XED_DN.d2 net2 1.21e-17
+* device instance cc_XED_DN_d2_reset r0 *1 0,0 
+Ccc_XED_DN_d2_reset XED_DN.d2 reset 1.8151e-17
+* device instance cc_XED_DN_d2_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_d2_reset_d1 XED_DN.d2 reset_d1 1.21e-17
+* device instance cc_XED_DN_d2_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_d2_reset_d2 XED_DN.d2 reset_d2 1.21e-17
+* device instance cc_XED_DN_d2_reset_raw r0 *1 0,0 
+Ccc_XED_DN_d2_reset_raw XED_DN.d2 reset_raw 1.21e-17
+* device instance cc_XED_DN_d2_set_dn r0 *1 0,0 
+Ccc_XED_DN_d2_set_dn XED_DN.d2 set_dn 1.21e-17
+* device instance cc_XED_DN_d2_set_up r0 *1 0,0 
+Ccc_XED_DN_d2_set_up XED_DN.d2 set_up 1.21e-17
+* device instance cc_XED_DN_d3_XED_DN_d4 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_DN_d4 XED_DN.d3 XED_DN.d4 1.21e-17
+* device instance cc_XED_DN_d3_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_d3_XED_DN_ntmp XED_DN.d3 XED_DN.ntmp 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_XD5 XED_DN.d3 XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_d1 XED_DN.d3 XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_d2 XED_DN.d3 XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_d3 XED_DN.d3 XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_d4 XED_DN.d3 XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_d3_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_d3_XED_UP_ntmp XED_DN.d3 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_d3_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_d3_XLD_RB XED_DN.d3 XLD.RB 1.21e-17
+* device instance cc_XED_DN_d3_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_d3_XLD_SB XED_DN.d3 XLD.SB 1.21e-17
+* device instance cc_XED_DN_d3_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d3_XLD_XNQ_mid1 XED_DN.d3 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d3_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d3_XLD_XNQB_mid1 XED_DN.d3 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d3_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_d3_XLU_RB XED_DN.d3 XLU.RB 1.21e-17
+* device instance cc_XED_DN_d3_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_d3_XLU_SB XED_DN.d3 XLU.SB 1.21e-17
+* device instance cc_XED_DN_d3_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d3_XLU_XNQ_mid1 XED_DN.d3 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d3_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d3_XLU_XNQB_mid1 XED_DN.d3 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d3_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_d3_XNR_mid1 XED_DN.d3 XNR.mid1 1.21e-17
+* device instance cc_XED_DN_d3_net1 r0 *1 0,0 
+Ccc_XED_DN_d3_net1 XED_DN.d3 net1 1.21e-17
+* device instance cc_XED_DN_d3_net2 r0 *1 0,0 
+Ccc_XED_DN_d3_net2 XED_DN.d3 net2 1.21e-17
+* device instance cc_XED_DN_d3_reset r0 *1 0,0 
+Ccc_XED_DN_d3_reset XED_DN.d3 reset 1.8151e-17
+* device instance cc_XED_DN_d3_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_d3_reset_d1 XED_DN.d3 reset_d1 1.21e-17
+* device instance cc_XED_DN_d3_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_d3_reset_d2 XED_DN.d3 reset_d2 1.21e-17
+* device instance cc_XED_DN_d3_reset_raw r0 *1 0,0 
+Ccc_XED_DN_d3_reset_raw XED_DN.d3 reset_raw 1.21e-17
+* device instance cc_XED_DN_d3_set_dn r0 *1 0,0 
+Ccc_XED_DN_d3_set_dn XED_DN.d3 set_dn 1.21e-17
+* device instance cc_XED_DN_d3_set_up r0 *1 0,0 
+Ccc_XED_DN_d3_set_up XED_DN.d3 set_up 1.21e-17
+* device instance cc_XED_DN_d4_XED_DN_ntmp r0 *1 0,0 
+Ccc_XED_DN_d4_XED_DN_ntmp XED_DN.d4 XED_DN.ntmp 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_XD5 XED_DN.d4 XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_d1 XED_DN.d4 XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_d2 XED_DN.d4 XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_d3 XED_DN.d4 XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_d4 XED_DN.d4 XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_d4_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_d4_XED_UP_ntmp XED_DN.d4 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_d4_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_d4_XLD_RB XED_DN.d4 XLD.RB 1.21e-17
+* device instance cc_XED_DN_d4_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_d4_XLD_SB XED_DN.d4 XLD.SB 1.21e-17
+* device instance cc_XED_DN_d4_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d4_XLD_XNQ_mid1 XED_DN.d4 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d4_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d4_XLD_XNQB_mid1 XED_DN.d4 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d4_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_d4_XLU_RB XED_DN.d4 XLU.RB 1.21e-17
+* device instance cc_XED_DN_d4_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_d4_XLU_SB XED_DN.d4 XLU.SB 1.21e-17
+* device instance cc_XED_DN_d4_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_d4_XLU_XNQ_mid1 XED_DN.d4 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_d4_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_d4_XLU_XNQB_mid1 XED_DN.d4 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_d4_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_d4_XNR_mid1 XED_DN.d4 XNR.mid1 1.21e-17
+* device instance cc_XED_DN_d4_net1 r0 *1 0,0 
+Ccc_XED_DN_d4_net1 XED_DN.d4 net1 1.21e-17
+* device instance cc_XED_DN_d4_net2 r0 *1 0,0 
+Ccc_XED_DN_d4_net2 XED_DN.d4 net2 1.21e-17
+* device instance cc_XED_DN_d4_reset r0 *1 0,0 
+Ccc_XED_DN_d4_reset XED_DN.d4 reset 1.8151e-17
+* device instance cc_XED_DN_d4_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_d4_reset_d1 XED_DN.d4 reset_d1 1.21e-17
+* device instance cc_XED_DN_d4_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_d4_reset_d2 XED_DN.d4 reset_d2 1.21e-17
+* device instance cc_XED_DN_d4_reset_raw r0 *1 0,0 
+Ccc_XED_DN_d4_reset_raw XED_DN.d4 reset_raw 1.21e-17
+* device instance cc_XED_DN_d4_set_dn r0 *1 0,0 
+Ccc_XED_DN_d4_set_dn XED_DN.d4 set_dn 1.21e-17
+* device instance cc_XED_DN_d4_set_up r0 *1 0,0 
+Ccc_XED_DN_d4_set_up XED_DN.d4 set_up 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_XD5 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_XD5 XED_DN.ntmp XED_UP.XD5 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_d1 XED_DN.ntmp XED_UP.d1 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_d2 XED_DN.ntmp XED_UP.d2 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_d3 XED_DN.ntmp XED_UP.d3 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_d4 XED_DN.ntmp XED_UP.d4 1.21e-17
+* device instance cc_XED_DN_ntmp_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_DN_ntmp_XED_UP_ntmp XED_DN.ntmp XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_DN_ntmp_XLD_RB r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLD_RB XED_DN.ntmp XLD.RB 1.21e-17
+* device instance cc_XED_DN_ntmp_XLD_SB r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLD_SB XED_DN.ntmp XLD.SB 1.21e-17
+* device instance cc_XED_DN_ntmp_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLD_XNQ_mid1 XED_DN.ntmp XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_ntmp_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLD_XNQB_mid1 XED_DN.ntmp XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_ntmp_XLU_RB r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLU_RB XED_DN.ntmp XLU.RB 1.21e-17
+* device instance cc_XED_DN_ntmp_XLU_SB r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLU_SB XED_DN.ntmp XLU.SB 1.21e-17
+* device instance cc_XED_DN_ntmp_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLU_XNQ_mid1 XED_DN.ntmp XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_DN_ntmp_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XLU_XNQB_mid1 XED_DN.ntmp XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_DN_ntmp_XNR_mid1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_XNR_mid1 XED_DN.ntmp XNR.mid1 1.21e-17
+* device instance cc_XED_DN_ntmp_net1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_net1 XED_DN.ntmp net1 1.21e-17
+* device instance cc_XED_DN_ntmp_net2 r0 *1 0,0 
+Ccc_XED_DN_ntmp_net2 XED_DN.ntmp net2 1.21e-17
+* device instance cc_XED_DN_ntmp_reset r0 *1 0,0 
+Ccc_XED_DN_ntmp_reset XED_DN.ntmp reset 1.8151e-17
+* device instance cc_XED_DN_ntmp_reset_d1 r0 *1 0,0 
+Ccc_XED_DN_ntmp_reset_d1 XED_DN.ntmp reset_d1 1.21e-17
+* device instance cc_XED_DN_ntmp_reset_d2 r0 *1 0,0 
+Ccc_XED_DN_ntmp_reset_d2 XED_DN.ntmp reset_d2 1.21e-17
+* device instance cc_XED_DN_ntmp_reset_raw r0 *1 0,0 
+Ccc_XED_DN_ntmp_reset_raw XED_DN.ntmp reset_raw 1.21e-17
+* device instance cc_XED_DN_ntmp_set_dn r0 *1 0,0 
+Ccc_XED_DN_ntmp_set_dn XED_DN.ntmp set_dn 1.21e-17
+* device instance cc_XED_DN_ntmp_set_up r0 *1 0,0 
+Ccc_XED_DN_ntmp_set_up XED_DN.ntmp set_up 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_XN1_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_XN1_mid1 XED_UP.XD5 XED_UP.XN1.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_d1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_d1 XED_UP.XD5 XED_UP.d1 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_d2 XED_UP.XD5 XED_UP.d2 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_d3 XED_UP.XD5 XED_UP.d3 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_d4 XED_UP.XD5 XED_UP.d4 1.21e-17
+* device instance cc_XED_UP_XD5_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_XD5_XED_UP_ntmp XED_UP.XD5 XED_UP.ntmp 1.8151e-17
+* device instance cc_XED_UP_XD5_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_XD5_XLD_RB XED_UP.XD5 XLD.RB 1.21e-17
+* device instance cc_XED_UP_XD5_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_XD5_XLD_SB XED_UP.XD5 XLD.SB 1.21e-17
+* device instance cc_XED_UP_XD5_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XLD_XNQ_mid1 XED_UP.XD5 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XLD_XNQB_mid1 XED_UP.XD5 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_XD5_XLU_RB XED_UP.XD5 XLU.RB 1.21e-17
+* device instance cc_XED_UP_XD5_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_XD5_XLU_SB XED_UP.XD5 XLU.SB 1.21e-17
+* device instance cc_XED_UP_XD5_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XLU_XNQ_mid1 XED_UP.XD5 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XLU_XNQB_mid1 XED_UP.XD5 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_XD5_XNR_mid1 XED_UP.XD5 XNR.mid1 1.21e-17
+* device instance cc_XED_UP_XD5_net1 r0 *1 0,0 
+Ccc_XED_UP_XD5_net1 XED_UP.XD5 net1 1.21e-17
+* device instance cc_XED_UP_XD5_net2 r0 *1 0,0 
+Ccc_XED_UP_XD5_net2 XED_UP.XD5 net2 1.21e-17
+* device instance cc_XED_UP_XD5_reset r0 *1 0,0 
+Ccc_XED_UP_XD5_reset XED_UP.XD5 reset 1.8151e-17
+* device instance cc_XED_UP_XD5_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_XD5_reset_d1 XED_UP.XD5 reset_d1 1.21e-17
+* device instance cc_XED_UP_XD5_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_XD5_reset_d2 XED_UP.XD5 reset_d2 1.21e-17
+* device instance cc_XED_UP_XD5_reset_raw r0 *1 0,0 
+Ccc_XED_UP_XD5_reset_raw XED_UP.XD5 reset_raw 1.21e-17
+* device instance cc_XED_UP_XD5_set_dn r0 *1 0,0 
+Ccc_XED_UP_XD5_set_dn XED_UP.XD5 set_dn 1.21e-17
+* device instance cc_XED_UP_XD5_set_up r0 *1 0,0 
+Ccc_XED_UP_XD5_set_up XED_UP.XD5 set_up 1.21e-17
+* device instance cc_XED_UP_XN1_mid1_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_XN1_mid1_XED_UP_ntmp XED_UP.XN1.mid1 XED_UP.ntmp 1.1294e-17
+* device instance cc_XED_UP_d1_XED_UP_d2 r0 *1 0,0 
+Ccc_XED_UP_d1_XED_UP_d2 XED_UP.d1 XED_UP.d2 1.21e-17
+* device instance cc_XED_UP_d1_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_UP_d1_XED_UP_d3 XED_UP.d1 XED_UP.d3 1.21e-17
+* device instance cc_XED_UP_d1_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_UP_d1_XED_UP_d4 XED_UP.d1 XED_UP.d4 1.21e-17
+* device instance cc_XED_UP_d1_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_d1_XED_UP_ntmp XED_UP.d1 XED_UP.ntmp 1.21e-17
+* device instance cc_XED_UP_d1_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_d1_XLD_RB XED_UP.d1 XLD.RB 1.21e-17
+* device instance cc_XED_UP_d1_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_d1_XLD_SB XED_UP.d1 XLD.SB 1.21e-17
+* device instance cc_XED_UP_d1_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d1_XLD_XNQ_mid1 XED_UP.d1 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d1_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d1_XLD_XNQB_mid1 XED_UP.d1 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d1_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_d1_XLU_RB XED_UP.d1 XLU.RB 1.21e-17
+* device instance cc_XED_UP_d1_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_d1_XLU_SB XED_UP.d1 XLU.SB 1.21e-17
+* device instance cc_XED_UP_d1_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d1_XLU_XNQ_mid1 XED_UP.d1 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d1_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d1_XLU_XNQB_mid1 XED_UP.d1 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d1_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_d1_XNR_mid1 XED_UP.d1 XNR.mid1 1.21e-17
+* device instance cc_XED_UP_d1_net1 r0 *1 0,0 
+Ccc_XED_UP_d1_net1 XED_UP.d1 net1 1.21e-17
+* device instance cc_XED_UP_d1_net2 r0 *1 0,0 
+Ccc_XED_UP_d1_net2 XED_UP.d1 net2 1.21e-17
+* device instance cc_XED_UP_d1_reset r0 *1 0,0 
+Ccc_XED_UP_d1_reset XED_UP.d1 reset 1.8151e-17
+* device instance cc_XED_UP_d1_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_d1_reset_d1 XED_UP.d1 reset_d1 1.21e-17
+* device instance cc_XED_UP_d1_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_d1_reset_d2 XED_UP.d1 reset_d2 1.21e-17
+* device instance cc_XED_UP_d1_reset_raw r0 *1 0,0 
+Ccc_XED_UP_d1_reset_raw XED_UP.d1 reset_raw 1.21e-17
+* device instance cc_XED_UP_d1_set_dn r0 *1 0,0 
+Ccc_XED_UP_d1_set_dn XED_UP.d1 set_dn 1.21e-17
+* device instance cc_XED_UP_d1_set_up r0 *1 0,0 
+Ccc_XED_UP_d1_set_up XED_UP.d1 set_up 1.21e-17
+* device instance cc_XED_UP_d2_XED_UP_d3 r0 *1 0,0 
+Ccc_XED_UP_d2_XED_UP_d3 XED_UP.d2 XED_UP.d3 1.21e-17
+* device instance cc_XED_UP_d2_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_UP_d2_XED_UP_d4 XED_UP.d2 XED_UP.d4 1.21e-17
+* device instance cc_XED_UP_d2_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_d2_XED_UP_ntmp XED_UP.d2 XED_UP.ntmp 1.21e-17
+* device instance cc_XED_UP_d2_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_d2_XLD_RB XED_UP.d2 XLD.RB 1.21e-17
+* device instance cc_XED_UP_d2_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_d2_XLD_SB XED_UP.d2 XLD.SB 1.21e-17
+* device instance cc_XED_UP_d2_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d2_XLD_XNQ_mid1 XED_UP.d2 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d2_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d2_XLD_XNQB_mid1 XED_UP.d2 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d2_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_d2_XLU_RB XED_UP.d2 XLU.RB 1.21e-17
+* device instance cc_XED_UP_d2_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_d2_XLU_SB XED_UP.d2 XLU.SB 1.21e-17
+* device instance cc_XED_UP_d2_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d2_XLU_XNQ_mid1 XED_UP.d2 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d2_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d2_XLU_XNQB_mid1 XED_UP.d2 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d2_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_d2_XNR_mid1 XED_UP.d2 XNR.mid1 1.21e-17
+* device instance cc_XED_UP_d2_net1 r0 *1 0,0 
+Ccc_XED_UP_d2_net1 XED_UP.d2 net1 1.21e-17
+* device instance cc_XED_UP_d2_net2 r0 *1 0,0 
+Ccc_XED_UP_d2_net2 XED_UP.d2 net2 1.21e-17
+* device instance cc_XED_UP_d2_reset r0 *1 0,0 
+Ccc_XED_UP_d2_reset XED_UP.d2 reset 1.8151e-17
+* device instance cc_XED_UP_d2_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_d2_reset_d1 XED_UP.d2 reset_d1 1.21e-17
+* device instance cc_XED_UP_d2_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_d2_reset_d2 XED_UP.d2 reset_d2 1.21e-17
+* device instance cc_XED_UP_d2_reset_raw r0 *1 0,0 
+Ccc_XED_UP_d2_reset_raw XED_UP.d2 reset_raw 1.21e-17
+* device instance cc_XED_UP_d2_set_dn r0 *1 0,0 
+Ccc_XED_UP_d2_set_dn XED_UP.d2 set_dn 1.21e-17
+* device instance cc_XED_UP_d2_set_up r0 *1 0,0 
+Ccc_XED_UP_d2_set_up XED_UP.d2 set_up 1.21e-17
+* device instance cc_XED_UP_d3_XED_UP_d4 r0 *1 0,0 
+Ccc_XED_UP_d3_XED_UP_d4 XED_UP.d3 XED_UP.d4 1.21e-17
+* device instance cc_XED_UP_d3_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_d3_XED_UP_ntmp XED_UP.d3 XED_UP.ntmp 1.21e-17
+* device instance cc_XED_UP_d3_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_d3_XLD_RB XED_UP.d3 XLD.RB 1.21e-17
+* device instance cc_XED_UP_d3_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_d3_XLD_SB XED_UP.d3 XLD.SB 1.21e-17
+* device instance cc_XED_UP_d3_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d3_XLD_XNQ_mid1 XED_UP.d3 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d3_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d3_XLD_XNQB_mid1 XED_UP.d3 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d3_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_d3_XLU_RB XED_UP.d3 XLU.RB 1.21e-17
+* device instance cc_XED_UP_d3_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_d3_XLU_SB XED_UP.d3 XLU.SB 1.21e-17
+* device instance cc_XED_UP_d3_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d3_XLU_XNQ_mid1 XED_UP.d3 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d3_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d3_XLU_XNQB_mid1 XED_UP.d3 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d3_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_d3_XNR_mid1 XED_UP.d3 XNR.mid1 1.21e-17
+* device instance cc_XED_UP_d3_net1 r0 *1 0,0 
+Ccc_XED_UP_d3_net1 XED_UP.d3 net1 1.21e-17
+* device instance cc_XED_UP_d3_net2 r0 *1 0,0 
+Ccc_XED_UP_d3_net2 XED_UP.d3 net2 1.21e-17
+* device instance cc_XED_UP_d3_reset r0 *1 0,0 
+Ccc_XED_UP_d3_reset XED_UP.d3 reset 1.8151e-17
+* device instance cc_XED_UP_d3_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_d3_reset_d1 XED_UP.d3 reset_d1 1.21e-17
+* device instance cc_XED_UP_d3_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_d3_reset_d2 XED_UP.d3 reset_d2 1.21e-17
+* device instance cc_XED_UP_d3_reset_raw r0 *1 0,0 
+Ccc_XED_UP_d3_reset_raw XED_UP.d3 reset_raw 1.21e-17
+* device instance cc_XED_UP_d3_set_dn r0 *1 0,0 
+Ccc_XED_UP_d3_set_dn XED_UP.d3 set_dn 1.21e-17
+* device instance cc_XED_UP_d3_set_up r0 *1 0,0 
+Ccc_XED_UP_d3_set_up XED_UP.d3 set_up 1.21e-17
+* device instance cc_XED_UP_d4_XED_UP_ntmp r0 *1 0,0 
+Ccc_XED_UP_d4_XED_UP_ntmp XED_UP.d4 XED_UP.ntmp 1.21e-17
+* device instance cc_XED_UP_d4_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_d4_XLD_RB XED_UP.d4 XLD.RB 1.21e-17
+* device instance cc_XED_UP_d4_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_d4_XLD_SB XED_UP.d4 XLD.SB 1.21e-17
+* device instance cc_XED_UP_d4_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d4_XLD_XNQ_mid1 XED_UP.d4 XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d4_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d4_XLD_XNQB_mid1 XED_UP.d4 XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d4_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_d4_XLU_RB XED_UP.d4 XLU.RB 1.21e-17
+* device instance cc_XED_UP_d4_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_d4_XLU_SB XED_UP.d4 XLU.SB 1.21e-17
+* device instance cc_XED_UP_d4_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_d4_XLU_XNQ_mid1 XED_UP.d4 XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_d4_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_d4_XLU_XNQB_mid1 XED_UP.d4 XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_d4_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_d4_XNR_mid1 XED_UP.d4 XNR.mid1 1.21e-17
+* device instance cc_XED_UP_d4_net1 r0 *1 0,0 
+Ccc_XED_UP_d4_net1 XED_UP.d4 net1 1.21e-17
+* device instance cc_XED_UP_d4_net2 r0 *1 0,0 
+Ccc_XED_UP_d4_net2 XED_UP.d4 net2 1.21e-17
+* device instance cc_XED_UP_d4_reset r0 *1 0,0 
+Ccc_XED_UP_d4_reset XED_UP.d4 reset 1.8151e-17
+* device instance cc_XED_UP_d4_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_d4_reset_d1 XED_UP.d4 reset_d1 1.21e-17
+* device instance cc_XED_UP_d4_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_d4_reset_d2 XED_UP.d4 reset_d2 1.21e-17
+* device instance cc_XED_UP_d4_reset_raw r0 *1 0,0 
+Ccc_XED_UP_d4_reset_raw XED_UP.d4 reset_raw 1.21e-17
+* device instance cc_XED_UP_d4_set_dn r0 *1 0,0 
+Ccc_XED_UP_d4_set_dn XED_UP.d4 set_dn 1.21e-17
+* device instance cc_XED_UP_d4_set_up r0 *1 0,0 
+Ccc_XED_UP_d4_set_up XED_UP.d4 set_up 1.21e-17
+* device instance cc_XED_UP_ntmp_XLD_RB r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLD_RB XED_UP.ntmp XLD.RB 1.21e-17
+* device instance cc_XED_UP_ntmp_XLD_SB r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLD_SB XED_UP.ntmp XLD.SB 1.21e-17
+* device instance cc_XED_UP_ntmp_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLD_XNQ_mid1 XED_UP.ntmp XLD.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_ntmp_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLD_XNQB_mid1 XED_UP.ntmp XLD.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_ntmp_XLU_RB r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLU_RB XED_UP.ntmp XLU.RB 1.21e-17
+* device instance cc_XED_UP_ntmp_XLU_SB r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLU_SB XED_UP.ntmp XLU.SB 1.21e-17
+* device instance cc_XED_UP_ntmp_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLU_XNQ_mid1 XED_UP.ntmp XLU.XNQ.mid1 1.21e-17
+* device instance cc_XED_UP_ntmp_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_XLU_XNQB_mid1 XED_UP.ntmp XLU.XNQB.mid1 1.21e-17
+* device instance cc_XED_UP_ntmp_XNR_mid1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_XNR_mid1 XED_UP.ntmp XNR.mid1 1.21e-17
+* device instance cc_XED_UP_ntmp_net1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_net1 XED_UP.ntmp net1 1.21e-17
+* device instance cc_XED_UP_ntmp_net2 r0 *1 0,0 
+Ccc_XED_UP_ntmp_net2 XED_UP.ntmp net2 1.21e-17
+* device instance cc_XED_UP_ntmp_reset r0 *1 0,0 
+Ccc_XED_UP_ntmp_reset XED_UP.ntmp reset 1.8151e-17
+* device instance cc_XED_UP_ntmp_reset_d1 r0 *1 0,0 
+Ccc_XED_UP_ntmp_reset_d1 XED_UP.ntmp reset_d1 1.21e-17
+* device instance cc_XED_UP_ntmp_reset_d2 r0 *1 0,0 
+Ccc_XED_UP_ntmp_reset_d2 XED_UP.ntmp reset_d2 1.21e-17
+* device instance cc_XED_UP_ntmp_reset_raw r0 *1 0,0 
+Ccc_XED_UP_ntmp_reset_raw XED_UP.ntmp reset_raw 1.21e-17
+* device instance cc_XED_UP_ntmp_set_dn r0 *1 0,0 
+Ccc_XED_UP_ntmp_set_dn XED_UP.ntmp set_dn 1.21e-17
+* device instance cc_XED_UP_ntmp_set_up r0 *1 0,0 
+Ccc_XED_UP_ntmp_set_up XED_UP.ntmp set_up 1.21e-17
+* device instance cc_XLD_RB_XLD_SB r0 *1 0,0 
+Ccc_XLD_RB_XLD_SB XLD.RB XLD.SB 1.8151e-17
+* device instance cc_XLD_RB_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XLD_RB_XLD_XNQ_mid1 XLD.RB XLD.XNQ.mid1 1.21e-17
+* device instance cc_XLD_RB_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XLD_RB_XLD_XNQB_mid1 XLD.RB XLD.XNQB.mid1 1.21e-17
+* device instance cc_XLD_RB_XLU_RB r0 *1 0,0 
+Ccc_XLD_RB_XLU_RB XLD.RB XLU.RB 1.21e-17
+* device instance cc_XLD_RB_XLU_SB r0 *1 0,0 
+Ccc_XLD_RB_XLU_SB XLD.RB XLU.SB 1.21e-17
+* device instance cc_XLD_RB_XNR_mid1 r0 *1 0,0 
+Ccc_XLD_RB_XNR_mid1 XLD.RB XNR.mid1 1.21e-17
+* device instance cc_XLD_RB_net1 r0 *1 0,0 
+Ccc_XLD_RB_net1 XLD.RB net1 1.8151e-17
+* device instance cc_XLD_RB_net2 r0 *1 0,0 
+Ccc_XLD_RB_net2 XLD.RB net2 1.8151e-17
+* device instance cc_XLD_RB_reset r0 *1 0,0 
+Ccc_XLD_RB_reset XLD.RB reset 1.8151e-17
+* device instance cc_XLD_RB_reset_d1 r0 *1 0,0 
+Ccc_XLD_RB_reset_d1 XLD.RB reset_d1 1.21e-17
+* device instance cc_XLD_RB_reset_d2 r0 *1 0,0 
+Ccc_XLD_RB_reset_d2 XLD.RB reset_d2 1.21e-17
+* device instance cc_XLD_RB_reset_raw r0 *1 0,0 
+Ccc_XLD_RB_reset_raw XLD.RB reset_raw 1.21e-17
+* device instance cc_XLD_RB_set_dn r0 *1 0,0 
+Ccc_XLD_RB_set_dn XLD.RB set_dn 1.21e-17
+* device instance cc_XLD_RB_set_up r0 *1 0,0 
+Ccc_XLD_RB_set_up XLD.RB set_up 1.21e-17
+* device instance cc_XLD_SB_XLD_XNQ_mid1 r0 *1 0,0 
+Ccc_XLD_SB_XLD_XNQ_mid1 XLD.SB XLD.XNQ.mid1 1.21e-17
+* device instance cc_XLD_SB_XLD_XNQB_mid1 r0 *1 0,0 
+Ccc_XLD_SB_XLD_XNQB_mid1 XLD.SB XLD.XNQB.mid1 1.21e-17
+* device instance cc_XLD_SB_XLU_RB r0 *1 0,0 
+Ccc_XLD_SB_XLU_RB XLD.SB XLU.RB 1.21e-17
+* device instance cc_XLD_SB_XLU_SB r0 *1 0,0 
+Ccc_XLD_SB_XLU_SB XLD.SB XLU.SB 1.21e-17
+* device instance cc_XLD_SB_XNR_mid1 r0 *1 0,0 
+Ccc_XLD_SB_XNR_mid1 XLD.SB XNR.mid1 1.21e-17
+* device instance cc_XLD_SB_net1 r0 *1 0,0 
+Ccc_XLD_SB_net1 XLD.SB net1 1.8151e-17
+* device instance cc_XLD_SB_net2 r0 *1 0,0 
+Ccc_XLD_SB_net2 XLD.SB net2 1.21e-17
+* device instance cc_XLD_SB_reset r0 *1 0,0 
+Ccc_XLD_SB_reset XLD.SB reset 2.4201e-17
+* device instance cc_XLD_SB_reset_d1 r0 *1 0,0 
+Ccc_XLD_SB_reset_d1 XLD.SB reset_d1 1.21e-17
+* device instance cc_XLD_SB_reset_d2 r0 *1 0,0 
+Ccc_XLD_SB_reset_d2 XLD.SB reset_d2 1.21e-17
+* device instance cc_XLD_SB_reset_raw r0 *1 0,0 
+Ccc_XLD_SB_reset_raw XLD.SB reset_raw 1.21e-17
+* device instance cc_XLD_SB_set_dn r0 *1 0,0 
+Ccc_XLD_SB_set_dn XLD.SB set_dn 1.21e-17
+* device instance cc_XLD_SB_set_up r0 *1 0,0 
+Ccc_XLD_SB_set_up XLD.SB set_up 1.21e-17
+* device instance cc_XLD_XNQ_mid1_net2 r0 *1 0,0 
+Ccc_XLD_XNQ_mid1_net2 XLD.XNQ.mid1 net2 6.05e-18
+* device instance cc_XLD_XNQB_mid1_net2 r0 *1 0,0 
+Ccc_XLD_XNQB_mid1_net2 XLD.XNQB.mid1 net2 1.1294e-17
+* device instance cc_XLU_RB_XLU_SB r0 *1 0,0 
+Ccc_XLU_RB_XLU_SB XLU.RB XLU.SB 1.8151e-17
+* device instance cc_XLU_RB_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XLU_RB_XLU_XNQ_mid1 XLU.RB XLU.XNQ.mid1 1.21e-17
+* device instance cc_XLU_RB_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XLU_RB_XLU_XNQB_mid1 XLU.RB XLU.XNQB.mid1 1.21e-17
+* device instance cc_XLU_RB_XNR_mid1 r0 *1 0,0 
+Ccc_XLU_RB_XNR_mid1 XLU.RB XNR.mid1 1.21e-17
+* device instance cc_XLU_RB_net1 r0 *1 0,0 
+Ccc_XLU_RB_net1 XLU.RB net1 1.8151e-17
+* device instance cc_XLU_RB_net2 r0 *1 0,0 
+Ccc_XLU_RB_net2 XLU.RB net2 1.21e-17
+* device instance cc_XLU_RB_reset r0 *1 0,0 
+Ccc_XLU_RB_reset XLU.RB reset 1.8151e-17
+* device instance cc_XLU_RB_reset_d1 r0 *1 0,0 
+Ccc_XLU_RB_reset_d1 XLU.RB reset_d1 1.21e-17
+* device instance cc_XLU_RB_reset_d2 r0 *1 0,0 
+Ccc_XLU_RB_reset_d2 XLU.RB reset_d2 1.21e-17
+* device instance cc_XLU_RB_reset_raw r0 *1 0,0 
+Ccc_XLU_RB_reset_raw XLU.RB reset_raw 1.21e-17
+* device instance cc_XLU_RB_set_dn r0 *1 0,0 
+Ccc_XLU_RB_set_dn XLU.RB set_dn 1.21e-17
+* device instance cc_XLU_RB_set_up r0 *1 0,0 
+Ccc_XLU_RB_set_up XLU.RB set_up 1.21e-17
+* device instance cc_XLU_SB_XLU_XNQ_mid1 r0 *1 0,0 
+Ccc_XLU_SB_XLU_XNQ_mid1 XLU.SB XLU.XNQ.mid1 1.21e-17
+* device instance cc_XLU_SB_XLU_XNQB_mid1 r0 *1 0,0 
+Ccc_XLU_SB_XLU_XNQB_mid1 XLU.SB XLU.XNQB.mid1 1.21e-17
+* device instance cc_XLU_SB_XNR_mid1 r0 *1 0,0 
+Ccc_XLU_SB_XNR_mid1 XLU.SB XNR.mid1 1.21e-17
+* device instance cc_XLU_SB_net1 r0 *1 0,0 
+Ccc_XLU_SB_net1 XLU.SB net1 1.21e-17
+* device instance cc_XLU_SB_net2 r0 *1 0,0 
+Ccc_XLU_SB_net2 XLU.SB net2 1.21e-17
+* device instance cc_XLU_SB_reset r0 *1 0,0 
+Ccc_XLU_SB_reset XLU.SB reset 2.4201e-17
+* device instance cc_XLU_SB_reset_d1 r0 *1 0,0 
+Ccc_XLU_SB_reset_d1 XLU.SB reset_d1 1.21e-17
+* device instance cc_XLU_SB_reset_d2 r0 *1 0,0 
+Ccc_XLU_SB_reset_d2 XLU.SB reset_d2 1.21e-17
+* device instance cc_XLU_SB_reset_raw r0 *1 0,0 
+Ccc_XLU_SB_reset_raw XLU.SB reset_raw 1.21e-17
+* device instance cc_XLU_SB_set_dn r0 *1 0,0 
+Ccc_XLU_SB_set_dn XLU.SB set_dn 1.21e-17
+* device instance cc_XLU_SB_set_up r0 *1 0,0 
+Ccc_XLU_SB_set_up XLU.SB set_up 1.21e-17
+* device instance cc_XLU_XNQ_mid1_net1 r0 *1 0,0 
+Ccc_XLU_XNQ_mid1_net1 XLU.XNQ.mid1 net1 6.05e-18
+* device instance cc_XLU_XNQB_mid1_net1 r0 *1 0,0 
+Ccc_XLU_XNQB_mid1_net1 XLU.XNQB.mid1 net1 1.1294e-17
+* device instance cc_XNR_mid1_reset_raw r0 *1 0,0 
+Ccc_XNR_mid1_reset_raw XNR.mid1 reset_raw 1.1294e-17
+* device instance cc_net1_net2 r0 *1 0,0 
+Ccc_net1_net2 net1 net2 1.21e-17
+* device instance cc_net1_reset r0 *1 0,0 
+Ccc_net1_reset net1 reset 1.8151e-17
+* device instance cc_net1_reset_d1 r0 *1 0,0 
+Ccc_net1_reset_d1 net1 reset_d1 1.21e-17
+* device instance cc_net1_reset_d2 r0 *1 0,0 
+Ccc_net1_reset_d2 net1 reset_d2 1.21e-17
+* device instance cc_net1_reset_raw r0 *1 0,0 
+Ccc_net1_reset_raw net1 reset_raw 1.21e-17
+* device instance cc_net1_set_dn r0 *1 0,0 
+Ccc_net1_set_dn net1 set_dn 1.21e-17
+* device instance cc_net1_set_up r0 *1 0,0 
+Ccc_net1_set_up net1 set_up 1.21e-17
+* device instance cc_net2_reset r0 *1 0,0 
+Ccc_net2_reset net2 reset 1.8151e-17
+* device instance cc_net2_reset_d1 r0 *1 0,0 
+Ccc_net2_reset_d1 net2 reset_d1 1.21e-17
+* device instance cc_net2_reset_d2 r0 *1 0,0 
+Ccc_net2_reset_d2 net2 reset_d2 1.21e-17
+* device instance cc_net2_reset_raw r0 *1 0,0 
+Ccc_net2_reset_raw net2 reset_raw 1.21e-17
+* device instance cc_net2_set_dn r0 *1 0,0 
+Ccc_net2_set_dn net2 set_dn 1.21e-17
+* device instance cc_net2_set_up r0 *1 0,0 
+Ccc_net2_set_up net2 set_up 1.21e-17
+* device instance cc_reset_reset_d1 r0 *1 0,0 
+Ccc_reset_reset_d1 reset reset_d1 2.4201e-17
+* device instance cc_reset_reset_d2 r0 *1 0,0 
+Ccc_reset_reset_d2 reset reset_d2 2.4201e-17
+* device instance cc_reset_reset_raw r0 *1 0,0 
+Ccc_reset_reset_raw reset reset_raw 3.0251e-17
+* device instance cc_reset_set_dn r0 *1 0,0 
+Ccc_reset_set_dn reset set_dn 1.8151e-17
+* device instance cc_reset_set_up r0 *1 0,0 
+Ccc_reset_set_up reset set_up 1.21e-17
+* device instance cc_reset_d1_reset_d2 r0 *1 0,0 
+Ccc_reset_d1_reset_d2 reset_d1 reset_d2 1.21e-17
+* device instance cc_reset_d1_reset_raw r0 *1 0,0 
+Ccc_reset_d1_reset_raw reset_d1 reset_raw 1.8151e-17
+* device instance cc_reset_d1_set_dn r0 *1 0,0 
+Ccc_reset_d1_set_dn reset_d1 set_dn 1.21e-17
+* device instance cc_reset_d1_set_up r0 *1 0,0 
+Ccc_reset_d1_set_up reset_d1 set_up 1.21e-17
+* device instance cc_reset_d2_reset_raw r0 *1 0,0 
+Ccc_reset_d2_reset_raw reset_d2 reset_raw 1.8151e-17
+* device instance cc_reset_d2_set_dn r0 *1 0,0 
+Ccc_reset_d2_set_dn reset_d2 set_dn 1.21e-17
+* device instance cc_reset_d2_set_up r0 *1 0,0 
+Ccc_reset_d2_set_up reset_d2 set_up 1.21e-17
+* device instance cc_reset_raw_set_dn r0 *1 0,0 
+Ccc_reset_raw_set_dn reset_raw set_dn 1.21e-17
+* device instance cc_reset_raw_set_up r0 *1 0,0 
+Ccc_reset_raw_set_up reset_raw set_up 1.21e-17
+* device instance cc_set_dn_set_up r0 *1 0,0 
+Ccc_set_dn_set_up set_dn set_up 1.8151e-17
+* device instance vsubs_dctie r0 *1 0,0 
+Rvsubs_dctie vsubs 0 1e+12
+.ENDS pll_pfd
