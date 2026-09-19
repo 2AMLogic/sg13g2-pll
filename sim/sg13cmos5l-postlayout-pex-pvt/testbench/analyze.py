@@ -173,8 +173,55 @@ def main() -> int:
         print("  %d/%d points reproduce the committed frequency exactly"
               % (exact, len(control_dev)))
 
+    analyze_cp()
+
     print("\nwrote %s\nwrote %s" % (DEVIATION, CONTROL))
     return 0
+
+
+def analyze_cp() -> None:
+    """Roll up the `cp` DC arm (run_cp.sh), if it has been run.
+
+    Reported in ABSOLUTE current as well as ratio, because the both-on
+    switch state is a near-cancellation of two nearly-equal currents: its
+    schematic |Icp| runs down to 7 nA, so a ratio there divides by a number
+    that is itself the mismatch under test and says nothing useful about
+    parasitic loading. The up/dn states are the ones a ratio is meaningful
+    for.
+    """
+    path = os.path.join(RECORD_DIR, "corners", "cp_results.csv")
+    if not os.path.exists(path):
+        return
+    k = ("mos_corner", "temp_c", "vdd_v", "iref_a", "state")
+    rows = list(csv.DictReader(open(path)))
+    post = {tuple(r[c] for c in k): r for r in rows if r["arm"] == "postlayout"}
+    sch = {tuple(r[c] for c in k): r for r in rows if r["arm"] == "schematic"}
+    print("\ncp DC arm -- post-layout vs. schematic control, %d points/arm:"
+          % len(post))
+    for state in ("up", "dn", "both"):
+        ks = [x for x in post if x[4] == state and _f(sch[x]["icp_a"])]
+        d_abs = [abs(_f(post[x]["icp_a"]) - _f(sch[x]["icp_a"])) for x in ks]
+        ratios = [_f(post[x]["icp_a"]) / _f(sch[x]["icp_a"]) for x in ks]
+        line = ("  %-5s n=%3d  max |dIcp| = %.4g A" % (state, len(ks), max(d_abs)))
+        if state != "both":
+            line += ("   ratio %+.4f%% .. %+.4f%%"
+                     % ((min(ratios) - 1) * 100, (max(ratios) - 1) * 100))
+        else:
+            rel = [abs(_f(post[x]["icp_a"]) - _f(sch[x]["icp_a"]))
+                   / (float(x[3].rstrip("u")) * 1e-6) * 100 for x in ks]
+            line += "   max %.4f%% of the trim code" % max(rel)
+        print(line)
+
+    committed = os.path.join(
+        SIM_ROOT, "sg13cmos5l-cp-icp-trim", "corners", "results.csv"
+    )
+    if os.path.exists(committed):
+        comm = {tuple(r[c] for c in k): r for r in csv.DictReader(open(committed))}
+        d = [abs(_f(sch[x]["icp_a"]) - _f(comm[x]["icp_a"]))
+             / max(abs(_f(comm[x]["icp_a"])), 1e-15) * 100
+             for x in sch if x in comm and _f(comm[x]["icp_a"]) is not None]
+        print("  control arm vs. committed sg13cmos5l-cp-icp-trim: "
+              "n=%d, max |delta| = %.8f%%" % (len(d), max(d)))
 
 
 if __name__ == "__main__":
