@@ -144,6 +144,26 @@ def main() -> int:
             print("  %-6s n=%2d  min %+.2f%%  mean %+.2f%%  max %+.2f%%"
                   % (v, len(sel), (lo - 1) * 100, (mean - 1) * 100, (hi - 1) * 100))
 
+    # --- R/C attribution roll-up (optional; run_rc_attribution.sh) ----------
+    attr_path = os.path.join(RECORD_DIR, "corners", "rc_attribution.csv")
+    if os.path.exists(attr_path):
+        by: dict[str, dict[tuple, float | None]] = {}
+        for r in csv.DictReader(open(attr_path)):
+            by.setdefault(r["variant"], {})[_key(r)] = _f(r["freq_hz"])
+        sch_f = {k: _f(sch[k]["freq_hz"]) for k in sch}
+        order = ["none", "r_only", "cscale05", "cscale10", "cscale25",
+                 "c_only", "full"]
+        print("\nR/C attribution -- each variant's frequency vs. its own "
+              "SCHEMATIC control:")
+        for v in order:
+            if v not in by:
+                continue
+            ks = [k for k in by[v] if by[v][k] and sch_f.get(k)]
+            rr = [by[v][k] / sch_f[k] for k in ks]
+            lo, mean, hi = stats(rr)
+            print("  %-9s n=%2d  min %+7.2f%%  mean %+7.2f%%  max %+7.2f%%"
+                  % (v, len(rr), (lo - 1) * 100, (mean - 1) * 100, (hi - 1) * 100))
+
     if control_dev:
         print("\ncontrol arm vs. committed sg13cmos5l-vco-kvco-table, %d points:"
               % len(control_dev))
