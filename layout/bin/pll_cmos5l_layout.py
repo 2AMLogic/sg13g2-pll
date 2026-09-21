@@ -48,7 +48,12 @@ What this flow does, per block, in order:
 4. **Extract** each drawn group and compare the reported `(class, W, L, count)`
    against the group's own schematic-derived expectation.
 5. **Compose** every drawn group of a block into one `pll_<block>` cell,
-   placed in a single left-to-right row.
+   placed in a single left-to-right row. For the block(s) named in
+   :data:`FLOORPLAN_STRATEGIES` (`vco`, issue #101) the row order, the
+   member->slot order inside each matched group cell and the track order are
+   first permuted by :func:`cmos5l_floorplan.locality_floorplan` -- a
+   net-affinity pass that shortens the nets the block's own topology makes
+   local without changing one net, device or drawn footprint.
 6. **Route** it (issue #29): every terminal the plan's own
    `groups[].members[].ports` map names is brought up on its own Metal2 riser
    to a per-net Metal3 trunk in a channel above the row, and the trunk is
@@ -82,6 +87,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import cmos5l_devices as dev  # noqa: E402
+import cmos5l_floorplan  # noqa: E402
 import cmos5l_route as route  # noqa: E402
 import pll_layout  # noqa: E402
 
@@ -509,6 +515,29 @@ def write_cell(builder: dev.Builder, cell_name: str, path: Path) -> None:
 # --- Placement and terminal collection --------------------------------------
 
 
+#: Composition strategy a block's groups are placed with (issue #101).
+#:
+#: ``"single_row"`` -- the default and the only strategy every block used
+#: before issue #101 -- places the drawn group cells left to right in the
+#: plan's own (type-sorted) order, and lets :func:`cmos5l_route.route` assign
+#: Metal3 tracks by net name. It is not a considered floorplan, and the block
+#: README says so rather than pretending otherwise.
+#:
+#: ``"locality"`` hands the same drawn group cells, the same geometries and
+#: the same ``collect_terminals`` to :func:`cmos5l_floorplan.locality_floorplan`,
+#: which permutes the group order, the member->slot order inside each matched
+#: group cell and the track order to shorten the nets the block's own
+#: topology makes local -- on `vco`, the ring and per-stage nets. The
+#: membership, geometry, spacing and every net are unchanged, so the
+#: router's structural-correctness invariants and the extraction/LVS
+#: comparisons are unchanged; only the wire length moves. Applied per block
+#: by name: a block not listed here keeps byte-for-byte the composition its
+#: committed record and PEX netlist were produced from.
+DEFAULT_FLOORPLAN_STRATEGY = "single_row"
+
+FLOORPLAN_STRATEGIES: dict[str, str] = {"vco": "locality"}
+
+
 def single_row_pack(
     sizes: list[tuple[str, float, float]], spacing_um: float
 ) -> dict[str, dict[str, float]]:
@@ -719,15 +748,32 @@ def build_block(
     block_lvs: dict[str, Any] | None = None
 
     if drawn_groups:
-        sizes = [(g["id"], *group_size_um(g)) for g in drawn_groups]
+        strategy = FLOORPLAN_STRATEGIES.get(block["name"], DEFAULT_FLOORPLAN_STRATEGY)
+        floorplan: dict[str, Any] | None = None
+        track_order: list[str] | None = None
+        ordered_groups = drawn_groups
+        if strategy == "locality":
+            sizes_for_plan = [
+                (g["id"], *group_size_um(g)) for g in drawn_groups
+            ]
+            floorplan = cmos5l_floorplan.locality_floorplan(
+                drawn_groups,
+                geometries,
+                sizes_for_plan,
+                GROUP_SPACING_UM,
+                collect=collect_terminals,
+            )
+            ordered_groups = floorplan["ordered_groups"]
+            track_order = floorplan["track_order"]
+        sizes = [(g["id"], *group_size_um(g)) for g in ordered_groups]
         origins = single_row_pack(sizes, GROUP_SPACING_UM)
         cell = builder.open_cell(block["cell_name"])
-        for group in drawn_groups:
+        for group in ordered_groups:
             origin = origins[group["id"]]
             builder.instantiate(
                 cell, builder.layout.cell(group["id"]), origin["x"], origin["y"]
             )
-        terminals, port_notes = collect_terminals(drawn_groups, geometries, origins)
+        terminals, port_notes = collect_terminals(ordered_groups, geometries, origins)
         channel_y0 = max(height for _id, _w, height in sizes) + route.CHANNEL_GAP_UM
         routing = route.route(
             builder,
@@ -735,19 +781,38 @@ def build_block(
             terminals,
             channel_y0,
             incomplete_nets=undrawn_net_notes(block),
+            track_order=track_order,
         )
         gds_name = f"{block['cell_name']}.gds"
         write_cell(builder, block["cell_name"], out_dir / gds_name)
         compose = {
             "cell_name": block["cell_name"],
             "gds": gds_name,
-            "strategy": "single_row",
+            "strategy": strategy,
             "spacing_um": GROUP_SPACING_UM,
             "placements": origins,
             "terminal_count": len(terminals),
             "unrouted_ports": port_notes,
             "routing": routing.as_dict(),
         }
+        if floorplan is not None:
+            compose["floorplan"] = {
+                "pass": "cmos5l_floorplan.locality_floorplan",
+                "baseline_wire_length_um": floorplan["baseline_wire_length_um"],
+                "baseline_per_net_wire_length_um": floorplan[
+                    "baseline_per_net_wire_length_um"
+                ],
+                "single_row_optimal_tracks_wire_length_um": floorplan[
+                    "single_row_optimal_tracks_wire_length_um"
+                ],
+                "wire_length_um": floorplan["wire_length_um"],
+                "per_net_wire_length_um": floorplan["per_net_wire_length_um"],
+                "per_net_pin_count": floorplan["per_net_pin_count"],
+                "group_order": floorplan["group_order"],
+                "member_slots": floorplan["member_slots"],
+                "track_order": floorplan["track_order"],
+                "passes": floorplan["passes"],
+            }
         (out_dir / f"compose.{block['name']}.json").write_text(
             json.dumps(compose, indent=2) + "\n"
         )

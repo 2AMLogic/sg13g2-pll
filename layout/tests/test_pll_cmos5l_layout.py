@@ -33,6 +33,7 @@ CMOS5L_NETLIST_DIR = REPO_ROOT / "design" / "sg13cmos5l" / "netlist"
 kdb = pytest.importorskip("klayout.db", reason="needs the pinned klt install")
 
 import cmos5l_devices as dev  # noqa: E402
+import cmos5l_floorplan  # noqa: E402
 import cmos5l_route as route  # noqa: E402
 import pll_cmos5l_layout as flow  # noqa: E402
 
@@ -460,3 +461,259 @@ def test_extracted_models_reads_the_pdk_binding_not_the_deck_class(tmp_path):
     )
     assert flow._extracted_models(tmp_path, "probe") == ["sg13_hv_nmos"]
     assert flow._extracted_models(tmp_path, "absent") == []
+
+
+# --- Locality floorplan pass (issue #101) -----------------------------------
+#
+# `pll_vco` is composed through a net-affinity floorplan pass before the
+# per-net-track router draws it: the group order, the member->unit assignment
+# inside every group cell, and the Metal3 track order are chosen to shorten
+# the nets the ring topology makes local (ring1..ring5, the per-stage nh/nt
+# nets), instead of the type-sorted left-to-right row the other five blocks
+# keep.  The three correctness invariants that matter are unit-tested here:
+#
+# * the pass never invents or drops connectivity -- every group keeps exactly
+#   its own members, every member keeps exactly its own nets, and the multiset
+#   of per-net pin counts over the whole block is unchanged;
+# * the predicted wire length the pass optimises is the *router's* arithmetic
+#   (the same collect_terminals -> span + riser sum `route()` draws), so the
+#   number the record reports as "predicted" cannot drift from the drawn one;
+# * the pass is deterministic -- the same plan, groups and geometries produce
+#   the same floorplan and the same track order on every run.
+
+
+@pytest.fixture(scope="module")
+def vco_composed(cmos5l_plan):
+    """The plan's vco block with every drawable group drawn once (geometry
+    exactly as `build_block` gets it), for floorplan tests to reuse."""
+    block = next(b for b in cmos5l_plan["blocks"] if b["name"] == "vco")
+    builder = dev.Builder()
+    groups, geometries = [], {}
+    for group in block["groups"]:
+        if group["kind"] not in flow.DRAWABLE_KINDS:
+            continue
+        if group["kind"] == "mos_array":
+            geometries[group["id"]] = flow.draw_mos_group(builder, group)
+        else:
+            geometries[group["id"]] = flow.draw_res_group(builder, group)
+        groups.append(group)
+    sizes = [(g["id"], *flow.group_size_um(g)) for g in groups]
+    return block, builder, groups, geometries, sizes
+
+
+def test_only_the_vco_block_uses_the_locality_strategy():
+    """The floorplan pass is opted in per block name: `vco` (issue #101)
+    reaps it, and every other block keeps the single-row composition its
+    committed record and PEX evidence were produced from."""
+    assert flow.FLOORPLAN_STRATEGIES == {"vco": "locality"}
+    assert flow.DEFAULT_FLOORPLAN_STRATEGY == "single_row"
+
+
+def test_locality_floorplan_shortens_vco_wire_and_keeps_connectivity(
+    vco_composed,
+):
+    """The pass must measurably reduce total routed wire vs the single_row
+    order of the same drawn groups -- including on `ring1`, the net issue
+    #101 names -- while conserving every net and pin."""
+    block, builder, groups, geometries, sizes = vco_composed
+    result = cmos5l_floorplan.locality_floorplan(
+        groups,
+        geometries,
+        sizes,
+        flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    assert result["wire_length_um"] < result["baseline_wire_length_um"]
+    # Connectivity conservation: same groups, same members per group, same
+    # per-net pin multiset over the whole block.
+    assert {g["id"] for g in result["ordered_groups"]} == {g["id"] for g in groups}
+    for placed in result["ordered_groups"]:
+        source = next(g for g in groups if g["id"] == placed["id"])
+        assert [m["device"] for m in placed["members"]] == [
+            m["device"] for m in source["members"]
+        ] or sorted(m["device"] for m in placed["members"]) == sorted(
+            m["device"] for m in source["members"]
+        )
+        # a member keeps its own nets; only the unit slot it occupies moves
+        assert sorted(
+            tuple(sorted(m["ports"].values())) for m in placed["members"]
+        ) == sorted(tuple(sorted(m["ports"].values())) for m in source["members"])
+
+    def pin_counts(ordered, origins):
+        terminals, _notes = flow.collect_terminals(
+            ordered, geometries, origins
+        )
+        counts: dict[str, int] = {}
+        for terminal in terminals:
+            counts[terminal.net] = counts.get(terminal.net, 0) + 1
+        return counts
+
+    sizes_ordered = [
+        (g["id"], *flow.group_size_um(g)) for g in result["ordered_groups"]
+    ]
+    assert pin_counts(
+        result["ordered_groups"], flow.single_row_pack(sizes_ordered, flow.GROUP_SPACING_UM)
+    ) == pin_counts(groups, flow.single_row_pack(sizes, flow.GROUP_SPACING_UM))
+    # ring1 -- the net the issue asks to see improve -- must be shorter.
+    per_net = dict(result["per_net_wire_length_um"])
+    assert per_net["ring1"] < result["baseline_per_net_wire_length_um"]["ring1"]
+
+
+def test_locality_floorplan_prediction_matches_the_router(vco_composed):
+    """The number the pass reports must be the number `route()` draws: same
+    terminals, same track order, same span+riser arithmetic -- so the
+    record's "predicted" and "drawn" wire lengths can never drift apart."""
+    block, builder, groups, geometries, sizes = vco_composed
+    result = cmos5l_floorplan.locality_floorplan(
+        groups,
+        geometries,
+        sizes,
+        flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    # compose into the fixture's own builder: the group cells that the
+    # floorplan order instantiates already live in that layout.
+    cell = builder.open_cell("pll_vco_floorplan_probe")
+    origins = flow.single_row_pack(
+        [(g["id"], *flow.group_size_um(g)) for g in result["ordered_groups"]],
+        flow.GROUP_SPACING_UM,
+    )
+    for placed in result["ordered_groups"]:
+        builder.instantiate(
+            cell, builder.layout.cell(placed["id"]), origins[placed["id"]]["x"], 0.0
+        )
+    terminals, _notes = flow.collect_terminals(
+        result["ordered_groups"], geometries, origins
+    )
+    channel_y0 = max(h for _id, _w, h in sizes) + route.CHANNEL_GAP_UM
+    drawn = route.route(
+        builder, cell, terminals, channel_y0, track_order=result["track_order"]
+    )
+    assert drawn.wire_length_um == pytest.approx(
+        result["wire_length_um"], abs=1e-6
+    )
+
+    # And the same for the baseline: composing the identity (single-row,
+    # by-name tracks) order of the same groups with no track_order argument
+    # -- the pre-#101 flow, live -- must reproduce the pass's
+    # baseline_wire_length_um, so the reported baseline is the router's own
+    # output rather than a parallel arithmetic that can drift.
+    legacy_cell = builder.open_cell("pll_vco_single_row_probe")
+    legacy_origins = flow.single_row_pack(
+        [(g["id"], *flow.group_size_um(g)) for g in groups], flow.GROUP_SPACING_UM
+    )
+    for group in groups:
+        builder.instantiate(
+            legacy_cell,
+            builder.layout.cell(group["id"]),
+            legacy_origins[group["id"]]["x"],
+            0.0,
+        )
+    legacy_terminals, _legacy_notes = flow.collect_terminals(
+        groups, geometries, legacy_origins
+    )
+    legacy_drawn = route.route(
+        builder, legacy_cell, legacy_terminals, channel_y0
+    )
+    assert legacy_drawn.wire_length_um == pytest.approx(
+        result["baseline_wire_length_um"], abs=1e-6
+    )
+
+
+def test_locality_floorplan_track_order_puts_widest_net_lowest(vco_composed):
+    """Tracks are assigned by descending drawn-pin count (the rearrangement
+    optimum for one-riser-per-pin channel routing), so the supply rails ride
+    the lowest -- shortest-riser -- tracks."""
+    block, builder, groups, geometries, sizes = vco_composed
+    result = cmos5l_floorplan.locality_floorplan(
+        groups,
+        geometries,
+        sizes,
+        flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    ordered = list(result["track_order"])
+    assert ordered.index("GND_VCO") == 0
+    assert ordered.index("VDD_VCO") == 1
+    # descending pin count, name as the deterministic tie-break
+    counts = result["per_net_pin_count"]
+    pairs = [(-counts[n], n) for n in ordered]
+    assert pairs == sorted(pairs)
+
+
+def test_locality_floorplan_is_deterministic(vco_composed):
+    """Same plan, same groups, same geometries: byte-identical floorplan."""
+    block, builder, groups, geometries, sizes = vco_composed
+    one = cmos5l_floorplan.locality_floorplan(
+        groups, geometries, sizes, flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    two = cmos5l_floorplan.locality_floorplan(
+        groups, geometries, sizes, flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    assert one["group_order"] == two["group_order"]
+    assert one["track_order"] == two["track_order"]
+    assert one["wire_length_um"] == two["wire_length_um"]
+    assert one["member_slots"] == two["member_slots"]
+
+
+def test_locality_floorplan_never_worsens_a_single_group_block(vco_composed):
+    """On a block of one group the pass has no choices to make: it must
+    return the identity order, the identity member assignment and the
+    by-name track order's own cost, never a worse arrangement."""
+    block, builder, groups, geometries, sizes = vco_composed
+    only = groups[:1]
+    result = cmos5l_floorplan.locality_floorplan(
+        only,
+        {groups[0]["id"]: geometries[groups[0]["id"]]},
+        sizes[:1],
+        flow.GROUP_SPACING_UM,
+        collect=flow.collect_terminals,
+    )
+    assert result["group_order"] == [groups[0]["id"]]
+    assert result["member_slots"][groups[0]["id"]] == [
+        m["device"] for m in groups[0]["members"]
+    ]
+    assert result["wire_length_um"] <= result["baseline_wire_length_um"]
+
+
+def test_route_honours_an_explicit_track_order():
+    """`route()` keeps its by-name track assignment for every existing
+    caller, and draws a caller-supplied net -> track order when given one."""
+    builder = dev.Builder()
+    cell = builder.open_cell("track_order_probe")
+    terminals = [
+        route.Terminal(net="B", x_um=1.0, y_um=0.0, label="t.B"),
+        route.Terminal(net="B", x_um=3.0, y_um=0.0, label="t.B2"),
+        route.Terminal(net="A", x_um=5.0, y_um=0.0, label="t.A"),
+    ]
+    by_name = route.route(builder, cell, terminals, 10.0)
+    assert [n["track"] for n in by_name.nets] == [0, 1]  # A then B
+    assert "track_order_source" not in by_name.as_dict()
+
+    builder_two = dev.Builder()
+    cell_two = builder_two.open_cell("track_order_probe_two")
+    custom = route.route(
+        builder_two, cell_two, list(terminals), 10.0, track_order=["B", "A"]
+    )
+    tracks = {n["net"]: n["track"] for n in custom.as_dict()["nets"]}
+    assert tracks == {"B": 0, "A": 1}
+    assert custom.as_dict()["track_order_source"] == "floorplan"
+
+
+def test_route_rejects_a_track_order_that_disagrees_with_the_terminals():
+    """A track order naming a net the terminals don't carry (or missing one
+    they do) is a caller bug: fail loudly, never silently re-sort."""
+    builder = dev.Builder()
+    cell = builder.open_cell("track_order_bad_probe")
+    terminals = [
+        route.Terminal(net="A", x_um=1.0, y_um=0.0, label="t.A"),
+        route.Terminal(net="B", x_um=2.0, y_um=0.0, label="t.B"),
+    ]
+    with pytest.raises(route.RouteError):
+        route.route(
+            builder, cell, list(terminals), 10.0, track_order=["A", "B", "ghosts"]
+        )
+    with pytest.raises(route.RouteError):
+        route.route(builder, cell, list(terminals), 10.0, track_order=["A"])
