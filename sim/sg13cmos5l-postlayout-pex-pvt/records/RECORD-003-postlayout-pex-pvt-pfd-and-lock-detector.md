@@ -6,18 +6,27 @@
   budget and this record now measures.
 - **DUT**: `pll_pfd` and `pll_lock_detector`, the subcircuits `klt extract
   --deck sg13cmos5l --parasitics --pdk ihp-sg13cmos5l` produced from the
-  **routed** GDS of layout record `20260830-204105-457cf5b` (the same six
-  committed extractions RECORD-001 verified and re-reproduced
-  byte-identically), plus — as control arms — the frozen schematic netlists
-  the campaigns being compared against already simulated, and one
-  diagnostic-only derived variant (see §3.1).
-- **Tooling**: `ngspice-46`; `klt 0.4.0+g729ee531e176` (the committed
-  extraction pin; not re-run here — RECORD-001 §1.1 already re-verified all
-  twelve `netlist-snapshots/*.{spice,json}` byte-identically); installed
-  `~/share/pdk/ihp-sg13cmos5l` equivalent at `/home/ubuntu/share/pdk/`;
-  x86-64 Linux host (`cap_cmomi.osdi` loadable — the arm64 constraint that
-  forced ideal-cap substitutions into the sibling
-  `sg13cmos5l-lock-detector-window` RECORD-002's host does not apply here).
+  **routed** GDS. This revision of the record measures against the
+  `20260921-155747-c44fa68` layout record (#106's re-extraction):
+  `pll_pfd`'s snapshot is byte-identical to the one RECORD-001 verified
+  (blob-sha-checked during the PR #107 rebase), while `pll_lock_detector`'s
+  was **re-extracted** by #106 — 149 parasitic resistors, 23 substrate +
+  174 coupling capacitors, ΣR 1926.21 Ω, ΣC 465.89 fF — replacing the
+  `20260830-204105-457cf5b` extraction (151 R, 23 + 161 C, 305.12 fF) the
+  record's first revision measured, whose committed LD evidence this re-run
+  regenerates. Control arms are the frozen schematic netlists the campaigns
+  being compared against already simulated, plus one diagnostic-only
+  derived variant (see §3.1).
+- **Tooling**: `ngspice-46`; `klt 0.2.0` / `klayout 0.30.10` (the
+  committed `c44fa68` extraction's own provenance pin, as re-run by #106 —
+  the superseded `457cf5b` extraction RECORD-001 pinned was made with
+  `klt 0.4.0`; the extractions are not re-run here). This revision's
+  simulation evidence was re-measured on an arm64 macOS host
+  (`cap_cmomi.osdi` loadable there); the record's first revision ran an
+  x86-64 Linux host. The control arms reproduce the committed campaigns
+  byte-identically on both hosts — 102/102 window points, 15/15 device
+  rows — which is what makes the cross-host re-measurement a measurement
+  rather than a re-derivation.
 - **Reproduce**:
   - `PDK_ROOT=<pdk-root> PDK=ihp-sg13cmos5l ./testbench/run_pfd.sh`
     → `corners/pfd_results.csv` (12 rows), `corners/pfd_control.csv`
@@ -41,11 +50,12 @@
 ## 1. What was re-simulated, and the controls that make it a measurement
 
 Real extracted parasitics are the inherited state RECORD-001 §1 established
-and re-verified live — same extraction commit, same per-block reports, no
-fallback anywhere: `pfd` carries 264 extracted resistors and 37 substrate
-+ 543 coupling capacitors (680.65 fF total) over 8 651 µm of routed wire;
-`lock_detector` carries 151 resistors and 23 + 161 capacitors (305.12 fF)
-over 3 727 µm. This record adds no extraction of its own.
+and re-verified live — same extraction discipline, no fallback anywhere:
+`pfd` carries 264 extracted resistors and 37 substrate + 543 coupling
+capacitors (680.65 fF total; snapshot byte-identical at `c44fa68`, so its
+RECORD-001 rows remain the measurement); `lock_detector` — re-extracted at
+`c44fa68` — carries 149 resistors and 23 + 174 capacitors (465.89 fF).
+This record adds no extraction of its own.
 
 What this record ADDS is the control discipline the two new blocks need,
 because neither is a `cp`-style one-arm story:
@@ -152,25 +162,37 @@ control arm distinguishes the two.
 LVS remains unrunnable for this block — the committed limitation RECORD-001
 §5 reports (`m=2` multi-finger `cap_cmomi` reference conversion) is
 unchanged — so the device-set evidence is stated geometrically, from the
-extraction itself:
+extraction itself. Against the `c44fa68` re-extraction the picture
+**changed** from this record's first revision: the re-route carried the
+design revisions into the layout, and the routed cell now matches the
+committed crowbarfix design on every device axis except the two MOM caps:
 
 | Device/group | Committed crowbarfix | Extraction of the routed cell | Match |
 |---|---|---|---|
-| `XRPU` (rhigh) | `w=0.5u l=700u` | `L=700U W=0.5U` | ✓ (#52 resize) |
-| `XMPD` | `w=0.25u l=16u` | `L=0.5U W=2U` | **no — #52-era** |
-| `schmitt_hv` (6 devices, wiring + lengths) | rewired, `l=2u` | classic wiring, `l=0.5u` | **no — pre-#66** |
+| `XRPU` (rhigh) | `w=0.5u l=700u` | `L=700U W=0.5U` | ✓ |
+| `XMPD` | `w=0.25u l=16u` | `L=16U W=0.25U` | ✓ (#66 resize now in layout) |
+| `schmitt_hv` (6 devices, wiring + lengths) | rewired, `l=2u` | rewired wiring, `L=2U` (`w=2U` nmos / `w=5U` pmos) | ✓ (#66/#76 now in layout) |
 | `XCW` (`cap_cmomi` 40 µm × 40 µm, m=1) | 1.691 pF (measured here, byte-identical to the campaign) | **absent** | — |
 | `XDW.XC1` (`cap_cmomi` 40 µm × 40 µm, m=2) | 3.382 pF | **absent** | — |
+
+The schmitt row is a device-for-device verification, not a count: each of
+the six extracted cards (`X$17`–`X$19`, `X$35`–`X$37` in the flat
+netlist) was checked for gate/drain/source/body connectivity against the
+crowbarfix `schmitt_hv` subckt — the rewire is in the layout, with all six
+channel lengths at `l=2u`.
 
 `netlist-snapshots/pll_lock_detector.pex.json`: `device_counts` =
 19 nfet + 18 pfet + 1 rhigh — **zero `cap_cmomi`**, while `device_classes`
 lists the class, so the caps are absent from the layout, not unrecognised.
-**The routed device set is the #52-resize revision minus exactly its two
-MOM capacitors** — the same defect class as `loop_filter`'s undrawn caps
-(RECORD-001 §5), and additionally two revisions behind the committed
-design (#66's XMPD resize and rewiring, #76's channel-length change).
-Neither the committed crowbarfix snapshot nor any other committed
-snapshot is the routed cell's schematic.
+**The routed device set is the committed crowbarfix design minus exactly
+its two MOM capacitors** — the same defect class as `loop_filter`'s
+undrawn caps (RECORD-001 §5), and now the *only* device-set difference
+between layout and the committed design. (The record's first revision,
+measured against the superseded `457cf5b` extraction, additionally carried
+a two-revision lag — pre-#66 XMPD and classic `l=0.5u` schmitt — which the
+re-route retired. The two extractions also report different `klt` pins,
+`0.4.0` vs `0.2.0`; the device-set statement here rests on the committed
+`c44fa68` netlist's own device cards, not on either pin.)
 
 The comparison is therefore built three-way, and `corners/matrix.md`
 Matrix E records the reasoning:
@@ -178,15 +200,18 @@ Matrix E records the reasoning:
 - **control** (committed crowbarfix): byte-identical reproduction of the
   entire committed window matrix + device extraction, §1 — anchors the
   committed design's numbers as measured;
-- **`aslayout`** (the diagnostic-only twin): the frozen resize snapshot
-  with exactly the two `cap_cmomi` cards removed
+- **`aslayout`** (the diagnostic-only twin): the frozen crowbarfix
+  snapshot with exactly the two `cap_cmomi` cards removed
   (`testbench/derive_ld_as_layout.py`, programmatic, asserted, never
-  written back) — the device set the layout carries;
+  written back) — the device set the layout carries, revision-matched
+  after `c44fa68` (the first revision derived this twin from the #52
+  resize snapshot, which the older extraction's device set matched);
 - **`postlayout`** (the extraction). `postlayout` vs `aslayout` then
   isolates the interconnect on a common device set; `aslayout` vs the
-  committed control isolates the missing-cap + revision-lag effect.
+  committed control isolates the missing-cap effect alone — no revision
+  lag remains to confound either axis.
 
-### 3.2 The comparator window: a 29× collapse, then a uniform +46 %
+### 3.2 The comparator window: a 29× collapse, then a uniform +66 %
 
 The chain-element window (the campaign's bare `delaywin_hv`
 measurement — runnable on the as-layout twin, which keeps the subckt
@@ -195,16 +220,21 @@ whole-cell deck below exists):
 
 | | Committed crowbarfix (102-point control, byte-identical) | As-layout bare chain |
 |---|---|---|
-| `twin_r` across the PVT grid | 5.007 – 9.423 ns | **0.197 – 0.305 ns** |
+| `twin_r` across the PVT grid | 5.007 – 9.423 ns | **0.179 – 0.305 ns** |
 
-Point for point across 21 shared primary-grid corners the as-layout
-window is **3.1 – 3.7 % of the committed design's** (`ld_deviation.csv`
-section 2 of the analyze roll-up; typ 0.2269 ns vs 6.668 ns). The
-layout's two absent MOM caps — 1.691 pF and 3.382 pF against the extracted
-60.2 fF of VWIN parasitic capacitance the extraction does model — ARE the
-window; the physical block without them has, element-wise, the fast
-unloaded inverter chain the pre-resize design had, not the µs-scale
-integrator the #52 commit was.
+These bare-chain rows are byte-identical to this record's first revision
+(the bare `delaywin_hv` chain is invariant between the #52 and crowbarfix
+revisions the two twins were derived from — only XMPD and the schmitt
+differ); the quoted minimum corrects the first revision's `0.197 ns`
+(its own CSV's minimum was already 0.1787 ns). Point for point across 21
+shared primary-grid corners the as-layout window is **3.1 – 3.7 % of the
+committed design's** (analyze roll-up; typ 0.2269 ns vs 6.668 ns). The
+layout's two absent MOM caps — 1.691 pF and 3.382 pF against the
+extracted **70.9 fF** of VWIN parasitic capacitance the `c44fa68`
+extraction models (60.2 fF at `457cf5b`) — ARE the window; the physical
+block without them has, element-wise, the fast unloaded inverter chain
+the pre-resize design had, not the µs-scale integrator the #52 commit
+was.
 
 On the common device set (whole-cell ERR→ERRD window, both arms,
 identical stimulus — §corners/matrix.md states the deck's provenance),
@@ -212,14 +242,17 @@ the extracted interconnect's own effect is uniform and small in spread:
 
 | `twin_r` postlayout vs aslayout | min | mean | max |
 |---|---|---|---|
-| 29 PVT points | **+44.20 %** | **+46.49 %** | **+48.56 %** |
+| 29 PVT points | **+62.87 %** | **+66.00 %** | **+68.88 %** |
 
-This is the same signature RECORD-001 §4.3 found for the VCO: a
-nearly-constant multiplicative delay change across corner and temperature
-(the deviation tracks the driven-node capacitance ratio, in which the
-drive current and the intrinsic node caps largely cancel). The
-timestep-convergence cross-check brackets discretization at −0.78 %
-(as-layout) and −0.34 % (post-layout) between the committed 20 p and a
+(at typ: 0.2640 → 0.4384 ns, +66.06 %). The interconnect signature
+**grew** against the first revision's +44.2 … +48.6 % band — the
+`c44fa68` re-route carries 53 % more total extracted capacitance
+(465.9 fF vs 305.1 fF) — and keeps the same shape RECORD-001 §4.3 found
+for the VCO: a nearly-constant multiplicative delay change across corner
+and temperature (the deviation tracks the driven-node capacitance ratio,
+in which the drive current and the intrinsic node caps largely cancel).
+The timestep-convergence cross-check brackets discretization at −0.78 %
+(as-layout) and −0.23 % (post-layout) between the committed 20 p and a
 16× finer maximum timestep (`ld_tstep_convergence.csv`) — two orders of
 magnitude below the effect.
 
@@ -233,23 +266,33 @@ with no caps in either arm — `corners/matrix.md` states the subset)
 
 - **At 3.5 MHz** (the amended range's slow end — the binding end for an
   R·C ≫ T_ref claim): **both arms chatter at every ladder point up to
-  10× the window.** The states are `TTTTTTTTT` — LOCK toggles within the
-  settle window at every τ — and the zero-phase-error recovery copy's
-  LOCK is rail-`unresolved` in most corners. On the common capacitance
-  basis the integrating node's R·C ≈ 0.38 – 0.70 × T_ref: without the
-  MOM caps the block is not an integrator at the slow end, and LOCK is a
-  pass-through of every error pulse — the exact pre-resize pathology
-  RECORD-002 of the sibling campaign measured and #52 was filed to fix.
-- **At 24.4 MHz** (R·C ≈ 2.0 – 4.8 × T_ref): both arms behave like a
-  working detector — in-window for τ ≤ 1.0 × window, steady out beyond,
-  rail resolved — with **0.00 % hysteresis** at every fast-end corner
-  (assert and de-assert thresholds coincide at 1.0 × window on both
-  arms; the post-layout arm shows a 1.2× de-assert / 20 % hysteresis
-  at two slow-end corners that still chatter).
-- **The ≥ 2.5 ns window floor**: the as-built window is 0.21 – 0.39 ns
-  (whole-cell, across PVT). The committed design's floor-compliant
-  6.4 – 9.4 ns window exists only with the two caps the layout does not
-  carry.
+  10× the window, except the deepest-RC corner** — at `res_wcs`/−40 °C
+  (R·C ≈ 0.818 × T_ref on the common basis) both arms resolve rail-`lo`
+  with 0.00 % hysteresis. Everywhere else the states are `TTTTTTTTT` —
+  LOCK toggles within the settle window at every τ — and the
+  zero-phase-error recovery copy's LOCK is rail-`unresolved` in most
+  corners. On the common capacitance basis the integrating node's
+  R·C ≈ 0.335 – 0.818 × T_ref: without the MOM caps the block is not an
+  integrator at the slow end, and LOCK is a pass-through of every error
+  pulse — the exact pre-resize pathology RECORD-002 of the sibling
+  campaign measured and #52 was filed to fix. (The post-layout arm's
+  added node capacitance does slow the chatter at several corners where
+  the twin still chatters — visible as `steady` rows in `ld_ladder.csv`
+  — but a chattering-or-lucky detector is not an integrator; §3.4's
+  supply currents show the same effect.)
+- **At 24.4 MHz** (R·C ≈ 2.34 – 5.70 × T_ref): the post-layout arm
+  behaves like a working detector — in-window for τ ≤ 1.0 × window,
+  steady out beyond, rail resolved — with **0.00 % hysteresis at every
+  fast-end corner**; the as-layout twin matches at `typ` and
+  `res_bcs`/125 °C but shows a 2.5×-assert / 750 % hysteresis anomaly at
+  the `res_wcs`/−40 °C fast-end corner (the mirror image of the first
+  revision, where the post-layout arm carried the two-corner anomaly —
+  the re-route's extra capacitance, not a topology change, moves these
+  marginal corners).
+- **The ≥ 2.5 ns window floor**: the as-built whole-cell window is
+  0.21 – 0.36 ns as-layout and 0.34 – 0.60 ns post-layout across the 29
+  PVT points. The committed design's floor-compliant 6.4 – 9.4 ns window
+  exists only with the two caps the layout does not carry.
 
 `spec/porting-plan.md` row 16 therefore **fails for the as-routed block on
 all three counts — window, hysteresis, chatter — and neither the failure
@@ -266,18 +309,23 @@ every ladder corner:
 
 | | 3.5 MHz | 24.4 MHz |
 |---|---|---|
-| in-lock, as-layout | 1.2 – 2.8 µA | 19.1 – 20.8 µA |
-| in-lock, post-layout | **21 – 43 µA** | **87.4 – 93.1 µA** |
-| recovery time `trec` | 67 – 165 ns → **124 – 302 ns** (≈ ×1.85) | same trend |
+| in-lock, as-layout | 1.4 – 3.1 µA | 19.2 – 20.1 µA |
+| in-lock, post-layout | **6.8 – 15.7 µA** | **93.3 – 99.7 µA** |
+| recovery time `trec` | 134 – 327 ns → **239 – 571 ns** (typ 225 → 395 ns, ≈ ×1.76) | same trend |
 
-The ~×4.5 in-lock rise at 24.4 MHz is consistent with dynamic charging of
-the extracted 305 fF node set at that frequency (C·V²·f ≈ 80 µA); the
-3.5 MHz rise (×15 – 25) is mostly the chatter power — the same
-back-and-forth-switching cost a correlating unlocked loop would pay. Even
-the as-layout steady value (~20 µA) is itself an order above the
-committed crowbarfix design's µA-scale schmitt readout, because the
-as-built block holds its schmitt in the high-gain region; the integrated
-current is a symptom, not an independent defect.
+The in-lock rise at 24.4 MHz is now **≈ ×4.6 – 5.2 point-for-point**
+(the first revision measured ≈ ×4.5), consistent with dynamic charging
+of the extracted 466 fF node set at that frequency (C·V²·f ≈ 124 µA,
+measured 93 – 100 µA); at 3.5 MHz the post-layout band *dropped* from
+the first revision's chatter-dominated 21 – 43 µA to 6.8 – 15.7 µA —
+the re-route's extra node capacitance damps the chatter at several
+corners (the `steady` rows of §3.3), so the twin now pays *more* of the
+chatter power than the extraction does, inverting the previous pass's
+picture while confirming its mechanism. Even the as-layout steady value
+(~20 µA) is itself an order above the committed crowbarfix design's
+µA-scale schmitt readout, because the as-built block holds its schmitt
+in the high-gain region; the integrated current is a symptom, not an
+independent defect.
 
 ---
 
@@ -288,12 +336,18 @@ For `pfd` (LVS-matched, all-MOS, stateful at ns scale), the extracted
 RC stretches every internal arc by ~+0.5 ns — a *pulse-width* effect that
 is benign while the stimulus period is 50 ns (reflead) and
 mode-inverting when the circuit's own race margins are of the same order
-as the added delay (fblead). For `lock_detector`, the same
-~+46 % multiplicative element delay appears on the window (the +46.49 %
-mean of §3.2 matches the ≈ +0.5 ns/twin_s additive scale of a ~0.26 ns
-chain element × ~3.77), inside a block whose layout is missing the caps
-that defined its committed behavior — so the deviation analysis has to be
-and is three-way rather than two-way.
+as the added delay (fblead). For `lock_detector`, the same mechanism —
+a multiplicative delay change tracking the driven-node capacitance
+ratio — now appears at a **larger** scale: the +66.00 % mean of §3.2 on
+a ~0.26 ns as-built whole-cell element scale (≈ +0.17 ns at typ, ≈
++0.66 ns over the ~1.0 ns chain the window composes) exceeds the pfd's
+≈ +0.5 ns per-arc additive scale, consistent with the `c44fa68` re-route
+raising this block's total extracted capacitance from 305 fF to 466 fF —
+and it appears inside a block whose layout is missing the caps that
+defined its committed behavior, so the deviation analysis has to be and
+is three-way rather than two-way (§3.1: after `c44fa68` the twin is
+revision-matched, so the three-way split isolates the missing caps and
+the interconnect independently).
 
 **What this does NOT do to the ratified spec**: nothing. Grid A/B/C of
 RECORD-001 stand untouched; row 16's as-routed failure (§3.3) is recorded

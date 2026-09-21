@@ -10,22 +10,23 @@
 # controls that make the comparison honest:
 #
 #   arm=postlayout  against ../netlist-snapshots/pll_lock_detector.pex.spice
-#                   (the extraction of layout record 20260830-204105-457cf5b:
-#                   38 devices, 23 nets, 151 parasitic resistors and
-#                   23 substrate + 161 coupling capacitors -- and ZERO
+#                   (the extraction of layout record 20260921-155747-c44fa68:
+#                   38 devices, 25 nets, 149 parasitic resistors and
+#                   23 substrate + 174 coupling capacitors -- and ZERO
 #                   cap_cmomi instances, see below).
 #   arm=aslayout    against the as-layout Schematic twin derive_ld_as_layout.py
-#                   builds: the frozen #52 resize snapshot with exactly its
+#                   builds: the frozen crowbarfix snapshot with exactly its
 #                   two cap_cmomi cards removed. This is the DEVICE SET the
-#                   routed cell actually carries -- the extraction reports
-#                   19 nfet + 18 pfet + 1 rhigh and no cap_cmomi at all
-#                   while the deck knows the cap_cmomi class, and its XMPD
-#                   (w=2u l=0.5u) and schmitt (classic, l=0.5u) match the
-#                   PRE-#66 resize revision rather than the committed
-#                   crowbarfix design. postlayout-vs-aslayout therefore
-#                   isolates the extracted interconnect on a common device
-#                   set; aslayout-vs-crowbarfix isolates what the layout's
-#                   missing caps + revision lag did.
+#                   routed cell actually carries at the c44fa68 record --
+#                   the extraction reports 19 nfet + 18 pfet + 1 rhigh and
+#                   no cap_cmomi at all while the deck knows the cap_cmomi
+#                   class, and its XMPD (w=0.25u l=16u) and schmitt (rewired,
+#                   l=2u) match the committed crowbarfix revision (the
+#                   pre-c44fa68 extraction was two revisions behind; the
+#                   re-route carried the #66/#76 revisions into the layout).
+#                   postlayout-vs-aslayout therefore isolates the extracted
+#                   interconnect on a common device set;
+#                   aslayout-vs-crowbarfix isolates the missing caps alone.
 #   control         the committed crowbarfix runs: this host re-runs the
 #                   campaign's ENTIRE 102-point window matrix and its
 #                   15-row device extraction byte-comparably, via that
@@ -246,12 +247,12 @@ done
 VARIANTS=(real ideal-0.20 ideal0.00 ideal0.20)
 pt_variant_dut() { echo "$WORK/dut_${1}.spice"; }
 
-# 2b. The as-layout twin: frozen resize snapshot minus exactly its two
+# 2b. The as-layout twin: frozen crowbarfix snapshot minus exactly its two
 #     cap_cmomi cards (+ the ERR/ERRD port-exposed variant for the
 #     whole-cell deck). derive_ld_as_layout.py asserts the pattern count
 #     and refuses to write anything if the snapshot moved.
 python3 "$HERE/derive_ld_as_layout.py" \
-  "$CAMPAIGN/netlist-snapshots/lock_detector_resized.spice" \
+  "$CAMPAIGN/netlist-snapshots/lock_detector_crowbarfix.spice" \
   "$WORK/dut_as_layout.spice" "$WORK/dut_as_layout_ep.spice"
 
 # 2c. The post-layout DUT: the extraction, made ngspice-parseable by the
