@@ -1,0 +1,74 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #102, Part of #16)
+* WHOLE-CELL comparator-window measurement for the post-layout lock_detector
+* arms -- the twin of ../../sg13cmos5l-lock-detector-window's
+* tb_window.sp.tmpl that the FLAT extraction can run at all. The schematic
+* campaign measures the window on a BARE delaywin_hv (the chain element
+* alone, `Xw wstep wout vdd 0 delaywin_hv`); the extraction is one flat
+* subckt with no isolated chain, but its ERR/ERRD pins are exactly the
+* chain's input and output nets, so driving ERR with the same ideal step
+* and thresholding ERRD measures the same LOW-to-HIGH propagation -- with
+* the rest of the block (the XOR hung on the driver node, the coincidence
+* gate and the integrating node) loading the rails exactly as they do in
+* the real block. This deck therefore ALSO runs on the as-layout schematic
+* variant (derive_ld_as_layout.py's `lock_detector_ep`, same exposed ERR/
+* ERRD ports), so the schematic-vs-post-layout window deviation below is a
+* controlled A/B: same device set, same stimulus, same contention.
+*
+* tb_window.sp.tmpl's own stimulus and measurement are kept verbatim: the
+* ideal 100 ps-edge step, 20 ns high inside a 60 ns window, `twin_r`/
+* `twin_f` measured at VSUP/2 on the rising/falling pair, the same
+* .options. UP/DN are tied at 0 V (quiescent XOR, so no input activity
+* contaminates the rails during the measurement window); LOCK is left
+* undriven (schmitt output-only port) on both arms.
+*
+* ../run_lock_detector.sh substitutes @CORNER_MOS@, @CORNER_RES@, @TEMP@,
+* @VSUP@, @VMID@, @TSTEP@, @DUT@ (the netlist to .include -- either the
+* as-layout err-ports variant or the pex-to-ngspice.py-rewritten
+* extraction), @INST@ (the instantiation: `Xld ... lock_detector_ep` for the
+* schematic copy, or the make-inst.py line for the extracted copy), and
+* @PDK_ROOT@/@PDK@ (ngspice's .lib/.include parser does not expand
+* environment variables, issue #54).
+*
+* The extracted netlist declares its own `.GLOBAL vsubs` and ties it to
+* ground only through klt's 1e12-ohm DC tie; every extracted net-to-ground
+* parasitic capacitor returns to that node, so -- exactly like
+* tb_cp_dc_pex.sp.tmpl -- it is held hard at 0 V. The schematic variant
+* has no vsubs net; a 0 V source on an otherwise unused node is inert there,
+* which keeps the two arms' decks textually identical.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include @DUT@
+.include @INST@
+
+Vsub sub! 0 0
+Vsubs vsubs 0 dc 0
+Vdd vdd 0 dc @VSUP@
+
+* Quiescent inputs on both arms: XOR steady, no input activity.
+Vup ld_up 0 dc 0
+Vdn ld_dn 0 dc 0
+
+* Ideal step in, 100 ps edges: 20 ns high, then low, inside a 60 ns window,
+* so both the rising and the falling propagation delay are measured in one
+* transient with the chain fully settled before each edge -- tb_window's
+* own waveform, applied to the chain's input pin.
+Vstep ld_err 0 pulse(0 @VSUP@ 10n 100p 100p 20n 1000n)
+
+* --- the DUT instantiation (arm-specific, filled from @INST@) is in the
+*     include file above: the driver node is wired to ld_err, the chain's
+*     output to ld_errd, and UP/DN/VDD/VSS/LOCK per that arm's pin list.
+
+.options reltol=1e-3 abstol=1e-10 vntol=1e-5 chgtol=1e-13 itl4=5000 gmin=1e-11
+.tran @TSTEP@ 60n
+
+.control
+run
+meas tran twin_r trig v(ld_err) val=@VMID@ rise=1 targ v(ld_errd) val=@VMID@ rise=1
+meas tran twin_f trig v(ld_err) val=@VMID@ fall=1 targ v(ld_errd) val=@VMID@ fall=1
+print twin_r twin_f
+.endc
+.end

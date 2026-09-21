@@ -1,0 +1,13 @@
+arm,case,offset_s,mos_corner,temp_c,vdd_v,up_avg_v,dn_avg_v,up_duty_frac,dn_duty_frac,dominant_output
+schematic,fblead,5e-9,mos_tt,27,3.3,4.44694e-02,3.74408e-01,0.013476,0.113457,DN-dominant (textbook)
+schematic,fblead,10e-9,mos_tt,27,3.3,4.44693e-02,7.04423e-01,0.013476,0.213462,DN-dominant (textbook)
+schematic,fblead,20e-9,mos_tt,27,3.3,4.44693e-02,1.36445e+00,0.013476,0.413470,DN-dominant (textbook)
+schematic,reflead,5e-9,mos_tt,27,3.3,3.74470e-01,4.43278e-02,0.113476,0.013433,UP-dominant (textbook)
+schematic,reflead,10e-9,mos_tt,27,3.3,7.04486e-01,4.43291e-02,0.213481,0.013433,UP-dominant (textbook)
+schematic,reflead,20e-9,mos_tt,27,3.3,1.36452e+00,4.43333e-02,0.413491,0.013434,UP-dominant (textbook)
+postlayout,fblead,5e-9,mos_tt,27,3.3,3.04913e+00,7.88793e-02,0.923979,0.023903,UP-dominant/symmetric (no tristate hold)
+postlayout,fblead,10e-9,mos_tt,27,3.3,2.71912e+00,7.88956e-02,0.823976,0.023908,UP-dominant/symmetric (no tristate hold)
+postlayout,fblead,20e-9,mos_tt,27,3.3,2.05908e+00,7.88668e-02,0.623964,0.023899,UP-dominant/symmetric (no tristate hold)
+postlayout,reflead,5e-9,mos_tt,27,3.3,4.09110e-01,7.89217e-02,0.123973,0.023916,UP-dominant (textbook)
+postlayout,reflead,10e-9,mos_tt,27,3.3,7.39135e-01,7.89351e-02,0.223980,0.023920,UP-dominant (textbook)
+postlayout,reflead,20e-9,mos_tt,27,3.3,1.39916e+00,7.89477e-02,0.423988,0.023924,UP-dominant (textbook)
