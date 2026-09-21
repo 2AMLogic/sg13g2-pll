@@ -1,0 +1,167 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_vco
+* pin B0
+* pin B1
+* pin CLK
+* pin GND_VCO
+* pin VBN
+* pin VBP
+* pin VCTRL
+* pin VDD_VCO
+* pin XBIAS.VFIX
+* pin XBIAS.dega
+* pin XBIAS.degb
+* pin XBIAS.n2s
+* pin XBIAS.nb0
+* pin XBIAS.nb1
+* pin XBIAS.vb1
+* pin XBIAS.vb2
+* pin XBIAS.vfixmid
+* pin XS1.nh
+* pin XS1.nt
+* pin XS2.nh
+* pin XS2.nt
+* pin XS3.nh
+* pin XS3.nt
+* pin XS4.nh
+* pin XS4.nt
+* pin XS5.nh
+* pin XS5.nt
+* pin bufmid
+* pin ring1
+* pin ring2
+* pin ring3
+* pin ring4
+* pin ring5
+.SUBCKT pll_vco B0 B1 CLK GND_VCO VBN VBP VCTRL VDD_VCO XBIAS.VFIX XBIAS.dega
++ XBIAS.degb XBIAS.n2s XBIAS.nb0 XBIAS.nb1 XBIAS.vb1 XBIAS.vb2 XBIAS.vfixmid
++ XS1.nh XS1.nt XS2.nh XS2.nt XS3.nh XS3.nt XS4.nh XS4.nt XS5.nh XS5.nt bufmid
++ ring1 ring2 ring3 ring4 ring5
+* device instance $1 r0 *1 3.3,3.11 nfet
+X$1 XS1.nt VBN GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $2 r0 *1 9.26,3.11 nfet
+X$2 XS2.nt VBN GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $3 r0 *1 15.22,3.11 nfet
+X$3 XS3.nt VBN GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $4 r0 *1 21.18,3.11 nfet
+X$4 XS4.nt VBN GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $5 r0 *1 27.14,3.11 nfet
+X$5 XS5.nt VBN GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $6 r0 *1 33.1,3.11 nfet
+X$6 bufmid ring1 GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $7 r0 *1 39.06,3.11 nfet
+X$7 CLK bufmid GND_VCO GND_VCO sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $8 r0 *1 50.66,3 nfet
+X$8 ring2 ring1 XS2.nt GND_VCO sg13_hv_nmos L=0.28U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $9 r0 *1 54.62,3 nfet
+X$9 ring3 ring2 XS3.nt GND_VCO sg13_hv_nmos L=0.28U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $10 r0 *1 58.58,3 nfet
+X$10 ring4 ring3 XS4.nt GND_VCO sg13_hv_nmos L=0.28U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $11 r0 *1 62.54,3 nfet
+X$11 ring5 ring4 XS5.nt GND_VCO sg13_hv_nmos L=0.28U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $12 r0 *1 66.5,3 nfet
+X$12 ring1 ring5 XS1.nt GND_VCO sg13_hv_nmos L=0.28U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $13 r0 *1 240.46,3.36 nfet
+X$13 VBN VBN GND_VCO GND_VCO sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $14 r0 *1 246.42,3.36 nfet
+X$14 VBP VCTRL XBIAS.degb GND_VCO sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $15 r0 *1 252.38,3.36 nfet
+X$15 VBP XBIAS.VFIX XBIAS.dega GND_VCO sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $16 r0 *1 275.58,3.36 nfet
+X$16 XBIAS.VFIX XBIAS.VFIX XBIAS.vfixmid GND_VCO sg13_hv_nmos L=1U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $17 r0 *1 279.54,3.36 nfet
+X$17 XBIAS.vfixmid XBIAS.vfixmid GND_VCO GND_VCO sg13_hv_nmos L=1U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $18 r0 *1 283.5,3.36 nfet
+X$18 XBIAS.vb1 XBIAS.vb2 GND_VCO GND_VCO sg13_hv_nmos L=1U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $19 r0 *1 334.66,3.36 nfet
+X$19 XBIAS.vb2 XBIAS.vb2 XBIAS.n2s GND_VCO sg13_hv_nmos L=1U W=8U AS=3.2P
++ AD=3.2P PS=16.8U PD=16.8U
+* device instance $20 r0 *1 386.86,3.01 nfet
+X$20 XBIAS.degb B1 XBIAS.nb1 GND_VCO sg13_hv_nmos L=0.3U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $21 r0 *1 392.82,3.01 nfet
+X$21 XBIAS.degb B0 XBIAS.nb0 GND_VCO sg13_hv_nmos L=0.3U W=4U AS=1.6P AD=1.6P
++ PS=8.8U PD=8.8U
+* device instance $22 r0 *1 78.6,3 pfet
+X$22 ring2 ring1 XS2.nh VDD_VCO sg13_hv_pmos L=0.28U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $23 r0 *1 85.56,3 pfet
+X$23 ring3 ring2 XS3.nh VDD_VCO sg13_hv_pmos L=0.28U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $24 r0 *1 92.52,3 pfet
+X$24 ring4 ring3 XS4.nh VDD_VCO sg13_hv_pmos L=0.28U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $25 r0 *1 99.48,3 pfet
+X$25 ring5 ring4 XS5.nh VDD_VCO sg13_hv_pmos L=0.28U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $26 r0 *1 106.44,3 pfet
+X$26 ring1 ring5 XS1.nh VDD_VCO sg13_hv_pmos L=0.28U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $27 r0 *1 122.54,3.11 pfet
+X$27 bufmid ring1 VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P
++ PS=20.8U PD=20.8U
+* device instance $28 r0 *1 134.5,3.11 pfet
+X$28 CLK bufmid VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $29 r0 *1 146.46,3.11 pfet
+X$29 XS3.nh VBP VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $30 r0 *1 158.42,3.11 pfet
+X$30 XS4.nh VBP VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $31 r0 *1 170.38,3.11 pfet
+X$31 XS5.nh VBP VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $32 r0 *1 182.34,3.11 pfet
+X$32 XS1.nh VBP VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $33 r0 *1 194.3,3.11 pfet
+X$33 XS2.nh VBP VDD_VCO VDD_VCO sg13_hv_pmos L=0.5U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $34 r0 *1 212.9,3.36 pfet
+X$34 VBP VBP VDD_VCO VDD_VCO sg13_hv_pmos L=1U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $35 r0 *1 224.86,3.36 pfet
+X$35 VBN VBP VDD_VCO VDD_VCO sg13_hv_pmos L=1U W=10U AS=4P AD=4P PS=20.8U
++ PD=20.8U
+* device instance $36 r0 *1 264.48,3.36 pfet
+X$36 XBIAS.VFIX XBIAS.vb1 VDD_VCO VDD_VCO sg13_hv_pmos L=1U W=3U AS=1.2P
++ AD=1.2P PS=6.8U PD=6.8U
+* device instance $37 r0 *1 296.1,3.36 pfet
+X$37 XBIAS.vb1 XBIAS.vb1 VDD_VCO VDD_VCO sg13_hv_pmos L=1U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $38 r0 *1 304.06,3.36 pfet
+X$38 XBIAS.vb2 XBIAS.vb1 VDD_VCO VDD_VCO sg13_hv_pmos L=1U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $39 r0 *1 361.46,0.7 rppd
+R$39 XBIAS.n2s GND_VCO GND_VCO 7800 rppd
+* device instance $40 r0 *1 432.62,0.7 rppd
+R$40 XBIAS.dega GND_VCO GND_VCO 15600 rppd
+* device instance $41 r0 *1 362.06,2.7 rppd
+R$41 XBIAS.nb1 GND_VCO GND_VCO 7800 rppd
+* device instance $42 r0 *1 433.22,2.7 rppd
+R$42 XBIAS.degb GND_VCO GND_VCO 15600 rppd
+* device instance $43 r0 *1 433.82,4.7 rppd
+R$43 XBIAS.nb0 GND_VCO GND_VCO 15600 rppd
+* device instance $44 r0 *1 318.86,0.45 rhigh
+R$44 VDD_VCO XBIAS.vb2 GND_VCO 21760 rhigh
+.ENDS pll_vco

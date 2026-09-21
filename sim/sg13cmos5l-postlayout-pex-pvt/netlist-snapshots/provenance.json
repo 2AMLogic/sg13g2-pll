@@ -32,18 +32,18 @@
     },
     "pll_lock_detector": {
       "c_count": 23,
-      "cc_count": 161,
+      "cc_count": 174,
       "device_count": 38,
       "metals_without_coefficient": [],
-      "net_count": 23,
+      "net_count": 25,
       "netlist": "netlist-snapshots/pll_lock_detector.pex.spice",
-      "netlist_sha256": "0d731dd53227a84adb424bd1379c45a8a4453be019755c180e04b202cfd6e92d",
+      "netlist_sha256": "5b320941526db4acb70f64d8811231f2ac830fac8f2be13a2989881d621086ba",
       "overlap_pairs_without_coefficient": [],
-      "r_count": 151,
+      "r_count": 149,
       "rc_model": "lumped star per net (klt default); see the report's own parasitics.model for the full statement",
-      "total_capacitance_ff": 305.116449,
-      "total_coupling_capacitance_ff": 3.019454,
-      "total_resistance_ohm": 1292.674
+      "total_capacitance_ff": 465.887476,
+      "total_coupling_capacitance_ff": 3.443775,
+      "total_resistance_ohm": 1926.2083
     },
     "pll_loop_filter": {
       "c_count": 2,
@@ -52,13 +52,13 @@
       "metals_without_coefficient": [],
       "net_count": 3,
       "netlist": "netlist-snapshots/pll_loop_filter.pex.spice",
-      "netlist_sha256": "d1ec502248f03348d03a734d0e53aa8c227a54473de6da4227047efbd0604edf",
+      "netlist_sha256": "e5e02f836ed7843ab58b3009423b7a8c3c33fed0dc18364512cc19d3937d1a17",
       "overlap_pairs_without_coefficient": [],
       "r_count": 2,
       "rc_model": "lumped star per net (klt default); see the report's own parasitics.model for the full statement",
-      "total_capacitance_ff": 1.742548,
+      "total_capacitance_ff": 0.826244,
       "total_coupling_capacitance_ff": 0.0,
-      "total_resistance_ohm": 4.84
+      "total_resistance_ohm": 2.3466
     },
     "pll_pfd": {
       "c_count": 37,
@@ -77,18 +77,18 @@
     },
     "pll_vco": {
       "c_count": 33,
-      "cc_count": 311,
+      "cc_count": 189,
       "device_count": 44,
       "metals_without_coefficient": [],
       "net_count": 33,
       "netlist": "netlist-snapshots/pll_vco.pex.spice",
-      "netlist_sha256": "decf5e195535cdc6da2c67374597b37d4f696821e5f6d446dfd6cc9142a0583f",
+      "netlist_sha256": "4eb38f93a452bd0cae93e683c9f5b0c33af48208367689be3a496b0de36a2f6d",
       "overlap_pairs_without_coefficient": [],
       "r_count": 170,
       "rc_model": "lumped star per net (klt default); see the report's own parasitics.model for the full statement",
-      "total_capacitance_ff": 558.810695,
-      "total_coupling_capacitance_ff": 4.452497,
-      "total_resistance_ohm": 2393.0355
+      "total_capacitance_ff": 343.426846,
+      "total_coupling_capacitance_ff": 2.522517,
+      "total_resistance_ohm": 1435.3085
     }
   },
   "deck": "sg13cmos5l",
@@ -96,8 +96,8 @@
     "klayout-tools#2012 (sg13cmos5l registered in the parasitics registry)",
     "klayout-tools#2126 (curated sg13cmos5l nominal metal R/C coefficients)"
   ],
-  "klt_version": "klt 0.4.0+g729ee531e176",
-  "layout_record": "20260830-204105-457cf5b",
+  "klt_version": "klt 0.2.0+unknown",
+  "layout_record": "20260921-155747-c44fa68",
   "pdk": "ihp-sg13cmos5l",
   "real_parasitics_modelled": true
 }

@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
-  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-30/layout/sg13cmos5l-pll/reports/20260830-204105-457cf5b/pll_loop_filter.gds",
+  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/pll_loop_filter.gds",
   "deck": "sg13cmos5l",
   "top": "pll_loop_filter",
   "dbu_um": 0.001,
-  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-30/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_loop_filter.pex.spice",
-  "netlist_sha256": "d1ec502248f03348d03a734d0e53aa8c227a54473de6da4227047efbd0604edf",
+  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_loop_filter.pex.spice",
+  "netlist_sha256": "e5e02f836ed7843ab58b3009423b7a8c3c33fed0dc18364512cc19d3937d1a17",
   "status": "extracted",
   "device_count": 1,
   "net_count": 3,
@@ -49,15 +49,15 @@
         "w": "vsubs"
       },
       "params": {
-        "r_ohm": 7800.0,
-        "l_um": 120.0,
-        "w_um": 4.0,
-        "area_um2": 480.0,
-        "perimeter_um": 248.0
+        "r_ohm": 351000.0,
+        "l_um": 810.0,
+        "w_um": 0.6,
+        "area_um2": 486.0,
+        "perimeter_um": 1621.2
       },
       "instance_path": [
         {
-          "cell": "loop_filter_resrppd_w4_l120",
+          "cell": "loop_filter_resrppd_w0p6_l810",
           "array_index": null
         }
       ]
@@ -73,8 +73,8 @@
       "label_positions_um": [
         {
           "text": "NZ",
-          "x_um": 120.75,
-          "y_um": 6.4
+          "x_um": 810.75,
+          "y_um": 3.0
         }
       ]
     },
@@ -88,7 +88,7 @@
         {
           "text": "VCTRL",
           "x_um": 0.25,
-          "y_um": 7.0
+          "y_um": 3.6
         }
       ]
     },
@@ -120,7 +120,7 @@
     "version": null
   },
   "provenance": {
-    "klt_version": "0.4.0",
+    "klt_version": "0.2.0",
     "klayout_version": "0.30.10",
     "pdk": {
       "name": "ihp-sg13cmos5l",
@@ -133,7 +133,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:6cea07cc5bd9683aa1d91179200b28b55993b84d2d6191d816d528fb9f4be3fd"
+      "content_hash": "sha256:9643d324877128375b403ef98f6a04a6bd0d70843b5d0f6a82ab653ebd6f5180"
     }
   },
   "parasitics": {
@@ -141,26 +141,26 @@
     "c_count": 2,
     "cc_count": 0,
     "l_count": 0,
-    "total_resistance_ohm": 4.84,
-    "total_capacitance_ff": 1.742548,
+    "total_resistance_ohm": 2.3466,
+    "total_capacitance_ff": 0.826244,
     "total_coupling_capacitance_ff": 0.0,
     "total_inductance_nh": 0.0,
     "nets": [
       {
         "net": "NZ",
         "net_id": 2,
-        "resistance_ohm": 2.332,
-        "capacitance_ff": 0.848314,
+        "resistance_ohm": 1.0853,
+        "capacitance_ff": 0.390162,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 0.924,
-            "capacitance_ff": 0.444719
+            "resistance_ohm": 0.176,
+            "capacitance_ff": 0.116675
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 1.32,
-            "capacitance_ff": 0.365727
+            "resistance_ohm": 0.8213,
+            "capacitance_ff": 0.235619
           },
           {
             "layer": "metal2",
@@ -178,7 +178,7 @@
             "device": "$1",
             "terminal": "B",
             "leg_net": "NZ__t0",
-            "resistance_ohm": 2.332
+            "resistance_ohm": 1.0853
           }
         ],
         "segments": [],
@@ -187,18 +187,18 @@
       {
         "net": "VCTRL",
         "net_id": 1,
-        "resistance_ohm": 2.508,
-        "capacitance_ff": 0.894234,
+        "resistance_ohm": 1.2613,
+        "capacitance_ff": 0.436082,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 0.924,
-            "capacitance_ff": 0.444719
+            "resistance_ohm": 0.176,
+            "capacitance_ff": 0.116675
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 1.496,
-            "capacitance_ff": 0.411647
+            "resistance_ohm": 0.9973,
+            "capacitance_ff": 0.28154
           },
           {
             "layer": "metal2",
@@ -216,7 +216,7 @@
             "device": "$1",
             "terminal": "A",
             "leg_net": "VCTRL__t0",
-            "resistance_ohm": 2.508
+            "resistance_ohm": 1.2613
           }
         ],
         "segments": [],
@@ -257,8 +257,8 @@
     "extract__capacitor__count": 2,
     "extract__coupling__capacitor__count": 0,
     "extract__inductor__count": 0,
-    "extract__resistance__ohm": 4.84,
-    "extract__capacitance__ff": 1.742548,
+    "extract__resistance__ohm": 2.3466,
+    "extract__capacitance__ff": 0.826244,
     "extract__coupling__capacitance__ff": 0.0,
     "extract__inductance__nh": 0.0
   }

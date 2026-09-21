@@ -210,6 +210,33 @@ def main(argv: list[str]) -> int:
         )
     lines.append("")
 
+    # Floorplan section (issue #101): named blocks are composed through the
+    # locality pass; report the wire-length arithmetic from the compose JSON
+    # rather than re-deriving it here.
+    locality_blocks = [
+        (b["name"], (b.get("compose") or {}).get("floorplan"))
+        for b in build["blocks"]
+        if (b.get("compose") or {}).get("strategy") == "locality"
+    ]
+    if locality_blocks:
+        lines.append("### Floorplan\n")
+        for name, floorplan in locality_blocks:
+            if not floorplan:
+                continue
+            lines.append(
+                f"- `{name}` is composed through the locality floorplan pass "
+                f"(issue #101): total routed wire "
+                f"**{floorplan['wire_length_um']} um** vs "
+                f"**{floorplan['baseline_wire_length_um']} um** for the same "
+                "groups in the pre-#101 single-row order with by-name "
+                f"tracks (of which the track axis alone is worth "
+                f"`{floorplan['single_row_optimal_tracks_wire_length_um']} um`). "
+                "Per-net lengths, the chosen group order, the member->slot "
+                "assignment and the track order are in "
+                f"`compose.{name}.json` -> `floorplan`."
+            )
+        lines.append("")
+
     lines.append("### Routing\n")
     probe = build.get("gen_compose_probe") or {}
     if probe:

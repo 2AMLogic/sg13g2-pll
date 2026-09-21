@@ -11,16 +11,16 @@
 * pin VCTRL
 * pin vsubs
 .SUBCKT pll_loop_filter NZ VCTRL vsubs
-* device instance $1 r0 *1 60.5,2.2 rppd
-R$1 VCTRL__t0 NZ__t0 vsubs 7800 rppd L=120U W=4U
+* device instance $1 r0 *1 405.5,0.5 rppd
+R$1 VCTRL__t0 NZ__t0 vsubs 351000 rppd L=810U W=0.6U
 * device instance NZ_t0 r0 *1 0,0 
-RNZ_t0 NZ__t0 NZ 2.332
+RNZ_t0 NZ__t0 NZ 1.0853
 * device instance NZ r0 *1 0,0 
-CNZ NZ vsubs 8.48314e-16
+CNZ NZ vsubs 3.90162e-16
 * device instance VCTRL_t0 r0 *1 0,0 
-RVCTRL_t0 VCTRL__t0 VCTRL 2.508
+RVCTRL_t0 VCTRL__t0 VCTRL 1.2613
 * device instance VCTRL r0 *1 0,0 
-CVCTRL VCTRL vsubs 8.94234e-16
+CVCTRL VCTRL vsubs 4.36082e-16
 * device instance vsubs_dctie r0 *1 0,0 
 Rvsubs_dctie vsubs 0 1e+12
 .ENDS pll_loop_filter

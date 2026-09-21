@@ -65,7 +65,13 @@ never share a column, trunks never share a track, and the only riser/trunk
 crossings are between different layers, so the router cannot draw a short --
 which is the property that makes an LVS result off it mean something. Wire
 length is bad and the channel is tall; both are floorplan problems, and the
-block README says so rather than this module claiming otherwise.
+block README says so rather than this module claiming otherwise. Issue #101
+adds `cmos5l_floorplan.py`, which attacks exactly that half upstream of this
+module -- it chooses the group order, the member->slot order inside each
+group cell, and the track order (via :func:`route`'s `track_order` argument)
+for the `vco` block, without changing one line of the scheme below; the five
+other blocks keep this module's by-name tracks and the single-row pack's
+type-sorted order byte-for-byte.
 
 Nothing here decides *what* connects to what. Every net and every terminal's
 net membership comes from the plan's own `groups[].members[].ports` map,
@@ -108,9 +114,15 @@ class RouteResult:
     #: full -- always because some device on the net was never drawn. Each
     #: entry names the missing ports and why, never a bare count.
     incomplete_nets: list[dict[str, Any]] = field(default_factory=list)
+    #: Set only when the caller supplied the tracks -- names the source of
+    #: the assignment in the composed record (issue #101's floorplan pass
+    #: passes one sorted by descending pin count). `None`, the default for
+    #: every pre-existing caller, keeps the by-name assignment and the
+    #: as-dict output byte-for-byte as it was.
+    track_order_source: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
-        return {
+        result = {
             "style": "per-net Metal3 track over per-terminal Metal2 risers",
             "riser_layer": "Metal2.drawing (10/0)",
             "trunk_layer": "Metal3.drawing (30/0)",
@@ -124,6 +136,9 @@ class RouteResult:
             "nets": self.nets,
             "incomplete_nets": self.incomplete_nets,
         }
+        if self.track_order_source is not None:
+            result["track_order_source"] = self.track_order_source
+        return result
 
 
 class RouteError(RuntimeError):
@@ -164,6 +179,7 @@ def route(
     terminals: list[Terminal],
     channel_y0_um: float,
     incomplete_nets: list[dict[str, Any]] | None = None,
+    track_order: list[str] | None = None,
 ) -> RouteResult:
     """Draw every net's risers, trunk, vias and label into `cell`.
 
@@ -173,7 +189,12 @@ def route(
 
     Nets are assigned tracks in sorted name order, so the same plan always
     produces the same layout -- the record's evidence is reproducible, not
-    dependent on dict iteration order.
+    dependent on dict iteration order. `track_order` (issue #101) overrides
+    that assignment with a caller-supplied net order -- the locality floorplan
+    pass hands one sorted by descending drawn-pin count, which the
+    rearrangement inequality makes the exact minimum of the total riser term.
+    A `track_order` that does not name exactly the nets the terminals carry
+    is a caller bug, and is refused loudly rather than silently re-sorted.
     """
     builder.cell = cell
     check_riser_columns(terminals)
@@ -182,10 +203,24 @@ def route(
     for terminal in terminals:
         by_net.setdefault(terminal.net, []).append(terminal)
 
+    source: str | None = None
+    if track_order is None:
+        net_order = sorted(by_net)
+    else:
+        if sorted(track_order) != sorted(by_net) or len(track_order) != len(set(track_order)):
+            raise RouteError(
+                f"track_order disagrees with the terminals: named {track_order!r} "
+                f"but the drawn nets are {sorted(by_net)!r}"
+            )
+        net_order = list(track_order)
+        source = "floorplan"
+
     result = RouteResult(
-        channel_y0_um=channel_y0_um, incomplete_nets=list(incomplete_nets or [])
+        channel_y0_um=channel_y0_um,
+        incomplete_nets=list(incomplete_nets or []),
+        track_order_source=source,
     )
-    for index, net in enumerate(sorted(by_net)):
+    for index, net in enumerate(net_order):
         pins = sorted(by_net[net], key=lambda t: t.x_um)
         trunk_y = channel_y0_um + index * dev.ROUTE_PITCH_UM
         length = 0.0

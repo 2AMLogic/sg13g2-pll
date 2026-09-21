@@ -1,0 +1,175 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_cp.gds",
+    "reference": "cp.reference.spice",
+    "top": "pll_cp",
+    "reference_top": "CP",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null
+    },
+    "status": "match",
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 18,
+        "reference": 18,
+        "matched": 18
+      },
+      "devices": {
+        "layout": 20,
+        "reference": 20,
+        "matched": 20
+      },
+      "pins": {
+        "layout": 18,
+        "reference": 9,
+        "matched": 18
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "layout_sha256": "95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
+      "reference_sha256": "8330c39098b1158cb8f306b6a13201c468216dda1e642f3b8a1566f2b55e3b6c",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.3.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:9b8dfb6543860c77acacfa6e631319857065661fd921d325468b00c09d76bfaa",
+        "released": false
+      },
+      "input": null
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 5 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "DN",
+        "reference": "DN",
+        "pin": true
+      },
+      {
+        "layout": "DNB",
+        "reference": "DNB",
+        "pin": true
+      },
+      {
+        "layout": "IBN",
+        "reference": "IBN",
+        "pin": true
+      },
+      {
+        "layout": "IBP",
+        "reference": "IBP",
+        "pin": true
+      },
+      {
+        "layout": "ICN",
+        "reference": "ICN",
+        "pin": true
+      },
+      {
+        "layout": "ICP",
+        "reference": "ICP",
+        "pin": true
+      },
+      {
+        "layout": "XLEGN.sw",
+        "reference": "LEGN.SW",
+        "pin": true
+      },
+      {
+        "layout": "XLEGN.tail",
+        "reference": "LEGN.TAIL",
+        "pin": true
+      },
+      {
+        "layout": "XLEGP.sw",
+        "reference": "LEGP.SW",
+        "pin": true
+      },
+      {
+        "layout": "XLEGP.tail",
+        "reference": "LEGP.TAIL",
+        "pin": true
+      },
+      {
+        "layout": "nxn",
+        "reference": "NXN",
+        "pin": true
+      },
+      {
+        "layout": "nxp",
+        "reference": "NXP",
+        "pin": true
+      },
+      {
+        "layout": "UP",
+        "reference": "UP",
+        "pin": true
+      },
+      {
+        "layout": "UPB",
+        "reference": "UPB",
+        "pin": true
+      },
+      {
+        "layout": "VDD",
+        "reference": "VDD",
+        "pin": true
+      },
+      {
+        "layout": "VDUMP",
+        "reference": "VDUMP",
+        "pin": true
+      },
+      {
+        "layout": "VOUT",
+        "reference": "VOUT",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": ""
+}
