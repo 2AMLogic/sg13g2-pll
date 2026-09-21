@@ -134,7 +134,11 @@ drawn, 6 / 6 DRC-clean, 3 / 3 convertible blocks `match`. See
   `(class, W, L, count)` expectation.
 - A **composed and routed cell per block**: groups placed in one row, then
   every device terminal wired to its schematic net (see "Routing"), then
-  DRC'd, re-extracted and LVS'd as a whole.
+  DRC'd, re-extracted and LVS'd as a whole. For `vco` the row order, the
+  member->slot order inside each group cell and the track order are first
+  permuted by the net-affinity floorplan pass
+  (`layout/bin/cmos5l_floorplan.py`, issue #101 — 7 178 -> 3 913 um of
+  routed wire on that block; every net, device and footprint unchanged).
 - A **per-block `klt lvs` run** against that block's own committed schematic
   netlist — see "LVS" below.
 
@@ -165,8 +169,18 @@ LVS result off it mean something.
 To keep those properties, groups are drawn **one device tall** and placed in a
 **single left-to-right row**: a second row, or a shelf wrap, would put two
 devices' terminals in one riser column. The cost is width — `divider_chain` is
-~1.7 mm across — and 167 mm of total drawn wire. That is a floorplan cost, and
-it is a bad floorplan; see "What it is not".
+~1.7 mm across — and wire length: 167 mm of total drawn wire across the six
+blocks in the issue-#29-style composition. That is a floorplan cost, and for
+five of the six blocks it is still a bad floorplan; see "What it is not".
+`vco` is the exception since issue #101: the locality pass
+(`layout/bin/cmos5l_floorplan.py`) permutes the row order, the member->slot
+order inside each matched group cell, and the track order — under the *same*
+structural invariants, since a permutation adds no net, no footprint and no
+spacing — and cuts that block's routed wire from 7 178 to 3 913 um
+(`ring1`: 413 -> 126 um) with its DRC, extraction and LVS verdicts unchanged.
+The measured PVT consequence lives in
+[`sim/sg13cmos5l-postlayout-pex-pvt/records/`](../../sim/sg13cmos5l-postlayout-pex-pvt/records/)
+— RECORD-002.
 
 **Why not `klt gen-compose --routing`.** `klt gen-compose` has a router, and
 this repo's SG13G2 flow already drives that verb for placement. Two separate,
@@ -339,12 +353,15 @@ supply nets, and the checked-tie probe above.
 - **Not a considered floorplan — and now visibly so.** Groups are packed one
   device tall in a single row with generous spacing, and every net gets a
   private Metal3 track whether it needs one or not. `divider_chain` is ~1.7 mm
-  wide and the six blocks draw 167 mm of wire between them. It is DRC-clean and
-  it is electrically the schematic; it is not an area-, parasitic- or
-  matching-aware layout, and no claim here should be read as one. In
-  particular the matched-device intent the plan records
-  (`topology: "common_centroid"`) is **not** realised: a single row is a
-  linear array, not a common-centroid one.
+  wide and the six blocks draw 167 mm of wire between them (vco's share is
+  down from 7 178 to 3 913 um since issue #101's locality pass — see
+  "Routing" — but the other five blocks' compositions are unchanged). It is
+  DRC-clean and it is electrically the schematic; it is not an area-,
+  parasitic- or matching-aware layout, and no claim here should be read as
+  one. In particular the matched-device intent the plan records
+  (`topology: "common_centroid"`) is **not** realised — not even on `vco`,
+  whose locality pass reorders cells and slots for wire length alone: a
+  single row is a linear array, not a common-centroid one.
 - **Not a top-level assembly.** Six separate block cells; nothing composes
   them into one PLL.
 - **~~Not post-layout-simulated.~~ Superseded by #30** — all six blocks now
@@ -375,16 +392,24 @@ fell back to a zero coefficient.
 Three caveats belong with every number that campaign produced, and are
 repeated here because this file is where a layout reader arrives first:
 
-1. **The floorplan is not representative, so every post-layout number is an
-   upper bound on parasitic loading, not a prediction.** The wire this flow
-   draws is still not a plausible parasitic model of a real PLL: 147 mm of
-   Metal3 on `divider_chain`, and 7 178 µm on `vco` — 413 µm of it on `ring1`
-   alone, a node a compact ring closes in single-digit microns. That is an
-   artifact of the routing style (see "What it is not"), not of the circuit.
-   The record quantifies the consequence rather than just warning about it:
-   the `vco` loses ~50% of its frequency as routed, ~99% of that is parasitic
-   *capacitance*, and a C-scaling bracket puts a floorplan with an order of
-   magnitude less wire nearer −6 … −10%.
+1. **The floorplan is still not representative, so every post-layout number
+   remains an upper bound on parasitic loading, not a prediction — but less
+   of one on `vco` since issue #101.** As routed at the RECORD-001 layout,
+   the wire was not a plausible parasitic model of a real PLL: 147 mm of
+   Metal3 on `divider_chain`, and 7 178 µm on `vco` — 413 µm of it on
+   `ring1` alone, a node a compact ring closes in single-digit microns — an
+   artifact of the routing style (see "What it is not"), not of the circuit;
+   the `vco` lost ~50% of its frequency, ~99% of it parasitic *capacitance*,
+   and a C-scaling bracket put a floorplan with an order of magnitude less
+   wire nearer −6 … −10%. Issue #101's locality pass then cut `vco`'s wire
+   to 3 913 µm (126 µm on `ring1`) with DRC/extraction/LVS verdicts
+   unchanged, and RECORD-002
+   ([`sim/sg13cmos5l-postlayout-pex-pvt/records/`](../../sim/sg13cmos5l-postlayout-pex-pvt/records/))
+   measures the consequence rather than leaving it bracketed: the mean
+   per-point deviation narrows from −49.3% to −22.6% (band 223.7 – 789.5 →
+   347.6 – 1182.8 MHz), of which < 1 pp is the shared device floor and
+   ~1.4 pp parasitic R. `divider_chain`'s 147 mm is untouched, and all the
+   matching/area caveats below still apply to every block including `vco`.
 2. **Only three of six blocks have a confirmed layout↔schematic topology
    match.** See the next section — `pfd`/`cp`/`divider_chain` match;
    `loop_filter`/`vco` now compare and **mismatch**; `lock_detector` still
@@ -396,9 +421,13 @@ repeated here because this file is where a layout reader arrives first:
    starter values" from public process data, with silicon calibration an
    explicit non-goal. Real numbers with a cited source — not silicon-correlated.
 
-**Still open, and not tracked anywhere upstream**: a real floorplan. That is
-the one prerequisite a *meaningful* (rather than upper-bound) post-layout PVT
-result still needs, and no issue currently owns it.
+**Still open, and not tracked anywhere upstream**: a *representative* analog
+floorplan — matching, supply grid, folding. Issue #101 addressed the wire
+axis on `vco` (see "Routing" and RECORD-002); it did not make any block's
+composition a representative analog floorplan, the other five blocks' rows
+are untouched, and no issue currently owns that step. It is the one
+prerequisite a *meaningful* (rather than upper-bound, or less-upper-bound)
+post-layout PVT result still needs.
 
 ## LVS: three blocks were never compared; they are now
 
