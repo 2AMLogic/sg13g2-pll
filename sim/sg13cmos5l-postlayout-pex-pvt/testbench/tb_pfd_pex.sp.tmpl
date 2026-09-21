@@ -1,0 +1,62 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #102, Part of #16)
+* POST-LAYOUT PFD transient -- the parasitic-annotated twin of
+* ../../sg13cmos5l-closed-loop-lock/testbench/tb_pfd_only.sp.tmpl, kept
+* line-for-line comparable to it so the only difference between the two
+* arms' numbers is the extracted interconnect R/C.
+*
+* Same stimulus, same averaging window, same .meas lines as that campaign's
+* own PFD-only diagnostic: two pulse trains sharing one period/high-time,
+* only the START DELAY differs, so the REF/FB edges keep the same lead/lag
+* relationship every cycle and a steady-state UP/DN duty-cycle reading is
+* available from a short transient. `up_avg`/`dn_avg` are averaged over
+* [@TAVG0@, @TSTOP@] -- the first four reference cycles (startup/reset
+* transient) are skipped, exactly as that script's own TAVG0 does.
+*
+* The DUT is `pll_pfd`, the subcircuit `klt extract --deck sg13cmos5l
+* --parasitics --pdk ihp-sg13cmos5l` produced from the same routed GDS as
+* Matrices A/B (layout record 20260830-204105-457cf5b): 66 devices, 37
+* nets, 264 parasitic resistors and 37 substrate + 543 coupling capacitors.
+* This is one of the three blocks ../lvs-recheck/summary.json confirms
+* LVS-MATCHES its schematic (66/66 devices, 37/37 nets), so a deviation
+* measured here is attributable to the extracted parasitics, not to an
+* unverified layout-vs-schematic topology.
+*
+* ../run_pfd.sh substitutes @CORNER_MOS@ (cornerMOShv.lib), @TEMP@ (degC),
+* @VDD@ (V), @TREF@/@TREFH@ (period / high time of both pulse trains, s),
+* @REF_DELAY@/@FB_DELAY@ (s -- exactly one is 0, the other is the fixed
+* per-cycle lead/lag under test), @TSTOP@, @TPRINT@, @TMAX@, @TAVG0@, and
+* @PFD_PEX_DUT@/@PFD_PEX_INST@ (the pex-to-ngspice.py-rewritten netlist and
+* the make-inst.py-generated instantiation -- pin order derived from the
+* extracted cell's own .SUBCKT pin list, never transcribed by hand) plus
+* @PDK_ROOT@/@PDK@ (ngspice's .lib/.include parser does not expand
+* environment variables, issue #54).
+*
+* The extracted netlist declares its own `.GLOBAL vsubs` and ties it to
+* ground only through klt's 1e12-ohm DC tie; every extracted net-to-ground
+* parasitic capacitor returns to that node, so -- exactly like
+* tb_cp_dc_pex.sp.tmpl -- it is held hard at 0 V rather than left floating.
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include @PFD_PEX_DUT@
+.include @PFD_PEX_INST@
+
+Vdd_pfd vdd_pfd 0 dc @VDD@
+Vsubs vsubs 0 dc 0
+
+* Both pulse trains share one period/high-time; only the START DELAY differs
+* between REF and FB, so the two edges keep the SAME lead/lag relationship
+* every single cycle (a fixed phase offset, not a frequency difference).
+Vref ref 0 pulse(0 @VDD@ @REF_DELAY@ 100p 100p @TREFH@ @TREF@)
+Vfb  fb  0 pulse(0 @VDD@ @FB_DELAY@  100p 100p @TREFH@ @TREF@)
+
+.tran @TPRINT@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+meas tran up_avg avg v(up) from=@TAVG0@ to=@TSTOP@
+meas tran dn_avg avg v(dn) from=@TAVG0@ to=@TSTOP@
+print up_avg dn_avg
+.endc
+.end

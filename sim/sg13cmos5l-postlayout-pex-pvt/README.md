@@ -4,12 +4,16 @@ Post-layout (parasitic-extracted) PVT re-simulation of the SG13CMOS5L PLL
 port — issue **#30** (Part of #16), the named follow-up issue #24's own
 acceptance criteria required when #24 scoped post-layout PVT out; and
 issue **#101** (sub-issue A of the #100 split) for the floorplan-aware
-`pll_vco` re-route and the PVT re-run against it.
+`pll_vco` re-route and the PVT re-run against it; and issue **#102**
+(sub-issue B of the #100 split) for the `pfd`/`lock_detector` post-layout
+arms.
 
 **Read [`records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md`](records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md)
 first, then
-[`records/RECORD-002-floorplan-aware-vco-route.md`](records/RECORD-002-floorplan-aware-vco-route.md).**
-The three things a reader must not miss, stated here so they are not
+[`records/RECORD-002-floorplan-aware-vco-route.md`](records/RECORD-002-floorplan-aware-vco-route.md),
+then [`records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md`](records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md)
+for the `pfd`/`lock_detector` arms issue #102 added.** The three things a
+reader must not miss, stated here so they are not
 buried:
 
 1. **Real extracted parasitics WERE modelled** — klt-extracted R/C from the
@@ -50,11 +54,21 @@ testbench/
   run.sh                       Matrix A: pll_vco Kvco, both arms
   run_cp.sh                    Matrix B: pll_cp Icp trim, both arms
   run_rc_attribution.sh        Matrix C: which parasitic caused the deviation
-  analyze.py                   every roll-up number the record quotes
-corners/matrix.md              the three matrices and what they deliberately omit
+  run_pfd.sh                   Matrix D: pll_pfd UP/DN duty space (issue #102)
+  run_lock_detector.sh         Matrix E: pll_lock_detector window/ladder/current
+                               (issue #102), incl. the as-layout twin
+  derive_ld_as_layout.py       the as-layout twin (resize snapshot minus its
+                               two cap_cmomi cards -- diagnostic-only)
+  tb_ld_wholecell_win.sp.tmpl  whole-cell ERR->ERRD window deck (both arms)
+  gen_pex_ladder.py            post-layout ladder/recovery deck generator,
+                               reduce-compatible with the sibling campaign
+  analyze.py                   every roll-up number RECORD-001 quotes
+  analyze_pfd_ld.py            every roll-up number RECORD-003 quotes
+corners/matrix.md              the five matrices and what they deliberately omit
 corners/*.csv                  raw per-point results
-records/                       append-only; RECORD-001 = original route, 
-                               RECORD-002 = locality-routed re-run
+records/                       append-only; RECORD-001 = original route,
+                               RECORD-002 = locality-routed re-run,
+                               RECORD-003 = pfd/lock_detector arms
 ```
 
 ## Headline numbers
@@ -75,9 +89,22 @@ RECORD-001 rows remain the measurement):
 | `cp` Icp, UP state (102 points) | — | +0.055% … +0.632% |
 | `cp` Icp, DN state (102 points) | — | +0.017% … +0.211% |
 
-Both control arms reproduce their committed campaigns: 60/60 VCO frequencies
-byte-identical (RECORD-001 and again in RECORD-002), and `cp` to within
-4.9e-5 %.
+`pfd` and `lock_detector` (RECORD-003), as measured against the
+`20260830-204105-457cf5b` extraction — `pfd`'s snapshot is byte-identical
+at `c44fa68`, `lock_detector`'s is not (see RECORD-003's DUT pin):
+
+| Measurement | Schematic control | Post-layout (PEX) |
+|---|---|---|
+| `pfd` UP hold, reflead (3 offsets) | 5.674 / 10.674 / 20.674 ns | +0.525 ns at every offset |
+| `pfd` FB-lead polarity (3 offsets) | DN-dominant (textbook, all 3) | **inverted: UP holds `T_ref − τ`, DN 2.39 %** |
+| `lock_detector` window vs committed crowbarfix control (3.3 V grid) | 5.01 – 9.42 ns | as-built chain **0.20 – 0.31 ns** — the layout's two MOM caps are absent |
+| `lock_detector` whole-cell window, post-layout vs as-layout twin | — | **+44.2 % … +48.6 %** across 29 PVT points |
+
+All control arms reproduce their committed campaigns: 60/60 VCO frequencies
+byte-identical (RECORD-001 and again in RECORD-002), `cp` to within
+4.9e-5 %, and (RECORD-003) the whole committed 102-point `lock_detector`
+window matrix plus its 15 device rows byte-identical, with the `pfd`
+control at −0.52 % against the campaign's productionised-reset rows.
 
 Attribution of the VCO's deviation (`corners/rc_attribution.csv`) — the
 composition is the finding in **both** layouts: **≈99% parasitic
