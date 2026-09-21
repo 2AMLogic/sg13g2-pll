@@ -90,15 +90,16 @@ RECORD-001 rows remain the measurement):
 | `cp` Icp, DN state (102 points) | — | +0.017% … +0.211% |
 
 `pfd` and `lock_detector` (RECORD-003), as measured against the
-`20260830-204105-457cf5b` extraction — `pfd`'s snapshot is byte-identical
-at `c44fa68`, `lock_detector`'s is not (see RECORD-003's DUT pin):
+`20260921-155747-c44fa68` extraction — `pfd`'s snapshot is byte-identical
+to the `457cf5b` one it supersedes, `lock_detector`'s was re-extracted
+(see RECORD-003's DUT pin):
 
 | Measurement | Schematic control | Post-layout (PEX) |
 |---|---|---|
 | `pfd` UP hold, reflead (3 offsets) | 5.674 / 10.674 / 20.674 ns | +0.525 ns at every offset |
 | `pfd` FB-lead polarity (3 offsets) | DN-dominant (textbook, all 3) | **inverted: UP holds `T_ref − τ`, DN 2.39 %** |
-| `lock_detector` window vs committed crowbarfix control (3.3 V grid) | 5.01 – 9.42 ns | as-built chain **0.20 – 0.31 ns** — the layout's two MOM caps are absent |
-| `lock_detector` whole-cell window, post-layout vs as-layout twin | — | **+44.2 % … +48.6 %** across 29 PVT points |
+| `lock_detector` window vs committed crowbarfix control (3.3 V grid) | 5.01 – 9.42 ns | as-built chain **0.18 – 0.31 ns** — the layout's two MOM caps are absent |
+| `lock_detector` whole-cell window, post-layout vs as-layout twin | — | **+62.9 % … +68.9 %** across 29 PVT points |
 
 All control arms reproduce their committed campaigns: 60/60 VCO frequencies
 byte-identical (RECORD-001 and again in RECORD-002), `cp` to within

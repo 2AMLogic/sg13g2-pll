@@ -2,29 +2,40 @@
 """sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt/testbench/derive_ld_as_layout.py
 (issue #102, Part of #16 -- post-layout PEX arms for pfd and lock_detector)
 
-Derives the as-layout lock_detector CONTROL netlist from the frozen resize
-snapshot -- following the sibling campaign's diagnostic-variant precedent
-(run_pfd_diag.sh's `pfd_fixed_diag.spice`): derived programmatically from
-the frozen snapshot, never hand-edited, never written back to any
-netlist-snapshots/ or design/ file.
+Derives the as-layout lock_detector CONTROL netlist from the frozen
+crowbarfix snapshot -- following the sibling campaign's diagnostic-variant
+precedent (run_pfd_diag.sh's `pfd_fixed_diag.spice`): derived
+programmatically from the frozen snapshot, never hand-edited, never
+written back to any netlist-snapshots/ or design/ file.
 
 Why this variant exists at all. The parasitic extraction of the routed
 `pll_lock_detector` carries **zero `cap_cmomi` devices** even though the
 deck recognises the device class (netlist-snapshots/pll_lock_detector.pex.json
 `device_counts` = 19 nfet + 18 pfet + 1 rhigh, `device_classes` lists
-cap_cmomi), and its XMPD/schmitt sizing matches the pre-#66 revision rather
-than the committed crowbarfix design. Of the four frozen snapshots in
-../../sg13cmos5l-lock-detector-window/netlist-snapshots/, the routed cell's
-device set matches `lock_detector_resized.spice` (issue #52's XRPU
-l=700u + XMPD w=2u l=0.5u + classic l=0.5u schmitt) **minus its two
-cap_cmomi instances**. Comparing the extraction directly against any
-committed snapshot would therefore confound three effects (missing MOM
-caps, #66/#76 XMPD-schmitt revision lag, interconnect parasitics). This
-script builds the missing fourth variant -- the resize snapshot with
-exactly its two cap_cmomi cards removed -- so run_lock_detector.sh can
-measure the interconnect effect alone (as-layout schematic vs. extraction,
-same device set, same stimulus), with the committed-design deviations
-reported separately from the frozen crowbarfix control.
+cap_cmomi). Against the `20260921-155747-c44fa68` re-extraction (#106)
+the routed cell's MOS revisions moved ONTO the committed design: its XMPD
+is the post-#66 weak device (L=16U W=0.25U) and its six schmitt devices
+carry the post-#66/#76 rewire and l=2u channel lengths (verified
+device-for-device, gates/drains/sources/bodies, against the crowbarfix
+schmitt_hv subckt). Of the frozen snapshots in
+../../sg13cmos5l-lock-detector-window/netlist-snapshots/, the routed
+cell's device set therefore now matches `lock_detector_crowbarfix.spice`
+(the committed RECORD-004 design) **minus its two cap_cmomi instances**.
+Comparing the extraction directly against any committed snapshot would
+confound two effects (missing MOM caps, interconnect parasitics). This
+script builds the missing variant -- the crowbarfix snapshot with exactly
+its two cap_cmomi cards removed -- so run_lock_detector.sh can measure
+the interconnect effect alone (as-layout schematic vs. extraction, same
+device set, same stimulus), with the missing-cap effect isolated by the
+as-layout-vs-control pair (same revision, caps the only difference).
+
+(RECORD-003's original pass, measured against the superseded
+`20260830-204105-457cf5b` extraction, derived this twin from the frozen
+#52 `lock_detector_resized.spice` snapshot instead, because that older
+routed cell was still two revisions behind the committed design. The
+c44fa68 route carries the revisions, so the twin follows it -- the twin's
+contract has always been "the device set the ROUTED layout actually
+carries", and that set changed.)
 
 Outputs (two files):
   <out>      the as-layout netlist, keeping the original `.subckt
@@ -43,7 +54,7 @@ Outputs (two files):
              ports to keep the A/B pair stimulus-identical.
 
 Usage:
-  derive_ld_as_layout.py <frozen lock_detector_resized.spice> \
+  derive_ld_as_layout.py <frozen lock_detector_crowbarfix.spice> \
       <out as-layout spice> <out as-layout err-ports spice>
 """
 
@@ -61,12 +72,15 @@ HEADER = (
     "* netlist-snapshots/ or design/ file.\n"
     "*\n"
     "* Derived programmatically by derive_ld_as_layout.py from the frozen\n"
-    "* lock_detector_resized.spice snapshot with BOTH cap_cmomi cards removed:\n"
-    "* the device set the ROUTED lock_detector layout actually carries. The\n"
-    "* extraction of that layout reports zero cap_cmomi devices (its pex.json\n"
-    "* device_counts = 19 nfet + 18 pfet + 1 rhigh), while the deck knows the\n"
-    "* cap_cmomi device class -- so the caps are absent from the layout, not\n"
-    "* unrecognised.\n"
+    "* lock_detector_crowbarfix.spice snapshot with BOTH cap_cmomi cards\n"
+    "* removed: the device set the ROUTED lock_detector layout actually\n"
+    "* carries at the 20260921-155747-c44fa68 record. The extraction of\n"
+    "* that layout reports zero cap_cmomi devices (its pex.json\n"
+    "* device_counts = 19 nfet + 18 pfet + 1 rhigh), while the deck knows\n"
+    "* the cap_cmomi device class -- so the caps are absent from the\n"
+    "* layout, not unrecognised -- and its XMPD/schmitt revisions match\n"
+    "* this snapshot (the committed RECORD-004 design), so removing\n"
+    "* exactly the two caps makes the arms the same device set.\n"
     "* ===========================================================================\n"
 )
 
