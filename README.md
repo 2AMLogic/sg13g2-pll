@@ -83,6 +83,7 @@ spec/          ratified spec + decision records
 design/        schematics / netlists (xschem)
 sim/           testbenches + PVT corner results (ngspice)
 layout/        GDS + DRC/LVS reports (klayout-tools driven)
+manifests/     klt signoff block manifest + graded tier report (the T1 verdict of record)
 measurements/  silicon characterization (empty until tape-out)
 ```
 
