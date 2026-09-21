@@ -305,6 +305,29 @@ which node a device's bulk is declared on is a schematic change, and this
 increment does not make one. It affects only the three blocks that already
 cannot convert.
 
+## ERC: T1 item 11 power-delivery (structural) — done for `divider_chain`
+
+`klt erc` reads now back the divider chain's supply structure [#103]:
+`erc-supply-spec.json` (the item-11 artifact, `ties[]` deliberately
+omitted per the recorded klayout-tools#2169 workaround) and
+`erc-welltie-check-spec.json` (a supplementary checked-tie probe, run after
+that issue closed upstream on 2026-09-20). Both live next to this README;
+their committed reports and the standing-in well-tie evidence are frozen in
+`reports/20260921-155144-00b0094/` — read that record's `record.md` first.
+Both reads report `erc_status: "clean"`: **one island per declared supply**
+(`VDD_DIV`, `VSS`), zero `erc.unconnected_net`, zero `erc.supply_short`, and
+the n-well tie graded **checked** with zero `erc.missing_tie` in the probe
+run. The antenna half honestly reports `not_checked` — `klt erc`'s
+antenna-limit table is sky130-only today, an untranscribed upstream gap —
+which is exactly why item 11 grades the `erc_findings` rules, never the
+report's overall `status` (klayout-tools#1994). `erc.missing_tie` remains
+**not computed by the item-11 artifact itself** (`no_ties_declared`, an
+absence of evidence, not evidence of absence); what stands in for the
+well-tie verdict is named in the spec's comment block and the record: the
+same-GDS LVS `match` carrying both supplies in its `net_correspondence`,
+the compose route records pinning `nwell_tap`/`substrate_tap` into their
+supply nets, and the checked-tie probe above.
+
 ## What it is not
 
 - **Not fully drawn.** The five MoM capacitors are not drawn; see "Friction".

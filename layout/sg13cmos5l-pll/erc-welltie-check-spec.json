@@ -1,0 +1,67 @@
+{
+  "_comment": [
+    "Supplementary well-tie CHECK spec for the same divider-chain GDS as",
+    "erc-supply-spec.json (the #103 item-11 artifact). NOT the item-11 artifact",
+    "itself: #103 -- quoting the then-open known blocker klayout-tools#2169 --",
+    "directs the canonical supply spec to omit `ties[]` so `erc.missing_tie` is",
+    "documented as not-computed rather than reported as a misleading zero, and",
+    "erc-supply-spec.json keeps that ruling. This probe exists because #2169",
+    "CLOSED upstream on 2026-09-20 (PR #2186 isolates the tie connectivity graph",
+    "from the wire/via graph, and PR #2199 grades degenerate tap declarations as",
+    "skipped rather than clean), which makes a genuinely checked well-tie verdict",
+    "expressible for the first time -- and this repo is the canary that exists to",
+    "exercise exactly that. Run at the same pinned klt build as the committed",
+    "supply report so both provenance blocks name one tool identity.",
+    "",
+    "What it adds over the canonical spec, in one tie entry:",
+    "- The pfet row's n-well tie: the curated `sg13cmos5l` deck derives a well",
+    "  tie as `nSD & Activ & NWell` (klayout-tools#1414, tap_nplus=(7,0)). This",
+    "  probe expresses the drawn CONTACT of that tap as the boolean",
+    "  `tap_layer: Cont(6/0)` narrowed by `tap_requires: [nSD(7/0)]` -- inside",
+    "  the row's merged NWell (31/0) that intersection is exactly the well-tap",
+    "  contact strip and provably excludes every pfet source/drain contact,",
+    "  whose Cont sits on pSD-covered Activ (14/0), the opposite-doping implant.",
+    "  That is the #2199 falsifiability bar: the narrowing removes real geometry,",
+    "  so the tie is graded CHECKED, not skipped-degenerate.",
+    "- The substrate half of the tie question is NOT expressible as a `ties[]`",
+    "  entry on this stream, and this spec does not fake it: klt erc keys a tie",
+    "  on physically distinct `well_layer` shapes, and this GDS draws NO",
+    "  p-well/substrate shape at all (no 46/0 PWell, no 40/0 Substrate polygon)",
+    "  -- the p+ substrate-tie strip of the nfet row (pSD-covered Activ outside",
+    "  every NWell, per the same deck derivation) sits in the bare global",
+    "  substrate, which no declared well shape can carry. Its standing-in",
+    "  evidence remains what erc-supply-spec.json's comment block names: the",
+    "  compose route record (`divider_chain_nfet_w2_l0p5.substrate_tap` pinned",
+    "  into VSS) and the same-record LVS `match` carrying both supplies in its",
+    "  net_correspondence.",
+    "",
+    "Everything else (stackup, vias, nets, label layers, layer-number provenance)",
+    "is identical to erc-supply-spec.json -- see that file's comment block for",
+    "the dual-source (PDK .lyp + curated deck table) justification of each entry."
+  ],
+  "stackup": [
+    { "name": "gatpoly", "layer": "5/0", "role": "gate", "active_layer": "1/0" },
+    { "name": "Metal1", "layer": "8/0", "label_layer": "8/2" },
+    { "name": "Metal2", "layer": "10/0" },
+    { "name": "Metal3", "layer": "30/0", "label_layer": "30/2" }
+  ],
+  "vias": [
+    { "name": "Cont", "layer": "6/0", "between": ["gatpoly", "Metal1"] },
+    { "name": "Via1", "layer": "19/0", "between": ["Metal1", "Metal2"] },
+    { "name": "Via2", "layer": "29/0", "between": ["Metal2", "Metal3"] }
+  ],
+  "nets": [
+    { "name": "VDD_DIV", "kind": "supply" },
+    { "name": "VSS", "kind": "supply" }
+  ],
+  "ties": [
+    {
+      "name": "pfet_row_nwell_tap",
+      "well_layer": "31/0",
+      "tap_layer": "6/0",
+      "tap_requires": ["7/0"],
+      "connect_to": "Metal1",
+      "net": "VDD_DIV"
+    }
+  ]
+}
