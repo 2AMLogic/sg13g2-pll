@@ -1,0 +1,15 @@
+{
+  "group_id": "lock_detector_nfet_w0p25_l12",
+  "attempted": true,
+  "returncode": 1,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "error": {
+      "command": "gen",
+      "message": "generator 'mos_array': params.w_um must be >= 0.42 (the smallest width that fits an enclosed contact with margin -- a generator-side structural floor, not the target PDK's own diffusion-width rule)"
+    }
+  },
+  "stdout": "",
+  "stderr": "{\n  \"schema_version\": 1,\n  \"error\": {\n    \"command\": \"gen\",\n    \"message\": \"generator 'mos_array': params.w_um must be >= 0.42 (the smallest width that fits an enclosed contact with margin -- a generator-side structural floor, not the target PDK's own diffusion-width rule)\"\n  }\n}"
+}

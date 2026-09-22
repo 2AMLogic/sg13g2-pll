@@ -1,0 +1,36 @@
+* extracted by klt extract --deck sg13g2
+
+* cell lock_detector_nfet_w2_l0p5
+* pin vsubs
+.SUBCKT lock_detector_nfet_w2_l0p5 vsubs
+* device instance $1 r0 *1 0.67,1 nfet
+M$1 \$7 \$1 \$6 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $2 r0 *1 2.41,1 nfet
+M$2 \$9 \$2 \$8 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $3 r0 *1 4.15,1 nfet
+M$3 \$11 \$3 \$10 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $4 r0 *1 5.89,1 nfet
+M$4 \$13 \$4 \$12 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $5 r0 *1 7.63,1 nfet
+M$5 \$15 \$5 \$14 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $6 r0 *1 0.67,4.32 nfet
+M$6 \$22 \$16 \$21 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $7 r0 *1 2.41,4.32 nfet
+M$7 \$24 \$17 \$23 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $8 r0 *1 4.15,4.32 nfet
+M$8 \$26 \$18 \$25 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $9 r0 *1 5.89,4.32 nfet
+M$9 \$28 \$19 \$27 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $10 r0 *1 7.63,4.32 nfet
+M$10 \$30 \$20 \$29 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $11 r0 *1 0.67,7.64 nfet
+M$11 \$37 \$31 \$36 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $12 r0 *1 2.41,7.64 nfet
+M$12 \$39 \$32 \$38 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $13 r0 *1 4.15,7.64 nfet
+M$13 \$41 \$33 \$40 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $14 r0 *1 5.89,7.64 nfet
+M$14 \$43 \$34 \$42 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $15 r0 *1 7.63,7.64 nfet
+M$15 \$45 \$35 \$44 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+.ENDS lock_detector_nfet_w2_l0p5

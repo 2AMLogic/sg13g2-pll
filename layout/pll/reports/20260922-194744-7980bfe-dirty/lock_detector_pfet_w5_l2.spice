@@ -1,0 +1,11 @@
+* extracted by klt extract --deck sg13g2
+
+* cell lock_detector_pfet_w5_l2
+.SUBCKT lock_detector_pfet_w5_l2
+* device instance $1 r0 *1 1.42,2.5 pfet
+M$1 \$2 \$7 \$1 \$10 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $2 r0 *1 4.66,2.5 pfet
+M$2 \$4 \$8 \$3 \$10 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $3 r0 *1 7.9,2.5 pfet
+M$3 \$6 \$9 \$5 \$10 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+.ENDS lock_detector_pfet_w5_l2

@@ -260,14 +260,43 @@ def flatten_block(
             nets = [_resolve_net(n, path_prefix, net_map) for n in card["nets"]]
             model = card["model"]
             if model in LEAF_MODELS:
-                out.append(
-                    {
-                        "path": path_prefix + card["name"],
-                        "model": model,
-                        "nets": nets,
-                        "params": card["params"],
-                    }
+                # A capacitor card's `m=` multiplier is expanded here into
+                # `m` unit devices in parallel (issue #114) -- the exact
+                # rendering the MoM footprint draws (one recognition marker
+                # per unit) and the LVS reference rewrite emits (one
+                # `X ... PARAMS:` card per unit). Capacitors only, and
+                # deliberately: `m > 1` appears nowhere else in either
+                # port's committed netlists, and expanding a MOS `m=` into
+                # separate unit devices would change drawn geometry, not
+                # just bookkeeping. `m=1` (every card except SG13CMOS5L
+                # `lock_detector`'s `XC1 m=2`) is the identity here.
+                multiplicity = 1
+                if model in CAP_MODELS and "m" in card["params"]:
+                    try:
+                        multiplicity = int(float(card["params"]["m"]))
+                    except ValueError as exc:
+                        raise PlanError(
+                            f"{path_prefix}{card['name']}: non-integer m="
+                            f"{card['params']['m']!r} on capacitor {model!r}"
+                        ) from exc
+                    if multiplicity < 1:
+                        raise PlanError(
+                            f"{path_prefix}{card['name']}: m="
+                            f"{card['params']['m']!r} is not a positive "
+                            "multiplier"
+                        )
+                suffixes = (
+                    [""] if multiplicity == 1 else [f"__{k}" for k in range(multiplicity)]
                 )
+                for suffix in suffixes:
+                    out.append(
+                        {
+                            "path": path_prefix + card["name"] + suffix,
+                            "model": model,
+                            "nets": nets,
+                            "params": card["params"],
+                        }
+                    )
             elif model in blocks:
                 ports = blocks[model]["ports"]
                 if len(ports) != len(nets):
@@ -356,22 +385,19 @@ BLOCKED_REASONS = {
     "cap_cmomi": (
         "SG13CMOS5L has no MIM capacitor at all (its plate layers are on "
         "cmos5l's own DRC/LVS forbidden-layer lists), so this design's "
-        "MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and "
-        "neither half of the tooling covers it. Draw side: klt gen "
-        "cap_array reports 'PDK family sg13cmos5l has no MiM capacitor "
-        "plate layers configured -- supported families: sky130, sg13g2' -- "
-        "re-verified as a non-regression check for issue #31 at "
-        "klt 0.3.0+gfdf04f71ab39 (fdf04f71ab39159838acb86e63a92d6fa0c714fa), "
-        "i.e. *after* klayout-tools#1461 gave sg13g2 its own MiM plate-layer "
-        "configuration (the message's supported-families list grew by one "
-        "entry as a result), but sg13cmos5l itself is still absent -- MoM "
-        "still has no generator on any family. Verify side: the curated "
-        "sg13cmos5l extraction deck's EXTRACTION_DECK.capacitors is still "
-        "empty, so a hand-drawn MoM capacitor extracts as no device at all "
-        "(klayout-tools#1463, open, filed by issue #24's pass; "
-        "klayout-tools#1466 is the follow-on it spawned on what "
-        "device-recognition shape a MoM plate pair actually needs). "
-        "Recorded here, never drawn, never silently dropped"
+        "MIM->MoM swap (DR-004 / issue #22) lands on cap_cmomi -- and no "
+        "`klt gen` generator draws it: `cap_array` has MiM plate-layer "
+        "configurations for sky130/sg13g2 only, re-verified for issue "
+        "#114's pin bump at klt 0.6.0+gdaf06a51a. Extraction and LVS "
+        "recognition closed upstream (klayout-tools#1466 via #1475; the "
+        "reference-side `X ... PARAMS:` card via #1942/#1944), so the "
+        "drawing side is the remaining local footprint -- the same "
+        "decision issues #24/#35 made for MOS and resistors; issue #114 "
+        "adds `cmos5l_devices.draw_mom_cap`. This planner records the "
+        "upstream-generator state; the SG13CMOS5L flow's own plan "
+        "preparation (pll_cmos5l_layout.py) promotes cap_cmomi groups to "
+        "locally drawn ones, so a group reaching the build step with this "
+        "reason means that promotion did not run"
     ),
 }
 
@@ -526,7 +552,17 @@ def plan_block(block_name: str, devices: list[dict[str, Any]]) -> dict[str, Any]
                 "count": 1,
             }
         else:
-            group["params"] = {"w_um": w_um, "l_um": l_um, "model": model}
+            group["params"] = {
+                "w_um": w_um,
+                "l_um": l_um,
+                "model": model,
+                # The PDK cell's own stack/feed parameters, carried through
+                # so a local footprint (issue #114) can honour the declared
+                # geometry rather than assume it.
+                "mmin": int(float(member["params"].get("mmin", 1))),
+                "mmax": int(float(member["params"].get("mmax", 4))),
+                "feed": str(member["params"].get("feed", "double")),
+            }
             group["expected"] = None
             group["blocked_reason"] = BLOCKED_REASONS[model]
         groups.append(group)

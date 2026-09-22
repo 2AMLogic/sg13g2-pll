@@ -1,0 +1,832 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_divider_chain.gds",
+    "reference": "divider_chain.reference.spice",
+    "top": "pll_divider_chain",
+    "reference_top": "DIVIDER_CHAIN",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ]
+    },
+    "hints_applied": null,
+    "status": "match",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 142,
+        "reference": 142,
+        "matched": 142
+      },
+      "devices": {
+        "layout": 316,
+        "reference": 316,
+        "matched": 316
+      },
+      "pins": {
+        "layout": 142,
+        "reference": 12,
+        "matched": 142
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.10",
+      "layout_sha256": "8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed",
+      "reference_sha256": "5cbfced31ab4880002040881c51df69f94162bfea291511b3eda39f80caff9de",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": false
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 8 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "ck1",
+        "reference": "CK1",
+        "pin": true
+      },
+      {
+        "layout": "ck2",
+        "reference": "CK2",
+        "pin": true
+      },
+      {
+        "layout": "ck3",
+        "reference": "CK3",
+        "pin": true
+      },
+      {
+        "layout": "ck4",
+        "reference": "CK4",
+        "pin": true
+      },
+      {
+        "layout": "ck5",
+        "reference": "CK5",
+        "pin": true
+      },
+      {
+        "layout": "CKIN",
+        "reference": "CKIN",
+        "pin": true
+      },
+      {
+        "layout": "CKIN_VCO",
+        "reference": "CKIN_VCO",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFM_CLKB",
+        "reference": "D0_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFM_M",
+        "reference": "D0_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFM_MB",
+        "reference": "D0_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFM_S",
+        "reference": "D0_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFM_SB",
+        "reference": "D0_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFQ_CLKB",
+        "reference": "D0_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFQ_M",
+        "reference": "D0_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFQ_MB",
+        "reference": "D0_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFQ_S",
+        "reference": "D0_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XDFFQ_SB",
+        "reference": "D0_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD0_dmodout",
+        "reference": "D0_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD0_dq",
+        "reference": "D0_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XN2_mid1",
+        "reference": "D0_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XN3_mid1",
+        "reference": "D0_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XN3_mid2",
+        "reference": "D0_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD0_nm",
+        "reference": "D0_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD0_XNOR_midp",
+        "reference": "D0_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD0_nt",
+        "reference": "D0_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD0_t1",
+        "reference": "D0_T1",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFM_CLKB",
+        "reference": "D1_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFM_M",
+        "reference": "D1_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFM_MB",
+        "reference": "D1_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFM_S",
+        "reference": "D1_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFM_SB",
+        "reference": "D1_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFQ_CLKB",
+        "reference": "D1_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFQ_M",
+        "reference": "D1_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFQ_MB",
+        "reference": "D1_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFQ_S",
+        "reference": "D1_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XDFFQ_SB",
+        "reference": "D1_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD1_dmodout",
+        "reference": "D1_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD1_dq",
+        "reference": "D1_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XN2_mid1",
+        "reference": "D1_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XN3_mid1",
+        "reference": "D1_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XN3_mid2",
+        "reference": "D1_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD1_nm",
+        "reference": "D1_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD1_XNOR_midp",
+        "reference": "D1_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD1_nt",
+        "reference": "D1_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD1_t1",
+        "reference": "D1_T1",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFM_CLKB",
+        "reference": "D2_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFM_M",
+        "reference": "D2_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFM_MB",
+        "reference": "D2_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFM_S",
+        "reference": "D2_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFM_SB",
+        "reference": "D2_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFQ_CLKB",
+        "reference": "D2_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFQ_M",
+        "reference": "D2_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFQ_MB",
+        "reference": "D2_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFQ_S",
+        "reference": "D2_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XDFFQ_SB",
+        "reference": "D2_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD2_dmodout",
+        "reference": "D2_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD2_dq",
+        "reference": "D2_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XN2_mid1",
+        "reference": "D2_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XN3_mid1",
+        "reference": "D2_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XN3_mid2",
+        "reference": "D2_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD2_nm",
+        "reference": "D2_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD2_XNOR_midp",
+        "reference": "D2_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD2_nt",
+        "reference": "D2_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD2_t1",
+        "reference": "D2_T1",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFM_CLKB",
+        "reference": "D3_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFM_M",
+        "reference": "D3_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFM_MB",
+        "reference": "D3_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFM_S",
+        "reference": "D3_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFM_SB",
+        "reference": "D3_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFQ_CLKB",
+        "reference": "D3_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFQ_M",
+        "reference": "D3_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFQ_MB",
+        "reference": "D3_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFQ_S",
+        "reference": "D3_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XDFFQ_SB",
+        "reference": "D3_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD3_dmodout",
+        "reference": "D3_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD3_dq",
+        "reference": "D3_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XN2_mid1",
+        "reference": "D3_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XN3_mid1",
+        "reference": "D3_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XN3_mid2",
+        "reference": "D3_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD3_nm",
+        "reference": "D3_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD3_XNOR_midp",
+        "reference": "D3_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD3_nt",
+        "reference": "D3_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD3_t1",
+        "reference": "D3_T1",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFM_CLKB",
+        "reference": "D4_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFM_M",
+        "reference": "D4_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFM_MB",
+        "reference": "D4_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFM_S",
+        "reference": "D4_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFM_SB",
+        "reference": "D4_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFQ_CLKB",
+        "reference": "D4_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFQ_M",
+        "reference": "D4_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFQ_MB",
+        "reference": "D4_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFQ_S",
+        "reference": "D4_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XDFFQ_SB",
+        "reference": "D4_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD4_dmodout",
+        "reference": "D4_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD4_dq",
+        "reference": "D4_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XN2_mid1",
+        "reference": "D4_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XN3_mid1",
+        "reference": "D4_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XN3_mid2",
+        "reference": "D4_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD4_nm",
+        "reference": "D4_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD4_XNOR_midp",
+        "reference": "D4_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD4_nt",
+        "reference": "D4_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD4_t1",
+        "reference": "D4_T1",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFM_CLKB",
+        "reference": "D5_DFFM_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFM_M",
+        "reference": "D5_DFFM_M",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFM_MB",
+        "reference": "D5_DFFM_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFM_S",
+        "reference": "D5_DFFM_S",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFM_SB",
+        "reference": "D5_DFFM_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFQ_CLKB",
+        "reference": "D5_DFFQ_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFQ_M",
+        "reference": "D5_DFFQ_M",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFQ_MB",
+        "reference": "D5_DFFQ_MB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFQ_S",
+        "reference": "D5_DFFQ_S",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XDFFQ_SB",
+        "reference": "D5_DFFQ_SB",
+        "pin": true
+      },
+      {
+        "layout": "XD5_dmodout",
+        "reference": "D5_DMODOUT",
+        "pin": true
+      },
+      {
+        "layout": "XD5_dq",
+        "reference": "D5_DQ",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XN2_mid1",
+        "reference": "D5_N2_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XN3_mid1",
+        "reference": "D5_N3_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XN3_mid2",
+        "reference": "D5_N3_MID2",
+        "pin": true
+      },
+      {
+        "layout": "XD5_nm",
+        "reference": "D5_NM",
+        "pin": true
+      },
+      {
+        "layout": "XD5_XNOR_midp",
+        "reference": "D5_NOR_MIDP",
+        "pin": true
+      },
+      {
+        "layout": "XD5_nt",
+        "reference": "D5_NT",
+        "pin": true
+      },
+      {
+        "layout": "XD5_t1",
+        "reference": "D5_T1",
+        "pin": true
+      },
+      {
+        "layout": "DIVOUT",
+        "reference": "DIVOUT",
+        "pin": true
+      },
+      {
+        "layout": "FB",
+        "reference": "FB",
+        "pin": true
+      },
+      {
+        "layout": "XFRT_CLKB",
+        "reference": "FRT_CLKB",
+        "pin": true
+      },
+      {
+        "layout": "XFRT_M",
+        "reference": "FRT_M",
+        "pin": true
+      },
+      {
+        "layout": "XFRT_MB",
+        "reference": "FRT_MB",
+        "pin": true
+      },
+      {
+        "layout": "XFRT_S",
+        "reference": "FRT_S",
+        "pin": true
+      },
+      {
+        "layout": "XFRT_SB",
+        "reference": "FRT_SB",
+        "pin": true
+      },
+      {
+        "layout": "mod0",
+        "reference": "MOD0",
+        "pin": true
+      },
+      {
+        "layout": "mod1",
+        "reference": "MOD1",
+        "pin": true
+      },
+      {
+        "layout": "mod2",
+        "reference": "MOD2",
+        "pin": true
+      },
+      {
+        "layout": "mod3",
+        "reference": "MOD3",
+        "pin": true
+      },
+      {
+        "layout": "mod4",
+        "reference": "MOD4",
+        "pin": true
+      },
+      {
+        "layout": "net1",
+        "reference": "NET1",
+        "pin": true
+      },
+      {
+        "layout": "P0",
+        "reference": "P0",
+        "pin": true
+      },
+      {
+        "layout": "P1",
+        "reference": "P1",
+        "pin": true
+      },
+      {
+        "layout": "P2",
+        "reference": "P2",
+        "pin": true
+      },
+      {
+        "layout": "P3",
+        "reference": "P3",
+        "pin": true
+      },
+      {
+        "layout": "P4",
+        "reference": "P4",
+        "pin": true
+      },
+      {
+        "layout": "P5",
+        "reference": "P5",
+        "pin": true
+      },
+      {
+        "layout": "VDD_DIV",
+        "reference": "VDD_DIV",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": ""
+}

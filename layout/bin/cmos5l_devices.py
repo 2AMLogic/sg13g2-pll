@@ -137,9 +137,28 @@ L_NWELL = (31, 0)
 #: `$<n>` net and `klt extract` reports `unbiased_pmos_body_nets[]`.
 L_NWELL_PIN = (31, 2)
 L_THICKGATEOX = (44, 0)
+#: `Via3.drawing` (49, 0) -- `EXTRACTION_DECK.vias[2]`, Metal3 <-> Metal4
+#: (read off `sg13cmos5l.lyp`; **not** 40/0, a neighbouring layer number).
+L_VIA3 = (49, 0)
 L_TEXT = (63, 0)
 L_EXTBLOCK = (111, 0)
 L_POLYRES = (128, 0)
+#: `Metal4.drawing` (50, 0) -- `EXTRACTION_DECK.metals[3]`, the top thin
+#: metal of this PDK's M1-M4 stack (there is no Metal5; TopMetal1 (126, 0)
+#: sits above it).
+L_METAL4 = (50, 0)
+#: `Metal4.pin` (50, 2) -- `EXTRACTION_DECK.mom_capacitors[0].metal_pins[3]`.
+L_METAL4_PIN = (50, 2)
+#: `Recog.mom` (99, 39) -- the MoM-capacitor recognition marker
+#: (`EXTRACTION_DECK.mom_capacitors[0].marker`, klayout-tools#1466 merged as
+#: #1475): the single layer whose bbox *is* the recognised `cap_cmomi`
+#: footprint and whose interior must contain exactly two per-metal port
+#: shapes. Read off `sg13cmos5l.lyp` and cross-checked against the deck.
+L_RECOG_MOM = (99, 39)
+#: `NoMetFiller.drawing` (160, 0) -- honoured by every metal/topmetal filler
+#: PCell; drawn over a MoM capacitor's full extent so automatic dummy-metal
+#: fill cannot perturb a device whose capacitance LVS never re-measures.
+L_NOMETFILLER = (160, 0)
 
 LAYER_NAMES: dict[tuple[int, int], str] = {
     L_ACTIV: "Activ.drawing",
@@ -152,8 +171,11 @@ LAYER_NAMES: dict[tuple[int, int], str] = {
     L_METAL2_PIN: "Metal2.pin",
     L_VIA1: "Via1.drawing",
     L_VIA2: "Via2.drawing",
+    L_VIA3: "Via3.drawing",
     L_METAL3: "Metal3.drawing",
     L_METAL3_PIN: "Metal3.pin",
+    L_METAL4: "Metal4.drawing",
+    L_METAL4_PIN: "Metal4.pin",
     L_PSD: "pSD.drawing",
     L_SALBLOCK: "SalBlock.drawing",
     L_NWELL: "NWell.drawing",
@@ -162,6 +184,8 @@ LAYER_NAMES: dict[tuple[int, int], str] = {
     L_TEXT: "TEXT.drawing",
     L_EXTBLOCK: "EXTBlock.drawing",
     L_POLYRES: "PolyRes.drawing",
+    L_RECOG_MOM: "Recog.mom",
+    L_NOMETFILLER: "NoMetFiller.drawing",
 }
 
 # --------------------------------------------------------------------------- #
@@ -735,6 +759,295 @@ def draw_poly_res(
         "body": body,
         "end_a_pad": end_a_pad,
         "end_b_pad": end_b_pad,
+    }
+
+
+# --------------------------------------------------------------------------- #
+# MoM capacitor (cap_cmomi, issue #114)
+# --------------------------------------------------------------------------- #
+#
+# The one device family this module draws whose recognition is **marker
+# driven** rather than geometry driven: klayout-tools#1466 (merged as #1475,
+# carried at this repo's `layout/requirements.txt` pin) recognises a
+# `cap_cmomi` from a single `Recog.mom` (99, 39) marker covering the whole
+# footprint plus exactly two per-metal port shapes inside it, and matches
+# only the marker bbox's own dimensions (`w_um` = Y extent, `l_um` = X
+# extent) -- the capacitance itself comes from the PDK's SPICE model, never
+# from the drawn geometry. That is a different contract from every device
+# above, and it is what lets a *simplified representative* finger lattice
+# close LVS while staying honest about what it is.
+#
+# Every geometric constant below is read from the PDK's own
+# `ihp/cap_cmomi_code.py` PCell (the same provenance the MOS/resistor
+# footprints above carry), which draws a brick-staggered interdigitated
+# lattice on a 0.840 x 0.890 um unit cell across the full Metal1..Metal4
+# stack with an opposite-side ("double") feed. The foundry-reference finger
+# lattice those constants reproduce is DRC-verified by IHP; this module
+# reproduces the lattice *locally* and re-verifies it with `klt drc` anyway.
+
+#: Unit cell (um): `UC_X` along the finger axis (X), `UC_Y` the row pitch (Y).
+MOM_UC_X = 0.840
+MOM_UC_Y = 0.890
+#: Finger width / horizontal bar height (um), both = `Mn_a` + 0.01 margin.
+MOM_FINGER_W = 0.21
+MOM_T_BAR = 0.21
+#: Tooth extension from its bar toward the opposite-polarity bar (um) --
+#: `UC_Y - T_BAR/2 - Mn_b` exactly, so the tip-to-bar gap *is* `Mn_b`.
+MOM_TOOTH_EXT = 0.575
+#: Via cut (um, `V1_a`; Via1..Via3 share the thin-via rules) and the
+#: along-tooth via offset (`V1_a + V1_b`), reproducing the reference lattice.
+MOM_VIA_CUT = 0.19
+MOM_TOOTH_VIA_OFF = 0.41
+#: X offsets of the UP/DOWN tooth columns inside one unit cell (um).
+MOM_X_UP = 0.0
+MOM_X_DOWN = 0.42
+#: Bar overhang past the core's last unit cell (um).
+MOM_BAR_OVERHANG = 0.05
+#: Opposite-side ("double") feed: gap from the core to each pad, pad width,
+#: and the full one-sided extent (um). The two pads sit on *opposite* ends,
+#: which is what keeps the two terminals' Metal1 landing areas (and therefore
+#: the router's two riser columns) far apart.
+MOM_FEED_GAP = 0.30
+MOM_FEED_PAD_W = 0.60
+MOM_FEED_EXT = MOM_FEED_GAP + MOM_FEED_PAD_W  # 0.90
+#: Extra pad height above/below the bar stack (um) -- the PCell's
+#: `feed_width = ny*UC_Y + 0.64` centred on the core.
+MOM_PAD_Y_EXTRA = 0.64
+#: Port box size on `Metal1.pin` (um) -- the PCell pin's own `Mn_a x T_BAR`.
+MOM_PORT_W = 0.20
+MOM_PORT_H = 0.21
+
+#: The thin-metal layers of the M1-M4 stack this device is built on, in
+#: stack order, with the via layer that climbs off each level.
+MOM_METAL_LAYERS = (L_METAL1, L_METAL2, L_METAL3, L_METAL4)
+MOM_VIA_LAYERS = (L_VIA1, L_VIA2, L_VIA3)
+
+
+def mom_cap_core_counts(w_um: float, l_um: float) -> tuple[int, int]:
+    """`(nx, ny)` unit cells that fit inside a `w_um x l_um` marker.
+
+    `nx` fingers (X) leave room for both feed pads (`2 * MOM_FEED_EXT`); `ny`
+    rows (Y) keep the pads' `ny*UC_Y + 0.64` height inside the marker -- the
+    same snap-to-pitch arithmetic the PCell's `genLayout` uses, inverted to
+    *fit inside* a fixed box instead of growing past one. Every count is
+    floor-to-pitch with a sub-grid epsilon, identical to the PCell's own
+    `int(x/pitch + 1e-6)` convention, so a dimension that is an exact
+    multiple of the pitch cannot land one unit cell low to a float ULP.
+    """
+    nx = max(1, int((l_um - 2 * MOM_FEED_EXT) / MOM_UC_X + 1e-6))
+    ny = max(1, int((w_um - MOM_PAD_Y_EXTRA) / MOM_UC_Y + 1e-6))
+    if nx * MOM_UC_X > l_um - 2 * MOM_FEED_EXT + 1e-9 or ny * MOM_UC_Y > w_um - MOM_PAD_Y_EXTRA + 1e-9:
+        raise ValueError(
+            f"draw_mom_cap: a {w_um:g} x {l_um:g} um marker is too small to "
+            "hold one unit cell of the finger lattice plus both feed pads "
+            f"(needs >= {2 * MOM_FEED_EXT + MOM_UC_X:.3f} x "
+            f"{MOM_PAD_Y_EXTRA + MOM_UC_Y:.3f} um)"
+        )
+    return nx, ny
+
+
+def mom_cap_size(w_um: float, l_um: float) -> tuple[float, float]:
+    """Drawn `(width, height)` of one MoM-capacitor footprint, in microns.
+
+    Deliberately exactly `(l_um, w_um)`: the recognition marker is the whole
+    device as far as extraction is concerned, and this flow fixes the marker
+    at the schematic's own declared size so `klt extract` reports the
+    `w_um`/`l_um` the reference netlist declares. (The PCell's own marker
+    grows past `w`/`l` -- unit-cell snap plus feed extents -- which is
+    correct for a generator but would leave LVS comparing 41.28 um against a
+    declared 40 um. Recorded here because the difference is a choice, not an
+    accident.)
+    """
+    return l_um, w_um
+
+
+def draw_mom_cap(
+    b: Builder,
+    x: float,
+    y: float,
+    w_um: float,
+    l_um: float,
+    mmin: int = 1,
+    mmax: int = 4,
+    feed: str = "double",
+    label: str | None = None,
+) -> dict[str, object]:
+    """Draw one local `cap_cmomi` MoM-capacitor footprint (issue #114).
+
+    `(x, y)` is the lower-left corner of the **recognition marker**, whose
+    bbox is exactly `l_um` (X) x `w_um` (Y); every other shape is drawn
+    inside it. The structure is the PCell's own brick-staggered interdigitated
+    lattice, simplified exactly the way this module's MOS/resistor footprints
+    are (correct layer stack, correct unit-cell lattice, contacts/vias and
+    terminal pads; not a re-implementation of the PCell's label machinery):
+
+    * On every metal `mmin..mmax`: horizontal polarity bars at each row pitch
+      `MOM_UC_Y` (even rows PLUS, odd rows MINUS) spanning into their own
+      side's feed pad, plus the two staggered tooth columns per unit cell
+      (`MOM_X_UP`/`MOM_X_DOWN`), each extending `MOM_TOOTH_EXT` from its bar
+      toward the opposite bar -- leaving exactly `Mn_b` of space at the tip.
+    * Core via stacks: two vias per tooth (at the bar root and
+      `MOM_TOOTH_VIA_OFF` out toward the tip, the foundry reference's own
+      0.41 um finger lattice), tying every metal level of a tooth into one
+      node.
+    * Opposite-side ("double") feed: a full-height PLUS pad on the left and
+      MINUS pad on the right, drawn on **every** metal of the stack (the
+      PCell draws them on the top metal only and climbs through per-bar
+      landing pads; drawing the pad on every level is the same net with less
+      machinery), with a via stack at every bar end tying the levels.
+    * Two `Metal1.pin` (8, 2) port boxes, one centred on each feed pad at the
+      marker's vertical mid -- exactly two port polygons under the marker, at
+      the two extreme x positions the extractor's position sort keys on. Both
+      ports sit on Metal1 (the router's own landing level), each overlapping
+      solid Metal1 pad metal.
+    * `NoMetFiller` (160, 0) over the whole marker, so automatic metal fill
+      cannot perturb a device whose capacitance LVS never re-measures.
+
+    `mmin`/`mmax` select the metal stack (any contiguous subset of 1..4,
+    matching the PCell parameter of the same name); `feed` must be `"double"`
+    -- the `'same'` single-side stacked-pin configuration is a different
+    port layout this footprint does not draw, and is refused loudly rather
+    than silently mis-drawn. The marker needs `mmin == 1` so both ports can
+    sit on `Metal1.pin` (`metal_pins[0]`).
+
+    Returns `{"bbox", "marker", "plus_pad", "minus_pad", "plus_port",
+    "minus_port", "terminals"}` -- `terminals` maps `"TOP"`/`"BOT"` to the
+    `(x, y)` a router should drop its `Via1` on (each feed pad's centre, on
+    solid Metal1).
+    """
+    if feed != "double":
+        raise ValueError(
+            f"draw_mom_cap: only the 'double' (opposite-side) feed is drawn "
+            f"here, got {feed!r}"
+        )
+    if not (1 <= mmin <= mmax <= 4):
+        raise ValueError(f"draw_mom_cap: bad metal stack mmin={mmin} mmax={mmax}")
+
+    x_lo, y_lo = x, y
+    x_hi, y_hi = x + l_um, y + w_um
+    marker = (x_lo, y_lo, x_hi, y_hi)
+
+    nx, ny = mom_cap_core_counts(w_um, l_um)
+    core_w = nx * MOM_UC_X
+    core_h = ny * MOM_UC_Y
+    # Centre the bar stack in the space the feed pads leave: the core spans
+    # [x_lo + FEED_EXT, x_hi - FEED_EXT] in x and is centred on the marker
+    # in y (the pads' extra 0.64 um of height then lands symmetrically
+    # inside the marker too).
+    core_x0 = x_lo + MOM_FEED_EXT + ((l_um - 2 * MOM_FEED_EXT) - core_w) / 2
+    core_y0 = y_lo + (w_um - core_h) / 2
+
+    metals = MOM_METAL_LAYERS[mmin - 1 : mmax]
+    vias = MOM_VIA_LAYERS[mmin - 1 : mmax - 1]
+    half_bar = MOM_T_BAR / 2
+    half_via = MOM_VIA_CUT / 2
+
+    # Feed pads: PLUS left, MINUS right, full bar-stack height plus the
+    # PCell's 0.64 um extra, drawn on every metal of the stack.
+    pad_y_lo = core_y0 - MOM_PAD_Y_EXTRA / 2
+    pad_y_hi = core_y0 + core_h + MOM_PAD_Y_EXTRA / 2
+    plus_pad = (x_lo, pad_y_lo, x_lo + MOM_FEED_PAD_W, pad_y_hi)
+    minus_pad = (x_hi - MOM_FEED_PAD_W, pad_y_lo, x_hi, pad_y_hi)
+    plus_cx = (plus_pad[0] + plus_pad[2]) / 2
+    minus_cx = (minus_pad[0] + minus_pad[2]) / 2
+
+    for layer in metals:
+        b.box(layer, *plus_pad)
+        b.box(layer, *minus_pad)
+
+    # Bars + teeth on every metal level (the PCell's `_draw_bars_and_teeth`).
+    for layer in metals:
+        for j in range(ny + 1):
+            yc = core_y0 + j * MOM_UC_Y
+            if j % 2 == 0:  # PLUS bar reaches into the left pad
+                b.box(layer, x_lo, yc - half_bar, core_x0 + core_w + MOM_BAR_OVERHANG, yc + half_bar)
+            else:  # MINUS bar reaches into the right pad
+                b.box(layer, core_x0 - MOM_BAR_OVERHANG, yc - half_bar, x_hi, yc + half_bar)
+        for i in range(nx):
+            for j in range(ny):
+                # UP tooth attached to the bar at row j.
+                x_up = core_x0 + i * MOM_UC_X + MOM_X_UP
+                b.box(
+                    layer,
+                    x_up,
+                    core_y0 + j * MOM_UC_Y,
+                    x_up + MOM_FINGER_W,
+                    core_y0 + j * MOM_UC_Y + MOM_TOOTH_EXT,
+                )
+                # DOWN tooth attached to the bar at row j+1.
+                x_dn = core_x0 + i * MOM_UC_X + MOM_X_DOWN
+                b.box(
+                    layer,
+                    x_dn,
+                    core_y0 + (j + 1) * MOM_UC_Y - MOM_TOOTH_EXT,
+                    x_dn + MOM_FINGER_W,
+                    core_y0 + (j + 1) * MOM_UC_Y,
+                )
+
+    # Core via stacks (the PCell's `_draw_core_vias`): one via at each
+    # tooth's bar root and one MOM_TOOTH_VIA_OFF out toward the tip.
+    for vlayer in vias:
+        for i in range(nx):
+            for j in range(ny):
+                up_cx = core_x0 + i * MOM_UC_X + MOM_X_UP + MOM_FINGER_W / 2
+                dn_cx = core_x0 + i * MOM_UC_X + MOM_X_DOWN + MOM_FINGER_W / 2
+                for cy in (
+                    core_y0 + j * MOM_UC_Y,
+                    core_y0 + j * MOM_UC_Y + MOM_TOOTH_VIA_OFF,
+                ):
+                    b.box(vlayer, up_cx - half_via, cy - half_via, up_cx + half_via, cy + half_via)
+                for cy in (
+                    core_y0 + (j + 1) * MOM_UC_Y,
+                    core_y0 + (j + 1) * MOM_UC_Y - MOM_TOOTH_VIA_OFF,
+                ):
+                    b.box(vlayer, dn_cx - half_via, cy - half_via, dn_cx + half_via, cy + half_via)
+
+    # Feed via stacks: at every bar's own pad-side end, tying the pad
+    # columns across the metal levels (PLUS at even rows, MINUS at odd).
+    for vlayer in vias:
+        for j in range(ny + 1):
+            cx = plus_cx if j % 2 == 0 else minus_cx
+            cy = core_y0 + j * MOM_UC_Y
+            b.box(vlayer, cx - half_via, cy - half_via, cx + half_via, cy + half_via)
+
+    # Recognition marker (exactly w x l) and the filler keep-out over it.
+    b.box(L_RECOG_MOM, *marker)
+    b.box(L_NOMETFILLER, *marker)
+
+    # The two extraction ports: Metal1.pin boxes at the two extreme-x pad
+    # centres -- exactly two port polygons under the marker, told apart by
+    # the extractor's own position sort.
+    mid_y = core_y0 + core_h / 2
+    plus_port = (
+        plus_cx - MOM_PORT_W / 2,
+        mid_y - MOM_PORT_H / 2,
+        plus_cx + MOM_PORT_W / 2,
+        mid_y + MOM_PORT_H / 2,
+    )
+    minus_port = (
+        minus_cx - MOM_PORT_W / 2,
+        mid_y - MOM_PORT_H / 2,
+        minus_cx + MOM_PORT_W / 2,
+        mid_y + MOM_PORT_H / 2,
+    )
+    b.box(L_METAL1_PIN, *plus_port)
+    b.box(L_METAL1_PIN, *minus_port)
+
+    if label:
+        b.annotate(label, x_lo, y_lo - 0.2)
+
+    return {
+        "bbox": marker,
+        "marker": marker,
+        "core": (core_x0, core_y0, core_x0 + core_w, core_y0 + core_h),
+        "nx": nx,
+        "ny": ny,
+        "metals": (mmin, mmax),
+        "plus_pad": plus_pad,
+        "minus_pad": minus_pad,
+        "plus_port": plus_port,
+        "minus_port": minus_port,
+        "terminals": {"TOP": (plus_cx, mid_y), "BOT": (minus_cx, mid_y)},
     }
 
 

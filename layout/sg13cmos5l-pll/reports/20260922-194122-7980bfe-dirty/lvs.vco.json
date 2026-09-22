@@ -1,0 +1,370 @@
+{
+  "returncode": 3,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_vco.gds",
+    "reference": "vco.reference.spice",
+    "top": "pll_vco",
+    "reference_top": "VCO",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ]
+    },
+    "hints_applied": null,
+    "status": "mismatch",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "mismatch_count": 8,
+    "error_count": 7,
+    "category_counts": {
+      "device.unmatched": 6,
+      "net.merged": 1,
+      "topology.flattened": 1
+    },
+    "category_error_counts": {
+      "device.unmatched": 6,
+      "net.merged": 1
+    },
+    "counts": {
+      "nets": {
+        "layout": 33,
+        "reference": 34,
+        "matched": 25
+      },
+      "devices": {
+        "layout": 45,
+        "reference": 45,
+        "matched": 39
+      },
+      "pins": {
+        "layout": 33,
+        "reference": 6,
+        "matched": 33
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.10",
+      "layout_sha256": "21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7",
+      "reference_sha256": "1f5c54b85fe8d9a37d996b26a19b4d5c06e158020d02f2a08b28fdf588ada7a0",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": false
+    },
+    "mismatches": [
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$40",
+          "reference": "BIAS_S",
+          "class": "rppd"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$41",
+          "reference": "BIAS_DEGA",
+          "class": "rppd"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$42",
+          "reference": "BIAS_DEGB2",
+          "class": "rppd"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$43",
+          "reference": "BIAS_DEGB0",
+          "class": "rppd"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$44",
+          "reference": "BIAS_DEGB1",
+          "class": "rppd"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "device.unmatched",
+        "severity": "error",
+        "description": "device has no counterpart on the other side",
+        "side": "reference",
+        "net": null,
+        "device": {
+          "layout": "\\$45",
+          "reference": "BIAS_START",
+          "class": "rhigh"
+        },
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "net.merged",
+        "severity": "error",
+        "description": "multiple reference nets were collapsed into one layout net",
+        "side": "reference",
+        "net": {
+          "layout": null,
+          "reference": "BIAS_SUB!"
+        },
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 4 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "B0",
+        "reference": "B0",
+        "pin": true
+      },
+      {
+        "layout": "B1",
+        "reference": "B1",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_vb1",
+        "reference": "BIAS_VB1",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_VFIX",
+        "reference": "BIAS_VFIX",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_vfixmid",
+        "reference": "BIAS_VFIXMID",
+        "pin": true
+      },
+      {
+        "layout": "bufmid",
+        "reference": "BUFMID",
+        "pin": true
+      },
+      {
+        "layout": "CLK",
+        "reference": "CLK",
+        "pin": true
+      },
+      {
+        "layout": "ring1",
+        "reference": "RING1",
+        "pin": true
+      },
+      {
+        "layout": "ring2",
+        "reference": "RING2",
+        "pin": true
+      },
+      {
+        "layout": "ring3",
+        "reference": "RING3",
+        "pin": true
+      },
+      {
+        "layout": "ring4",
+        "reference": "RING4",
+        "pin": true
+      },
+      {
+        "layout": "ring5",
+        "reference": "RING5",
+        "pin": true
+      },
+      {
+        "layout": "XS1_nh",
+        "reference": "S1_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS1_nt",
+        "reference": "S1_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS2_nh",
+        "reference": "S2_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS2_nt",
+        "reference": "S2_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS3_nh",
+        "reference": "S3_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS3_nt",
+        "reference": "S3_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS4_nh",
+        "reference": "S4_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS4_nt",
+        "reference": "S4_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS5_nh",
+        "reference": "S5_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS5_nt",
+        "reference": "S5_NT",
+        "pin": true
+      },
+      {
+        "layout": "VBN",
+        "reference": "VBN",
+        "pin": true
+      },
+      {
+        "layout": "VBP",
+        "reference": "VBP",
+        "pin": true
+      },
+      {
+        "layout": "VCTRL",
+        "reference": "VCTRL",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": ""
+}

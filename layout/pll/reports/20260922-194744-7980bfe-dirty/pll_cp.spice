@@ -1,0 +1,34 @@
+* extracted by klt extract --deck sg13g2
+
+* cell pll_cp
+* pin vsubs
+.SUBCKT pll_cp vsubs
+* device instance $1 r0 *1 0.67,1 nfet
+M$1 \$13 \$1 \$12 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $2 r0 *1 2.41,1 nfet
+M$2 \$15 \$2 \$14 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $3 r0 *1 8,2 nfet
+M$3 \$17 \$3 \$16 vsubs nfet L=1U W=4U AS=1.68P AD=1.68P PS=8.84U PD=8.84U
+* device instance $4 r0 *1 13.49,3 nfet
+M$4 \$19 \$4 \$18 vsubs nfet L=0.3U W=6U AS=2.52P AD=2.52P PS=12.84U PD=12.84U
+* device instance $5 r0 *1 15.03,3 nfet
+M$5 \$22 \$21 \$20 vsubs nfet L=0.3U W=6U AS=2.52P AD=2.52P PS=12.84U PD=12.84U
+* device instance $6 r0 *1 20.27,3 nfet
+M$6 \$24 \$5 \$23 vsubs nfet L=0.5U W=6U AS=2.52P AD=2.52P PS=12.84U PD=12.84U
+* device instance $7 r0 *1 25.86,4 nfet
+M$7 \$26 \$6 \$25 vsubs nfet L=1U W=8U AS=3.36P AD=3.36P PS=16.84U PD=16.84U
+* device instance $8 r0 *1 28.1,4 nfet
+M$8 \$28 \$7 \$27 vsubs nfet L=1U W=8U AS=3.36P AD=3.36P PS=16.84U PD=16.84U
+* device instance $9 r0 *1 33.69,2.5 pfet
+M$9 \$30 \$8 \$29 \$43 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $10 r0 *1 35.43,2.5 pfet
+M$10 \$32 \$9 \$31 \$43 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $11 r0 *1 40.97,3 pfet
+M$11 \$35 \$34 \$33 \$44 pfet L=0.3U W=6U AS=2.52P AD=2.52P PS=12.84U PD=12.84U
+* device instance $12 r0 *1 42.51,3 pfet
+M$12 \$38 \$37 \$36 \$44 pfet L=0.3U W=6U AS=2.52P AD=2.52P PS=12.84U PD=12.84U
+* device instance $13 r0 *1 48.3,12 pfet
+M$13 \$40 \$10 \$39 \$45 pfet L=1U W=24U AS=10.08P AD=10.08P PS=48.84U PD=48.84U
+* device instance $14 r0 *1 50.54,12 pfet
+M$14 \$42 \$11 \$41 \$45 pfet L=1U W=24U AS=10.08P AD=10.08P PS=48.84U PD=48.84U
+.ENDS pll_cp

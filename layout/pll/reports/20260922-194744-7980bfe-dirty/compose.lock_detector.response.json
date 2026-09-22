@@ -1,0 +1,213 @@
+{
+  "cell_name": "pll_lock_detector",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_lock_detector",
+    "gds_path": "pll_lock_detector.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": -0.15,
+      "x1": 500.84000000000003,
+      "y1": 75.5
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "lock_detector_nfet_w2_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "lock_detector_nfet_w2_l0p5",
+        "source_path": "lock_detector_nfet_w2_l0p5.gds",
+        "source_digest": "sha256:364f1ad58347f3a634bc7df772641d9c5da16dfc87be8c67f46690e529cfbb96",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 8.3,
+          "y1": 9.56
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_nfet_w2_l2",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "lock_detector_nfet_w2_l2",
+        "source_path": "lock_detector_nfet_w2_l2.gds",
+        "source_digest": "sha256:89aa3cbf8494dbdb264736f21807d87db696cdd1b32b1c92a0391fd5e565e60b",
+        "offset_um": {
+          "x": 12.3,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 12.3,
+          "y0": 0.0,
+          "x1": 21.62,
+          "y1": 2.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_pfet_w5_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "lock_detector_pfet_w5_l0p5",
+        "source_path": "lock_detector_pfet_w5_l0p5.gds",
+        "source_digest": "sha256:d4938a67c0623e9a19bf57a848084780e54b0b79b279cf1181a409df16497a84",
+        "offset_um": {
+          "x": 25.62,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 25.470000000000002,
+          "y0": -0.15,
+          "x1": 34.07,
+          "y1": 18.71
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_pfet_w5_l2",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "lock_detector_pfet_w5_l2",
+        "source_path": "lock_detector_pfet_w5_l2.gds",
+        "source_digest": "sha256:2982090ce1b94009a7870c1c0980f152d391554a74ca971fdac2a6e04a91b3b3",
+        "offset_um": {
+          "x": 38.22,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 38.07,
+          "y0": -0.15,
+          "x1": 47.69,
+          "y1": 6.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_resrhigh_w0p5_l500",
+        "source": "generator_report",
+        "generator": "res_array",
+        "cell_name": "lock_detector_resrhigh_w0p5_l500",
+        "source_path": "lock_detector_resrhigh_w0p5_l500.gds",
+        "source_digest": "sha256:bd06906eabca9ebd94d1ff3d611cebe8c7fc8b92801fc5ad367da30c4d5f68aa",
+        "offset_um": {
+          "x": 0.0,
+          "y": 22.86
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 22.86,
+          "x1": 500.84000000000003,
+          "y1": 23.36
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_XCW",
+        "source": "generator_report",
+        "generator": "cap_array",
+        "cell_name": "lock_detector_XCW",
+        "source_path": "lock_detector_XCW.gds",
+        "source_digest": "sha256:b55b1c666d236e026031afbf06997f7335ac63f053b26c48aab8495e758b214b",
+        "offset_um": {
+          "x": 0.0,
+          "y": 27.36
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 27.36,
+          "x1": 46.0,
+          "y1": 75.5
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "lock_detector_XDW.XC1",
+        "source": "generator_report",
+        "generator": "cap_array",
+        "cell_name": "lock_detector_XDW.XC1",
+        "source_path": "lock_detector_XDW.XC1.gds",
+        "source_digest": "sha256:5be76f5e070040e348edfa22e5d09c9272f75bd172e8fbf3b066cb6a06f0eb0e",
+        "offset_um": {
+          "x": 50.0,
+          "y": 27.36
+        },
+        "bbox_um": {
+          "x0": 50.0,
+          "y0": 27.36,
+          "x1": 96.0,
+          "y1": 75.5
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "mos_array:3x5:array",
+          "blocks": [
+            "lock_detector_nfet_w2_l0p5",
+            "lock_detector_pfet_w5_l0p5"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x3:array",
+          "blocks": [
+            "lock_detector_nfet_w2_l2",
+            "lock_detector_pfet_w5_l2"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "res_array:1",
+          "blocks": [
+            "lock_detector_resrhigh_w0p5_l500"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "cap_array:1",
+          "blocks": [
+            "lock_detector_XCW",
+            "lock_detector_XDW.XC1"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": {
+        "name": "ihp-sg13g2",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stderr": ""
+}

@@ -1,0 +1,131 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_lock_detector
+* pin DN
+* pin ERR
+* pin ERRD
+* pin LOCK
+* pin UP
+* pin VDD
+* pin VSS
+* pin VWIN
+* pin WIDE
+* pin XDW_d1
+* pin XDW_d2
+* pin XDW_d3
+* pin XNW_mid1
+* pin XSCH_nn
+* pin XSCH_np
+* pin XXOR_XN1_mid1
+* pin XXOR_XN2_mid1
+* pin XXOR_XN3_mid1
+* pin XXOR_XN4_mid1
+* pin XXOR_n1
+* pin XXOR_n2
+* pin XXOR_n3
+* pin nwide
+.SUBCKT pll_lock_detector DN ERR ERRD LOCK UP VDD VSS VWIN WIDE XDW_d1 XDW_d2
++ XDW_d3 XNW_mid1 XSCH_nn XSCH_np XXOR_XN1_mid1 XXOR_XN2_mid1 XXOR_XN3_mid1
++ XXOR_XN4_mid1 XXOR_n1 XXOR_n2 XXOR_n3 nwide
+* device instance $1 r0 *1 1.425,10.86 nfet
+X$1 \$28 WIDE \$13 VSS sg13_hv_nmos L=16U W=0.25U AS=0.1P AD=0.1P PS=1.3U
++ PD=1.3U
+* device instance $2 r0 *1 11.15,3.11 nfet
+X$2 XXOR_n1 UP XXOR_XN1_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $3 r0 *1 15.11,3.11 nfet
+X$3 XXOR_XN1_mid1 DN VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $4 r0 *1 19.07,3.11 nfet
+X$4 XXOR_n2 UP XXOR_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $5 r0 *1 23.03,3.11 nfet
+X$5 XXOR_XN2_mid1 XXOR_n1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $6 r0 *1 26.99,3.11 nfet
+X$6 XXOR_n3 DN XXOR_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $7 r0 *1 30.95,3.11 nfet
+X$7 XXOR_XN3_mid1 XXOR_n1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $8 r0 *1 34.91,3.11 nfet
+X$8 ERR XXOR_n2 XXOR_XN4_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $9 r0 *1 38.87,3.11 nfet
+X$9 XXOR_XN4_mid1 XXOR_n3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $10 r0 *1 42.83,3.11 nfet
+X$10 XDW_d1 ERR VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $11 r0 *1 46.79,3.11 nfet
+X$11 XDW_d2 XDW_d1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $12 r0 *1 50.75,3.11 nfet
+X$12 XDW_d3 XDW_d2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $13 r0 *1 54.71,3.11 nfet
+X$13 ERRD XDW_d3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $14 r0 *1 58.67,3.11 nfet
+X$14 nwide ERR XNW_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $15 r0 *1 62.63,3.11 nfet
+X$15 XNW_mid1 ERRD VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $16 r0 *1 66.59,3.11 nfet
+X$16 WIDE nwide VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $17 r0 *1 77.19,3.86 nfet
+X$17 LOCK VWIN XSCH_nn VSS sg13_hv_nmos L=2U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $18 r0 *1 81.15,3.86 nfet
+X$18 XSCH_nn VWIN VSS VSS sg13_hv_nmos L=2U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $19 r0 *1 85.11,3.86 nfet
+X$19 VDD LOCK XSCH_nn VSS sg13_hv_nmos L=2U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $20 r0 *1 97.21,3.11 pfet
+X$20 XXOR_n1 UP VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $21 r0 *1 104.17,3.11 pfet
+X$21 XXOR_n1 DN VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $22 r0 *1 111.13,3.11 pfet
+X$22 XXOR_n2 UP VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $23 r0 *1 118.09,3.11 pfet
+X$23 XXOR_n2 XXOR_n1 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $24 r0 *1 125.05,3.11 pfet
+X$24 XXOR_n3 DN VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $25 r0 *1 132.01,3.11 pfet
+X$25 XXOR_n3 XXOR_n1 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $26 r0 *1 138.97,3.11 pfet
+X$26 ERR XXOR_n2 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $27 r0 *1 145.93,3.11 pfet
+X$27 ERR XXOR_n3 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $28 r0 *1 152.89,3.11 pfet
+X$28 XDW_d1 ERR VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $29 r0 *1 159.85,3.11 pfet
+X$29 XDW_d2 XDW_d1 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $30 r0 *1 166.81,3.11 pfet
+X$30 XDW_d3 XDW_d2 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $31 r0 *1 173.77,3.11 pfet
+X$31 ERRD XDW_d3 VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $32 r0 *1 180.73,3.11 pfet
+X$32 nwide ERR VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $33 r0 *1 187.69,3.11 pfet
+X$33 nwide ERRD VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $34 r0 *1 194.65,3.11 pfet
+X$34 WIDE nwide VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $35 r0 *1 208.25,3.86 pfet
+X$35 XSCH_np VWIN VDD VDD sg13_hv_pmos L=2U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $36 r0 *1 215.21,3.86 pfet
+X$36 LOCK VWIN XSCH_np VDD sg13_hv_pmos L=2U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $37 r0 *1 222.17,3.86 pfet
+X$37 VSS LOCK XSCH_np VDD sg13_hv_pmos L=2U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $38 r0 *1 938.97,0 cap_cmomi
+XD_$38 VWIN VSS cap_cmomi PARAMS: W=40 L=40
+* device instance $39 r0 *1 984.97,0 cap_cmomi
+XD_$39 ERRD VSS cap_cmomi PARAMS: W=40 L=40
+* device instance $40 r0 *1 1030.97,0 cap_cmomi
+XD_$40 ERRD VSS cap_cmomi PARAMS: W=40 L=40
+* device instance $41 r0 *1 582.47,0.45 rhigh
+R$41 VDD VWIN VSS 1904000 rhigh L=700U W=0.5U
+.ENDS pll_lock_detector

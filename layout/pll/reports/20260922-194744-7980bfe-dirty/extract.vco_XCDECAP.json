@@ -1,0 +1,137 @@
+{
+  "top": "vco_XCDECAP",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "vco_XCDECAP.gds",
+    "deck": "sg13g2",
+    "top": "vco_XCDECAP",
+    "dbu_um": 0.001,
+    "netlist_path": "vco_XCDECAP.spice",
+    "netlist_sha256": "f213591b314790825df44bee58190e827609b60dfa4ebadcda4defb483da84fc",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 2,
+    "pin_count": 0,
+    "device_counts": {
+      "cap_cmim": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 36,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 129,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "cap_cmim",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2"
+        },
+        "params": {
+          "c_f": 5.4096e-12,
+          "area_um2": 3600.0,
+          "perimeter_um": 240.0
+        },
+        "instance_path": [
+          {
+            "cell": "cap_array",
+            "array_index": null
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 1,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 2,
+        "pin_index": null,
+        "label_positions_um": []
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (5/1, 8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'vco_XCDECAP' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "0 top-level pins are promoted on 'vco_XCDECAP' after extraction -- `klt lvs` has no net/device anchor to seed correspondence against a reference netlist and will report a full mismatch regardless of device-count agreement. If this design genuinely has zero top-level pins by intent, this warning can be ignored; otherwise see the pin-name-label warning above (if present) or check that --top-cell-pins/--pins/--def-pins did not demote every promoted pin (issue #1385)",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:894326a4e37fb24fef2f7ffc6ae1da55a0e262b0f0bc1c09adc4862909278fda",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:f23329dee032c6f55d9fa45f185200343f7c43e120d034166192b49d8a5c653b",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 1,
+      "extract__net__count": 2,
+      "extract__pin__count": 0
+    }
+  },
+  "stderr": ""
+}
