@@ -494,7 +494,8 @@ def main(argv: list[str]) -> int:
     lines.append("### LVS status\n")
     lines.append(
         "`klt lvs` is run per composed block against that block's own "
-        "committed schematic netlist (copied into this record as "
+        "committed schematic netlist (derived into the plain-element "
+        "reference form and committed as "
         "`<block>.reference.spice`, so this evidence is self-contained). "
         "Per-block, read out of `lvs.<block>.json` rather than asserted:\n"
     )
@@ -520,64 +521,24 @@ def main(argv: list[str]) -> int:
                 f"- `{block['name']}` — **not converted**: "
                 f"{lvs.get('error') or 'no LVS response'}"
             )
-            probe = lvs.get("capacitor_probe") or {}
-            if probe.get("ran"):
-                lines.append(
-                    "  - secondary probe (`lvs.%s.cap-probe.json`), reference-side "
-                    "`cap_cmomi` mapped so the compare runs anyway: %s"
-                    % (block["name"], _lvs_line("", probe).lstrip(" —"))
-                )
-                unmatched = probe.get("unmatched_device_classes") or {}
-                if unmatched:
-                    lines.append(
-                        "    unmatched devices: "
-                        + ", ".join(f"{v} x `{k}`" for k, v in sorted(unmatched.items()))
-                    )
-            elif probe:
-                lines.append(
-                    f"  - secondary probe also could not convert: {probe.get('error')}"
-                )
             continue
         lines.append("- " + _lvs_line(f"`{block['name']}`", lvs))
     lines.append("")
     lines.append(
-        "A block whose reference netlist instantiates a MoM capacitor does "
-        "not convert: `klt lvs`'s `subckt-call` converter has no `cap_cmomi` "
-        "entry for this deck, because the deck declares no capacitor device "
-        "class at all (klayout-tools#1463). That is recorded above as `not "
-        "converted` with `klt lvs`'s own message, never as \"clean\" and never "
-        "waived. The secondary probe under each such block maps the capacitor "
-        "on the *reference* side only — which converts, since `device_map`'s "
-        "`kind` vocabulary is caller-side — so the comparison runs and the "
-        "undrawn capacitors show up as `device.unmatched` instead of hiding "
-        "behind a conversion failure. It is a diagnostic, not a verdict: a "
-        "layout that provably cannot carry the device cannot match a "
-        "reference that declares it."
+        "The reference for every block is the plain-element text this run "
+        "itself derived from the committed schematic netlist and committed "
+        "as `<block>.reference.spice`: MOS/resistor `X` cards converted by "
+        "`klayout_tools.netlist_normalize` (the same conversion "
+        "`reference.form: \"subckt-call\"` performs), and each `cap_cmomi` "
+        "card rewritten into the `X ... PARAMS: W= L=` shape `klt lvs`'s "
+        "custom-device-class reader (klayout-tools#1942/#1944, carried at "
+        "this repo's pin) recognises, with `m=` expanded one card per unit "
+        "to match the one-marker-per-unit footprint. The two-step rewrite "
+        "is caller-side because `subckt-call`'s converter and that reader "
+        "cannot yet be selected together in one request -- see the README's "
+        "friction log for the filed gap."
     )
     lines.append("")
-    if any(
-        "net.merged"
-        in (((b.get("block_lvs") or {}).get("capacitor_probe") or {}).get(
-            "category_counts"
-        ) or {})
-        for b in build["blocks"]
-    ):
-        lines.append(
-            "One probe result above is **not** capacitor-attributable and is "
-            "called out rather than absorbed: the `net.merged` entry, and the "
-            "poly resistors unmatched on *both* sides alongside it. Those "
-            "blocks' resistors declare their bulk terminal on the schematic's "
-            "own floating `sub!` global, while the layout puts every drawn "
-            "resistor's bulk on the curated deck's real substrate net "
-            "(`vsubs`) — which the NMOS body ties also land on, so the layout "
-            "has one substrate node where the reference has two. That is a "
-            "schematic-netlist property, not a routing or deck defect, and it "
-            "only shows up on the three blocks that carry both a resistor and "
-            "a capacitor. It is recorded here rather than resolved: changing "
-            "which node a device's bulk is declared on is a schematic change, "
-            "and this increment does not make one."
-        )
-        lines.append("")
 
     lines.append("### Device flavor\n")
     lines.append(plan["device_flavor"])

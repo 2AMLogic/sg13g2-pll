@@ -23,7 +23,7 @@ this repo's `sim/` per-PDK prefixes. The two ports' records are separate
 evidence trails with separate `LATEST` pointers on purpose: they are
 different PDKs, different decks, and different device sets.
 
-## Status: routed, DRC-clean, and **LVS `match` on every block whose reference netlist converts**
+## Status: routed, DRC-clean, **every device drawn**, and LVS `match` on every block whose schematic's substrate split matches the layout
 
 Per the current record (`reports/LATEST`):
 
@@ -31,11 +31,11 @@ Per the current record (`reports/LATEST`):
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `pfd` | 66 | 66 | 66 | 66 | yes | 202 | 37 | clean | yes | **`match`** — devices 66/66, nets 37/37 |
 | `cp` | 20 | 20 | 20 | 20 | yes | 70 | 18 | clean | yes | **`match`** — devices 20/20, nets 18/18 |
-| `loop_filter` | 3 | 1 | 1 | 1 | yes | 2 | 2 (3 incomplete) | clean | yes | not converted (#1463) |
-| `vco` | 45 | 44 | 44 | 44 | yes | 137 | 33 (2 incomplete) | clean | yes | not converted (#1463) |
+| `loop_filter` | 3 | 3 | 3 | 3 | yes | 6 | 3 | clean | yes | **`match`** — devices 3/3, nets 4/4 (#114) |
+| `vco` | 45 | 45 | 45 | 45 | yes | 139 | 33 | clean | yes | `mismatch` — residual is #113's six `XBIAS` resistors + `BIAS.SUB!` net-merge; the drawn `DECAP` matches (#114) |
 | `divider_chain` | 316 | 316 | 316 | 316 | yes | 950 | 142 | clean | yes | **`match`** — devices 316/316, nets 142/142 |
-| `lock_detector` | 40 | 38 | 38 | 38 | yes | 115 | 23 (3 incomplete) | clean | yes | not converted (#1463) |
-| **Total** | **490** | **485** | **485** | **485** | **6/6** | **1476** | **255** | **6/6 clean** | **6/6** | **3 `match`, 3 not converted** |
+| `lock_detector` | 41 | 41 | 41 | 41 | yes | 124 | 23 | clean | yes | `mismatch` — residual is the `SUB!` substrate split (`PU`/`PD`); all three `cap_cmomi` units match (#114) |
+| **Total** | **491** | **491** | **491** | **491** | **6/6** | **1491** | **256** | **6/6 clean** | **6/6** | **4 `match`, 2 mismatch (non-capacitor residuals)** |
 
 **Re-run for issue #72** (record `20260830-204105-457cf5b`), after `cp.sch`
 gained its own high-swing cascode bias replica (six new devices — see
@@ -62,32 +62,41 @@ already reflect both re-runs.
 Three claims in that table are worth stating in words, because they are the
 ones a reviewer would otherwise have to take on trust:
 
-- **Every block whose reference netlist `klt lvs` can convert reports
-  `status: "match"`, with every device *and every net* matched.** Not "device
-  counts agree" — `pfd` matches 36 of 36 nets, `cp` 16 of 16, `divider_chain`
-  142 of 142, against the schematic's own net names. The one `mismatch_count`
-  entry on each is the `topology.flattened` **warning** `options.flatten_reference`
-  always emits; it is a note about the compare, not an unmatched object.
-- **The other three cannot be converted at all**, because their reference
-  netlists instantiate `cap_cmomi` and the curated deck declares no capacitor
-  device class to map it to (klayout-tools#1463). Recorded as `not converted`
-  with `klt lvs`'s own message — never as "clean", never waived. Each also
-  carries a clearly-labelled *secondary* probe; see "LVS" below.
-- **DRC survived routing.** The #24 record's placement-only pack cleared every
-  rule with large margins; routing is where spacing rules actually bite, and
-  the routed cells are still `klt drc --deck sg13cmos5l` clean at zero
-  violations. The four rules the interconnect newly exercises
-  (`metal2.width/space`, `via1`/`via2` size, spacing and `metal1.enclosing.via1`)
-  are what `cmos5l_devices.py`'s `ROUTE_W_UM`/`ROUTE_PITCH_UM` are sized from,
-  each citing the rule id it satisfies.
+- **Every block reports a real LVS verdict** — no `not converted` row is
+  left. `pfd`/`cp`/`divider_chain` match as before, and `loop_filter` now
+  matches too (3/3 devices, 4/4 nets, #114): its two `cap_cmomi`
+  capacitors are drawn, DRC-clean, extract as `cap_cmomi` with the
+  schematic's own declared `w`/`l`, and LVS against a reference that now
+  converts them. The one `mismatch_count` entry on each matching block is
+  the `topology.flattened` **warning** `options.flatten_reference` always
+  emits; it is a note about the compare, not an unmatched object.
+- **The two remaining mismatches contain no capacitor.** `vco`'s unmatched
+  set is exactly #113's six `XBIAS` resistors plus the `BIAS.SUB!`
+  `net.merged` — that issue's own scope, which this issue's AC explicitly
+  leaves to it. `lock_detector`'s is the same substrate-split family
+  (`SUB!` vs the layout's one `vsubs` node, stranding `PU`/`PD`), which
+  predates the capacitors and is a schematic-netlist property, not a
+  routing or deck defect. Every drawn `cap_cmomi` — including
+  `lock_detector`'s `m=2` unit, drawn as two markers and both matched —
+  pairs on both sides.
+- **DRC survived the capacitors.** The interdigitated Metal1–Metal4 finger
+  lattice (`cmos5l_devices.draw_mom_cap`) clears every deck rule at every
+  instantiated size (40×40, 10×10, 70×70 µm) with zero violations, both as
+  standalone cells and inside the routed blocks — on a young deck, at the
+  foundry-reference finger lattice's own minimum spacings.
 
-The 5-device shortfall is exactly this port's five `cap_cmomi`
-metal-oxide-metal capacitors (`loop_filter` ×2, `vco` ×1, `lock_detector` ×2)
-— **never silently dropped**: every one is recorded in `plan.json` with
-`kind: "capacitor"` and its own `blocked_reason`, and every *net* those
-capacitors touch is listed in the record as **incomplete**, routed between the
-terminals that do exist and reported with the undrawn device's reason
-attached.
+The device count moved 490 → 491 because the planner now expands a
+capacitor card's `m=` multiplier into unit devices (#114):
+`lock_detector`'s `XC1 w=40u l=40u m=2` is drawn, extracted and compared as
+two 40×40 µm markers — the honest rendering of "two unit capacitors in
+parallel", and the reason its LVS reference carries two `X ... PARAMS:`
+cards.
+
+The former 5-device shortfall — this port's five `cap_cmomi`
+metal-oxide-metal capacitors (`loop_filter` ×2, `vco` ×1, `lock_detector`
+×2, one of them `m=2`) — is closed: every one is drawn by the local MoM
+footprint, and every net they touch now routes complete (zero incomplete
+nets on every block).
 
 Two verification results carried over from #24 and re-confirmed by this
 record:
@@ -264,10 +273,11 @@ clears every row above: it draws, it is DRC-clean, it extracts as `rppd` with
 the right value, and its terminals are hundreds of microns apart. The reason
 to leave it alone is that it would move nothing: this design's **8** poly
 resistors live entirely in `loop_filter`, `vco` and `lock_detector` — the
-three blocks that cannot be LVS-converted at all for the capacitor reason
-below — so the swap buys no verified result while splitting one flow across
-two footprint sources with two different sets of process constants. It is
-recorded here as the place a future swap should *start*, on the day
+three blocks whose LVS residuals are the `sub!`/`vsubs` substrate split (and,
+on `vco`, #113's resistors), none of them footprint-attributable — so the
+swap buys no verified result while splitting one flow across two footprint
+sources with two different sets of process constants. It is recorded here as
+the place a future swap should *start*, on the day
 klayout-tools#1472/#1473 make the MOS side swappable too, so both halves move
 together.
 
@@ -279,45 +289,60 @@ without anyone remembering to re-check.
 ## LVS
 
 `klt lvs` is run per composed block against that block's own committed
-schematic netlist (copied into each record as `<block>.reference.spice`, so
-the evidence is self-contained). Three blocks report `status: "match"` with
-every device and every net matched; three cannot be converted, for the
-capacitor reason above.
+schematic netlist, derived into a plain-element reference this flow itself
+produces and commits as `<block>.reference.spice` (so the evidence is
+self-contained). Four of six blocks report `status: "match"`; the two
+mismatches and their non-capacitor residuals are in the status table above.
 
-Two caller-side declarations are in the request and are deliberately visible:
+The reference derivation (`mom_cap_reference` in `pll_cmos5l_layout.py`,
+#114) is two caller-side rewrites, both recorded in each record's
+`lvs.<block>.request.json`:
 
-- **`reference.device_map` re-declares `rppd`/`rhigh` as resistors**, because
-  `reference.deck`'s own subckt-call conversion table is MOS-only even for a
-  deck that recognises those resistors for extraction — filed as
-  **[klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464)**.
-  `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py` says so at its definition,
-  so it can be deleted when that lands. **That issue closed as completed on
-  2026-08-30, but the map has not been dropped or re-tested here** — see the
-  #1464 row in "Friction" below for what would retire it.
-- **A clearly-labelled *secondary* probe** runs on each block that fails to
-  convert, mapping `cap_cmomi` on the reference side so the comparison runs
-  anyway (`lvs.<block>.cap-probe.json`). This corrects a stale premise in
-  #24's own record, which said there was "no class to map a MoM capacitor to":
-  `device_map`'s `kind` vocabulary is caller-side and *does* accept
-  `"capacitor"` on a deck whose `EXTRACTION_DECK.capacitors` is empty. What
-  #1463 actually blocks is the **layout** half — a drawn MoM capacitor
-  extracts as no device at all — so mapping the reference side alone converts
-  the netlist and reports the missing capacitors as `device.unmatched` rather
-  than refusing to compare. It is never the headline result: a mismatch this
-  flow induced by declaring a device the layout provably cannot carry is a
-  diagnostic, not a verdict.
+- **MOS/resistor `X` cards → plain-element `M`/`R` cards** via
+  `klayout_tools.netlist_normalize` — the identical conversion
+  `reference.form: "subckt-call"` performs, run by the caller so the cap
+  cards (below) can ride along. At this repo's pin the deck's own curated
+  conversion table resolves `sg13_hv_nmos`/`sg13_hv_pmos` **and**
+  `rppd`/`rhigh`, so the per-deck `device_map` this flow used to carry
+  (`REFERENCE_DEVICE_MAP`, filed against klayout-tools#1464) is deleted —
+  retired by this very run, which passes no `device_map` and converts
+  cleanly.
+- **Converted resistor cards get real values, not placeholders.** The
+  converter writes a literal `0` for a resistor's value because it carries
+  no PDK sheet-resistance table; `klt lvs`'s own subckt-call path then has
+  to *exclude* that parameter from the compare (issue #1907's
+  `device.placeholder_value` disclosure). This flow instead recomputes the
+  value from the deck's own curated `sheet_rho_ohm_sq`/`fixed_offset_ohm`
+  coefficients — the same numbers `klt extract` derives a drawn resistor's
+  reported resistance from — and carries `A`/`P` alongside, so the compare
+  verifies the resistance dimension rather than disclosing that it skipped
+  it. (`loop_filter`'s `rppd` now matches on `r`/`a`/`p` as well as
+  topology and geometry.)
+- **`cap_cmomi` cards → `X <name> <a> <b> cap_cmomi PARAMS: W=<um> L=<um>`**
+  — the exact card shape `klt lvs`'s custom-device-class reader
+  (klayout-tools#1942, merged as #1944, carried at this repo's pin)
+  recognises when `reference.deck` is given. `W`/`L` are bare micron
+  numbers (the extractor reports the recognition marker's bbox in µm), and
+  an `m=` multiplier expands one card per unit to match the
+  one-marker-per-unit footprint. This rewrite retires what used to be the
+  `m=2` "documented, deliberate limitation" on `lock_detector`.
 
-One probe finding is **not** capacitor-attributable and the record calls it
-out rather than absorbing it: those blocks' poly resistors declare their bulk
-terminal on the schematic's own floating `sub!` global, while the layout puts
-every drawn resistor's bulk on the deck's real substrate net (`vsubs`) — which
-the NMOS body ties also land on. So the layout has one substrate node where
-the reference has two, and the resistors come back unmatched with a
-`net.merged` alongside them. That is a schematic-netlist property, not a
-routing or deck defect, and it is recorded rather than resolved: changing
-which node a device's bulk is declared on is a schematic change, and this
-increment does not make one. It affects only the three blocks that already
-cannot convert.
+The whole derivation is caller-side because no single `klt lvs` request can
+express it yet: `reference.form: "subckt-call"`'s converter rejects the
+`PARAMS:` card it must leave to the custom-class reader — filed upstream as
+**[klayout-tools#2327](https://github.com/2AMLogic/klayout-tools/issues/2327)**.
+
+One compare finding is **not** capacitor-attributable and the records call
+it out rather than absorbing it: the resistor-carrying blocks' poly
+resistors declare their bulk terminal on the schematic's own floating
+`sub!` global, while the layout puts every drawn resistor's bulk on the
+deck's real substrate net (`vsubs`) — which the NMOS body ties also land
+on. So the layout has one substrate node where the reference has two. On
+`vco` this is #113's territory (its six `XBIAS` resistors plus
+`BIAS.SUB!`); on `lock_detector` it strands `PU`/`PD` the same way. It is a
+schematic-netlist property, not a routing or deck defect, and it is
+recorded rather than resolved: changing which node a device's bulk is
+declared on is a schematic change, and this increment does not make one.
 
 ## ERC: T1 item 11 power-delivery (structural) — done for `divider_chain`
 
@@ -456,6 +481,16 @@ This does not update the committed layout records (they are append-only
 evidence of what that run produced); it is a later, separately-recorded
 re-check.
 
+**Issue #114 closed the capacitor half end to end.** The devices are drawn
+(`cmos5l_devices.draw_mom_cap`), extract as `cap_cmomi` at the schematic's
+own `w`/`l`, and LVS through the caller-side reference rewrite
+(`mom_cap_reference`, see "LVS" above) — which also retires the `m=2`
+limitation by expanding the multiplier one card per drawn marker. Verdicts
+in the current record's own table (top of this README): `loop_filter`
+**match** (3/3), `vco` mismatch with the `DECAP` matched and exactly #113's
+residual left, `lock_detector` mismatch with all three capacitor units
+matched and the pre-existing `SUB!` split left.
+
 ## Friction: `klt`/deck gaps found on this port
 
 Per the root `CLAUDE.md` friction protocol, every gap below was checked
@@ -469,8 +504,9 @@ first and filed there — generic tool-gap description only, no design content.
 | Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z, and now present at this repo's pin** (issue #31's own re-bump — `layout/requirements.txt` pins past its merge commit `b10fa3c6e`) | `klt gen mos_array`/`res_array` do now draw here, DRC-clean. **#35 re-evaluated the local footprints against that output and kept them** — see "Generator-vs-local footprints" above for the three measurements and the two upstream issues (#1472/#1473) that would have to land first. The `res_array` half already clears the bar and is the place a future swap starts. |
 | `mos_array`'s `voltage_flavor` param resolves to **no marker layer on either IHP family** (`_PDK_VOLTAGE_FLAVOR_LAYERS` has entries for gf180mcu and sky130 only), so a generated unit device carries no `ThickGateOx` (44/0) and extracts as the *thin*-oxide `sg13_lv_*` class. Reported honestly in `drc_hints.notes[]`, but with no params-level override to recover from. | [klayout-tools#1472](https://github.com/2AMLogic/klayout-tools/issues/1472) (new, filed by #35's pass; the family-coverage tail of the closed #1054) | open | One of the two reasons `cmos5l_devices.py` still draws the MOS footprints: this design's devices are the ratified HV flavour (DR-002 Decision 0), and generator output would extract as the wrong device class against every reference netlist. |
 | `klt gen mos_array --flavor pfet` draws the shared `NWell` but **no well tap and no `NWell.pin`**, and declares no body port, so every generated PMOS body extracts onto an anonymous net — `klt extract` reports it in `unbiased_pmos_body_nets[]`. Distinct from the closed deck-side #1414: the deck's tie derivation works fine, the generator just draws nothing for it to recognise. | [klayout-tools#1473](https://github.com/2AMLogic/klayout-tools/issues/1473) (new, filed by #35's pass) | open | The other reason the MOS footprints stay local: `draw_pfet_array_well` draws the tap and names the well with the *schematic's* own body net, which is what keeps `unbiased_pmos_body_nets[]` empty and gives LVS a body net to match. |
-| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | **closed 2026-08-30**, with [#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) (its follow-on on the MoM plate-pair recognition shape) also closed — the deck now carries a `mom_capacitors` entry for `cap_cmomi`/`cap_cmomf`. **But the LVS half was NOT retired by that**: as #30 re-verified live, the reference-netlist conversion path still does not know `cap_cmomi` on its own and needs an explicit `reference.device_map` (which is #1464's territory, next row) | The 5 `cap_cmomi` devices are recorded and never drawn; 10 net→pin connections are incomplete. **The "3 blocks' LVS cannot convert" half is now partly retired** — with the `device_map` entry, `loop_filter` and `vco` compare (and mismatch); only `lock_detector` still cannot, for the different `m=2` reason below. See "LVS: three blocks were never compared" above. **Unaffected by issue #31's bump** — that bump gave `sg13g2`'s `cap_cmim` a generator (klayout-tools#1461), not `sg13cmos5l`'s `cap_cmomi`; re-verified this pass: `klt gen cap_array --pdk ihp-sg13cmos5l` still rejects with `"PDK family 'sg13cmos5l' has no MiM capacitor plate layers configured -- supported families: sky130, sg13g2"`. |
-| `klt lvs`'s `reference.deck` subckt-call conversion table is MOS-only, so a deck's own recognised `rppd`/`rhigh` resistors still need an explicit `reference.device_map`. | [klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) | **closed 2026-08-30 as completed** (status corrected by #30's pass — the row said `open`) | `REFERENCE_DEVICE_MAP` in `pll_cmos5l_layout.py`. **Not yet deletable, and not yet re-verified**: the request documents #30 re-ran still carry the `rppd`/`rhigh` `device_map` entries from #24's layout pass, so whether the closed fix retires them at this repo's pin is untested. Dropping the entries and re-running `lvs-recheck` is what would retire this row. |
+| The curated `sg13cmos5l` deck's `EXTRACTION_DECK.capacitors` is empty — and CMOS5L has **no MIM at all**, so MoM is the only capacitor the technology offers and there is no fallback class. | [klayout-tools#1463](https://github.com/2AMLogic/klayout-tools/issues/1463) (filed by #24's pass) | **closed 2026-08-30**, with [#1466](https://github.com/2AMLogic/klayout-tools/issues/1466) closed by [#1475](https://github.com/2AMLogic/klayout-tools/pull/1475): the deck now carries a `mom_capacitors` entry for `cap_cmomi`/`cap_cmomf`. The LVS half closed with [#1942](https://github.com/2AMLogic/klayout-tools/issues/1942) (merged as #1944): a round-tripped `X ... PARAMS:` card is read as a real device of that class | **Retired for this port by issue #114's pin bump + local footprint.** All five `cap_cmomi` devices draw (`cmos5l_devices.draw_mom_cap`, DRC-clean at every instantiated size), extract as `cap_cmomi` with the schematic's own `w`/`l`, and LVS-match through `mom_cap_reference`'s reference rewrite. What remains local *by decision*, not by gap: no `klt gen` MoM generator exists on any family — `cap_array` still rejects `ihp-sg13cmos5l` with *"PDK family 'sg13cmos5l' has no MiM capacitor plate layers configured -- supported families: sky130, gf180mcu, sg13g2"*, re-verified at `klt 0.6.0+gdaf06a51a` for #114's bump |
+| `klt lvs`'s `reference.deck` subckt-call conversion table is MOS-only, so a deck's own recognised `rppd`/`rhigh` resistors still need an explicit `reference.device_map`. | [klayout-tools#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) | **closed 2026-08-30 as completed** (status corrected by #30's pass — the row said `open`) | **Retired by #114's run.** The deck's own curated table resolves `rppd`/`rhigh` (and the MOS subcircuits) at this repo's pin, verified live by the #114 record's references, which pass **no** `device_map` — `REFERENCE_DEVICE_MAP`/`CAPACITOR_PROBE_DEVICE_MAP` are deleted from `pll_cmos5l_layout.py`. The successor gap that made the deletion non-trivial is the #2327 row below |
+| `klt lvs` cannot carry a custom-device-class `X ... PARAMS:` card through `reference.form: "subckt-call"`: the converter tokenizes `PARAMS:` as the subcircuit name and rejects the card, while the custom-class reader (#1942/#1944) only runs on the plain-element form — so a netlist mixing curated subckt devices *and* a `mom_capacitors` device has no single-request LVS shape. Reproduced at `klt 0.6.0+gdaf06a51a` on `sg13cmos5l`. | [klayout-tools#2327](https://github.com/2AMLogic/klayout-tools/issues/2327) (new, filed by #114's pass) | open | `mom_cap_reference` in `pll_cmos5l_layout.py` works around it caller-side: lift the cap cards, normalize the rest, splice `X ... PARAMS:` cards back, submit `form: "plain-element"` + `reference.deck`. Also computes converted resistor cards' real values from the deck's own sheet-rho coefficients, so no compare rests on the #1907 placeholder-value disclosure. Delete the workaround when #2327 lands |
 | `klt extract --parasitics` rejects the `sg13cmos5l` deck as "unknown" despite its own `PARASITICS` being defined. | [klayout-tools#1440](https://github.com/2AMLogic/klayout-tools/issues/1440) | **closed 2026-09-19 via #2012** (deck registered in the parasitics registry) | Was half the reason post-layout PVT was scoped out. Retired — see "Post-layout PVT" above. |
 | Registering the deck was necessary but not sufficient: `--parasitics` then *succeeded* while reporting `r_count`/`c_count` of 0 and listing all five metal levels in `metals_without_coefficient` — a "post-layout" netlist with no wire parasitics in it, disclosed but easy to miss. | [klayout-tools#2113](https://github.com/2AMLogic/klayout-tools/issues/2113) (filed by #30's Curator pass) | **closed 2026-09-19 via #2126** (curated Metal1–TopMetal1 `LayerRC` + 4 overlap pairs, each citing its public source line) | The reason `sim/sg13cmos5l-postlayout-pex-pvt/` can say real parasitics were modelled. Its `extraction/run-pex.sh` still hard-fails on a `klt` without them, so a silently-zero extraction cannot be produced by accident. |
 | `klt extract --parasitics` emits **three-terminal `R` cards** for deck-recognised `rppd`/`rhigh` resistors (`R$39 a b bulk 7800 rppd L=30U W=1U`). ngspice's `R` card takes two nodes, so the extracted netlist is unparseable as written. | the already-filed [klayout-tools#1157](https://github.com/2AMLogic/klayout-tools/issues/1157) (*"klt extract's bare (non-`--pdk`) output for a 3-terminal drawn-resistor class is not ngspice-simulatable"*) — #30's pass recorded a [confirmation comment](https://github.com/2AMLogic/klayout-tools/issues/1157#issuecomment-5740464634) on it (2026-09-19) rather than opening a duplicate, **narrowing that issue's own scope condition**: the 3-node `R` card is emitted *with* `--pdk` supplied too, so it is not limited to bare mode | open | `sim/sg13cmos5l-postlayout-pex-pvt/testbench/pex-to-ngspice.py` (transform 2) rebinds them to the PDK's own resistor subcircuit call — the identical binding the schematic netlist uses — and self-checks that no parasitic R/C card count changes. |
@@ -478,20 +514,23 @@ first and filed there — generic tool-gap description only, no design content.
 
 **Also confirmed, not a gap** (checked rather than assumed):
 
-- `klt gen cap_array --pdk ihp-sg13cmos5l` now fails with *"PDK family
+- `klt gen cap_array --pdk ihp-sg13cmos5l` still fails with *"PDK family
   sg13cmos5l has no MiM capacitor plate layers configured -- supported
-  families: sky130, sg13g2"* (the family list grew by one entry once issue
-  #31's own bump gave `sg13g2` a working `cap_array` configuration) rather
-  than the old family rejection. That is still #1463's territory (CMOS5L has
-  no MIM), not a new generator gap, so the capacitor's `blocked_reason`
-  stays re-attributed to #1462/#1463 rather than pointing at a stale message.
-- `klt lvs`'s refusal to convert a `cap_cmomi` card with `m=2`
-  (`lock_detector`) is a **documented, deliberate** limitation, not a gap:
-  the curated plain-element form models one device per drawn gate, and the
-  error says so and names the fix. Recorded, not filed.
-- `klt deck info --deck sg13cmos5l` reports `nfet, pfet, resistor` — every
-  class this port's drawn devices need is covered; only the capacitor class
-  is missing.
+  families: sky130, gf180mcu, sg13g2"* at `klt 0.6.0+gdaf06a51a`
+  (re-verified for #114's pin bump; the family list grew by `gf180mcu`
+  since the last check). That is still #1463's territory (CMOS5L has
+  no MIM), not a new generator gap, and it is not a MoM generator either —
+  the capacitor's drawing side stays local, exactly as the #1463 row above
+  records.
+- ~~`klt lvs`'s refusal to convert a `cap_cmomi` card with `m=2`~~ —
+  **retired by #114**: the caller-side reference rewrite expands `m=`
+  one `X ... PARAMS:` card per drawn marker, and `lock_detector`'s `m=2`
+  unit now compares (both units matched). The refusal itself was a
+  documented, deliberate limitation of the plain-element conversion, never
+  filed; the new `PARAMS:`-card path makes it moot.
+- `klt deck info --deck sg13cmos5l` reports `nfet, pfet, resistor,
+  cap_cmomi, cap_cmomf` — every class this port's drawn devices need is
+  covered, capacitors included as of #1466/#1475.
 
 ## Directory layout
 

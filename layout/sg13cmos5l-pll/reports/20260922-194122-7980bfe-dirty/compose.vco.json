@@ -1,0 +1,959 @@
+{
+  "cell_name": "pll_vco",
+  "gds": "pll_vco.gds",
+  "strategy": "locality",
+  "spacing_um": 6.0,
+  "placements": {
+    "vco_XCDECAP": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "vco_nfet_w4_l0p5": {
+      "x": 76.0,
+      "y": 0.0
+    },
+    "vco_nfet_w2_l0p28": {
+      "x": 124.36,
+      "y": 0.0
+    },
+    "vco_pfet_w5_l0p28": {
+      "x": 150.8,
+      "y": 0.0
+    },
+    "vco_pfet_w10_l0p5": {
+      "x": 192.24,
+      "y": 0.0
+    },
+    "vco_pfet_w10_l1": {
+      "x": 282.6,
+      "y": 0.0
+    },
+    "vco_nfet_w4_l1": {
+      "x": 313.16,
+      "y": 0.0
+    },
+    "vco_pfet_w3_l1": {
+      "x": 337.68,
+      "y": 0.0
+    },
+    "vco_nfet_w2_l1": {
+      "x": 349.28,
+      "y": 0.0
+    },
+    "vco_pfet_w6_l1": {
+      "x": 367.8,
+      "y": 0.0
+    },
+    "vco_resrhigh_w0p5_l8": {
+      "x": 390.36,
+      "y": 0.0
+    },
+    "vco_nfet_w8_l1": {
+      "x": 405.36,
+      "y": 0.0
+    },
+    "vco_resrppd_w1_l30": {
+      "x": 421.96,
+      "y": 0.0
+    },
+    "vco_nfet_w4_l0p3": {
+      "x": 459.56,
+      "y": 0.0
+    },
+    "vco_resrppd_w1_l60": {
+      "x": 478.12,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 139,
+  "unrouted_ports": [
+    {
+      "port": "vco_resrhigh_w0p5_l8.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    },
+    {
+      "port": "vco_resrppd_w1_l30.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    },
+    {
+      "port": "vco_resrppd_w1_l30.R1_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    },
+    {
+      "port": "vco_resrppd_w1_l60.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    },
+    {
+      "port": "vco_resrppd_w1_l60.R1_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    },
+    {
+      "port": "vco_resrppd_w1_l60.R2_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    }
+  ],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 72.0,
+    "net_count": 33,
+    "routed_net_count": 33,
+    "wire_length_um": 12994.65,
+    "nets": [
+      {
+        "net": "GND_VCO",
+        "track": 0,
+        "trunk_y_um": 72.0,
+        "trunk_x_um": [
+          69.7,
+          540.07
+        ],
+        "pin_count": 22,
+        "pins": [
+          "vco_XCDECAP.BOT",
+          "vco_nfet_w4_l0p5.substrate_tap",
+          "vco_nfet_w4_l0p5.U0_S",
+          "vco_nfet_w4_l0p5.U1_S",
+          "vco_nfet_w4_l0p5.U2_S",
+          "vco_nfet_w4_l0p5.U3_S",
+          "vco_nfet_w4_l0p5.U4_S",
+          "vco_nfet_w4_l0p5.U5_S",
+          "vco_nfet_w4_l0p5.U6_S",
+          "vco_nfet_w2_l0p28.substrate_tap",
+          "vco_nfet_w4_l1.substrate_tap",
+          "vco_nfet_w4_l1.U0_S",
+          "vco_nfet_w2_l1.substrate_tap",
+          "vco_nfet_w2_l1.U1_S",
+          "vco_nfet_w2_l1.U2_S",
+          "vco_nfet_w8_l1.substrate_tap",
+          "vco_resrppd_w1_l30.R0_B",
+          "vco_resrppd_w1_l30.R1_B",
+          "vco_nfet_w4_l0p3.substrate_tap",
+          "vco_resrppd_w1_l60.R0_B",
+          "vco_resrppd_w1_l60.R1_B",
+          "vco_resrppd_w1_l60.R2_B"
+        ],
+        "routed": true,
+        "route_length_um": 1974.71
+      },
+      {
+        "net": "VDD_VCO",
+        "track": 1,
+        "trunk_y_um": 72.6,
+        "trunk_x_um": [
+          0.3,
+          390.61
+        ],
+        "pin_count": 19,
+        "pins": [
+          "vco_XCDECAP.TOP",
+          "vco_pfet_w5_l0p28.nwell_tap",
+          "vco_pfet_w10_l0p5.nwell_tap",
+          "vco_pfet_w10_l0p5.U0_S",
+          "vco_pfet_w10_l0p5.U1_S",
+          "vco_pfet_w10_l0p5.U2_S",
+          "vco_pfet_w10_l0p5.U3_S",
+          "vco_pfet_w10_l0p5.U4_S",
+          "vco_pfet_w10_l0p5.U5_S",
+          "vco_pfet_w10_l0p5.U6_S",
+          "vco_pfet_w10_l1.nwell_tap",
+          "vco_pfet_w10_l1.U0_S",
+          "vco_pfet_w10_l1.U1_S",
+          "vco_pfet_w3_l1.nwell_tap",
+          "vco_pfet_w3_l1.U0_S",
+          "vco_pfet_w6_l1.nwell_tap",
+          "vco_pfet_w6_l1.U0_S",
+          "vco_pfet_w6_l1.U1_S",
+          "vco_resrhigh_w0p5_l8.R0_A"
+        ],
+        "routed": true,
+        "route_length_um": 1697.13
+      },
+      {
+        "net": "VBP",
+        "track": 2,
+        "trunk_y_um": 73.2,
+        "trunk_x_um": [
+          217.03,
+          327.43
+        ],
+        "pin_count": 10,
+        "pins": [
+          "vco_pfet_w10_l0p5.U2_G",
+          "vco_pfet_w10_l0p5.U3_G",
+          "vco_pfet_w10_l0p5.U4_G",
+          "vco_pfet_w10_l0p5.U5_G",
+          "vco_pfet_w10_l0p5.U6_G",
+          "vco_pfet_w10_l1.U0_G",
+          "vco_pfet_w10_l1.U0_D",
+          "vco_pfet_w10_l1.U1_G",
+          "vco_nfet_w4_l1.U1_D",
+          "vco_nfet_w4_l1.U2_D"
+        ],
+        "routed": true,
+        "route_length_um": 807.74
+      },
+      {
+        "net": "VBN",
+        "track": 3,
+        "trunk_y_um": 73.8,
+        "trunk_x_um": [
+          76.87,
+          315.51
+        ],
+        "pin_count": 8,
+        "pins": [
+          "vco_nfet_w4_l0p5.U0_G",
+          "vco_nfet_w4_l0p5.U1_G",
+          "vco_nfet_w4_l0p5.U2_G",
+          "vco_nfet_w4_l0p5.U3_G",
+          "vco_nfet_w4_l0p5.U4_G",
+          "vco_pfet_w10_l1.U1_D",
+          "vco_nfet_w4_l1.U0_G",
+          "vco_nfet_w4_l1.U0_D"
+        ],
+        "routed": true,
+        "route_length_um": 801.87
+      },
+      {
+        "net": "ring1",
+        "track": 4,
+        "trunk_y_um": 74.4,
+        "trunk_x_um": [
+          106.67,
+          193.11
+        ],
+        "pin_count": 6,
+        "pins": [
+          "vco_nfet_w4_l0p5.U5_G",
+          "vco_nfet_w2_l0p28.U0_G",
+          "vco_nfet_w2_l0p28.U4_D",
+          "vco_pfet_w5_l0p28.U0_G",
+          "vco_pfet_w5_l0p28.U4_D",
+          "vco_pfet_w10_l0p5.U0_G"
+        ],
+        "routed": true,
+        "route_length_um": 513.8
+      },
+      {
+        "net": "XBIAS.vb1",
+        "track": 5,
+        "trunk_y_um": 75.0,
+        "trunk_x_um": [
+          338.55,
+          376.63
+        ],
+        "pin_count": 5,
+        "pins": [
+          "vco_pfet_w3_l1.U0_G",
+          "vco_nfet_w2_l1.U2_D",
+          "vco_pfet_w6_l1.U0_G",
+          "vco_pfet_w6_l1.U0_D",
+          "vco_pfet_w6_l1.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 394.74
+      },
+      {
+        "net": "XBIAS.vb2",
+        "track": 6,
+        "trunk_y_um": 75.6,
+        "trunk_x_um": [
+          358.07,
+          407.71
+        ],
+        "pin_count": 5,
+        "pins": [
+          "vco_nfet_w2_l1.U2_G",
+          "vco_pfet_w6_l1.U1_D",
+          "vco_resrhigh_w0p5_l8.R0_B",
+          "vco_nfet_w8_l1.U0_G",
+          "vco_nfet_w8_l1.U0_D"
+        ],
+        "routed": true,
+        "route_length_um": 412.21
+      },
+      {
+        "net": "XBIAS.VFIX",
+        "track": 7,
+        "trunk_y_um": 76.2,
+        "trunk_x_um": [
+          325.95,
+          351.63
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w4_l1.U2_G",
+          "vco_pfet_w3_l1.U0_D",
+          "vco_nfet_w2_l1.U0_G",
+          "vco_nfet_w2_l1.U0_D"
+        ],
+        "routed": true,
+        "route_length_um": 315.5
+      },
+      {
+        "net": "XBIAS.degb",
+        "track": 8,
+        "trunk_y_um": 76.8,
+        "trunk_x_um": [
+          320.87,
+          478.97
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w4_l1.U1_S",
+          "vco_nfet_w4_l0p3.U0_D",
+          "vco_nfet_w4_l0p3.U1_D",
+          "vco_resrppd_w1_l60.R1_A"
+        ],
+        "routed": true,
+        "route_length_um": 453.15
+      },
+      {
+        "net": "bufmid",
+        "track": 9,
+        "trunk_y_um": 77.4,
+        "trunk_x_um": [
+          108.15,
+          205.07
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w4_l0p5.U5_D",
+          "vco_nfet_w4_l0p5.U6_G",
+          "vco_pfet_w10_l0p5.U0_D",
+          "vco_pfet_w10_l0p5.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 393.04
+      },
+      {
+        "net": "ring2",
+        "track": 10,
+        "trunk_y_um": 78.0,
+        "trunk_x_um": [
+          126.71,
+          158.63
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w2_l0p28.U0_D",
+          "vco_nfet_w2_l0p28.U1_G",
+          "vco_pfet_w5_l0p28.U0_D",
+          "vco_pfet_w5_l0p28.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 331.1
+      },
+      {
+        "net": "ring3",
+        "track": 11,
+        "trunk_y_um": 78.6,
+        "trunk_x_um": [
+          130.67,
+          165.59
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w2_l0p28.U1_D",
+          "vco_nfet_w2_l0p28.U2_G",
+          "vco_pfet_w5_l0p28.U1_D",
+          "vco_pfet_w5_l0p28.U2_G"
+        ],
+        "routed": true,
+        "route_length_um": 336.5
+      },
+      {
+        "net": "ring4",
+        "track": 12,
+        "trunk_y_um": 79.2,
+        "trunk_x_um": [
+          134.63,
+          172.55
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w2_l0p28.U2_D",
+          "vco_nfet_w2_l0p28.U3_G",
+          "vco_pfet_w5_l0p28.U2_D",
+          "vco_pfet_w5_l0p28.U3_G"
+        ],
+        "routed": true,
+        "route_length_um": 341.9
+      },
+      {
+        "net": "ring5",
+        "track": 13,
+        "trunk_y_um": 79.8,
+        "trunk_x_um": [
+          138.59,
+          179.51
+        ],
+        "pin_count": 4,
+        "pins": [
+          "vco_nfet_w2_l0p28.U3_D",
+          "vco_nfet_w2_l0p28.U4_G",
+          "vco_pfet_w5_l0p28.U3_D",
+          "vco_pfet_w5_l0p28.U4_G"
+        ],
+        "routed": true,
+        "route_length_um": 347.3
+      },
+      {
+        "net": "XBIAS.vfixmid",
+        "track": 14,
+        "trunk_y_um": 80.4,
+        "trunk_x_um": [
+          351.03,
+          355.59
+        ],
+        "pin_count": 3,
+        "pins": [
+          "vco_nfet_w2_l1.U0_S",
+          "vco_nfet_w2_l1.U1_G",
+          "vco_nfet_w2_l1.U1_D"
+        ],
+        "routed": true,
+        "route_length_um": 235.68
+      },
+      {
+        "net": "CLK",
+        "track": 15,
+        "trunk_y_um": 81.0,
+        "trunk_x_um": [
+          114.11,
+          206.55
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U6_D",
+          "vco_pfet_w10_l0p5.U1_D"
+        ],
+        "routed": true,
+        "route_length_um": 247.18
+      },
+      {
+        "net": "XBIAS.dega",
+        "track": 16,
+        "trunk_y_um": 81.6,
+        "trunk_x_um": [
+          326.83,
+          478.37
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l1.U2_S",
+          "vco_resrppd_w1_l60.R0_A"
+        ],
+        "routed": true,
+        "route_length_um": 311.45
+      },
+      {
+        "net": "XBIAS.n2s",
+        "track": 17,
+        "trunk_y_um": 82.2,
+        "trunk_x_um": [
+          407.11,
+          422.21
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w8_l1.U0_S",
+          "vco_resrppd_w1_l30.R0_A"
+        ],
+        "routed": true,
+        "route_length_um": 176.21
+      },
+      {
+        "net": "XBIAS.nb0",
+        "track": 18,
+        "trunk_y_um": 82.8,
+        "trunk_x_um": [
+          467.27,
+          479.57
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p3.U1_S",
+          "vco_resrppd_w1_l60.R2_A"
+        ],
+        "routed": true,
+        "route_length_um": 170.61
+      },
+      {
+        "net": "XBIAS.nb1",
+        "track": 19,
+        "trunk_y_um": 83.4,
+        "trunk_x_um": [
+          422.81,
+          461.31
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_resrppd_w1_l30.R1_A",
+          "vco_nfet_w4_l0p3.U0_S"
+        ],
+        "routed": true,
+        "route_length_um": 200.01
+      },
+      {
+        "net": "XS1.nh",
+        "track": 20,
+        "trunk_y_um": 84.0,
+        "trunk_x_um": [
+          180.39,
+          254.39
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_pfet_w5_l0p28.U4_S",
+          "vco_pfet_w10_l0p5.U5_D"
+        ],
+        "routed": true,
+        "route_length_um": 235.78
+      },
+      {
+        "net": "XS1.nt",
+        "track": 21,
+        "trunk_y_um": 84.6,
+        "trunk_x_um": [
+          78.35,
+          141.95
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U0_D",
+          "vco_nfet_w2_l0p28.U4_S"
+        ],
+        "routed": true,
+        "route_length_um": 226.58
+      },
+      {
+        "net": "XS2.nh",
+        "track": 22,
+        "trunk_y_um": 85.2,
+        "trunk_x_um": [
+          152.55,
+          266.35
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_pfet_w5_l0p28.U0_S",
+          "vco_pfet_w10_l0p5.U6_D"
+        ],
+        "routed": true,
+        "route_length_um": 277.98
+      },
+      {
+        "net": "XS2.nt",
+        "track": 23,
+        "trunk_y_um": 85.8,
+        "trunk_x_um": [
+          84.31,
+          126.11
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U1_D",
+          "vco_nfet_w2_l0p28.U0_S"
+        ],
+        "routed": true,
+        "route_length_um": 207.18
+      },
+      {
+        "net": "XS3.nh",
+        "track": 24,
+        "trunk_y_um": 86.4,
+        "trunk_x_um": [
+          159.51,
+          218.51
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_pfet_w5_l0p28.U1_S",
+          "vco_pfet_w10_l0p5.U2_D"
+        ],
+        "routed": true,
+        "route_length_um": 225.58
+      },
+      {
+        "net": "XS3.nt",
+        "track": 25,
+        "trunk_y_um": 87.0,
+        "trunk_x_um": [
+          90.27,
+          130.07
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U2_D",
+          "vco_nfet_w2_l0p28.U1_S"
+        ],
+        "routed": true,
+        "route_length_um": 207.58
+      },
+      {
+        "net": "XS4.nh",
+        "track": 26,
+        "trunk_y_um": 87.6,
+        "trunk_x_um": [
+          166.47,
+          230.47
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_pfet_w5_l0p28.U2_S",
+          "vco_pfet_w10_l0p5.U3_D"
+        ],
+        "routed": true,
+        "route_length_um": 232.98
+      },
+      {
+        "net": "XS4.nt",
+        "track": 27,
+        "trunk_y_um": 88.2,
+        "trunk_x_um": [
+          96.23,
+          134.03
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U3_D",
+          "vco_nfet_w2_l0p28.U2_S"
+        ],
+        "routed": true,
+        "route_length_um": 207.98
+      },
+      {
+        "net": "XS5.nh",
+        "track": 28,
+        "trunk_y_um": 88.8,
+        "trunk_x_um": [
+          173.43,
+          242.43
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_pfet_w5_l0p28.U3_S",
+          "vco_pfet_w10_l0p5.U4_D"
+        ],
+        "routed": true,
+        "route_length_um": 240.38
+      },
+      {
+        "net": "XS5.nt",
+        "track": 29,
+        "trunk_y_um": 89.4,
+        "trunk_x_um": [
+          102.19,
+          137.99
+        ],
+        "pin_count": 2,
+        "pins": [
+          "vco_nfet_w4_l0p5.U4_D",
+          "vco_nfet_w2_l0p28.U3_S"
+        ],
+        "routed": true,
+        "route_length_um": 208.38
+      },
+      {
+        "net": "B0",
+        "track": 30,
+        "trunk_y_um": 90.0,
+        "trunk_x_um": [
+          466.39,
+          466.39
+        ],
+        "pin_count": 1,
+        "pins": [
+          "vco_nfet_w4_l0p3.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 86.99
+      },
+      {
+        "net": "B1",
+        "track": 31,
+        "trunk_y_um": 90.6,
+        "trunk_x_um": [
+          460.43,
+          460.43
+        ],
+        "pin_count": 1,
+        "pins": [
+          "vco_nfet_w4_l0p3.U0_G"
+        ],
+        "routed": true,
+        "route_length_um": 87.59
+      },
+      {
+        "net": "VCTRL",
+        "track": 32,
+        "trunk_y_um": 91.2,
+        "trunk_x_um": [
+          319.99,
+          319.99
+        ],
+        "pin_count": 1,
+        "pins": [
+          "vco_nfet_w4_l1.U1_G"
+        ],
+        "routed": true,
+        "route_length_um": 87.84
+      }
+    ],
+    "incomplete_nets": [],
+    "track_order_source": "floorplan"
+  },
+  "floorplan": {
+    "pass": "cmos5l_floorplan.locality_floorplan",
+    "baseline_wire_length_um": 16304.91,
+    "baseline_per_net_wire_length_um": {
+      "B0": 68.99,
+      "B1": 69.59,
+      "CLK": 340.22,
+      "GND_VCO": 2083.71,
+      "VBN": 836.91,
+      "VBP": 932.9,
+      "VCTRL": 72.24,
+      "VDD_VCO": 1692.59,
+      "XBIAS.VFIX": 416.3,
+      "XBIAS.dega": 440.25,
+      "XBIAS.degb": 655.51,
+      "XBIAS.n2s": 380.53,
+      "XBIAS.nb0": 507.97,
+      "XBIAS.nb1": 467.01,
+      "XBIAS.vb1": 569.74,
+      "XBIAS.vb2": 720.53,
+      "XBIAS.vfixmid": 239.28,
+      "XS1.nh": 222.78,
+      "XS1.nt": 223.5,
+      "XS2.nh": 230.18,
+      "XS2.nt": 227.9,
+      "XS3.nh": 237.58,
+      "XS3.nt": 232.3,
+      "XS4.nh": 244.98,
+      "XS4.nt": 236.7,
+      "XS5.nh": 252.38,
+      "XS5.nt": 241.1,
+      "bufmid": 544.88,
+      "ring1": 800.68,
+      "ring2": 517.86,
+      "ring3": 523.26,
+      "ring4": 528.66,
+      "ring5": 545.9
+    },
+    "single_row_optimal_tracks_wire_length_um": 15930.51,
+    "wire_length_um": 12994.65,
+    "per_net_wire_length_um": {
+      "B0": 86.99,
+      "B1": 87.59,
+      "CLK": 247.18,
+      "GND_VCO": 1974.71,
+      "VBN": 801.87,
+      "VBP": 807.74,
+      "VCTRL": 87.84,
+      "VDD_VCO": 1697.13,
+      "XBIAS.VFIX": 315.5,
+      "XBIAS.dega": 311.45,
+      "XBIAS.degb": 453.15,
+      "XBIAS.n2s": 176.21,
+      "XBIAS.nb0": 170.61,
+      "XBIAS.nb1": 200.01,
+      "XBIAS.vb1": 394.74,
+      "XBIAS.vb2": 412.21,
+      "XBIAS.vfixmid": 235.68,
+      "XS1.nh": 235.78,
+      "XS1.nt": 226.58,
+      "XS2.nh": 277.98,
+      "XS2.nt": 207.18,
+      "XS3.nh": 225.58,
+      "XS3.nt": 207.58,
+      "XS4.nh": 232.98,
+      "XS4.nt": 207.98,
+      "XS5.nh": 240.38,
+      "XS5.nt": 208.38,
+      "bufmid": 393.04,
+      "ring1": 513.8,
+      "ring2": 331.1,
+      "ring3": 336.5,
+      "ring4": 341.9,
+      "ring5": 347.3
+    },
+    "per_net_pin_count": {
+      "B0": 1,
+      "B1": 1,
+      "CLK": 2,
+      "GND_VCO": 22,
+      "VBN": 8,
+      "VBP": 10,
+      "VCTRL": 1,
+      "VDD_VCO": 19,
+      "XBIAS.VFIX": 4,
+      "XBIAS.dega": 2,
+      "XBIAS.degb": 4,
+      "XBIAS.n2s": 2,
+      "XBIAS.nb0": 2,
+      "XBIAS.nb1": 2,
+      "XBIAS.vb1": 5,
+      "XBIAS.vb2": 5,
+      "XBIAS.vfixmid": 3,
+      "XS1.nh": 2,
+      "XS1.nt": 2,
+      "XS2.nh": 2,
+      "XS2.nt": 2,
+      "XS3.nh": 2,
+      "XS3.nt": 2,
+      "XS4.nh": 2,
+      "XS4.nt": 2,
+      "XS5.nh": 2,
+      "XS5.nt": 2,
+      "bufmid": 4,
+      "ring1": 6,
+      "ring2": 4,
+      "ring3": 4,
+      "ring4": 4,
+      "ring5": 4
+    },
+    "group_order": [
+      "vco_XCDECAP",
+      "vco_nfet_w4_l0p5",
+      "vco_nfet_w2_l0p28",
+      "vco_pfet_w5_l0p28",
+      "vco_pfet_w10_l0p5",
+      "vco_pfet_w10_l1",
+      "vco_nfet_w4_l1",
+      "vco_pfet_w3_l1",
+      "vco_nfet_w2_l1",
+      "vco_pfet_w6_l1",
+      "vco_resrhigh_w0p5_l8",
+      "vco_nfet_w8_l1",
+      "vco_resrppd_w1_l30",
+      "vco_nfet_w4_l0p3",
+      "vco_resrppd_w1_l60"
+    ],
+    "member_slots": {
+      "vco_XCDECAP": [
+        "XCDECAP"
+      ],
+      "vco_nfet_w4_l0p5": [
+        "XS1.XMNT",
+        "XS2.XMNT",
+        "XS3.XMNT",
+        "XS4.XMNT",
+        "XS5.XMNT",
+        "XBUF1.XMN",
+        "XBUF2.XMN"
+      ],
+      "vco_nfet_w2_l0p28": [
+        "XS2.XMN",
+        "XS3.XMN",
+        "XS4.XMN",
+        "XS5.XMN",
+        "XS1.XMN"
+      ],
+      "vco_pfet_w5_l0p28": [
+        "XS2.XMP",
+        "XS3.XMP",
+        "XS4.XMP",
+        "XS5.XMP",
+        "XS1.XMP"
+      ],
+      "vco_pfet_w10_l0p5": [
+        "XBUF1.XMP",
+        "XBUF2.XMP",
+        "XS3.XMPH",
+        "XS4.XMPH",
+        "XS5.XMPH",
+        "XS1.XMPH",
+        "XS2.XMPH"
+      ],
+      "vco_pfet_w10_l1": [
+        "XBIAS.XM6",
+        "XBIAS.XM11"
+      ],
+      "vco_nfet_w4_l1": [
+        "XBIAS.XM10",
+        "XBIAS.XM8",
+        "XBIAS.XM7"
+      ],
+      "vco_pfet_w3_l1": [
+        "XBIAS.XP5"
+      ],
+      "vco_nfet_w2_l1": [
+        "XBIAS.XN5",
+        "XBIAS.XN6",
+        "XBIAS.XN1"
+      ],
+      "vco_pfet_w6_l1": [
+        "XBIAS.XP1",
+        "XBIAS.XP2"
+      ],
+      "vco_resrhigh_w0p5_l8": [
+        "XBIAS.XRSTART"
+      ],
+      "vco_nfet_w8_l1": [
+        "XBIAS.XN2"
+      ],
+      "vco_resrppd_w1_l30": [
+        "XBIAS.XRS",
+        "XBIAS.XRDEGB2"
+      ],
+      "vco_nfet_w4_l0p3": [
+        "XBIAS.XSWB1",
+        "XBIAS.XSWB0"
+      ],
+      "vco_resrppd_w1_l60": [
+        "XBIAS.XRDEGA",
+        "XBIAS.XRDEGB0",
+        "XBIAS.XRDEGB1"
+      ]
+    },
+    "track_order": [
+      "GND_VCO",
+      "VDD_VCO",
+      "VBP",
+      "VBN",
+      "ring1",
+      "XBIAS.vb1",
+      "XBIAS.vb2",
+      "XBIAS.VFIX",
+      "XBIAS.degb",
+      "bufmid",
+      "ring2",
+      "ring3",
+      "ring4",
+      "ring5",
+      "XBIAS.vfixmid",
+      "CLK",
+      "XBIAS.dega",
+      "XBIAS.n2s",
+      "XBIAS.nb0",
+      "XBIAS.nb1",
+      "XS1.nh",
+      "XS1.nt",
+      "XS2.nh",
+      "XS2.nt",
+      "XS3.nh",
+      "XS3.nt",
+      "XS4.nh",
+      "XS4.nt",
+      "XS5.nh",
+      "XS5.nt",
+      "B0",
+      "B1",
+      "VCTRL"
+    ],
+    "passes": 2
+  }
+}

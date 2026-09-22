@@ -40,6 +40,28 @@ device-count multiset against the block's schematic-derived totals:
 | `lock_detector` | 40 | 40 | yes | yes |
 | **Total** | **482** | **482** | **6/6** | **6/6** |
 
+**Non-regression note (issue #114's pin bump, record
+`20260922-194744-7980bfe-dirty`).** `layout/requirements.txt` was re-bumped
+to `daf06a51afa` for the SG13CMOS5L side's MoM-capacitor work, and this flow
+was re-run in full per the shared bump discipline — its first run since
+issue #96's `lock_detector` re-derivation landed. The groups that survive
+from the previous record (`20260830-061120`) reproduce unchanged, and #96's
+re-derived groups (`resrhigh l=500`, the resized `XCW`/`XDW.XC1`, the
+schmitt devices) draw cleanly too — with one exception: #96's `XMPD
+sg13_hv_nmos w=0.25u l=12u` does not draw. `klt gen mos_array` rejects it
+with *"params.w_um must be >= 0.42 (the smallest width that fits an
+enclosed contact with margin -- a generator-side structural floor, not the
+target PDK's own diffusion-width rule)"* — so this run records **481 / 482**
+drawn and `lock_detector`'s block re-extract `no`, entirely attributable to
+that pre-existing generator floor meeting a newer, narrower device, **not**
+to the pin bump (the failing group never appeared in any prior record to
+regress from). Not filed upstream: the error is the generator's own
+documented structural floor, not a wrong answer. The SG13G2 analogue of the
+CMOS5L port's local `draw_mom_cap`/`draw_hv_mos` footprints — a local
+sub-0.42 µm MOS footprint — is the recorded path forward if that device
+size is here to stay; it is this port's own future increment, not part of
+#114.
+
 **Every device this design's schematic declares now draws, re-extracts, and
 matches** — every MOSFET, every resistor, and every MiM capacitor. The two
 `cap_cmim` shunt caps in `loop_filter` and the three MiM/decap capacitor

@@ -1,0 +1,141 @@
+{
+  "cell_name": "pll_pfd",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_pfd",
+    "gds_path": "pll_pfd.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": null
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": -0.15,
+      "x1": 122.21,
+      "y1": 11.07
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "pfd_nfet_w2_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "pfd_nfet_w2_l0p5",
+        "source_path": "pfd_nfet_w2_l0p5.gds",
+        "source_digest": "sha256:c946f532fd863e5a94ae97f5f10eb4c5799e3371e17eba4e9db6822b9660e9a4",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 53.54,
+          "y1": 2.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "pfd_nfet_w4_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "pfd_nfet_w4_l0p5",
+        "source_path": "pfd_nfet_w4_l0p5.gds",
+        "source_digest": "sha256:c204f5f0a9e8899cf7870bb7c7080c51a7e730fba4be7d65a730756b5df9ddf0",
+        "offset_um": {
+          "x": 57.54,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 57.54,
+          "y0": 0.0,
+          "x1": 58.88,
+          "y1": 4.92
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "pfd_pfet_w5_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "pfd_pfet_w5_l0p5",
+        "source_path": "pfd_pfet_w5_l0p5.gds",
+        "source_digest": "sha256:51885bf768734fbb42f6d0d100f72e0253dd066a36e05b3ea2212b70b35974b4",
+        "offset_um": {
+          "x": 62.88,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 62.730000000000004,
+          "y0": -0.15,
+          "x1": 116.57,
+          "y1": 6.07
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "pfd_pfet_w10_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "pfd_pfet_w10_l0p5",
+        "source_path": "pfd_pfet_w10_l0p5.gds",
+        "source_digest": "sha256:0b663c8d3743ef2317d6beae64cbe947d622d8afdfa4798b99991b4294c815a7",
+        "offset_um": {
+          "x": 120.72,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 120.57,
+          "y0": -0.15,
+          "x1": 122.21,
+          "y1": 11.07
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "mos_array:1x31:array",
+          "blocks": [
+            "pfd_nfet_w2_l0p5",
+            "pfd_pfet_w5_l0p5"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "mos_array:1x1:array",
+          "blocks": [
+            "pfd_nfet_w4_l0p5",
+            "pfd_pfet_w10_l0p5"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": {
+        "name": "ihp-sg13g2",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stderr": ""
+}

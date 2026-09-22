@@ -1,0 +1,143 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "lock_detector_XDW.XC1__1.gds",
+    "deck": "sg13cmos5l",
+    "top": "lock_detector_XDW.XC1__1",
+    "dbu_um": 0.001,
+    "netlist_path": "lock_detector_XDW.XC1__1.extracted.spice",
+    "netlist_sha256": "54dab1f3b6fb5d0249a6b55981ac97b9707d0f525b04a1baa556abd30a880deb",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 2,
+    "pin_count": 0,
+    "device_counts": {
+      "cap_cmomi": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [
+      {
+        "layer": 63,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 160,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_recognition_only_layers": [
+      {
+        "layer": 99,
+        "datatype": 39,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "cap_cmomi",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2"
+        },
+        "params": {
+          "w_um": 40.0,
+          "l_um": 40.0
+        },
+        "instance_path": []
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 1,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 2,
+        "pin_index": null,
+        "label_positions_um": []
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (31/2, 5/2, 8/2, 10/2, 30/2, 50/2, 126/2) anywhere in 'lock_detector_XDW.XC1__1' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "0 top-level pins are promoted on 'lock_detector_XDW.XC1__1' after extraction -- `klt lvs` has no net/device anchor to seed correspondence against a reference netlist and will report a full mismatch regardless of device-count agreement. If this design genuinely has zero top-level pins by intent, this warning can be ignored; otherwise see the pin-name-label warning above (if present) or check that --top-cell-pins/--pins/--def-pins did not demote every promoted pin (issue #1385)",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list.",
+      "2 layers (63/0, 160/0) carrying 2 shapes are outside 'sg13cmos5l' deck's connectivity graph -- this geometry is invisible to extraction, so a net routed only through it extracts as multiple disconnected nets instead of one, which will silently mismatch a downstream `klt lvs` reference netlist -- see ignored_layers[] for the full per-layer shape counts. See docs/cli/extract.md's 'ignored_layers' field documentation."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:963fc17890a5a0ae15eb7bf5b274e72ee864f278fa860a6383422c245061b47a",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 1,
+      "extract__net__count": 2,
+      "extract__pin__count": 0
+    }
+  },
+  "stderr": ""
+}

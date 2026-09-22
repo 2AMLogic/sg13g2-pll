@@ -84,10 +84,39 @@
 #       close it. The SG13CMOS5L side's two MoM-capacitor devices are
 #       therefore still expected to be undrawable at this pin; see
 #       `layout/sg13cmos5l-pll/README.md`.
+#   * daf06a51afaf0c98237e52e5018a880e61899ffa (current pin) -- `main` HEAD
+#     as of this bump (issue #114, the `cap_cmomi` drawing pass), picking up
+#     the two closures that issue's own work rests on:
+#
+#     - **klayout-tools#1466** closed by #1475 (`352bc756`, "extract:
+#       recognise sg13g2/sg13cmos5l cap_cmomi/cap_cmomf MoM capacitors"):
+#       the curated `sg13cmos5l` deck now declares `mom_capacitors` entries
+#       for `cap_cmomi` (`Recog.mom` 99/39 marker, `Metal1..4.pin` ports),
+#       so a drawn MoM capacitor extracts as a real device whose only
+#       matched parameters are the marker bbox's own `w_um`/`l_um`. This is
+#       the extraction-side closure issue #114's own body cites ("tracked
+#       and closed on the extraction side but not the drawing side").
+#     - **klayout-tools#1942** closed by #1944 (`08dc79e3`): `klt lvs` now
+#       recognises a round-tripped `X <n> <a> <b> cap_cmomi PARAMS: W= L=`
+#       card as a device of that class on the reference side (via
+#       `reference.deck`), instead of degrading it into a mangled
+#       abstract-circuit name. This is what lets this repo's
+#       caller-side reference rewrite close LVS on the three blocks whose
+#       schematics instantiate a MoM capacitor.
+#     - Verified `352bc756...` and `08dc79e3...` are both ancestors of
+#       `daf06a51...` before pinning (`git merge-base --is-ancestor`), so
+#       nothing the previous pin carried is lost.
+#     - **Still not picked up**: `klt gen cap_array` still has no MoM
+#       plate/finger generator for this family (only MiM plate-layer
+#       configs for sky130/sg13g2 exist), and CMOS5L has no MIM at all --
+#       re-verified for this bump. The drawing side therefore stays local
+#       (`cmos5l_devices.draw_mom_cap`, issue #114), the same
+#       local-footprint decision issues #24/#35 made for MOS and resistors;
+#       see `layout/sg13cmos5l-pll/README.md`'s friction log.
 #
 # Bump discipline, mirrored from sky130-pll: pin an exact commit, never
 # floating `main`; state in this header what the bump picks up; and re-run
 # **both** `layout/bin/run-pll-layout-flow.sh` and
 # `layout/bin/run-pll-cmos5l-layout-flow.sh`, checking the refreshed records
 # in as the non-regression (or, hopefully, regression-fixed) proof.
-klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@fdf04f71ab39159838acb86e63a92d6fa0c714fa
+klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@daf06a51afaf0c98237e52e5018a880e61899ffa

@@ -1,0 +1,86 @@
+* extracted by klt extract --deck sg13g2
+
+* cell pll_lock_detector
+* pin vsubs
+.SUBCKT pll_lock_detector vsubs
+* device instance $1 r0 *1 0.67,1 nfet
+M$1 \$20 \$1 \$18 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $2 r0 *1 2.41,1 nfet
+M$2 \$26 \$2 \$22 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $3 r0 *1 4.15,1 nfet
+M$3 \$31 \$3 \$27 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $4 r0 *1 5.89,1 nfet
+M$4 \$36 \$4 \$33 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $5 r0 *1 7.63,1 nfet
+M$5 \$41 \$5 \$38 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $6 r0 *1 13.72,1 nfet
+M$6 \$43 \$6 \$42 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $7 r0 *1 16.96,1 nfet
+M$7 \$45 \$7 \$44 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $8 r0 *1 20.2,1 nfet
+M$8 \$47 \$8 \$46 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $9 r0 *1 0.67,4.32 nfet
+M$9 \$21 \$19 \$17 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $10 r0 *1 2.41,4.32 nfet
+M$10 \$25 \$24 \$23 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $11 r0 *1 4.15,4.32 nfet
+M$11 \$30 \$29 \$28 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $12 r0 *1 5.89,4.32 nfet
+M$12 \$35 \$34 \$32 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $13 r0 *1 7.63,4.32 nfet
+M$13 \$40 \$39 \$37 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $14 r0 *1 0.67,7.64 nfet
+M$14 \$72 \$71 \$70 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $15 r0 *1 2.41,7.64 nfet
+M$15 \$75 \$74 \$73 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $16 r0 *1 4.15,7.64 nfet
+M$16 \$78 \$77 \$76 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $17 r0 *1 5.89,7.64 nfet
+M$17 \$81 \$80 \$79 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $18 r0 *1 7.63,7.64 nfet
+M$18 \$84 \$83 \$82 vsubs nfet L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $19 r0 *1 26.29,2.5 pfet
+M$19 \$49 \$9 \$48 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $20 r0 *1 28.03,2.5 pfet
+M$20 \$51 \$10 \$50 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $21 r0 *1 29.77,2.5 pfet
+M$21 \$53 \$11 \$52 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $22 r0 *1 31.51,2.5 pfet
+M$22 \$55 \$12 \$54 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $23 r0 *1 33.25,2.5 pfet
+M$23 \$57 \$13 \$56 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $24 r0 *1 39.64,2.5 pfet
+M$24 \$59 \$14 \$58 \$69 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $25 r0 *1 42.88,2.5 pfet
+M$25 \$61 \$15 \$60 \$69 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $26 r0 *1 46.12,2.5 pfet
+M$26 \$63 \$16 \$62 \$69 pfet L=2U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $27 r0 *1 26.29,8.82 pfet
+M$27 \$89 \$64 \$85 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $28 r0 *1 28.03,8.82 pfet
+M$28 \$94 \$65 \$91 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $29 r0 *1 29.77,8.82 pfet
+M$29 \$99 \$66 \$95 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $30 r0 *1 31.51,8.82 pfet
+M$30 \$103 \$67 \$100 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $31 r0 *1 33.25,8.82 pfet
+M$31 \$109 \$68 \$105 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $32 r0 *1 26.29,15.14 pfet
+M$32 \$88 \$87 \$86 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $33 r0 *1 28.03,15.14 pfet
+M$33 \$93 \$92 \$90 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $34 r0 *1 29.77,15.14 pfet
+M$34 \$98 \$97 \$96 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U PD=10.84U
+* device instance $35 r0 *1 31.51,15.14 pfet
+M$35 \$104 \$102 \$101 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U
++ PD=10.84U
+* device instance $36 r0 *1 33.25,15.14 pfet
+M$36 \$108 \$107 \$106 \$112 pfet L=0.5U W=5U AS=2.1P AD=2.1P PS=10.84U
++ PD=10.84U
+* device instance $37 r0 *1 23,50.36 cap_cmim
+C$37 \$113 \$115 3.0447e-12
+* device instance $38 r0 *1 73,50.36 cap_cmim
+C$38 \$114 \$116 3.0447e-12
+* device instance $39 r0 *1 250.42,23.11 rhigh
+R$39 \$110 \$111 vsubs 1360000 rhigh L=500U W=0.5U
+.ENDS pll_lock_detector

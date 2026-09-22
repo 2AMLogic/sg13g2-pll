@@ -1,0 +1,19 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_pfet_w10_l0p5
+.SUBCKT vco_pfet_w10_l0p5
+* device instance $1 r0 *1 0.67,5 pfet
+M$1 \$2 \$15 \$1 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $2 r0 *1 2.41,5 pfet
+M$2 \$4 \$16 \$3 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $3 r0 *1 4.15,5 pfet
+M$3 \$6 \$17 \$5 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $4 r0 *1 5.89,5 pfet
+M$4 \$8 \$18 \$7 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $5 r0 *1 7.63,5 pfet
+M$5 \$10 \$19 \$9 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $6 r0 *1 9.37,5 pfet
+M$6 \$12 \$20 \$11 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+* device instance $7 r0 *1 11.11,5 pfet
+M$7 \$14 \$21 \$13 \$22 pfet L=0.5U W=10U AS=4.2P AD=4.2P PS=20.84U PD=20.84U
+.ENDS vco_pfet_w10_l0p5

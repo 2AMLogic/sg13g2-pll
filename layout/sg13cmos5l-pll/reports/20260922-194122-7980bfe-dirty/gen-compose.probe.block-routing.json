@@ -1,0 +1,3168 @@
+{
+  "returncode": 3,
+  "ok": false,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "gencompose_cp_probe",
+    "gds_path": "gencompose_cp_probe.gds",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "variant": "ihp-sg13cmos5l",
+      "version": null
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": 0.125,
+      "y0": 0.34,
+      "x1": 273.575,
+      "y1": 6.88
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "cp_nfet_w2_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w2_l0p5",
+        "source_path": "./cp_nfet_w2_l0p5.gds",
+        "source_digest": "sha256:e568e421102e3e0b55e8aa30eecface249b828f9d26a8563d7e54ad0f5d0ca06",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.125,
+          "y0": 0.78,
+          "x1": 7.53,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w2_l3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w2_l3",
+        "source_path": "./cp_nfet_w2_l3.gds",
+        "source_digest": "sha256:7ef6a3fcb70e4a4e06cdd37054bb740fe1fe2498ee99446c6d097aba1272c25c",
+        "offset_um": {
+          "x": 13.405000000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 13.530000000000001,
+          "y0": 0.78,
+          "x1": 16.975,
+          "y1": 6.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w4_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w4_l1",
+        "source_path": "./cp_nfet_w4_l1.gds",
+        "source_digest": "sha256:7c39c30f68bcc044ff9bd1d6ab94bd8de253176ec8e3525f58665d5a4137c2d9",
+        "offset_um": {
+          "x": 22.85,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 22.975,
+          "y0": 0.78,
+          "x1": 28.42,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p3",
+        "source_path": "./cp_nfet_w6_l0p3.gds",
+        "source_digest": "sha256:275ffbaa79f090026edbbcb766a421e294df9845eb1fb44906b8875438fd8440",
+        "offset_um": {
+          "x": 34.295,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 34.42,
+          "y0": 0.78,
+          "x1": 49.825,
+          "y1": 3.9
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w6_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w6_l0p5",
+        "source_path": "./cp_nfet_w6_l0p5.gds",
+        "source_digest": "sha256:21d9cc5bacb69c37336d02df2f0802a5699edbfc2431b9c0c65b3ac55e79c8fd",
+        "offset_um": {
+          "x": 55.7,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 55.825,
+          "y0": 0.78,
+          "x1": 63.27,
+          "y1": 4.1
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_nfet_w8_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_nfet_w8_l1",
+        "source_path": "./cp_nfet_w8_l1.gds",
+        "source_digest": "sha256:0f7e47965b50ac336e63a3efff748cfc5eb72c118941447300337e3227f818b3",
+        "offset_um": {
+          "x": 69.14500000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 69.27000000000001,
+          "y0": 0.78,
+          "x1": 108.59500000000001,
+          "y1": 4.6000000000000005
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w5_l0p5",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w5_l0p5",
+        "source_path": "./cp_pfet_w5_l0p5.gds",
+        "source_digest": "sha256:1c8d916c047910bff729ed61515537545f910755909172ee24bdaeb9041ea61a",
+        "offset_um": {
+          "x": 114.47000000000001,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 114.59500000000001,
+          "y0": 0.34,
+          "x1": 128.35000000000002,
+          "y1": 4.38
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w6_l0p3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w6_l0p3",
+        "source_path": "./cp_pfet_w6_l0p3.gds",
+        "source_digest": "sha256:e6caf2ea845ebb783ab3210bc79a3c556c9e4a172ef929d206f9a225ff83ac2c",
+        "offset_um": {
+          "x": 134.22500000000002,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 134.35000000000002,
+          "y0": 0.34,
+          "x1": 150.10500000000002,
+          "y1": 4.18
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w6_l3",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w6_l3",
+        "source_path": "./cp_pfet_w6_l3.gds",
+        "source_digest": "sha256:28bf84b17b72add6386db9fd4ba51392727051e798dc3b79ef7bedddea40119d",
+        "offset_um": {
+          "x": 155.98000000000002,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 156.10500000000002,
+          "y0": 0.34,
+          "x1": 163.9,
+          "y1": 6.88
+        },
+        "orientation": "none"
+      },
+      {
+        "id": "cp_pfet_w24_l1",
+        "source": "cell",
+        "generator": null,
+        "cell_name": "cp_pfet_w24_l1",
+        "source_path": "./cp_pfet_w24_l1.gds",
+        "source_digest": "sha256:9e9bf94930dc71d56d842733bc4d371781bc925aeeb63166d8fb47ef279087ef",
+        "offset_um": {
+          "x": 169.775,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 169.9,
+          "y0": 0.34,
+          "x1": 273.575,
+          "y1": 4.88
+        },
+        "orientation": "none"
+      }
+    ],
+    "nets": [
+      {
+        "net": "DN",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_G"
+          }
+        ],
+        "routed": true,
+        "route_length_um": 128.99,
+        "status": "routed",
+        "landed_on_block": true,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 38.614999999999995,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 90.37500000000001,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          }
+        ]
+      },
+      {
+        "net": "DNB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "IBN",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U1_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U0_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          }
+        ]
+      },
+      {
+        "net": "IBP",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_pfet_w24_l1''s own port 'U1_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U0_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "ICN",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 3.25,
+        "status": "partial",
+        "landed_on_block": true,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 3.25,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U2_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          }
+        ]
+      },
+      {
+        "net": "ICP",
+        "pins": [
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_G"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_G"
+          }
+        ],
+        "routed": true,
+        "route_length_um": 147.95999999999995,
+        "status": "routed",
+        "landed_on_block": true,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 3.2499999999999893,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 46.394999999999996,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_G"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 98.31499999999997,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          }
+        ]
+      },
+      {
+        "net": "UP",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "UPB",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_G"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN'"
+          }
+        ]
+      },
+      {
+        "net": "VDD",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w5_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w6_l3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 73.27999999999999,
+        "status": "partial",
+        "landed_on_block": true,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w5_l0p5''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 9.839999999999993,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.44um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.74um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.82um of block 'cp_pfet_w6_l3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 3.528um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um of block 'cp_pfet_w5_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um of block 'cp_pfet_w6_l0p3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.44um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.78um of block 'cp_pfet_w6_l0p3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 3.528um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um of block 'cp_pfet_w5_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.44um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_pfet_w24_l1''s own port 'U1_S' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 54.79999999999999,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 3.528um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 13.78um of block 'cp_pfet_w5_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.638um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (ports 'U0_S', 'BODY') near its own port 'U0_D' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 16.08um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.638um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (ports 'U0_S', 'BODY') near its own port 'U0_D' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 16.08um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.638um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (ports 'U0_S', 'BODY') near its own port 'U0_D' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w6_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w5_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 16.08um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.638um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (ports 'U0_S', 'BODY') near its own port 'U0_D' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w24_l1''s own drawn geometry on the route layer (port 'U2_D') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w24_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          }
+        ]
+      },
+      {
+        "net": "VDUMP",
+        "pins": [
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          }
+        ]
+      },
+      {
+        "net": "VOUT",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "U0_G"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_G"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "U0_G"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted"
+          }
+        ]
+      },
+      {
+        "net": "VSS",
+        "pins": [
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w2_l0p5",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w2_l3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w4_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w6_l0p5",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "BODY"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": 41.16,
+        "status": "partial",
+        "landed_on_block": true,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 2.88,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w2_l0p5''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 6.84,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.47um of block 'cp_nfet_w2_l3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.14um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um of block 'cp_nfet_w4_l1''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.728um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um of block 'cp_nfet_w2_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.47um of block 'cp_nfet_w6_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U1_S' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.47um of block 'cp_nfet_w2_l3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.43um of block 'cp_nfet_w6_l0p3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.728um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": true,
+            "route_length_um": 22.8,
+            "reason": null,
+            "channel_track": 0,
+            "landed_on_block": true
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um of block 'cp_nfet_w2_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.14um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um of block 'cp_nfet_w4_l1''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.728um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um of block 'cp_nfet_w2_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 15.43um of block 'cp_nfet_w6_l0p3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 6.48um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.47um of block 'cp_nfet_w2_l3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.14um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 5.47um of block 'cp_nfet_w4_l1''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.728um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w6_l0p5",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um of block 'cp_nfet_w2_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 3.47um of block 'cp_nfet_w2_l3''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 6.48um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w4_l1''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w4_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 1.728um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w4_l1",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 6.48um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "BODY"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "backbone's 0.3um-wide drawn path crosses 7.43um of block 'cp_nfet_w2_l0p5''s interior on the side *away* from its own pin 'BODY' (which faces 180deg) -- that pin's 0.275um edge margin only describes the approach on the side it faces, so this route reaches the pin from behind, crossing whatever the block draws in between (another device's terminal, a strap) and drawing a silent short to it (issue #1895); connect this pin from the side its port faces, supply waypoints_um that bring the approach around to that side, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.5038um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l3",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 6.48um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w2_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w2_l0p5",
+                "port": "BODY"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 6.48um^2 of block 'cp_nfet_w8_l1''s own drawn geometry on the route layer (port 'BODY') near its own port 'U2_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w8_l1' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.sw",
+        "pins": [
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_nfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_nfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p3''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          }
+        ]
+      },
+      {
+        "net": "XLEGN.tail",
+        "pins": [
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.sw",
+        "pins": [
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U0_S"
+          },
+          {
+            "block": "cp_pfet_w6_l0p3",
+            "port": "U1_S"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_D"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net backbone crosses 0.6um through block 'cp_pfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U1_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w6_l0p3''s own drawn geometry on the route layer (port 'U1_D') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l0p3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          },
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w6_l0p3",
+                "port": "U0_S"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_D"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_pfet_w6_l0p3''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w6_l0p3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)"
+          }
+        ]
+      },
+      {
+        "net": "XLEGP.tail",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U0_D"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U1_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U0_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U1_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "nxn",
+        "pins": [
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U2_D"
+          },
+          {
+            "block": "cp_nfet_w8_l1",
+            "port": "U3_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U2_D"
+              },
+              {
+                "block": "cp_nfet_w8_l1",
+                "port": "U3_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      },
+      {
+        "net": "nxp",
+        "pins": [
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U2_D"
+          },
+          {
+            "block": "cp_pfet_w24_l1",
+            "port": "U3_S"
+          }
+        ],
+        "routed": false,
+        "route_length_um": null,
+        "status": "unrouted",
+        "landed_on_block": null,
+        "legs": [
+          {
+            "pins": [
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U2_D"
+              },
+              {
+                "block": "cp_pfet_w24_l1",
+                "port": "U3_S"
+              }
+            ],
+            "routed": false,
+            "route_length_um": null,
+            "reason": "self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+          }
+        ]
+      }
+    ],
+    "pins": [],
+    "unrouted_nets": [
+      "DNB",
+      "IBN",
+      "IBP",
+      "ICN",
+      "UP",
+      "UPB",
+      "VDD",
+      "VDUMP",
+      "VOUT",
+      "VSS",
+      "XLEGN.sw",
+      "XLEGN.tail",
+      "XLEGP.sw",
+      "XLEGP.tail",
+      "nxn",
+      "nxp"
+    ],
+    "drc_hints": {
+      "min_spacing_um": 6.0,
+      "matched_groups": [],
+      "notes": [
+        "net 'DNB' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p3.U1_G', 'cp_pfet_w5_l0p5.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w2_l0p5.U1_D' -> 'cp_nfet_w6_l0p3.U1_G'): crosses already-routed net 'DN'",
+        "net 'IBN' could not be routed: 3 of 4 pins could not be connected into one net ('cp_nfet_w8_l1.U0_G', 'cp_nfet_w8_l1.U2_G', 'cp_nfet_w8_l1.U3_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w8_l1.U2_G' -> 'cp_nfet_w8_l1.U3_D'): self-net backbone crosses 0.6um through block 'cp_nfet_w8_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'IBP' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w24_l1.U2_G', 'cp_pfet_w24_l1.U3_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w24_l1.U2_G' -> 'cp_pfet_w24_l1.U3_D'): self-net backbone crosses 0.6um through block 'cp_pfet_w24_l1''s own port 'U2_D' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'ICN' could not be routed: 2 of 4 pins could not be connected into one net ('cp_nfet_w8_l1.U1_G', 'cp_nfet_w8_l1.U3_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w8_l1.U1_G' -> 'cp_nfet_w8_l1.U3_G'): self-net between two same-facing ports on the same row jogs directly over block 'cp_nfet_w8_l1''s own port 'U2_G' (same facing direction, same drawing layer) -- bussing this net across the block would draw a silent short to that pad's real drawn metal, which extends past its reported width_um footprint in its facing direction; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'UP' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w5_l0p5.U0_G', 'cp_pfet_w6_l0p3.U1_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U0_G' -> 'cp_pfet_w6_l0p3.U1_G'): crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted",
+        "net 'UPB' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w5_l0p5.U0_D', 'cp_pfet_w6_l0p3.U0_G') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U0_D' -> 'cp_pfet_w6_l0p3.U0_G'): crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted",
+        "net 'VDD' could not be routed: 7 of 10 pins could not be connected into one net ('cp_nfet_w6_l0p5.U0_D', 'cp_pfet_w6_l0p3.BODY', 'cp_pfet_w6_l3.BODY', 'cp_pfet_w6_l3.U0_S', 'cp_pfet_w24_l1.BODY', 'cp_pfet_w24_l1.U0_S', 'cp_pfet_w24_l1.U2_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w5_l0p5.U1_S' -> 'cp_pfet_w6_l0p3.BODY'): leg's drawn 0.3um metal overlaps 1.44um^2 of block 'cp_pfet_w5_l0p5''s own drawn geometry on the route layer (port 'BODY') near its own port 'U1_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_pfet_w5_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)",
+        "net 'VDUMP' could not be routed: 3 of 4 pins could not be connected into one net ('cp_nfet_w6_l0p3.U1_D', 'cp_nfet_w6_l0p5.U0_S', 'cp_pfet_w6_l0p3.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w6_l0p3.U1_D' -> 'cp_nfet_w6_l0p5.U0_S'): leg's drawn 0.3um metal overlaps 0.078um^2 of block 'cp_nfet_w6_l0p5''s own drawn geometry on the route layer (port 'U0_D') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w6_l0p5' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)",
+        "net 'VOUT' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p5.U0_G', 'cp_pfet_w6_l0p3.U0_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w6_l0p3.U0_D' -> 'cp_nfet_w6_l0p5.U0_G'): crosses already-routed net 'DN' -- 24 alternate channel tracks (this leg's shared-channel horizontal jog shifted farther from the row, one route width's worth of clearance per track) were tried first, and each one still conflicted",
+        "net 'VSS' could not be routed: 9 of 12 pins could not be connected into one net ('cp_nfet_w2_l3.BODY', 'cp_nfet_w2_l3.U0_S', 'cp_nfet_w4_l1.BODY', 'cp_nfet_w4_l1.U0_S', 'cp_nfet_w6_l0p3.BODY', 'cp_nfet_w6_l0p5.BODY', 'cp_nfet_w8_l1.BODY', 'cp_nfet_w8_l1.U0_S', 'cp_nfet_w8_l1.U2_S') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w2_l3.U0_S' -> 'cp_nfet_w4_l1.BODY'): leg's drawn 0.3um metal overlaps 0.54um^2 of block 'cp_nfet_w2_l3''s own drawn geometry on the route layer (port 'BODY') near its own port 'U0_S' -- the escape from this port would draw a silent short to another net already present inside block 'cp_nfet_w2_l3' (issue #1527); tap a different point on the intended net, supply waypoints_um that route the approach clear of the obstruction, or route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168)",
+        "net 'XLEGN.sw' could not be routed: 2 of 3 pins could not be connected into one net ('cp_nfet_w6_l0p3.U1_S', 'cp_nfet_w8_l1.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_nfet_w6_l0p3.U0_S' -> 'cp_nfet_w6_l0p3.U1_S'): self-net backbone crosses 0.6um through block 'cp_nfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGN.tail' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGP.sw' could not be routed: 2 of 3 pins could not be connected into one net ('cp_pfet_w6_l0p3.U1_S', 'cp_pfet_w24_l1.U1_D') -- every candidate leg reaching them was rejected (per-leg detail in nets[].legs[]); nearest rejection ('cp_pfet_w6_l0p3.U0_S' -> 'cp_pfet_w6_l0p3.U1_S'): self-net backbone crosses 0.6um through block 'cp_pfet_w6_l0p3''s own port 'U1_G' on the same drawing layer -- bussing this net across the block would draw a silent short to that pad; route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'XLEGP.tail' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U1_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'nxn' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_nfet_w8_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally",
+        "net 'nxp' could not be routed: self-net's drawn 0.3um metal overlaps 0.02um^2 of block 'cp_pfet_w24_l1''s own drawn pad metal on the route layer (port 'U3_G') -- bussing this net across the block would draw a silent short to that pad (its drawn metal is larger than the contact size its port reports); route to a layer_role with a metal2/via stack instead (or configure routing.cross_block_layer_role, issue #1168), or wire this net externally"
+      ]
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.10",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stderr": ""
+}

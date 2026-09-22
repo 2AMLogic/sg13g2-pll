@@ -43,7 +43,11 @@ What this flow does, per block, in order:
    to leaf devices, group them by `(class, W, L)`.
 2. **Draw** each `mos_array`/`res_array` group as its own cell, with a shared
    NWell + n+ well tap per PMOS group and a p+ substrate tap per NMOS group
-   (`cmos5l_devices.draw_pfet_array_well`/`draw_nfet_array_tap`).
+   (`cmos5l_devices.draw_pfet_array_well`/`draw_nfet_array_tap`), and each
+   `cap_cmomi` capacitor group as its own cell
+   (`cmos5l_devices.draw_mom_cap`, issue #114) -- a local interdigitated
+   Metal1-Metal4 MoM footprint under a `Recog.mom` (99/39) recognition
+   marker sized to the schematic's own declared `w`/`l`.
 3. **DRC** each drawn group (`klt drc --deck sg13cmos5l`).
 4. **Extract** each drawn group and compare the reported `(class, W, L, count)`
    against the group's own schematic-derived expectation.
@@ -66,9 +70,13 @@ What this flow does, per block, in order:
    netlist.
 
 Capacitor groups (`cap_cmomi`, the MIM->MoM swap DR-004/#22 ratified) are
-recorded in the plan and never drawn -- see
-`pll_layout.BLOCKED_REASONS["cap_cmomi"]` for the two tracked upstream reasons
-(klayout-tools#1462 and #1463).
+drawn by this flow as of issue #114 -- locally, because no `klt gen`
+generator draws MoM geometry on this family (see
+`pll_layout.BLOCKED_REASONS["cap_cmomi"]` for the tracked upstream state),
+and LVS-compared through a caller-side reference rewrite (see
+`_mom_cap_reference`) that emits the `X ... cap_cmomi PARAMS: W= L=` card
+shape `klt lvs`'s custom-device-class reader (klayout-tools#1942/#1944)
+recognises.
 
 Nothing here relaxes a claim to make it pass: every `klt` invocation's raw
 JSON response is written into the record directory, and the summary is derived
@@ -79,6 +87,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -136,53 +145,229 @@ DRAIN_RISER_DX_UM = 1.05
 DEFAULT_DECK = "sg13cmos5l"
 DEFAULT_PDK = "ihp-sg13cmos5l"
 
-DRAWABLE_KINDS = ("mos_array", "res_array")
+DRAWABLE_KINDS = ("mos_array", "res_array", "capacitor")
 
-#: Explicit `klt lvs` `reference.device_map` entries for this design's two
-#: drawn poly resistors, and **why they have to be written out by hand**.
-#:
-#: `klt lvs`'s `reference.form: "subckt-call"` converter turns the schematic
-#: netlist's `X<name> ... rppd` cards into plain-element devices it can
-#: compare against the extracted layout. Its per-deck conversion table --
-#: what `reference.deck` selects -- is MOS-only, so it rejects `rppd`/`rhigh`
-#: even though *this same deck* recognises both for extraction
-#: (`EXTRACTION_DECK.resistors`, klayout-tools#1415) and `klt extract --pdk`
-#: emits them bound to those very subcircuit names. Filed upstream as
-#: **klayout-tools#1464**; this map is the caller-side declaration that issue
-#: names as the current workaround, recorded here (rather than left implicit)
-#: so it can be deleted when #1464 lands.
-#:
-#: There is deliberately **no `cap_cmomi` entry**: the curated `sg13cmos5l`
-#: deck declares no capacitor device class at all (klayout-tools#1463), so
-#: there is no class to map a MoM capacitor to. Every block that instantiates
-#: one therefore cannot be LVS-converted at all -- reported as exactly that in
-#: the record, never waived.
-REFERENCE_DEVICE_MAP: dict[str, dict[str, str]] = {
-    "rppd": {"kind": "resistor", "class": "rppd"},
-    "rhigh": {"kind": "resistor", "class": "rhigh"},
-}
+#: The model this flow draws with its own MoM footprint (issue #114). The
+#: shared planner still records `cap_cmomi` groups with the upstream
+#: generator's blocked reason (`klt gen` has no MoM generator for this
+#: family); :func:`promote_local_mom_caps` below promotes exactly those
+#: groups to locally drawn ones, which is what `draw_cap_group` consumes.
+MOM_CAP_MODEL = "cap_cmomi"
 
-#: The same map plus a `cap_cmomi` entry, used **only** for a clearly-labelled
-#: secondary probe on the blocks whose primary LVS run cannot convert.
-#:
-#: Issue #24's record stated there was "no class to map a MoM capacitor to".
-#: Re-measured for issue #29, that is not quite right, and the correction is
-#: worth having: `reference.device_map`'s `kind` vocabulary is caller-side and
-#: **does** accept `"capacitor"` on a deck whose `EXTRACTION_DECK.capacitors`
-#: is empty. What klayout-tools#1463 actually blocks is the *layout* half --
-#: a drawn MoM capacitor extracts as no device at all -- so mapping the
-#: reference side alone converts the netlist and then reports the missing
-#: capacitors as `device.unmatched` rather than refusing to compare.
-#:
-#: That is strictly more information than "not converted", and it is
-#: deliberately **not** the primary run: a mismatch this flow induced by
-#: declaring a device the layout provably cannot carry is a diagnostic, not a
-#: verdict. The primary run stays honest about what the deck can do; this one
-#: shows what is unmatched underneath.
-CAPACITOR_PROBE_DEVICE_MAP: dict[str, dict[str, str]] = {
-    **REFERENCE_DEVICE_MAP,
-    "cap_cmomi": {"kind": "capacitor", "class": "cap_cmomi"},
-}
+#: Marker the extraction side recognises `cap_cmomi` by -- kept beside the
+#: promotion step that depends on it so the two cannot drift apart.
+#: (`klayout_tools.decks.sg13cmos5l.EXTRACTION_DECK.mom_capacitors[0]`,
+#: klayout-tools#1466 merged as #1475, carried at this repo's pin.)
+MOM_CAP_MARKER_LAYER = dev.L_RECOG_MOM
+
+
+def _parse_mom_cap_um(value: str) -> float:
+    """`'40u'` -> 40.0 microns; a bare SI-metres literal -> microns."""
+    if value[-1] in "uU":
+        return float(value[:-1])
+    return float(value) * 1e6
+
+
+_MOM_CAP_RUN_RE = re.compile(r"^\* loom-mom-cap-run (\d+)$")
+
+#: A converted resistor card: `R<name> <nets...> 0 <class> L=<l>U W=<w>U` --
+#: `_convert_geometry_card`'s own output shape (value `0` placeholder,
+#: uppercase-suffixed geometry). The value is the first positional token
+#: after the nets, immediately before the class name.
+_RESISTOR_CARD_RE = re.compile(
+    r"^(?P<name>R\S+)\s+(?P<nets>\S+(?:\s+\S+)*?)\s+(?P<value>0)\s+"
+    r"(?P<model>rppd|rhigh|rsil)\s+(?P<params>L=\S+\s+W=\S+)\s*$"
+)
+
+
+def _deck_resistor_sheet_ohm_per_sq() -> dict[str, tuple[float, float]]:
+    """`{class: (sheet_ohm_per_sq, fixed_offset_ohm)}` for this deck's
+    resistors -- the same curated coefficients `klt extract` computes a drawn
+    resistor's reported resistance from, read straight out of the deck so the
+    reference value and the extracted value cannot drift apart."""
+    from klayout_tools.decks import get_extraction_deck
+
+    deck = get_extraction_deck(DEFAULT_DECK)
+    return {
+        resistor.name: (resistor.sheet_rho_ohm_sq, resistor.fixed_offset_ohm)
+        for resistor in deck.resistors
+    }
+
+
+def _fill_resistor_values(converted: str) -> str:
+    """Replace converted resistor cards' `0` value placeholder with the real
+    resistance (and area/perimeter) the deck's own coefficients compute.
+
+    `netlist_normalize`'s converter writes the literal `0` because it
+    deliberately carries no PDK sheet-resistance table; `klt lvs`'s own
+    `subckt-call` path then has to *exclude* the value parameter from the
+    compare to let the class pair at all (issue #1907's
+    `device.placeholder_value` disclosure). This flow has the deck one call
+    away, so it computes the real value instead -- which means the compare
+    verifies the resistance dimension too, rather than disclosing that it
+    skipped it. `A`/`P` ride along for the same reason: the extracted device
+    reports them (a plain `L*W` / `2(L+W)` rectangle), while the converted
+    card leaves them unset.
+    """
+    sheets = _deck_resistor_sheet_ohm_per_sq()
+    out: list[str] = []
+    for raw in converted.splitlines():
+        match = _RESISTOR_CARD_RE.match(raw.strip())
+        if match is None or match.group("model") not in sheets:
+            out.append(raw)
+            continue
+        params = dict(
+            token.split("=", 1) for token in match.group("params").split()
+        )
+        l_um = _parse_mom_cap_um(params["L"])
+        w_um = _parse_mom_cap_um(params["W"])
+        sheet, offset = sheets[match.group("model")]
+        value = sheet * l_um / w_um + offset
+        area = l_um * w_um
+        perim = 2.0 * (l_um + w_um)
+        out.append(
+            f"{match.group('name')} {match.group('nets')} {value:g} "
+            f"{match.group('model')} {match.group('params')} "
+            f"A={area:g} P={perim:g}"
+        )
+    return "\n".join(out) + "\n"
+
+
+def mom_cap_reference(text: str) -> str:
+    """Convert a committed schematic netlist into an LVS-readable reference.
+
+    Two rewrites, both caller-side because no single `klt lvs` request shape
+    performs them together (the gap between `reference.form:
+    "subckt-call"`'s converter and the custom-device-class reader of
+    klayout-tools#1942/#1944 is itself filed upstream -- see the README's
+    friction log):
+
+    * Every ``X<name> <a> <b> cap_cmomi w= l= ... m=M ...`` card becomes `M`
+      cards of the exact shape that reader recognises --
+      ``X<name>__<k> <a> <b> cap_cmomi PARAMS: W=<w_um> L=<l_um>`` -- with
+      `W`/`L` in **microns as bare numbers** (the extractor reports the
+      marker bbox in um; a `40u` suffix would parse as SI metres and
+      mismatch by 1e6) and the `m=` multiplier expanded one card per unit,
+      matching the one-marker-per-unit layout the footprint draws. The
+      PDK-cell parameters the card also carries (`mmin`/`mmax`/`feed`/
+      `subblock`/`mm_ok`) describe the *generator's* geometry; the
+      extracted device's only matched parameters are `W`/`L`, so the card
+      carries exactly those.
+    * Everything else (MOS `sg13_hv_*` X cards, `rppd`/`rhigh` resistor X
+      cards, the `.subckt` hierarchy itself) is converted to plain-element
+      form by `klayout_tools.netlist_normalize.normalize_reference_netlist`
+      -- the same conversion `reference.form: "subckt-call"` performs --
+      run on the text with the cap cards lifted out, so its converter never
+      sees the `PARAMS:` token it would otherwise reject. Converted resistor
+      cards then get their `0` value placeholder replaced with the real
+      resistance/area/perimeter the deck's own curated coefficients compute
+      (:func:`_fill_resistor_values`), so nothing in the final reference
+      relies on `klt lvs`'s placeholder-exclusion disclosure -- the compare
+      verifies the resistance dimension instead of skipping it.
+
+    The returned text is a `form: "plain-element"` reference: `klt lvs`
+    reads it with `reference.deck` set, and that deck's `mom_capacitors`
+    plus curated tables recognise every card in it.
+    """
+    from klayout_tools.netlist_normalize import normalize_reference_netlist
+
+    keepers: list[str] = []
+    lifted: list[str] = []
+    for raw in text.splitlines():
+        stripped = raw.strip()
+        if not (stripped[:1].upper() == "X" and MOM_CAP_MODEL in stripped.split()):
+            lifted.append(raw)
+            continue
+        tokens = stripped.split()
+        name, net_a, net_b, rest = tokens[0], tokens[1], tokens[2], tokens[3:]
+        if tokens[3].lower() != MOM_CAP_MODEL:
+            raise ValueError(
+                f"mom_cap_reference: {stripped!r}: expected "
+                f"'<name> <netA> <netB> {MOM_CAP_MODEL} ...'"
+            )
+        params: dict[str, str] = {}
+        for token in rest[1:]:
+            key, sep, value = token.partition("=")
+            if sep:
+                params[key.strip().lower()] = value.strip()
+        try:
+            w_um = _parse_mom_cap_um(params["w"])
+            l_um = _parse_mom_cap_um(params["l"])
+            multiplicity = int(float(params.get("m", "1")))
+        except (KeyError, ValueError) as exc:
+            raise ValueError(
+                f"mom_cap_reference: {stripped!r}: unreadable w/l/m ({exc})"
+            ) from exc
+        if multiplicity < 1:
+            raise ValueError(
+                f"mom_cap_reference: {stripped!r}: m={params.get('m')!r} is "
+                "not a positive multiplier"
+            )
+        for k in range(multiplicity):
+            suffix = "" if multiplicity == 1 else f"__{k}"
+            keepers.append(
+                f"{name}{suffix} {net_a} {net_b} {MOM_CAP_MODEL} "
+                f"PARAMS: W={w_um:g} L={l_um:g}"
+            )
+        # One slot line per original card; the splice re-expands the run.
+        lifted.append(f"* loom-mom-cap-run {multiplicity}")
+
+    converted = normalize_reference_netlist(
+        "\n".join(lifted) + "\n", deck=DEFAULT_DECK
+    )
+
+    out: list[str] = []
+    taken = 0
+    for raw in converted.splitlines():
+        match = _MOM_CAP_RUN_RE.match(raw.strip())
+        if match is None:
+            out.append(raw)
+            continue
+        count = int(match.group(1))
+        out.extend(keepers[taken : taken + count])
+        taken += count
+    if taken != len(keepers):
+        raise ValueError(
+            "mom_cap_reference: the normalizer dropped a lifted cap slot "
+            f"({taken} of {len(keepers)} cards spliced back)"
+        )
+    return _fill_resistor_values("\n".join(out) + "\n")
+
+
+def promote_local_mom_caps(plan: dict[str, Any]) -> list[str]:
+    """Promote every `cap_cmomi` plan group to a locally drawn one.
+
+    The plan (shared with the SG13G2 flow) leaves `cap_cmomi` groups
+    undrawable because no `klt gen` generator exists for them -- correct for
+    the planner, which only knows about generators. This flow *can* draw
+    them (`cmos5l_devices.draw_mom_cap`, the same local-footprint decision
+    issues #24/#35 made for MOS and resistors) and LVS-recognise them at
+    this repo's pin, so each such group gets a `local_mom_cap` generator, an
+    `expected` device of the marker's own `(class, w_um, l_um)`, and its
+    `blocked_reason` removed -- the group is no longer blocked, and leaving
+    the reason in place would misreport it in the record.
+
+    Returns the promoted group ids (recorded in `build.json` as the
+    promotion's own evidence).
+    """
+    promoted: list[str] = []
+    for block in plan["blocks"]:
+        for group in block["groups"]:
+            if (
+                group["kind"] == "capacitor"
+                and group["generator"] is None
+                and group["params"].get("model") == MOM_CAP_MODEL
+            ):
+                group["generator"] = "local_mom_cap"
+                group["expected"] = {
+                    "class": MOM_CAP_MODEL,
+                    "w_um": group["params"]["w_um"],
+                    "l_um": group["params"]["l_um"],
+                    "count": 1,
+                }
+                group.pop("blocked_reason", None)
+                promoted.append(group["id"])
+    return promoted
 
 
 # --- Drawing ---------------------------------------------------------------
@@ -319,6 +504,46 @@ def draw_res_group(builder: dev.Builder, group: dict[str, Any]) -> dict[str, Any
     }
 
 
+def draw_cap_group(builder: dev.Builder, group: dict[str, Any]) -> dict[str, Any]:
+    """Draw one `cap_cmomi` MoM-capacitor group as its own cell (issue #114).
+
+    One group per schematic instance (the planner's own shape for
+    capacitors), one recognition marker per unit, the two terminals brought
+    to Metal1 feed pads at the cell's extreme x -- which is what keeps the
+    router's two riser columns one marker width apart.
+    """
+    params = group["params"]
+    builder.open_cell(group["id"])
+    drawn = dev.draw_mom_cap(
+        builder,
+        0.0,
+        0.0,
+        params["w_um"],
+        params["l_um"],
+        mmin=params.get("mmin", 1),
+        mmax=params.get("mmax", 4),
+        feed=params.get("feed", "double"),
+        label=group["id"],
+    )
+    terminals = {
+        "TOP": drawn["terminals"]["TOP"],  # type: ignore[index]
+        "BOT": drawn["terminals"]["BOT"],  # type: ignore[index]
+    }
+    return {
+        "footprint": "cmos5l_devices.draw_mom_cap",
+        "marker_layer": list(MOM_CAP_MARKER_LAYER),
+        "marker_um": [
+            round(drawn["marker"][2] - drawn["marker"][0], 4),  # type: ignore[index]
+            round(drawn["marker"][3] - drawn["marker"][1], 4),  # type: ignore[index]
+        ],
+        "unit_cells": {"nx": drawn["nx"], "ny": drawn["ny"]},  # type: ignore[index]
+        "metals": list(drawn["metals"]),  # type: ignore[index]
+        "terminals": {k: [round(v[0], 4), round(v[1], 4)] for k, v in terminals.items()},
+        "plus_pad": [round(v, 4) for v in drawn["plus_pad"]],  # type: ignore[index]
+        "minus_pad": [round(v, 4) for v in drawn["minus_pad"]],  # type: ignore[index]
+    }
+
+
 def group_size_um(group: dict[str, Any]) -> tuple[float, float]:
     """Drawn `(width, height)` of one group's own cell, in microns.
 
@@ -336,6 +561,11 @@ def group_size_um(group: dict[str, Any]) -> tuple[float, float]:
         width = 2 * dev.NW_C1 + 2 * mx + act_w + (count - 1) * pitch_x
         height = 2 * dev.NW_C1 + TAP_GAP_UM + dev.TAP_H_UM + 2 * my + act_h
         return width, height
+    if group["kind"] == "capacitor":
+        # The recognition marker is the whole drawn extent (every feed pad,
+        # bar and tooth is drawn inside it), so the packer's box is the
+        # marker itself: exactly l_um wide by w_um tall.
+        return group["params"]["l_um"], group["params"]["w_um"]
     bar_w, bar_h = dev.res_size(params["width_um"], params["length_um"])
     return (
         bar_w + (count - 1) * RES_STAGGER_UM,
@@ -407,18 +637,20 @@ class Verifier:
         reference: str,
         request_name: str,
         report_name: str,
-        device_map: dict[str, dict[str, str]] | None = None,
     ) -> dict[str, Any]:
         """Compare one composed block against its own schematic netlist.
 
-        `reference.form: "subckt-call"` is required, not optional: the
-        committed schematic netlists instantiate the PDK's own
-        `sg13_hv_nmos`/`sg13_hv_pmos` subcircuits via `X` cards, and `klt lvs`
-        refuses to compare that form against extracted plain-element devices
-        rather than silently degrading into a topology mismatch. Both sides
-        are flattened so the comparison is device-set-vs-device-set: the
-        reference is hierarchical (six `.subckt` levels deep in places) while
-        the composed layout is one flat cell of per-group instances.
+        `reference` is already the **plain-element** text
+        :func:`mom_cap_reference` produced (MOS/resistor X cards converted,
+        `cap_cmomi` cards in the `X ... PARAMS: W= L=` shape the
+        custom-device-class reader of klayout-tools#1942/#1944 recognises),
+        so the request reads it with `form: "plain-element"` plus
+        `reference.deck` -- the deck is what makes both the curated
+        MOS/resistor tables and the `mom_capacitors` custom classes resolve
+        on the reference side. Both sides are flattened so the comparison is
+        device-set-vs-device-set: the reference is hierarchical (six
+        `.subckt` levels deep in places) while the composed layout is one
+        flat cell of per-group instances.
         """
         request = {
             "schema": "klt.lvs.request/1",
@@ -426,15 +658,7 @@ class Verifier:
             "layout": {"file": gds, "deck": self.deck, "top": top},
             "reference": {
                 "netlist": reference,
-                "form": "subckt-call",
-                # `deck` and `device_map` are both required, and the pairing
-                # is load-bearing: `device_map` alone *replaces* the curated
-                # table (so the MOS subcircuits stop resolving), while `deck`
-                # alone gives only that deck's MOS entries (klayout-tools#1464).
-                # Together they merge -- `device_map` on top of `deck` -- which
-                # is the only combination that resolves both.
                 "deck": self.deck,
-                "device_map": device_map or REFERENCE_DEVICE_MAP,
             },
             "options": {"flatten_layout": True, "flatten_reference": True},
         }
@@ -626,15 +850,14 @@ def collect_terminals(
 def undrawn_net_notes(block: dict[str, Any]) -> list[dict[str, Any]]:
     """One entry per net the schematic declares that the layout cannot finish.
 
-    A net whose pin list includes a device that was never drawn (on this port,
-    always one of the five `cap_cmomi` MoM capacitors) is routed between the
-    terminals that *do* exist and reported here as incomplete, with the
-    undrawn group's own `blocked_reason` attached. Never waived, never
-    silently treated as fully routed.
+    A net whose pin list includes a device that was never drawn is routed
+    between the terminals that *do* exist and reported here as incomplete,
+    with the undrawn group's own `blocked_reason` attached. Never waived,
+    never silently treated as fully routed.
     """
     notes: list[dict[str, Any]] = []
     for group in block["groups"]:
-        if group["kind"] in DRAWABLE_KINDS:
+        if group.get("generator") is not None:
             continue
         for member in group["members"]:
             for port, net in member["ports"].items():
@@ -692,7 +915,7 @@ def build_block(
     geometries: dict[str, dict[str, Any]] = {}
 
     for group in block["groups"]:
-        if group["kind"] not in DRAWABLE_KINDS:
+        if group.get("generator") is None:
             group_results.append(
                 {
                     "group_id": group["id"],
@@ -707,6 +930,8 @@ def build_block(
 
         if group["kind"] == "mos_array":
             geometry = draw_mos_group(builder, group)
+        elif group["kind"] == "capacitor":
+            geometry = draw_cap_group(builder, group)
         else:
             geometry = draw_res_group(builder, group)
         write_cell(builder, group["id"], out_dir / f"{group['id']}.gds")
@@ -826,12 +1051,13 @@ def build_block(
             block_match = pll_layout._match_block_extraction(
                 block, block_extract["response"]
             )
-        # The reference netlist is copied into the record so the committed
+        # The reference netlist is copied into the record -- in the
+        # plain-element form `mom_cap_reference` produces, so the committed
         # evidence is self-contained and `klt lvs --check` can re-hash it
         # later without reaching back out of the record directory.
         reference_name = f"{block['name']}.reference.spice"
         (out_dir / reference_name).write_text(
-            (netlist_dir / f"{block['name']}.spice").read_text()
+            mom_cap_reference((netlist_dir / f"{block['name']}.spice").read_text())
         )
         block_lvs = _lvs_summary(
             verifier.lvs(
@@ -842,22 +1068,6 @@ def build_block(
                 f"lvs.{block['name']}.json",
             )
         )
-        if not block_lvs["ran"]:
-            # Secondary, explicitly-labelled probe: map the MoM capacitor on
-            # the reference side so the comparison at least runs, and record
-            # exactly what is unmatched underneath the conversion failure.
-            # See CAPACITOR_PROBE_DEVICE_MAP for why this is never the
-            # headline result.
-            block_lvs["capacitor_probe"] = _lvs_summary(
-                verifier.lvs(
-                    gds_name,
-                    block["cell_name"],
-                    reference_name,
-                    f"lvs.{block['name']}.cap-probe.request.json",
-                    f"lvs.{block['name']}.cap-probe.json",
-                    device_map=CAPACITOR_PROBE_DEVICE_MAP,
-                )
-            )
 
     devices_drawn = sum(r["count"] for r in group_results if r.get("attempted"))
     devices_matched = sum(
@@ -1361,9 +1571,11 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     plan = pll_layout.build_plan(args.netlist_dir)
+    promoted = promote_local_mom_caps(plan)
     plan["schema"] = "sg13g2-pll.pll_cmos5l_layout_plan/1"
     plan["pdk"] = args.pdk
     plan["deck"] = args.deck
+    plan["local_mom_cap_groups"] = promoted
     (args.out_dir / "plan.json").write_text(json.dumps(plan, indent=2) + "\n")
     print(f"plan: {sum(b['device_count'] for b in plan['blocks'])} device(s) planned")
     if args.plan_only:
