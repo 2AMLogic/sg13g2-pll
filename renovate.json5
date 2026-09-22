@@ -1,6 +1,7 @@
 // Renovate configuration for 2AMLogic/sg13g2-pll
 // Docs: https://docs.renovatebot.com/configuration-options/
-// Pipeline docs: docs/ops/dependency-security-pipeline.md
+// Pipeline docs: docs/ops/dependency-security-pipeline.md in the
+// noc0dev-template repo this policy was adopted from (not in this repo)
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
@@ -45,6 +46,10 @@
 
   // --- Python (uv) ---
 
+  // No pyproject.toml / uv.lock in this repo today; the rules below are
+  // fleet-identical policy (noc0dev-template) and only bind where those
+  // manifests exist.
+
   // Update lockfile without widening pyproject.toml version ranges.
   // Renovate detects uv.lock natively.
   "rangeStrategy": "update-lockfile",
@@ -82,9 +87,12 @@
       "matchUpdateTypes": ["major"]
     },
 
-    // Group all GitHub Actions SHA updates into one PR
-    // AGENTS.md mandates SHA pinning with inline version comments (# vX.Y.Z)
-    // Renovate preserves these comments natively when updating digests
+    // Group all GitHub Actions updates into one PR
+    // Fleet policy (noc0dev-template): SHA-pin Actions with inline version
+    // comments; Renovate preserves these comments natively when updating
+    // digests. This repo's workflows currently pin by tag (e.g.
+    // actions/checkout@v4), so digest updates only bind once tags are
+    // SHA-pinned.
     {
       "groupName": "github-actions",
       "matchManagers": ["github-actions"],
