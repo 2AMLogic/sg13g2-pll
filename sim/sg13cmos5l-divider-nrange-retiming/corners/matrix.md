@@ -47,9 +47,11 @@ extremes; only the cross-product between axes is dropped.
 
 ## Why `setup` uses only 3 of the 9 points
 
-`setup` additionally sweeps 6 `TSU` values (reduced from a 12-point list) per
-corner per variant. Even at the reduced 9-point matrix this is `9 × 6 × 2 =
-108` runs; the `dff_tg_hv` flop's own required setup time is dominated by its
+`setup` additionally sweeps 10 `TSU` values (reduced from a 12-point list,
+then extended upward by the #112 campaign to bracket the repaired cell's
+~0.5–1.5 ns crossover — see `../testbench/run.sh`) per
+corner per variant. Even at the reduced 9-point matrix this is `9 × 10 × 2 =
+180` runs; the `dff_tg_hv` flop's own required setup time is dominated by its
 own internal speed (which the *process* corner already brackets), not by
 supply or temperature acting independently of process, so this stage further
 restricts to the classic 3-bundle bracket also used for
@@ -86,3 +88,31 @@ No RES corner axis and no MOM-cap axis: `divider_chain`'s own netlist
 expands to `sg13_hv_nmos`/`sg13_hv_pmos` instances only (confirmed by reading
 `../netlist-snapshots/divider_chain.spice`) — the same inapplicability
 `sg13cmos5l-cp-icp-trim`'s own matrix documents for its own all-MOS DUT.
+
+## Issue #112 re-verification campaign — what changed
+
+The #112 repair campaign (see `../records/RECORD-003`) reuses this matrix
+shape unchanged (same 9 points, same 3-bundle `setup` bracket) but changes
+three things about how `../testbench/run.sh` runs it:
+
+- **DUT**: single variant, `repaired` — the committed design as repaired by
+  issue #112 (second feedback inverter per `dff_tg_hv` latch), frozen at
+  `../netlist-snapshots/divider_chain_repaired.spice`. The two historical
+  variants (`asdrawn` broken, `fbfix` weak-keeper proposal) are retired from
+  the sweep; their results stay in RECORD-001/RECORD-002.
+- **`reltol`**: whole-chain stages (`func`, `retime`) run at ngspice's own
+  default `1e-3`, not the `5e-3` RECORD-001 used for wall-clock reasons.
+  On the repaired chain the `5e-3` setting is demonstrably numerically
+  fragile — a deterministic `Timestep too small` collapse at `xdiv.xd0.nt`
+  on the very first baseline corner (RECORD-003 Finding 2), which also
+  retrospectively explains RECORD-001 Finding 4's reproducibility trouble.
+  The tolerance cross-check (`tol_convergence.csv`) runs the primary
+  `1e-3`, an intermediate `2e-3`, and the fragile `5e-3` — the last
+  through a failure-tolerant wrapper so its collapse is recorded as NA
+  data rows rather than aborting the stage.
+- **`func` stage additions**: the programming-word sweep adds two mixed
+  words (`011111`, `101010`) to the per-bit-weight + ceiling set, and a new
+  `edge` group runs the ceiling word (`111111`, `N=127`) at the slowest and
+  fastest `setup`-bracket bundles, so both ends of the claimed `N` range
+  carry PVT bracket coverage (`N=64` already has the full 9-point matrix
+  from the baseline group).

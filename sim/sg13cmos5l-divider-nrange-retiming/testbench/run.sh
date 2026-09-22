@@ -3,6 +3,8 @@
 # (issue #36, Part of #16 -- SG13CMOS5L divider chain: functional N range +
 # retiming margin, spec/porting-plan.md row 3; plus the divider's own average
 # supply current, one of the three domains row 11 still needs)
+# (issue #112 re-verification campaign: same harness, DUT now the REPAIRED
+# committed design -- see the DUT section below and ../records/RECORD-003)
 #
 #   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
 #   export PDK=ihp-sg13cmos5l
@@ -12,32 +14,26 @@
 # Stages: opconv hold setup func retime
 #
 # ---------------------------------------------------------------------------
-# TWO DUTs, and why the second one exists
+# DUT, post-issue-#112
 # ---------------------------------------------------------------------------
-# `divider_chain.spice` is the committed design, copied verbatim from the
-# frozen ../netlist-snapshots/ tree. It is the DUT for every claim this record
-# makes ABOUT THE COMMITTED DESIGN.
+# `divider_chain_repaired.spice` is the committed design AS REPAIRED by issue
+# #112: `dff_tg_hv`'s hold-path feedback carries two inversions per latch
+# (XIMF/XISF inserted; full-strength `inv_hv`, the gf180-pll dff_tg_3v3
+# fleet topology) instead of the one-inversion self-biased loop RECORD-001
+# Finding 2 bounded as non-functional. It is the DUT for every claim this
+# campaign makes. It is copied verbatim from the frozen
+# ../netlist-snapshots/divider_chain_repaired.spice snapshot (frozen from
+# design/sg13cmos5l/netlist/divider_chain.spice by the #112 repair PR).
 #
-# `divider_chain_fbfix.spice` is a PROPOSAL variant this script derives
-# locally, in the work directory, from that same frozen snapshot. It is NOT
-# the committed design, it is NOT written back into design/, and nothing here
-# proposes committing it -- it exists for exactly the reason
-# sim/sg13cmos5l-loop-bandwidth-pm/corners/proposal.csv exists: once a record
-# bounds a committed block as non-functional, the useful next datum is whether
-# the failure is the topology or the sizing, and that question can only be
-# answered by simulating a repaired variant alongside the committed one.
-#
-# The derivation is three lines of edit, confined to `.subckt dff_tg_hv`:
-#
-#   XTGFBM MB CLK CLKB M ...   ->   XIMF MB MFB ... ; XTGFBM MFB CLK CLKB M ...
-#   XTGFBS SB CLKB CLK S ...   ->   XISF SB SFB ... ; XTGFBS SFB CLKB CLK S ...
-#
-# i.e. it inserts the SECOND inverter each hold path is missing, so the
-# feedback around each storage node is non-inverting (a real latch) instead of
-# inverting (a node driven to its own inverter's trip point). The added
-# inverters are deliberately weak (w=1.25u/0.5u vs the library `inv_hv`'s
-# 5u/2u) so the write path through the input transmission gate still wins --
-# the standard weak-keeper sizing. See ../records/RECORD-001 Finding 2.
+# The historical variants are retired from the sweep, not from the record:
+# the as-committed-broken netlist stays frozen at
+# ../netlist-snapshots/divider_chain.spice for RECORD-001's provenance, and
+# the `fbfix` testbench-local derivation (a weak-keeper, DC-correctness-only
+# proposal variant) is deleted below -- the committed design now embodies
+# the structural fix, so a proposal variant has no separate question to
+# answer. RECORD-001/RECORD-002 results are not re-run: the broken DUT's
+# behaviour is already bounded there and re-running it would double this
+# campaign's compute for zero new information.
 #
 # ---------------------------------------------------------------------------
 # Matrix: see ../corners/matrix.md. 21 PVT points (5 MOS corners x 3 temps at
@@ -47,6 +43,14 @@
 #
 # Requires: ngspice on PATH, python3, PDK_ROOT/PDK resolving the installed
 # ihp-sg13cmos5l tree.
+#
+# RESUME=1: append-mode for interrupted campaigns. The #112 campaign's host
+# reaped long-running detached ngspice trees roughly every 35-40 real minutes
+# (twice, silently -- the exact fragility RECORD-001 Finding 4 described as
+# "not reliably reproducible in this session's environment"); with RESUME=1
+# each stage keeps an existing corners/*.csv and skips any per-corner/per-word
+# row already present, so `RESUME=1 ./run.sh func` can be re-invoked until it
+# completes. Default mode is unchanged: fresh CSVs, every row regenerated.
 
 # WORK pre-set from DIV36_WORK (debugging override -- reuse a caller-supplied
 # work directory instead of a fresh mktemp -d that gets torn down on EXIT):
@@ -65,37 +69,7 @@ osdi $OSDI/psp103_nqs.osdi
 osdi $OSDI/mosvar.osdi
 EOF
 
-cp "$RECORD_DIR/netlist-snapshots/divider_chain.spice" "$WORK/divider_chain.spice"
-
-# ---- derive the proposal variant (see header) ------------------------------
-python3 - "$WORK/divider_chain.spice" "$WORK/divider_chain_fbfix.spice" <<'PY'
-import sys
-src = open(sys.argv[1]).read()
-old = ("XIM M MB VDD VSS inv_hv\n"
-       "XTGFBM MB CLK CLKB M VDD VSS tgate_hv\n"
-       "XTG2 M CLK CLKB S VDD VSS tgate_hv\n"
-       "XIS S SB VDD VSS inv_hv\n"
-       "XTGFBS SB CLKB CLK S VDD VSS tgate_hv\n")
-new = ("XIM M MB VDD VSS inv_hv\n"
-       "XIMF MB MFB VDD VSS inv_wk_hv\n"
-       "XTGFBM MFB CLK CLKB M VDD VSS tgate_hv\n"
-       "XTG2 M CLK CLKB S VDD VSS tgate_hv\n"
-       "XIS S SB VDD VSS inv_hv\n"
-       "XISF SB SFB VDD VSS inv_wk_hv\n"
-       "XTGFBS SFB CLKB CLK S VDD VSS tgate_hv\n")
-if old not in src:
-    sys.exit("FATAL: dff_tg_hv hold path in the frozen snapshot does not match "
-             "the text this proposal variant was derived against -- refusing "
-             "to emit a silently-wrong variant.")
-src = src.replace(old, new)
-src += ("\n* PROPOSAL-ONLY weak keeper inverter (see run.sh header). Not a\n"
-        "* committed cell; exists only inside this record's work directory.\n"
-        ".subckt inv_wk_hv A Y VDD VSS\n"
-        "XMP Y A VDD VDD sg13_hv_pmos w=1.25u l=0.5u ng=1 m=1\n"
-        "XMN Y A VSS VSS sg13_hv_nmos w=0.5u l=0.5u ng=1 m=1\n"
-        ".ends\n")
-open(sys.argv[2], "w").write(src)
-PY
+cp "$RECORD_DIR/netlist-snapshots/divider_chain_repaired.spice" "$WORK/divider_chain.spice"
 
 # ---- shared ----------------------------------------------------------------
 # "mos_corner temp_c vdd". A one-factor-at-a-time reduced matrix (9 points:
@@ -117,7 +91,7 @@ PVT=(
 PVT_SETUP=(
   "mos_tt 27 3.3" "mos_ss 125 3.3" "mos_ff -40 3.3"
 )
-VARIANTS=("asdrawn:divider_chain.spice" "fbfix:divider_chain_fbfix.spice")
+VARIANTS=("repaired:divider_chain.spice")
 
 # Measured top-of-band VCO frequency, from
 # sim/sg13cmos5l-vco-kvco-table/records/RECORD-001 (fast bundle, band 11,
@@ -186,6 +160,30 @@ subst() {  # subst <template> <outfile> <key=value>...
 #     with the captured stderr printed, instead of silently degrading to an
 #     "NA" row.
 # ---------------------------------------------------------------------------
+# Resume-mode row probe (#112 campaign): true iff a data row matching the
+# anchored extended regex already exists in the CSV. Used only under
+# RESUME=1 (see the header's resume note); a fresh default-mode run truncates
+# each stage's CSV and regenerates every row.
+row_exists() {  # row_exists <csv> <anchored-ere>
+  [[ -f "$1" ]] && grep -qE "$2" "$1"
+}
+
+# runsp_tol: the `tol` stage's failure-tolerant twin of runsp. A tolerance
+# cross-check's 5e-3 arm is EXPECTED to collapse on this DUT (RECORD-003
+# Finding 2) -- that failure is the datum, so it is recorded as an NA row
+# instead of aborting the campaign the way a real deck error elsewhere
+# correctly does.
+runsp_tol() {  # runsp_tol <deckfile> ; echoes ngspice stdout, never fatal
+  local deck="$1"
+  local err="$WORK/${deck}.err"
+  local out rc=0
+  out="$( cd "$WORK" && timeout "${NGSPICE_TIMEOUT:-150}" ngspice -b "$deck" 2>"$err" )" || rc=$?
+  if [ "$rc" -ne 0 ]; then
+    echo "[runsp_tol] ${deck}: rc=${rc} (tolerated -- failure recorded as data)" >&2
+  fi
+  printf '%s\n' "$out"
+}
+
 runsp() {  # runsp <deckfile> ; echoes ngspice stdout; fatal on a real error
   local deck="$1"
   local err="$WORK/${deck}.err"
@@ -368,7 +366,12 @@ if want setup; then
   TON="$(python3 -c "print(f'{0.5*$TPER_TOB:.6e}')")"
   # Reduced from a 12-point list (see ../corners/matrix.md): coarse enough to
   # bracket the crossover, not a fine-resolution setup-time characterization.
-  TSU_LIST=(300p 200p 130p 80p 40p 0p)
+  # Extended upward (500p..1500p) for the #112 campaign: the repaired cell's
+  # pass-gate transfers need ~400 ps (provisional L=0.5u sizing), so the old
+  # 300 ps ceiling could not bracket the crossover -- every point read as a
+  # capture failure without establishing where capture actually begins
+  # (RECORD-003 Finding 4).
+  TSU_LIST=(1500p 1000p 700p 500p 300p 200p 130p 80p 40p 0p)
   for v in "${VARIANTS[@]}"; do
     vname="${v%%:*}"; vnet="${v#*:}"
     for p in "${PVT_SETUP[@]}"; do
@@ -414,7 +417,7 @@ run_func() {  # run_func <variant> <netlist> <tper> <p5..p0 word> <diva> <divb> 
     "TSTOP=$tstop" "TMEAS=$tmeas" "DIVA=$diva" "DIVB=$divb" "RELTOL=$reltol" \
     "P0=${pv[0]}" "P1=${pv[1]}" "P2=${pv[2]}" "P3=${pv[3]}" "P4=${pv[4]}" "P5=${pv[5]}" \
     "NETLIST=$vnet"
-  runsp "$deck" | python3 "$WORK/extract.py" \
+  "${RUNSP_WRAPPER:-runsp}" "$deck" | python3 "$WORK/extract.py" \
     ck1_max ck1_min ck2_max ck2_min ck3_max ck3_min ck4_max ck4_min \
     ck5_max ck5_min dvo_max dvo_min fb_max fb_min tdiv_a tdiv_b tck_a tck_b idd
 }
@@ -423,7 +426,7 @@ FUNC_HDR="tag,variant,mos_corner,temp_c,vdd_v,fin_hz,p_word,n_nominal,reltol,ck1
 
 if want func; then
   OUT="$RECORD_DIR/corners/func.csv"
-  echo "$FUNC_HDR" > "$OUT"
+  if [[ "${RESUME:-0}" != 1 || ! -f "$OUT" ]]; then echo "$FUNC_HDR" > "$OUT"; fi
   f100="$(python3 -c "print(f'{1/$TPER_100:.6e}')")"
 
   # ---------------------------------------------------------------------
@@ -448,40 +451,77 @@ if want func; then
 
   # (a) LOW-FREQUENCY FUNCTIONAL BASELINE, 100 MHz (15.6x below the
   #     measured top-of-band VCO frequency, so speed is provably not the
-  #     limit here), both variants, across the full reduced PVT matrix.
+  #     limit here), repaired DUT, across the full reduced PVT matrix.
+  #     RESUME=1 skips any row already present in the target CSV (see the
+  #     resume-mode note in the header above).
   for v in "${VARIANTS[@]}"; do
     vname="${v%%:*}"; vnet="${v#*:}"
     for p in "${PVT[@]}"; do
       read -r mos temp vdd <<< "$p"
-      o="$(run_func "$vname" "$vnet" "$TPER_100" 000000 2 3 64 0.005 baseline "$mos" "$temp" "$vdd")"
-      echo "baseline,${vname},${mos},${temp},${vdd},${f100},000000,64,0.005,${o}" >> "$OUT"
+      if row_exists "$OUT" "^baseline,${vname},${mos},${temp},${vdd},[^,]*,000000,"; then
+        echo "[func baseline ${vname}] ${mos}/${temp}C/${vdd}V -- skip (resume)" >&2; continue
+      fi
+      o="$(run_func "$vname" "$vnet" "$TPER_100" 000000 2 3 64 0.001 baseline "$mos" "$temp" "$vdd")"
+      echo "baseline,${vname},${mos},${temp},${vdd},${f100},000000,64,0.001,${o}" >> "$OUT"
       echo "[func baseline ${vname}] ${mos}/${temp}C/${vdd}V" >&2
     done
   done
 
   # (b) programming-word sweep at the nominal corner, same 100 MHz clock:
-  #     is the ratio really N = 64 + sum(p_i * 2^i)? Seven more words,
-  #     each a different bit weight, plus one mixed word, spanning to the
-  #     top of the structural range (127).
-  for word_n in "000001 65" "000010 66" "000100 68" "001000 72" "010000 80" "100000 96" "111111 127"; do
+  #     is the ratio really N = 64 + sum(p_i * 2^i)? Seven words, each a
+  #     different bit weight, plus two mixed words and the all-ones ceiling,
+  #     spanning to the top of the structural range (127). Not every integer
+  #     in [64,127] is simulated -- the structural formula (each p_i adds an
+  #     independent 2^i, so the range is hole-free by construction) plus a
+  #     per-bit-weight confirmation and the ceiling bound it; RECORD-003
+  #     states this scope limit explicitly.
+  for word_n in "000001 65" "000010 66" "000100 68" "001000 72" "010000 80" "100000 96" "011111 95" "101010 106" "111111 127"; do
     read -r word nnom <<< "$word_n"
-    o="$(run_func fbfix divider_chain_fbfix.spice "$TPER_100" "$word" 2 3 "$nnom" 0.005 code mos_tt 27 3.3)"
-    echo "code,fbfix,mos_tt,27,3.3,${f100},${word},${nnom},0.005,${o}" >> "$OUT"
+    if row_exists "$OUT" "^code,repaired,mos_tt,27,3.3,[^,]*,${word},"; then
+      echo "[func code ${word}] -- skip (resume)" >&2; continue
+    fi
+    o="$(run_func repaired divider_chain.spice "$TPER_100" "$word" 2 3 "$nnom" 0.001 code mos_tt 27 3.3)"
+    echo "code,repaired,mos_tt,27,3.3,${f100},${word},${nnom},0.001,${o}" >> "$OUT"
     echo "[func code ${word}]" >&2
   done
 
+  # (b2) PVT bracket on the range EDGES: the ceiling word (111111, N=127,
+  #     the longest per-output-period chain activity) at the slowest and
+  #     fastest speed-bracket bundles from PVT_SETUP. The floor word
+  #     (000000, N=64) is already PVT-covered by (a)'s full 9-point matrix.
+  for p in "mos_ss 125 3.3" "mos_ff -40 3.3"; do
+    read -r mos temp vdd <<< "$p"
+    if row_exists "$OUT" "^edge,repaired,${mos},${temp},${vdd},[^,]*,111111,"; then
+      echo "[func edge 111111] ${mos}/${temp}C/${vdd}V -- skip (resume)" >&2; continue
+    fi
+    o="$(run_func repaired divider_chain.spice "$TPER_100" 111111 2 3 127 0.001 edge "$mos" "$temp" "$vdd")"
+    echo "edge,repaired,${mos},${temp},${vdd},${f100},111111,127,0.001,${o}" >> "$OUT"
+    echo "[func edge 111111] ${mos}/${temp}C/${vdd}V" >&2
+  done
+
   # (c) tolerance cross-check at the same 100 MHz clock: the whole matrix
-  #     runs at reltol=5e-3 (looser than ngspice's 1e-3 default) for
-  #     wall-clock reasons; re-run two representative points at 1e-3 and
-  #     record BOTH, so the record can state the observed sensitivity of
+  #     now runs at ngspice's own default reltol=1e-3 -- the 5e-3 the
+  #     RECORD-001 campaign used for wall-clock reasons is demonstrably
+  #     numerically fragile on the repaired chain (deterministic
+  #     "Timestep too small" collapse at xdiv.xd0.nt on the very first
+  #     baseline corner; see ../records/RECORD-003 Finding 2) -- and two
+  #     representative points are additionally run at the looser 5e-3 and
+  #     recorded BOTH, so the record can state the observed sensitivity of
   #     the divide ratio and of idd instead of asserting it is small.
   OUTC="$RECORD_DIR/corners/tol_convergence.csv"
-  echo "$FUNC_HDR" > "$OUTC"
-  for rt in 0.005 0.001; do
+  if [[ "${RESUME:-0}" != 1 || ! -f "$OUTC" ]]; then echo "$FUNC_HDR" > "$OUTC"; fi
+  # 0.001 (the campaign default) uses the ordinary fatal-on-error runsp; the
+  # looser arms use runsp_tol so their expected collapse is recorded as NA
+  # data rows rather than aborting the stage (see runsp_tol's header).
+  for rt in 0.001 0.002 0.005; do
     for probe in "mos_tt 27 3.3" "mos_ss 125 3.3"; do
       read -r mos temp vdd <<< "$probe"
-      o="$(run_func fbfix divider_chain_fbfix.spice "$TPER_100" 000000 2 3 64 "$rt" tol "$mos" "$temp" "$vdd")"
-      echo "tol,fbfix,${mos},${temp},${vdd},${f100},000000,64,${rt},${o}" >> "$OUTC"
+      if row_exists "$OUTC" "^tol,repaired,${mos},${temp},${vdd},[^,]*,000000,[^,]*,${rt},"; then
+        echo "[func tol reltol=${rt}] ${mos}/${temp}C -- skip (resume)" >&2; continue
+      fi
+      w=runsp; [[ "$rt" != 0.001 ]] && w=runsp_tol
+      o="$(RUNSP_WRAPPER=$w run_func repaired divider_chain.spice "$TPER_100" 000000 2 3 64 "$rt" tol "$mos" "$temp" "$vdd")"
+      echo "tol,repaired,${mos},${temp},${vdd},${f100},000000,64,${rt},${o}" >> "$OUTC"
       echo "[func tol reltol=${rt}] ${mos}/${temp}C" >&2
     done
   done
@@ -492,7 +532,7 @@ fi
 # ===========================================================================
 if want retime; then
   OUT="$RECORD_DIR/corners/retime.csv"
-  echo "variant,mos_corner,temp_c,vdd_v,fin_hz,tper_s,tdiv_s,tfb_s,dvo_max,dvo_min,fb_max,fb_min,idd_a" > "$OUT"
+  if [[ "${RESUME:-0}" != 1 || ! -f "$OUT" ]]; then echo "variant,mos_corner,temp_c,vdd_v,fin_hz,tper_s,tdiv_s,tfb_s,dvo_max,dvo_min,fb_max,fb_min,idd_a" > "$OUT"; fi
   ftob="$(python3 -c "print(f'{1/$TPER_TOB:.6e}')")"
   ton="$(python3 -c "print(f'{0.44*$TPER_TOB:.6e}')")"
   tstep="$(python3 -c "print(f'{0.02*$TPER_TOB:.6e}')")"
@@ -509,12 +549,15 @@ if want retime; then
     vname="${v%%:*}"; vnet="${v#*:}"
     for p in "${PVT[@]}"; do
       read -r mos temp vdd <<< "$p"
+      if row_exists "$OUT" "^${vname},${mos},${temp},${vdd},"; then
+        echo "[retime ${vname}] ${mos}/${temp}C/${vdd}V -- skip (resume)" >&2; continue
+      fi
       vdd50="$(python3 -c "print(0.5*$vdd)")"
       deck="retime_${vname}_${mos}_${temp}_${vdd}.sp"
       subst "$HERE/tb_div_retime.sp.tmpl" "$WORK/$deck" \
         "CORNER_MOS=$mos" "TEMP=$temp" "VDD=$vdd" "VDD50=$vdd50" \
         "TPER=$(printf '%.8e' "$TPER_TOB")" "TON=$ton" "TSTEP=$tstep" \
-        "TSTOP=$tstop" "TMEAS=$tmeas" "RELTOL=0.005" \
+        "TSTOP=$tstop" "TMEAS=$tmeas" "RELTOL=0.001" \
         "P0=0" "P1=0" "P2=0" "P3=0" "P4=0" "P5=0" "NETLIST=$vnet"
       out="$(runsp "$deck" | python3 "$WORK/extract.py" tdiv tfb dvo_max dvo_min fb_max fb_min idd)"
       echo "${vname},${mos},${temp},${vdd},${ftob},$(printf '%.8e' "$TPER_TOB"),${out}" >> "$OUT"
