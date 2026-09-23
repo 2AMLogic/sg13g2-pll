@@ -9,18 +9,35 @@
 * cell pll_loop_filter
 * pin NZ
 * pin VCTRL
+* pin VSS
 * pin vsubs
-.SUBCKT pll_loop_filter NZ VCTRL vsubs
-* device instance $1 r0 *1 405.5,0.5 rppd
-R$1 VCTRL__t0 NZ__t0 vsubs 351000 rppd L=810U W=0.6U
+.SUBCKT pll_loop_filter NZ VCTRL VSS vsubs
+* device instance $1 r0 *1 817,0 cap_cmomi
+XD_$1 NZ__t0 VSS__t0 cap_cmomi PARAMS: W=40 L=40
+* device instance $2 r0 *1 863,0 cap_cmomi
+XD_$2 VCTRL__t0 VSS__t1 cap_cmomi PARAMS: W=10 L=10
+* device instance $3 r0 *1 405.5,0.5 rppd
+R$3 VCTRL__t1 NZ__t1 vsubs 351000 rppd L=810U W=0.6U
 * device instance NZ_t0 r0 *1 0,0 
-RNZ_t0 NZ__t0 NZ 1.0853
+RNZ_t0 NZ__t0 NZ 1593.8063
+* device instance NZ_t1 r0 *1 0,0 
+RNZ_t1 NZ__t1 NZ 1593.8063
 * device instance NZ r0 *1 0,0 
-CNZ NZ vsubs 3.90162e-16
+CNZ NZ vsubs 5.33897846e-13
 * device instance VCTRL_t0 r0 *1 0,0 
-RVCTRL_t0 VCTRL__t0 VCTRL 1.2613
+RVCTRL_t0 VCTRL__t0 VCTRL 214.48915
+* device instance VCTRL_t1 r0 *1 0,0 
+RVCTRL_t1 VCTRL__t1 VCTRL 214.48915
 * device instance VCTRL r0 *1 0,0 
-CVCTRL VCTRL vsubs 4.36082e-16
+CVCTRL VCTRL vsubs 9.1288117e-14
+* device instance VSS_t0 r0 *1 0,0 
+RVSS_t0 VSS__t0 VSS 1628.9568
+* device instance VSS_t1 r0 *1 0,0 
+RVSS_t1 VSS__t1 VSS 1628.9568
+* device instance VSS r0 *1 0,0 
+CVSS VSS vsubs 5.49864074e-13
+* device instance cc_VCTRL_VSS r0 *1 0,0 
+Ccc_VCTRL_VSS VCTRL VSS 6.05e-18
 * device instance vsubs_dctie r0 *1 0,0 
 Rvsubs_dctie vsubs 0 1e+12
 .ENDS pll_loop_filter

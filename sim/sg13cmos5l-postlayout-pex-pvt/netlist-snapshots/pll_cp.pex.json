@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
-  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/pll_cp.gds",
+  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/layout/sg13cmos5l-pll/reports/20260923-020931-a95a887-dirty/pll_cp.gds",
   "deck": "sg13cmos5l",
   "top": "pll_cp",
   "dbu_um": 0.001,
-  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_cp.pex.spice",
-  "netlist_sha256": "6a43d56a31123bc8830888953d99970c1f8242db26a121a5b17d412afbbee2a8",
+  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_cp.pex.spice",
+  "netlist_sha256": "81587ab34c6e3a1947eef24c8d890ee14d9535171b5275bf8b656edf0a24de49",
   "status": "extracted",
   "device_count": 20,
   "net_count": 18,
@@ -155,7 +155,7 @@
       "name": "$14",
       "class": "pfet",
       "nets": {
-        "s": "XLEGP.sw",
+        "s": "XLEGP_sw",
         "g": "UPB",
         "d": "VOUT",
         "b": "VDD"
@@ -179,7 +179,7 @@
       "name": "$15",
       "class": "pfet",
       "nets": {
-        "s": "XLEGP.sw",
+        "s": "XLEGP_sw",
         "g": "UP",
         "d": "VDUMP",
         "b": "VDD"
@@ -229,7 +229,7 @@
       "nets": {
         "s": "VDD",
         "g": "IBP",
-        "d": "XLEGP.tail",
+        "d": "XLEGP_tail",
         "b": "VDD"
       },
       "params": {
@@ -251,9 +251,9 @@
       "name": "$18",
       "class": "pfet",
       "nets": {
-        "s": "XLEGP.tail",
+        "s": "XLEGP_tail",
         "g": "ICP",
-        "d": "XLEGP.sw",
+        "d": "XLEGP_sw",
         "b": "VDD"
       },
       "params": {
@@ -395,7 +395,7 @@
       "name": "$5",
       "class": "nfet",
       "nets": {
-        "s": "XLEGN.sw",
+        "s": "XLEGN_sw",
         "g": "DN",
         "d": "VOUT",
         "b": "VSS"
@@ -419,7 +419,7 @@
       "name": "$6",
       "class": "nfet",
       "nets": {
-        "s": "XLEGN.sw",
+        "s": "XLEGN_sw",
         "g": "DNB",
         "d": "VDUMP",
         "b": "VSS"
@@ -469,7 +469,7 @@
       "nets": {
         "s": "VSS",
         "g": "IBN",
-        "d": "XLEGN.tail",
+        "d": "XLEGN_tail",
         "b": "VSS"
       },
       "params": {
@@ -491,9 +491,9 @@
       "name": "$9",
       "class": "nfet",
       "nets": {
-        "s": "XLEGN.tail",
+        "s": "XLEGN_tail",
         "g": "ICN",
-        "d": "XLEGN.sw",
+        "d": "XLEGN_sw",
         "b": "VSS"
       },
       "params": {
@@ -722,7 +722,7 @@
       ]
     },
     {
-      "name": "XLEGN.sw",
+      "name": "XLEGN_sw",
       "pin": true,
       "device_count": 3,
       "net_id": 5,
@@ -736,7 +736,7 @@
       ]
     },
     {
-      "name": "XLEGN.tail",
+      "name": "XLEGN_tail",
       "pin": true,
       "device_count": 2,
       "net_id": 10,
@@ -750,7 +750,7 @@
       ]
     },
     {
-      "name": "XLEGP.sw",
+      "name": "XLEGP_sw",
       "pin": true,
       "device_count": 3,
       "net_id": 14,
@@ -764,7 +764,7 @@
       ]
     },
     {
-      "name": "XLEGP.tail",
+      "name": "XLEGP_tail",
       "pin": true,
       "device_count": 2,
       "net_id": 13,
@@ -806,7 +806,9 @@
       ]
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "4 nets carried hierarchical names containing '.' (ngspice's own hierarchy separator, which makes the node unaddressable by its written name) and were renamed with '_' instead (XLEGN.sw -> XLEGN_sw, XLEGN.tail -> XLEGN_tail, XLEGP.tail -> XLEGP_tail, XLEGP.sw -> XLEGP_sw) -- nets[], the written netlist, the SPEF and any `klt lvs` output all use the renamed spelling, and so must --critical-net/--distributed-rc/--mom-net/--mom-rlc-net"
+  ],
   "black_box_regions": [],
   "abstracted_cells": [],
   "unmodelled_poly": [],
@@ -825,8 +827,8 @@
     "version": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": {
       "name": "ihp-sg13cmos5l",
       "source": "--pdk-root flag",
@@ -835,10 +837,11 @@
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c"
+      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
+      "role": "layout"
     }
   },
   "parasitics": {
@@ -1000,7 +1003,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -1011,7 +1014,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1191,7 +1194,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -1202,7 +1205,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1358,7 +1361,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -1369,7 +1372,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1468,7 +1471,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1479,7 +1482,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.tail",
+            "net": "XLEGP_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1643,7 +1646,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -1654,7 +1657,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1759,7 +1762,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1770,7 +1773,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.tail",
+            "net": "XLEGP_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1920,7 +1923,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -1931,7 +1934,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -1942,7 +1945,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -2100,7 +2103,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -2111,7 +2114,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2393,7 +2396,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -2404,7 +2407,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2415,7 +2418,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -2426,7 +2429,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.tail",
+            "net": "XLEGP_tail",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2627,7 +2630,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.023394,
             "levels": [
               [
@@ -2642,7 +2645,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2653,7 +2656,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2829,7 +2832,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2844,7 +2847,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2855,7 +2858,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -3131,7 +3134,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -3142,7 +3145,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3170,7 +3173,7 @@
         ]
       },
       {
-        "net": "XLEGN.sw",
+        "net": "XLEGN_sw",
         "net_id": 5,
         "resistance_ohm": 35.3388,
         "capacitance_ff": 8.09716,
@@ -3194,25 +3197,25 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XLEGN.sw",
+        "hub_net": "XLEGN_sw",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$9",
             "terminal": "D",
-            "leg_net": "XLEGN.sw__t0",
+            "leg_net": "XLEGN_sw__t0",
             "resistance_ohm": 17.6694
           },
           {
             "device": "$5",
             "terminal": "S",
-            "leg_net": "XLEGN.sw__t1",
+            "leg_net": "XLEGN_sw__t1",
             "resistance_ohm": 11.2244
           },
           {
             "device": "$6",
             "terminal": "S",
-            "leg_net": "XLEGN.sw__t2",
+            "leg_net": "XLEGN_sw__t2",
             "resistance_ohm": 6.4451
           }
         ],
@@ -3337,7 +3340,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.tail",
+            "net": "XLEGN_tail",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3354,7 +3357,7 @@
         ]
       },
       {
-        "net": "XLEGN.tail",
+        "net": "XLEGN_tail",
         "net_id": 10,
         "resistance_ohm": 18.197,
         "capacitance_ff": 4.235124,
@@ -3378,19 +3381,19 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XLEGN.tail",
+        "hub_net": "XLEGN_tail",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$8",
             "terminal": "D",
-            "leg_net": "XLEGN.tail__t0",
+            "leg_net": "XLEGN_tail__t0",
             "resistance_ohm": 9.0985
           },
           {
             "device": "$9",
             "terminal": "S",
-            "leg_net": "XLEGN.tail__t1",
+            "leg_net": "XLEGN_tail__t1",
             "resistance_ohm": 9.0985
           }
         ],
@@ -3511,7 +3514,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGN.sw",
+            "net": "XLEGN_sw",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3528,7 +3531,7 @@
         ]
       },
       {
-        "net": "XLEGP.sw",
+        "net": "XLEGP_sw",
         "net_id": 14,
         "resistance_ohm": 47.8518,
         "capacitance_ff": 10.850007,
@@ -3552,25 +3555,25 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XLEGP.sw",
+        "hub_net": "XLEGP_sw",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$14",
             "terminal": "S",
-            "leg_net": "XLEGP.sw__t0",
+            "leg_net": "XLEGP_sw__t0",
             "resistance_ohm": 14.0591
           },
           {
             "device": "$15",
             "terminal": "S",
-            "leg_net": "XLEGP.sw__t1",
+            "leg_net": "XLEGP_sw__t1",
             "resistance_ohm": 9.8668
           },
           {
             "device": "$18",
             "terminal": "D",
-            "leg_net": "XLEGP.sw__t2",
+            "leg_net": "XLEGP_sw__t2",
             "resistance_ohm": 23.9259
           }
         ],
@@ -3651,7 +3654,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.tail",
+            "net": "XLEGP_tail",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3668,7 +3671,7 @@
         ]
       },
       {
-        "net": "XLEGP.tail",
+        "net": "XLEGP_tail",
         "net_id": 13,
         "resistance_ohm": 37.1289,
         "capacitance_ff": 8.298864,
@@ -3692,19 +3695,19 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XLEGP.tail",
+        "hub_net": "XLEGP_tail",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$17",
             "terminal": "D",
-            "leg_net": "XLEGP.tail__t0",
+            "leg_net": "XLEGP_tail__t0",
             "resistance_ohm": 18.5645
           },
           {
             "device": "$18",
             "terminal": "S",
-            "leg_net": "XLEGP.tail__t1",
+            "leg_net": "XLEGP_tail__t1",
             "resistance_ohm": 18.5644
           }
         ],
@@ -3748,7 +3751,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XLEGP.sw",
+            "net": "XLEGP_sw",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -4032,6 +4035,7 @@
     "mom_rlc_override": null
   },
   "spef_path": null,
+  "subcircuit": null,
   "metrics": {
     "extract__device__count": 20,
     "extract__net__count": 18,

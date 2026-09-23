@@ -6,7 +6,9 @@ extracted from the routed layout, and analyses the difference against the
 schematic-level result. Issue #30 (Part of #16) is the named follow-up
 issue #24 deferred post-layout PVT to; issue #102 (Part of #16) extends it
 from `vco`/`cp` (Matrices A–C, RECORD-001) to `pfd` and `lock_detector`
-(Matrices D–E, RECORD-003).
+(Matrices D–E, RECORD-003); issue #115 (Part of #16) completes the set
+with `loop_filter` and `divider_chain` (Matrices F–G, RECORD-004) once
+#112 and #114 landed their schematic-level prerequisites.
 
 Because the whole point is a controlled comparison, **this record invents
 no axis of its own**. Both matrices below are copied verbatim from the
@@ -97,7 +99,6 @@ corners/matrix.md's **single `mos_tt`/`res_typ`/27 °C/3.3 V point**
 that campaign gives), and whose PFD-relevant measurement is the standalone
 PFD-polarity diagnostic (`tb_pfd_only.sp.tmpl` + `run_pfd_diag.sh`,
 RECORD-002/RECORD-003 evidence).
-
 | Axis | Values |
 |---|---|
 | PVT | `typ` only, verbatim from that campaign — the comparison target has no other ratified point |
@@ -160,15 +161,82 @@ over-estimates the as-layout arm's true RC, which can only add settling;
 the recovery deck's measured `trec` is the direct cross-check) — the
 columns carrying it say `on_cwin_basis` in their names.
 
+## Matrix F — `pll_loop_filter`, driving-point AC band (issue #115, RECORD-004)
+
+Copied from the campaign being compared against:
+`../../sg13cmos5l-loop-filter-momcap` (its RECORD-002's resized-R1 matrix,
+`results_resized.csv`, being the committed design's own schematic-level
+result). That campaign measured R1 with a single-device DC deck and C1/C2
+with single-device AC decks, then computed its 27 rows analytically; this
+matrix measures the **composite driving-point impedance** (the campaign's
+own `tb_composite_ac_crosscheck.sp`, extended from its single nominal
+corner to the full grid) because the post-layout arm's R1'/C1'/C2' only
+exist as a composite — the extracted series resistors and shunt capacitors
+are not separable devices. Fixed extraction rules, applied identically to
+both arms (stated, never per-arm adaptive): `R1' = max Re(Z)` over
+1 kHz–100 MHz; `Ctot' = -1/(2πf·Im(Z))` at 100 Hz; `C2'` same at 50 MHz;
+`C1' = Ctot' − C2'`; then the campaign's own closed-form 27-row band.
+
+| Axis | Values |
+|---|---|
+| Process (R1 / rppd) | `res_typ`, `res_bcs`, `res_wcs` |
+| Temperature | -40, 27, 125 °C |
+| MOM-cap uncertainty (uniform) | −20%, 0%, +20% |
+
+2 arms × 27 rows → `lf_results.csv`; the schematic arm vs the committed
+`results_resized.csv` → `lf_control.csv` (the control column quantifies
+the composite-method difference: the cap_cmomi model's own frequency
+dispersion — its density is characterised flat only through the campaign's
+1k–100k check, and this record measures C2′ at 50 MHz — plus the rppd
+model's AC-vs-DC resistance, both identical on both arms and therefore
+excluded from the post-layout deviation by the A/B). On the post-layout
+arm the ±20% band scales the **composite** measured capacitance, so those
+rows bracket the MOM-uncertainty effect from above — a wider bracket than
+the device-only one the campaign computed, stated here rather than
+silently narrowed.
+
+## Matrix G — `pll_divider_chain`, functional divide-ratio transient (issue #115, RECORD-004)
+
+Copied from the campaign being compared against:
+`../../sg13cmos5l-divider-nrange-retiming` — its `func` stage (the #112
+re-verification campaign, whose committed `func.csv` rows are the
+schematic-level result), at that campaign's own low-frequency baseline
+clock (100 MHz) and stimulus, measured by two successive DIVOUT rising
+50% crossings bracketed by two CKIN crossings.
+
+The **schematic control arm re-runs the campaign's full 20-row set**
+(9-point OFAT PVT baseline + 9-word programming sweep + the N=127 ceiling
+at both speed brackets). The **post-layout arm runs a reduced 14-point
+subset** — baseline word at the classic 3-bundle speed bracket
+(`mos_tt`/27 °C, `mos_ss`/125 °C, `mos_ff`/−40 °C), the full 9-word sweep
+at nominal, and the ceiling word at both bracket extremes — because a
+post-layout `divider_chain` transient (394 devices + 15.2 k extracted R/C
+elements) costs ~18–36 min per point on this host vs seconds-to-tens-of-
+seconds for the schematic. That is the same compute-bound reduction the
+campaign's own `setup` stage already makes (`PVT_SETUP`'s 3-bundle
+bracket) for the same stated reason; the 6 dropped OFAT points
+(`mos_sf`/`mos_fs` at 27 °C, the `mos_tt` temperature extremes, and the
+±10 % supply sub-axis) remain covered on the schematic control arm only.
+
+1 set × 2 arms (20 rows schematic, 14 post-layout) → `div_results.csv`;
+the schematic arm vs the committed `func.csv` → `div_control.csv`.
+
 ## Axes this record does NOT sweep, and why
 
-- **`loop_filter` and `divider_chain` remain not re-simulated**, exactly
-  as RECORD-001 left them: `loop_filter`'s routed cell is not the loop
-  filter as drawn (both MoM capacitors undrawn; LVS matches 0 of 3), and
-  `divider_chain`'s committed design does not function as a divider at any
-  corner (`sg13cmos5l-divider-nrange-retiming`) so there is no
-  schematic-level result to deviate from. Both are "unanswerable", not
-  deferred — the same statement `../records/RECORD-001` §5 makes.
+- **`loop_filter` and `divider_chain` are no longer "unanswerable"** —
+  this record (issue #115) adds their arms as Matrices F and G above,
+  against the schematic-level results #112 (via #121) and #114 (via #119)
+  landed: `divider_chain`'s functional repair re-verified by
+  `sg13cmos5l-divider-nrange-retiming` RECORD-003, and `loop_filter`'s
+  drawn `cap_cmomi` pair with LVS now matching 3/3 devices and 4/4 nets
+  (`../lvs-recheck/summary.json`, against layout record
+  `20260923-020931-a95a887-dirty`). What remains unswept on the
+  new arms, stated: `divider_chain`'s `hold`/`setup`/`retime` stages have
+  no post-layout arm (a single post-layout `retime` transient at 1562 MHz
+  top-of-band exceeds this record's whole-session compute budget several
+  times over; the functional-N result is the ratified comparison), and
+  Matrix G's post-layout arm carries the reduced 14-point PVT subset
+  above, not the full 9-point OFAT × 20-row set.
 - **The lock_detector's schmitt-hysteresis sub-measurement has no
   post-layout arm, stated rather than silently dropped**: the campaign
   measures a bare `schmitt_hv` subckt, and the flat extraction exposes no
@@ -181,10 +249,11 @@ columns carrying it say `on_cwin_basis` in their names.
   evaluated on it as that record did.
 - **The pfd has one PVT point** because its comparison target ratified one
   point; this harness deliberately adds no PVT axes of its own to Matrix D.
-- **The MOM-uncertainty band** does not apply to either new matrix: no
-  `cap_cmomi` instance exists on any arm of Matrix D (all-MOS `pfd`) or on
+- **The MOM-uncertainty band** does not apply to either arm of Matrix D (all-MOS `pfd`) or on
   the as-layout/post-layout arms of Matrix E (the layout carries none —
   that absence is one of Matrix E's results). The control reproduction of
   course runs the committed band points, because they are committed rows.
+  On Matrix F's post-layout arm the band exists but scales the composite
+  capacitance (see Matrix F's paragraph).
 - **1.2 V / wrapper-boundary supply corners** — DR-004 already settled that
   every internal domain is 3.3 V.
