@@ -34,7 +34,7 @@ def main(argv: list[str]) -> int:
 
     pdk_info_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
     if pdk_root:
-        pdk_info_cmd[2:2] = ["--pdk-root", pdk_root]
+        pdk_info_cmd[3:3] = ["--pdk-root", pdk_root]
     try:
         pdk_info = json.loads(
             subprocess.run(pdk_info_cmd, capture_output=True, text=True).stdout

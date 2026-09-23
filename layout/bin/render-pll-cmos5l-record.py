@@ -46,7 +46,7 @@ def main(argv: list[str]) -> int:
 
     pdk_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
     if pdk_root:
-        pdk_cmd[2:2] = ["--pdk-root", pdk_root]
+        pdk_cmd[3:3] = ["--pdk-root", pdk_root]
     pdk_info = _run_json(pdk_cmd)
     # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
     # object `klt pdk find` returns -- unwrap the requested deck's entry.
