@@ -1,25 +1,42 @@
 {
   "schema_version": 3,
-  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/pll_loop_filter.gds",
+  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/layout/sg13cmos5l-pll/reports/20260923-020931-a95a887-dirty/pll_loop_filter.gds",
   "deck": "sg13cmos5l",
   "top": "pll_loop_filter",
   "dbu_um": 0.001,
-  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_loop_filter.pex.spice",
-  "netlist_sha256": "e5e02f836ed7843ab58b3009423b7a8c3c33fed0dc18364512cc19d3937d1a17",
+  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_loop_filter.pex.spice",
+  "netlist_sha256": "802299f919fe24f28bac6d8b58b35e9b815fe763dc5a4a54538b40b334af0a8c",
   "status": "extracted",
-  "device_count": 1,
-  "net_count": 3,
-  "pin_count": 3,
+  "device_count": 3,
+  "net_count": 4,
+  "pin_count": 4,
   "device_counts": {
+    "cap_cmomi": 2,
     "rppd": 1
   },
   "dummy_devices_dropped": 0,
-  "ignored_layers": [],
+  "ignored_layers": [
+    {
+      "layer": 63,
+      "datatype": 0,
+      "shapes": 2
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 2
+    }
+  ],
   "device_recognition_only_layers": [
     {
       "layer": 28,
       "datatype": 0,
       "shapes": 1
+    },
+    {
+      "layer": 99,
+      "datatype": 39,
+      "shapes": 2
     },
     {
       "layer": 111,
@@ -42,6 +59,42 @@
   "devices": [
     {
       "name": "$1",
+      "class": "cap_cmomi",
+      "nets": {
+        "a": "NZ",
+        "b": "VSS"
+      },
+      "params": {
+        "w_um": 40.0,
+        "l_um": 40.0
+      },
+      "instance_path": [
+        {
+          "cell": "loop_filter_XC1",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$2",
+      "class": "cap_cmomi",
+      "nets": {
+        "a": "VCTRL",
+        "b": "VSS"
+      },
+      "params": {
+        "w_um": 10.0,
+        "l_um": 10.0
+      },
+      "instance_path": [
+        {
+          "cell": "loop_filter_XC2",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$3",
       "class": "rppd",
       "nets": {
         "a": "VCTRL",
@@ -67,28 +120,42 @@
     {
       "name": "NZ",
       "pin": true,
-      "device_count": 1,
-      "net_id": 2,
+      "device_count": 2,
+      "net_id": 1,
       "pin_index": 0,
       "label_positions_um": [
         {
           "text": "NZ",
-          "x_um": 810.75,
-          "y_um": 3.0
+          "x_um": 814.025,
+          "y_um": 42.0
         }
       ]
     },
     {
       "name": "VCTRL",
       "pin": true,
-      "device_count": 1,
-      "net_id": 1,
+      "device_count": 2,
+      "net_id": 2,
       "pin_index": 1,
       "label_positions_um": [
         {
           "text": "VCTRL",
-          "x_um": 0.25,
-          "y_um": 3.6
+          "x_um": 431.775,
+          "y_um": 42.6
+        }
+      ]
+    },
+    {
+      "name": "VSS",
+      "pin": true,
+      "device_count": 2,
+      "net_id": 3,
+      "pin_index": 2,
+      "label_positions_um": [
+        {
+          "text": "VSS",
+          "x_um": 864.7,
+          "y_um": 43.2
         }
       ]
     },
@@ -96,12 +163,14 @@
       "name": "vsubs",
       "pin": true,
       "device_count": 1,
-      "net_id": 3,
-      "pin_index": 2,
+      "net_id": 4,
+      "pin_index": 3,
       "label_positions_um": []
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "2 layers (63/0, 160/0) carrying 4 shapes are outside 'sg13cmos5l' deck's connectivity graph -- this geometry is invisible to extraction, so a net routed only through it extracts as multiple disconnected nets instead of one, which will silently mismatch a downstream `klt lvs` reference netlist -- see ignored_layers[] for the full per-layer shape counts. See docs/cli/extract.md's 'ignored_layers' field documentation."
+  ],
   "black_box_regions": [],
   "abstracted_cells": [],
   "unmodelled_poly": [],
@@ -120,8 +189,8 @@
     "version": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": {
       "name": "ihp-sg13cmos5l",
       "source": "--pdk-root flag",
@@ -130,42 +199,48 @@
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:9643d324877128375b403ef98f6a04a6bd0d70843b5d0f6a82ab653ebd6f5180"
+      "content_hash": "sha256:8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+      "role": "layout"
     }
   },
   "parasitics": {
-    "r_count": 2,
-    "c_count": 2,
-    "cc_count": 0,
+    "r_count": 6,
+    "c_count": 3,
+    "cc_count": 1,
     "l_count": 0,
-    "total_resistance_ohm": 2.3466,
-    "total_capacitance_ff": 0.826244,
-    "total_coupling_capacitance_ff": 0.0,
+    "total_resistance_ohm": 6874.5045,
+    "total_capacitance_ff": 1175.050037,
+    "total_coupling_capacitance_ff": 0.00605,
     "total_inductance_nh": 0.0,
     "nets": [
       {
         "net": "NZ",
-        "net_id": 2,
-        "resistance_ohm": 1.0853,
-        "capacitance_ff": 0.390162,
+        "net_id": 1,
+        "resistance_ohm": 3187.6126,
+        "capacitance_ff": 533.897846,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 0.176,
-            "capacitance_ff": 0.116675
+            "resistance_ohm": 933.871,
+            "capacitance_ff": 160.627997
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 0.8213,
-            "capacitance_ff": 0.235619
+            "resistance_ohm": 758.1963,
+            "capacitance_ff": 142.461914
           },
           {
             "layer": "metal2",
-            "resistance_ohm": 0.088,
-            "capacitance_ff": 0.037868
+            "resistance_ohm": 748.7582,
+            "capacitance_ff": 118.932961
+          },
+          {
+            "layer": "metal3",
+            "resistance_ohm": 746.7872,
+            "capacitance_ff": 111.874974
           }
         ],
         "resistance_ohm_top_cell": null,
@@ -176,9 +251,15 @@
         "terminals": [
           {
             "device": "$1",
-            "terminal": "B",
+            "terminal": "A",
             "leg_net": "NZ__t0",
-            "resistance_ohm": 1.0853
+            "resistance_ohm": 1593.8063
+          },
+          {
+            "device": "$3",
+            "terminal": "B",
+            "leg_net": "NZ__t1",
+            "resistance_ohm": 1593.8063
           }
         ],
         "segments": [],
@@ -186,24 +267,29 @@
       },
       {
         "net": "VCTRL",
-        "net_id": 1,
-        "resistance_ohm": 1.2613,
-        "capacitance_ff": 0.436082,
+        "net_id": 2,
+        "resistance_ohm": 428.9783,
+        "capacitance_ff": 91.288117,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 0.176,
-            "capacitance_ff": 0.116675
+            "resistance_ohm": 45.8734,
+            "capacitance_ff": 9.032574
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 0.9973,
-            "capacitance_ff": 0.28154
+            "resistance_ohm": 58.082,
+            "capacitance_ff": 13.481901
           },
           {
             "layer": "metal2",
-            "resistance_ohm": 0.088,
-            "capacitance_ff": 0.037868
+            "resistance_ohm": 288.6722,
+            "capacitance_ff": 62.601826
+          },
+          {
+            "layer": "metal3",
+            "resistance_ohm": 36.3506,
+            "capacitance_ff": 6.171817
           }
         ],
         "resistance_ohm_top_cell": null,
@@ -213,14 +299,93 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$1",
+            "device": "$2",
             "terminal": "A",
             "leg_net": "VCTRL__t0",
-            "resistance_ohm": 1.2613
+            "resistance_ohm": 214.4892
+          },
+          {
+            "device": "$3",
+            "terminal": "A",
+            "leg_net": "VCTRL__t1",
+            "resistance_ohm": 214.4891
           }
         ],
         "segments": [],
-        "coupled": []
+        "coupled": [
+          {
+            "net": "VSS",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
+      },
+      {
+        "net": "VSS",
+        "net_id": 3,
+        "resistance_ohm": 3257.9136,
+        "capacitance_ff": 549.864074,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 954.1348,
+            "capacitance_ff": 165.40601
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 772.7684,
+            "capacitance_ff": 146.10439
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 767.7025,
+            "capacitance_ff": 123.115616
+          },
+          {
+            "layer": "metal3",
+            "resistance_ohm": 763.3078,
+            "capacitance_ff": 115.238059
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VSS",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$1",
+            "terminal": "B",
+            "leg_net": "VSS__t0",
+            "resistance_ohm": 1628.9568
+          },
+          {
+            "device": "$2",
+            "terminal": "B",
+            "leg_net": "VSS__t1",
+            "resistance_ohm": 1628.9568
+          }
+        ],
+        "segments": [],
+        "coupled": [
+          {
+            "net": "VCTRL",
+            "capacitance_ff": 0.00605,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          }
+        ]
       }
     ],
     "substrate_dc_tie": {
@@ -249,17 +414,18 @@
     "mom_rlc_override": null
   },
   "spef_path": null,
+  "subcircuit": null,
   "metrics": {
-    "extract__device__count": 1,
-    "extract__net__count": 3,
-    "extract__pin__count": 3,
-    "extract__resistor__count": 2,
-    "extract__capacitor__count": 2,
-    "extract__coupling__capacitor__count": 0,
+    "extract__device__count": 3,
+    "extract__net__count": 4,
+    "extract__pin__count": 4,
+    "extract__resistor__count": 6,
+    "extract__capacitor__count": 3,
+    "extract__coupling__capacitor__count": 1,
     "extract__inductor__count": 0,
-    "extract__resistance__ohm": 2.3466,
-    "extract__capacitance__ff": 0.826244,
-    "extract__coupling__capacitance__ff": 0.0,
+    "extract__resistance__ohm": 6874.5045,
+    "extract__capacitance__ff": 1175.050037,
+    "extract__coupling__capacitance__ff": 0.00605,
     "extract__inductance__nh": 0.0
   }
 }

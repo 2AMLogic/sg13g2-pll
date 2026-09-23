@@ -1,0 +1,99 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #115, Part of #16)
+* POST-LAYOUT divider_chain FUNCTIONAL deck -- the parasitic-annotated twin
+* of ../../sg13cmos5l-divider-nrange-retiming/testbench/tb_div_func.sp.tmpl
+* (the #112 re-verification campaign's own func-stage template), kept
+* line-for-line comparable to it so the only difference between the two
+* arms' numbers is the extracted interconnect R/C.
+*
+* Same stimulus (both clock inputs driven from one source -- in the closed
+* loop they are the same net), same .options, same .ic symmetry break, same
+* measurement window and the same .meas set as that template. Three things
+* necessarily differ, each mechanical, none of them a modelling choice:
+*
+*   DUT include     -- the pex-to-ngspice.py-rewritten extraction plus a
+*                      make-inst.py-generated instantiation (pin order read
+*                      from the extracted cell's own .SUBCKT pin list, never
+*                      transcribed by hand: the extraction exposes all 181
+*                      nets as pins, of which only 12 are the schematic's
+*                      own ports).
+*   .ic targets     -- the schematic deck breaks each flop's latch symmetry
+*                      at v(xdiv.xd<k>.xdff<m|q>.<m|s>)=0; the extraction
+*                      is ONE FLAT subckt that exposes exactly those state
+*                      nodes as pins (XD<k>_XDFF<M|Q>_<M|S>, XFRT_<M|S>,
+*                      after pex-to-ngspice.py's underscore rename), so the
+*                      same nodes are forced at the top level here.
+*   vsubs           -- the extracted netlist declares .GLOBAL vsubs and
+*                      ties it to ground only through klt's 1e12-ohm DC
+*                      tie; every extracted net-to-ground parasitic
+*                      capacitor returns to that node, so -- exactly like
+*                      tb_pfd_pex.sp.tmpl / tb_cp_dc_pex.sp.tmpl -- it is
+*                      held hard at 0 V rather than left floating.
+*
+* The stage-liveness probes ck1..ck5 the schematic template reads at
+* v(xdiv.ck<k>) are available on the flat cell's own exposed ck1..ck5 pins
+* (make-inst.py leaves unwired pins as top-level nodes of the same name),
+* so the same .meas lines read the same nets on both arms.
+*
+* ../run_divider_chain.sh substitutes @CORNER_MOS@, @TEMP@, @VDD@,
+* @VDD50@, @TPER@/@TON@, @P0@..@P5@, @TSTEP@, @TSTOP@, @TMEAS@, @DIVA@,
+* @DIVB@, @RELTOL@, @DIV_PEX_DUT@/@DIV_PEX_INST@ and @PDK_ROOT@/@PDK@
+* (ngspice's .lib/.include parser does not expand environment variables,
+* issue #61).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
+
+.include @DIV_PEX_DUT@
+.include @DIV_PEX_INST@
+
+Vdd vdd 0 dc @VDD@
+Vsubs vsubs 0 dc 0
+Vck ck 0 pulse(0 @VDD@ 0 60p 60p @TON@ @TPER@)
+Vp0 p0 0 dc @P0@
+Vp1 p1 0 dc @P1@
+Vp2 p2 0 dc @P2@
+Vp3 p3 0 dc @P3@
+Vp4 p4 0 dc @P4@
+Vp5 p5 0 dc @P5@
+
+* The schematic template's per-flop .ic symmetry break, retargeted to the
+* flat extraction's exposed state-node pins (see header). The divider has
+* NO reset pin; without this the DC operating point is indeterminate --
+* a testbench workaround for a design gap that template itself documents.
+.ic v(XD0_XDFFQ_M)=0 v(XD0_XDFFQ_S)=0 v(XD0_XDFFM_M)=0 v(XD0_XDFFM_S)=0
+.ic v(XD1_XDFFQ_M)=0 v(XD1_XDFFQ_S)=0 v(XD1_XDFFM_M)=0 v(XD1_XDFFM_S)=0
+.ic v(XD2_XDFFQ_M)=0 v(XD2_XDFFQ_S)=0 v(XD2_XDFFM_M)=0 v(XD2_XDFFM_S)=0
+.ic v(XD3_XDFFQ_M)=0 v(XD3_XDFFQ_S)=0 v(XD3_XDFFM_M)=0 v(XD3_XDFFM_S)=0
+.ic v(XD4_XDFFQ_M)=0 v(XD4_XDFFQ_S)=0 v(XD4_XDFFM_M)=0 v(XD4_XDFFM_S)=0
+.ic v(XD5_XDFFQ_M)=0 v(XD5_XDFFQ_S)=0 v(XD5_XDFFM_M)=0 v(XD5_XDFFM_S)=0
+.ic v(XFRT_M)=0 v(XFRT_S)=0
+
+.tran @TSTEP@ @TSTOP@
+
+.control
+run
+meas tran ck1_max max v(ck1) from=@TMEAS@ to=@TSTOP@
+meas tran ck1_min min v(ck1) from=@TMEAS@ to=@TSTOP@
+meas tran ck2_max max v(ck2) from=@TMEAS@ to=@TSTOP@
+meas tran ck2_min min v(ck2) from=@TMEAS@ to=@TSTOP@
+meas tran ck3_max max v(ck3) from=@TMEAS@ to=@TSTOP@
+meas tran ck3_min min v(ck3) from=@TMEAS@ to=@TSTOP@
+meas tran ck4_max max v(ck4) from=@TMEAS@ to=@TSTOP@
+meas tran ck4_min min v(ck4) from=@TMEAS@ to=@TSTOP@
+meas tran ck5_max max v(ck5) from=@TMEAS@ to=@TSTOP@
+meas tran ck5_min min v(ck5) from=@TMEAS@ to=@TSTOP@
+meas tran dvo_max max v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran dvo_min min v(divout) from=@TMEAS@ to=@TSTOP@
+meas tran fb_max  max v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran fb_min  min v(fb)     from=@TMEAS@ to=@TSTOP@
+meas tran tdiv_a when v(divout)=@VDD50@ rise=@DIVA@
+meas tran tdiv_b when v(divout)=@VDD50@ rise=@DIVB@
+meas tran tck_a  when v(ck)=@VDD50@ rise=3
+meas tran tck_b  when v(ck)=@VDD50@ rise=4
+meas tran idd    avg i(vdd) from=@TMEAS@ to=@TSTOP@
+print ck1_max ck1_min ck2_max ck2_min ck3_max ck3_min ck4_max ck4_min
+print ck5_max ck5_min dvo_max dvo_min fb_max fb_min
+print tdiv_a tdiv_b tck_a tck_b idd
+.endc
+.end

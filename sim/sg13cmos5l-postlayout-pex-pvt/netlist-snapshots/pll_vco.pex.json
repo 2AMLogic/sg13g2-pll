@@ -1,23 +1,35 @@
 {
   "schema_version": 3,
-  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/pll_vco.gds",
+  "file": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/layout/sg13cmos5l-pll/reports/20260923-020931-a95a887-dirty/pll_vco.gds",
   "deck": "sg13cmos5l",
   "top": "pll_vco",
   "dbu_um": 0.001,
-  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-101/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_vco.pex.spice",
-  "netlist_sha256": "4eb38f93a452bd0cae93e683c9f5b0c33af48208367689be3a496b0de36a2f6d",
+  "netlist_path": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-115/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_vco.pex.spice",
+  "netlist_sha256": "7f6c514bcbdce4a2a829e78c5ff7f05b2d9e9161c410303aa746412cb3d01e9e",
   "status": "extracted",
-  "device_count": 44,
+  "device_count": 45,
   "net_count": 33,
   "pin_count": 33,
   "device_counts": {
+    "cap_cmomi": 1,
     "nfet": 21,
     "pfet": 17,
     "rhigh": 1,
     "rppd": 5
   },
   "dummy_devices_dropped": 0,
-  "ignored_layers": [],
+  "ignored_layers": [
+    {
+      "layer": 63,
+      "datatype": 0,
+      "shapes": 1
+    },
+    {
+      "layer": 160,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
   "device_recognition_only_layers": [
     {
       "layer": 28,
@@ -28,6 +40,11 @@
       "layer": 44,
       "datatype": 0,
       "shapes": 38
+    },
+    {
+      "layer": 99,
+      "datatype": 39,
+      "shapes": 1
     },
     {
       "layer": 111,
@@ -54,7 +71,7 @@
       "nets": {
         "s": "GND_VCO",
         "g": "VBN",
-        "d": "XS1.nt",
+        "d": "XS1_nt",
         "b": "GND_VCO"
       },
       "params": {
@@ -76,7 +93,7 @@
       "name": "$10",
       "class": "nfet",
       "nets": {
-        "s": "XS4.nt",
+        "s": "XS4_nt",
         "g": "ring3",
         "d": "ring4",
         "b": "GND_VCO"
@@ -100,7 +117,7 @@
       "name": "$11",
       "class": "nfet",
       "nets": {
-        "s": "XS5.nt",
+        "s": "XS5_nt",
         "g": "ring4",
         "d": "ring5",
         "b": "GND_VCO"
@@ -124,7 +141,7 @@
       "name": "$12",
       "class": "nfet",
       "nets": {
-        "s": "XS1.nt",
+        "s": "XS1_nt",
         "g": "ring5",
         "d": "ring1",
         "b": "GND_VCO"
@@ -172,7 +189,7 @@
       "name": "$14",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.degb",
+        "s": "XBIAS_degb",
         "g": "VCTRL",
         "d": "VBP",
         "b": "GND_VCO"
@@ -196,8 +213,8 @@
       "name": "$15",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.dega",
-        "g": "XBIAS.VFIX",
+        "s": "XBIAS_dega",
+        "g": "XBIAS_VFIX",
         "d": "VBP",
         "b": "GND_VCO"
       },
@@ -220,9 +237,9 @@
       "name": "$16",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.vfixmid",
-        "g": "XBIAS.VFIX",
-        "d": "XBIAS.VFIX",
+        "s": "XBIAS_vfixmid",
+        "g": "XBIAS_VFIX",
+        "d": "XBIAS_VFIX",
         "b": "GND_VCO"
       },
       "params": {
@@ -245,8 +262,8 @@
       "class": "nfet",
       "nets": {
         "s": "GND_VCO",
-        "g": "XBIAS.vfixmid",
-        "d": "XBIAS.vfixmid",
+        "g": "XBIAS_vfixmid",
+        "d": "XBIAS_vfixmid",
         "b": "GND_VCO"
       },
       "params": {
@@ -269,8 +286,8 @@
       "class": "nfet",
       "nets": {
         "s": "GND_VCO",
-        "g": "XBIAS.vb2",
-        "d": "XBIAS.vb1",
+        "g": "XBIAS_vb2",
+        "d": "XBIAS_vb1",
         "b": "GND_VCO"
       },
       "params": {
@@ -292,9 +309,9 @@
       "name": "$19",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.n2s",
-        "g": "XBIAS.vb2",
-        "d": "XBIAS.vb2",
+        "s": "XBIAS_n2s",
+        "g": "XBIAS_vb2",
+        "d": "XBIAS_vb2",
         "b": "GND_VCO"
       },
       "params": {
@@ -318,7 +335,7 @@
       "nets": {
         "s": "GND_VCO",
         "g": "VBN",
-        "d": "XS2.nt",
+        "d": "XS2_nt",
         "b": "GND_VCO"
       },
       "params": {
@@ -340,9 +357,9 @@
       "name": "$20",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.nb1",
+        "s": "XBIAS_nb1",
         "g": "B1",
-        "d": "XBIAS.degb",
+        "d": "XBIAS_degb",
         "b": "GND_VCO"
       },
       "params": {
@@ -364,9 +381,9 @@
       "name": "$21",
       "class": "nfet",
       "nets": {
-        "s": "XBIAS.nb0",
+        "s": "XBIAS_nb0",
         "g": "B0",
-        "d": "XBIAS.degb",
+        "d": "XBIAS_degb",
         "b": "GND_VCO"
       },
       "params": {
@@ -388,7 +405,7 @@
       "name": "$22",
       "class": "pfet",
       "nets": {
-        "s": "XS2.nh",
+        "s": "XS2_nh",
         "g": "ring1",
         "d": "ring2",
         "b": "VDD_VCO"
@@ -412,7 +429,7 @@
       "name": "$23",
       "class": "pfet",
       "nets": {
-        "s": "XS3.nh",
+        "s": "XS3_nh",
         "g": "ring2",
         "d": "ring3",
         "b": "VDD_VCO"
@@ -436,7 +453,7 @@
       "name": "$24",
       "class": "pfet",
       "nets": {
-        "s": "XS4.nh",
+        "s": "XS4_nh",
         "g": "ring3",
         "d": "ring4",
         "b": "VDD_VCO"
@@ -460,7 +477,7 @@
       "name": "$25",
       "class": "pfet",
       "nets": {
-        "s": "XS5.nh",
+        "s": "XS5_nh",
         "g": "ring4",
         "d": "ring5",
         "b": "VDD_VCO"
@@ -484,7 +501,7 @@
       "name": "$26",
       "class": "pfet",
       "nets": {
-        "s": "XS1.nh",
+        "s": "XS1_nh",
         "g": "ring5",
         "d": "ring1",
         "b": "VDD_VCO"
@@ -558,7 +575,7 @@
       "nets": {
         "s": "VDD_VCO",
         "g": "VBP",
-        "d": "XS3.nh",
+        "d": "XS3_nh",
         "b": "VDD_VCO"
       },
       "params": {
@@ -582,7 +599,7 @@
       "nets": {
         "s": "GND_VCO",
         "g": "VBN",
-        "d": "XS3.nt",
+        "d": "XS3_nt",
         "b": "GND_VCO"
       },
       "params": {
@@ -606,7 +623,7 @@
       "nets": {
         "s": "VDD_VCO",
         "g": "VBP",
-        "d": "XS4.nh",
+        "d": "XS4_nh",
         "b": "VDD_VCO"
       },
       "params": {
@@ -630,7 +647,7 @@
       "nets": {
         "s": "VDD_VCO",
         "g": "VBP",
-        "d": "XS5.nh",
+        "d": "XS5_nh",
         "b": "VDD_VCO"
       },
       "params": {
@@ -654,7 +671,7 @@
       "nets": {
         "s": "VDD_VCO",
         "g": "VBP",
-        "d": "XS1.nh",
+        "d": "XS1_nh",
         "b": "VDD_VCO"
       },
       "params": {
@@ -678,7 +695,7 @@
       "nets": {
         "s": "VDD_VCO",
         "g": "VBP",
-        "d": "XS2.nh",
+        "d": "XS2_nh",
         "b": "VDD_VCO"
       },
       "params": {
@@ -749,8 +766,8 @@
       "class": "pfet",
       "nets": {
         "s": "VDD_VCO",
-        "g": "XBIAS.vb1",
-        "d": "XBIAS.VFIX",
+        "g": "XBIAS_vb1",
+        "d": "XBIAS_VFIX",
         "b": "VDD_VCO"
       },
       "params": {
@@ -773,8 +790,8 @@
       "class": "pfet",
       "nets": {
         "s": "VDD_VCO",
-        "g": "XBIAS.vb1",
-        "d": "XBIAS.vb1",
+        "g": "XBIAS_vb1",
+        "d": "XBIAS_vb1",
         "b": "VDD_VCO"
       },
       "params": {
@@ -797,8 +814,8 @@
       "class": "pfet",
       "nets": {
         "s": "VDD_VCO",
-        "g": "XBIAS.vb1",
-        "d": "XBIAS.vb2",
+        "g": "XBIAS_vb1",
+        "d": "XBIAS_vb2",
         "b": "VDD_VCO"
       },
       "params": {
@@ -818,22 +835,18 @@
     },
     {
       "name": "$39",
-      "class": "rppd",
+      "class": "cap_cmomi",
       "nets": {
-        "a": "XBIAS.n2s",
-        "b": "GND_VCO",
-        "w": "GND_VCO"
+        "a": "VDD_VCO",
+        "b": "GND_VCO"
       },
       "params": {
-        "r_ohm": 7800.0,
-        "l_um": 30.0,
-        "w_um": 1.0,
-        "area_um2": 30.0,
-        "perimeter_um": 62.0
+        "w_um": 70.0,
+        "l_um": 70.0
       },
       "instance_path": [
         {
-          "cell": "vco_resrppd_w1_l30",
+          "cell": "vco_XCDECAP",
           "array_index": null
         }
       ]
@@ -844,7 +857,7 @@
       "nets": {
         "s": "GND_VCO",
         "g": "VBN",
-        "d": "XS4.nt",
+        "d": "XS4_nt",
         "b": "GND_VCO"
       },
       "params": {
@@ -866,29 +879,7 @@
       "name": "$40",
       "class": "rppd",
       "nets": {
-        "a": "XBIAS.dega",
-        "b": "GND_VCO",
-        "w": "GND_VCO"
-      },
-      "params": {
-        "r_ohm": 15600.0,
-        "l_um": 60.0,
-        "w_um": 1.0,
-        "area_um2": 60.0,
-        "perimeter_um": 122.0
-      },
-      "instance_path": [
-        {
-          "cell": "vco_resrppd_w1_l60",
-          "array_index": null
-        }
-      ]
-    },
-    {
-      "name": "$41",
-      "class": "rppd",
-      "nets": {
-        "a": "XBIAS.nb1",
+        "a": "XBIAS_n2s",
         "b": "GND_VCO",
         "w": "GND_VCO"
       },
@@ -907,10 +898,10 @@
       ]
     },
     {
-      "name": "$42",
+      "name": "$41",
       "class": "rppd",
       "nets": {
-        "a": "XBIAS.degb",
+        "a": "XBIAS_dega",
         "b": "GND_VCO",
         "w": "GND_VCO"
       },
@@ -929,10 +920,32 @@
       ]
     },
     {
+      "name": "$42",
+      "class": "rppd",
+      "nets": {
+        "a": "XBIAS_nb1",
+        "b": "GND_VCO",
+        "w": "GND_VCO"
+      },
+      "params": {
+        "r_ohm": 7800.0,
+        "l_um": 30.0,
+        "w_um": 1.0,
+        "area_um2": 30.0,
+        "perimeter_um": 62.0
+      },
+      "instance_path": [
+        {
+          "cell": "vco_resrppd_w1_l30",
+          "array_index": null
+        }
+      ]
+    },
+    {
       "name": "$43",
       "class": "rppd",
       "nets": {
-        "a": "XBIAS.nb0",
+        "a": "XBIAS_degb",
         "b": "GND_VCO",
         "w": "GND_VCO"
       },
@@ -952,10 +965,32 @@
     },
     {
       "name": "$44",
+      "class": "rppd",
+      "nets": {
+        "a": "XBIAS_nb0",
+        "b": "GND_VCO",
+        "w": "GND_VCO"
+      },
+      "params": {
+        "r_ohm": 15600.0,
+        "l_um": 60.0,
+        "w_um": 1.0,
+        "area_um2": 60.0,
+        "perimeter_um": 122.0
+      },
+      "instance_path": [
+        {
+          "cell": "vco_resrppd_w1_l60",
+          "array_index": null
+        }
+      ]
+    },
+    {
+      "name": "$45",
       "class": "rhigh",
       "nets": {
         "a": "VDD_VCO",
-        "b": "XBIAS.vb2",
+        "b": "XBIAS_vb2",
         "w": "GND_VCO"
       },
       "params": {
@@ -978,7 +1013,7 @@
       "nets": {
         "s": "GND_VCO",
         "g": "VBN",
-        "d": "XS5.nt",
+        "d": "XS5_nt",
         "b": "GND_VCO"
       },
       "params": {
@@ -1048,7 +1083,7 @@
       "name": "$8",
       "class": "nfet",
       "nets": {
-        "s": "XS2.nt",
+        "s": "XS2_nt",
         "g": "ring1",
         "d": "ring2",
         "b": "GND_VCO"
@@ -1072,7 +1107,7 @@
       "name": "$9",
       "class": "nfet",
       "nets": {
-        "s": "XS3.nt",
+        "s": "XS3_nt",
         "g": "ring2",
         "d": "ring3",
         "b": "GND_VCO"
@@ -1098,13 +1133,13 @@
       "name": "B0",
       "pin": true,
       "device_count": 1,
-      "net_id": 13,
+      "net_id": 19,
       "pin_index": 0,
       "label_positions_um": [
         {
           "text": "B0",
-          "x_um": 390.39,
-          "y_um": 25.4
+          "x_um": 466.39,
+          "y_um": 90.0
         }
       ]
     },
@@ -1112,13 +1147,13 @@
       "name": "B1",
       "pin": true,
       "device_count": 1,
-      "net_id": 12,
+      "net_id": 18,
       "pin_index": 1,
       "label_positions_um": [
         {
           "text": "B1",
-          "x_um": 384.43,
-          "y_um": 26.0
+          "x_um": 460.43,
+          "y_um": 90.6
         }
       ]
     },
@@ -1126,27 +1161,27 @@
       "name": "CLK",
       "pin": true,
       "device_count": 2,
-      "net_id": 28,
+      "net_id": 26,
       "pin_index": 2,
       "label_positions_um": [
         {
           "text": "CLK",
-          "x_um": 84.33,
-          "y_um": 16.4
+          "x_um": 160.33,
+          "y_um": 81.0
         }
       ]
     },
     {
       "name": "GND_VCO",
       "pin": true,
-      "device_count": 42,
+      "device_count": 43,
       "net_id": 34,
       "pin_index": 3,
       "label_positions_um": [
         {
           "text": "GND_VCO",
-          "x_um": 232.16,
-          "y_um": 7.4
+          "x_um": 304.885,
+          "y_um": 72.0
         }
       ]
     },
@@ -1159,8 +1194,8 @@
       "label_positions_um": [
         {
           "text": "VBN",
-          "x_um": 120.19,
-          "y_um": 9.2
+          "x_um": 196.19,
+          "y_um": 73.8
         }
       ]
     },
@@ -1168,13 +1203,13 @@
       "name": "VBP",
       "pin": true,
       "device_count": 10,
-      "net_id": 11,
+      "net_id": 15,
       "pin_index": 5,
       "label_positions_um": [
         {
           "text": "VBP",
-          "x_um": 196.23,
-          "y_um": 8.6
+          "x_um": 272.23,
+          "y_um": 73.2
         }
       ]
     },
@@ -1182,96 +1217,96 @@
       "name": "VCTRL",
       "pin": true,
       "device_count": 1,
-      "net_id": 18,
+      "net_id": 16,
       "pin_index": 6,
       "label_positions_um": [
         {
           "text": "VCTRL",
-          "x_um": 243.99,
-          "y_um": 26.6
+          "x_um": 319.99,
+          "y_um": 91.2
         }
       ]
     },
     {
       "name": "VDD_VCO",
       "pin": true,
-      "device_count": 30,
-      "net_id": 2,
+      "device_count": 31,
+      "net_id": 1,
       "pin_index": 7,
       "label_positions_um": [
         {
           "text": "VDD_VCO",
-          "x_um": 92.52,
+          "x_um": 168.52,
           "y_um": 1.21
         },
         {
           "text": "VDD_VCO",
-          "x_um": 92.52,
+          "x_um": 168.52,
           "y_um": 2.25
         },
         {
           "text": "VDD_VCO",
-          "x_um": 158.42,
+          "x_um": 195.455,
+          "y_um": 72.6
+        },
+        {
+          "text": "VDD_VCO",
+          "x_um": 234.42,
           "y_um": 1.21
         },
         {
           "text": "VDD_VCO",
-          "x_um": 158.42,
+          "x_um": 234.42,
           "y_um": 2.36
         },
         {
           "text": "VDD_VCO",
-          "x_um": 194.83,
-          "y_um": 8.0
-        },
-        {
-          "text": "VDD_VCO",
-          "x_um": 218.88,
+          "x_um": 294.88,
           "y_um": 1.21
         },
         {
           "text": "VDD_VCO",
-          "x_um": 218.88,
+          "x_um": 294.88,
           "y_um": 2.61
         },
         {
           "text": "VDD_VCO",
-          "x_um": 264.48,
+          "x_um": 340.48,
           "y_um": 1.21
         },
         {
           "text": "VDD_VCO",
-          "x_um": 264.48,
+          "x_um": 340.48,
           "y_um": 2.61
         },
         {
           "text": "VDD_VCO",
-          "x_um": 300.08,
+          "x_um": 376.08,
           "y_um": 1.21
         },
         {
           "text": "VDD_VCO",
-          "x_um": 300.08,
+          "x_um": 376.08,
           "y_um": 2.61
         }
       ]
     },
     {
-      "name": "XBIAS.VFIX",
+      "name": "XBIAS_VFIX",
       "pin": true,
       "device_count": 4,
-      "net_id": 19,
+      "net_id": 32,
       "pin_index": 8,
       "label_positions_um": [
         {
           "text": "XBIAS.VFIX",
-          "x_um": 262.79,
-          "y_um": 11.6
+          "x_um": 338.79,
+          "y_um": 76.2
         }
       ]
     },
     {
-      "name": "XBIAS.dega",
+      "name": "XBIAS_dega",
       "pin": true,
       "device_count": 2,
       "net_id": 4,
@@ -1279,13 +1314,13 @@
       "label_positions_um": [
         {
           "text": "XBIAS.dega",
-          "x_um": 326.6,
-          "y_um": 17.0
+          "x_um": 402.6,
+          "y_um": 81.6
         }
       ]
     },
     {
-      "name": "XBIAS.degb",
+      "name": "XBIAS_degb",
       "pin": true,
       "device_count": 4,
       "net_id": 3,
@@ -1293,13 +1328,13 @@
       "label_positions_um": [
         {
           "text": "XBIAS.degb",
-          "x_um": 323.92,
-          "y_um": 12.2
+          "x_um": 399.92,
+          "y_um": 76.8
         }
       ]
     },
     {
-      "name": "XBIAS.n2s",
+      "name": "XBIAS_n2s",
       "pin": true,
       "device_count": 2,
       "net_id": 6,
@@ -1307,13 +1342,13 @@
       "label_positions_um": [
         {
           "text": "XBIAS.n2s",
-          "x_um": 338.66,
-          "y_um": 17.6
+          "x_um": 414.66,
+          "y_um": 82.2
         }
       ]
     },
     {
-      "name": "XBIAS.nb0",
+      "name": "XBIAS_nb0",
       "pin": true,
       "device_count": 2,
       "net_id": 8,
@@ -1321,13 +1356,13 @@
       "label_positions_um": [
         {
           "text": "XBIAS.nb0",
-          "x_um": 397.42,
-          "y_um": 18.2
+          "x_um": 473.42,
+          "y_um": 82.8
         }
       ]
     },
     {
-      "name": "XBIAS.nb1",
+      "name": "XBIAS_nb1",
       "pin": true,
       "device_count": 2,
       "net_id": 7,
@@ -1335,41 +1370,41 @@
       "label_positions_um": [
         {
           "text": "XBIAS.nb1",
-          "x_um": 366.06,
-          "y_um": 18.8
+          "x_um": 442.06,
+          "y_um": 83.4
         }
       ]
     },
     {
-      "name": "XBIAS.vb1",
+      "name": "XBIAS_vb1",
       "pin": true,
       "device_count": 5,
-      "net_id": 20,
+      "net_id": 17,
       "pin_index": 14,
       "label_positions_um": [
         {
           "text": "XBIAS.vb1",
-          "x_um": 281.59,
-          "y_um": 10.4
+          "x_um": 357.59,
+          "y_um": 75.0
         }
       ]
     },
     {
-      "name": "XBIAS.vb2",
+      "name": "XBIAS_vb2",
       "pin": true,
       "device_count": 5,
-      "net_id": 21,
+      "net_id": 33,
       "pin_index": 15,
       "label_positions_um": [
         {
           "text": "XBIAS.vb2",
-          "x_um": 306.89,
-          "y_um": 11.0
+          "x_um": 382.89,
+          "y_um": 75.6
         }
       ]
     },
     {
-      "name": "XBIAS.vfixmid",
+      "name": "XBIAS_vfixmid",
       "pin": true,
       "device_count": 3,
       "net_id": 5,
@@ -1377,148 +1412,148 @@
       "label_positions_um": [
         {
           "text": "XBIAS.vfixmid",
-          "x_um": 277.31,
-          "y_um": 15.8
+          "x_um": 353.31,
+          "y_um": 80.4
         }
       ]
     },
     {
-      "name": "XS1.nh",
+      "name": "XS1_nh",
       "pin": true,
       "device_count": 2,
-      "net_id": 32,
+      "net_id": 30,
       "pin_index": 17,
       "label_positions_um": [
         {
           "text": "XS1.nh",
-          "x_um": 141.39,
-          "y_um": 19.4
+          "x_um": 217.39,
+          "y_um": 84.0
         }
       ]
     },
     {
-      "name": "XS1.nt",
+      "name": "XS1_nt",
       "pin": true,
       "device_count": 2,
-      "net_id": 22,
+      "net_id": 20,
       "pin_index": 18,
       "label_positions_um": [
         {
           "text": "XS1.nt",
-          "x_um": 34.15,
-          "y_um": 20.0
+          "x_um": 110.15,
+          "y_um": 84.6
         }
       ]
     },
     {
-      "name": "XS2.nh",
+      "name": "XS2_nh",
       "pin": true,
       "device_count": 2,
-      "net_id": 33,
+      "net_id": 31,
       "pin_index": 19,
       "label_positions_um": [
         {
           "text": "XS2.nh",
-          "x_um": 133.45,
-          "y_um": 20.6
+          "x_um": 209.45,
+          "y_um": 85.2
         }
       ]
     },
     {
-      "name": "XS2.nt",
+      "name": "XS2_nt",
       "pin": true,
       "device_count": 2,
-      "net_id": 23,
+      "net_id": 21,
       "pin_index": 20,
       "label_positions_um": [
         {
           "text": "XS2.nt",
-          "x_um": 29.21,
-          "y_um": 21.2
+          "x_um": 105.21,
+          "y_um": 85.8
         }
       ]
     },
     {
-      "name": "XS3.nh",
+      "name": "XS3_nh",
       "pin": true,
       "device_count": 2,
-      "net_id": 29,
+      "net_id": 27,
       "pin_index": 21,
       "label_positions_um": [
         {
           "text": "XS3.nh",
-          "x_um": 113.01,
-          "y_um": 21.8
+          "x_um": 189.01,
+          "y_um": 86.4
         }
       ]
     },
     {
-      "name": "XS3.nt",
+      "name": "XS3_nt",
       "pin": true,
       "device_count": 2,
-      "net_id": 24,
+      "net_id": 22,
       "pin_index": 22,
       "label_positions_um": [
         {
           "text": "XS3.nt",
-          "x_um": 34.17,
-          "y_um": 22.4
+          "x_um": 110.17,
+          "y_um": 87.0
         }
       ]
     },
     {
-      "name": "XS4.nh",
+      "name": "XS4_nh",
       "pin": true,
       "device_count": 2,
-      "net_id": 30,
+      "net_id": 28,
       "pin_index": 23,
       "label_positions_um": [
         {
           "text": "XS4.nh",
-          "x_um": 122.47,
-          "y_um": 23.0
+          "x_um": 198.47,
+          "y_um": 87.6
         }
       ]
     },
     {
-      "name": "XS4.nt",
+      "name": "XS4_nt",
       "pin": true,
       "device_count": 2,
-      "net_id": 25,
+      "net_id": 23,
       "pin_index": 24,
       "label_positions_um": [
         {
           "text": "XS4.nt",
-          "x_um": 39.13,
-          "y_um": 23.6
+          "x_um": 115.13,
+          "y_um": 88.2
         }
       ]
     },
     {
-      "name": "XS5.nh",
+      "name": "XS5_nh",
       "pin": true,
       "device_count": 2,
-      "net_id": 31,
+      "net_id": 29,
       "pin_index": 25,
       "label_positions_um": [
         {
           "text": "XS5.nh",
-          "x_um": 131.93,
-          "y_um": 24.2
+          "x_um": 207.93,
+          "y_um": 88.8
         }
       ]
     },
     {
-      "name": "XS5.nt",
+      "name": "XS5_nt",
       "pin": true,
       "device_count": 2,
-      "net_id": 26,
+      "net_id": 24,
       "pin_index": 26,
       "label_positions_um": [
         {
           "text": "XS5.nt",
-          "x_um": 44.09,
-          "y_um": 24.8
+          "x_um": 120.09,
+          "y_um": 89.4
         }
       ]
     },
@@ -1526,13 +1561,13 @@
       "name": "bufmid",
       "pin": true,
       "device_count": 4,
-      "net_id": 27,
+      "net_id": 25,
       "pin_index": 27,
       "label_positions_um": [
         {
           "text": "bufmid",
-          "x_um": 80.61,
-          "y_um": 12.8
+          "x_um": 156.61,
+          "y_um": 77.4
         }
       ]
     },
@@ -1545,8 +1580,8 @@
       "label_positions_um": [
         {
           "text": "ring1",
-          "x_um": 73.89,
-          "y_um": 9.8
+          "x_um": 149.89,
+          "y_um": 74.4
         }
       ]
     },
@@ -1554,13 +1589,13 @@
       "name": "ring2",
       "pin": true,
       "device_count": 4,
-      "net_id": 14,
+      "net_id": 11,
       "pin_index": 29,
       "label_positions_um": [
         {
           "text": "ring2",
-          "x_um": 66.67,
-          "y_um": 13.4
+          "x_um": 142.67,
+          "y_um": 78.0
         }
       ]
     },
@@ -1568,13 +1603,13 @@
       "name": "ring3",
       "pin": true,
       "device_count": 4,
-      "net_id": 15,
+      "net_id": 12,
       "pin_index": 30,
       "label_positions_um": [
         {
           "text": "ring3",
-          "x_um": 72.13,
-          "y_um": 14.0
+          "x_um": 148.13,
+          "y_um": 78.6
         }
       ]
     },
@@ -1582,13 +1617,13 @@
       "name": "ring4",
       "pin": true,
       "device_count": 4,
-      "net_id": 16,
+      "net_id": 13,
       "pin_index": 31,
       "label_positions_um": [
         {
           "text": "ring4",
-          "x_um": 77.59,
-          "y_um": 14.6
+          "x_um": 153.59,
+          "y_um": 79.2
         }
       ]
     },
@@ -1596,18 +1631,21 @@
       "name": "ring5",
       "pin": true,
       "device_count": 4,
-      "net_id": 17,
+      "net_id": 14,
       "pin_index": 32,
       "label_positions_um": [
         {
           "text": "ring5",
-          "x_um": 83.05,
-          "y_um": 15.2
+          "x_um": 159.05,
+          "y_um": 79.8
         }
       ]
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "19 nets carried hierarchical names containing '.' (ngspice's own hierarchy separator, which makes the node unaddressable by its written name) and were renamed with '_' instead (XBIAS.degb -> XBIAS_degb, XBIAS.dega -> XBIAS_dega, XBIAS.vfixmid -> XBIAS_vfixmid, XBIAS.n2s -> XBIAS_n2s, XBIAS.nb1 -> XBIAS_nb1, +14 more) -- nets[], the written netlist, the SPEF and any `klt lvs` output all use the renamed spelling, and so must --critical-net/--distributed-rc/--mom-net/--mom-rlc-net",
+    "2 layers (63/0, 160/0) carrying 2 shapes are outside 'sg13cmos5l' deck's connectivity graph -- this geometry is invisible to extraction, so a net routed only through it extracts as multiple disconnected nets instead of one, which will silently mismatch a downstream `klt lvs` reference netlist -- see ignored_layers[] for the full per-layer shape counts. See docs/cli/extract.md's 'ignored_layers' field documentation."
+  ],
   "black_box_regions": [],
   "abstracted_cells": [],
   "unmodelled_poly": [],
@@ -1626,8 +1664,8 @@
     "version": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": {
       "name": "ihp-sg13cmos5l",
       "source": "--pdk-root flag",
@@ -1636,27 +1674,28 @@
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:f7a7ded5752ea89872fdba0625fce986f01430b08844a9fa04075bd4ad371e0f"
+      "content_hash": "sha256:21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7",
+      "role": "layout"
     }
   },
   "parasitics": {
-    "r_count": 170,
+    "r_count": 172,
     "c_count": 33,
-    "cc_count": 189,
+    "cc_count": 194,
     "l_count": 0,
-    "total_resistance_ohm": 1435.3085,
-    "total_capacitance_ff": 343.426846,
-    "total_coupling_capacitance_ff": 2.522517,
+    "total_resistance_ohm": 23625.3932,
+    "total_capacitance_ff": 4272.13855,
+    "total_coupling_capacitance_ff": 2.697975,
     "total_inductance_nh": 0.0,
     "nets": [
       {
         "net": "B0",
-        "net_id": 13,
-        "resistance_ohm": 6.8537,
-        "capacitance_ff": 1.859623,
+        "net_id": 19,
+        "resistance_ohm": 25.8031,
+        "capacitance_ff": 6.803719,
         "by_layer": [
           {
             "layer": "metal0",
@@ -1665,8 +1704,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 6.6557,
-            "capacitance_ff": 1.752972
+            "resistance_ohm": 25.6051,
+            "capacitance_ff": 6.697068
           },
           {
             "layer": "metal2",
@@ -1684,7 +1723,7 @@
             "device": "$21",
             "terminal": "G",
             "leg_net": "B0__t0",
-            "resistance_ohm": 6.8537
+            "resistance_ohm": 25.8031
           }
         ],
         "segments": [],
@@ -1701,7 +1740,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1712,7 +1751,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1726,9 +1765,9 @@
       },
       {
         "net": "B1",
-        "net_id": 12,
-        "resistance_ohm": 7.0297,
-        "capacitance_ff": 1.903907,
+        "net_id": 18,
+        "resistance_ohm": 25.9791,
+        "capacitance_ff": 6.848004,
         "by_layer": [
           {
             "layer": "metal0",
@@ -1737,8 +1776,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 6.8317,
-            "capacitance_ff": 1.797256
+            "resistance_ohm": 25.7811,
+            "capacitance_ff": 6.741352
           },
           {
             "layer": "metal2",
@@ -1756,7 +1795,7 @@
             "device": "$20",
             "terminal": "G",
             "leg_net": "B1__t0",
-            "resistance_ohm": 7.0297
+            "resistance_ohm": 25.9791
           }
         ],
         "segments": [],
@@ -1773,7 +1812,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1784,7 +1823,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1795,7 +1834,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb1",
+            "net": "XBIAS_nb1",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1809,9 +1848,9 @@
       },
       {
         "net": "CLK",
-        "net_id": 28,
-        "resistance_ohm": 41.1998,
-        "capacitance_ff": 9.328074,
+        "net_id": 26,
+        "resistance_ohm": 79.0959,
+        "capacitance_ff": 19.214631,
         "by_layer": [
           {
             "layer": "metal0",
@@ -1820,8 +1859,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 7.8468,
-            "capacitance_ff": 2.031793
+            "resistance_ohm": 45.7429,
+            "capacitance_ff": 11.91835
           },
           {
             "layer": "metal2",
@@ -1836,16 +1875,16 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$28",
-            "terminal": "D",
-            "leg_net": "CLK__t0",
-            "resistance_ohm": 20.5999
-          },
-          {
             "device": "$7",
             "terminal": "D",
+            "leg_net": "CLK__t0",
+            "resistance_ohm": 39.548
+          },
+          {
+            "device": "$28",
+            "terminal": "D",
             "leg_net": "CLK__t1",
-            "resistance_ohm": 20.5999
+            "resistance_ohm": 39.548
           }
         ],
         "segments": [],
@@ -1878,7 +1917,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.011294,
+            "capacitance_ff": 0.017344,
             "levels": [
               [
                 0,
@@ -1892,7 +1931,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1903,7 +1942,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1914,7 +1953,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1925,7 +1964,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1936,7 +1975,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1947,7 +1986,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1958,7 +1997,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1969,7 +2008,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1980,7 +2019,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -1991,7 +2030,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -2028,23 +2067,28 @@
       {
         "net": "GND_VCO",
         "net_id": 34,
-        "resistance_ohm": 216.5305,
-        "capacitance_ff": 54.202795,
+        "resistance_ohm": 10393.2998,
+        "capacitance_ff": 1779.050315,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 42.4376,
-            "capacitance_ff": 14.791405
+            "resistance_ohm": 2914.6252,
+            "capacitance_ff": 505.346479
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 37.951,
-            "capacitance_ff": 9.391163
+            "resistance_ohm": 2711.7778,
+            "capacitance_ff": 538.683759
           },
           {
             "layer": "metal2",
-            "resistance_ohm": 136.1419,
-            "capacitance_ff": 30.020227
+            "resistance_ohm": 2442.846,
+            "capacitance_ff": 392.794191
+          },
+          {
+            "layer": "metal3",
+            "resistance_ohm": 2324.0508,
+            "capacitance_ff": 342.225886
           }
         ],
         "resistance_ohm_top_cell": null,
@@ -2054,256 +2098,262 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$39",
-            "terminal": "B",
-            "leg_net": "GND_VCO__t0",
-            "resistance_ohm": 5.3666
-          },
-          {
             "device": "$40",
             "terminal": "B",
+            "leg_net": "GND_VCO__t0",
+            "resistance_ohm": 256.2003
+          },
+          {
+            "device": "$41",
+            "terminal": "B",
             "leg_net": "GND_VCO__t1",
-            "resistance_ohm": 7.7491
+            "resistance_ohm": 365.5457
           },
           {
             "device": "$1",
             "terminal": "S",
             "leg_net": "GND_VCO__t2",
-            "resistance_ohm": 6.6263
+            "resistance_ohm": 294.2056
           },
           {
             "device": "$13",
             "terminal": "S",
             "leg_net": "GND_VCO__t3",
-            "resistance_ohm": 1.3147
+            "resistance_ohm": 70.2434
+          },
+          {
+            "device": "$39",
+            "terminal": "B",
+            "leg_net": "GND_VCO__t4",
+            "resistance_ohm": 416.0884
           },
           {
             "device": "$18",
             "terminal": "S",
-            "leg_net": "GND_VCO__t4",
-            "resistance_ohm": 2.7557
+            "leg_net": "GND_VCO__t5",
+            "resistance_ohm": 136.3807
           },
           {
             "device": "$17",
             "terminal": "S",
-            "leg_net": "GND_VCO__t5",
-            "resistance_ohm": 2.6232
+            "leg_net": "GND_VCO__t6",
+            "resistance_ohm": 130.2955
           },
           {
             "device": "$7",
             "terminal": "S",
-            "leg_net": "GND_VCO__t6",
-            "resistance_ohm": 5.4289
+            "leg_net": "GND_VCO__t7",
+            "resistance_ohm": 239.2533
           },
           {
             "device": "$6",
             "terminal": "S",
-            "leg_net": "GND_VCO__t7",
-            "resistance_ohm": 5.6285
+            "leg_net": "GND_VCO__t8",
+            "resistance_ohm": 248.412
           },
           {
             "device": "$5",
             "terminal": "S",
-            "leg_net": "GND_VCO__t8",
-            "resistance_ohm": 5.8281
+            "leg_net": "GND_VCO__t9",
+            "resistance_ohm": 257.5707
           },
           {
             "device": "$4",
             "terminal": "S",
-            "leg_net": "GND_VCO__t9",
-            "resistance_ohm": 6.0276
+            "leg_net": "GND_VCO__t10",
+            "resistance_ohm": 266.7294
           },
           {
             "device": "$3",
             "terminal": "S",
-            "leg_net": "GND_VCO__t10",
-            "resistance_ohm": 6.2272
+            "leg_net": "GND_VCO__t11",
+            "resistance_ohm": 275.8882
           },
           {
             "device": "$2",
             "terminal": "S",
-            "leg_net": "GND_VCO__t11",
-            "resistance_ohm": 6.4267
+            "leg_net": "GND_VCO__t12",
+            "resistance_ohm": 285.0469
+          },
+          {
+            "device": "$44",
+            "terminal": "B",
+            "leg_net": "GND_VCO__t13",
+            "resistance_ohm": 367.3864
           },
           {
             "device": "$43",
             "terminal": "B",
-            "leg_net": "GND_VCO__t12",
-            "resistance_ohm": 7.7891
+            "leg_net": "GND_VCO__t14",
+            "resistance_ohm": 366.4532
           },
           {
             "device": "$42",
             "terminal": "B",
-            "leg_net": "GND_VCO__t13",
-            "resistance_ohm": 7.7688
-          },
-          {
-            "device": "$41",
-            "terminal": "B",
-            "leg_net": "GND_VCO__t14",
-            "resistance_ohm": 5.3861
-          },
-          {
-            "device": "$39",
-            "terminal": "W",
             "leg_net": "GND_VCO__t15",
-            "resistance_ohm": 5.3666
-          },
-          {
-            "device": "$41",
-            "terminal": "W",
-            "leg_net": "GND_VCO__t16",
-            "resistance_ohm": 5.3861
+            "resistance_ohm": 257.1016
           },
           {
             "device": "$40",
             "terminal": "W",
-            "leg_net": "GND_VCO__t17",
-            "resistance_ohm": 7.7491
+            "leg_net": "GND_VCO__t16",
+            "resistance_ohm": 256.2003
           },
           {
             "device": "$42",
             "terminal": "W",
+            "leg_net": "GND_VCO__t17",
+            "resistance_ohm": 257.1016
+          },
+          {
+            "device": "$41",
+            "terminal": "W",
             "leg_net": "GND_VCO__t18",
-            "resistance_ohm": 7.7688
+            "resistance_ohm": 365.5457
           },
           {
             "device": "$43",
             "terminal": "W",
             "leg_net": "GND_VCO__t19",
-            "resistance_ohm": 7.7891
+            "resistance_ohm": 366.4532
           },
           {
             "device": "$44",
             "terminal": "W",
             "leg_net": "GND_VCO__t20",
-            "resistance_ohm": 3.9405
+            "resistance_ohm": 367.3864
+          },
+          {
+            "device": "$45",
+            "terminal": "W",
+            "leg_net": "GND_VCO__t21",
+            "resistance_ohm": 190.751
           },
           {
             "device": "$1",
             "terminal": "B",
-            "leg_net": "GND_VCO__t21",
-            "resistance_ohm": 6.6263
+            "leg_net": "GND_VCO__t22",
+            "resistance_ohm": 294.2056
           },
           {
             "device": "$2",
             "terminal": "B",
-            "leg_net": "GND_VCO__t22",
-            "resistance_ohm": 6.4267
+            "leg_net": "GND_VCO__t23",
+            "resistance_ohm": 285.0469
           },
           {
             "device": "$3",
             "terminal": "B",
-            "leg_net": "GND_VCO__t23",
-            "resistance_ohm": 6.2272
+            "leg_net": "GND_VCO__t24",
+            "resistance_ohm": 275.8882
           },
           {
             "device": "$4",
             "terminal": "B",
-            "leg_net": "GND_VCO__t24",
-            "resistance_ohm": 6.0276
+            "leg_net": "GND_VCO__t25",
+            "resistance_ohm": 266.7294
           },
           {
             "device": "$5",
             "terminal": "B",
-            "leg_net": "GND_VCO__t25",
-            "resistance_ohm": 5.8281
+            "leg_net": "GND_VCO__t26",
+            "resistance_ohm": 257.5707
           },
           {
             "device": "$6",
             "terminal": "B",
-            "leg_net": "GND_VCO__t26",
-            "resistance_ohm": 5.6285
+            "leg_net": "GND_VCO__t27",
+            "resistance_ohm": 248.412
           },
           {
             "device": "$7",
             "terminal": "B",
-            "leg_net": "GND_VCO__t27",
-            "resistance_ohm": 5.4289
+            "leg_net": "GND_VCO__t28",
+            "resistance_ohm": 239.2533
           },
           {
             "device": "$8",
             "terminal": "B",
-            "leg_net": "GND_VCO__t28",
-            "resistance_ohm": 5.0405
+            "leg_net": "GND_VCO__t29",
+            "resistance_ohm": 221.4273
           },
           {
             "device": "$9",
             "terminal": "B",
-            "leg_net": "GND_VCO__t29",
-            "resistance_ohm": 4.9079
+            "leg_net": "GND_VCO__t30",
+            "resistance_ohm": 215.342
           },
           {
             "device": "$10",
             "terminal": "B",
-            "leg_net": "GND_VCO__t30",
-            "resistance_ohm": 4.7753
+            "leg_net": "GND_VCO__t31",
+            "resistance_ohm": 209.2566
           },
           {
             "device": "$11",
             "terminal": "B",
-            "leg_net": "GND_VCO__t31",
-            "resistance_ohm": 4.6428
+            "leg_net": "GND_VCO__t32",
+            "resistance_ohm": 203.1713
           },
           {
             "device": "$12",
             "terminal": "B",
-            "leg_net": "GND_VCO__t32",
-            "resistance_ohm": 4.5102
+            "leg_net": "GND_VCO__t33",
+            "resistance_ohm": 197.086
           },
           {
             "device": "$13",
             "terminal": "B",
-            "leg_net": "GND_VCO__t33",
-            "resistance_ohm": 1.3147
+            "leg_net": "GND_VCO__t34",
+            "resistance_ohm": 70.2434
           },
           {
             "device": "$14",
             "terminal": "B",
-            "leg_net": "GND_VCO__t34",
-            "resistance_ohm": 1.5142
+            "leg_net": "GND_VCO__t35",
+            "resistance_ohm": 79.4016
           },
           {
             "device": "$15",
             "terminal": "B",
-            "leg_net": "GND_VCO__t35",
-            "resistance_ohm": 1.7138
+            "leg_net": "GND_VCO__t36",
+            "resistance_ohm": 88.5599
           },
           {
             "device": "$16",
             "terminal": "B",
-            "leg_net": "GND_VCO__t36",
-            "resistance_ohm": 2.4906
+            "leg_net": "GND_VCO__t37",
+            "resistance_ohm": 124.2103
           },
           {
             "device": "$17",
             "terminal": "B",
-            "leg_net": "GND_VCO__t37",
-            "resistance_ohm": 2.6232
+            "leg_net": "GND_VCO__t38",
+            "resistance_ohm": 130.2955
           },
           {
             "device": "$18",
             "terminal": "B",
-            "leg_net": "GND_VCO__t38",
-            "resistance_ohm": 2.7557
+            "leg_net": "GND_VCO__t39",
+            "resistance_ohm": 136.3807
           },
           {
             "device": "$19",
             "terminal": "B",
-            "leg_net": "GND_VCO__t39",
-            "resistance_ohm": 4.4687
+            "leg_net": "GND_VCO__t40",
+            "resistance_ohm": 214.9974
           },
           {
             "device": "$20",
             "terminal": "B",
-            "leg_net": "GND_VCO__t40",
-            "resistance_ohm": 6.2165
+            "leg_net": "GND_VCO__t41",
+            "resistance_ohm": 295.2118
           },
           {
             "device": "$21",
             "terminal": "B",
-            "leg_net": "GND_VCO__t41",
-            "resistance_ohm": 6.4161
+            "leg_net": "GND_VCO__t42",
+            "resistance_ohm": 304.3705
           }
         ],
         "segments": [],
@@ -2394,7 +2444,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.024201,
             "levels": [
               [
@@ -2405,7 +2455,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2416,7 +2466,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.024201,
             "levels": [
               [
@@ -2427,7 +2477,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.n2s",
+            "net": "XBIAS_n2s",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2438,7 +2488,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb0",
+            "net": "XBIAS_nb0",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2449,7 +2499,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb1",
+            "net": "XBIAS_nb1",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2460,7 +2510,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb1",
+            "net": "XBIAS_vb1",
             "capacitance_ff": 0.035495,
             "levels": [
               [
@@ -2475,7 +2525,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb2",
+            "net": "XBIAS_vb2",
             "capacitance_ff": 0.030251,
             "levels": [
               [
@@ -2486,7 +2536,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vfixmid",
+            "net": "XBIAS_vfixmid",
             "capacitance_ff": 0.023394,
             "levels": [
               [
@@ -2501,7 +2551,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2512,7 +2562,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2527,7 +2577,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2538,7 +2588,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2553,7 +2603,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2564,7 +2614,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2579,7 +2629,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2590,7 +2640,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2605,7 +2655,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2616,7 +2666,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -2705,8 +2755,8 @@
       {
         "net": "VBN",
         "net_id": 9,
-        "resistance_ohm": 94.3831,
-        "capacitance_ff": 21.042965,
+        "resistance_ohm": 245.9466,
+        "capacitance_ff": 60.587555,
         "by_layer": [
           {
             "layer": "metal0",
@@ -2715,8 +2765,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 15.5896,
-            "capacitance_ff": 3.88484
+            "resistance_ohm": 167.1531,
+            "capacitance_ff": 43.429431
           },
           {
             "layer": "metal2",
@@ -2731,52 +2781,52 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$1",
-            "terminal": "G",
+            "device": "$13",
+            "terminal": "D",
             "leg_net": "VBN__t0",
-            "resistance_ohm": 10.8018
+            "resistance_ohm": 42.541
           },
           {
             "device": "$13",
             "terminal": "G",
             "leg_net": "VBN__t1",
-            "resistance_ohm": 16.3253
-          },
-          {
-            "device": "$13",
-            "terminal": "D",
-            "leg_net": "VBN__t2",
-            "resistance_ohm": 16.3253
+            "resistance_ohm": 42.541
           },
           {
             "device": "$35",
             "terminal": "D",
+            "leg_net": "VBN__t2",
+            "resistance_ohm": 37.8912
+          },
+          {
+            "device": "$1",
+            "terminal": "G",
             "leg_net": "VBN__t3",
-            "resistance_ohm": 14.5409
+            "resistance_ohm": 28.1476
           },
           {
             "device": "$5",
             "terminal": "G",
             "leg_net": "VBN__t4",
-            "resistance_ohm": 8.0749
+            "resistance_ohm": 21.0418
           },
           {
             "device": "$4",
             "terminal": "G",
             "leg_net": "VBN__t5",
-            "resistance_ohm": 8.7566
+            "resistance_ohm": 22.8182
           },
           {
             "device": "$3",
             "terminal": "G",
             "leg_net": "VBN__t6",
-            "resistance_ohm": 9.4383
+            "resistance_ohm": 24.5947
           },
           {
             "device": "$2",
             "terminal": "G",
             "leg_net": "VBN__t7",
-            "resistance_ohm": 10.12
+            "resistance_ohm": 26.3711
           }
         ],
         "segments": [],
@@ -2820,7 +2870,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.023394,
+            "capacitance_ff": 0.053646,
             "levels": [
               [
                 0,
@@ -2834,7 +2884,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2845,7 +2895,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2856,7 +2906,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2867,7 +2917,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2878,7 +2928,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2889,7 +2939,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2900,7 +2950,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2911,7 +2961,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2922,7 +2972,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -2933,7 +2983,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -3013,9 +3063,9 @@
       },
       {
         "net": "VBP",
-        "net_id": 11,
-        "resistance_ohm": 61.0956,
-        "capacitance_ff": 13.650923,
+        "net_id": 15,
+        "resistance_ohm": 250.5445,
+        "capacitance_ff": 63.091887,
         "by_layer": [
           {
             "layer": "metal0",
@@ -3024,8 +3074,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 17.5719,
-            "capacitance_ff": 4.339374
+            "resistance_ohm": 207.0208,
+            "capacitance_ff": 53.780338
           },
           {
             "layer": "metal2",
@@ -3043,61 +3093,61 @@
             "device": "$34",
             "terminal": "D",
             "leg_net": "VBP__t0",
-            "resistance_ohm": 2.6208
+            "resistance_ohm": 10.7476
           },
           {
             "device": "$34",
             "terminal": "G",
             "leg_net": "VBP__t1",
-            "resistance_ohm": 2.6208
+            "resistance_ohm": 10.7476
           },
           {
             "device": "$14",
             "terminal": "D",
             "leg_net": "VBP__t2",
-            "resistance_ohm": 9.503
+            "resistance_ohm": 38.9706
           },
           {
             "device": "$15",
             "terminal": "D",
             "leg_net": "VBP__t3",
-            "resistance_ohm": 10.7267
+            "resistance_ohm": 43.9888
           },
           {
             "device": "$35",
             "terminal": "G",
             "leg_net": "VBP__t4",
-            "resistance_ohm": 5.0764
+            "resistance_ohm": 20.8175
           },
           {
             "device": "$33",
             "terminal": "G",
             "leg_net": "VBP__t5",
-            "resistance_ohm": 1.1985
+            "resistance_ohm": 4.9149
           },
           {
             "device": "$32",
             "terminal": "G",
             "leg_net": "VBP__t6",
-            "resistance_ohm": 3.6539
+            "resistance_ohm": 14.9843
           },
           {
             "device": "$31",
             "terminal": "G",
             "leg_net": "VBP__t7",
-            "resistance_ohm": 6.1095
+            "resistance_ohm": 25.0543
           },
           {
             "device": "$30",
             "terminal": "G",
             "leg_net": "VBP__t8",
-            "resistance_ohm": 8.5651
+            "resistance_ohm": 35.1244
           },
           {
             "device": "$29",
             "terminal": "G",
             "leg_net": "VBP__t9",
-            "resistance_ohm": 11.0207
+            "resistance_ohm": 45.1945
           }
         ],
         "segments": [],
@@ -3151,7 +3201,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3162,7 +3212,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -3177,7 +3227,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -3192,7 +3242,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3203,7 +3253,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3214,7 +3264,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3225,7 +3275,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3236,7 +3286,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3250,9 +3300,9 @@
       },
       {
         "net": "VCTRL",
-        "net_id": 18,
-        "resistance_ohm": 7.1031,
-        "capacitance_ff": 1.924677,
+        "net_id": 16,
+        "resistance_ohm": 26.0524,
+        "capacitance_ff": 6.868773,
         "by_layer": [
           {
             "layer": "metal0",
@@ -3261,8 +3311,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 6.9051,
-            "capacitance_ff": 1.818026
+            "resistance_ohm": 25.8544,
+            "capacitance_ff": 6.762122
           },
           {
             "layer": "metal2",
@@ -3280,7 +3330,7 @@
             "device": "$14",
             "terminal": "G",
             "leg_net": "VCTRL__t0",
-            "resistance_ohm": 7.1031
+            "resistance_ohm": 26.0524
           }
         ],
         "segments": [],
@@ -3322,24 +3372,29 @@
       },
       {
         "net": "VDD_VCO",
-        "net_id": 2,
-        "resistance_ohm": 182.4283,
-        "capacitance_ff": 49.55216,
+        "net_id": 1,
+        "resistance_ohm": 10338.925,
+        "capacitance_ff": 1768.942346,
         "by_layer": [
           {
             "layer": "metal0",
-            "resistance_ohm": 76.2006,
-            "capacitance_ff": 25.12682
+            "resistance_ohm": 2934.4394,
+            "capacitance_ff": 515.681894
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 35.8688,
-            "capacitance_ff": 8.895396
+            "resistance_ohm": 2658.0452,
+            "capacitance_ff": 523.401623
           },
           {
             "layer": "metal2",
-            "resistance_ohm": 70.3589,
-            "capacitance_ff": 15.529944
+            "resistance_ohm": 2422.3896,
+            "capacitance_ff": 387.632943
+          },
+          {
+            "layer": "metal3",
+            "resistance_ohm": 2324.0508,
+            "capacitance_ff": 342.225886
           }
         ],
         "resistance_ohm_top_cell": null,
@@ -3349,191 +3404,197 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$44",
+            "device": "$45",
             "terminal": "A",
             "leg_net": "VDD_VCO__t0",
-            "resistance_ohm": 13.6315
+            "resistance_ohm": 725.1017
           },
           {
             "device": "$22",
             "terminal": "B",
             "leg_net": "VDD_VCO__t1",
-            "resistance_ohm": 11.1673
+            "resistance_ohm": 514.4739
           },
           {
             "device": "$27",
             "terminal": "B",
             "leg_net": "VDD_VCO__t2",
-            "resistance_ohm": 6.6324
+            "resistance_ohm": 287.7961
           },
           {
             "device": "$27",
             "terminal": "S",
             "leg_net": "VDD_VCO__t3",
-            "resistance_ohm": 6.6324
+            "resistance_ohm": 287.7961
           },
           {
             "device": "$34",
             "terminal": "B",
             "leg_net": "VDD_VCO__t4",
-            "resistance_ohm": 2.6933
+            "resistance_ohm": 178.3657
           },
           {
             "device": "$34",
             "terminal": "S",
             "leg_net": "VDD_VCO__t5",
-            "resistance_ohm": 2.6933
+            "resistance_ohm": 178.3657
           },
           {
             "device": "$36",
             "terminal": "B",
             "leg_net": "VDD_VCO__t6",
-            "resistance_ohm": 8.0165
+            "resistance_ohm": 444.4513
           },
           {
             "device": "$36",
             "terminal": "S",
             "leg_net": "VDD_VCO__t7",
-            "resistance_ohm": 8.0165
+            "resistance_ohm": 444.4513
           },
           {
             "device": "$37",
             "terminal": "B",
             "leg_net": "VDD_VCO__t8",
-            "resistance_ohm": 11.2798
+            "resistance_ohm": 607.5719
           },
           {
             "device": "$37",
             "terminal": "S",
             "leg_net": "VDD_VCO__t9",
-            "resistance_ohm": 11.2798
+            "resistance_ohm": 607.5719
           },
           {
-            "device": "$38",
-            "terminal": "S",
+            "device": "$39",
+            "terminal": "A",
             "leg_net": "VDD_VCO__t10",
-            "resistance_ohm": 12.1014
+            "resistance_ohm": 1312.1175
+          },
+          {
+            "device": "$38",
+            "terminal": "S",
+            "leg_net": "VDD_VCO__t11",
+            "resistance_ohm": 648.6359
           },
           {
             "device": "$38",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t11",
-            "resistance_ohm": 12.1014
+            "leg_net": "VDD_VCO__t12",
+            "resistance_ohm": 648.6359
           },
           {
             "device": "$35",
             "terminal": "S",
-            "leg_net": "VDD_VCO__t12",
-            "resistance_ohm": 3.9276
+            "leg_net": "VDD_VCO__t13",
+            "resistance_ohm": 240.0625
           },
           {
             "device": "$35",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t13",
-            "resistance_ohm": 3.9276
+            "leg_net": "VDD_VCO__t14",
+            "resistance_ohm": 240.0625
           },
           {
             "device": "$33",
-            "terminal": "S",
-            "leg_net": "VDD_VCO__t14",
-            "resistance_ohm": 0.7736
-          },
-          {
-            "device": "$32",
             "terminal": "S",
             "leg_net": "VDD_VCO__t15",
-            "resistance_ohm": 0.4608
+            "resistance_ohm": 82.4037
+          },
+          {
+            "device": "$32",
+            "terminal": "S",
+            "leg_net": "VDD_VCO__t16",
+            "resistance_ohm": 20.7116
           },
           {
             "device": "$31",
             "terminal": "S",
-            "leg_net": "VDD_VCO__t16",
-            "resistance_ohm": 1.6951
+            "leg_net": "VDD_VCO__t17",
+            "resistance_ohm": 41.0025
           },
           {
             "device": "$30",
             "terminal": "S",
-            "leg_net": "VDD_VCO__t17",
-            "resistance_ohm": 2.9294
+            "leg_net": "VDD_VCO__t18",
+            "resistance_ohm": 102.699
           },
           {
             "device": "$29",
             "terminal": "S",
-            "leg_net": "VDD_VCO__t18",
-            "resistance_ohm": 4.1638
+            "leg_net": "VDD_VCO__t19",
+            "resistance_ohm": 164.3978
           },
           {
             "device": "$28",
             "terminal": "S",
-            "leg_net": "VDD_VCO__t19",
-            "resistance_ohm": 5.3981
+            "leg_net": "VDD_VCO__t20",
+            "resistance_ohm": 226.0969
           },
           {
             "device": "$33",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t20",
-            "resistance_ohm": 0.7736
+            "leg_net": "VDD_VCO__t21",
+            "resistance_ohm": 82.4037
           },
           {
             "device": "$32",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t21",
-            "resistance_ohm": 0.4608
+            "leg_net": "VDD_VCO__t22",
+            "resistance_ohm": 20.7116
           },
           {
             "device": "$31",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t22",
-            "resistance_ohm": 1.6951
+            "leg_net": "VDD_VCO__t23",
+            "resistance_ohm": 41.0025
           },
           {
             "device": "$30",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t23",
-            "resistance_ohm": 2.9294
+            "leg_net": "VDD_VCO__t24",
+            "resistance_ohm": 102.699
           },
           {
             "device": "$29",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t24",
-            "resistance_ohm": 4.1638
+            "leg_net": "VDD_VCO__t25",
+            "resistance_ohm": 164.3978
           },
           {
             "device": "$28",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t25",
-            "resistance_ohm": 5.3981
+            "leg_net": "VDD_VCO__t26",
+            "resistance_ohm": 226.0969
           },
           {
             "device": "$24",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t26",
-            "resistance_ohm": 9.7306
+            "leg_net": "VDD_VCO__t27",
+            "resistance_ohm": 442.6631
           },
           {
             "device": "$25",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t27",
-            "resistance_ohm": 9.0123
+            "leg_net": "VDD_VCO__t28",
+            "resistance_ohm": 406.7578
           },
           {
             "device": "$23",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t28",
-            "resistance_ohm": 10.4489
+            "leg_net": "VDD_VCO__t29",
+            "resistance_ohm": 478.5685
           },
           {
             "device": "$26",
             "terminal": "B",
-            "leg_net": "VDD_VCO__t29",
-            "resistance_ohm": 8.294
+            "leg_net": "VDD_VCO__t30",
+            "resistance_ohm": 370.8524
           }
         ],
         "segments": [],
         "coupled": [
           {
             "net": "CLK",
-            "capacitance_ff": 0.011294,
+            "capacitance_ff": 0.017344,
             "levels": [
               [
                 0,
@@ -3559,7 +3620,7 @@
           },
           {
             "net": "VBN",
-            "capacitance_ff": 0.023394,
+            "capacitance_ff": 0.053646,
             "levels": [
               [
                 0,
@@ -3599,7 +3660,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.029445,
             "levels": [
               [
@@ -3614,7 +3675,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3625,7 +3686,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3636,7 +3697,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb1",
+            "net": "XBIAS_vb1",
             "capacitance_ff": 0.035495,
             "levels": [
               [
@@ -3651,7 +3712,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb2",
+            "net": "XBIAS_vb2",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3666,7 +3727,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vfixmid",
+            "net": "XBIAS_vfixmid",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -3677,7 +3738,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3692,7 +3753,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS1_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS2_nh",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3707,7 +3779,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS2_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS3_nh",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3722,7 +3805,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS3_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS4_nh",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -3737,13 +3831,35 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS4_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS5_nh",
             "capacitance_ff": 0.017344,
             "levels": [
               [
                 0,
                 1
               ],
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS5_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
               [
                 1,
                 2
@@ -3753,7 +3869,7 @@
           },
           {
             "net": "bufmid",
-            "capacitance_ff": 0.017344,
+            "capacitance_ff": 0.029445,
             "levels": [
               [
                 0,
@@ -3768,7 +3884,7 @@
           },
           {
             "net": "ring1",
-            "capacitance_ff": 0.018151,
+            "capacitance_ff": 0.036302,
             "levels": [
               [
                 1,
@@ -3779,7 +3895,7 @@
           },
           {
             "net": "ring2",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -3790,7 +3906,7 @@
           },
           {
             "net": "ring3",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -3801,7 +3917,7 @@
           },
           {
             "net": "ring4",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -3812,7 +3928,7 @@
           },
           {
             "net": "ring5",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -3824,10 +3940,10 @@
         ]
       },
       {
-        "net": "XBIAS.VFIX",
-        "net_id": 19,
-        "resistance_ohm": 20.948,
-        "capacitance_ff": 4.878426,
+        "net": "XBIAS_VFIX",
+        "net_id": 32,
+        "resistance_ohm": 96.7345,
+        "capacitance_ff": 24.654812,
         "by_layer": [
           {
             "layer": "metal0",
@@ -3836,8 +3952,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 10.1087,
-            "capacitance_ff": 2.562201
+            "resistance_ohm": 85.8952,
+            "capacitance_ff": 22.338586
           },
           {
             "layer": "metal2",
@@ -3848,32 +3964,32 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.VFIX",
+        "hub_net": "XBIAS_VFIX",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$36",
             "terminal": "D",
-            "leg_net": "XBIAS.VFIX__t0",
-            "resistance_ohm": 1.5421
+            "leg_net": "XBIAS_VFIX__t0",
+            "resistance_ohm": 7.1211
           },
           {
             "device": "$15",
             "terminal": "G",
-            "leg_net": "XBIAS.VFIX__t1",
-            "resistance_ohm": 8.9319
+            "leg_net": "XBIAS_VFIX__t1",
+            "resistance_ohm": 41.2461
           },
           {
             "device": "$16",
             "terminal": "G",
-            "leg_net": "XBIAS.VFIX__t2",
-            "resistance_ohm": 5.237
+            "leg_net": "XBIAS_VFIX__t2",
+            "resistance_ohm": 24.1836
           },
           {
             "device": "$16",
             "terminal": "D",
-            "leg_net": "XBIAS.VFIX__t3",
-            "resistance_ohm": 5.237
+            "leg_net": "XBIAS_VFIX__t3",
+            "resistance_ohm": 24.1836
           }
         ],
         "segments": [],
@@ -3916,7 +4032,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -3927,7 +4043,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb1",
+            "net": "XBIAS_vb1",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -3938,7 +4054,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vfixmid",
+            "net": "XBIAS_vfixmid",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -3955,10 +4071,10 @@
         ]
       },
       {
-        "net": "XBIAS.dega",
+        "net": "XBIAS_dega",
         "net_id": 4,
-        "resistance_ohm": 56.0595,
-        "capacitance_ff": 12.821284,
+        "resistance_ohm": 93.9561,
+        "capacitance_ff": 22.709477,
         "by_layer": [
           {
             "layer": "metal0",
@@ -3967,8 +4083,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 9.3628,
-            "capacitance_ff": 2.426056
+            "resistance_ohm": 47.2594,
+            "capacitance_ff": 12.314249
           },
           {
             "layer": "metal2",
@@ -3979,20 +4095,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.dega",
+        "hub_net": "XBIAS_dega",
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$40",
+            "device": "$41",
             "terminal": "A",
-            "leg_net": "XBIAS.dega__t0",
-            "resistance_ohm": 28.0297
+            "leg_net": "XBIAS_dega__t0",
+            "resistance_ohm": 46.9781
           },
           {
             "device": "$15",
             "terminal": "S",
-            "leg_net": "XBIAS.dega__t1",
-            "resistance_ohm": 28.0297
+            "leg_net": "XBIAS_dega__t1",
+            "resistance_ohm": 46.9781
           }
         ],
         "segments": [],
@@ -4057,7 +4173,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -4068,7 +4184,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4079,7 +4195,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.n2s",
+            "net": "XBIAS_n2s",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4090,7 +4206,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb0",
+            "net": "XBIAS_nb0",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -4101,7 +4217,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb1",
+            "net": "XBIAS_nb1",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4114,10 +4230,10 @@
         ]
       },
       {
-        "net": "XBIAS.degb",
+        "net": "XBIAS_degb",
         "net_id": 3,
-        "resistance_ohm": 64.0831,
-        "capacitance_ff": 14.526772,
+        "resistance_ohm": 139.8712,
+        "capacitance_ff": 34.303157,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4126,8 +4242,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.6412,
-            "capacitance_ff": 2.970873
+            "resistance_ohm": 87.4293,
+            "capacitance_ff": 22.747258
           },
           {
             "layer": "metal2",
@@ -4138,32 +4254,32 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.degb",
+        "hub_net": "XBIAS_degb",
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$21",
-            "terminal": "D",
-            "leg_net": "XBIAS.degb__t0",
-            "resistance_ohm": 7.574
-          },
-          {
             "device": "$20",
             "terminal": "D",
-            "leg_net": "XBIAS.degb__t1",
-            "resistance_ohm": 5.9613
+            "leg_net": "XBIAS_degb__t0",
+            "resistance_ohm": 13.0113
+          },
+          {
+            "device": "$21",
+            "terminal": "D",
+            "leg_net": "XBIAS_degb__t1",
+            "resistance_ohm": 16.5314
           },
           {
             "device": "$14",
             "terminal": "S",
-            "leg_net": "XBIAS.degb__t2",
-            "resistance_ohm": 32.0415
+            "leg_net": "XBIAS_degb__t2",
+            "resistance_ohm": 69.9355
           },
           {
-            "device": "$42",
+            "device": "$43",
             "terminal": "A",
-            "leg_net": "XBIAS.degb__t3",
-            "resistance_ohm": 18.5063
+            "leg_net": "XBIAS_degb__t3",
+            "resistance_ohm": 40.3929
           }
         ],
         "segments": [],
@@ -4228,7 +4344,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4239,7 +4355,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.n2s",
+            "net": "XBIAS_n2s",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4250,7 +4366,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb0",
+            "net": "XBIAS_nb0",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -4265,7 +4381,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.nb1",
+            "net": "XBIAS_nb1",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -4280,7 +4396,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vfixmid",
+            "net": "XBIAS_vfixmid",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -4293,10 +4409,10 @@
         ]
       },
       {
-        "net": "XBIAS.n2s",
+        "net": "XBIAS_n2s",
         "net_id": 6,
-        "resistance_ohm": 18.0806,
-        "capacitance_ff": 4.41638,
+        "resistance_ohm": 55.9773,
+        "capacitance_ff": 14.304573,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4305,8 +4421,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 9.7147,
-            "capacitance_ff": 2.517897
+            "resistance_ohm": 47.6114,
+            "capacitance_ff": 12.40609
           },
           {
             "layer": "metal2",
@@ -4317,20 +4433,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.n2s",
+        "hub_net": "XBIAS_n2s",
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$39",
+            "device": "$40",
             "terminal": "A",
-            "leg_net": "XBIAS.n2s__t0",
-            "resistance_ohm": 9.0403
+            "leg_net": "XBIAS_n2s__t0",
+            "resistance_ohm": 27.9886
           },
           {
             "device": "$19",
             "terminal": "S",
-            "leg_net": "XBIAS.n2s__t1",
-            "resistance_ohm": 9.0403
+            "leg_net": "XBIAS_n2s__t1",
+            "resistance_ohm": 27.9886
           }
         ],
         "segments": [],
@@ -4347,7 +4463,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4358,7 +4474,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4369,7 +4485,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb2",
+            "net": "XBIAS_vb2",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -4386,10 +4502,10 @@
         ]
       },
       {
-        "net": "XBIAS.nb0",
+        "net": "XBIAS_nb0",
         "net_id": 8,
-        "resistance_ohm": 14.7466,
-        "capacitance_ff": 3.67292,
+        "resistance_ohm": 52.643,
+        "capacitance_ff": 13.561113,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4398,8 +4514,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 8.8936,
-            "capacitance_ff": 2.30851
+            "resistance_ohm": 46.7901,
+            "capacitance_ff": 12.196703
           },
           {
             "layer": "metal2",
@@ -4410,20 +4526,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.nb0",
+        "hub_net": "XBIAS_nb0",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$21",
             "terminal": "S",
-            "leg_net": "XBIAS.nb0__t0",
-            "resistance_ohm": 7.3733
+            "leg_net": "XBIAS_nb0__t0",
+            "resistance_ohm": 26.3215
           },
           {
-            "device": "$43",
+            "device": "$44",
             "terminal": "A",
-            "leg_net": "XBIAS.nb0__t1",
-            "resistance_ohm": 7.3733
+            "leg_net": "XBIAS_nb0__t1",
+            "resistance_ohm": 26.3215
           }
         ],
         "segments": [],
@@ -4440,7 +4556,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -4451,7 +4567,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -4468,10 +4584,10 @@
         ]
       },
       {
-        "net": "XBIAS.nb1",
+        "net": "XBIAS_nb1",
         "net_id": 7,
-        "resistance_ohm": 23.3703,
-        "capacitance_ff": 5.614176,
+        "resistance_ohm": 61.267,
+        "capacitance_ff": 15.502369,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4480,8 +4596,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 9.832,
-            "capacitance_ff": 2.550147
+            "resistance_ohm": 47.7288,
+            "capacitance_ff": 12.43834
           },
           {
             "layer": "metal2",
@@ -4492,20 +4608,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.nb1",
+        "hub_net": "XBIAS_nb1",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$20",
             "terminal": "S",
-            "leg_net": "XBIAS.nb1__t0",
-            "resistance_ohm": 11.6851
+            "leg_net": "XBIAS_nb1__t0",
+            "resistance_ohm": 30.6335
           },
           {
-            "device": "$41",
+            "device": "$42",
             "terminal": "A",
-            "leg_net": "XBIAS.nb1__t1",
-            "resistance_ohm": 11.6852
+            "leg_net": "XBIAS_nb1__t1",
+            "resistance_ohm": 30.6335
           }
         ],
         "segments": [],
@@ -4533,7 +4649,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.dega",
+            "net": "XBIAS_dega",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -4544,7 +4660,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.017344,
             "levels": [
               [
@@ -4561,10 +4677,10 @@
         ]
       },
       {
-        "net": "XBIAS.vb1",
-        "net_id": 20,
-        "resistance_ohm": 27.1952,
-        "capacitance_ff": 6.229956,
+        "net": "XBIAS_vb1",
+        "net_id": 17,
+        "resistance_ohm": 121.9256,
+        "capacitance_ff": 30.950438,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4573,8 +4689,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.0357,
-            "capacitance_ff": 2.781193
+            "resistance_ohm": 105.766,
+            "capacitance_ff": 27.501675
           },
           {
             "layer": "metal2",
@@ -4585,38 +4701,38 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.vb1",
+        "hub_net": "XBIAS_vb1",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$36",
             "terminal": "G",
-            "leg_net": "XBIAS.vb1__t0",
-            "resistance_ohm": 11.1504
-          },
-          {
-            "device": "$37",
-            "terminal": "D",
-            "leg_net": "XBIAS.vb1__t1",
-            "resistance_ohm": 3.3184
+            "leg_net": "XBIAS_vb1__t0",
+            "resistance_ohm": 49.9913
           },
           {
             "device": "$37",
             "terminal": "G",
-            "leg_net": "XBIAS.vb1__t2",
-            "resistance_ohm": 3.3184
+            "leg_net": "XBIAS_vb1__t1",
+            "resistance_ohm": 14.8776
           },
           {
             "device": "$38",
             "terminal": "G",
-            "leg_net": "XBIAS.vb1__t3",
-            "resistance_ohm": 6.9608
+            "leg_net": "XBIAS_vb1__t2",
+            "resistance_ohm": 31.2076
+          },
+          {
+            "device": "$37",
+            "terminal": "D",
+            "leg_net": "XBIAS_vb1__t3",
+            "resistance_ohm": 14.8776
           },
           {
             "device": "$18",
             "terminal": "D",
-            "leg_net": "XBIAS.vb1__t4",
-            "resistance_ohm": 2.4472
+            "leg_net": "XBIAS_vb1__t4",
+            "resistance_ohm": 10.9715
           }
         ],
         "segments": [],
@@ -4652,7 +4768,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -4663,7 +4779,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb2",
+            "net": "XBIAS_vb2",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -4674,7 +4790,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vfixmid",
+            "net": "XBIAS_vfixmid",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -4687,10 +4803,10 @@
         ]
       },
       {
-        "net": "XBIAS.vb2",
-        "net_id": 21,
-        "resistance_ohm": 34.8503,
-        "capacitance_ff": 8.009128,
+        "net": "XBIAS_vb2",
+        "net_id": 33,
+        "resistance_ohm": 129.5832,
+        "capacitance_ff": 32.72961,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4699,8 +4815,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 12.7667,
-            "capacitance_ff": 3.236782
+            "resistance_ohm": 107.4996,
+            "capacitance_ff": 27.957264
           },
           {
             "layer": "metal2",
@@ -4711,38 +4827,38 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.vb2",
+        "hub_net": "XBIAS_vb2",
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$44",
+            "device": "$45",
             "terminal": "B",
-            "leg_net": "XBIAS.vb2__t0",
-            "resistance_ohm": 1.7719
-          },
-          {
-            "device": "$19",
-            "terminal": "D",
-            "leg_net": "XBIAS.vb2__t1",
-            "resistance_ohm": 7.894
-          },
-          {
-            "device": "$19",
-            "terminal": "G",
-            "leg_net": "XBIAS.vb2__t2",
-            "resistance_ohm": 7.894
+            "leg_net": "XBIAS_vb2__t0",
+            "resistance_ohm": 6.5884
           },
           {
             "device": "$38",
             "terminal": "D",
-            "leg_net": "XBIAS.vb2__t3",
-            "resistance_ohm": 4.4901
+            "leg_net": "XBIAS_vb2__t1",
+            "resistance_ohm": 16.6953
+          },
+          {
+            "device": "$19",
+            "terminal": "D",
+            "leg_net": "XBIAS_vb2__t2",
+            "resistance_ohm": 29.3521
+          },
+          {
+            "device": "$19",
+            "terminal": "G",
+            "leg_net": "XBIAS_vb2__t3",
+            "resistance_ohm": 29.3521
           },
           {
             "device": "$18",
             "terminal": "G",
-            "leg_net": "XBIAS.vb2__t4",
-            "resistance_ohm": 12.8003
+            "leg_net": "XBIAS_vb2__t4",
+            "resistance_ohm": 47.5953
           }
         ],
         "segments": [],
@@ -4774,7 +4890,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.n2s",
+            "net": "XBIAS_n2s",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -4789,7 +4905,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb1",
+            "net": "XBIAS_vb1",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -4802,10 +4918,10 @@
         ]
       },
       {
-        "net": "XBIAS.vfixmid",
+        "net": "XBIAS_vfixmid",
         "net_id": 5,
-        "resistance_ohm": 15.3636,
-        "capacitance_ff": 3.759719,
+        "resistance_ohm": 72.207,
+        "capacitance_ff": 18.592009,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4814,8 +4930,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.5687,
-            "capacitance_ff": 2.966413
+            "resistance_ohm": 68.4121,
+            "capacitance_ff": 17.798702
           },
           {
             "layer": "metal2",
@@ -4826,26 +4942,26 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XBIAS.vfixmid",
+        "hub_net": "XBIAS_vfixmid",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$16",
             "terminal": "S",
-            "leg_net": "XBIAS.vfixmid__t0",
-            "resistance_ohm": 7.6818
+            "leg_net": "XBIAS_vfixmid__t0",
+            "resistance_ohm": 36.1035
           },
           {
             "device": "$17",
             "terminal": "D",
-            "leg_net": "XBIAS.vfixmid__t1",
-            "resistance_ohm": 3.8409
+            "leg_net": "XBIAS_vfixmid__t1",
+            "resistance_ohm": 18.0517
           },
           {
             "device": "$17",
             "terminal": "G",
-            "leg_net": "XBIAS.vfixmid__t2",
-            "resistance_ohm": 3.8409
+            "leg_net": "XBIAS_vfixmid__t2",
+            "resistance_ohm": 18.0517
           }
         ],
         "segments": [],
@@ -4877,7 +4993,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.VFIX",
+            "net": "XBIAS_VFIX",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -4892,7 +5008,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.degb",
+            "net": "XBIAS_degb",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -4903,7 +5019,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XBIAS.vb1",
+            "net": "XBIAS_vb1",
             "capacitance_ff": 0.018151,
             "levels": [
               [
@@ -4916,10 +5032,10 @@
         ]
       },
       {
-        "net": "XS1.nh",
-        "net_id": 32,
-        "resistance_ohm": 38.2778,
-        "capacitance_ff": 8.761933,
+        "net": "XS1_nh",
+        "net_id": 30,
+        "resistance_ohm": 76.1746,
+        "capacitance_ff": 18.650126,
         "by_layer": [
           {
             "layer": "metal0",
@@ -4928,8 +5044,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 9.9112,
-            "capacitance_ff": 2.564266
+            "resistance_ohm": 47.808,
+            "capacitance_ff": 12.452459
           },
           {
             "layer": "metal2",
@@ -4940,20 +5056,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS1.nh",
+        "hub_net": "XS1_nh",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$32",
             "terminal": "D",
-            "leg_net": "XS1.nh__t0",
-            "resistance_ohm": 19.1389
+            "leg_net": "XS1_nh__t0",
+            "resistance_ohm": 38.0873
           },
           {
             "device": "$26",
             "terminal": "S",
-            "leg_net": "XS1.nh__t1",
-            "resistance_ohm": 19.1389
+            "leg_net": "XS1_nh__t1",
+            "resistance_ohm": 38.0873
           }
         ],
         "segments": [],
@@ -5018,7 +5134,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5029,7 +5145,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5040,7 +5156,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5079,10 +5195,10 @@
         ]
       },
       {
-        "net": "XS1.nt",
-        "net_id": 22,
-        "resistance_ohm": 31.7803,
-        "capacitance_ff": 7.378935,
+        "net": "XS1_nt",
+        "net_id": 20,
+        "resistance_ohm": 69.6771,
+        "capacitance_ff": 17.263855,
         "by_layer": [
           {
             "layer": "metal0",
@@ -5091,8 +5207,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 10.2631,
-            "capacitance_ff": 2.654471
+            "resistance_ohm": 48.16,
+            "capacitance_ff": 12.539391
           },
           {
             "layer": "metal2",
@@ -5103,20 +5219,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS1.nt",
+        "hub_net": "XS1_nt",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$1",
             "terminal": "D",
-            "leg_net": "XS1.nt__t0",
-            "resistance_ohm": 15.8901
+            "leg_net": "XS1_nt__t0",
+            "resistance_ohm": 34.8386
           },
           {
             "device": "$12",
             "terminal": "S",
-            "leg_net": "XS1.nt__t1",
-            "resistance_ohm": 15.8902
+            "leg_net": "XS1_nt__t1",
+            "resistance_ohm": 34.8385
           }
         ],
         "segments": [],
@@ -5159,7 +5275,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "VDD_VCO",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5170,7 +5286,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5181,7 +5297,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5192,7 +5308,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS4_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS5_nt",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5275,10 +5402,10 @@
         ]
       },
       {
-        "net": "XS2.nh",
-        "net_id": 33,
-        "resistance_ohm": 50.6563,
-        "capacitance_ff": 11.519337,
+        "net": "XS2_nh",
+        "net_id": 31,
+        "resistance_ohm": 88.5532,
+        "capacitance_ff": 21.40753,
         "by_layer": [
           {
             "layer": "metal0",
@@ -5287,8 +5414,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 10.615,
-            "capacitance_ff": 2.741403
+            "resistance_ohm": 48.5119,
+            "capacitance_ff": 12.629596
           },
           {
             "layer": "metal2",
@@ -5299,20 +5426,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS2.nh",
+        "hub_net": "XS2_nh",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$22",
             "terminal": "S",
-            "leg_net": "XS2.nh__t0",
-            "resistance_ohm": 25.3282
+            "leg_net": "XS2_nh__t0",
+            "resistance_ohm": 44.2766
           },
           {
             "device": "$33",
             "terminal": "D",
-            "leg_net": "XS2.nh__t1",
-            "resistance_ohm": 25.3281
+            "leg_net": "XS2_nh__t1",
+            "resistance_ohm": 44.2766
           }
         ],
         "segments": [],
@@ -5377,7 +5504,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5388,7 +5515,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5399,7 +5526,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5482,10 +5609,10 @@
         ]
       },
       {
-        "net": "XS2.nt",
-        "net_id": 23,
-        "resistance_ohm": 26.0895,
-        "capacitance_ff": 6.1562,
+        "net": "XS2_nt",
+        "net_id": 21,
+        "resistance_ohm": 63.9864,
+        "capacitance_ff": 16.04112,
         "by_layer": [
           {
             "layer": "metal0",
@@ -5494,8 +5621,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 10.967,
-            "capacitance_ff": 2.841425
+            "resistance_ohm": 48.8639,
+            "capacitance_ff": 12.726345
           },
           {
             "layer": "metal2",
@@ -5506,20 +5633,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS2.nt",
+        "hub_net": "XS2_nt",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$8",
             "terminal": "S",
-            "leg_net": "XS2.nt__t0",
-            "resistance_ohm": 13.0448
+            "leg_net": "XS2_nt__t0",
+            "resistance_ohm": 31.9932
           },
           {
             "device": "$2",
             "terminal": "D",
-            "leg_net": "XS2.nt__t1",
-            "resistance_ohm": 13.0448
+            "leg_net": "XS2_nt__t1",
+            "resistance_ohm": 31.9932
           }
         ],
         "segments": [],
@@ -5562,7 +5689,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "VDD_VCO",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5573,7 +5700,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS1_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5584,7 +5722,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5595,7 +5733,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5641,10 +5779,10 @@
         ]
       },
       {
-        "net": "XS3.nh",
-        "net_id": 29,
-        "resistance_ohm": 35.2855,
-        "capacitance_ff": 8.146876,
+        "net": "XS3_nh",
+        "net_id": 27,
+        "resistance_ohm": 73.1825,
+        "capacitance_ff": 18.035068,
         "by_layer": [
           {
             "layer": "metal0",
@@ -5653,8 +5791,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.3189,
-            "capacitance_ff": 2.921812
+            "resistance_ohm": 49.2159,
+            "capacitance_ff": 12.810005
           },
           {
             "layer": "metal2",
@@ -5665,20 +5803,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS3.nh",
+        "hub_net": "XS3_nh",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$29",
             "terminal": "D",
-            "leg_net": "XS3.nh__t0",
-            "resistance_ohm": 17.6427
+            "leg_net": "XS3_nh__t0",
+            "resistance_ohm": 36.5913
           },
           {
             "device": "$23",
             "terminal": "S",
-            "leg_net": "XS3.nh__t1",
-            "resistance_ohm": 17.6427
+            "leg_net": "XS3_nh__t1",
+            "resistance_ohm": 36.5913
           }
         ],
         "segments": [],
@@ -5743,7 +5881,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5754,7 +5892,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5765,7 +5903,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5776,7 +5914,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5848,10 +5986,10 @@
         ]
       },
       {
-        "net": "XS3.nt",
-        "net_id": 24,
-        "resistance_ohm": 26.2067,
-        "capacitance_ff": 6.207864,
+        "net": "XS3_nt",
+        "net_id": 22,
+        "resistance_ohm": 64.1038,
+        "capacitance_ff": 16.092785,
         "by_layer": [
           {
             "layer": "metal0",
@@ -5860,8 +5998,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.6708,
-            "capacitance_ff": 3.021834
+            "resistance_ohm": 49.5679,
+            "capacitance_ff": 12.906754
           },
           {
             "layer": "metal2",
@@ -5872,20 +6010,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS3.nt",
+        "hub_net": "XS3_nt",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$3",
             "terminal": "D",
-            "leg_net": "XS3.nt__t0",
-            "resistance_ohm": 13.1034
+            "leg_net": "XS3_nt__t0",
+            "resistance_ohm": 32.0519
           },
           {
             "device": "$9",
             "terminal": "S",
-            "leg_net": "XS3.nt__t1",
-            "resistance_ohm": 13.1034
+            "leg_net": "XS3_nt__t1",
+            "resistance_ohm": 32.0519
           }
         ],
         "segments": [],
@@ -5928,7 +6066,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "VDD_VCO",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -5939,7 +6077,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS1_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5950,7 +6099,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -5961,7 +6110,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6018,10 +6167,10 @@
         ]
       },
       {
-        "net": "XS4.nh",
-        "net_id": 30,
-        "resistance_ohm": 37.456,
-        "capacitance_ff": 8.656198,
+        "net": "XS4_nh",
+        "net_id": 28,
+        "resistance_ohm": 75.3532,
+        "capacitance_ff": 18.544391,
         "by_layer": [
           {
             "layer": "metal0",
@@ -6030,8 +6179,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 12.0228,
-            "capacitance_ff": 3.105494
+            "resistance_ohm": 49.9199,
+            "capacitance_ff": 12.993686
           },
           {
             "layer": "metal2",
@@ -6042,20 +6191,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS4.nh",
+        "hub_net": "XS4_nh",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$30",
             "terminal": "D",
-            "leg_net": "XS4.nh__t0",
-            "resistance_ohm": 18.728
+            "leg_net": "XS4_nh__t0",
+            "resistance_ohm": 37.6766
           },
           {
             "device": "$24",
             "terminal": "S",
-            "leg_net": "XS4.nh__t1",
-            "resistance_ohm": 18.728
+            "leg_net": "XS4_nh__t1",
+            "resistance_ohm": 37.6766
           }
         ],
         "segments": [],
@@ -6120,7 +6269,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6131,7 +6280,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -6142,7 +6291,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6153,7 +6302,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6214,10 +6363,10 @@
         ]
       },
       {
-        "net": "XS4.nt",
-        "net_id": 25,
-        "resistance_ohm": 26.3239,
-        "capacitance_ff": 6.259528,
+        "net": "XS4_nt",
+        "net_id": 23,
+        "resistance_ohm": 64.2211,
+        "capacitance_ff": 16.144449,
         "by_layer": [
           {
             "layer": "metal0",
@@ -6226,8 +6375,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 12.3747,
-            "capacitance_ff": 3.202243
+            "resistance_ohm": 50.2719,
+            "capacitance_ff": 13.087163
           },
           {
             "layer": "metal2",
@@ -6238,20 +6387,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS4.nt",
+        "hub_net": "XS4_nt",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$4",
             "terminal": "D",
-            "leg_net": "XS4.nt__t0",
-            "resistance_ohm": 13.1619
+            "leg_net": "XS4_nt__t0",
+            "resistance_ohm": 32.1106
           },
           {
             "device": "$10",
             "terminal": "S",
-            "leg_net": "XS4.nt__t1",
-            "resistance_ohm": 13.1619
+            "leg_net": "XS4_nt__t1",
+            "resistance_ohm": 32.1105
           }
         ],
         "segments": [],
@@ -6294,7 +6443,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "VDD_VCO",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -6305,7 +6454,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS1_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6316,7 +6476,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6327,7 +6487,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6395,10 +6555,10 @@
         ]
       },
       {
-        "net": "XS5.nh",
-        "net_id": 31,
-        "resistance_ohm": 39.6266,
-        "capacitance_ff": 9.16552,
+        "net": "XS5_nh",
+        "net_id": 29,
+        "resistance_ohm": 77.5239,
+        "capacitance_ff": 19.053713,
         "by_layer": [
           {
             "layer": "metal0",
@@ -6407,8 +6567,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 12.7267,
-            "capacitance_ff": 3.289175
+            "resistance_ohm": 50.6239,
+            "capacitance_ff": 13.177368
           },
           {
             "layer": "metal2",
@@ -6419,20 +6579,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS5.nh",
+        "hub_net": "XS5_nh",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$31",
             "terminal": "D",
-            "leg_net": "XS5.nh__t0",
-            "resistance_ohm": 19.8133
+            "leg_net": "XS5_nh__t0",
+            "resistance_ohm": 38.7619
           },
           {
             "device": "$25",
             "terminal": "S",
-            "leg_net": "XS5.nh__t1",
-            "resistance_ohm": 19.8133
+            "leg_net": "XS5_nh__t1",
+            "resistance_ohm": 38.762
           }
         ],
         "segments": [],
@@ -6497,7 +6657,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6508,7 +6668,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -6519,7 +6679,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6530,7 +6690,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6580,10 +6740,10 @@
         ]
       },
       {
-        "net": "XS5.nt",
-        "net_id": 26,
-        "resistance_ohm": 26.4411,
-        "capacitance_ff": 6.311193,
+        "net": "XS5_nt",
+        "net_id": 24,
+        "resistance_ohm": 64.3384,
+        "capacitance_ff": 16.196113,
         "by_layer": [
           {
             "layer": "metal0",
@@ -6592,8 +6752,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 13.0786,
-            "capacitance_ff": 3.382652
+            "resistance_ohm": 50.9759,
+            "capacitance_ff": 13.267573
           },
           {
             "layer": "metal2",
@@ -6604,20 +6764,20 @@
         "resistance_ohm_top_cell": null,
         "capacitance_ff_top_cell": null,
         "inductance_nh": 0.0,
-        "hub_net": "XS5.nt",
+        "hub_net": "XS5_nt",
         "rc_model": "lumped",
         "terminals": [
           {
             "device": "$5",
             "terminal": "D",
-            "leg_net": "XS5.nt__t0",
-            "resistance_ohm": 13.2205
+            "leg_net": "XS5_nt__t0",
+            "resistance_ohm": 32.1692
           },
           {
             "device": "$11",
             "terminal": "S",
-            "leg_net": "XS5.nt__t1",
-            "resistance_ohm": 13.2205
+            "leg_net": "XS5_nt__t1",
+            "resistance_ohm": 32.1692
           }
         ],
         "segments": [],
@@ -6660,7 +6820,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "VDD_VCO",
             "capacitance_ff": 0.0121,
             "levels": [
               [
@@ -6671,7 +6831,18 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS1_nt",
+            "capacitance_ff": 0.0121,
+            "levels": [
+              [
+                1,
+                2
+              ]
+            ],
+            "lateral_levels": []
+          },
+          {
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6682,7 +6853,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6693,7 +6864,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6773,9 +6944,9 @@
       },
       {
         "net": "bufmid",
-        "net_id": 27,
-        "resistance_ohm": 47.4691,
-        "capacitance_ff": 10.750668,
+        "net_id": 25,
+        "resistance_ohm": 123.2575,
+        "capacitance_ff": 30.523781,
         "by_layer": [
           {
             "layer": "metal0",
@@ -6784,8 +6955,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 11.9547,
-            "capacitance_ff": 3.044365
+            "resistance_ohm": 87.7432,
+            "capacitance_ff": 22.817478
           },
           {
             "layer": "metal2",
@@ -6800,28 +6971,28 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$27",
-            "terminal": "D",
-            "leg_net": "bufmid__t0",
-            "resistance_ohm": 10.3319
-          },
-          {
             "device": "$28",
             "terminal": "G",
-            "leg_net": "bufmid__t1",
-            "resistance_ohm": 13.4027
+            "leg_net": "bufmid__t0",
+            "resistance_ohm": 34.8012
           },
           {
             "device": "$6",
             "terminal": "D",
+            "leg_net": "bufmid__t1",
+            "resistance_ohm": 32.8011
+          },
+          {
+            "device": "$27",
+            "terminal": "D",
             "leg_net": "bufmid__t2",
-            "resistance_ohm": 12.6324
+            "resistance_ohm": 26.8276
           },
           {
             "device": "$7",
             "terminal": "G",
             "leg_net": "bufmid__t3",
-            "resistance_ohm": 11.1021
+            "resistance_ohm": 28.8276
           }
         ],
         "segments": [],
@@ -6865,7 +7036,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.017344,
+            "capacitance_ff": 0.029445,
             "levels": [
               [
                 0,
@@ -6879,7 +7050,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6890,7 +7061,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6901,7 +7072,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6912,7 +7083,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6923,7 +7094,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6934,7 +7105,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6945,7 +7116,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6956,7 +7127,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6967,7 +7138,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -6978,7 +7149,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7048,8 +7219,8 @@
       {
         "net": "ring1",
         "net_id": 10,
-        "resistance_ohm": 43.4531,
-        "capacitance_ff": 9.829025,
+        "resistance_ohm": 157.129,
+        "capacitance_ff": 39.488695,
         "by_layer": [
           {
             "layer": "metal0",
@@ -7058,8 +7229,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 13.0932,
-            "capacitance_ff": 3.284154
+            "resistance_ohm": 126.7691,
+            "capacitance_ff": 32.943824
           },
           {
             "layer": "metal2",
@@ -7074,40 +7245,40 @@
         "rc_model": "lumped",
         "terminals": [
           {
-            "device": "$8",
+            "device": "$6",
             "terminal": "G",
             "leg_net": "ring1__t0",
-            "resistance_ohm": 7.0838
+            "resistance_ohm": 43.1541
+          },
+          {
+            "device": "$8",
+            "terminal": "G",
+            "leg_net": "ring1__t1",
+            "resistance_ohm": 25.6155
           },
           {
             "device": "$22",
             "terminal": "G",
-            "leg_net": "ring1__t1",
-            "resistance_ohm": 0.6335
+            "leg_net": "ring1__t2",
+            "resistance_ohm": 2.2908
           },
           {
             "device": "$27",
             "terminal": "G",
-            "leg_net": "ring1__t2",
-            "resistance_ohm": 12.77
+            "leg_net": "ring1__t3",
+            "resistance_ohm": 46.1771
           },
           {
             "device": "$26",
             "terminal": "D",
-            "leg_net": "ring1__t3",
-            "resistance_ohm": 8.3231
+            "leg_net": "ring1__t4",
+            "resistance_ohm": 30.0967
           },
           {
             "device": "$12",
             "terminal": "D",
-            "leg_net": "ring1__t4",
-            "resistance_ohm": 2.7087
-          },
-          {
-            "device": "$6",
-            "terminal": "G",
             "leg_net": "ring1__t5",
-            "resistance_ohm": 11.934
+            "resistance_ohm": 9.7948
           }
         ],
         "segments": [],
@@ -7147,7 +7318,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.018151,
+            "capacitance_ff": 0.036302,
             "levels": [
               [
                 1,
@@ -7157,7 +7328,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nh",
+            "net": "XS1_nh",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -7172,7 +7343,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -7187,7 +7358,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7198,7 +7369,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7209,7 +7380,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7220,7 +7391,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7231,7 +7402,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7242,7 +7413,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7253,7 +7424,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7264,7 +7435,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7333,9 +7504,9 @@
       },
       {
         "net": "ring2",
-        "net_id": 14,
-        "resistance_ohm": 26.3551,
-        "capacitance_ff": 6.156464,
+        "net_id": 11,
+        "resistance_ohm": 102.1443,
+        "capacitance_ff": 25.929577,
         "by_layer": [
           {
             "layer": "metal0",
@@ -7344,8 +7515,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 12.8516,
-            "capacitance_ff": 3.268742
+            "resistance_ohm": 88.6408,
+            "capacitance_ff": 23.041855
           },
           {
             "layer": "metal2",
@@ -7363,25 +7534,25 @@
             "device": "$8",
             "terminal": "D",
             "leg_net": "ring2__t0",
-            "resistance_ohm": 7.475
+            "resistance_ohm": 28.971
           },
           {
             "device": "$22",
             "terminal": "D",
             "leg_net": "ring2__t1",
-            "resistance_ohm": 5.0311
+            "resistance_ohm": 19.499
           },
           {
             "device": "$23",
             "terminal": "G",
             "leg_net": "ring2__t2",
-            "resistance_ohm": 8.1464
+            "resistance_ohm": 31.5731
           },
           {
             "device": "$9",
             "terminal": "G",
             "leg_net": "ring2__t3",
-            "resistance_ohm": 5.7025
+            "resistance_ohm": 22.1012
           }
         ],
         "segments": [],
@@ -7410,7 +7581,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -7420,7 +7591,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7431,7 +7602,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -7446,7 +7617,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nt",
+            "net": "XS2_nt",
             "capacitance_ff": 0.005244,
             "levels": [
               [
@@ -7457,7 +7628,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7468,7 +7639,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7479,7 +7650,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7548,9 +7719,9 @@
       },
       {
         "net": "ring3",
-        "net_id": 15,
-        "resistance_ohm": 27.9386,
-        "capacitance_ff": 6.533769,
+        "net_id": 12,
+        "resistance_ohm": 103.7283,
+        "capacitance_ff": 26.306882,
         "by_layer": [
           {
             "layer": "metal0",
@@ -7559,8 +7730,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 13.5551,
-            "capacitance_ff": 3.449151
+            "resistance_ohm": 89.3448,
+            "capacitance_ff": 23.222264
           },
           {
             "layer": "metal2",
@@ -7578,25 +7749,25 @@
             "device": "$23",
             "terminal": "D",
             "leg_net": "ring3__t0",
-            "resistance_ohm": 5.4861
+            "resistance_ohm": 20.3683
           },
           {
             "device": "$24",
             "terminal": "G",
             "leg_net": "ring3__t1",
-            "resistance_ohm": 8.4832
+            "resistance_ohm": 31.4958
           },
           {
             "device": "$9",
             "terminal": "D",
             "leg_net": "ring3__t2",
-            "resistance_ohm": 7.8373
+            "resistance_ohm": 29.0976
           },
           {
             "device": "$10",
             "terminal": "G",
             "leg_net": "ring3__t3",
-            "resistance_ohm": 6.132
+            "resistance_ohm": 22.7665
           }
         ],
         "segments": [],
@@ -7625,7 +7796,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -7635,7 +7806,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7646,7 +7817,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7657,7 +7828,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -7672,7 +7843,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nt",
+            "net": "XS3_nt",
             "capacitance_ff": 0.005244,
             "levels": [
               [
@@ -7683,7 +7854,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7694,7 +7865,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7763,9 +7934,9 @@
       },
       {
         "net": "ring4",
-        "net_id": 16,
-        "resistance_ohm": 29.5222,
-        "capacitance_ff": 6.911073,
+        "net_id": 13,
+        "resistance_ohm": 105.3123,
+        "capacitance_ff": 26.684186,
         "by_layer": [
           {
             "layer": "metal0",
@@ -7774,8 +7945,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 14.2586,
-            "capacitance_ff": 3.62956
+            "resistance_ohm": 90.0488,
+            "capacitance_ff": 23.402673
           },
           {
             "layer": "metal2",
@@ -7793,25 +7964,25 @@
             "device": "$24",
             "terminal": "D",
             "leg_net": "ring4__t0",
-            "resistance_ohm": 5.9311
+            "resistance_ohm": 21.1576
           },
           {
             "device": "$25",
             "terminal": "G",
             "leg_net": "ring4__t1",
-            "resistance_ohm": 8.83
+            "resistance_ohm": 31.4986
           },
           {
             "device": "$10",
             "terminal": "D",
             "leg_net": "ring4__t2",
-            "resistance_ohm": 8.2052
+            "resistance_ohm": 29.2699
           },
           {
             "device": "$11",
             "terminal": "G",
             "leg_net": "ring4__t3",
-            "resistance_ohm": 6.5559
+            "resistance_ohm": 23.3862
           }
         ],
         "segments": [],
@@ -7840,7 +8011,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -7850,7 +8021,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7861,7 +8032,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7872,7 +8043,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7883,7 +8054,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -7898,7 +8069,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nt",
+            "net": "XS4_nt",
             "capacitance_ff": 0.005244,
             "levels": [
               [
@@ -7909,7 +8080,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -7978,9 +8149,9 @@
       },
       {
         "net": "ring5",
-        "net_id": 17,
-        "resistance_ohm": 31.1057,
-        "capacitance_ff": 7.288378,
+        "net_id": 14,
+        "resistance_ohm": 106.8963,
+        "capacitance_ff": 27.061491,
         "by_layer": [
           {
             "layer": "metal0",
@@ -7989,8 +8160,8 @@
           },
           {
             "layer": "metal1",
-            "resistance_ohm": 14.9622,
-            "capacitance_ff": 3.809969
+            "resistance_ohm": 90.7528,
+            "capacitance_ff": 23.583083
           },
           {
             "layer": "metal2",
@@ -8008,25 +8179,25 @@
             "device": "$25",
             "terminal": "D",
             "leg_net": "ring5__t0",
-            "resistance_ohm": 6.3684
+            "resistance_ohm": 21.8854
           },
           {
             "device": "$26",
             "terminal": "G",
             "leg_net": "ring5__t1",
-            "resistance_ohm": 9.1844
+            "resistance_ohm": 31.5628
           },
           {
             "device": "$11",
             "terminal": "D",
             "leg_net": "ring5__t2",
-            "resistance_ohm": 8.5775
+            "resistance_ohm": 29.4771
           },
           {
             "device": "$12",
             "terminal": "G",
             "leg_net": "ring5__t3",
-            "resistance_ohm": 6.9753
+            "resistance_ohm": 23.971
           }
         ],
         "segments": [],
@@ -8055,7 +8226,7 @@
           },
           {
             "net": "VDD_VCO",
-            "capacitance_ff": 0.0121,
+            "capacitance_ff": 0.024201,
             "levels": [
               [
                 1,
@@ -8065,7 +8236,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS1.nt",
+            "net": "XS1_nt",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -8076,7 +8247,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS2.nh",
+            "net": "XS2_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -8087,7 +8258,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS3.nh",
+            "net": "XS3_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -8098,7 +8269,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS4.nh",
+            "net": "XS4_nh",
             "capacitance_ff": 0.00605,
             "levels": [
               [
@@ -8109,7 +8280,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nh",
+            "net": "XS5_nh",
             "capacitance_ff": 0.011294,
             "levels": [
               [
@@ -8124,7 +8295,7 @@
             "lateral_levels": []
           },
           {
-            "net": "XS5.nt",
+            "net": "XS5_nt",
             "capacitance_ff": 0.005244,
             "levels": [
               [
@@ -8218,17 +8389,18 @@
     "mom_rlc_override": null
   },
   "spef_path": null,
+  "subcircuit": null,
   "metrics": {
-    "extract__device__count": 44,
+    "extract__device__count": 45,
     "extract__net__count": 33,
     "extract__pin__count": 33,
-    "extract__resistor__count": 170,
+    "extract__resistor__count": 172,
     "extract__capacitor__count": 33,
-    "extract__coupling__capacitor__count": 189,
+    "extract__coupling__capacitor__count": 194,
     "extract__inductor__count": 0,
-    "extract__resistance__ohm": 1435.3085,
-    "extract__capacitance__ff": 343.426846,
-    "extract__coupling__capacitance__ff": 2.522517,
+    "extract__resistance__ohm": 23625.3932,
+    "extract__capacitance__ff": 4272.13855,
+    "extract__coupling__capacitance__ff": 2.697975,
     "extract__inductance__nh": 0.0
   }
 }

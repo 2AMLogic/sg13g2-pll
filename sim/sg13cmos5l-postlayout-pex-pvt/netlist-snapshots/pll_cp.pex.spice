@@ -19,14 +19,14 @@
 * pin VDUMP
 * pin VOUT
 * pin VSS
-* pin XLEGN.sw
-* pin XLEGN.tail
-* pin XLEGP.sw
-* pin XLEGP.tail
+* pin XLEGN_sw
+* pin XLEGN_tail
+* pin XLEGP_sw
+* pin XLEGP_tail
 * pin nxn
 * pin nxp
-.SUBCKT pll_cp DN DNB IBN IBP ICN ICP UP UPB VDD VDUMP VOUT VSS XLEGN.sw
-+ XLEGN.tail XLEGP.sw XLEGP.tail nxn nxp
+.SUBCKT pll_cp DN DNB IBN IBP ICN ICP UP UPB VDD VDUMP VOUT VSS XLEGN_sw
++ XLEGN_tail XLEGP_sw XLEGP_tail nxn nxp
 * device instance $1 r0 *1 2.3,3.11 nfet
 X$1 UPB__t0 UP__t2 VSS__t0 VSS__t6 sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
 + PS=4.8U PD=4.8U
@@ -40,19 +40,19 @@ X$3 ICN__t0 ICN__t1 VSS__t1 VSS__t8 sg13_hv_nmos L=3U W=2U AS=0.8P AD=0.8P
 X$4 VDUMP__t0 IBN__t0 VSS__t2 VSS__t9 sg13_hv_nmos L=1U W=4U AS=1.6P AD=1.6P
 + PS=8.8U PD=8.8U
 * device instance $5 r0 *1 42.06,3.01 nfet
-X$5 VOUT__t2 DN__t0 XLEGN.sw__t1 VSS__t10 sg13_hv_nmos L=0.3U W=6U AS=2.4P
+X$5 VOUT__t2 DN__t0 XLEGN_sw__t1 VSS__t10 sg13_hv_nmos L=0.3U W=6U AS=2.4P
 + AD=2.4P PS=12.8U PD=12.8U
 * device instance $6 r0 *1 50.02,3.01 nfet
-X$6 VDUMP__t2 DNB__t2 XLEGN.sw__t2 VSS__t11 sg13_hv_nmos L=0.3U W=6U AS=2.4P
+X$6 VDUMP__t2 DNB__t2 XLEGN_sw__t2 VSS__t11 sg13_hv_nmos L=0.3U W=6U AS=2.4P
 + AD=2.4P PS=12.8U PD=12.8U
 * device instance $7 r0 *1 64.62,3.11 nfet
 X$7 VDD__t0 VOUT__t1 VDUMP__t1 VSS__t12 sg13_hv_nmos L=0.5U W=6U AS=2.4P
 + AD=2.4P PS=12.8U PD=12.8U
 * device instance $8 r0 *1 80.22,3.36 nfet
-X$8 XLEGN.tail__t0 IBN__t1 VSS__t3 VSS__t13 sg13_hv_nmos L=1U W=8U AS=3.2P
+X$8 XLEGN_tail__t0 IBN__t1 VSS__t3 VSS__t13 sg13_hv_nmos L=1U W=8U AS=3.2P
 + AD=3.2P PS=16.8U PD=16.8U
 * device instance $9 r0 *1 90.18,3.36 nfet
-X$9 XLEGN.sw__t0 ICN__t2 XLEGN.tail__t1 VSS__t14 sg13_hv_nmos L=1U W=8U AS=3.2P
+X$9 XLEGN_sw__t0 ICN__t2 XLEGN_tail__t1 VSS__t14 sg13_hv_nmos L=1U W=8U AS=3.2P
 + AD=3.2P PS=16.8U PD=16.8U
 * device instance $10 r0 *1 100.14,3.36 nfet
 X$10 nxn__t0 IBN__t2 VSS__t4 VSS__t15 sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P
@@ -67,19 +67,19 @@ X$12 UPB__t1 UP__t1 VDD__t2 VDD__t1 sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
 X$13 DNB__t0 DN__t2 VDD__t13 VDD__t14 sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
 + PS=10.8U PD=10.8U
 * device instance $14 r0 *1 146.26,3.01 pfet
-X$14 VOUT__t0 UPB__t2 XLEGP.sw__t0 VDD__t3 sg13_hv_pmos L=0.3U W=6U AS=2.4P
+X$14 VOUT__t0 UPB__t2 XLEGP_sw__t0 VDD__t3 sg13_hv_pmos L=0.3U W=6U AS=2.4P
 + AD=2.4P PS=12.8U PD=12.8U
 * device instance $15 r0 *1 154.22,3.01 pfet
-X$15 VDUMP__t3 UP__t0 XLEGP.sw__t1 VDD__t12 sg13_hv_pmos L=0.3U W=6U AS=2.4P
+X$15 VDUMP__t3 UP__t0 XLEGP_sw__t1 VDD__t12 sg13_hv_pmos L=0.3U W=6U AS=2.4P
 + AD=2.4P PS=12.8U PD=12.8U
 * device instance $16 r0 *1 168.82,4.36 pfet
 X$16 ICP__t0 ICP__t1 VDD__t5 VDD__t4 sg13_hv_pmos L=3U W=6U AS=2.4P AD=2.4P
 + PS=12.8U PD=12.8U
 * device instance $17 r0 *1 192.42,3.36 pfet
-X$17 XLEGP.tail__t0 IBP__t0 VDD__t7 VDD__t6 sg13_hv_pmos L=1U W=24U AS=9.6P
+X$17 XLEGP_tail__t0 IBP__t0 VDD__t7 VDD__t6 sg13_hv_pmos L=1U W=24U AS=9.6P
 + AD=9.6P PS=48.8U PD=48.8U
 * device instance $18 r0 *1 218.38,3.36 pfet
-X$18 XLEGP.sw__t2 ICP__t3 XLEGP.tail__t1 VDD__t11 sg13_hv_pmos L=1U W=24U
+X$18 XLEGP_sw__t2 ICP__t3 XLEGP_tail__t1 VDD__t11 sg13_hv_pmos L=1U W=24U
 + AS=9.6P AD=9.6P PS=48.8U PD=48.8U
 * device instance $19 r0 *1 244.34,3.36 pfet
 X$19 nxp__t0 IBP__t1 VDD__t8 VDD__t10 sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
@@ -244,33 +244,33 @@ RVSS_t16 VSS__t16 VSS 11.7165709977
 * device instance VSS r0 *1 0,0 
 CVSS VSS vsubs 2.9488515e-14
 * device instance XLEGN_sw_t0 r0 *1 0,0 
-RXLEGN_sw_t0 XLEGN.sw__t0 XLEGN.sw 17.6693780761
+RXLEGN_sw_t0 XLEGN_sw__t0 XLEGN_sw 17.6693780761
 * device instance XLEGN_sw_t1 r0 *1 0,0 
-RXLEGN_sw_t1 XLEGN.sw__t1 XLEGN.sw 11.2243641888
+RXLEGN_sw_t1 XLEGN_sw__t1 XLEGN_sw 11.2243641888
 * device instance XLEGN_sw_t2 r0 *1 0,0 
-RXLEGN_sw_t2 XLEGN.sw__t2 XLEGN.sw 6.4450577351
+RXLEGN_sw_t2 XLEGN_sw__t2 XLEGN_sw 6.4450577351
 * device instance XLEGN_sw r0 *1 0,0 
-CXLEGN_sw XLEGN.sw vsubs 8.09716e-15
+CXLEGN_sw XLEGN_sw vsubs 8.09716e-15
 * device instance XLEGN_tail_t0 r0 *1 0,0 
-RXLEGN_tail_t0 XLEGN.tail__t0 XLEGN.tail 9.0985
+RXLEGN_tail_t0 XLEGN_tail__t0 XLEGN_tail 9.0985
 * device instance XLEGN_tail_t1 r0 *1 0,0 
-RXLEGN_tail_t1 XLEGN.tail__t1 XLEGN.tail 9.0985
+RXLEGN_tail_t1 XLEGN_tail__t1 XLEGN_tail 9.0985
 * device instance XLEGN_tail r0 *1 0,0 
-CXLEGN_tail XLEGN.tail vsubs 4.235124e-15
+CXLEGN_tail XLEGN_tail vsubs 4.235124e-15
 * device instance XLEGP_sw_t0 r0 *1 0,0 
-RXLEGP_sw_t0 XLEGP.sw__t0 XLEGP.sw 14.0591333773
+RXLEGP_sw_t0 XLEGP_sw__t0 XLEGP_sw 14.0591333773
 * device instance XLEGP_sw_t1 r0 *1 0,0 
-RXLEGP_sw_t1 XLEGP.sw__t1 XLEGP.sw 9.86677162146
+RXLEGP_sw_t1 XLEGP_sw__t1 XLEGP_sw 9.86677162146
 * device instance XLEGP_sw_t2 r0 *1 0,0 
-RXLEGP_sw_t2 XLEGP.sw__t2 XLEGP.sw 23.9258950012
+RXLEGP_sw_t2 XLEGP_sw__t2 XLEGP_sw 23.9258950012
 * device instance XLEGP_sw r0 *1 0,0 
-CXLEGP_sw XLEGP.sw vsubs 1.0850007e-14
+CXLEGP_sw XLEGP_sw vsubs 1.0850007e-14
 * device instance XLEGP_tail_t0 r0 *1 0,0 
-RXLEGP_tail_t0 XLEGP.tail__t0 XLEGP.tail 18.56445
+RXLEGP_tail_t0 XLEGP_tail__t0 XLEGP_tail 18.56445
 * device instance XLEGP_tail_t1 r0 *1 0,0 
-RXLEGP_tail_t1 XLEGP.tail__t1 XLEGP.tail 18.56445
+RXLEGP_tail_t1 XLEGP_tail__t1 XLEGP_tail 18.56445
 * device instance XLEGP_tail r0 *1 0,0 
-CXLEGP_tail XLEGP.tail vsubs 8.298864e-15
+CXLEGP_tail XLEGP_tail vsubs 8.298864e-15
 * device instance nxn_t0 r0 *1 0,0 
 Rnxn_t0 nxn__t0 nxn 9.6263
 * device instance nxn_t1 r0 *1 0,0 
@@ -302,9 +302,9 @@ Ccc_DN_VOUT DN VOUT 1.21e-17
 * device instance cc_DN_VSS r0 *1 0,0 
 Ccc_DN_VSS DN VSS 6.0502e-17
 * device instance cc_DN_XLEGN_sw r0 *1 0,0 
-Ccc_DN_XLEGN_sw DN XLEGN.sw 1.8151e-17
+Ccc_DN_XLEGN_sw DN XLEGN_sw 1.8151e-17
 * device instance cc_DN_XLEGN_tail r0 *1 0,0 
-Ccc_DN_XLEGN_tail DN XLEGN.tail 1.21e-17
+Ccc_DN_XLEGN_tail DN XLEGN_tail 1.21e-17
 * device instance cc_DN_nxn r0 *1 0,0 
 Ccc_DN_nxn DN nxn 1.21e-17
 * device instance cc_DNB_IBN r0 *1 0,0 
@@ -324,9 +324,9 @@ Ccc_DNB_VOUT DNB VOUT 1.21e-17
 * device instance cc_DNB_VSS r0 *1 0,0 
 Ccc_DNB_VSS DNB VSS 5.9696e-17
 * device instance cc_DNB_XLEGN_sw r0 *1 0,0 
-Ccc_DNB_XLEGN_sw DNB XLEGN.sw 1.8151e-17
+Ccc_DNB_XLEGN_sw DNB XLEGN_sw 1.8151e-17
 * device instance cc_DNB_XLEGN_tail r0 *1 0,0 
-Ccc_DNB_XLEGN_tail DNB XLEGN.tail 1.21e-17
+Ccc_DNB_XLEGN_tail DNB XLEGN_tail 1.21e-17
 * device instance cc_DNB_nxn r0 *1 0,0 
 Ccc_DNB_nxn DNB nxn 1.21e-17
 * device instance cc_IBN_ICN r0 *1 0,0 
@@ -340,9 +340,9 @@ Ccc_IBN_VOUT IBN VOUT 1.21e-17
 * device instance cc_IBN_VSS r0 *1 0,0 
 Ccc_IBN_VSS IBN VSS 3.6302e-17
 * device instance cc_IBN_XLEGN_sw r0 *1 0,0 
-Ccc_IBN_XLEGN_sw IBN XLEGN.sw 1.8151e-17
+Ccc_IBN_XLEGN_sw IBN XLEGN_sw 1.8151e-17
 * device instance cc_IBN_XLEGN_tail r0 *1 0,0 
-Ccc_IBN_XLEGN_tail IBN XLEGN.tail 1.21e-17
+Ccc_IBN_XLEGN_tail IBN XLEGN_tail 1.21e-17
 * device instance cc_IBN_nxn r0 *1 0,0 
 Ccc_IBN_nxn IBN nxn 1.7344e-17
 * device instance cc_IBP_ICP r0 *1 0,0 
@@ -350,9 +350,9 @@ Ccc_IBP_ICP IBP ICP 1.21e-17
 * device instance cc_IBP_VDD r0 *1 0,0 
 Ccc_IBP_VDD IBP VDD 1.21e-17
 * device instance cc_IBP_XLEGP_sw r0 *1 0,0 
-Ccc_IBP_XLEGP_sw IBP XLEGP.sw 6.05e-18
+Ccc_IBP_XLEGP_sw IBP XLEGP_sw 6.05e-18
 * device instance cc_IBP_XLEGP_tail r0 *1 0,0 
-Ccc_IBP_XLEGP_tail IBP XLEGP.tail 1.21e-17
+Ccc_IBP_XLEGP_tail IBP XLEGP_tail 1.21e-17
 * device instance cc_IBP_nxp r0 *1 0,0 
 Ccc_IBP_nxp IBP nxp 1.7344e-17
 * device instance cc_ICN_VDD r0 *1 0,0 
@@ -364,17 +364,17 @@ Ccc_ICN_VOUT ICN VOUT 1.21e-17
 * device instance cc_ICN_VSS r0 *1 0,0 
 Ccc_ICN_VSS ICN VSS 5.3646e-17
 * device instance cc_ICN_XLEGN_sw r0 *1 0,0 
-Ccc_ICN_XLEGN_sw ICN XLEGN.sw 1.8151e-17
+Ccc_ICN_XLEGN_sw ICN XLEGN_sw 1.8151e-17
 * device instance cc_ICN_XLEGN_tail r0 *1 0,0 
-Ccc_ICN_XLEGN_tail ICN XLEGN.tail 1.21e-17
+Ccc_ICN_XLEGN_tail ICN XLEGN_tail 1.21e-17
 * device instance cc_ICN_nxn r0 *1 0,0 
 Ccc_ICN_nxn ICN nxn 6.05e-18
 * device instance cc_ICP_VDD r0 *1 0,0 
 Ccc_ICP_VDD ICP VDD 2.9445e-17
 * device instance cc_ICP_XLEGP_sw r0 *1 0,0 
-Ccc_ICP_XLEGP_sw ICP XLEGP.sw 6.05e-18
+Ccc_ICP_XLEGP_sw ICP XLEGP_sw 6.05e-18
 * device instance cc_ICP_XLEGP_tail r0 *1 0,0 
-Ccc_ICP_XLEGP_tail ICP XLEGP.tail 1.21e-17
+Ccc_ICP_XLEGP_tail ICP XLEGP_tail 1.21e-17
 * device instance cc_ICP_nxp r0 *1 0,0 
 Ccc_ICP_nxp ICP nxp 6.05e-18
 * device instance cc_UP_UPB r0 *1 0,0 
@@ -388,11 +388,11 @@ Ccc_UP_VOUT UP VOUT 1.8151e-17
 * device instance cc_UP_VSS r0 *1 0,0 
 Ccc_UP_VSS UP VSS 6.6553e-17
 * device instance cc_UP_XLEGN_sw r0 *1 0,0 
-Ccc_UP_XLEGN_sw UP XLEGN.sw 1.8151e-17
+Ccc_UP_XLEGN_sw UP XLEGN_sw 1.8151e-17
 * device instance cc_UP_XLEGN_tail r0 *1 0,0 
-Ccc_UP_XLEGN_tail UP XLEGN.tail 1.21e-17
+Ccc_UP_XLEGN_tail UP XLEGN_tail 1.21e-17
 * device instance cc_UP_XLEGP_sw r0 *1 0,0 
-Ccc_UP_XLEGP_sw UP XLEGP.sw 6.05e-18
+Ccc_UP_XLEGP_sw UP XLEGP_sw 6.05e-18
 * device instance cc_UP_nxn r0 *1 0,0 
 Ccc_UP_nxn UP nxn 1.21e-17
 * device instance cc_UPB_VDD r0 *1 0,0 
@@ -404,9 +404,9 @@ Ccc_UPB_VOUT UPB VOUT 1.21e-17
 * device instance cc_UPB_VSS r0 *1 0,0 
 Ccc_UPB_VSS UPB VSS 6.5746e-17
 * device instance cc_UPB_XLEGN_sw r0 *1 0,0 
-Ccc_UPB_XLEGN_sw UPB XLEGN.sw 1.8151e-17
+Ccc_UPB_XLEGN_sw UPB XLEGN_sw 1.8151e-17
 * device instance cc_UPB_XLEGN_tail r0 *1 0,0 
-Ccc_UPB_XLEGN_tail UPB XLEGN.tail 1.21e-17
+Ccc_UPB_XLEGN_tail UPB XLEGN_tail 1.21e-17
 * device instance cc_UPB_nxn r0 *1 0,0 
 Ccc_UPB_nxn UPB nxn 1.21e-17
 * device instance cc_VDD_VDUMP r0 *1 0,0 
@@ -416,13 +416,13 @@ Ccc_VDD_VOUT VDD VOUT 6.05e-18
 * device instance cc_VDD_VSS r0 *1 0,0 
 Ccc_VDD_VSS VDD VSS 1.8151e-17
 * device instance cc_VDD_XLEGN_sw r0 *1 0,0 
-Ccc_VDD_XLEGN_sw VDD XLEGN.sw 6.05e-18
+Ccc_VDD_XLEGN_sw VDD XLEGN_sw 6.05e-18
 * device instance cc_VDD_XLEGN_tail r0 *1 0,0 
-Ccc_VDD_XLEGN_tail VDD XLEGN.tail 1.21e-17
+Ccc_VDD_XLEGN_tail VDD XLEGN_tail 1.21e-17
 * device instance cc_VDD_XLEGP_sw r0 *1 0,0 
-Ccc_VDD_XLEGP_sw VDD XLEGP.sw 1.8151e-17
+Ccc_VDD_XLEGP_sw VDD XLEGP_sw 1.8151e-17
 * device instance cc_VDD_XLEGP_tail r0 *1 0,0 
-Ccc_VDD_XLEGP_tail VDD XLEGP.tail 1.7344e-17
+Ccc_VDD_XLEGP_tail VDD XLEGP_tail 1.7344e-17
 * device instance cc_VDD_nxn r0 *1 0,0 
 Ccc_VDD_nxn VDD nxn 1.21e-17
 * device instance cc_VDD_nxp r0 *1 0,0 
@@ -432,33 +432,33 @@ Ccc_VDUMP_VOUT VDUMP VOUT 1.8151e-17
 * device instance cc_VDUMP_VSS r0 *1 0,0 
 Ccc_VDUMP_VSS VDUMP VSS 3.5495e-17
 * device instance cc_VDUMP_XLEGN_sw r0 *1 0,0 
-Ccc_VDUMP_XLEGN_sw VDUMP XLEGN.sw 2.3394e-17
+Ccc_VDUMP_XLEGN_sw VDUMP XLEGN_sw 2.3394e-17
 * device instance cc_VDUMP_XLEGN_tail r0 *1 0,0 
-Ccc_VDUMP_XLEGN_tail VDUMP XLEGN.tail 1.21e-17
+Ccc_VDUMP_XLEGN_tail VDUMP XLEGN_tail 1.21e-17
 * device instance cc_VDUMP_XLEGP_sw r0 *1 0,0 
-Ccc_VDUMP_XLEGP_sw VDUMP XLEGP.sw 1.7344e-17
+Ccc_VDUMP_XLEGP_sw VDUMP XLEGP_sw 1.7344e-17
 * device instance cc_VDUMP_nxn r0 *1 0,0 
 Ccc_VDUMP_nxn VDUMP nxn 1.21e-17
 * device instance cc_VOUT_VSS r0 *1 0,0 
 Ccc_VOUT_VSS VOUT VSS 2.4201e-17
 * device instance cc_VOUT_XLEGN_sw r0 *1 0,0 
-Ccc_VOUT_XLEGN_sw VOUT XLEGN.sw 1.7344e-17
+Ccc_VOUT_XLEGN_sw VOUT XLEGN_sw 1.7344e-17
 * device instance cc_VOUT_XLEGN_tail r0 *1 0,0 
-Ccc_VOUT_XLEGN_tail VOUT XLEGN.tail 1.21e-17
+Ccc_VOUT_XLEGN_tail VOUT XLEGN_tail 1.21e-17
 * device instance cc_VOUT_XLEGP_sw r0 *1 0,0 
-Ccc_VOUT_XLEGP_sw VOUT XLEGP.sw 1.1294e-17
+Ccc_VOUT_XLEGP_sw VOUT XLEGP_sw 1.1294e-17
 * device instance cc_VOUT_nxn r0 *1 0,0 
 Ccc_VOUT_nxn VOUT nxn 1.21e-17
 * device instance cc_VSS_XLEGN_sw r0 *1 0,0 
-Ccc_VSS_XLEGN_sw VSS XLEGN.sw 1.8151e-17
+Ccc_VSS_XLEGN_sw VSS XLEGN_sw 1.8151e-17
 * device instance cc_VSS_XLEGN_tail r0 *1 0,0 
-Ccc_VSS_XLEGN_tail VSS XLEGN.tail 1.7344e-17
+Ccc_VSS_XLEGN_tail VSS XLEGN_tail 1.7344e-17
 * device instance cc_VSS_nxn r0 *1 0,0 
 Ccc_VSS_nxn VSS nxn 5.244e-18
 * device instance cc_XLEGN_sw_XLEGN_tail r0 *1 0,0 
-Ccc_XLEGN_sw_XLEGN_tail XLEGN.sw XLEGN.tail 1.7344e-17
+Ccc_XLEGN_sw_XLEGN_tail XLEGN_sw XLEGN_tail 1.7344e-17
 * device instance cc_XLEGP_sw_XLEGP_tail r0 *1 0,0 
-Ccc_XLEGP_sw_XLEGP_tail XLEGP.sw XLEGP.tail 1.7344e-17
+Ccc_XLEGP_sw_XLEGP_tail XLEGP_sw XLEGP_tail 1.7344e-17
 * device instance vsubs_dctie r0 *1 0,0 
 Rvsubs_dctie vsubs 0 1e+12
 .ENDS pll_cp

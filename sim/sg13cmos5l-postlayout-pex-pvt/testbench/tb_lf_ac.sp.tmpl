@@ -1,0 +1,81 @@
+* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #115, Part of #16)
+* loop_filter driving-point AC deck -- the measurement twin of
+* ../../sg13cmos5l-loop-filter-momcap/testbench/tb_composite_ac_crosscheck.sp
+* (that campaign's own full-subckt impedance crosscheck), extended from its
+* single nominal corner to the campaign's full res_corner x temp grid so a
+* post-layout arm can be measured with the SAME deck on the SAME host.
+*
+* Drives 1 A ac into VCTRL with VSS held at 0 and the NZ node open (the
+* extracted cell exposes it; the schematic subckt keeps it internal), so
+* vm(vctrl) IS the driving-point impedance magnitude and vp(vctrl) its
+* phase. ../run_loop_filter.sh post-processes the printed table into the
+* three numbers the campaign's own analytic extracts from this impedance:
+*   R1'  = max_f Re(Z), f in 1 kHz .. 100 MHz -- the midband plateau between
+*                                      fz and fp (the band brackets the
+*                                      plateau on both arms; outside it the
+*                                      1e14 Rbleed pollutes Re below 100 Hz
+*                                      and the fp-fallen region is purely
+*                                      capacitive above it)
+*   Ctot'= -1/(2*pi*f*Im(Z)) at 100 Hz -- the low-frequency capacitive
+*                                      asymptote (C1' + C2'; reproduces the
+*                                      campaign's device-measured C1+C2 to
+*                                      4 digits on the schematic arm)
+*   C2'  = -1/(2*pi*f*Im(Z)) at 50 MHz -- above fp on both arms (the
+*                                      VCTRL-side shunt cap; the R1+C1
+*                                      branch is ~344k there, three decades
+*                                      above |Z_C2|, and loads the reading
+*                                      by <0.3%). 50 MHz, not 1 GHz: the
+*                                      cap_cmomi model's own density is
+*                                      characterised flat only through the
+*                                      campaign's 1k-100k check, and this
+*                                      record's own sweep shows the
+*                                      composite reading drifting +21% by
+*                                      1 GHz -- the fixed 50 MHz rule is
+*                                      stated and applied identically to
+*                                      both arms, so the A/B deviation
+*                                      stays attributable to the
+*                                      extraction.
+* then applies that campaign's own closed-form band (fz = 1/(2*pi*R1'*C1'),
+* fp = (C1'+C2')/(2*pi*R1'*C1'*C2')) to produce the same 27-row matrix.
+*
+* One deck, both arms -- the only difference is the two include lines:
+*   arm=schematic   @LF_DUT_INC@ = `.include <the frozen resized-R1
+*                    snapshot that campaign committed (netlist-snapshots/
+*                    loop_filter_resized.spice)>` and @LF_INST_INC@ = its
+*                    own 2-pin instantiation.
+*   arm=postlayout  @LF_DUT_INC@ = `.include <the pex-to-ngspice.py
+*                    rewritten extraction>` and @LF_INST_INC@ = `.include
+*                    <a make-inst.py instantiation>` (4 pins: NZ VCTRL VSS
+*                    vsubs). vsubs is held hard at 0 V (klt ties it to
+*                    ground only through a 1e12-ohm DC tie), exactly like
+*                    tb_pfd_pex.sp.tmpl.
+*
+* ../run_loop_filter.sh substitutes @RES_CORNER@, @TEMP@, @PDK_ROOT@,
+* @PDK@, @LF_DUT_INC@ and @LF_INST_INC@ (ngspice's .lib parser does not
+* expand environment variables, issue #61).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @RES_CORNER@
+.include @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1 temp=@TEMP@
+
+@LF_DUT_INC@
+@LF_INST_INC@
+
+* Both bulk references are grounded explicitly, one per arm: the schematic
+* snapshot's rppd bulk node is `sub!` (that campaign's own crosscheck deck
+* grounds it the same way); the extraction's is `vsubs`.
+Vsub sub! 0 dc 0
+Vsubs vsubs 0 dc 0
+Iac vctrl 0 dc 0 ac 1
+Rbleed vctrl 0 1e14
+
+.control
+ac dec 20 1 1e9
+* real()/imag() of the complex driving voltage -- vm/vp print magnitude
+* and WRAPPED phase, whose degrees/radians convention is easy to misread
+* (the campaign's own cap deck derives C from imag() for the same reason).
+let zre = real(v(vctrl))
+let zim = imag(v(vctrl))
+print zre zim
+.endc
+.end
