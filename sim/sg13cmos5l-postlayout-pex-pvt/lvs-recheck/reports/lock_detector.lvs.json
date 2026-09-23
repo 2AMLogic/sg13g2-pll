@@ -1,7 +1,299 @@
 {
   "schema_version": 1,
-  "error": {
-    "command": "lvs",
-    "message": "could not convert subckt-call reference netlist '/tmp/tmp.ZQbyxhMQeu/lock_detector.reference.spice' to plain-element form: device 'C1' (subcircuit 'cap_cmomi'): m=2 describes a multi-finger/multiplied device the curated plain-element form cannot represent; flatten it in the schematic netlist (one device per drawn gate) before comparing"
-  }
+  "engine": "klayout",
+  "layout": "pll_lock_detector.gds",
+  "reference": "lock_detector.reference.spice",
+  "top": "pll_lock_detector",
+  "reference_top": "LOCK_DETECTOR",
+  "parameter_tolerance": null,
+  "options": {
+    "combine_devices": false,
+    "combine_devices_per_circuit": null,
+    "flatten_layout": true,
+    "flatten_reference": true,
+    "netgen_setup": null,
+    "parameter_tolerance": null,
+    "compare_parameters": null,
+    "power_connectivity": null,
+    "supply_nets": [
+      "GND",
+      "VCC",
+      "VDD",
+      "VGND",
+      "VPWR",
+      "VSS"
+    ]
+  },
+  "hints_applied": null,
+  "status": "mismatch",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": {
+    "status": "verified",
+    "reason": null,
+    "device_classes": [],
+    "device_count": 0,
+    "findings": [],
+    "finding_count": 0
+  },
+  "mismatch_count": 6,
+  "error_count": 5,
+  "category_counts": {
+    "device.unmatched": 2,
+    "net.unmatched": 3,
+    "topology.flattened": 1
+  },
+  "category_error_counts": {
+    "device.unmatched": 2,
+    "net.unmatched": 3
+  },
+  "counts": {
+    "nets": {
+      "layout": 25,
+      "reference": 24,
+      "matched": 19
+    },
+    "devices": {
+      "layout": 41,
+      "reference": 41,
+      "matched": 39
+    },
+    "pins": {
+      "layout": 23,
+      "reference": 5,
+      "matched": 23
+    }
+  },
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor"
+  ],
+  "environment": {
+    "engine": "klayout",
+    "engine_version": "0.30.12",
+    "layout_sha256": "61a18fc1e98371d1038120198182774b7f8081090c1edd2868d0b9af0a6e7850",
+    "reference_sha256": "174a1cb79bceb29cb37e749c1d2ab10a5748a3a9f022989766478589ba318455",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "sg13cmos5l",
+      "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+      "released": true
+    },
+    "input": {
+      "content_hash": "sha256:61a18fc1e98371d1038120198182774b7f8081090c1edd2868d0b9af0a6e7850",
+      "role": "layout"
+    },
+    "klayout_version_mismatch": true
+  },
+  "mismatches": [
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$1",
+        "reference": "PD",
+        "class": "nfet"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "device.unmatched",
+      "severity": "error",
+      "description": "device has no counterpart on the other side",
+      "side": "reference",
+      "net": null,
+      "device": {
+        "layout": "\\$41",
+        "reference": "PU",
+        "class": "rhigh"
+      },
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net has no reference counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "\\$13",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "layout net has no reference counterpart",
+      "side": "layout",
+      "net": {
+        "layout": "\\$28",
+        "reference": null
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "net.unmatched",
+      "severity": "error",
+      "description": "reference net has no layout counterpart",
+      "side": "reference",
+      "net": {
+        "layout": null,
+        "reference": "SUB!"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology.flattened",
+      "severity": "warning",
+      "description": "options.flatten_reference flattened the reference netlist before comparing: 6 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": [
+    {
+      "layout": "DN",
+      "reference": "DN",
+      "pin": true
+    },
+    {
+      "layout": "XDW_d1",
+      "reference": "DW_D1",
+      "pin": true
+    },
+    {
+      "layout": "XDW_d2",
+      "reference": "DW_D2",
+      "pin": true
+    },
+    {
+      "layout": "XDW_d3",
+      "reference": "DW_D3",
+      "pin": true
+    },
+    {
+      "layout": "ERR",
+      "reference": "ERR",
+      "pin": true
+    },
+    {
+      "layout": "ERRD",
+      "reference": "ERRD",
+      "pin": true
+    },
+    {
+      "layout": "LOCK",
+      "reference": "LOCK",
+      "pin": true
+    },
+    {
+      "layout": "nwide",
+      "reference": "NWIDE",
+      "pin": true
+    },
+    {
+      "layout": "XNW_mid1",
+      "reference": "NW_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XSCH_nn",
+      "reference": "SCH_NN",
+      "pin": true
+    },
+    {
+      "layout": "XSCH_np",
+      "reference": "SCH_NP",
+      "pin": true
+    },
+    {
+      "layout": "UP",
+      "reference": "UP",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_n1",
+      "reference": "XOR_N1",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_XN1_mid1",
+      "reference": "XOR_N1_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_n2",
+      "reference": "XOR_N2",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_XN2_mid1",
+      "reference": "XOR_N2_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_n3",
+      "reference": "XOR_N3",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_XN3_mid1",
+      "reference": "XOR_N3_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XXOR_XN4_mid1",
+      "reference": "XOR_N4_MID1",
+      "pin": true
+    }
+  ]
 }

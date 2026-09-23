@@ -22,8 +22,8 @@ C {sg13cmos5l_pr/sg13_hv_pmos.sym} 0 -600 0 0 {name=P1 model=sg13_hv_pmos w=6u l
 C {sg13cmos5l_pr/sg13_hv_pmos.sym} 300 -600 0 0 {name=P2 model=sg13_hv_pmos w=6u l=1u ng=1 m=1 spiceprefix=X}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 0 -300 0 0 {name=N1 model=sg13_hv_nmos w=2u l=1u ng=1 m=1 spiceprefix=X}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 300 -300 0 0 {name=N2 model=sg13_hv_nmos w=8u l=1u ng=1 m=1 spiceprefix=X}
-C {sg13cmos5l_pr/rppd.sym} 300 0 0 0 {name=RS model=rppd body=sub! spiceprefix=X w=1u l=30u b=0 m=1}
-C {sg13cmos5l_pr/rhigh.sym} -300 -450 0 0 {name=RSTART model=rhigh body=sub! spiceprefix=X w=0.5u l=8u b=0 m=1}
+C {sg13cmos5l_pr/rppd.sym} 300 0 0 0 {name=RS model=rppd body=VSS spiceprefix=X w=1u l=30u b=0 m=1}
+C {sg13cmos5l_pr/rhigh.sym} -300 -450 0 0 {name=RSTART model=rhigh body=VSS spiceprefix=X w=0.5u l=8u b=0 m=1}
 C {lab_pin.sym} 20 -630 0 0 {name=l1 lab=VDD}
 C {lab_pin.sym} -20 -600 0 0 {name=l2 lab=vb1}
 C {lab_pin.sym} 20 -570 0 0 {name=l3 lab=vb1}
@@ -61,13 +61,13 @@ C {lab_pin.sym} 720 30 0 0 {name=l31 lab=VSS}
 C {lab_pin.sym} 720 0 0 0 {name=l32 lab=VSS}
 C {sg13cmos5l_pr/sg13_hv_pmos.sym} 1100 -600 0 0 {name=M6 model=sg13_hv_pmos w=10u l=1u ng=1 m=1 spiceprefix=X}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1100 -300 0 0 {name=M7 model=sg13_hv_nmos w=4u l=1u ng=1 m=1 spiceprefix=X}
-C {sg13cmos5l_pr/rppd.sym} 1100 0 0 0 {name=RDEGA model=rppd body=sub! spiceprefix=X w=1u l=60u b=0 m=1}
+C {sg13cmos5l_pr/rppd.sym} 1100 0 0 0 {name=RDEGA model=rppd body=VSS spiceprefix=X w=1u l=60u b=0 m=1}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1400 -300 0 0 {name=M8 model=sg13_hv_nmos w=4u l=1u ng=1 m=1 spiceprefix=X}
-C {sg13cmos5l_pr/rppd.sym} 1400 0 0 0 {name=RDEGB0 model=rppd body=sub! spiceprefix=X w=1u l=60u b=0 m=1}
+C {sg13cmos5l_pr/rppd.sym} 1400 0 0 0 {name=RDEGB0 model=rppd body=VSS spiceprefix=X w=1u l=60u b=0 m=1}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 1700 -150 0 0 {name=SWB0 model=sg13_hv_nmos w=4u l=0.3u ng=1 m=1 spiceprefix=X}
-C {sg13cmos5l_pr/rppd.sym} 1700 150 0 0 {name=RDEGB1 model=rppd body=sub! spiceprefix=X w=1u l=60u b=0 m=1}
+C {sg13cmos5l_pr/rppd.sym} 1700 150 0 0 {name=RDEGB1 model=rppd body=VSS spiceprefix=X w=1u l=60u b=0 m=1}
 C {sg13cmos5l_pr/sg13_hv_nmos.sym} 2000 -150 0 0 {name=SWB1 model=sg13_hv_nmos w=4u l=0.3u ng=1 m=1 spiceprefix=X}
-C {sg13cmos5l_pr/rppd.sym} 2000 150 0 0 {name=RDEGB2 model=rppd body=sub! spiceprefix=X w=1u l=30u b=0 m=1}
+C {sg13cmos5l_pr/rppd.sym} 2000 150 0 0 {name=RDEGB2 model=rppd body=VSS spiceprefix=X w=1u l=30u b=0 m=1}
 C {lab_pin.sym} 1120 -630 0 0 {name=l33 lab=VDD}
 C {lab_pin.sym} 1080 -600 0 0 {name=l34 lab=VBP}
 C {lab_pin.sym} 1120 -570 0 0 {name=l35 lab=VBP}

@@ -28,8 +28,9 @@
   "status": "match",
   "power_connectivity": {
     "status": "unchecked",
-    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
     "power_pins": [],
+    "power_pins_derivation": null,
     "instance_count": 0,
     "expected_nets": null,
     "unchecked_expected_pins": [],
@@ -76,24 +77,25 @@
   ],
   "environment": {
     "engine": "klayout",
-    "engine_version": "0.30.10",
+    "engine_version": "0.30.12",
     "layout_sha256": "95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
-    "reference_sha256": "8330c39098b1158cb8f306b6a13201c468216dda1e642f3b8a1566f2b55e3b6c",
+    "reference_sha256": "05b96132a7547c47fbbf477537e971e5600717efa1c42b4947269f39e755f124",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c"
+      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
+      "role": "layout"
     },
-    "klayout_version_mismatch": false
+    "klayout_version_mismatch": true
   },
   "mismatches": [
     {
@@ -142,23 +144,23 @@
       "pin": true
     },
     {
-      "layout": "XLEGN.sw",
-      "reference": "LEGN.SW",
+      "layout": "XLEGN_sw",
+      "reference": "LEGN_SW",
       "pin": true
     },
     {
-      "layout": "XLEGN.tail",
-      "reference": "LEGN.TAIL",
+      "layout": "XLEGN_tail",
+      "reference": "LEGN_TAIL",
       "pin": true
     },
     {
-      "layout": "XLEGP.sw",
-      "reference": "LEGP.SW",
+      "layout": "XLEGP_sw",
+      "reference": "LEGP_SW",
       "pin": true
     },
     {
-      "layout": "XLEGP.tail",
-      "reference": "LEGP.TAIL",
+      "layout": "XLEGP_tail",
+      "reference": "LEGP_TAIL",
       "pin": true
     },
     {

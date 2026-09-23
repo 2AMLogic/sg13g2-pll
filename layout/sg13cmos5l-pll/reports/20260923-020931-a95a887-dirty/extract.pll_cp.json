@@ -1,0 +1,860 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 3,
+    "file": "pll_cp.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_cp",
+    "dbu_um": 0.001,
+    "netlist_path": "pll_cp.extracted.spice",
+    "netlist_sha256": "44204b1644bc3683c2e3428601332e5c6ec78c50e928d99d1da743edfc1f7268",
+    "status": "extracted",
+    "device_count": 20,
+    "net_count": 18,
+    "pin_count": 18,
+    "device_counts": {
+      "nfet": 11,
+      "pfet": 9
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 44,
+        "datatype": 0,
+        "shapes": 20
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "UP",
+          "d": "UPB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w2_l0p5",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$10",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "IBN",
+          "d": "nxn",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w8_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$11",
+        "class": "nfet",
+        "nets": {
+          "s": "nxn",
+          "g": "ICN",
+          "d": "IBN",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w8_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$12",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "UP",
+          "d": "UPB",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w5_l0p5",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$13",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "DN",
+          "d": "DNB",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 5.0,
+          "as_um2": 2.0,
+          "ad_um2": 2.0,
+          "ps_um": 10.8,
+          "pd_um": 10.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w5_l0p5",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$14",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP_sw",
+          "g": "UPB",
+          "d": "VOUT",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w6_l0p3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$15",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP_sw",
+          "g": "UP",
+          "d": "VDUMP",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w6_l0p3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$16",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "ICP",
+          "d": "ICP",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 3.0,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w6_l3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$17",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "IBP",
+          "d": "XLEGP_tail",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w24_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$18",
+        "class": "pfet",
+        "nets": {
+          "s": "XLEGP_tail",
+          "g": "ICP",
+          "d": "XLEGP_sw",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w24_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$19",
+        "class": "pfet",
+        "nets": {
+          "s": "VDD",
+          "g": "IBP",
+          "d": "nxp",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w24_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$2",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "DN",
+          "d": "DNB",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w2_l0p5",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$20",
+        "class": "pfet",
+        "nets": {
+          "s": "nxp",
+          "g": "ICP",
+          "d": "IBP",
+          "b": "VDD"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 24.0,
+          "as_um2": 9.6,
+          "ad_um2": 9.6,
+          "ps_um": 48.8,
+          "pd_um": 48.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_pfet_w24_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$3",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "ICN",
+          "d": "ICN",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 3.0,
+          "w_um": 2.0,
+          "as_um2": 0.8,
+          "ad_um2": 0.8,
+          "ps_um": 4.8,
+          "pd_um": 4.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w2_l3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$4",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "IBN",
+          "d": "VDUMP",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 4.0,
+          "as_um2": 1.6,
+          "ad_um2": 1.6,
+          "ps_um": 8.8,
+          "pd_um": 8.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w4_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$5",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN_sw",
+          "g": "DN",
+          "d": "VOUT",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w6_l0p3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$6",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN_sw",
+          "g": "DNB",
+          "d": "VDUMP",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.3,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w6_l0p3",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$7",
+        "class": "nfet",
+        "nets": {
+          "s": "VDUMP",
+          "g": "VOUT",
+          "d": "VDD",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 0.5,
+          "w_um": 6.0,
+          "as_um2": 2.4,
+          "ad_um2": 2.4,
+          "ps_um": 12.8,
+          "pd_um": 12.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w6_l0p5",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$8",
+        "class": "nfet",
+        "nets": {
+          "s": "VSS",
+          "g": "IBN",
+          "d": "XLEGN_tail",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w8_l1",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$9",
+        "class": "nfet",
+        "nets": {
+          "s": "XLEGN_tail",
+          "g": "ICN",
+          "d": "XLEGN_sw",
+          "b": "VSS"
+        },
+        "params": {
+          "l_um": 1.0,
+          "w_um": 8.0,
+          "as_um2": 3.2,
+          "ad_um2": 3.2,
+          "ps_um": 16.8,
+          "pd_um": 16.8
+        },
+        "instance_path": [
+          {
+            "cell": "cp_nfet_w8_l1",
+            "array_index": null
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "DN",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 4,
+        "pin_index": 0,
+        "label_positions_um": [
+          {
+            "text": "DN",
+            "x_um": 67.03,
+            "y_um": 9.22
+          }
+        ]
+      },
+      {
+        "name": "DNB",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 9,
+        "pin_index": 1,
+        "label_positions_um": [
+          {
+            "text": "DNB",
+            "x_um": 68.51,
+            "y_um": 9.82
+          }
+        ]
+      },
+      {
+        "name": "IBN",
+        "pin": true,
+        "device_count": 4,
+        "net_id": 6,
+        "pin_index": 2,
+        "label_positions_um": [
+          {
+            "text": "IBN",
+            "x_um": 66.59,
+            "y_um": 10.42
+          }
+        ]
+      },
+      {
+        "name": "IBP",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 16,
+        "pin_index": 3,
+        "label_positions_um": [
+          {
+            "text": "IBP",
+            "x_um": 219.67,
+            "y_um": 11.02
+          }
+        ]
+      },
+      {
+        "name": "ICN",
+        "pin": true,
+        "device_count": 4,
+        "net_id": 17,
+        "pin_index": 4,
+        "label_positions_um": [
+          {
+            "text": "ICN",
+            "x_um": 60.55,
+            "y_um": 11.62
+          }
+        ]
+      },
+      {
+        "name": "ICP",
+        "pin": true,
+        "device_count": 4,
+        "net_id": 18,
+        "pin_index": 5,
+        "label_positions_um": [
+          {
+            "text": "ICP",
+            "x_um": 211.63,
+            "y_um": 12.22
+          }
+        ]
+      },
+      {
+        "name": "UP",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 3,
+        "pin_index": 6,
+        "label_positions_um": [
+          {
+            "text": "UP",
+            "x_um": 75.83,
+            "y_um": 12.82
+          }
+        ]
+      },
+      {
+        "name": "UPB",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 12,
+        "pin_index": 7,
+        "label_positions_um": [
+          {
+            "text": "UPB",
+            "x_um": 72.59,
+            "y_um": 13.42
+          }
+        ]
+      },
+      {
+        "name": "VDD",
+        "pin": true,
+        "device_count": 15,
+        "net_id": 2,
+        "pin_index": 8,
+        "label_positions_um": [
+          {
+            "text": "VDD",
+            "x_um": 128.68,
+            "y_um": 1.21
+          },
+          {
+            "text": "VDD",
+            "x_um": 128.68,
+            "y_um": 2.36
+          },
+          {
+            "text": "VDD",
+            "x_um": 147.73,
+            "y_um": 14.02
+          },
+          {
+            "text": "VDD",
+            "x_um": 150.24,
+            "y_um": 1.21
+          },
+          {
+            "text": "VDD",
+            "x_um": 150.24,
+            "y_um": 2.26
+          },
+          {
+            "text": "VDD",
+            "x_um": 168.82,
+            "y_um": 1.21
+          },
+          {
+            "text": "VDD",
+            "x_um": 168.82,
+            "y_um": 3.61
+          },
+          {
+            "text": "VDD",
+            "x_um": 231.36,
+            "y_um": 1.21
+          },
+          {
+            "text": "VDD",
+            "x_um": 231.36,
+            "y_um": 2.61
+          }
+        ]
+      },
+      {
+        "name": "VDUMP",
+        "pin": true,
+        "device_count": 4,
+        "net_id": 8,
+        "pin_index": 9,
+        "label_positions_um": [
+          {
+            "text": "VDUMP",
+            "x_um": 89.89,
+            "y_um": 14.62
+          }
+        ]
+      },
+      {
+        "name": "VOUT",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 7,
+        "pin_index": 10,
+        "label_positions_um": [
+          {
+            "text": "VOUT",
+            "x_um": 92.21,
+            "y_um": 15.22
+          }
+        ]
+      },
+      {
+        "name": "VSS",
+        "pin": true,
+        "device_count": 17,
+        "net_id": 19,
+        "pin_index": 11,
+        "label_positions_um": [
+          {
+            "text": "VSS",
+            "x_um": 48.42,
+            "y_um": 15.82
+          }
+        ]
+      },
+      {
+        "name": "XLEGN_sw",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 5,
+        "pin_index": 12,
+        "label_positions_um": [
+          {
+            "text": "XLEGN.sw",
+            "x_um": 63.37,
+            "y_um": 16.42
+          }
+        ]
+      },
+      {
+        "name": "XLEGN_tail",
+        "pin": true,
+        "device_count": 2,
+        "net_id": 10,
+        "pin_index": 13,
+        "label_positions_um": [
+          {
+            "text": "XLEGN.tail",
+            "x_um": 81.95,
+            "y_um": 17.02
+          }
+        ]
+      },
+      {
+        "name": "XLEGP_sw",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 14,
+        "pin_index": 14,
+        "label_positions_um": [
+          {
+            "text": "XLEGP.sw",
+            "x_um": 175.57,
+            "y_um": 17.62
+          }
+        ]
+      },
+      {
+        "name": "XLEGP_tail",
+        "pin": true,
+        "device_count": 2,
+        "net_id": 13,
+        "pin_index": 15,
+        "label_positions_um": [
+          {
+            "text": "XLEGP.tail",
+            "x_um": 194.15,
+            "y_um": 18.22
+          }
+        ]
+      },
+      {
+        "name": "nxn",
+        "pin": true,
+        "device_count": 2,
+        "net_id": 11,
+        "pin_index": 16,
+        "label_positions_um": [
+          {
+            "text": "nxn",
+            "x_um": 101.87,
+            "y_um": 18.82
+          }
+        ]
+      },
+      {
+        "name": "nxp",
+        "pin": true,
+        "device_count": 2,
+        "net_id": 15,
+        "pin_index": 17,
+        "label_positions_um": [
+          {
+            "text": "nxp",
+            "x_um": 246.07,
+            "y_um": 19.42
+          }
+        ]
+      }
+    ],
+    "warnings": [
+      "4 nets carried hierarchical names containing '.' (ngspice's own hierarchy separator, which makes the node unaddressable by its written name) and were renamed with '_' instead (XLEGN.sw -> XLEGN_sw, XLEGN.tail -> XLEGN_tail, XLEGP.tail -> XLEGP_tail, XLEGP.sw -> XLEGP_sw) -- nets[], the written netlist, the SPEF and any `klt lvs` output all use the renamed spelling, and so must --critical-net/--distributed-rc/--mom-net/--mom-rlc-net"
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "voltage_domain_warnings": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 20,
+      "extract__net__count": 18,
+      "extract__pin__count": 18
+    }
+  },
+  "stderr": ""
+}
