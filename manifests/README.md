@@ -47,24 +47,24 @@ cannot check on its own.
   - No chip-level `pll_top`/pad-ring wrapper exists yet (DR-004) — all
   evidence below is per composed sub-block, and the manifest's citations
   name the digital partition's largest composed block, `pll_divider_chain`
-  (316 devices, 142 routed nets).
+  (394 devices, 181 routed nets).
 
 ### The one artifact story every citation traces to
 
 Every citation in the manifest pins the same layout revision:
 
 ```
-sha256:8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed
-  = sha256 of layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/pll_divider_chain.gds
+sha256:27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196
+  = sha256 of layout/sg13cmos5l-pll/reports/20260923-020931-a95a887-dirty/pll_divider_chain.gds
 ```
 
-byte-identical in both committed report directories that carry it
-(`20260830-204105-457cf5b` and `20260921-155747-c44fa68` — #106's VCO
-locality pass touched `vco`, not `divider_chain`). The ERC and LVS citations
-are committed envelopes whose own `provenance.input.content_hash` already
-carries this hash; the DRC citation is a **command-backed** entry that
-re-runs `klt drc` live, and its pin is graded against the fresh run's own
-reported input hash.
+the #113 record rebuild's GDS, which supersedes the pre-#121 revision
+(`sha256:8b57386f…`, still frozen unchanged in the older committed record
+directories `20260830-204105-457cf5b` and `20260921-155747-c44fa68`).
+The ERC and LVS citations are committed envelopes whose own
+`provenance.input.content_hash` already carries this hash; the DRC
+citation is a **command-backed** entry that re-runs `klt drc` live, and
+its pin is graded against the fresh run's own reported input hash.
 
 ### Item 3 — DRC clean: `met` (both partition rows), with the coverage disclosure the grader cannot check
 
@@ -77,11 +77,11 @@ against the artifact as committed, not against a file's say-so.
   (DR-004), so the claim the row carries is: *every composed sub-block is
   drawn and DRC-checkable at the pinned deck*. All six are DRC-clean today
   — one shared record directory holds the six committed per-block runs
-  (`layout/sg13cmos5l-pll/reports/20260921-155747-c44fa68/drc.pll_{pfd,cp,
+  (`layout/sg13cmos5l-pll/reports/20260923-020931-a95a887-dirty/drc.pll_{pfd,cp,
   vco,divider_chain,lock_detector,loop_filter}.json`, `status: clean`,
-  485/490 devices; the device-level gap is the recorded MoM-cap
-  non-coverage, below) — the mechanically graded citation is one of them,
-  re-run live.
+  569/569 devices — the MoM caps drawn at #119 closed the former
+  device-level gap, and #121's 78 added divider devices re-drew clean) —
+  the mechanically graded citation is one of them, re-run live.
 - **Coverage gaps, quoted from the cited envelope** (item 3 requires these
   disclosed, never hidden behind "clean"):
   - `layers_in_stream_without_rules`:
@@ -92,7 +92,8 @@ against the artifact as committed, not against a file's say-so.
     Metal3/TopVia1/TopMetal1` geometry: deck scope `5.5 Activ`, `5.8
     GatPoly`, `5.16 Metal1`, `5.19 Via1`, `5.17 Metaln`, `5.20 Vian`,
     `5.21 TopVia1`, `5.22 TopMetal1`).
-  - `rules_skipped`: `metal4.{enclosing.via3.1,space.1,width.1}`,
+  - `rules_skipped`: `metal3.enclosing.via3.1`,
+    `metal4.{enclosing.topvia1.1,space.1,width.1}`,
     `topmetal1.{enclosing.topvia1.1,space.1,width.1}`,
     `topvia1.{space.1,width.1}`, `via3.{space.1,width.1}` — deck rules
     with **no drawn geometry at those levels in this stream**, so the deck
@@ -104,8 +105,8 @@ against the artifact as committed, not against a file's say-so.
 - **`11.digital` is graded `met` from three committed facts, one live
   gate** (the compound citation is `[erc, lvs]`):
   - the `erc` part is the **well-tie probe report**
-    `reports/20260921-155144-00b0094/erc.welltie-check.pll_divider_chain.json`
-    (input hash `8b57…`, `erc_status: "clean"`, `erc_finding_count: 0`).
+    `reports/20260923-025442-3d7ffb4/erc.welltie-check.pll_divider_chain.json`
+    (input hash `2714…`, `erc_status: "clean"`, `erc_finding_count: 0`).
     Its spec (`layout/sg13cmos5l-pll/erc-welltie-check-spec.json`) declares
     both supplies (`VDD_DIV`, `VSS`) as `kind: "supply"` **and** the
     pfet-row n-well tie as a checked `ties[]` entry — the run reports
@@ -118,12 +119,12 @@ against the artifact as committed, not against a file's say-so.
     the klayout-tools#2169 workaround that closed upstream 2026-09-20).
   - the `lvs` part is the same-GDS recheck
     `sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/reports/divider_chain.lvs.json`
-    (`status: match`, 316/316 devices, 142/142 nets) **with both supplies
+    (`status: match`, 394/394 devices, 181/181 nets) **with both supplies
     carried by the reference**: `net_correspondence` pairs
     `VDD_DIV`→`VDD_DIV` and `VSS`→`VSS` (pin: true) — the full-custom
     (no-P&R) branch of item 11, satisfied by the Analog column's
     artifacts.
-  - the same-revision pin `8b57…` across the ERC, LVS and DRC citations —
+  - the same-revision pin `2714…` across the ERC, LVS and DRC citations —
     the item's evidence is internally consistent under the manifest's
     staleness gate.
   - Standing disclosures that travel with the evidence: the ERC reports'
@@ -144,7 +145,7 @@ against the artifact as committed, not against a file's say-so.
 | Item | `reason` | The claim-compatible state behind it |
 | --- | --- | --- |
 | 1, 2, 9, 10 | `no_evidence` | Real material exists — committed schematics (`design/sg13cmos5l/*.sch`), composed GDS (`layout/sg13cmos5l-pll/reports/…/pll_*.gds`), committed testbenches (`sim/sg13cmos5l-*`), repo hygiene — but these items bind to **no `klt` verb**, and citing an unrelated passing envelope to turn them green is the dishonesty this file exists to prevent (`docs/cli/signoff.md` → "the safest default is to leave them uncited"). |
-| 4 (both rows) | `no_evidence` | LVS `match` exists for `pfd`, `cp`, `divider_chain` (committed pathways: `sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/reports/{pfd,cp,divider_chain}.lvs.json`); `vco`/`loop_filter`/`lock_detector` **cannot complete LVS** — their `cap_cmomi` MoM devices are unrecognized by the curated extraction deck (klayout-tools#1463, follow-on #1466; recorded in every layout record). A bare-key citation would render both partitions `met` off the partition that does match — deliberately not cited. |
+| 4 (both rows) | `no_evidence` | LVS `match` exists for five blocks — `pfd`, `cp`, `divider_chain`, `loop_filter` (#114/#119), `vco` (#113: schematic resistor bodies re-declared on `VSS`; committed pathways under `sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/reports/`) — while `lock_detector`'s residual is its documented `SUB!` `PU`/`PD` split. A bare-key citation would render both partitions `met` off the partition that does match — deliberately not cited. |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
 | 7 (both rows) | `no_evidence` | A **post-layout PEX PVT campaign exists** (`sim/sg13cmos5l-postlayout-pex-pvt/` — RECORD-001/002, klt-extracted R/C on the routed geometry) but as ngspice run records; item 7 accepts only a `klt pex` envelope for these partitions (an SDF-annotated `klt functional-verification` for an RTL digital partition — not this block's full-custom sub-case). No `klt pex` run exists yet. |

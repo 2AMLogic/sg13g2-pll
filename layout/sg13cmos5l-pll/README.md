@@ -373,7 +373,10 @@ omitted per the recorded klayout-tools#2169 workaround) and
 `erc-welltie-check-spec.json` (a supplementary checked-tie probe, run after
 that issue closed upstream on 2026-09-20). Both live next to this README;
 their committed reports and the standing-in well-tie evidence are frozen in
-`reports/20260921-155144-00b0094/` — read that record's `record.md` first.
+`reports/20260923-025442-3d7ffb4/` (the #113 refresh, re-pinned to the
+current record's GDS — superseding `reports/20260921-155144-00b0094/`,
+which stays frozen against the pre-#121 revision) — read that record's
+`record.md` first.
 Both reads report `erc_status: "clean"`: **one island per declared supply**
 (`VDD_DIV`, `VSS`), zero `erc.unconnected_net`, zero `erc.supply_short`, and
 the n-well tie graded **checked** with zero `erc.missing_tie` in the probe
