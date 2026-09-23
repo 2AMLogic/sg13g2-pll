@@ -1,0 +1,17 @@
+{
+  "schema": "klt.lvs.request/1",
+  "engine": "klayout",
+  "layout": {
+    "file": "pll_divider_chain.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_divider_chain"
+  },
+  "reference": {
+    "netlist": "divider_chain.reference.spice",
+    "deck": "sg13cmos5l"
+  },
+  "options": {
+    "flatten_layout": true,
+    "flatten_reference": true
+  }
+}

@@ -28,8 +28,9 @@
   "status": "match",
   "power_connectivity": {
     "status": "unchecked",
-    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
     "power_pins": [],
+    "power_pins_derivation": null,
     "instance_count": 0,
     "expected_nets": null,
     "unchecked_expected_pins": [],
@@ -76,24 +77,25 @@
   ],
   "environment": {
     "engine": "klayout",
-    "engine_version": "0.30.10",
+    "engine_version": "0.30.12",
     "layout_sha256": "30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7",
-    "reference_sha256": "c4a848e83ceeb1f8440609b629575b4266bf72eb1c3f2a308882ed7a99597587",
+    "reference_sha256": "dc53018f65a100f252cfecf73618aa1b4fe006195e195d513f270625a145a5fc",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7"
+      "content_hash": "sha256:30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7",
+      "role": "layout"
     },
-    "klayout_version_mismatch": false
+    "klayout_version_mismatch": true
   },
   "mismatches": [
     {
@@ -117,73 +119,73 @@
       "pin": true
     },
     {
-      "layout": "XED_DN.d1",
-      "reference": "ED_DN.D1",
+      "layout": "XED_DN_d1",
+      "reference": "ED_DN_D1",
       "pin": true
     },
     {
-      "layout": "XED_DN.d2",
-      "reference": "ED_DN.D2",
+      "layout": "XED_DN_d2",
+      "reference": "ED_DN_D2",
       "pin": true
     },
     {
-      "layout": "XED_DN.d3",
-      "reference": "ED_DN.D3",
+      "layout": "XED_DN_d3",
+      "reference": "ED_DN_D3",
       "pin": true
     },
     {
-      "layout": "XED_DN.d4",
-      "reference": "ED_DN.D4",
+      "layout": "XED_DN_d4",
+      "reference": "ED_DN_D4",
       "pin": true
     },
     {
-      "layout": "XED_DN.XN1.mid1",
-      "reference": "ED_DN.N1.MID1",
+      "layout": "XED_DN_XN1_mid1",
+      "reference": "ED_DN_N1_MID1",
       "pin": true
     },
     {
-      "layout": "XED_DN.ntmp",
-      "reference": "ED_DN.NTMP",
+      "layout": "XED_DN_ntmp",
+      "reference": "ED_DN_NTMP",
       "pin": true
     },
     {
-      "layout": "XED_DN.XD5",
-      "reference": "ED_DN.XD5",
+      "layout": "XED_DN_XD5",
+      "reference": "ED_DN_XD5",
       "pin": true
     },
     {
-      "layout": "XED_UP.d1",
-      "reference": "ED_UP.D1",
+      "layout": "XED_UP_d1",
+      "reference": "ED_UP_D1",
       "pin": true
     },
     {
-      "layout": "XED_UP.d2",
-      "reference": "ED_UP.D2",
+      "layout": "XED_UP_d2",
+      "reference": "ED_UP_D2",
       "pin": true
     },
     {
-      "layout": "XED_UP.d3",
-      "reference": "ED_UP.D3",
+      "layout": "XED_UP_d3",
+      "reference": "ED_UP_D3",
       "pin": true
     },
     {
-      "layout": "XED_UP.d4",
-      "reference": "ED_UP.D4",
+      "layout": "XED_UP_d4",
+      "reference": "ED_UP_D4",
       "pin": true
     },
     {
-      "layout": "XED_UP.XN1.mid1",
-      "reference": "ED_UP.N1.MID1",
+      "layout": "XED_UP_XN1_mid1",
+      "reference": "ED_UP_N1_MID1",
       "pin": true
     },
     {
-      "layout": "XED_UP.ntmp",
-      "reference": "ED_UP.NTMP",
+      "layout": "XED_UP_ntmp",
+      "reference": "ED_UP_NTMP",
       "pin": true
     },
     {
-      "layout": "XED_UP.XD5",
-      "reference": "ED_UP.XD5",
+      "layout": "XED_UP_XD5",
+      "reference": "ED_UP_XD5",
       "pin": true
     },
     {
@@ -192,43 +194,43 @@
       "pin": true
     },
     {
-      "layout": "XLD.XNQ.mid1",
-      "reference": "LD.NQ.MID1",
+      "layout": "XLD_XNQB_mid1",
+      "reference": "LD_NQB_MID1",
       "pin": true
     },
     {
-      "layout": "XLD.XNQB.mid1",
-      "reference": "LD.NQB.MID1",
+      "layout": "XLD_XNQ_mid1",
+      "reference": "LD_NQ_MID1",
       "pin": true
     },
     {
-      "layout": "XLD.RB",
-      "reference": "LD.RB",
+      "layout": "XLD_RB",
+      "reference": "LD_RB",
       "pin": true
     },
     {
-      "layout": "XLD.SB",
-      "reference": "LD.SB",
+      "layout": "XLD_SB",
+      "reference": "LD_SB",
       "pin": true
     },
     {
-      "layout": "XLU.XNQ.mid1",
-      "reference": "LU.NQ.MID1",
+      "layout": "XLU_XNQB_mid1",
+      "reference": "LU_NQB_MID1",
       "pin": true
     },
     {
-      "layout": "XLU.XNQB.mid1",
-      "reference": "LU.NQB.MID1",
+      "layout": "XLU_XNQ_mid1",
+      "reference": "LU_NQ_MID1",
       "pin": true
     },
     {
-      "layout": "XLU.RB",
-      "reference": "LU.RB",
+      "layout": "XLU_RB",
+      "reference": "LU_RB",
       "pin": true
     },
     {
-      "layout": "XLU.SB",
-      "reference": "LU.SB",
+      "layout": "XLU_SB",
+      "reference": "LU_SB",
       "pin": true
     },
     {
@@ -242,8 +244,8 @@
       "pin": true
     },
     {
-      "layout": "XNR.mid1",
-      "reference": "NR.MID1",
+      "layout": "XNR_mid1",
+      "reference": "NR_MID1",
       "pin": true
     },
     {

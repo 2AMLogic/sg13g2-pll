@@ -25,11 +25,12 @@
     ]
   },
   "hints_applied": null,
-  "status": "mismatch",
+  "status": "match",
   "power_connectivity": {
     "status": "unchecked",
-    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
     "power_pins": [],
+    "power_pins_derivation": null,
     "instance_count": 0,
     "expected_nets": null,
     "unchecked_expected_pins": [],
@@ -44,34 +45,27 @@
     "findings": [],
     "finding_count": 0
   },
-  "mismatch_count": 12,
-  "error_count": 9,
+  "mismatch_count": 2,
+  "error_count": 0,
   "category_counts": {
-    "device.placeholder_value": 1,
-    "device.unmatched": 3,
-    "net.unmatched": 5,
-    "topology": 3
+    "topology": 2
   },
-  "category_error_counts": {
-    "device.unmatched": 3,
-    "net.unmatched": 5,
-    "topology": 1
-  },
+  "category_error_counts": {},
   "counts": {
     "nets": {
-      "layout": 3,
+      "layout": 4,
       "reference": 4,
-      "matched": 1
+      "matched": 4
     },
     "devices": {
-      "layout": 1,
+      "layout": 3,
       "reference": 3,
-      "matched": 0
+      "matched": 3
     },
     "pins": {
-      "layout": 3,
+      "layout": 4,
       "reference": 2,
-      "matched": 5
+      "matched": 4
     }
   },
   "device_classes": [
@@ -83,183 +77,28 @@
   ],
   "environment": {
     "engine": "klayout",
-    "engine_version": "0.30.10",
-    "layout_sha256": "9643d324877128375b403ef98f6a04a6bd0d70843b5d0f6a82ab653ebd6f5180",
-    "reference_sha256": "0a3f551bffdbc76388011d873b85f159ad066489b09970600495e255edd6724d",
+    "engine_version": "0.30.12",
+    "layout_sha256": "8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+    "reference_sha256": "df6647e4c375355598b720ab34ef1f7af9ff233c38159bd429059b489add5606",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:9643d324877128375b403ef98f6a04a6bd0d70843b5d0f6a82ab653ebd6f5180"
+      "content_hash": "sha256:8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+      "role": "layout"
     },
-    "klayout_version_mismatch": false
+    "klayout_version_mismatch": true
   },
   "mismatches": [
     {
-      "category": "device.placeholder_value",
-      "severity": "warning",
-      "description": "reference device class 'RPPD' was converted from a subcircuit call (request.reference.form: \"subckt-call\"), so its 'R' value is the literal 0 placeholder on all 1 reference instance(s) -- klt lvs has no PDK sheet-resistance/capacitance-per-area data to compute a real one. 'R' was therefore excluded from this compare on both sides (layout: 1 instance(s), R 351000) and the two sides were paired on topology alone -- that dimension of the compare is not independently verified. Supply a reference in the plain-element form carrying real 'R' values to compare it (see docs/cli/lvs.md, 'device.placeholder_value')",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": null,
-        "reference": null,
-        "class": "RPPD"
-      },
-      "property": null,
-      "details": {
-        "parameter": "R",
-        "device_kind": "resistor",
-        "reference_devices": 1,
-        "layout_devices": 1,
-        "layout_values": [
-          351000.0
-        ]
-      },
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": null,
-        "reference": "1",
-        "class": "CAP_CMOMI"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": null,
-        "reference": "2",
-        "class": "CAP_CMOMI"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "device.unmatched",
-      "severity": "error",
-      "description": "device has no counterpart on the other side",
-      "side": "reference",
-      "net": null,
-      "device": {
-        "layout": "\\$1",
-        "reference": "1",
-        "class": "rppd"
-      },
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "NZ",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "layout net has no reference counterpart",
-      "side": "layout",
-      "net": {
-        "layout": "VCTRL",
-        "reference": null
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "reference": "NZ"
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "reference": "VCTRL"
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "net.unmatched",
-      "severity": "error",
-      "description": "reference net has no layout counterpart",
-      "side": "reference",
-      "net": {
-        "layout": null,
-        "reference": "VSS"
-      },
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
       "category": "topology",
       "severity": "warning",
       "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
@@ -277,19 +116,6 @@
       "severity": "warning",
       "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
       "side": "layout",
-      "net": null,
-      "device": null,
-      "property": null,
-      "details": null,
-      "circuit": null,
-      "instance": null,
-      "subcircuit": null
-    },
-    {
-      "category": "topology",
-      "severity": "error",
-      "description": "device class could not be mapped to a counterpart",
-      "side": "reference",
       "net": null,
       "device": null,
       "property": null,
@@ -301,8 +127,23 @@
   ],
   "net_correspondence": [
     {
+      "layout": "NZ",
+      "reference": "NZ",
+      "pin": true
+    },
+    {
       "layout": "vsubs",
       "reference": "SUB!",
+      "pin": true
+    },
+    {
+      "layout": "VCTRL",
+      "reference": "VCTRL",
+      "pin": true
+    },
+    {
+      "layout": "VSS",
+      "reference": "VSS",
       "pin": true
     }
   ]

@@ -32,10 +32,10 @@ Per the current record (`reports/LATEST`):
 | `pfd` | 66 | 66 | 66 | 66 | yes | 202 | 37 | clean | yes | **`match`** — devices 66/66, nets 37/37 |
 | `cp` | 20 | 20 | 20 | 20 | yes | 70 | 18 | clean | yes | **`match`** — devices 20/20, nets 18/18 |
 | `loop_filter` | 3 | 3 | 3 | 3 | yes | 6 | 3 | clean | yes | **`match`** — devices 3/3, nets 4/4 (#114) |
-| `vco` | 45 | 45 | 45 | 45 | yes | 139 | 33 | clean | yes | `mismatch` — residual is #113's six `XBIAS` resistors + `BIAS.SUB!` net-merge; the drawn `DECAP` matches (#114) |
-| `divider_chain` | 316 | 316 | 316 | 316 | yes | 950 | 142 | clean | yes | **`match`** — devices 316/316, nets 142/142 |
+| `vco` | 45 | 45 | 45 | 45 | yes | 139 | 33 | clean | yes | **`match`** — devices 45/45, nets 33/33 (#113: schematic `XBIAS` resistor bodies re-declared on `VSS`; `pll_vco.gds` unchanged) |
+| `divider_chain` | 394 | 394 | 394 | 394 | yes | 1184 | 181 | clean | yes | **`match`** — devices 394/394, nets 181/181 (absorbs #121's `dff_tg_hv` fix via the #113 record rebuild) |
 | `lock_detector` | 41 | 41 | 41 | 41 | yes | 124 | 23 | clean | yes | `mismatch` — residual is the `SUB!` substrate split (`PU`/`PD`); all three `cap_cmomi` units match (#114) |
-| **Total** | **491** | **491** | **491** | **491** | **6/6** | **1491** | **256** | **6/6 clean** | **6/6** | **4 `match`, 2 mismatch (non-capacitor residuals)** |
+| **Total** | **569** | **569** | **569** | **569** | **6/6** | **1725** | **295** | **6/6 clean** | **6/6** | **5 `match`, 1 mismatch (non-capacitor residual)** |
 
 **Re-run for issue #72** (record `20260830-204105-457cf5b`), after `cp.sch`
 gained its own high-swing cascode bias replica (six new devices — see
@@ -70,11 +70,17 @@ ones a reviewer would otherwise have to take on trust:
   converts them. The one `mismatch_count` entry on each matching block is
   the `topology.flattened` **warning** `options.flatten_reference` always
   emits; it is a note about the compare, not an unmatched object.
-- **The two remaining mismatches contain no capacitor.** `vco`'s unmatched
-  set is exactly #113's six `XBIAS` resistors plus the `BIAS.SUB!`
-  `net.merged` — that issue's own scope, which this issue's AC explicitly
-  leaves to it. `lock_detector`'s is the same substrate-split family
-  (`SUB!` vs the layout's one `vsubs` node, stranding `PU`/`PD`), which
+- **The one remaining mismatch contains no capacitor.** #113 closed
+  `vco`'s half: its six `XBIAS` resistors were never missing from the
+  layout — the schematic declared their bulk terminals on a private
+  floating `sub!` global while the drawn layout puts every resistor bulk
+  on the one substrate node the NMOS body ties also land on, so the
+  reference carried two substrate nodes where the layout has one.
+  Re-declaring the six bodies on `VSS` (schematic + netlist, with
+  `pll_vco.gds` byte-for-byte unchanged) takes `vco` to **match**, 45/45
+  devices, 33/33 nets, no `net.merged`. What remains is `lock_detector`'s
+  same substrate-split family (`SUB!` vs the layout's one `vsubs` node,
+  stranding `PU`/`PD`), which
   predates the capacitors and is a schematic-netlist property, not a
   routing or deck defect. Every drawn `cap_cmomi` — including
   `lock_detector`'s `m=2` unit, drawn as two markers and both matched —
@@ -91,6 +97,13 @@ capacitor card's `m=` multiplier into unit devices (#114):
 two 40×40 µm markers — the honest rendering of "two unit capacitors in
 parallel", and the reason its LVS reference carries two `X ... PARAMS:`
 cards.
+
+The count moves again on this record, 491 → 569, because it is the first
+rebuilt after #121's `dff_tg_hv` hold-path fix: `divider_chain`'s
+reference and layout both carry the repair's 78 added devices, re-drawn,
+DRC-clean, re-extracted matching, and still LVS `match` (394/394 devices,
+181/181 nets). Every other block's device set — and every block GDS other
+than `pll_divider_chain.gds` — is unchanged from the prior record.
 
 The former 5-device shortfall — this port's five `cap_cmomi`
 metal-oxide-metal capacitors (`loop_filter` ×2, `vco` ×1, `lock_detector`
@@ -273,8 +286,10 @@ clears every row above: it draws, it is DRC-clean, it extracts as `rppd` with
 the right value, and its terminals are hundreds of microns apart. The reason
 to leave it alone is that it would move nothing: this design's **8** poly
 resistors live entirely in `loop_filter`, `vco` and `lock_detector` — the
-three blocks whose LVS residuals are the `sub!`/`vsubs` substrate split (and,
-on `vco`, #113's resistors), none of them footprint-attributable — so the
+blocks whose LVS residuals were the `sub!`/`vsubs` substrate split (only
+`lock_detector`'s remains open; #113 re-declared `vco`'s six resistor
+bodies on `VSS`), none of
+them footprint-attributable — so the
 swap buys no verified result while splitting one flow across two footprint
 sources with two different sets of process constants. It is recorded here as
 the place a future swap should *start*, on the day
@@ -338,11 +353,17 @@ resistors declare their bulk terminal on the schematic's own floating
 `sub!` global, while the layout puts every drawn resistor's bulk on the
 deck's real substrate net (`vsubs`) — which the NMOS body ties also land
 on. So the layout has one substrate node where the reference has two. On
-`vco` this is #113's territory (its six `XBIAS` resistors plus
+`vco` this was #113's territory (its six `XBIAS` resistors plus
 `BIAS.SUB!`); on `lock_detector` it strands `PU`/`PD` the same way. It is a
-schematic-netlist property, not a routing or deck defect, and it is
-recorded rather than resolved: changing which node a device's bulk is
-declared on is a schematic change, and this increment does not make one.
+schematic-netlist property, not a routing or deck defect, and it stayed
+recorded rather than resolved through the capacitor increment: changing
+which node a device's bulk is declared on is a schematic change, and that
+increment did not make one. #113 then made exactly that change for `vco`:
+the six `XBIAS` bodies are declared on `VSS` — the substrate node the
+drawn layout actually ties them to — in `vco_bias.sch` and the generated
+`vco.spice`, and the same-GDS re-compare returns `match`.
+`lock_detector`'s `PU`/`PD` stranding is the form of this finding still
+open.
 
 ## ERC: T1 item 11 power-delivery (structural) — done for `divider_chain`
 
@@ -490,6 +511,23 @@ in the current record's own table (top of this README): `loop_filter`
 **match** (3/3), `vco` mismatch with the `DECAP` matched and exactly #113's
 residual left, `lock_detector` mismatch with all three capacitor units
 matched and the pre-existing `SUB!` split left.
+
+**Issue #113 closed the resistor half and re-ran this recheck.** The
+record rebuild at `a95a887` carries #121's `divider_chain` fix plus the
+six-line schematic change declaring `vco`'s `XBIAS` resistor bodies on
+`VSS` instead of the private floating `sub!` — `pll_vco.gds` is
+byte-identical to the prior record's, so the compare is the same layout
+against the corrected reference. `run-lvs-recheck.sh` was re-run against
+that record, so the artifacts in
+[`sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/`](../../sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/)
+now hold this run (the #30-era table above is the history it supersedes):
+`pfd` **match** 66/66, `cp` **match** 20/20, `divider_chain` **match**
+394/394 (181/181 nets — #121's added devices absorbed clean),
+`loop_filter` **match** 3/3, `vco` **match** 45/45 (33/33 nets, no
+`net.merged`), and `lock_detector` newly comparable in this flow — the
+reference rewrite retired its `m=2` blocker — at **mismatch** 39/41
+devices, 19/24 nets, exactly its documented `SUB!` `PU`/`PD` split, still
+open.
 
 ## Friction: `klt`/deck gaps found on this port
 

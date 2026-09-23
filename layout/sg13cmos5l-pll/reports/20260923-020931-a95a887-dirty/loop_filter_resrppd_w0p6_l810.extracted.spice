@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell loop_filter_resrppd_w0p6_l810
+* pin vsubs
+.SUBCKT loop_filter_resrppd_w0p6_l810 vsubs
+* device instance $1 r0 *1 405.5,0.5 rppd
+R$1 \$1 \$2 vsubs 351000 rppd L=810U W=0.6U
+.ENDS loop_filter_resrppd_w0p6_l810

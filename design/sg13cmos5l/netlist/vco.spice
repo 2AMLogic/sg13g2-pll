@@ -34,20 +34,20 @@ XP1 vb1 vb1 VDD VDD sg13_hv_pmos w=6u l=1u ng=1 m=1
 XP2 vb2 vb1 VDD VDD sg13_hv_pmos w=6u l=1u ng=1 m=1
 XN1 vb1 vb2 VSS VSS sg13_hv_nmos w=2u l=1u ng=1 m=1
 XN2 vb2 vb2 n2s VSS sg13_hv_nmos w=8u l=1u ng=1 m=1
-XRS n2s VSS sub! rppd w=1u l=30u m=1 b=0
-XRSTART VDD vb2 sub! rhigh w=0.5u l=8u m=1 b=0
+XRS n2s VSS VSS rppd w=1u l=30u m=1 b=0
+XRSTART VDD vb2 VSS rhigh w=0.5u l=8u m=1 b=0
 XP5 VFIX vb1 VDD VDD sg13_hv_pmos w=3u l=1u ng=1 m=1
 XN5 VFIX VFIX vfixmid VSS sg13_hv_nmos w=2u l=1u ng=1 m=1
 XN6 vfixmid vfixmid VSS VSS sg13_hv_nmos w=2u l=1u ng=1 m=1
 XM6 VBP VBP VDD VDD sg13_hv_pmos w=10u l=1u ng=1 m=1
 XM7 VBP VFIX dega VSS sg13_hv_nmos w=4u l=1u ng=1 m=1
-XRDEGA dega VSS sub! rppd w=1u l=60u m=1 b=0
+XRDEGA dega VSS VSS rppd w=1u l=60u m=1 b=0
 XM8 VBP VCTRL degb VSS sg13_hv_nmos w=4u l=1u ng=1 m=1
-XRDEGB0 degb VSS sub! rppd w=1u l=60u m=1 b=0
+XRDEGB0 degb VSS VSS rppd w=1u l=60u m=1 b=0
 XSWB0 degb B0 nb0 VSS sg13_hv_nmos w=4u l=0.3u ng=1 m=1
-XRDEGB1 nb0 VSS sub! rppd w=1u l=60u m=1 b=0
+XRDEGB1 nb0 VSS VSS rppd w=1u l=60u m=1 b=0
 XSWB1 degb B1 nb1 VSS sg13_hv_nmos w=4u l=0.3u ng=1 m=1
-XRDEGB2 nb1 VSS sub! rppd w=1u l=30u m=1 b=0
+XRDEGB2 nb1 VSS VSS rppd w=1u l=30u m=1 b=0
 XM11 VBN VBP VDD VDD sg13_hv_pmos w=10u l=1u ng=1 m=1
 XM10 VBN VBN VSS VSS sg13_hv_nmos w=4u l=1u ng=1 m=1
 .ends

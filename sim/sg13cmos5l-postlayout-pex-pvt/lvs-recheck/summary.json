@@ -33,18 +33,18 @@
       "compared": true,
       "counts": {
         "devices": {
-          "layout": 316,
-          "matched": 316,
-          "reference": 316
+          "layout": 394,
+          "matched": 394,
+          "reference": 394
         },
         "nets": {
-          "layout": 142,
-          "matched": 142,
-          "reference": 142
+          "layout": 181,
+          "matched": 181,
+          "reference": 181
         },
         "pins": {
-          "layout": 142,
-          "matched": 142,
+          "layout": 181,
+          "matched": 181,
           "reference": 12
         }
       },
@@ -53,38 +53,58 @@
       "status": "match"
     },
     "lock_detector": {
-      "compared": false,
-      "error": "could not convert subckt-call reference netlist '/tmp/tmp.ZQbyxhMQeu/lock_detector.reference.spice' to plain-element form: device 'C1' (subcircuit 'cap_cmomi'): m=2 describes a multi-finger/multiplied device the curated plain-element form cannot represent; flatten it in the schematic netlist (one device per drawn gate) before comparing",
-      "status": null
-    },
-    "loop_filter": {
       "category_counts": {
-        "device.placeholder_value": 1,
-        "device.unmatched": 3,
-        "net.unmatched": 5,
-        "topology": 3
+        "device.unmatched": 2,
+        "net.unmatched": 3,
+        "topology.flattened": 1
       },
       "compared": true,
       "counts": {
         "devices": {
-          "layout": 1,
-          "matched": 0,
+          "layout": 41,
+          "matched": 39,
+          "reference": 41
+        },
+        "nets": {
+          "layout": 25,
+          "matched": 19,
+          "reference": 24
+        },
+        "pins": {
+          "layout": 23,
+          "matched": 23,
+          "reference": 5
+        }
+      },
+      "error_count": 5,
+      "mismatch_count": 6,
+      "status": "mismatch"
+    },
+    "loop_filter": {
+      "category_counts": {
+        "topology": 2
+      },
+      "compared": true,
+      "counts": {
+        "devices": {
+          "layout": 3,
+          "matched": 3,
           "reference": 3
         },
         "nets": {
-          "layout": 3,
-          "matched": 1,
+          "layout": 4,
+          "matched": 4,
           "reference": 4
         },
         "pins": {
-          "layout": 3,
-          "matched": 5,
+          "layout": 4,
+          "matched": 4,
           "reference": 2
         }
       },
-      "error_count": 9,
-      "mismatch_count": 12,
-      "status": "mismatch"
+      "error_count": 0,
+      "mismatch_count": 2,
+      "status": "match"
     },
     "pfd": {
       "category_counts": {
@@ -114,23 +134,19 @@
     },
     "vco": {
       "category_counts": {
-        "device.placeholder_value": 2,
-        "device.unmatched": 7,
-        "net.merged": 1,
-        "topology": 1,
         "topology.flattened": 1
       },
       "compared": true,
       "counts": {
         "devices": {
-          "layout": 44,
-          "matched": 38,
+          "layout": 45,
+          "matched": 45,
           "reference": 45
         },
         "nets": {
           "layout": 33,
-          "matched": 25,
-          "reference": 34
+          "matched": 33,
+          "reference": 33
         },
         "pins": {
           "layout": 33,
@@ -138,9 +154,9 @@
           "reference": 6
         }
       },
-      "error_count": 9,
-      "mismatch_count": 12,
-      "status": "mismatch"
+      "error_count": 0,
+      "mismatch_count": 1,
+      "status": "match"
     }
   },
   "device_map_addition": {
@@ -149,6 +165,6 @@
     ],
     "why": "the committed layout record's own lvs.<block>.json shows loop_filter/vco/lock_detector were never compared -- klt refused to convert their subckt-call reference netlists because cap_cmomi was not a known device for the deck. klt's own error names device_map as the fix; nothing else in any request changed."
   },
-  "klt_version": "klt 0.2.0+unknown",
-  "layout_record": "20260921-155747-c44fa68"
+  "klt_version": "klt 0.6.0+gdaf06a51afaf",
+  "layout_record": "20260923-020931-a95a887-dirty"
 }

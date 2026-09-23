@@ -28,8 +28,9 @@
   "status": "match",
   "power_connectivity": {
     "status": "unchecked",
-    "reason": "reference.form is 'subckt-call', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
     "power_pins": [],
+    "power_pins_derivation": null,
     "instance_count": 0,
     "expected_nets": null,
     "unchecked_expected_pins": [],
@@ -52,19 +53,19 @@
   "category_error_counts": {},
   "counts": {
     "nets": {
-      "layout": 142,
-      "reference": 142,
-      "matched": 142
+      "layout": 181,
+      "reference": 181,
+      "matched": 181
     },
     "devices": {
-      "layout": 316,
-      "reference": 316,
-      "matched": 316
+      "layout": 394,
+      "reference": 394,
+      "matched": 394
     },
     "pins": {
-      "layout": 142,
+      "layout": 181,
       "reference": 12,
-      "matched": 142
+      "matched": 181
     }
   },
   "device_classes": [
@@ -76,24 +77,25 @@
   ],
   "environment": {
     "engine": "klayout",
-    "engine_version": "0.30.10",
-    "layout_sha256": "8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed",
-    "reference_sha256": "c9c306c21290d93ad48bf99db9644844118708c2b4850a0c51cb1b574bb8e3ee",
+    "engine_version": "0.30.12",
+    "layout_sha256": "27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196",
+    "reference_sha256": "109c5633cb0b8ab5e2e46a5036eae1fff3cf59bb49443c561f326024d03764c8",
     "extracted_netlist": null
   },
   "provenance": {
-    "klt_version": "0.2.0",
-    "klayout_version": "0.30.10",
+    "klt_version": "0.6.0+gdaf06a51afaf",
+    "klayout_version": "0.30.12",
     "pdk": null,
     "deck": {
       "name": "sg13cmos5l",
       "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
-      "released": false
+      "released": true
     },
     "input": {
-      "content_hash": "sha256:8b57386f6dad5d3a928cdf6b40269920149895ffedef5d2832148cf21645afed"
+      "content_hash": "sha256:27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196",
+      "role": "layout"
     },
-    "klayout_version_mismatch": false
+    "klayout_version_mismatch": true
   },
   "mismatches": [
     {
@@ -147,573 +149,753 @@
       "pin": true
     },
     {
-      "layout": "XD0.XDFFM.CLKB",
-      "reference": "D0.DFFM.CLKB",
+      "layout": "XD0_XDFFM_CKBB",
+      "reference": "D0_DFFM_CKBB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFM.M",
-      "reference": "D0.DFFM.M",
+      "layout": "XD0_XDFFM_CLKB",
+      "reference": "D0_DFFM_CLKB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFM.MB",
-      "reference": "D0.DFFM.MB",
+      "layout": "XD0_XDFFM_M",
+      "reference": "D0_DFFM_M",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFM.S",
-      "reference": "D0.DFFM.S",
+      "layout": "XD0_XDFFM_MB",
+      "reference": "D0_DFFM_MB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFM.SB",
-      "reference": "D0.DFFM.SB",
+      "layout": "XD0_XDFFM_MFB",
+      "reference": "D0_DFFM_MFB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFQ.CLKB",
-      "reference": "D0.DFFQ.CLKB",
+      "layout": "XD0_XDFFM_S",
+      "reference": "D0_DFFM_S",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFQ.M",
-      "reference": "D0.DFFQ.M",
+      "layout": "XD0_XDFFM_SB",
+      "reference": "D0_DFFM_SB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFQ.MB",
-      "reference": "D0.DFFQ.MB",
+      "layout": "XD0_XDFFM_SFB",
+      "reference": "D0_DFFM_SFB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFQ.S",
-      "reference": "D0.DFFQ.S",
+      "layout": "XD0_XDFFQ_CKBB",
+      "reference": "D0_DFFQ_CKBB",
       "pin": true
     },
     {
-      "layout": "XD0.XDFFQ.SB",
-      "reference": "D0.DFFQ.SB",
+      "layout": "XD0_XDFFQ_CLKB",
+      "reference": "D0_DFFQ_CLKB",
       "pin": true
     },
     {
-      "layout": "XD0.dmodout",
-      "reference": "D0.DMODOUT",
+      "layout": "XD0_XDFFQ_M",
+      "reference": "D0_DFFQ_M",
       "pin": true
     },
     {
-      "layout": "XD0.dq",
-      "reference": "D0.DQ",
+      "layout": "XD0_XDFFQ_MB",
+      "reference": "D0_DFFQ_MB",
       "pin": true
     },
     {
-      "layout": "XD0.XN2.mid1",
-      "reference": "D0.N2.MID1",
+      "layout": "XD0_XDFFQ_MFB",
+      "reference": "D0_DFFQ_MFB",
       "pin": true
     },
     {
-      "layout": "XD0.XN3.mid1",
-      "reference": "D0.N3.MID1",
+      "layout": "XD0_XDFFQ_S",
+      "reference": "D0_DFFQ_S",
       "pin": true
     },
     {
-      "layout": "XD0.XN3.mid2",
-      "reference": "D0.N3.MID2",
+      "layout": "XD0_XDFFQ_SB",
+      "reference": "D0_DFFQ_SB",
       "pin": true
     },
     {
-      "layout": "XD0.nm",
-      "reference": "D0.NM",
+      "layout": "XD0_XDFFQ_SFB",
+      "reference": "D0_DFFQ_SFB",
       "pin": true
     },
     {
-      "layout": "XD0.XNOR.midp",
-      "reference": "D0.NOR.MIDP",
+      "layout": "XD0_dmodout",
+      "reference": "D0_DMODOUT",
       "pin": true
     },
     {
-      "layout": "XD0.nt",
-      "reference": "D0.NT",
+      "layout": "XD0_dq",
+      "reference": "D0_DQ",
       "pin": true
     },
     {
-      "layout": "XD0.t1",
-      "reference": "D0.T1",
+      "layout": "XD0_XN2_mid1",
+      "reference": "D0_N2_MID1",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFM.CLKB",
-      "reference": "D1.DFFM.CLKB",
+      "layout": "XD0_XN3_mid1",
+      "reference": "D0_N3_MID1",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFM.M",
-      "reference": "D1.DFFM.M",
+      "layout": "XD0_XN3_mid2",
+      "reference": "D0_N3_MID2",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFM.MB",
-      "reference": "D1.DFFM.MB",
+      "layout": "XD0_nm",
+      "reference": "D0_NM",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFM.S",
-      "reference": "D1.DFFM.S",
+      "layout": "XD0_XNOR_midp",
+      "reference": "D0_NOR_MIDP",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFM.SB",
-      "reference": "D1.DFFM.SB",
+      "layout": "XD0_nt",
+      "reference": "D0_NT",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFQ.CLKB",
-      "reference": "D1.DFFQ.CLKB",
+      "layout": "XD0_t1",
+      "reference": "D0_T1",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFQ.M",
-      "reference": "D1.DFFQ.M",
+      "layout": "XD1_XDFFM_CKBB",
+      "reference": "D1_DFFM_CKBB",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFQ.MB",
-      "reference": "D1.DFFQ.MB",
+      "layout": "XD1_XDFFM_CLKB",
+      "reference": "D1_DFFM_CLKB",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFQ.S",
-      "reference": "D1.DFFQ.S",
+      "layout": "XD1_XDFFM_M",
+      "reference": "D1_DFFM_M",
       "pin": true
     },
     {
-      "layout": "XD1.XDFFQ.SB",
-      "reference": "D1.DFFQ.SB",
+      "layout": "XD1_XDFFM_MB",
+      "reference": "D1_DFFM_MB",
       "pin": true
     },
     {
-      "layout": "XD1.dmodout",
-      "reference": "D1.DMODOUT",
+      "layout": "XD1_XDFFM_MFB",
+      "reference": "D1_DFFM_MFB",
       "pin": true
     },
     {
-      "layout": "XD1.dq",
-      "reference": "D1.DQ",
+      "layout": "XD1_XDFFM_S",
+      "reference": "D1_DFFM_S",
       "pin": true
     },
     {
-      "layout": "XD1.XN2.mid1",
-      "reference": "D1.N2.MID1",
+      "layout": "XD1_XDFFM_SB",
+      "reference": "D1_DFFM_SB",
       "pin": true
     },
     {
-      "layout": "XD1.XN3.mid1",
-      "reference": "D1.N3.MID1",
+      "layout": "XD1_XDFFM_SFB",
+      "reference": "D1_DFFM_SFB",
       "pin": true
     },
     {
-      "layout": "XD1.XN3.mid2",
-      "reference": "D1.N3.MID2",
+      "layout": "XD1_XDFFQ_CKBB",
+      "reference": "D1_DFFQ_CKBB",
       "pin": true
     },
     {
-      "layout": "XD1.nm",
-      "reference": "D1.NM",
+      "layout": "XD1_XDFFQ_CLKB",
+      "reference": "D1_DFFQ_CLKB",
       "pin": true
     },
     {
-      "layout": "XD1.XNOR.midp",
-      "reference": "D1.NOR.MIDP",
+      "layout": "XD1_XDFFQ_M",
+      "reference": "D1_DFFQ_M",
       "pin": true
     },
     {
-      "layout": "XD1.nt",
-      "reference": "D1.NT",
+      "layout": "XD1_XDFFQ_MB",
+      "reference": "D1_DFFQ_MB",
       "pin": true
     },
     {
-      "layout": "XD1.t1",
-      "reference": "D1.T1",
+      "layout": "XD1_XDFFQ_MFB",
+      "reference": "D1_DFFQ_MFB",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFM.CLKB",
-      "reference": "D2.DFFM.CLKB",
+      "layout": "XD1_XDFFQ_S",
+      "reference": "D1_DFFQ_S",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFM.M",
-      "reference": "D2.DFFM.M",
+      "layout": "XD1_XDFFQ_SB",
+      "reference": "D1_DFFQ_SB",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFM.MB",
-      "reference": "D2.DFFM.MB",
+      "layout": "XD1_XDFFQ_SFB",
+      "reference": "D1_DFFQ_SFB",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFM.S",
-      "reference": "D2.DFFM.S",
+      "layout": "XD1_dmodout",
+      "reference": "D1_DMODOUT",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFM.SB",
-      "reference": "D2.DFFM.SB",
+      "layout": "XD1_dq",
+      "reference": "D1_DQ",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFQ.CLKB",
-      "reference": "D2.DFFQ.CLKB",
+      "layout": "XD1_XN2_mid1",
+      "reference": "D1_N2_MID1",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFQ.M",
-      "reference": "D2.DFFQ.M",
+      "layout": "XD1_XN3_mid1",
+      "reference": "D1_N3_MID1",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFQ.MB",
-      "reference": "D2.DFFQ.MB",
+      "layout": "XD1_XN3_mid2",
+      "reference": "D1_N3_MID2",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFQ.S",
-      "reference": "D2.DFFQ.S",
+      "layout": "XD1_nm",
+      "reference": "D1_NM",
       "pin": true
     },
     {
-      "layout": "XD2.XDFFQ.SB",
-      "reference": "D2.DFFQ.SB",
+      "layout": "XD1_XNOR_midp",
+      "reference": "D1_NOR_MIDP",
       "pin": true
     },
     {
-      "layout": "XD2.dmodout",
-      "reference": "D2.DMODOUT",
+      "layout": "XD1_nt",
+      "reference": "D1_NT",
       "pin": true
     },
     {
-      "layout": "XD2.dq",
-      "reference": "D2.DQ",
+      "layout": "XD1_t1",
+      "reference": "D1_T1",
       "pin": true
     },
     {
-      "layout": "XD2.XN2.mid1",
-      "reference": "D2.N2.MID1",
+      "layout": "XD2_XDFFM_CKBB",
+      "reference": "D2_DFFM_CKBB",
       "pin": true
     },
     {
-      "layout": "XD2.XN3.mid1",
-      "reference": "D2.N3.MID1",
+      "layout": "XD2_XDFFM_CLKB",
+      "reference": "D2_DFFM_CLKB",
       "pin": true
     },
     {
-      "layout": "XD2.XN3.mid2",
-      "reference": "D2.N3.MID2",
+      "layout": "XD2_XDFFM_M",
+      "reference": "D2_DFFM_M",
       "pin": true
     },
     {
-      "layout": "XD2.nm",
-      "reference": "D2.NM",
+      "layout": "XD2_XDFFM_MB",
+      "reference": "D2_DFFM_MB",
       "pin": true
     },
     {
-      "layout": "XD2.XNOR.midp",
-      "reference": "D2.NOR.MIDP",
+      "layout": "XD2_XDFFM_MFB",
+      "reference": "D2_DFFM_MFB",
       "pin": true
     },
     {
-      "layout": "XD2.nt",
-      "reference": "D2.NT",
+      "layout": "XD2_XDFFM_S",
+      "reference": "D2_DFFM_S",
       "pin": true
     },
     {
-      "layout": "XD2.t1",
-      "reference": "D2.T1",
+      "layout": "XD2_XDFFM_SB",
+      "reference": "D2_DFFM_SB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFM.CLKB",
-      "reference": "D3.DFFM.CLKB",
+      "layout": "XD2_XDFFM_SFB",
+      "reference": "D2_DFFM_SFB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFM.M",
-      "reference": "D3.DFFM.M",
+      "layout": "XD2_XDFFQ_CKBB",
+      "reference": "D2_DFFQ_CKBB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFM.MB",
-      "reference": "D3.DFFM.MB",
+      "layout": "XD2_XDFFQ_CLKB",
+      "reference": "D2_DFFQ_CLKB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFM.S",
-      "reference": "D3.DFFM.S",
+      "layout": "XD2_XDFFQ_M",
+      "reference": "D2_DFFQ_M",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFM.SB",
-      "reference": "D3.DFFM.SB",
+      "layout": "XD2_XDFFQ_MB",
+      "reference": "D2_DFFQ_MB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFQ.CLKB",
-      "reference": "D3.DFFQ.CLKB",
+      "layout": "XD2_XDFFQ_MFB",
+      "reference": "D2_DFFQ_MFB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFQ.M",
-      "reference": "D3.DFFQ.M",
+      "layout": "XD2_XDFFQ_S",
+      "reference": "D2_DFFQ_S",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFQ.MB",
-      "reference": "D3.DFFQ.MB",
+      "layout": "XD2_XDFFQ_SB",
+      "reference": "D2_DFFQ_SB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFQ.S",
-      "reference": "D3.DFFQ.S",
+      "layout": "XD2_XDFFQ_SFB",
+      "reference": "D2_DFFQ_SFB",
       "pin": true
     },
     {
-      "layout": "XD3.XDFFQ.SB",
-      "reference": "D3.DFFQ.SB",
+      "layout": "XD2_dmodout",
+      "reference": "D2_DMODOUT",
       "pin": true
     },
     {
-      "layout": "XD3.dmodout",
-      "reference": "D3.DMODOUT",
+      "layout": "XD2_dq",
+      "reference": "D2_DQ",
       "pin": true
     },
     {
-      "layout": "XD3.dq",
-      "reference": "D3.DQ",
+      "layout": "XD2_XN2_mid1",
+      "reference": "D2_N2_MID1",
       "pin": true
     },
     {
-      "layout": "XD3.XN2.mid1",
-      "reference": "D3.N2.MID1",
+      "layout": "XD2_XN3_mid1",
+      "reference": "D2_N3_MID1",
       "pin": true
     },
     {
-      "layout": "XD3.XN3.mid1",
-      "reference": "D3.N3.MID1",
+      "layout": "XD2_XN3_mid2",
+      "reference": "D2_N3_MID2",
       "pin": true
     },
     {
-      "layout": "XD3.XN3.mid2",
-      "reference": "D3.N3.MID2",
+      "layout": "XD2_nm",
+      "reference": "D2_NM",
       "pin": true
     },
     {
-      "layout": "XD3.nm",
-      "reference": "D3.NM",
+      "layout": "XD2_XNOR_midp",
+      "reference": "D2_NOR_MIDP",
       "pin": true
     },
     {
-      "layout": "XD3.XNOR.midp",
-      "reference": "D3.NOR.MIDP",
+      "layout": "XD2_nt",
+      "reference": "D2_NT",
       "pin": true
     },
     {
-      "layout": "XD3.nt",
-      "reference": "D3.NT",
+      "layout": "XD2_t1",
+      "reference": "D2_T1",
       "pin": true
     },
     {
-      "layout": "XD3.t1",
-      "reference": "D3.T1",
+      "layout": "XD3_XDFFM_CKBB",
+      "reference": "D3_DFFM_CKBB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFM.CLKB",
-      "reference": "D4.DFFM.CLKB",
+      "layout": "XD3_XDFFM_CLKB",
+      "reference": "D3_DFFM_CLKB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFM.M",
-      "reference": "D4.DFFM.M",
+      "layout": "XD3_XDFFM_M",
+      "reference": "D3_DFFM_M",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFM.MB",
-      "reference": "D4.DFFM.MB",
+      "layout": "XD3_XDFFM_MB",
+      "reference": "D3_DFFM_MB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFM.S",
-      "reference": "D4.DFFM.S",
+      "layout": "XD3_XDFFM_MFB",
+      "reference": "D3_DFFM_MFB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFM.SB",
-      "reference": "D4.DFFM.SB",
+      "layout": "XD3_XDFFM_S",
+      "reference": "D3_DFFM_S",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFQ.CLKB",
-      "reference": "D4.DFFQ.CLKB",
+      "layout": "XD3_XDFFM_SB",
+      "reference": "D3_DFFM_SB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFQ.M",
-      "reference": "D4.DFFQ.M",
+      "layout": "XD3_XDFFM_SFB",
+      "reference": "D3_DFFM_SFB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFQ.MB",
-      "reference": "D4.DFFQ.MB",
+      "layout": "XD3_XDFFQ_CKBB",
+      "reference": "D3_DFFQ_CKBB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFQ.S",
-      "reference": "D4.DFFQ.S",
+      "layout": "XD3_XDFFQ_CLKB",
+      "reference": "D3_DFFQ_CLKB",
       "pin": true
     },
     {
-      "layout": "XD4.XDFFQ.SB",
-      "reference": "D4.DFFQ.SB",
+      "layout": "XD3_XDFFQ_M",
+      "reference": "D3_DFFQ_M",
       "pin": true
     },
     {
-      "layout": "XD4.dmodout",
-      "reference": "D4.DMODOUT",
+      "layout": "XD3_XDFFQ_MB",
+      "reference": "D3_DFFQ_MB",
       "pin": true
     },
     {
-      "layout": "XD4.dq",
-      "reference": "D4.DQ",
+      "layout": "XD3_XDFFQ_MFB",
+      "reference": "D3_DFFQ_MFB",
       "pin": true
     },
     {
-      "layout": "XD4.XN2.mid1",
-      "reference": "D4.N2.MID1",
+      "layout": "XD3_XDFFQ_S",
+      "reference": "D3_DFFQ_S",
       "pin": true
     },
     {
-      "layout": "XD4.XN3.mid1",
-      "reference": "D4.N3.MID1",
+      "layout": "XD3_XDFFQ_SB",
+      "reference": "D3_DFFQ_SB",
       "pin": true
     },
     {
-      "layout": "XD4.XN3.mid2",
-      "reference": "D4.N3.MID2",
+      "layout": "XD3_XDFFQ_SFB",
+      "reference": "D3_DFFQ_SFB",
       "pin": true
     },
     {
-      "layout": "XD4.nm",
-      "reference": "D4.NM",
+      "layout": "XD3_dmodout",
+      "reference": "D3_DMODOUT",
       "pin": true
     },
     {
-      "layout": "XD4.XNOR.midp",
-      "reference": "D4.NOR.MIDP",
+      "layout": "XD3_dq",
+      "reference": "D3_DQ",
       "pin": true
     },
     {
-      "layout": "XD4.nt",
-      "reference": "D4.NT",
+      "layout": "XD3_XN2_mid1",
+      "reference": "D3_N2_MID1",
       "pin": true
     },
     {
-      "layout": "XD4.t1",
-      "reference": "D4.T1",
+      "layout": "XD3_XN3_mid1",
+      "reference": "D3_N3_MID1",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFM.CLKB",
-      "reference": "D5.DFFM.CLKB",
+      "layout": "XD3_XN3_mid2",
+      "reference": "D3_N3_MID2",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFM.M",
-      "reference": "D5.DFFM.M",
+      "layout": "XD3_nm",
+      "reference": "D3_NM",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFM.MB",
-      "reference": "D5.DFFM.MB",
+      "layout": "XD3_XNOR_midp",
+      "reference": "D3_NOR_MIDP",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFM.S",
-      "reference": "D5.DFFM.S",
+      "layout": "XD3_nt",
+      "reference": "D3_NT",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFM.SB",
-      "reference": "D5.DFFM.SB",
+      "layout": "XD3_t1",
+      "reference": "D3_T1",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFQ.CLKB",
-      "reference": "D5.DFFQ.CLKB",
+      "layout": "XD4_XDFFM_CKBB",
+      "reference": "D4_DFFM_CKBB",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFQ.M",
-      "reference": "D5.DFFQ.M",
+      "layout": "XD4_XDFFM_CLKB",
+      "reference": "D4_DFFM_CLKB",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFQ.MB",
-      "reference": "D5.DFFQ.MB",
+      "layout": "XD4_XDFFM_M",
+      "reference": "D4_DFFM_M",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFQ.S",
-      "reference": "D5.DFFQ.S",
+      "layout": "XD4_XDFFM_MB",
+      "reference": "D4_DFFM_MB",
       "pin": true
     },
     {
-      "layout": "XD5.XDFFQ.SB",
-      "reference": "D5.DFFQ.SB",
+      "layout": "XD4_XDFFM_MFB",
+      "reference": "D4_DFFM_MFB",
       "pin": true
     },
     {
-      "layout": "XD5.dmodout",
-      "reference": "D5.DMODOUT",
+      "layout": "XD4_XDFFM_S",
+      "reference": "D4_DFFM_S",
       "pin": true
     },
     {
-      "layout": "XD5.dq",
-      "reference": "D5.DQ",
+      "layout": "XD4_XDFFM_SB",
+      "reference": "D4_DFFM_SB",
       "pin": true
     },
     {
-      "layout": "XD5.XN2.mid1",
-      "reference": "D5.N2.MID1",
+      "layout": "XD4_XDFFM_SFB",
+      "reference": "D4_DFFM_SFB",
       "pin": true
     },
     {
-      "layout": "XD5.XN3.mid1",
-      "reference": "D5.N3.MID1",
+      "layout": "XD4_XDFFQ_CKBB",
+      "reference": "D4_DFFQ_CKBB",
       "pin": true
     },
     {
-      "layout": "XD5.XN3.mid2",
-      "reference": "D5.N3.MID2",
+      "layout": "XD4_XDFFQ_CLKB",
+      "reference": "D4_DFFQ_CLKB",
       "pin": true
     },
     {
-      "layout": "XD5.nm",
-      "reference": "D5.NM",
+      "layout": "XD4_XDFFQ_M",
+      "reference": "D4_DFFQ_M",
       "pin": true
     },
     {
-      "layout": "XD5.XNOR.midp",
-      "reference": "D5.NOR.MIDP",
+      "layout": "XD4_XDFFQ_MB",
+      "reference": "D4_DFFQ_MB",
       "pin": true
     },
     {
-      "layout": "XD5.nt",
-      "reference": "D5.NT",
+      "layout": "XD4_XDFFQ_MFB",
+      "reference": "D4_DFFQ_MFB",
       "pin": true
     },
     {
-      "layout": "XD5.t1",
-      "reference": "D5.T1",
+      "layout": "XD4_XDFFQ_S",
+      "reference": "D4_DFFQ_S",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XDFFQ_SB",
+      "reference": "D4_DFFQ_SB",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XDFFQ_SFB",
+      "reference": "D4_DFFQ_SFB",
+      "pin": true
+    },
+    {
+      "layout": "XD4_dmodout",
+      "reference": "D4_DMODOUT",
+      "pin": true
+    },
+    {
+      "layout": "XD4_dq",
+      "reference": "D4_DQ",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XN2_mid1",
+      "reference": "D4_N2_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XN3_mid1",
+      "reference": "D4_N3_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XN3_mid2",
+      "reference": "D4_N3_MID2",
+      "pin": true
+    },
+    {
+      "layout": "XD4_nm",
+      "reference": "D4_NM",
+      "pin": true
+    },
+    {
+      "layout": "XD4_XNOR_midp",
+      "reference": "D4_NOR_MIDP",
+      "pin": true
+    },
+    {
+      "layout": "XD4_nt",
+      "reference": "D4_NT",
+      "pin": true
+    },
+    {
+      "layout": "XD4_t1",
+      "reference": "D4_T1",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_CKBB",
+      "reference": "D5_DFFM_CKBB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_CLKB",
+      "reference": "D5_DFFM_CLKB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_M",
+      "reference": "D5_DFFM_M",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_MB",
+      "reference": "D5_DFFM_MB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_MFB",
+      "reference": "D5_DFFM_MFB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_S",
+      "reference": "D5_DFFM_S",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_SB",
+      "reference": "D5_DFFM_SB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFM_SFB",
+      "reference": "D5_DFFM_SFB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_CKBB",
+      "reference": "D5_DFFQ_CKBB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_CLKB",
+      "reference": "D5_DFFQ_CLKB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_M",
+      "reference": "D5_DFFQ_M",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_MB",
+      "reference": "D5_DFFQ_MB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_MFB",
+      "reference": "D5_DFFQ_MFB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_S",
+      "reference": "D5_DFFQ_S",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_SB",
+      "reference": "D5_DFFQ_SB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XDFFQ_SFB",
+      "reference": "D5_DFFQ_SFB",
+      "pin": true
+    },
+    {
+      "layout": "XD5_dmodout",
+      "reference": "D5_DMODOUT",
+      "pin": true
+    },
+    {
+      "layout": "XD5_dq",
+      "reference": "D5_DQ",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XN2_mid1",
+      "reference": "D5_N2_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XN3_mid1",
+      "reference": "D5_N3_MID1",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XN3_mid2",
+      "reference": "D5_N3_MID2",
+      "pin": true
+    },
+    {
+      "layout": "XD5_nm",
+      "reference": "D5_NM",
+      "pin": true
+    },
+    {
+      "layout": "XD5_XNOR_midp",
+      "reference": "D5_NOR_MIDP",
+      "pin": true
+    },
+    {
+      "layout": "XD5_nt",
+      "reference": "D5_NT",
+      "pin": true
+    },
+    {
+      "layout": "XD5_t1",
+      "reference": "D5_T1",
       "pin": true
     },
     {
@@ -727,28 +909,43 @@
       "pin": true
     },
     {
-      "layout": "XFRT.CLKB",
-      "reference": "FRT.CLKB",
+      "layout": "XFRT_CKBB",
+      "reference": "FRT_CKBB",
       "pin": true
     },
     {
-      "layout": "XFRT.M",
-      "reference": "FRT.M",
+      "layout": "XFRT_CLKB",
+      "reference": "FRT_CLKB",
       "pin": true
     },
     {
-      "layout": "XFRT.MB",
-      "reference": "FRT.MB",
+      "layout": "XFRT_M",
+      "reference": "FRT_M",
       "pin": true
     },
     {
-      "layout": "XFRT.S",
-      "reference": "FRT.S",
+      "layout": "XFRT_MB",
+      "reference": "FRT_MB",
       "pin": true
     },
     {
-      "layout": "XFRT.SB",
-      "reference": "FRT.SB",
+      "layout": "XFRT_MFB",
+      "reference": "FRT_MFB",
+      "pin": true
+    },
+    {
+      "layout": "XFRT_S",
+      "reference": "FRT_S",
+      "pin": true
+    },
+    {
+      "layout": "XFRT_SB",
+      "reference": "FRT_SB",
+      "pin": true
+    },
+    {
+      "layout": "XFRT_SFB",
+      "reference": "FRT_SFB",
       "pin": true
     },
     {
