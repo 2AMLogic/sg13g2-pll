@@ -18,6 +18,7 @@ simulate -- they live in the committed record under
 
 from __future__ import annotations
 
+import copy
 import sys
 from pathlib import Path
 
@@ -80,12 +81,22 @@ def test_cmos5l_capacitors_are_recorded_with_their_own_blocked_reason(cmos5l_pla
     """A MoM capacitor is never silently dropped, and never attributed to the
     SG13G2 side's MIM gap -- it carries its own tracked upstream issues.
 
-    The numbers matter and are checked: klayout-tools#1463 (the deck
-    recognises no capacitor) and #1466 (what device-recognition shape a MoM
-    plate pair needs) are the two that are still **open**. #1454/#1455 are the
-    SG13G2 MIM chain and must never appear here. #1462 closed 2026-08-30, so
-    it may only appear as history, never as the live reason -- which is why
-    this asserts on the two open numbers rather than on #1462.
+    The numbers matter and are checked, and *which* numbers is what moved:
+    the recognition half of the gap closed upstream with issue #114/PR #119
+    (klayout-tools#1466 merged as #1475 for extraction, #1942/#1944 for the
+    reference-side `X ... PARAMS:` card), so the reason now cites those as
+    the closed half and names the drawing side -- no `klt gen` generator --
+    as the part that is actually left. klayout-tools#1463 was the old
+    "extracts no capacitor at all" framing and is deliberately gone with it.
+    #1454/#1455 are the SG13G2 MIM chain and must still never appear here:
+    the two ports' capacitors are physically different devices with
+    separately-tracked histories, and this is the assertion that keeps one
+    port's gap from being misattributed to the other.
+
+    This is the *planner's* reason. `pll_cmos5l_layout.promote_local_mom_caps`
+    clears it on this flow's own plan (see
+    `test_promote_local_mom_caps_promotes_exactly_the_cap_cmomi_groups`), so a
+    group still carrying it at the build step means the promotion did not run.
     """
     cap_groups = [
         group
@@ -97,8 +108,11 @@ def test_cmos5l_capacitors_are_recorded_with_their_own_blocked_reason(cmos5l_pla
     for group in cap_groups:
         assert group["params"]["model"] == "cap_cmomi"
         reason = group["blocked_reason"]
-        assert "1463" in reason and "1466" in reason
+        assert "1466" in reason and "1475" in reason
         assert "1455" not in reason and "1454" not in reason
+        # the live gap is the drawing side, and the reason says whose job it is
+        assert "cap_array" in reason
+        assert "promote" in reason
 
 
 def test_ratified_device_flavor_holds_on_the_cmos5l_netlists():
@@ -287,32 +301,122 @@ def test_group_size_um_bounds_the_geometry_actually_drawn(group):
     assert bbox.top <= height + 1e-6
 
 
-def test_reference_device_map_covers_the_resistors_and_not_the_capacitor():
-    """Documents the split between the two tracked upstream gaps: the
-    resistors need a caller-side map (klayout-tools#1464) but *can* be mapped;
-    the MoM capacitor is deliberately left out of the **primary** run, because
-    the deck extracts no capacitor at all (klayout-tools#1463) and a layout
-    that cannot carry the device cannot match a reference that declares it."""
-    assert set(flow.REFERENCE_DEVICE_MAP) == {"rppd", "rhigh"}
-    assert all(
-        entry["kind"] == "resistor" for entry in flow.REFERENCE_DEVICE_MAP.values()
-    )
-    assert "cap_cmomi" not in flow.REFERENCE_DEVICE_MAP
+# The two tests below replace `test_reference_device_map_covers_the_resistors_
+# and_not_the_capacitor` and `test_capacitor_probe_map_is_a_strict_superset_of_
+# the_primary_map`, which read `flow.REFERENCE_DEVICE_MAP` /
+# `flow.CAPACITOR_PROBE_DEVICE_MAP`. Issue #114/PR #119 retired both constants
+# on purpose: the deck's own curated table resolves `rppd`/`rhigh` at this
+# pin, so no caller-side resistor map is needed, and the capacitor is no
+# longer "left out of the primary run" pending a secondary probe -- it is
+# drawn locally and carried into the compare. What is tested here is what
+# replaced them: the promotion that puts the capacitor into the primary run,
+# and the caller-side reference rewrite that makes it comparable.
 
 
-def test_capacitor_probe_map_is_a_strict_superset_of_the_primary_map():
-    """The secondary probe must differ from the primary run in exactly one
-    thing -- the capacitor entry -- or the two results are not comparable and
-    the probe stops being evidence about #1463 specifically."""
-    assert flow.CAPACITOR_PROBE_DEVICE_MAP["cap_cmomi"]["kind"] == "capacitor"
-    assert (
-        set(flow.CAPACITOR_PROBE_DEVICE_MAP) - set(flow.REFERENCE_DEVICE_MAP)
-        == {"cap_cmomi"}
+def test_promote_local_mom_caps_promotes_exactly_the_cap_cmomi_groups(cmos5l_plan):
+    """The capacitor is no longer excluded from the primary run: every
+    `cap_cmomi` group is promoted to a locally drawn one, gains the
+    `(class, w_um, l_um)` device the marker is expected to extract as, and
+    loses its planner `blocked_reason` -- leaving it in place would misreport
+    a drawn device as blocked.
+
+    "Exactly" is the other half, and is what the retired strict-superset
+    assertion was protecting: the promotion must be the *only* difference
+    between the shared plan and this flow's plan. MOS and resistor groups are
+    untouched (the deck resolves `rppd`/`rhigh` itself at this pin, which is
+    why the old caller-side resistor map went away rather than being renamed).
+    """
+    plan = copy.deepcopy(cmos5l_plan)
+    before = {
+        group["id"]: copy.deepcopy(group)
+        for block in plan["blocks"]
+        for group in block["groups"]
+    }
+
+    promoted = flow.promote_local_mom_caps(plan)
+
+    after = {
+        group["id"]: group for block in plan["blocks"] for group in block["groups"]
+    }
+    assert set(after) == set(before), "promotion must not add or drop groups"
+    cap_ids = {
+        gid
+        for gid, group in before.items()
+        if group["kind"] == "capacitor" and group["params"]["model"] == "cap_cmomi"
+    }
+    assert cap_ids, "the CMOS5L netlists do declare cap_cmomi capacitors"
+    assert set(promoted) == cap_ids
+    # ...and nothing else moved.
+    for gid, group in after.items():
+        if gid not in cap_ids:
+            assert group == before[gid]
+            continue
+        assert group["generator"] == "local_mom_cap"
+        assert "blocked_reason" not in group
+        assert group["expected"] == {
+            "class": "cap_cmomi",
+            "w_um": before[gid]["params"]["w_um"],
+            "l_um": before[gid]["params"]["l_um"],
+            "count": 1,
+        }
+
+
+def test_mom_cap_reference_rewrites_only_the_capacitor_cards():
+    """`mom_cap_reference` is the caller-side rewrite that replaced the
+    capacitor probe: it emits the `X <name> <a> <b> cap_cmomi PARAMS: W= L=`
+    card shape `klt lvs`'s custom-device-class reader recognises, with W/L in
+    **bare-number microns** (a `40u` suffix parses as SI metres and would
+    mismatch the extracted marker bbox by 1e6) and `m=` expanded one card per
+    drawn marker.
+
+    Everything that is not a `cap_cmomi` card is left to the normalizer's own
+    `subckt-call` conversion -- which is the modern form of "differs in
+    exactly one thing": the capacitor is the only device this flow has to
+    hand-write a card for.
+    """
+    text = (
+        ".subckt probe A B VSS\n"
+        "XR1 A B sub! rppd w=0.6u l=810u m=1 b=0\n"
+        "XC1 A VSS cap_cmomi w=40u l=40u mmin=1 mmax=4 feed=double"
+        " subblock=0 m=1 mm_ok=1\n"
+        "XC2 B VSS cap_cmomi w=10u l=20u mmin=1 mmax=4 feed=double"
+        " subblock=0 m=3 mm_ok=1\n"
+        ".ends\n"
     )
-    assert all(
-        flow.CAPACITOR_PROBE_DEVICE_MAP[key] == value
-        for key, value in flow.REFERENCE_DEVICE_MAP.items()
-    )
+    lines = [
+        line.strip()
+        for line in flow.mom_cap_reference(text).splitlines()
+        if line.strip()
+    ]
+
+    cap_cards = [line for line in lines if "cap_cmomi" in line]
+    assert cap_cards == [
+        "XC1 A VSS cap_cmomi PARAMS: W=40 L=40",
+        "XC2__0 B VSS cap_cmomi PARAMS: W=10 L=20",
+        "XC2__1 B VSS cap_cmomi PARAMS: W=10 L=20",
+        "XC2__2 B VSS cap_cmomi PARAMS: W=10 L=20",
+    ]
+    # The resistor needs no caller-side device map any more: the normalizer
+    # converts it to plain-element form and the deck's own sheet-rho fills a
+    # real value in, so the compare verifies resistance rather than skipping
+    # it on the `0` placeholder.
+    resistor = next(line for line in lines if line.startswith("R1 ")).split()
+    assert "rppd" in resistor
+    value = resistor[resistor.index("rppd") - 1]  # the token right before the class
+    assert float(value) > 0
+    # The hierarchy itself rides through untouched.
+    assert lines[0] == ".subckt probe A B VSS"
+    assert lines[-1] == ".ends"
+
+
+def test_mom_cap_reference_rejects_a_card_it_cannot_carry_faithfully():
+    """A cap card with no readable geometry, or a non-positive multiplier,
+    must raise rather than silently emit a reference the layout cannot match
+    -- a wrong reference reads as an LVS mismatch in the drawn device."""
+    with pytest.raises(ValueError):
+        flow.mom_cap_reference("XC1 A B cap_cmomi w=40u m=1\n")
+    with pytest.raises(ValueError):
+        flow.mom_cap_reference("XC1 A B cap_cmomi w=40u l=40u m=0\n")
 
 
 # --- Routing ----------------------------------------------------------------
@@ -485,15 +589,29 @@ def test_extracted_models_reads_the_pdk_binding_not_the_deck_class(tmp_path):
 @pytest.fixture(scope="module")
 def vco_composed(cmos5l_plan):
     """The plan's vco block with every drawable group drawn once (geometry
-    exactly as `build_block` gets it), for floorplan tests to reuse."""
-    block = next(b for b in cmos5l_plan["blocks"] if b["name"] == "vco")
+    exactly as `build_block` gets it), for floorplan tests to reuse.
+
+    `main()` runs `promote_local_mom_caps` over the plan before it builds any
+    block, so the fixture does too -- on a deep copy, because the shared
+    `cmos5l_plan` fixture is what the planner-side tests assert the *unpromoted*
+    state on. Without it the vco block's `XCDECAP` `cap_cmomi` group still
+    carries `generator=None` and would be dispatched to `draw_res_group`,
+    which is neither what `build_block` does nor something the capacitor's
+    params dict can satisfy.
+    """
+    plan = copy.deepcopy(cmos5l_plan)
+    flow.promote_local_mom_caps(plan)
+    block = next(b for b in plan["blocks"] if b["name"] == "vco")
     builder = dev.Builder()
     groups, geometries = [], {}
     for group in block["groups"]:
-        if group["kind"] not in flow.DRAWABLE_KINDS:
+        # Same two gates `build_block` applies, in the same order.
+        if group["kind"] not in flow.DRAWABLE_KINDS or group.get("generator") is None:
             continue
         if group["kind"] == "mos_array":
             geometries[group["id"]] = flow.draw_mos_group(builder, group)
+        elif group["kind"] == "capacitor":
+            geometries[group["id"]] = flow.draw_cap_group(builder, group)
         else:
             geometries[group["id"]] = flow.draw_res_group(builder, group)
         groups.append(group)
