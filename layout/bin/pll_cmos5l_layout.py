@@ -562,10 +562,9 @@ def group_size_um(group: dict[str, Any]) -> tuple[float, float]:
         height = 2 * dev.NW_C1 + TAP_GAP_UM + dev.TAP_H_UM + 2 * my + act_h
         return width, height
     if group["kind"] == "capacitor":
-        # The recognition marker is the whole drawn extent (every feed pad,
-        # bar and tooth is drawn inside it), so the packer's box is the
-        # marker itself: exactly l_um wide by w_um tall.
-        return group["params"]["l_um"], group["params"]["w_um"]
+        # The marker is the whole drawn extent; mom_cap_size records why the
+        # packer's box is the schematic-declared (l_um, w_um), not the PCell's.
+        return dev.mom_cap_size(params["w_um"], params["l_um"])
     bar_w, bar_h = dev.res_size(params["width_um"], params["length_um"])
     return (
         bar_w + (count - 1) * RES_STAGGER_UM,
