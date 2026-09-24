@@ -289,7 +289,11 @@ def test_plan_block_records_but_never_attempts_cap_cmomi():
     assert group["kind"] == "capacitor"
     assert group["generator"] is None
     assert group["expected"] is None
-    assert "never drawn" in group["blocked_reason"]
+    # This planner never silently drops the group -- it records a reason
+    # explaining that no `klt gen` generator draws cap_cmomi, and that a
+    # group reaching the build step with this reason means the SG13CMOS5L
+    # flow's own local-promotion step (pll_cmos5l_layout.py) did not run.
+    assert "promotion did not run" in group["blocked_reason"]
 
 
 def test_plan_block_member_port_maps_are_recorded():
