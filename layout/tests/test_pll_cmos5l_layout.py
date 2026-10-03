@@ -434,6 +434,77 @@ def test_every_mos_terminal_including_the_gate_is_routable():
     assert geometry["tie_point"]
 
 
+def test_narrow_mos_terminals_are_contacted_and_reach_their_riser_columns():
+    """Issue #136: `lock_detector`'s `w=0.25u` XMPD is narrower than one
+    contact row (`Cnt_a + 2*Cnt_c` = 0.30 um), and the source/drain riser
+    columns sit 0.45/1.05 um from the active edge. Before the fix the device
+    drew no source/drain contact and both Via1s landed on no Metal1 -- DRC
+    clean, both diffusion terminals open. Every source/drain/gate Via1 landing
+    must now sit inside a Metal1 shape that carries a contact, and the
+    substrate tap must carry one too."""
+    builder = dev.Builder()
+    group = _group("mos_array", count=1, flavor="nfet", w_um=0.25, l_um=16.0)
+    geometry = flow.draw_mos_group(builder, group)
+    cell = builder.layout.cell("g")
+    layout = builder.layout
+
+    def region(layer):
+        return kdb.Region(cell.begin_shapes_rec(layout.layer(*layer)))
+
+    metal1 = region(dev.L_METAL1).merged()
+    cont = region(dev.L_CONT)
+    activ = region(dev.L_ACTIV).merged()
+    gatpoly = region(dev.L_GATPOLY).merged()
+    half = dev.VIA1_SIZE_UM / 2 + dev.M1_ENC_VIA1_UM
+
+    def u(value):
+        return int(round(value / layout.dbu))
+
+    for port in ("U0_S", "U0_D", "U0_G"):
+        x, y = geometry["terminals"][port]
+        via = kdb.Region(kdb.Box(u(x - half), u(y - half), u(x + half), u(y + half)))
+        landing = metal1.interacting(via)
+        assert not (via - landing), f"{port}: Via1 landing not inside Metal1"
+        contacts = cont.interacting(landing)
+        assert contacts.count() >= 1, f"{port}: Metal1 pad carries no contact"
+        lower = gatpoly if port == "U0_G" else activ
+        assert not (contacts - lower), f"{port}: contact not on its diffusion/poly"
+    # Source and drain land on two different Metal1 shapes.
+    s_x, s_y = geometry["terminals"]["U0_S"]
+    d_x, d_y = geometry["terminals"]["U0_D"]
+    s_pad = metal1.interacting(kdb.Region(kdb.Box(u(s_x), u(s_y), u(s_x) + 1, u(s_y) + 1)))
+    d_pad = metal1.interacting(kdb.Region(kdb.Box(u(d_x), u(d_y), u(d_x) + 1, u(d_y) + 1)))
+    assert not (s_pad & d_pad)
+    # The tap strip under a narrow group still holds a contact.
+    tap = geometry["tap"]["tap_active"]
+    tap_region = kdb.Region(kdb.Box(*(u(v) for v in tap)))
+    assert cont.interacting(tap_region).count() >= 1
+    # The gate width the extractor measures is still the schematic's own w.
+    channel = (activ & gatpoly).bbox()
+    assert channel.width() * layout.dbu == pytest.approx(0.25)
+
+
+def test_wide_mos_footprint_is_unchanged_by_the_narrow_device_fix():
+    """The #136 dog-bone/tab path must be a no-op at or above 1.2 um: one
+    `Activ` box per device and source/drain pads exactly the active width."""
+    builder = dev.Builder()
+    builder.open_cell("t")
+    drawn = dev.draw_hv_mos(
+        builder,
+        "nfet",
+        0.0,
+        0.0,
+        2.0,
+        0.5,
+        source_reach_um=flow.SOURCE_RISER_DX_UM + dev.ROUTE_W_UM / 2,
+        drain_reach_um=flow.DRAIN_RISER_DX_UM + dev.ROUTE_W_UM / 2,
+    )
+    assert drawn["active"] == (0.0, 0.0, 2.0, 0.5 + 2 * dev.SD_EXT_UM)
+    assert drawn["source_pad"][0] == 0.0 and drawn["source_pad"][2] == 2.0
+    assert drawn["drain_pad"][0] == 0.0 and drawn["drain_pad"][2] == 2.0
+    assert builder.cell.shapes(builder.layout.layer(*dev.L_ACTIV)).size() == 1
+
+
 def test_riser_columns_are_pitch_apart_within_and_across_unit_devices():
     """The router's whole no-short claim rests on this: no two terminals of
     different nets may share (or crowd) a Metal2 riser column."""

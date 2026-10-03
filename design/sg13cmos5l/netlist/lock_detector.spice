@@ -11,7 +11,7 @@ XXOR UP DN ERR VDD VSS xor2_hv
 XDW ERR ERRD VDD VSS delaywin_hv
 XNW ERR ERRD nwide VDD VSS nand2_hv
 XIW nwide WIDE VDD VSS inv_hv
-XRPU VDD VWIN sub! rhigh w=0.5u l=700u m=1 b=0
+XRPU VDD VWIN VSS rhigh w=0.5u l=700u m=1 b=0
 XMPD VWIN WIDE VSS VSS sg13_hv_nmos w=0.25u l=16u ng=1 m=1
 XCW VWIN VSS cap_cmomi w=40u l=40u mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
 XSCH VWIN LOCK VDD VSS schmitt_hv

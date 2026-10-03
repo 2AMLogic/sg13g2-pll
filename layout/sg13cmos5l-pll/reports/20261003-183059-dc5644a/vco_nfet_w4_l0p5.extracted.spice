@@ -1,0 +1,23 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell vco_nfet_w4_l0p5
+* pin vsubs
+.SUBCKT vco_nfet_w4_l0p5 vsubs
+* device instance $1 r0 *1 3.3,3.11 nfet
+X$1 \$16 \$2 \$3 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $2 r0 *1 9.26,3.11 nfet
+X$2 \$17 \$4 \$5 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $3 r0 *1 15.22,3.11 nfet
+X$3 \$18 \$6 \$7 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $4 r0 *1 21.18,3.11 nfet
+X$4 \$19 \$8 \$9 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $5 r0 *1 27.14,3.11 nfet
+X$5 \$20 \$10 \$11 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $6 r0 *1 33.1,3.11 nfet
+X$6 \$21 \$12 \$13 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+* device instance $7 r0 *1 39.06,3.11 nfet
+X$7 \$22 \$14 \$15 vsubs sg13_hv_nmos L=0.5U W=4U AS=1.6P AD=1.6P PS=8.8U
++ PD=8.8U
+.ENDS vco_nfet_w4_l0p5

@@ -217,6 +217,26 @@ SD_EXT_UM = 0.4
 #: = 0.26 um, above the deck's ``metal1.width.1`` floor (0.16 um).
 PAD_H_UM = CNT_A + 2 * M1_C1
 
+#: Narrowest `Activ` a contact row fits in: one ``Cnt_a`` plus ``Cnt_c`` of
+#: `Activ` enclosure on each side = 0.30 um.
+#:
+#: Issue #136: a device or tap strip narrower than this gets **no** contact
+#: from :func:`cont_row` (it returns 0, silently), so its source/drain or tap
+#: Metal1 pad floats above the diffusion. Nothing in the curated deck reads
+#: `Cont` (6/0) at all, so the result is DRC-clean and only LVS sees it --
+#: which is how `lock_detector`'s `w=0.25u` XMPD shipped with both diffusion
+#: terminals unconnected. :func:`draw_hv_mos` therefore widens a narrow
+#: device's source/drain `Activ` into a contactable head ("dog-bone"), and the
+#: tap-strip helpers widen a narrow tap to this floor.
+CONT_ACTIV_MIN_W_UM = CNT_A + 2 * CNT_C
+
+#: Height of a narrow device's dog-bone head, measured from the active box's
+#: outer edge toward the gate: one contact row plus its ``Cnt_c`` enclosure on
+#: both sides (0.30 um). That leaves ``SD_EXT_UM`` - 0.30 = 0.10 um of
+#: un-widened diffusion between the head and the gate edge, so the drawn gate
+#: width -- what extraction measures as W -- stays the schematic's own `w`.
+DOGBONE_HEAD_H_UM = CNT_A + 2 * CNT_C
+
 #: Straight-bar poly-resistor head length, GatPoly y-margin at the head, and
 #: contact inset -- carried over verbatim from the bandgap module's
 #: ``RES_HEAD_UM``/``RES_GATPOLY_Y_MARGIN_UM``/``RES_CONT_MARGIN_UM``.
@@ -436,6 +456,8 @@ def draw_hv_mos(
     w_um: float,
     l_um: float,
     label: str | None = None,
+    source_reach_um: float | None = None,
+    drain_reach_um: float | None = None,
 ) -> dict[str, object]:
     """Draw one simplified single-finger `sg13_hv_nmos`/`sg13_hv_pmos`.
 
@@ -464,8 +486,27 @@ def draw_hv_mos(
     klayout-tools#1416), so `klt extract` binds these to the HV MOS classes
     rather than their LV counterparts.
 
+    **Narrow devices (issue #136).** When `w_um` is under
+    :data:`CONT_ACTIV_MIN_W_UM` a contact row cannot fit across the channel
+    width, so the source and drain diffusions are each widened -- centred on
+    the device, over :data:`DOGBONE_HEAD_H_UM` at the active box's outer
+    edges only, clear of the gate -- into a head one contact row fits in, and
+    the Metal1 pads widen with them. Every device at or above the floor draws
+    exactly what it drew before.
+
+    `source_reach_um` / `drain_reach_um` (issue #136) are x offsets, from the
+    active box's left edge, that the source / drain Metal1 pad must reach --
+    the caller's own riser column plus its Via1 landing. A pad that already
+    reaches is left alone; a narrower one grows a Metal1 tab to the right
+    along its own contact row. Before this, a riser column placed for a wide
+    device landed its Via1 on no Metal1 at all on a narrow one, and the
+    curated deck's `metal1.enclosing.via1.1` does not flag a via with *zero*
+    Metal1 under it.
+
     Returns `{"bbox": (x0, y0, x1, y1), "active": (...), "source_pad": (...),
     "drain_pad": (...), "gate_box": (...)}` -- every box in microns.
+    `"active"` is the full drawn `Activ` extent (dog-bone heads included), so
+    the tap and well helpers that enclose it see what was actually drawn.
     """
     if flavor not in ("nfet", "pfet"):
         raise ValueError(f"unknown MOS flavor {flavor!r}")
@@ -474,6 +515,18 @@ def draw_hv_mos(
     x_lo, y_lo = x, y
     x_hi, y_hi = x + act_w, y + act_h
     b.box(L_ACTIV, x_lo, y_lo, x_hi, y_hi)
+
+    # Dog-bone source/drain heads for a device too narrow to contact (#136).
+    # `head_x0`/`head_x1` is the x span every contact row and terminal pad
+    # below is built over; for a device at or above the floor it is just the
+    # active box, and nothing extra is drawn.
+    head_x0, head_x1 = x_lo, x_hi
+    if act_w < CONT_ACTIV_MIN_W_UM - 1e-9:
+        grow = (CONT_ACTIV_MIN_W_UM - act_w) / 2
+        head_x0, head_x1 = x_lo - grow, x_hi + grow
+        b.box(L_ACTIV, head_x0, y_lo, head_x1, y_lo + DOGBONE_HEAD_H_UM)
+        b.box(L_ACTIV, head_x0, y_hi - DOGBONE_HEAD_H_UM, head_x1, y_hi)
+    diff_x0, diff_x1 = head_x0, head_x1
 
     gate = (x_lo - GAT_C, y_lo + SD_EXT_UM, x_hi + GAT_C, y_hi - SD_EXT_UM)
     b.box(L_GATPOLY, *gate)
@@ -508,23 +561,35 @@ def draw_hv_mos(
     if flavor == "pfet":
         b.box(
             L_PSD,
-            min(x_lo - PSD_C, gate[0] - PSD_I1),
+            min(diff_x0 - PSD_C, gate[0] - PSD_I1),
             y_lo - PSD_C,
-            max(x_hi + PSD_C, gate[2] + PSD_I1),
+            max(diff_x1 + PSD_C, gate[2] + PSD_I1),
             y_hi + PSD_C,
         )
 
     # ThickGateOx: TGO_a past the diffusion, TGO_c past the gate endcaps.
-    b.box(L_THICKGATEOX, x_lo - TGO_A, y_lo - TGO_C, x_hi + TGO_A, y_hi + TGO_C)
+    b.box(L_THICKGATEOX, diff_x0 - TGO_A, y_lo - TGO_C, diff_x1 + TGO_A, y_hi + TGO_C)
 
     # Drain (top) and source (bottom) contact rows + Metal1 terminal pads.
-    drain_pad = (x_lo, y_hi - PAD_H_UM, x_hi, y_hi)
+    # A pad reaches at least across the (possibly dog-boned) diffusion, and
+    # further right if the caller's riser column needs it to (#136).
+    drain_x1 = max(head_x1, x_lo + (drain_reach_um or 0.0))
+    drain_pad = (head_x0, y_hi - PAD_H_UM, drain_x1, y_hi)
     b.box(L_METAL1, *drain_pad)
-    cont_row(b, x_lo + CNT_C, y_hi - CNT_C - CNT_A, x_hi - CNT_C, y_hi - CNT_C)
+    n_drain = cont_row(b, head_x0 + CNT_C, y_hi - CNT_C - CNT_A, head_x1 - CNT_C, y_hi - CNT_C)
 
-    source_pad = (x_lo, y_lo, x_hi, y_lo + PAD_H_UM)
+    source_x1 = max(head_x1, x_lo + (source_reach_um or 0.0))
+    source_pad = (head_x0, y_lo, source_x1, y_lo + PAD_H_UM)
     b.box(L_METAL1, *source_pad)
-    cont_row(b, x_lo + CNT_C, y_lo + CNT_C, x_hi - CNT_C, y_lo + CNT_C + CNT_A)
+    n_source = cont_row(b, head_x0 + CNT_C, y_lo + CNT_C, head_x1 - CNT_C, y_lo + CNT_C + CNT_A)
+
+    # A terminal with no contact is a floating pad, not a terminal -- and the
+    # curated deck has no `Cont` rule that would say so. Fail here instead.
+    if n_drain < 1 or n_source < 1:
+        raise ValueError(
+            f"draw_hv_mos: w={w_um} um drew {n_source} source / {n_drain} drain "
+            "contacts -- an uncontacted diffusion is an open terminal"
+        )
 
     if label:
         b.annotate(label, x_lo, y_hi + TGO_C + 0.2)
@@ -532,7 +597,7 @@ def draw_hv_mos(
     mx, my = mos_margins(flavor)
     return {
         "bbox": (x_lo - mx, y_lo - my, x_hi + mx, y_hi + my),
-        "active": (x_lo, y_lo, x_hi, y_hi),
+        "active": (diff_x0, y_lo, diff_x1, y_hi),
         "gate_box": gate,
         "gate_pad": gate_m1_pad,
         "source_pad": source_pad,
@@ -554,6 +619,23 @@ TAP_TAB_X_UM = 0.25
 #: Half-width of that tab / the `Metal1` it is drawn as (um). 0.25 um wide
 #: overall, over `metal1.width.1` (0.16 um).
 TAP_TAB_HALF_W_UM = 0.125
+
+
+def _contactable_span(x0: float, x1: float) -> tuple[float, float]:
+    """Widen `[x0, x1]` symmetrically to :data:`CONT_ACTIV_MIN_W_UM` if it is
+    narrower, so a tap strip under a narrow group still holds a contact
+    (issue #136). A span already at or above the floor is returned as is."""
+    if x1 - x0 >= CONT_ACTIV_MIN_W_UM - 1e-9:
+        return x0, x1
+    grow = (CONT_ACTIV_MIN_W_UM - (x1 - x0)) / 2
+    return x0 - grow, x1 + grow
+
+
+def _require_contact(n: int, where: str) -> None:
+    """Refuse to draw a tap with no contact: its Metal1 would float above the
+    diffusion it claims to tie, and no rule in the curated deck reads `Cont`."""
+    if n < 1:
+        raise ValueError(f"{where}: tap strip drew no contact -- an open body tie")
 
 
 def _draw_tap_tab(
@@ -606,6 +688,8 @@ def draw_pfet_array_well(
     x1 = max(a[2] for a in actives)
     y1 = max(a[3] for a in actives)
 
+    x0, x1 = _contactable_span(x0, x1)
+
     tap_y1 = y0 - tap_gap_um
     tap_y0 = tap_y1 - TAP_H_UM
     tap = (x0, tap_y0, x1, tap_y1)
@@ -613,7 +697,10 @@ def draw_pfet_array_well(
     # n+ implant over the tap only. Deliberately not extended past the tap:
     # nSD over a PMOS source/drain would counter-dope it.
     b.box(L_NSD, tap[0] - PSD_C, tap[1] - PSD_C, tap[2] + PSD_C, tap[3] + PSD_C)
-    cont_row(b, tap[0] + CNT_C, tap[1] + CNT_C, tap[2] - CNT_C, tap[3] - CNT_C)
+    _require_contact(
+        cont_row(b, tap[0] + CNT_C, tap[1] + CNT_C, tap[2] - CNT_C, tap[3] - CNT_C),
+        "draw_pfet_array_well",
+    )
     tap_pad = (tap[0], tap[1], tap[2], tap[3])
     b.box(L_METAL1, *tap_pad)
     b.net_label(net_label, (tap[0] + tap[2]) / 2, (tap[1] + tap[3]) / 2)
@@ -655,12 +742,17 @@ def draw_nfet_array_tap(
     y0 = min(a[1] for a in actives)
     x1 = max(a[2] for a in actives)
 
+    x0, x1 = _contactable_span(x0, x1)
+
     tap_y1 = y0 - tap_gap_um
     tap_y0 = tap_y1 - TAP_H_UM
     tap = (x0, tap_y0, x1, tap_y1)
     b.box(L_ACTIV, *tap)
     b.box(L_PSD, tap[0] - PSD_C, tap[1] - PSD_C, tap[2] + PSD_C, tap[3] + PSD_C)
-    cont_row(b, tap[0] + CNT_C, tap[1] + CNT_C, tap[2] - CNT_C, tap[3] - CNT_C)
+    _require_contact(
+        cont_row(b, tap[0] + CNT_C, tap[1] + CNT_C, tap[2] - CNT_C, tap[3] - CNT_C),
+        "draw_nfet_array_tap",
+    )
     b.box(L_METAL1, *tap)
     via_x, via_y = _draw_tap_tab(b, tap)
     return {"tap_active": tap, "tap_pad": tap, "tie_point": (via_x, via_y)}
