@@ -7,24 +7,29 @@
 # re-sized to widen the settled-VWIN-vs-phase-error transition; and again by
 # issue #76, Part of #16, to re-run it against the block whose schmitt_hv
 # channel lengths are 4x longer, which cuts the in-band crowbar current #66
-# measured as a side effect of restoring the hysteresis)
+# measured as a side effect of restoring the hysteresis; and again by issue
+# #136, Part of #16, to point it at the block whose XRPU bulk terminal is
+# declared on VSS instead of the floating `sub!` global -- the layout LVS
+# repair)
 #
 # Runs the whole lock_detector campaign this slug's ../records/ describe
 # (spec/porting-plan.md row 16: assert window, hysteresis, chatter; plus
-# row 11's lock_detector power domain), and writes six CSVs into ../corners/:
+# row 11's lock_detector power domain), and writes six CSVs into ../corners/
+# (<out> is `bodyfix`, or `bodyfix_nominal` with NOMINAL_ONLY=1 -- see below):
 #
-#   rc_extract_crowbarfix.csv   XRPU (rhigh) resistance and the two un-swept
+#   rc_extract_<out>.csv   XRPU (rhigh) resistance and the two un-swept
 #                     cap_cmomi instances' capacitance -- the R and the C that
 #                     set the integrating node's time constant
-#   window_crowbarfix.csv       the comparator window twin_r / twin_f, per corner,
+#   window_<out>.csv       the comparator window twin_r / twin_f, per corner,
 #                     per MOM band point (full matrix)
-#   schmitt_crowbarfix.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
-#   ladder_crowbarfix.csv       one row per corner point: assert threshold,
+#   schmitt_<out>.csv      the readout Schmitt's own hysteresis, V_TH+/V_TH-
+#   ladder_<out>.csv       one row per corner point: assert threshold,
 #                     de-assert threshold, hysteresis, chatter verdict,
 #                     recovery time, in-lock and out-of-lock supply current
 #                     (REDUCED matrix -- see "LADDER MATRIX" below)
-#   ladder_raw_crowbarfix.csv   every ladder point's per-copy settled state/levels
-#   tstep_convergence_crowbarfix.csv   twin_r vs. maximum internal timestep
+#   ladder_raw_<out>.csv   every ladder point's per-copy settled state/levels
+#   tstep_convergence_<out>.csv   twin_r vs. maximum internal timestep
+#   solver_retries_<out>.txt      decks that needed the one trtol=1 retry
 #
 # APPEND-ONLY EVIDENCE (sim/README.md).  Each record in ../records/ owns its
 # own frozen netlist snapshot and its own CSV suffix, and this script only ever
@@ -34,19 +39,40 @@
 #   RECORD-002  netlist-snapshots/lock_detector_resized.spice    corners/*_resized.csv
 #   RECORD-003  netlist-snapshots/lock_detector_hystfix.spice    corners/*_hystfix.csv
 #   RECORD-004  netlist-snapshots/lock_detector_crowbarfix.spice corners/*_crowbarfix.csv
+#   RECORD-005  netlist-snapshots/lock_detector_bodyfix.spice    corners/*_bodyfix_nominal.csv
+#               (and corners/*_bodyfix.csv once the full grid is run -- see
+#               "SHARED-HOST NOTE" below)
 #
-# This script now simulates ../netlist-snapshots/lock_detector_crowbarfix.spice
-# (issue #76) and writes the `*_crowbarfix.csv` files above.  RECORD-001's,
-# RECORD-002's and RECORD-003's own inputs and outputs are NEVER written by it
-# and stay exactly as those records left them, so re-running this file cannot
-# invalidate a record that measured an earlier revision of the block.  (Same
-# convention as ../../sg13cmos5l-closed-loop-lock/corners/results_as_drawn.csv
-# vs. results_proposal.csv.)
+# This script now simulates ../netlist-snapshots/lock_detector_bodyfix.spice
+# (issue #136) and writes the `*_bodyfix*.csv` files above.  RECORD-001..004's
+# own inputs and outputs -- including corners/solver_retries.txt, which
+# RECORD-004's run wrote before this script suffixed it -- are NEVER written by
+# it and stay exactly as those records left them, so re-running this file
+# cannot invalidate a record that measured an earlier revision of the block.
+# (Same convention as ../../sg13cmos5l-closed-loop-lock/corners/
+# results_as_drawn.csv vs. results_proposal.csv.)
 #
 # Usage:
 #   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
 #   export PDK=ihp-sg13cmos5l
-#   ./run.sh
+#   ./run.sh                    # full corner grid  -> corners/*_bodyfix.csv
+#   NOMINAL_ONLY=1 ./run.sh     # one PVT corner    -> corners/*_bodyfix_nominal.csv
+#
+# NOMINAL_ONLY=1 (issue #136) collapses every matrix below to the single
+# nominal corner -- mos_tt / res_typ / 27 C / 3.3 V, the primary DUT variant,
+# 3.5 MHz for the ladder, 20 ps for the timestep check -- and writes a
+# separately-suffixed set, so it can never be mistaken for (or overwrite) a
+# full-grid run.  Same templates, same snapshot, same thresholds.
+#
+# SHARED-HOST NOTE (issue #136).  The full grid is a multi-corner campaign
+# (~120 window decks, 21 ladder corners x 22 decks, 45 Schmitt decks).  On the
+# fleet's shared dispatch workers -- recognisable by KLT_SIM_BACKEND=batch in
+# the environment -- a corner grid must be submitted to the batch fleet, not
+# looped through local ngspice.  At issue #136's pin that is not possible for
+# this PDK: `klt sim`'s batch/remote backends refuse `ihp-sg13cmos5l` (no
+# published image for the family; filed upstream, see RECORD-005).  So on such
+# a host this script refuses the full grid unless NOMINAL_ONLY=1, or
+# ALLOW_LOCAL_GRID=1 states that the host is a dedicated simulation box.
 #
 # Requires: ngspice on PATH, python3, PDK_ROOT/PDK resolving the installed
 # ihp-sg13cmos5l tree.
@@ -101,7 +127,7 @@
 #     -- the model's own closed-form low-frequency capacitance, self-tested
 #     against the two geometries RECORD-001 measured on the real OSDI model.
 #   * anything else -> the preflight's own hard abort, unchanged.
-# Either way ../corners/rc_extract_crowbarfix.csv records WHICH path produced each
+# Either way ../corners/rc_extract_${OUT}.csv records WHICH path produced each
 # C in its own `source` column, and the record states it.
 #
 # Why a static header classification is enough here, now that run.sh no longer
@@ -144,7 +170,7 @@
 # at TSTOP_MAX for tractability, and then rounded UP to a whole number of
 # reference periods (the deck's natural unit -- every stimulus repeats every
 # tref).  The achieved settling fraction 1-e^(-tstop/RC) is written to
-# ladder_crowbarfix.csv's own `settle_frac` column rather than silently assumed complete.
+# ladder_${OUT}.csv's own `settle_frac` column rather than silently assumed complete.
 #
 # Coverage reduction (explicit, per this repo's CLAUDE.md "no claim without a
 # testbench" / sim/README.md's append-only-evidence discipline).  rc_extract,
@@ -202,7 +228,17 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
 
 CORNERS="$RECORD_DIR/corners"
-SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_crowbarfix.spice"
+SUFFIX=bodyfix
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then OUT="${SUFFIX}_nominal"; else OUT="$SUFFIX"; fi
+if [ "${NOMINAL_ONLY:-0}" != 1 ] && [ "${KLT_SIM_BACKEND:-}" = batch ] \
+   && [ "${ALLOW_LOCAL_GRID:-0}" != 1 ]; then
+  echo "ERROR: KLT_SIM_BACKEND=batch marks a shared dispatch worker; the full corner" >&2
+  echo "       grid must not run through local ngspice here (see SHARED-HOST NOTE)." >&2
+  echo "       Use NOMINAL_ONLY=1 for the single nominal corner, or run the grid on a" >&2
+  echo "       dedicated simulation host (ALLOW_LOCAL_GRID=1)." >&2
+  exit 2
+fi
+SNAP="$RECORD_DIR/netlist-snapshots/lock_detector_${SUFFIX}.spice"
 
 VSUP_NOM=3.3
 TRST=1n
@@ -266,7 +302,7 @@ LADDER_SET=hystfix
 #     accuracy relaxation -- so it is deliberately not in the templates, it is
 #     never used unless the deck has already failed outright, and every deck
 #     that needed it is named on stderr AND appended to
-#     ../corners/solver_retries.txt, which is committed alongside the CSVs.  An
+#     ../corners/solver_retries_${OUT}.txt, which is committed alongside the CSVs.  An
 #     empty file is the claim "no point in this record needed it"; a non-empty
 #     one is the list the record has to disclose.  A deck that fails the retry
 #     too still aborts the campaign, exactly as before.
@@ -286,7 +322,7 @@ run_ngspice_or_die() {
     cat "$err" >&2
     return 1
   fi
-  echo "${RETRY_TAG:-<unlabelled>} ($name)" >> "$CORNERS/solver_retries.txt"
+  echo "${RETRY_TAG:-<unlabelled>} ($name)" >> "$CORNERS/solver_retries_${OUT}.txt"
   echo "[solver-retry] ${RETRY_TAG:-<unlabelled>} ($name) completed with trtol=1" >&2
   printf '%s\n' "$out"
 }
@@ -358,13 +394,20 @@ python3 "$HERE/cmomi_nominal.py" selftest >&2
 # ---------------------------------------------------------------------------
 # Truncated at the start of every run so the file always describes THIS run
 # (appended to, not truncated, when resuming -- see LADDER_RESUME below).
-if [ "${LADDER_RESUME:-0}" != 1 ]; then : > "$CORNERS/solver_retries.txt"; fi
+if [ "${LADDER_RESUME:-0}" != 1 ]; then : > "$CORNERS/solver_retries_${OUT}.txt"; fi
 
-echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_crowbarfix.csv"
+echo "kind,instance,corner,temp_c,w,l,m,value,source" > "$CORNERS/rc_extract_${OUT}.csv"
+
+# NOMINAL_ONLY=1 (issue #136): one resistor corner, one temperature.
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then
+  RC_LIST=(res_typ); TEMP_LIST=(27)
+else
+  RC_LIST=(res_typ res_bcs res_wcs); TEMP_LIST=(-40 27 125)
+fi
 
 declare -A RVAL
-for rc in res_typ res_bcs res_wcs; do
-  for temp in -40 27 125; do
+for rc in "${RC_LIST[@]}"; do
+  for temp in "${TEMP_LIST[@]}"; do
     sed -e "s/@RES_CORNER@/$rc/g" -e "s/@TEMP@/$temp/g" \
         -e "s/@W@/$RPU_W/g" -e "s/@L@/$RPU_L/g" \
         -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
@@ -372,7 +415,7 @@ for rc in res_typ res_bcs res_wcs; do
     val="$( run_ngspice_or_die r.sp \
             | sed -n 's/^rval *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "R,XRPU(rhigh),${rc},${temp},${RPU_W},${RPU_L},1,${val:-NA},ngspice-osdi" \
-      >> "$CORNERS/rc_extract_crowbarfix.csv"
+      >> "$CORNERS/rc_extract_${OUT}.csv"
     echo "[R] ${rc}/${temp}C: ${val:-NA} ohm" >&2
     RVAL["${rc},${temp}"]="$val"
   done
@@ -381,7 +424,7 @@ done
 declare -A CNOM
 for geom in "XCW $XCW_W $XCW_L $XCW_M" "XDW.XC1 $XC1_W $XC1_L $XC1_M"; do
   read -r inst w l m <<< "$geom"
-  for temp in -40 27 125; do
+  for temp in "${TEMP_LIST[@]}"; do
     if [ "$HAVE_CMOMI" = yes ]; then
       sed -e "s/@W@/${w}u/g" -e "s/@L@/${l}u/g" -e "s/@M@/$m/g" -e "s/@TEMP@/$temp/g" \
           -e "s|@PDK_ROOT@|$PDK_ROOT|g" -e "s|@PDK@|$PDK|g" \
@@ -397,7 +440,7 @@ for geom in "XCW $XCW_W $XCW_L $XCW_M" "XDW.XC1 $XC1_W $XC1_L $XC1_M"; do
       src=va-formula
     fi
     echo "C,${inst}(cap_cmomi),none,${temp},${w}u,${l}u,${m},${val:-NA},${src}" \
-      >> "$CORNERS/rc_extract_crowbarfix.csv"
+      >> "$CORNERS/rc_extract_${OUT}.csv"
     echo "[C] ${inst}/${temp}C: ${val:-NA} F (${src})" >&2
     if [ "$temp" = "27" ]; then CNOM[$inst]="$val"; fi
   done
@@ -480,8 +523,12 @@ for variant in ideal-0.20 "$PRIMARY"; do
   done
 done
 
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then
+  WINDOW_POINTS=("mos_tt res_typ 27 $VSUP_NOM 24.4e6 $PRIMARY")
+fi
+
 echo "corner_tag,mos_corner,res_corner,temp_c,vsup_v,fref_hz,dut_variant,twin_r_s,twin_f_s" \
-  > "$CORNERS/window_crowbarfix.csv"
+  > "$CORNERS/window_${OUT}.csv"
 
 measure_window() {  # measure_window mos res temp vsup dutfile [scratch] -> "twin_r twin_f"
   local mos="$1" res="$2" temp="$3" vsup="$4" dut="$5"
@@ -521,7 +568,7 @@ for pt in "${WINDOW_POINTS[@]}"; do
   wpair="$(measure_window "$mos" "$res" "$temp" "$vsup" "$dut")"
   read -r twin_r twin_f <<< "$wpair"
   echo "${tag},${mos},${res},${temp},${vsup},${fref},${variant},${twin_r},${twin_f}" \
-    >> "$CORNERS/window_crowbarfix.csv"
+    >> "$CORNERS/window_${OUT}.csv"
   n=$((n + 1))
   echo "  [window $n/${#WINDOW_POINTS[@]}] ${tag}: twin_r=${twin_r}" >&2
 done
@@ -530,8 +577,8 @@ done
 # 4. Ladder matrix (reduced -- see header).  Rows: mos res temp vsup fref
 #    variant.
 #
-#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_crowbarfix.csv
-#    and ladder_raw_crowbarfix.csv exactly as a previous full run left them.  The
+#    SKIP_LADDER=1 skips this section and leaves ../corners/ladder_${OUT}.csv
+#    and ladder_raw_${OUT}.csv exactly as a previous full run left them.  The
 #    ladder is ~99% of this script's runtime (roughly 200 s per slow-end corner
 #    and 20 min per fast-end corner, vs. ~1 s for a window point), and nothing
 #    in sections 1/2/3/5/6 feeds it, so adding a window corner or a Schmitt
@@ -584,6 +631,10 @@ for vsup in 2.97 3.63; do
   LADDER_POINTS+=("mos_tt res_typ 27 $vsup 3.5e6 $PRIMARY")
 done
 
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then
+  LADDER_POINTS=("mos_tt res_typ 27 $VSUP_NOM 3.5e6 $PRIMARY")
+fi
+
 # LADDER_RESUME=1 (issue #66) keeps whatever ladder rows ../corners/ already
 # holds and runs only the corners missing from it.  This exists because one
 # full ladder is several hours on a workstation -- long enough that a killed
@@ -595,16 +646,16 @@ done
 # with it must say so.  Combining it with a changed DUT, a changed template or
 # a different host would silently mix evidence -- do not.
 DONE_TAGS=""
-if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_crowbarfix.csv" ]; then
-  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_crowbarfix.csv" | cut -d, -f1)"
+if [ "${LADDER_RESUME:-0}" = 1 ] && [ -s "$CORNERS/ladder_${OUT}.csv" ]; then
+  DONE_TAGS="$(tail -n +2 "$CORNERS/ladder_${OUT}.csv" | cut -d, -f1)"
   echo "[ladder] LADDER_RESUME=1 -- $(printf '%s\n' "$DONE_TAGS" | grep -c . ) corner(s) already present will be skipped" >&2
 fi
 
 if [ "${SKIP_LADDER:-0}" != 1 ] && [ "${LADDER_RESUME:-0}" != 1 ]; then
 echo "corner_tag,twin_r_s,in_window_lock_rail,tau_assert_s,tau_assert_xwin,tau_deassert_s,tau_deassert_xwin,hysteresis_s,hysteresis_pct_of_window,chatter,lock_min_deep_v,lock_max_deep_v,trec_s,vwin_min_zeroerr_v,vwin_max_zeroerr_v,idd_inlock_a,idd_outlock_a,ladder_states_discharged_start,ladder_states_charged_start,rc_s,tref_s,rc_over_tref,n_cycles,settle_frac" \
-  > "$CORNERS/ladder_crowbarfix.csv"
+  > "$CORNERS/ladder_${OUT}.csv"
 echo "corner_tag,tau_xwin,tau_s,state_discharged_start,state_charged_start,lka_min_v,lka_max_v,lka_avg_v,lkb_min_v,lkb_max_v,lkb_avg_v,vwin_a_min_v,vwin_a_max_v,vwin_a_avg_v" \
-  > "$CORNERS/ladder_raw_crowbarfix.csv"
+  > "$CORNERS/ladder_raw_${OUT}.csv"
 fi
 
 N_LADDER_PTS="$(python3 -c "
@@ -633,7 +684,7 @@ run_ladder_corner() {
   local rowf="$WORK/ladderrow_${tag}" rawf="$WORK/ladderraw_${tag}"
   : > "$rowf"; : > "$rawf"
   if printf '%s\n' "$DONE_TAGS" | grep -qxF "$tag"; then
-    echo "[L] ${tag}: already in ladder_crowbarfix.csv, skipped (LADDER_RESUME=1)" >&2
+    echo "[L] ${tag}: already in ladder_${OUT}.csv, skipped (LADDER_RESUME=1)" >&2
     return
   fi
   local RETRY_TAG="ladder ${tag}"
@@ -756,10 +807,10 @@ fi
 # in row order to what a serial run of the same matrix produces.
 for tag in "${LADDER_TAGS[@]}"; do
   if [ -s "$WORK/ladderrow_$tag" ]; then
-    cat "$WORK/ladderrow_$tag" >> "$CORNERS/ladder_crowbarfix.csv"
+    cat "$WORK/ladderrow_$tag" >> "$CORNERS/ladder_${OUT}.csv"
   fi
   if [ -s "$WORK/ladderraw_$tag" ]; then
-    cat "$WORK/ladderraw_$tag" >> "$CORNERS/ladder_raw_crowbarfix.csv"
+    cat "$WORK/ladderraw_$tag" >> "$CORNERS/ladder_raw_${OUT}.csv"
   fi
 done
 fi
@@ -778,10 +829,15 @@ fi
 #    committed, at a wider MOS-corner grid.
 # ---------------------------------------------------------------------------
 echo "mos_corner,temp_c,vsup_v,vth_rising_v,vth_falling_v,hysteresis_v,hysteresis_pct_of_vdd" \
-  > "$CORNERS/schmitt_crowbarfix.csv"
-for mos in mos_tt mos_ss mos_ff mos_sf mos_fs; do
-  for temp in -40 27 125; do
-    for vsup in 2.97 3.3 3.63; do
+  > "$CORNERS/schmitt_${OUT}.csv"
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then
+  S_MOS=(mos_tt); S_VSUP=(3.3)
+else
+  S_MOS=(mos_tt mos_ss mos_ff mos_sf mos_fs); S_VSUP=(2.97 3.3 3.63)
+fi
+for mos in "${S_MOS[@]}"; do
+  for temp in "${TEMP_LIST[@]}"; do
+    for vsup in "${S_VSUP[@]}"; do
       vmid="$(python3 -c "print('%.6f' % (float('$vsup')/2))")"
       sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@TEMP@/$temp/g" -e "s/@VSUP@/$vsup/g" \
           -e "s/@VMID@/$vmid/g" -e "s|@DUT@|$WORK/dut_${PRIMARY}.spice|g" \
@@ -797,7 +853,7 @@ if u and d:
     print('%s,%s,%.6e,%.4f' % (u, d, h, 100*h/float('$vsup')))
 else:
     print('NA,NA,NA,NA')")"
-      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_crowbarfix.csv"
+      echo "${mos},${temp},${vsup},${row}" >> "$CORNERS/schmitt_${OUT}.csv"
       echo "[S] ${mos}/${temp}C/${vsup}V: ${row}" >&2
     done
   done
@@ -813,10 +869,16 @@ done
 #    of asserting it is small.
 # ---------------------------------------------------------------------------
 echo "mos_corner,res_corner,temp_c,dut_variant,tstep,twin_r_s" \
-  > "$CORNERS/tstep_convergence_crowbarfix.csv"
-for tstep in 20p 5p 1.25p; do
-  for probe in "mos_tt res_typ 27 $PRIMARY" "mos_ss res_wcs 125 ideal0.20" \
-               "mos_ff res_bcs -40 ideal-0.20" "mos_sf res_typ 27 $PRIMARY"; do
+  > "$CORNERS/tstep_convergence_${OUT}.csv"
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then
+  T_STEPS=(20p); T_PROBES=("mos_tt res_typ 27 $PRIMARY")
+else
+  T_STEPS=(20p 5p 1.25p)
+  T_PROBES=("mos_tt res_typ 27 $PRIMARY" "mos_ss res_wcs 125 ideal0.20"
+            "mos_ff res_bcs -40 ideal-0.20" "mos_sf res_typ 27 $PRIMARY")
+fi
+for tstep in "${T_STEPS[@]}"; do
+  for probe in "${T_PROBES[@]}"; do
     read -r mos res temp variant <<< "$probe"
     sed -e "s/@CORNER_MOS@/$mos/g" -e "s/@CORNER_RES@/$res/g" -e "s/@TEMP@/$temp/g" \
         -e "s/@VSUP@/$VSUP_NOM/g" -e "s/@VMID@/1.65/g" -e "s/@TSTEP@/$tstep/g" \
@@ -826,19 +888,19 @@ for tstep in 20p 5p 1.25p; do
     tw="$( run_ngspice_or_die w.sp \
            | sed -n 's/^twin_r *= *\([0-9.eE+-]*\).*/\1/p' | head -1 )"
     echo "${mos},${res},${temp},${variant},${tstep},${tw:-NA}" \
-      >> "$CORNERS/tstep_convergence_crowbarfix.csv"
+      >> "$CORNERS/tstep_convergence_${OUT}.csv"
     echo "[conv ${tstep}] ${mos}/${temp}C/${variant}: twin_r=${tw:-NA}" >&2
   done
 done
 
-n_retry="$(wc -l < "$CORNERS/solver_retries.txt")"
+n_retry="$(wc -l < "$CORNERS/solver_retries_${OUT}.txt")"
 if [ "$n_retry" -eq 0 ]; then
   echo "solver retries: none -- every deck converged on the committed .options" >&2
 else
-  echo "solver retries: ${n_retry} deck(s) needed trtol=1 -- see $CORNERS/solver_retries.txt" >&2
+  echo "solver retries: ${n_retry} deck(s) needed trtol=1 -- see $CORNERS/solver_retries_${OUT}.txt" >&2
 fi
 
 echo "done (primary DUT variant: $PRIMARY, cap_cmomi loadable: $HAVE_CMOMI):" >&2
 for f in rc_extract window schmitt ladder ladder_raw tstep_convergence; do
-  echo "  $(wc -l < "$CORNERS/${f}_crowbarfix.csv") lines (incl. header) -> $CORNERS/${f}_crowbarfix.csv" >&2
+  echo "  $(wc -l < "$CORNERS/${f}_${OUT}.csv") lines (incl. header) -> $CORNERS/${f}_${OUT}.csv" >&2
 done
