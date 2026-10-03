@@ -37,19 +37,24 @@ buried:
    unchanged. RECORD-002 re-extracts and re-runs Matrix A/C against the new
    geometry: the mean per-point deviation narrows −49.3% → −22.6%, band
    223.68 – 789.50 → 347.55 – 1182.79 MHz, control arm 60/60 byte-identical.
-   `divider_chain`'s 147 mm is untouched, so the bound there has not moved —
-   RECORD-004 measures its consequence directly: all 14 post-layout divide
-   ratios exact (≤10.9 ppm), `idd` **+262…276 %** (see its §3).
-3. **Five of six blocks have a confirmed layout↔schematic topology match.**
-   `pfd`, `cp`, `loop_filter`, `divider_chain` and — since #123's XBIAS
-   resistor-body fix — `vco` all LVS-match at the current extraction
-   (`lvs-recheck/summary.json` against layout record
-   `20260923-020931-a95a887-dirty`): the two newest are issue #114's drawn
-   `cap_cmomi` pair (RECORD-001 found both undrawn) and #121's
-   `divider_chain` repair (the routed cell matches 394/394 devices,
-   181/181 nets). Only `lock_detector` still mismatches (39/41, 19/24) —
-   its results rest on measured device-set evidence instead (RECORD-003
-   §3.1), and that verdict is unchanged by this record.
+   `divider_chain`'s 147 mm (at RECORD-001/002's layout; 234.5 mm after
+   #121's repair, the layout RECORD-004 measured) is untouched by #101, so
+   the bound there has not moved — RECORD-004 measures its consequence
+   directly: all 14 post-layout divide ratios exact (≤10.9 ppm), `idd`
+   **+262…276 %** (see its §3).
+3. **The current layout record is 6/6 LVS match; these records' committed
+   `lvs-recheck/` artifacts are the older 5/6 state, on purpose.** Layout
+   record `20261003-183059-dc5644a` (#136, `lock_detector` RPU bulk on VSS)
+   reports 6/6 `match`, `lock_detector` 41/41 devices, 23/23 nets. The
+   `lvs-recheck/summary.json` artifacts here were taken against layout record
+   `20260923-020931-a95a887-dirty` and are deliberately left as that
+   snapshot: `pfd`, `cp`, `loop_filter`, `divider_chain` and — since #123's
+   XBIAS resistor-body fix — `vco` matched there (issue #114's drawn
+   `cap_cmomi` pair and #121's `divider_chain` repair, 394/394 devices,
+   181/181 nets), and only `lock_detector` still mismatched (39/41, 19/24).
+   The records' `lock_detector` results rest on measured device-set evidence
+   instead (RECORD-003 §3.1); the later #136 match does not retroactively
+   change those inputs or conclusions.
 
 ## Layout
 
@@ -127,7 +132,7 @@ to the `457cf5b` one it supersedes, `lock_detector`'s was re-extracted
 | `loop_filter` Ctot′ (frac=0, all 9 corners) | 1.7914 pF | **2.5009 pF (+39.6 %)** |
 | `loop_filter` fz′ / fp′ (typ/27C) | 295.4 kHz / 4.348 MHz | **238.8 kHz (−19.1 %) / 2.550 MHz (−41.4 %)** — capacitance-dominated; R1′ physical change bounded ≤ +2.0 % |
 | `divider_chain` divide ratio, 14 points (N=64 at 3-bundle bracket, 9-word sweep, N=127 at both brackets) | exact (control reproduces the committed 20-row matrix byte-identically) | **every point exact, ≤10.9 ppm vs control; ck1..ck5, DIVOUT, FB full-rail everywhere** |
-| `divider_chain` average supply current | ~226 µA (every point) | **809–862 µA (+262…276 %)** — the 147 mm of routed wire, switched |
+| `divider_chain` average supply current | ~226 µA (every point) | **809–862 µA (+262…276 %)** — the 234.5 mm of routed wire at that layout, switched |
 
 All control arms reproduce their committed campaigns: 60/60 VCO frequencies
 byte-identical (RECORD-001 and again in RECORD-002), `cp` to within

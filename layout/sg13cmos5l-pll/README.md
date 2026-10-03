@@ -238,14 +238,17 @@ To keep those properties, groups are drawn **one device tall** and placed in a
 **single left-to-right row**: a second row, or a shelf wrap, would put two
 devices' terminals in one riser column. The cost is width — `divider_chain` is
 ~1.7 mm across — and wire length: 167 mm of total drawn wire across the six
-blocks in the issue-#29-style composition. That is a floorplan cost, and for
-five of the six blocks it is still a bad floorplan; see "What it is not".
+blocks in the issue-#29-style composition (historical; the current record
+`20261003-183059-dc5644a` totals ≈269.7 mm, see "What it is not"). That is
+a floorplan cost, and for five of the six blocks it is still a bad
+floorplan; see "What it is not".
 `vco` is the exception since issue #101: the locality pass
 (`layout/bin/cmos5l_floorplan.py`) permutes the row order, the member->slot
 order inside each matched group cell, and the track order — under the *same*
 structural invariants, since a permutation adds no net, no footprint and no
 spacing — and cuts that block's routed wire from 7 178 to 3 913 um
-(`ring1`: 413 -> 126 um) with its DRC, extraction and LVS verdicts unchanged.
+(at issue #101, `ring1`: 413 -> 126 um; 12.995 mm in the current record
+with the drawn caps) with its DRC, extraction and LVS verdicts unchanged.
 The measured PVT consequence lives in
 [`sim/sg13cmos5l-postlayout-pex-pvt/records/`](../../sim/sg13cmos5l-postlayout-pex-pvt/records/)
 — RECORD-002.
@@ -442,18 +445,24 @@ supply nets, and the checked-tie probe above.
 
 ## What it is not
 
-- **Not fully drawn.** The five MoM capacitors are not drawn; see "Friction".
-  Ten net→pin connections are therefore incomplete, each listed by name in the
-  record with the undrawn device that owns the missing pin.
-- **Not LVS-clean on all six blocks.** Three are `match`; three cannot be
-  converted at all. That is reported as an attributed gap naming
-  klayout-tools#1463, never rounded up.
+- **Not a partial drawing — and no longer an LVS-gapped one.** As of record
+  `20261003-183059-dc5644a` (`reports/LATEST`, #136) all 569/569 planned
+  devices are drawn, including the five MoM capacitors, and all six blocks are
+  LVS `match`. Earlier records in this directory narrate the older states
+  (undrawn capacitors, 3/6 then 5/6 `match`); those are historical and
+  unchanged. What stays true is that a `match` here is a topology verdict on
+  a floorplan that is not a considered one (next bullet).
 - **Not a considered floorplan — and now visibly so.** Groups are packed one
   device tall in a single row with generous spacing, and every net gets a
-  private Metal3 track whether it needs one or not. `divider_chain` is ~1.7 mm
-  wide and the six blocks draw 167 mm of wire between them (vco's share is
-  down from 7 178 to 3 913 um since issue #101's locality pass — see
-  "Routing" — but the other five blocks' compositions are unchanged). It is
+  private Metal3 track whether it needs one or not. At record
+  `20261003-183059-dc5644a` the six blocks draw ≈269.7 mm of routed wire
+  between them: `divider_chain` 234.509 mm, `vco` 12.995 mm (with the drawn
+  caps; the record measures 16.305 mm for the same groups in the pre-#101
+  single-row order, so issue #101's locality pass still saves ~3.3 mm — see
+  "Routing"; the RECORD-001-era cap-less figure was 7 178 µm), `pfd`
+  8.651 mm, `lock_detector` 10.076 mm,
+  `cp` 2.336 mm, `loop_filter` 1.090 mm. (Older records quote 167 mm total
+  and 3 913 µm for `vco`; those are pre-#114/#121 figures, historical.) It is
   DRC-clean and it is electrically the schematic; it is not an area-,
   parasitic- or matching-aware layout, and no claim here should be read as
   one. In particular the matched-device intent the plan records
@@ -506,14 +515,18 @@ repeated here because this file is where a layout reader arrives first:
    measures the consequence rather than leaving it bracketed: the mean
    per-point deviation narrows from −49.3% to −22.6% (band 223.7 – 789.5 →
    347.6 – 1182.8 MHz), of which < 1 pp is the shared device floor and
-   ~1.4 pp parasitic R. `divider_chain`'s 147 mm is untouched, and all the
-   matching/area caveats below still apply to every block including `vco`.
-2. **Only three of six blocks have a confirmed layout↔schematic topology
-   match.** See the next section — `pfd`/`cp`/`divider_chain` match;
-   `loop_filter`/`vco` now compare and **mismatch**; `lock_detector` still
-   cannot be compared. `cp`'s post-layout numbers rest on a confirmed match;
-   `vco`'s do not, and the record says so instead of presenting its deviation
-   as a clean parasitic effect.
+   ~1.4 pp parasitic R. `divider_chain`'s 147 mm (at that record's layout)
+   is untouched by it, and all the matching/area caveats below still apply
+   to every block including `vco`.
+2. **The post-layout records predate the current 6/6 LVS match.** All six
+   blocks are LVS `match` at the current layout record
+   `20261003-183059-dc5644a` (#136; see the next section), but the PEX/PVT
+   records were measured on earlier layouts whose LVS state was narrower
+   (3/6, later 5/6 with `lock_detector` unmatched). The newer layout evidence
+   does not retroactively change those records' inputs or conclusions; each
+   record states the match status of its own layout, and `vco`'s early
+   deviation was not presented as a clean parasitic effect when its topology
+   was unconfirmed.
 3. **The coefficients are uncalibrated.** klayout-tools' own `LayerRC`
    docstring calls them "representative, uncalibrated, order-of-magnitude
    starter values" from public process data, with silicon calibration an
