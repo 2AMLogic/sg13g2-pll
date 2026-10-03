@@ -130,10 +130,17 @@ GROUP_SPACING_UM = 6.0
 #: from its own active box's left edge (um).
 #:
 #: Both land inside the full-width `Metal1` source/drain pads
-#: :func:`cmos5l_devices.draw_hv_mos` draws, on the narrowest device this
-#: design has (`w = 2 um`). They are 0.6 um apart -- one
-#: :data:`cmos5l_devices.ROUTE_PITCH_UM` -- and the gate's own column sits a
-#: further 0.88 um to the left, off the gate landing pad.
+#: :func:`cmos5l_devices.draw_hv_mos` draws on any device at least
+#: `DRAIN_RISER_DX_UM + ROUTE_W_UM / 2` = 1.2 um wide. They are 0.6 um apart --
+#: one :data:`cmos5l_devices.ROUTE_PITCH_UM` -- and the gate's own column sits
+#: a further 0.88 um to the left, off the gate landing pad.
+#:
+#: Narrower devices exist since issue #66 re-sized `lock_detector`'s XMPD to
+#: `w = 0.25 um`, and on those both columns used to fall *outside* the pads:
+#: the two Via1s landed on no Metal1 and both diffusion terminals extracted
+#: as open nets (issue #136). :func:`draw_mos_group` now passes each column's
+#: reach to `draw_hv_mos`, which grows a Metal1 tab out to it whenever the
+#: pad is too narrow -- a no-op on every device >= 1.2 um wide.
 SOURCE_RISER_DX_UM = 0.45
 DRAIN_RISER_DX_UM = 1.05
 
@@ -421,7 +428,16 @@ def draw_mos_group(builder: dev.Builder, group: dict[str, Any]) -> dict[str, Any
     terminals: dict[str, tuple[float, float]] = {}
     for index in range(count):
         x = base_x + index * pitch_x
-        drawn = dev.draw_hv_mos(builder, flavor, x, base_y, w_um, l_um)
+        drawn = dev.draw_hv_mos(
+            builder,
+            flavor,
+            x,
+            base_y,
+            w_um,
+            l_um,
+            source_reach_um=SOURCE_RISER_DX_UM + dev.ROUTE_W_UM / 2,
+            drain_reach_um=DRAIN_RISER_DX_UM + dev.ROUTE_W_UM / 2,
+        )
         actives.append(drawn["active"])  # type: ignore[arg-type]
         source_pad = drawn["source_pad"]  # type: ignore[index]
         drain_pad = drawn["drain_pad"]  # type: ignore[index]
