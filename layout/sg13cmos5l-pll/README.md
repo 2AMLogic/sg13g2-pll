@@ -239,14 +239,16 @@ To keep those properties, groups are drawn **one device tall** and placed in a
 devices' terminals in one riser column. The cost is width — `divider_chain` is
 ~1.7 mm across — and wire length: 167 mm of total drawn wire across the six
 blocks in the issue-#29-style composition (historical; the current record
-`20261003-183059-dc5644a` totals ≈269.7 mm, see "What it is not"). That is a floorplan cost, and for
-five of the six blocks it is still a bad floorplan; see "What it is not".
+`20261003-183059-dc5644a` totals ≈269.7 mm, see "What it is not"). That is
+a floorplan cost, and for five of the six blocks it is still a bad
+floorplan; see "What it is not".
 `vco` is the exception since issue #101: the locality pass
 (`layout/bin/cmos5l_floorplan.py`) permutes the row order, the member->slot
 order inside each matched group cell, and the track order — under the *same*
 structural invariants, since a permutation adds no net, no footprint and no
 spacing — and cuts that block's routed wire from 7 178 to 3 913 um
-(at issue #101; 12.995 mm in the current record with the drawn caps) (`ring1`: 413 -> 126 um) with its DRC, extraction and LVS verdicts unchanged.
+(at issue #101, `ring1`: 413 -> 126 um; 12.995 mm in the current record
+with the drawn caps) with its DRC, extraction and LVS verdicts unchanged.
 The measured PVT consequence lives in
 [`sim/sg13cmos5l-postlayout-pex-pvt/records/`](../../sim/sg13cmos5l-postlayout-pex-pvt/records/)
 — RECORD-002.
@@ -455,8 +457,10 @@ supply nets, and the checked-tie probe above.
   private Metal3 track whether it needs one or not. At record
   `20261003-183059-dc5644a` the six blocks draw ≈269.7 mm of routed wire
   between them: `divider_chain` 234.509 mm, `vco` 12.995 mm (with the drawn
-  caps; down from 7 178 µm in the RECORD-001-era layout via issue #101's
-  locality pass — see "Routing"), `pfd` 8.651 mm, `lock_detector` 10.076 mm,
+  caps; the record measures 16.305 mm for the same groups in the pre-#101
+  single-row order, so issue #101's locality pass still saves ~3.3 mm — see
+  "Routing"; the RECORD-001-era cap-less figure was 7 178 µm), `pfd`
+  8.651 mm, `lock_detector` 10.076 mm,
   `cp` 2.336 mm, `loop_filter` 1.090 mm. (Older records quote 167 mm total
   and 3 913 µm for `vco`; those are pre-#114/#121 figures, historical.) It is
   DRC-clean and it is electrically the schematic; it is not an area-,
@@ -511,8 +515,9 @@ repeated here because this file is where a layout reader arrives first:
    measures the consequence rather than leaving it bracketed: the mean
    per-point deviation narrows from −49.3% to −22.6% (band 223.7 – 789.5 →
    347.6 – 1182.8 MHz), of which < 1 pp is the shared device floor and
-   ~1.4 pp parasitic R. `divider_chain`'s 147 mm (at that record's layout) is untouched by it, and all the
-   matching/area caveats below still apply to every block including `vco`.
+   ~1.4 pp parasitic R. `divider_chain`'s 147 mm (at that record's layout)
+   is untouched by it, and all the matching/area caveats below still apply
+   to every block including `vco`.
 2. **The post-layout records predate the current 6/6 LVS match.** All six
    blocks are LVS `match` at the current layout record
    `20261003-183059-dc5644a` (#136; see the next section), but the PEX/PVT

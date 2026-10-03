@@ -37,7 +37,8 @@ buried:
    unchanged. RECORD-002 re-extracts and re-runs Matrix A/C against the new
    geometry: the mean per-point deviation narrows −49.3% → −22.6%, band
    223.68 – 789.50 → 347.55 – 1182.79 MHz, control arm 60/60 byte-identical.
-   `divider_chain`'s 147 mm is untouched, so the bound there has not moved —
+   `divider_chain`'s 147 mm (at RECORD-004's layout) is untouched, so the
+   bound there has not moved —
    RECORD-004 measures its consequence directly: all 14 post-layout divide
    ratios exact (≤10.9 ppm), `idd` **+262…276 %** (see its §3).
 3. **The current layout record is 6/6 LVS match; these records' committed
