@@ -1,0 +1,79 @@
+{
+  "schema": "klt.gen_compose.request/1",
+  "pdk": {
+    "variant": "ihp-sg13cmos5l"
+  },
+  "blocks": [
+    {
+      "id": "a",
+      "cell": {
+        "gds_path": "gencompose_probe.gds",
+        "cell_name": "gencompose_probe",
+        "ports": [
+          {
+            "name": "P",
+            "x_um": 0.5,
+            "y_um": 1.15,
+            "width_um": 0.3,
+            "direction_deg": 90,
+            "layer": {
+              "layer": 8,
+              "datatype": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "b",
+      "cell": {
+        "gds_path": "gencompose_probe.gds",
+        "cell_name": "gencompose_probe",
+        "ports": [
+          {
+            "name": "P",
+            "x_um": 0.5,
+            "y_um": 1.15,
+            "width_um": 0.3,
+            "direction_deg": 90,
+            "layer": {
+              "layer": 8,
+              "datatype": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "placement": {
+    "strategy": "row",
+    "order": [
+      "a",
+      "b"
+    ],
+    "spacing_um": 2.0
+  },
+  "options": {
+    "cell_name": "gencompose_probe_top",
+    "output": "gencompose_probe_top.gds"
+  },
+  "connectivity": [
+    {
+      "net": "PROBE",
+      "pins": [
+        {
+          "block": "a",
+          "port": "P"
+        },
+        {
+          "block": "b",
+          "port": "P"
+        }
+      ]
+    }
+  ],
+  "routing": {
+    "layer_role": "metal",
+    "width_um": 0.3
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_vco.gds",
+    "reference": "vco.reference.spice",
+    "top": "pll_vco",
+    "reference_top": "VCO",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ]
+    },
+    "hints_applied": null,
+    "status": "match",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 33,
+        "reference": 33,
+        "matched": 33
+      },
+      "devices": {
+        "layout": 45,
+        "reference": 45,
+        "matched": 45
+      },
+      "pins": {
+        "layout": 33,
+        "reference": 6,
+        "matched": 33
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "layout_sha256": "21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7",
+      "reference_sha256": "d68b9c4d04ef557df500a0191708e551a78c010161f09bb3d6717e77b85e503e",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": true
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 4 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "B0",
+        "reference": "B0",
+        "pin": true
+      },
+      {
+        "layout": "B1",
+        "reference": "B1",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_dega",
+        "reference": "BIAS_DEGA",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_degb",
+        "reference": "BIAS_DEGB",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_n2s",
+        "reference": "BIAS_N2S",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_nb0",
+        "reference": "BIAS_NB0",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_nb1",
+        "reference": "BIAS_NB1",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_vb1",
+        "reference": "BIAS_VB1",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_vb2",
+        "reference": "BIAS_VB2",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_VFIX",
+        "reference": "BIAS_VFIX",
+        "pin": true
+      },
+      {
+        "layout": "XBIAS_vfixmid",
+        "reference": "BIAS_VFIXMID",
+        "pin": true
+      },
+      {
+        "layout": "bufmid",
+        "reference": "BUFMID",
+        "pin": true
+      },
+      {
+        "layout": "CLK",
+        "reference": "CLK",
+        "pin": true
+      },
+      {
+        "layout": "GND_VCO",
+        "reference": "GND_VCO",
+        "pin": true
+      },
+      {
+        "layout": "ring1",
+        "reference": "RING1",
+        "pin": true
+      },
+      {
+        "layout": "ring2",
+        "reference": "RING2",
+        "pin": true
+      },
+      {
+        "layout": "ring3",
+        "reference": "RING3",
+        "pin": true
+      },
+      {
+        "layout": "ring4",
+        "reference": "RING4",
+        "pin": true
+      },
+      {
+        "layout": "ring5",
+        "reference": "RING5",
+        "pin": true
+      },
+      {
+        "layout": "XS1_nh",
+        "reference": "S1_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS1_nt",
+        "reference": "S1_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS2_nh",
+        "reference": "S2_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS2_nt",
+        "reference": "S2_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS3_nh",
+        "reference": "S3_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS3_nt",
+        "reference": "S3_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS4_nh",
+        "reference": "S4_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS4_nt",
+        "reference": "S4_NT",
+        "pin": true
+      },
+      {
+        "layout": "XS5_nh",
+        "reference": "S5_NH",
+        "pin": true
+      },
+      {
+        "layout": "XS5_nt",
+        "reference": "S5_NT",
+        "pin": true
+      },
+      {
+        "layout": "VBN",
+        "reference": "VBN",
+        "pin": true
+      },
+      {
+        "layout": "VBP",
+        "reference": "VBP",
+        "pin": true
+      },
+      {
+        "layout": "VCTRL",
+        "reference": "VCTRL",
+        "pin": true
+      },
+      {
+        "layout": "VDD_VCO",
+        "reference": "VDD_VCO",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": "klt: warning: resolved klayout engine version '0.30.12' differs from klayout==0.30.10, the version this klayout-tools build/commit was tested against -- DRC/LVS report counts (deck content hash, rules_skipped, category_counts, ...) may differ from a report generated with klayout==0.30.10, even though the verdict itself is unaffected. To reproduce the exact engine: `uv tool install \"klayout-tools @ git+...@<sha>\" --with klayout==0.30.10` -- see docs/json-contract.md's \"Shared `provenance` block\"."
+}
