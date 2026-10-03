@@ -40,16 +40,19 @@ buried:
    `divider_chain`'s 147 mm is untouched, so the bound there has not moved —
    RECORD-004 measures its consequence directly: all 14 post-layout divide
    ratios exact (≤10.9 ppm), `idd` **+262…276 %** (see its §3).
-3. **Five of six blocks have a confirmed layout↔schematic topology match.**
-   `pfd`, `cp`, `loop_filter`, `divider_chain` and — since #123's XBIAS
-   resistor-body fix — `vco` all LVS-match at the current extraction
-   (`lvs-recheck/summary.json` against layout record
-   `20260923-020931-a95a887-dirty`): the two newest are issue #114's drawn
-   `cap_cmomi` pair (RECORD-001 found both undrawn) and #121's
-   `divider_chain` repair (the routed cell matches 394/394 devices,
-   181/181 nets). Only `lock_detector` still mismatches (39/41, 19/24) —
-   its results rest on measured device-set evidence instead (RECORD-003
-   §3.1), and that verdict is unchanged by this record.
+3. **The current layout record is 6/6 LVS match; these records' committed
+   `lvs-recheck/` artifacts are the older 5/6 state, on purpose.** Layout
+   record `20261003-183059-dc5644a` (#136, `lock_detector` RPU bulk on VSS)
+   reports 6/6 `match`, `lock_detector` 41/41 devices, 23/23 nets. The
+   `lvs-recheck/summary.json` artifacts here were taken against layout record
+   `20260923-020931-a95a887-dirty` and are deliberately left as that
+   snapshot: `pfd`, `cp`, `loop_filter`, `divider_chain` and — since #123's
+   XBIAS resistor-body fix — `vco` matched there (issue #114's drawn
+   `cap_cmomi` pair and #121's `divider_chain` repair, 394/394 devices,
+   181/181 nets), and only `lock_detector` still mismatched (39/41, 19/24).
+   The records' `lock_detector` results rest on measured device-set evidence
+   instead (RECORD-003 §3.1); the later #136 match does not retroactively
+   change those inputs or conclusions.
 
 ## Layout
 
