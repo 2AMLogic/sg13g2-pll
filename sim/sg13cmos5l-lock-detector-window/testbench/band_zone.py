@@ -30,7 +30,7 @@ CAVEATS, stated rather than buried:
     slight UNDER-estimate, which biases the reported zone toward slightly
     smaller phase errors.  Copy B's VWIN is not in the CSV, so no two-sided
     bracket is available without a re-run.
-  * The ladder is a discrete grid (`gen_ladder.py`'s `hystfix` set), so both
+  * The ladder is a discrete grid (`gen_lock_ladder.py`'s `hystfix` set), so both
     zone edges are LINEARLY INTERPOLATED between adjacent ladder points.  The
     grid step is 0.25x window below 2.5x and coarser above it, so the edge
     resolution degrades at the slow-f_ref corners whose thresholds sit at

@@ -17,7 +17,7 @@ The campaign ran in two phases, one issue each.
 
 1. **stood up** the testbench structure, reusing the SG13CMOS5L sibling's
    topology-generic pieces (`tb_window`, `tb_lock_ladder_point`,
-   `tb_lock_recovery`, `tb_schmitt_hyst`, `gen_ladder.py`, `run.sh`'s overall
+   `tb_lock_recovery`, `tb_schmitt_hyst`, `sim/tools/gen_lock_ladder.py` (shared with the SG13CMOS5L campaigns), `run.sh`'s overall
    shape) and its ngspice solver settings (`itl4=5000 gmin=1e-11`) verbatim,
    and
 2. **extracted** `lock_detector`'s own `R` (`rhigh`, `XRPU`) over the
@@ -66,7 +66,7 @@ re-derivation, not a port".
 
 ## Directory layout
 
-- `testbench/` — ngspice deck templates + `gen_ladder.py` + four drivers:
+- `testbench/` — ngspice deck templates + `sim/tools/gen_lock_ladder.py` (shared with the SG13CMOS5L campaigns) + four drivers:
   - `run.sh` — the pass/fail campaign against the block **as committed**.
     Writes the `_resized` CSV set.
   - `run_rc_sizing.sh` — sizing evidence for `XRPU`/`XCW`/`XDW.XC1`
