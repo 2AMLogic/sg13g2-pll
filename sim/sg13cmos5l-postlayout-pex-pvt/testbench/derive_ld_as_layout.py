@@ -41,7 +41,7 @@ Outputs (two files):
   <out>      the as-layout netlist, keeping the original `.subckt
              lock_detector UP DN LOCK VDD VSS` header, so the sibling
              campaign's own machinery (tb_window.sp.tmpl's bare
-             delaywin_hv, gen_ladder.py's `Xa{k} ... lock_detector`
+             delaywin_hv, gen_lock_ladder.py's `Xa{k} ... lock_detector`
              instantiations) consumes it unchanged.
   <out_ep>   the same netlist with the `.subckt` header widened to
              `lock_detector_ep UP DN LOCK VDD VSS ERR ERRD` -- ERR and

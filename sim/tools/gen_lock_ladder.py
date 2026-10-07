@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""sg13g2-pll :: sim/sg13cmos5l-lock-detector-window (issue #38, Part of #16)
+"""sg13g2-pll :: sim/tools/gen_lock_ladder.py (issue #127)
+
+Shared lock-detector-window ladder generator/reducer, used by
+sim/sg13cmos5l-lock-detector-window, sim/sg13g2-lock-detector-window and
+sim/sg13cmos5l-postlayout-pex-pvt (consolidated from two per-campaign copies;
+originally issue #38 / #81, Part of #16).  Named ladder sets (`record002`,
+`hystfix`, `resized`) are additive; `--corner-cap` is optional.
 
 Build one per-corner instance of ``tb_lock_ladder.sp.tmpl``, and reduce the
 resulting ngspice log to the record's per-corner numbers.
@@ -122,6 +128,16 @@ LADDER_FRACS_SETS = {
         10.00, 12.00, 14.00, 16.00, 18.00,
         20.00,
     ],
+    # SG13G2 issue #82's post-resize ladder (RECORD-001).  Longer and denser
+    # than `hystfix`: 0.25x steps from 1.00 to 2.50 x window, coverage out to
+    # 24x (see sim/sg13g2-lock-detector-window/corners/xmpd_sizing.csv).
+    "resized": [
+        0.50,
+        1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50,
+        3.00, 3.50, 4.00, 5.00, 6.00, 7.00, 8.00,
+        10.00, 12.00, 14.00, 16.00, 18.00, 20.00,
+        22.00, 24.00,
+    ],
 }
 LADDER_FRACS = LADDER_FRACS_SETS["record002"]
 
@@ -221,6 +237,11 @@ def gen(args):
         "@PDK_ROOT@": args.pdk_root,
         "@PDK@": args.pdk,
     }
+    # Optional capacitor corner (SG13G2 templates carry @CORNER_CAP@; the
+    # SG13CMOS5L ones do not).  Only inserted when given, so a template that
+    # still has a live token without it fails the placeholder guard below.
+    if args.corner_cap is not None:
+        subs["@CORNER_CAP@"] = args.corner_cap
     # Substitution is line-based and skips comment lines, for two reasons:
     # the skeleton's own header documents its placeholder names and must keep
     # them readable, and the three multi-line placeholders would otherwise be
@@ -383,7 +404,8 @@ def _add_fracs_set(p):
                    help="named ladder (see LADDER_FRACS_SETS). `record002` is "
                         "the default so RECORD-002's campaign reproduces "
                         "unchanged; `hystfix` is RECORD-003's (issue #66) "
-                        "denser, longer-reach ladder. `gen` and `reduce` must "
+                        "denser, longer-reach ladder; `resized` is SG13G2's "
+                        "issue #82 ladder (out to 24x). `gen` and `reduce` must "
                         "be given the SAME set.")
 
 
@@ -397,6 +419,12 @@ def main():
     g.add_argument("--dut", required=True)
     g.add_argument("--corner-mos", required=True)
     g.add_argument("--corner-res", required=True)
+    g.add_argument("--corner-cap", default=None,
+                   help="capacitor process corner substituted for "
+                        "@CORNER_CAP@ (SG13G2 templates). Optional: omit for "
+                        "templates without that token; a template that has "
+                        "it and is filled without it fails the "
+                        "unsubstituted-placeholder guard.")
     g.add_argument("--temp", required=True)
     g.add_argument("--vsup", required=True)
     g.add_argument("--tref", required=True)

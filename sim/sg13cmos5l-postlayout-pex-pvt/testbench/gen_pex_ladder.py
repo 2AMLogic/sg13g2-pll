@@ -9,9 +9,9 @@ for the flat extracted DUT, mirroring the sibling campaign's
   * the stimulus, .ic start states, settle window, measurement names and
     solver options are copied verbatim from that campaign's
     tb_lock_recovery.sp.tmpl / tb_lock_ladder_point.sp.tmpl +
-    gen_ladder.py, so the per-corner reduction is reusable UNCHANGED --
+    gen_lock_ladder.py, so the per-corner reduction is reusable UNCHANGED --
     run_lock_detector.sh pipes these decks' concatenated stdout through
-    the sibling campaign's own `gen_ladder.py reduce`, which cannot tell
+    the sibling campaign's own `gen_lock_ladder.py reduce`, which cannot tell
     them apart from the schematic decks it was written for (every .meas
     scalar name is identical);
   * the ONLY structural differences are forced by the extraction itself:
@@ -23,7 +23,7 @@ for the flat extracted DUT, mirroring the sibling campaign's
     `va{k}_*` measurements reference top-level nodes instead of hierarchical
     `xa{k}.vwin` ones;
   * the ladder fractions are imported from the sibling campaign's
-    gen_ladder.py (LADDER_FRACS_SETS), never re-defined here, so `gen` and
+    gen_lock_ladder.py (LADDER_FRACS_SETS), never re-defined here, so `gen` and
     `reduce` cannot disagree on the ladder shape (the campaign's own
     --fracs-set-must-match rule).
 
@@ -49,7 +49,7 @@ import sys
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _CAMPAIGN_GEN = os.path.normpath(os.path.join(
-    _HERE, "../../sg13cmos5l-lock-detector-window/testbench/gen_ladder.py"))
+    _HERE, "../../tools/gen_lock_ladder.py"))
 
 
 def _load_campaign_gen():

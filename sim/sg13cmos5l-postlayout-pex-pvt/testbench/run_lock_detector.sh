@@ -73,7 +73,7 @@
 #           the +-10% supply spot checks (2), at row 2's amended slow end
 #           as the campaign grids it. Ladder set = the campaign's frozen
 #           `record002` 9-point ladder, consumed via the campaign's own
-#           gen_ladder.py for BOTH arms so gen and reduce cannot disagree.
+#           gen_lock_ladder.py for BOTH arms so gen and reduce cannot disagree.
 #
 #   export PDK_ROOT=/path/to/pdk/root   # parent dir containing ihp-sg13cmos5l/
 #   export PDK=ihp-sg13cmos5l
@@ -441,7 +441,7 @@ done
 # ---------------------------------------------------------------------------
 # 4. The ladder + recovery, both arms, over RECORD-002's reduced corner set
 #    minus the MOM-band spot checks. Ladder set = the campaign's frozen
-#    `record002`, consumed via the campaign's own gen_ladder.py so `gen`
+#    `record002`, consumed via the campaign's own gen_lock_ladder.py so `gen`
 #    and `reduce` cannot disagree on the ladder shape.
 # ---------------------------------------------------------------------------
 if [ "${LD_SKIP_LADDER:-0}" != 1 ]; then
@@ -465,7 +465,7 @@ done
 
 N_LADDER_PTS="$(python3 -c "
 import importlib.util
-spec = importlib.util.spec_from_file_location('gen', '$CTL/gen_ladder.py')
+spec = importlib.util.spec_from_file_location('gen', '$CTL/../../tools/gen_lock_ladder.py')
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 
@@ -607,7 +607,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc_t)))")"
         --pdk-root "$PDK_ROOT" --pdk "$PDK" \
         --inst-a "$WORK/inst_xa${k}.spice" --inst-b "$WORK/inst_xb${k}.spice"
     else
-      python3 "$CTL/gen_ladder.py" gen \
+      python3 "$CTL/../../tools/gen_lock_ladder.py" gen \
         --template "$CTL/tb_lock_ladder_point.sp.tmpl" \
         --out "$WORK/pt_${atag}_${k}.sp" --dut "$WORK/dut_as_layout.spice" \
         --fracs-set "$LADDER_SET" \
@@ -625,7 +625,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc_t)))")"
   # this CSV and the raw one are self-describing with the campaign's exact
   # schema.
   RETRY_TAG="reduce ${atag}"
-  reduced="$(python3 "$CTL/gen_ladder.py" reduce \
+  reduced="$(python3 "$CTL/../../tools/gen_lock_ladder.py" reduce \
       --tag "$atag" --vsup "$vsup" --fracs-set "$LADDER_SET" \
       --twin "$twin_r" --raw "$rawf" < "$combined")" || return 1
   rc_over="$(python3 -c "print('%.3f' % ($rc_t/$tref))")"

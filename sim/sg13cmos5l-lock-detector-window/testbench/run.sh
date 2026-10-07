@@ -162,8 +162,8 @@
 # tb_lock_ladder_point.sp.tmpl (ONE phase-error point, 2 copies) are each
 # their own small, independent ngspice invocation; this file concatenates
 # every invocation's stdout for one corner and hands the combined text to
-# `gen_ladder.py reduce`, which cannot tell the difference from one merged
-# deck's own output.  See gen_ladder.py's "ONE-POINT-AT-A-TIME MODE" section.
+# `gen_lock_ladder.py reduce`, which cannot tell the difference from one merged
+# deck's own output.  See gen_lock_ladder.py's "ONE-POINT-AT-A-TIME MODE" section.
 #
 # Per-corner run length.  Asymptotic settling of the integrating node needs
 # tstop on the order of K_SETTLE * R*C (K_SETTLE=4 => 1-e^-4 = 98.2%), capped
@@ -259,7 +259,7 @@ XC1_W=40;  XC1_L=40;  XC1_M=2               # XDW.XC1 (cap_cmomi), was 4u x 4u m
 # substitutes.  Recorded here so the one place that lists "what this campaign's
 # DUT differs from RECORD-002's in" is complete.
 
-# Ladder set (see gen_ladder.py's LADDER_FRACS_SETS).  RECORD-003 needs a
+# Ladder set (see gen_lock_ladder.py's LADDER_FRACS_SETS).  RECORD-003 needs a
 # denser and much longer-reaching ladder than RECORD-002's, because restoring
 # the hysteresis MOVES the assert and de-assert thresholds apart and pushes
 # them out -- a 2.5x-window ladder cannot see a de-assert threshold that sits
@@ -660,7 +660,7 @@ fi
 
 N_LADDER_PTS="$(python3 -c "
 import importlib.util, sys
-spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/gen_ladder.py')
+spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/../../tools/gen_lock_ladder.py')
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 
@@ -754,11 +754,11 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
   local combined="$WORK/combined_${tag}.log"
   run_ngspice_or_die "base_${tag}.sp" > "$combined"
 
-  # One ladder point at a time (see gen_ladder.py's "ONE-POINT-AT-A-TIME
+  # One ladder point at a time (see gen_lock_ladder.py's "ONE-POINT-AT-A-TIME
   # MODE" docstring section).
   local k
   for k in $(seq 0 $((N_LADDER_PTS - 1))); do
-    python3 "$HERE/gen_ladder.py" gen \
+    python3 "$HERE/../../tools/gen_lock_ladder.py" gen \
       --template "$HERE/tb_lock_ladder_point.sp.tmpl" --out "$WORK/pt_${tag}.sp" --dut "$dut" \
       --fracs-set "$LADDER_SET" \
       --corner-mos "$mos" --corner-res "$res" --temp "$temp" --vsup "$vsup" \
@@ -771,7 +771,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
 
   # `reduce` has no notion of this issue's per-corner run-length budget, so
   # the R*C / cycle-count columns are appended to its row here.
-  python3 "$HERE/gen_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
+  python3 "$HERE/../../tools/gen_lock_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
       --fracs-set "$LADDER_SET" \
       --twin "$twin_r" --raw "$rawf" < "$combined" \
     | python3 -c "

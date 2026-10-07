@@ -52,7 +52,7 @@
 # ladder_resized.csv's own `settle_frac` column rather than silently assumed
 # complete.  The one-point-at-a-time split (1 recovery deck + N independent
 # 2-copy ladder-point decks per corner) that issue #81 already carried from
-# the SG13CMOS5L sibling is what keeps that tractable -- see gen_ladder.py's
+# the SG13CMOS5L sibling is what keeps that tractable -- see gen_lock_ladder.py's
 # "ONE-POINT-AT-A-TIME MODE" section.
 #
 # COVERAGE REDUCTION, explicit per this repo's CLAUDE.md.  rc_extract, window,
@@ -378,7 +378,7 @@ fi
 
 N_LADDER_PTS="$(python3 -c "
 import importlib.util
-spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/gen_ladder.py')
+spec = importlib.util.spec_from_file_location('gen_ladder', '$HERE/../../tools/gen_lock_ladder.py')
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 print(len(m.LADDER_FRACS_SETS['$LADDER_SET']))")"
 
@@ -462,7 +462,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
 
   local k
   for k in $(seq 0 $((N_LADDER_PTS - 1))); do
-    python3 "$HERE/gen_ladder.py" gen \
+    python3 "$HERE/../../tools/gen_lock_ladder.py" gen \
       --template "$HERE/tb_lock_ladder_point.sp.tmpl" --out "$WORK/pt_${tag}.sp" --dut "$DUT" \
       --fracs-set "$LADDER_SET" \
       --corner-mos "$mos" --corner-res "$res" --corner-cap "$cap" --temp "$temp" --vsup "$vsup" \
@@ -473,7 +473,7 @@ print('%.4f' % (1.0 - math.exp(-$tstop/$rc)))")"
     run_ngspice_or_die "pt_${tag}.sp" >> "$combined"
   done
 
-  python3 "$HERE/gen_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
+  python3 "$HERE/../../tools/gen_lock_ladder.py" reduce --tag "$tag" --vsup "$vsup" \
       --fracs-set "$LADDER_SET" \
       --twin "$twin_r" --raw "$rawf" < "$combined" \
     | python3 -c "
