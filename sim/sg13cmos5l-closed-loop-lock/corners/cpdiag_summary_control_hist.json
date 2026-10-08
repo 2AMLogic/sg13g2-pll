@@ -1,0 +1,71 @@
+{
+ "fb_edges": 50,
+ "finite": true,
+ "historical_compare": {
+  "byte_identical": false,
+  "hist_rows": 49,
+  "max_abs_df_diff": 0.0003576523268671706,
+  "max_abs_phase_diff": 0.00042146869643427953,
+  "max_abs_t_diff_s": 2.117582368135751e-22,
+  "new_rows": 49
+ },
+ "inputs_sha256": {
+  "bundle": "cc23bff45279c7b929526f3e720fb21851402ffe0f9f2dc8c7e776b0d2a74689",
+  "cp_cascbias.spice": "7b07391852d5686a3aec2eaff2ef9e158ddd69d29adc1d1304514c52284f35ff",
+  "cpdiag_build.py": "401266f2484e80bf998e5aa67a6d260674a4ce15162100d5848bb0832dfc031b",
+  "cpdiag_metrics.py": "5af171c754f48614954ee382c0f4a7be446c9833c1ffd71cd07f8810b773231e",
+  "deck_generated": "2277504150204a0b1b79d1304af4ac728bd2fca89ca1db27245f984a4852bd4d",
+  "deck_template": "a773be528261e73cb4f9510bc9183319dcefd305e73f93ca8aa9f5c995b29739",
+  "models_inc": "8cf3679745526a4860d0fd8181c39a9c9c90125226a707d11466a2b4e625a01c",
+  "pfd.spice": "cc9657043b755854e86d11aef6d13a9ee3301fa0df19373e543d461d6138c483"
+ },
+ "lock_metrics": {
+  "df_max": 0.0001453105925058946,
+  "df_mean": -3.830003886586055e-06,
+  "df_min": -0.00010163082287460565,
+  "lock_time_s": null,
+  "longest_dual_lock_run": 4,
+  "longest_dual_lock_start_s": 1.0005e-07,
+  "longest_freq_lock_run": 42,
+  "n_cycles": 49,
+  "n_final": 20,
+  "phase_max": 0.08222817355672793,
+  "phase_mean": 0.08204206916047976,
+  "phase_min": 0.08199999999393717
+ },
+ "meas": {
+  "i_cp": -3.92577e-05,
+  "i_ld": -4.44786e-05,
+  "i_pfd": -5.75461e-05,
+  "i_vco": -0.00201232,
+  "vc_avg": 2.387043,
+  "vc_max": 2.416698,
+  "vc_min": 2.35029
+ },
+ "ngspice_exit": 0,
+ "ref_edges": 50,
+ "tag": "",
+ "tools": {
+  "klt": [
+   "klt 0.7.0+g4cbdfa769875"
+  ],
+  "ngspice": [
+   "******",
+   "** ngspice-47 : Circuit level simulation program"
+  ],
+  "ngspice_path": [
+   "/tmp/b209-ngs/inst/bin/ngspice"
+  ],
+  "pdk_git_head": [
+   "607e18d4bd9214a52575c194b4181ef449f9252f"
+  ],
+  "python": "3.12.3"
+ },
+ "trace_sha256": "ebfa2e782a7d5e37423388136b336e4a3df98242bf32fde816030d88978852ee",
+ "tstop": "2500n",
+ "variant": "control_hist",
+ "vctrl_first_last": [
+  2.46,
+  2.38740277
+ ]
+}

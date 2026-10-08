@@ -1,0 +1,21 @@
+--- snapshot/cp_cascbias.spice
++++ variant/cp
+@@ -32,3 +32,3 @@
+ XLEGN IBN ICN DN DNB VOUT VDUMP VSS cp_leg_n
+-XBUF VOUT IBN VDUMP VDD VSS cp_dumpbuf
++EDUMP VDUMP VSS VOUT VSS 1
+ XMBP nxp IBP VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+@@ -67,4 +67,4 @@
+ XM2 sw ICP tail VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+-XSWO VOUT UPB sw VDD sg13_hv_pmos w=6u l=0.3u ng=1 m=1
+-XSWD VDUMP UP sw VDD sg13_hv_pmos w=6u l=0.3u ng=1 m=1
++SSWO sw VOUT VDD UPB swp_ideal
++SSWD sw VDUMP VDD UP swp_ideal
+ .ends
+@@ -85,4 +85,4 @@
+ XM2 sw ICN tail VSS sg13_hv_nmos w=8u l=1u ng=1 m=1
+-XSWO VOUT DN sw VSS sg13_hv_nmos w=6u l=0.3u ng=1 m=1
+-XSWD VDUMP DNB sw VSS sg13_hv_nmos w=6u l=0.3u ng=1 m=1
++SSWO sw VOUT DN VSS swn_ideal
++SSWD sw VDUMP DNB VSS swn_ideal
+ .ends

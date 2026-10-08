@@ -1,0 +1,87 @@
+* sg13g2-pll :: sim/sg13cmos5l-closed-loop-lock (issue #150, Part of #16)
+* RECORD-006 diagnostic deck: tb_pll_proposal_cascbias.sp.tmpl (RECORD-005's
+* deck) with exactly three differences, all measurement-only or variant-hook:
+*   1. `.include pll_blocks_cpdiag.spice` (variant bundle built by
+*      cpdiag_build.py from the frozen snapshots) instead of
+*      pll_blocks_prop_cascbias.spice, and `.include cpdiag_models.inc`
+*      (switch models, empty for non-ideal_sw variants).
+*   2. A 0 V current probe `Vpr` in series with cp's VOUT pin; i(Vpr) > 0 is
+*      current delivered by the cp INTO the loop filter (vctrl).
+*   3. An extra, UN-linearized `wrdata cpraw.dat` of v(up) v(dn) i(Vpr) v(ref)
+*      v(fb) v(xcp.vdump) written BEFORE the existing linearize/wrdata, so
+*      pulse timing and charge are integrated on the simulator's own steps.
+* Everything else (blocks, sources, .ic, .tran, .meas, linearize, wave.dat)
+* is byte-identical to the RECORD-005 deck.  The RECORD-005 control itself is
+* run from the UNMODIFIED tb_pll_proposal_cascbias.sp.tmpl (variant
+* control_hist) so the historical number is reproduced without this probe.
+* DIAGNOSTIC DECK -- NOT THE COMMITTED PLL.  See ../records/RECORD-006.
+
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib $PDK_ROOT/$PDK/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include pll_blocks_cpdiag.spice
+.include cpdiag_models.inc
+
+Vsub sub! 0 dc 0
+
+* --- per-domain supplies (row 11: one deck, one operating point) ---
+Vdd_pfd vdd_pfd 0 dc @VDD@
+Vdd_cp  vdd_cp  0 dc @VDD@
+Vdd_vco vdd_vco 0 dc @VDD@
+Vdd_ld  vdd_ld  0 dc @VDD@
+
+Vref ref 0 pulse(0 @VDD@ 0 100p 100p @TREFH@ @TREF@)
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+
+* --- trim-code reference currents into cp's own on-chip bias replica ---
+Irefbp ibp 0 dc @IREF@
+Irefcp icp 0 dc @IREF@
+Irefbn 0 ibn dc @IREF@
+Irefcn 0 icn dc @IREF@
+
+* --- real blocks ---
+XPFD ref fb up dn vdd_pfd 0 pfd
+XCP up dn ibp icp ibn icn vcp vdd_cp 0 cp
+Vpr vcp vctrl dc 0
+XLF vctrl 0 loop_filter
+XVCO vctrl b0 b1 clk vdd_vco 0 vco
+XLD up dn lock vdd_ld 0 lock_detector
+
+* --- BEHAVIOURAL divide-by-64 (see header item 2) ---
+.model dffb d_dff(clk_delay=20p set_delay=20p reset_delay=20p ic=0
++ rise_delay=20p fall_delay=20p)
+.model adcb adc_bridge(in_low=1.40 in_high=1.90)
+.model dacb dac_bridge(out_low=0 out_high=@VDD@ out_undef=1.65
++ t_rise=80p t_fall=80p)
+Aad [clk] [dclk] adcb
+Ab1 q1b dclk NULL NULL q1 q1b dffb
+Ab2 q2b q1   NULL NULL q2 q2b dffb
+Ab3 q3b q2   NULL NULL q3 q3b dffb
+Ab4 q4b q3   NULL NULL q4 q4b dffb
+Ab5 q5b q4   NULL NULL q5 q5b dffb
+Ab6 q6b q5   NULL NULL q6 q6b dffb
+Ada [q6] [fb] dacb
+
+.ic v(vctrl)=@VC0@
+.ic v(xvco.ring1)=0.5
+
+.tran @TPRINT@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+meas tran i_pfd avg i(Vdd_pfd) from=@TAVG0@ to=@TSTOP@
+meas tran i_cp  avg i(Vdd_cp)  from=@TAVG0@ to=@TSTOP@
+meas tran i_vco avg i(Vdd_vco) from=@TAVG0@ to=@TSTOP@
+meas tran i_ld  avg i(Vdd_ld)  from=@TAVG0@ to=@TSTOP@
+meas tran vc_avg avg v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_max max v(vctrl) from=@TAVG0@ to=@TSTOP@
+meas tran vc_min min v(vctrl) from=@TAVG0@ to=@TSTOP@
+print i_pfd i_cp i_vco i_ld vc_avg vc_max vc_min
+wrdata cpraw.dat v(up) v(dn) i(Vpr) v(ref) v(fb) v(xcp.vdump)
+linearize v(ref) v(fb) v(vctrl) v(clk) v(lock)
+wrdata wave.dat v(ref) v(fb) v(vctrl) v(clk) v(lock)
+.endc
+.end

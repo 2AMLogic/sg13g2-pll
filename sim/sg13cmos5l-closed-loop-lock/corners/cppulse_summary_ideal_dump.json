@@ -1,0 +1,51 @@
+{
+ "bundle_sha256": "95afd7d84f1de2637fe0dd365600a78065eb076f3017f32dc6cace8e5801269f",
+ "deck_sha256": "565cf2b25f2e46e3280edf4cf3ccea98796242a7a87ed6dd68cb2e731ba1b8b8",
+ "events_csv_sha256": "e9457697422715f9e2d873b4832925e0031b917af10322b54fba29555388ab81",
+ "finite": true,
+ "fits": {
+  "both": {
+   "I_plateau_A": -2.6302107047792207e-08,
+   "Q0_C": -8.099440187973907e-15,
+   "max_fit_resid_C": 2.556280740190224e-18,
+   "n": 6
+  },
+  "dn": {
+   "I_plateau_A": -1.0026610550011385e-05,
+   "Q0_C": -3.5150061316905623e-15,
+   "max_fit_resid_C": 3.020788848635868e-18,
+   "n": 6
+  },
+  "superposition": {
+   "I_both_minus_(Iup+Idn)_A": 6.495369625730656e-11,
+   "Q0_both_minus_(Q0up+Q0dn)_C": -1.9002926996786317e-16
+  },
+  "up": {
+   "I_plateau_A": 1.0000243489267336e-05,
+   "Q0_C": -4.394404786315481e-15,
+   "max_fit_resid_C": 2.756332112567078e-18,
+   "n": 6
+  }
+ },
+ "i_out_quiet_trapz_A": -4.734637835469211e-15,
+ "meas": {
+  "i_cp_avg_quiet": -3.00001e-05,
+  "i_out_quiet": -4.73464e-15,
+  "vdump_quiet": 2.387,
+  "vswn_on": 2.383109,
+  "vswn_quiet": 2.383123,
+  "vswp_on": 2.395368,
+  "vswp_quiet": 2.39538
+ },
+ "ngspice_exit": 0,
+ "tag": "",
+ "template_sha256": "0589209720f319f14bf05fa8fa83cac9af64f50a6052a18e86995ee9ace35207",
+ "tools": {
+  "ngspice": [
+   "******",
+   "** ngspice-47 : Circuit level simulation program"
+  ],
+  "ngspice_path": "/tmp/b209-ngs/inst/bin/ngspice"
+ },
+ "variant": "ideal_dump"
+}
