@@ -1,0 +1,145 @@
+{
+  "_comment": [
+    "klt erc supply spec for `pll_loop_filter` (T1 item 11, analog partition; issue #147).",
+    "Input: layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/pll_loop_filter.gds (top cell pll_loop_filter).",
+    "Run (repo root): klt erc <gds> <this spec> --top pll_loop_filter --format json",
+    "-- NO --deck and NO stackup[0].active_layer, unlike the four MOS blocks;",
+    "see 'Gate-less block' below and the dated ERC record's run-erc.sh.",
+    "",
+    "Supplies (subckt port list `loop_filter VCTRL VSS`): VSS only. LVS pairs VSS->VSS",
+    "(pin: true). The reference's only other global, `sub!` (rppd bulk), is the",
+    "die substrate, extracted as `vsubs` and paired to SUB! -- it is not a",
+    "routed supply of this block and is not declared here.",
+    "",
+    "Stackup/vias: GatPoly (5/0, gate role, NO active_layer) -> Metal1",
+    "(8/0) -> Metal2 (10/0) -> Metal3 (30/0) -> Metal4 (50/0), bridged by Cont",
+    "(6/0), Via1 (19/0), Via2 (29/0), Via3 (49/0). Same layer numbers and the",
+    "same dual-source provenance (sg13cmos5l.lyp + the curated sg13cmos5l deck",
+    "LAYER_NAMES table) as ../erc-supply-spec.json, extended by Metal4/Via3",
+    "because the MoM capacitors (Recog.mom 99/39) are drawn on Metal1..Metal4;",
+    "a declared layer the block does not draw is not an error (docs/cli/erc.md).",
+    "Label text is read from Metal1.pin (8/2) and Metal3.pin (30/2) -- the only",
+    "metal pin layers carrying text in these streams (Metal3.pin holds",
+    "cmos5l_route.py's one-per-net trunk label).",
+    "",
+    "Run WITHOUT --deck (see 'Gate-less block' below), so nothing is carved out",
+    "of the gatpoly role: the one rppd body (GatPoly & PolyRes) stays in it and",
+    "conducts between its two head contacts (VCTRL<->NZ) in this model, and",
+    "provenance.deck is null and provenance.devices is empty in the report.",
+    "MoM capacitors are not carved either (MomCapacitorDevice is not matched by",
+    "--deck at this build); their two finger sets are disjoint geometry, so",
+    "they cannot merge two nets in this model. manifests/check_erc_coverage.py",
+    "requires this form: deck null, and no gate net containing a declared",
+    "supply (VSS).",
+    "",
+    "Supplies: every top-level supply port of design/sg13cmos5l/netlist/<block>.spice",
+    "(DR-004 rail table), cross-checked against the same-GDS LVS net_correspondence in",
+    "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/lvs.<block>.json. `expected_islands` is this repo's annotation (klt",
+    "erc ignores unknown keys): 1 means exactly one electrical island, which is",
+    "the only outcome without an erc.unconnected_net finding.",
+    "",
+    "NO ties[] -- disclosed, not omitted. Geometry of this stream (klt layers",
+    "--flattened): no Activ (1/0), no NWell (31/0), no nSD (7/0); one pSD (14/0)",
+    "shape, which is the rppd body implant on GatPoly (with SalBlock/EXTBlock/",
+    "PolyRes), and two Cont (6/0) shapes, which are the resistor head contacts",
+    "on GatPoly. Devices: one rppd resistor and two cap_cmomi MoM capacitors --",
+    "no MOS, so no transistor body to tie. Consequently:",
+    "- n-well tie: inapplicable -- no NWell is drawn and no PMOS exists.",
+    "- substrate tie: inapplicable -- no Activ is drawn, so no p+ tap can exist;",
+    "  the rppd bulk is the global substrate (reference `sub!`, extracted",
+    "  `vsubs`), biased by the taps of the MOS blocks, not by this block.",
+    "  Asserting a well_boxes region here would only manufacture an",
+    "  erc.missing_tie finding against a block that, by design, has nothing",
+    "  to tap; fabricating a tap or well to obtain a clean status is not done.",
+    "Recorded via ties_disclosure kind `unexpressible`, so klt erc reports",
+    "erc.missing_tie as inapplicable (`ties_disclosed_unexpressible`) rather than",
+    "as checked. klt signoff would grade this report `supply_spec_disclosed_",
+    "unexpressible` (unmet) if it were the cited ERC part -- it is not cited;",
+    "manifests/check_erc_coverage.py accepts this one block's disclosure only",
+    "with the geometry facts above re-verified from the GDS.",
+    "",
+    "Gate-less block (klt friction, filed upstream -- see the record): klt erc",
+    "exits 1 ('no net ... has any geometry on the declared gate role') on a",
+    "layout with no transistor gate. With the four MOS blocks' form",
+    "(active_layer Activ + --deck sg13cmos5l) this stream has none: no Activ is",
+    "drawn, and --deck carves the only GatPoly (the rppd body) out of the gate",
+    "role. The committed error envelope for that form is kept in the record.",
+    "This spec therefore drops active_layer and is run without --deck, which",
+    "makes the rppd body the run's one 'gate' net and lets it conduct",
+    "VCTRL<->NZ in the connectivity model (a modelling artefact: neither is",
+    "declared, and the resistor does not touch VSS, so VSS's island count is",
+    "unaffected; the antenna figures for that 'gate' are meaningless and",
+    "unchecked anyway). Only the declared-supply verdict is used from this run."
+  ],
+  "stackup": [
+    {
+      "name": "gatpoly",
+      "layer": "5/0",
+      "role": "gate"
+    },
+    {
+      "name": "Metal1",
+      "layer": "8/0",
+      "label_layer": "8/2"
+    },
+    {
+      "name": "Metal2",
+      "layer": "10/0"
+    },
+    {
+      "name": "Metal3",
+      "layer": "30/0",
+      "label_layer": "30/2"
+    },
+    {
+      "name": "Metal4",
+      "layer": "50/0"
+    }
+  ],
+  "vias": [
+    {
+      "name": "Cont",
+      "layer": "6/0",
+      "between": [
+        "gatpoly",
+        "Metal1"
+      ]
+    },
+    {
+      "name": "Via1",
+      "layer": "19/0",
+      "between": [
+        "Metal1",
+        "Metal2"
+      ]
+    },
+    {
+      "name": "Via2",
+      "layer": "29/0",
+      "between": [
+        "Metal2",
+        "Metal3"
+      ]
+    },
+    {
+      "name": "Via3",
+      "layer": "49/0",
+      "between": [
+        "Metal3",
+        "Metal4"
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "VSS",
+      "kind": "supply",
+      "expected_islands": 1
+    }
+  ],
+  "ties": [],
+  "ties_disclosure": {
+    "kind": "unexpressible",
+    "reason": "passive block (one rppd, two cap_cmomi MoM caps): no Activ, no NWell and no MOS are drawn, so neither a well tie nor a substrate tap exists to name; the rppd bulk is the global substrate biased by the MOS blocks' own taps"
+  }
+}

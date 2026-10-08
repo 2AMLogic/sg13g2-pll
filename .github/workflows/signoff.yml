@@ -11,7 +11,9 @@ name: klt signoff (block tier report)
 # manifests/sg13g2-pll.tier-report.json — the verdict of record the
 # gap-to-T1 tracker (issue #6) points at. A separate step first runs
 # manifests/check_lvs_coverage.py so the single item-4 analog citation
-# cannot hide a missing or stale sibling block.
+# cannot hide a missing or stale sibling block, and
+# manifests/check_erc_coverage.py so the single item-11 analog citation
+# cannot hide a missing, stale or defective sibling ERC report.
 #
 # Pass contract:
 #   * `klt signoff` exit 0 (every T1 item met) or 3 (graded, unmet items
@@ -47,6 +49,17 @@ jobs:
         run: |
           python3 manifests/check_lvs_coverage.py
           python3 manifests/test_check_lvs_coverage.py
+
+      # T1 item 11 analog: one [erc, lvs] citation stands for five blocks, so
+      # every block's committed `klt erc` supply report is checked here (same
+      # input as its LVS envelope, declared supplies paired in LVS, ties
+      # checked, nothing skipped/unknown). With the committed tier report at
+      # 11.analog `met`, all five must be clean; an `unmet` state must name
+      # each defective block's follow-up (KNOWN_DEFECTS in the script).
+      - name: Item-11 analog coverage gate (all five analog ERC supply reports)
+        run: |
+          python3 manifests/check_erc_coverage.py
+          python3 manifests/test_check_erc_coverage.py
 
       - name: Install the pinned grading build of klt
         run: |

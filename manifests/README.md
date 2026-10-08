@@ -8,7 +8,7 @@
 
 ## Verdict, read off the committed report
 
-`tier: null` — 11 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
+`tier: null` — 12 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
 "mixed-signal"`). Grade run:
 
 ```
@@ -277,7 +277,7 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
   `pex-to-ngspice.py` (the installed `klt` emits unit-suffixed `X` cards), so
   these envelopes need none of that script's transforms.
 
-### Item 11 — power delivery (structural): `11.digital` `met`; `11.analog` `unmet` with nothing yet to cite
+### Item 11 — power delivery (structural): `11.digital` and `11.analog` `met`
 
 - **`11.digital` is graded `met` from three committed facts, one live
   gate** (the compound citation is `[erc, lvs]`):
@@ -311,11 +311,77 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
   *artifact* report is disclosed not-computed (pre-#2234 form); the
   *probe* is the checked-tie evidence, exactly because #2169's fix was
   the canary's own filing.
-- **`11.analog` has no evidence yet** — the analog partition's five blocks
-  have no `klt erc` supply spec or reports. #103 scoped divider_chain
-  only; extending supply specs to `pfd`/`cp`/`loop_filter`/`vco`/
-  `lock_detector` is open follow-up work this row surfaces rather than
-  hides.
+- **`11.analog` is graded `met` from the `lock_detector` pair; CI checks
+  that all five analog blocks are clean** (#147). The compound citation is
+  `[erc, lvs]`:
+  - the `erc` part is
+    `layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/erc.supply-spec.pll_lock_detector.json`,
+    a direct `klt erc` envelope run at the grading build
+    (`0.6.0+ge6284fbe62e2`, KLayout 0.30.10) with `--deck sg13cmos5l`.
+  - the `lvs` part is the item-4 envelope
+    `reports/20261003-183059-dc5644a/lvs.lock_detector.json` (`/response`,
+    `status: match`). Its `net_correspondence` pairs `VDD`→`VDD` and
+    `VSS`→`VSS` (pin: true).
+  - Both parts are pinned to `pll_lock_detector.gds`
+    `sha256:54bea524…afc`, which is the input hash in both envelopes.
+    `lock_detector` is cited for the same reason as item 4: it is the
+    block whose substrate split was the last LVS residual.
+  - **One citation stands for five blocks**, so
+    `manifests/check_erc_coverage.py` (a CI step in `signoff.yml`, with
+    negative tests in `manifests/test_check_erc_coverage.py`) checks
+    **every** analog block on each push and PR. Each block must have its own
+    ERC report (distinct input hash, `file` = `pll_<block>.gds`). That hash
+    must equal both the adjacent GDS and the block's LVS input. The spec hash
+    must equal the committed spec. The supplies must be exactly the DR-004
+    rails, each a port of the block's `.subckt` in
+    `design/sg13cmos5l/netlist/` and in the reference, and paired in LVS
+    `net_correspondence`. Every supply and tie must be in
+    `erc_coverage.checked`, with nothing `skipped` or `unknown`. A drawn-NWell
+    tie must never be reported as an assertion, and the substrate tie must
+    be. The run form is checked from `provenance`: the four MOS blocks must
+    report `deck.name: sg13cmos5l` at the pinned deck `content_hash`, and
+    `vco` (rppd, rhigh) and `lock_detector` (rhigh) must list those
+    resistor bodies as carved out in `provenance.devices`, so no resistor
+    body can bridge a split supply island. `loop_filter` must report
+    `deck: null`, and no `gates[].net` may contain a declared supply (its
+    one uncarved rppd "gate" is `NZ,VCTRL`, which must not touch `VSS`).
+    Its no-ties disclosure is re-checked against the GDS layer set, and a
+    malformed or truncated stream fails the gate rather than reading as
+    "layer absent". Findings must be zero. Because the committed tier report says `met`,
+    all five must be clean. An `unmet` state would have to list each
+    defective block's follow-up issue in the script's `KNOWN_DEFECTS`.
+
+  All five, read from the committed reports (record
+  [`20261008-230856-cd95c87`](../layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/record.md)):
+
+  | Block | `erc_status` | Findings | Input hash (`pll_<block>.gds` = LVS input) | Supplies checked (1 island each) | Ties checked | Asserted (well_boxes) | Inapplicable |
+  | --- | --- | --- | --- | --- | --- | --- | --- |
+  | `pfd` | clean | 0 | `30588e30…16a7` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
+  | `cp` | clean | 0 | `95c64289…872c` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
+  | `loop_filter` | clean | 0 | `8a3c9e3e…bce3` | `VSS` | none | — | `erc.missing_tie` (`ties_disclosed_unexpressible`: no Activ/NWell/MOS drawn) |
+  | `vco` | clean | 0 | `21d0d72a…18f7` | `VDD_VCO`, `GND_VCO` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
+  | `lock_detector` (**cited**) | clean | 0 | `54bea524…2afc` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
+
+  Standing limits that travel with this row (not softened):
+  - **Antenna not checked.** Every report has `status: "not_checked"`,
+    because klt's antenna table covers sky130 only (klayout-tools#1994).
+    Item 11 grades the connectivity findings only.
+  - **The substrate tie is a `well_boxes` assertion**, one box per nfet
+    group. These streams draw no p-well or substrate polygon. That is weaker
+    evidence than a drawn well, and the verdict of record says so in
+    `power_delivery.ties_checked_by_well_assertion`. The drawn-NWell
+    `nwell_tap` is the physically checked half.
+  - **`loop_filter` has no tie to check, and says so.** It is passive (one
+    rppd, two MoM caps), with no Activ, no NWell and no MOS. CI accepts its
+    disclosure only after re-reading the GDS. It is not presented as checked
+    coverage, and it is not the cited block. klt also cannot run
+    `loop_filter` in the MOS blocks' form, because it exits 1 on a cell with
+    no transistor gate (filed as klayout-tools#2896). Its report uses the
+    no-`active_layer`, no-`--deck` form, in which the rppd body becomes a
+    fake "gate" (see the record).
+  - **The LVS halves are the 2026-10-03 envelopes** (`klt
+    0.6.0+gdaf06a51afaf`, KLayout 0.30.12, `klayout_version_mismatch:
+    true`), cited unchanged and bound to the ERC runs by input hash.
 
 ### Every `unmet` row, in one line each (full `reason`s in the report)
 
@@ -326,7 +392,7 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
 | 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
 | 8 | `no_evidence` | No aggregated, current characterization artifact; a `generic` envelope would be the vehicle and none is committed. |
-| 11 (analog) | `no_evidence` | Analog-partition supply specs/reports do not exist yet (see above). |
+| 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
 
 ## The tool that grades
 
@@ -380,8 +446,9 @@ process's working directory — no manifest-relative anchoring):
 
 [`.github/workflows/signoff.yml`](../.github/workflows/signoff.yml)
 installs the pinned grader at that commit, first runs `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
-cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS) and its
-temporary-copy negative tests, then re-runs the full grade (the
+cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS) and
+`manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
+item 11), each with its temporary-copy negative tests, then re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
 re-read and its pinned `content_hash` re-checked), and byte-compares the
 fresh report against the committed one.
