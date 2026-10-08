@@ -45,19 +45,28 @@ jobs:
       - name: Fetch the PDKs
         run: |
           set -euo pipefail
+          # Layouts differ: IHP-Open-PDK holds the variant dir ihp-sg13g2/ one
+          # level below its root, so its PDK_ROOT is the clone root itself.
+          # ihp-sg13cmos5l is a repo whose root IS the variant dir, so it must
+          # be cloned into a PDK_ROOT directory under that name.
           mkdir -p "$RUNNER_TEMP/pdk"
-          git clone --quiet --depth 1 https://github.com/IHP-GmbH/IHP-Open-PDK "$RUNNER_TEMP/pdk/ihp-sg13g2"
+          git clone --quiet --depth 1 https://github.com/IHP-GmbH/IHP-Open-PDK "$RUNNER_TEMP/IHP-Open-PDK"
           git clone --quiet https://github.com/IHP-GmbH/ihp-sg13cmos5l "$RUNNER_TEMP/pdk/ihp-sg13cmos5l"
           git -C "$RUNNER_TEMP/pdk/ihp-sg13cmos5l" checkout --quiet 607e18d4bd9214a52575c194b4181ef449f9252f
 
       - name: Regenerate netlists and fail on drift
         run: |
           set -euo pipefail
-          export PDK_ROOT="$RUNNER_TEMP/pdk"
-          xvfb-run -a ./design/netlist.sh
-          xvfb-run -a ./design/sg13cmos5l/netlist.sh
+          # design/xschemrc sources $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc.
+          PDK_ROOT="$RUNNER_TEMP/IHP-Open-PDK" PDK=ihp-sg13g2 xvfb-run -a ./design/netlist.sh
+          PDK_ROOT="$RUNNER_TEMP/pdk" PDK=ihp-sg13cmos5l xvfb-run -a ./design/sg13cmos5l/netlist.sh
           if ! git diff --exit-code -I'^\* xschem XSCHEM V' -- design; then
             echo "::error::Committed netlists differ from what the committed generators emit from the committed .sch. Regenerate with design/netlist.sh and design/sg13cmos5l/netlist.sh and commit."
+            exit 1
+          fi
+          if [ -n "$(git status --porcelain -- design)" ]; then
+            git status --porcelain -- design
+            echo "::error::Generators left untracked or modified files under design/ (a generated netlist is not committed)."
             exit 1
           fi
           echo "Committed netlists match regenerated output (xschem version banner line excluded)."
