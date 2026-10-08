@@ -2,6 +2,10 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-08
+
+- **Issue #100** (closed): Post-layout PVT needs a representative floorplan (and post-layout arms for pfd/lock_detector) — the open risk #30 recorded and left unowned
+
 ### 2026-10-07
 
 - **PR #143**: Consolidate gen_ladder.py copies into sim/tools/gen_lock_ladder.py
