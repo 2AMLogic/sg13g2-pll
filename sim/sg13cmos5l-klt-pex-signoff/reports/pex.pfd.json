@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "status": "pass",
+  "layout": {
+    "path": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/pll_pfd.gds",
+    "scope": "repo"
+  },
+  "netlist": {
+    "path": null,
+    "scope": "external"
+  },
+  "reference_netlist": {
+    "path": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_pfd.schematic.sp",
+    "scope": "repo"
+  },
+  "extraction": {
+    "deck": "sg13cmos5l",
+    "device_count": 66,
+    "net_count": 37,
+    "netlist_sha256": "47f5f683a5c5e5e6e608a1e795ecf19c624f0425b08a3fc8e8a84a847c449f7f",
+    "model": {
+      "capacitance": "net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net",
+      "coupling": "vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled",
+      "resistance": "single lumped series resistance per net, distributed as a star across that net's device terminals (issue #592) -- not a per-segment, distributed RC ladder, *unless* `--distributed-rc` names this net via `--critical-net` (issue #977, Epic #709 Phase 2b): then the net's terminals are ordered along their approximate physical spread and its total R/C is broken into a chain of per-segment resistors (segment length proportional to inter-terminal distance) with a ground capacitor at each terminal node (proportional to its adjacent segment length/2), instead of one star hub -- still an approximation (terminal position is a device-placement proxy, not true per-segment routing geometry), but a strictly finer-grained one than the single-hub star",
+      "frequency": "quasi-static -- one frequency-independent R and C per net; no skin effect, no distributed transmission-line behavior"
+    },
+    "critical_nets": [],
+    "distributed_rc": false,
+    "mom_rlc_override": null
+  },
+  "body_bias": {
+    "status": "biased",
+    "unbiased_device_count": 0,
+    "unbiased_nets": [],
+    "unbiased_pmos_body_nets": []
+  },
+  "measurement": {
+    "mode": "testbench",
+    "command": null,
+    "timeout_s": null,
+    "sides": null
+  },
+  "testbenches": [
+    {
+      "request": {
+        "path": "sim/sg13cmos5l-klt-pex-signoff/requests/pfd.request.json",
+        "scope": "repo"
+      },
+      "schematic_netlist": {
+        "path": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_pfd.schematic.sp",
+        "scope": "repo"
+      },
+      "corner_count": 1,
+      "measurement_names": [
+        "up_avg",
+        "dn_avg"
+      ]
+    }
+  ],
+  "corner_count": 1,
+  "delta": [
+    {
+      "spec_row": "up_avg",
+      "corner_id": "mos_tt/novdd/27C",
+      "schematic_value": 0.0444679,
+      "extracted_value": 0.0790851,
+      "delta_pct": 77.848,
+      "status": "pass"
+    },
+    {
+      "spec_row": "dn_avg",
+      "corner_id": "mos_tt/novdd/27C",
+      "schematic_value": 0.374396,
+      "extracted_value": 0.409031,
+      "delta_pct": 9.251,
+      "status": "pass"
+    }
+  ],
+  "coverage": {
+    "testbenches": 1,
+    "delta_rows": 2,
+    "corners_compared": 1,
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "comparison:[0,\"mos_tt/novdd/27C\",\"up_avg\"]",
+      "comparison:[1,\"mos_tt/novdd/27C\",\"dn_avg\"]"
+    ],
+    "skipped": [],
+    "inapplicable": [],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "passed": 2,
+  "failed": 0,
+  "errored": 0,
+  "pin_count_mismatch": null,
+  "flat_dut_mismatch": null,
+  "model_mismatch": null,
+  "provenance": {
+    "klt_version": "0.6.0+g1eb3e4bfd0f5",
+    "klayout_version": "0.30.12",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "source": "--pdk-root flag",
+      "version": null
+    },
+    "deck": {
+      "name": "sg13cmos5l",
+      "content_hash": "sha256:db9f44fadafe6a1f7d83729b299d98127144f9e66497cf7f5197c486d38c222a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7",
+      "role": "layout"
+    }
+  }
+}

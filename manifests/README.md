@@ -8,7 +8,7 @@
 
 ## Verdict, read off the committed report
 
-`tier: null` — 9 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
+`tier: null` — 11 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
 "mixed-signal"`). Grade run:
 
 ```
@@ -209,6 +209,74 @@ Disclosures that travel with these envelopes (not softened):
   have been produced on the expected KLayout, and these are not newly
   generated evidence: this change re-grades committed 2026-10-03 reports.
 
+### Item 7 — post-layout verification: `7.analog` and `7.digital` `met`, audit-first (#152)
+
+**What is cited.** Item 7 accepts only a `klt pex` envelope. Five were
+produced (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, one nominal corner each,
+`--backend local`; `sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`) against
+layout record `20261003-183059-dc5644a`, and each envelope's
+`provenance.input.content_hash` equals the GDS hash in the item 1/2 table
+above:
+
+| Item | Citation | GDS sha256 (= `content_hash`) | Spec row measured (schematic -> extracted) |
+| --- | --- | --- | --- |
+| `7.analog` | `sim/sg13cmos5l-klt-pex-signoff/reports/pex.vco.json` | `pll_vco.gds` `21d0d72a...18f7` | ring `clk_period_s` at `VCTRL`=1.65 V: 1.454 ns -> 3.649 ns (**+151 %**) |
+| `7.digital` | `.../pex.divider_chain.json` | `pll_divider_chain.gds` `27149fd0...5196` | word 000000 divide period 640.003 ns -> 639.989 ns (-0.002 %, N = 64 both legs) |
+
+The analog partition has five blocks but a manifest key takes **one**
+envelope (a list of envelopes with different hashes grades
+`invalid_evidence`). The cited one is the block with the *largest* shift, not
+the most flattering. The other committed envelopes are not cited but are in
+the same directory: `pfd` (UP/DN average duty, +77.8 % / +9.3 %), `cp`
+(output current at 10 uA reference, +0.17 % up / -0.05 % down),
+`loop_filter` (NZ step-response t63, +29.6 %).
+
+**Body-bias audit (the step that decides what may be cited).** Each block's
+PEX netlist was checked for how device bodies are bound, and the netlist's
+GDS compared with the current record's:
+
+| Block | Snapshot netlist checked (`sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/`) | Snapshot GDS == current GDS? | Device bodies in snapshot | `klt pex` `body_bias.status` on current GDS | Verdict |
+| --- | --- | --- | --- | --- | --- |
+| `pfd` | `pll_pfd.pex.spice` | yes | nmos `VSS` (33), pmos `VDD` (33) | `biased` | pass |
+| `cp` | `pll_cp.pex.spice` | yes | nmos `VSS` (11), pmos `VDD` (9) | `biased` | pass |
+| `loop_filter` | `pll_loop_filter.pex.spice` | yes | `rppd` bulk `vsubs` (substrate global, 0 V in the testbench) | `biased` | pass |
+| `vco` | `pll_vco.pex.spice` | yes | nmos `GND_VCO` (21), pmos `VDD_VCO` (17), `rppd`/`rhigh` `GND_VCO` | `biased` | pass |
+| `divider_chain` | `pll_divider_chain.pex.spice` | yes | nmos `VSS` (173), pmos `VDD_DIV` (120) | `biased` | pass |
+| `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** |
+
+No snapshot had a body on an anonymous net, and every `unbiased_pmos_body_nets`
+list is empty. **`lock_detector` is not cited**: its committed PEX netlist
+and its postlayout-pex-pvt evidence describe the pre-#136 layout, no `klt pex`
+envelope exists for the current GDS, and the full-PVT grid for the #136 DUT
+is still owed (#139). Re-extraction and the `klt pex` run are filed as
+**#157**; the multi-corner part goes through `klt sim` corners / `monte_carlo`
+(batch), not a local ngspice grid.
+
+**Disclosures that travel with these two `met` rows (not softened).**
+
+- **`met` here is "a `klt pex` envelope ran clean on a biased netlist", not
+  "post-layout meets a spec".** The requests declare no `limits`, so every
+  `delta[].status` is `pass` by construction; the deltas above are measured
+  facts, not graded ones. The VCO's +151 % period shift (about 2.5x slower)
+  is the same effect RECORD-001 of the postlayout-pex-pvt campaign measured
+  (post-layout band 223.7-789.5 MHz vs schematic 445.3-1562.0 MHz) and is not
+  hidden by the green row.
+- **One nominal corner, one operating point per block** (`mos_tt`/`typ`,
+  27 C, 3.3 V). The PVT grids of the postlayout-pex-pvt campaign remain
+  ngspice run records; this item cites the envelopes only. Multi-corner
+  re-runs belong on the batch fleet via `klt sim`; no grid was run here.
+- **The schematic leg is flattened by a repo script**
+  (`sim/sg13cmos5l-klt-pex-signoff/flatten-schematic.py`): `klt pex` needs
+  a flat schematic DUT with the extracted cell's pin list, and has no flatten
+  option (filed upstream as klayout-tools#2889). Device cards are verbatim; the
+  schematic `sub!` global is mapped to `vsubs`.
+- `klt pex` was invoked with `--pins` to demote the extractor's promoted
+  internal nets (the `loop_filter` run deliberately keeps `NZ` as a pin so the
+  step response can be measured).
+- Extracted resistors/capacitors now parse in ngspice without
+  `pex-to-ngspice.py` (the installed `klt` emits unit-suffixed `X` cards), so
+  these envelopes need none of that script's transforms.
+
 ### Item 11 — power delivery (structural): `11.digital` `met`; `11.analog` `unmet` with nothing yet to cite
 
 - **`11.digital` is graded `met` from three committed facts, one live
@@ -256,7 +324,7 @@ Disclosures that travel with these envelopes (not softened):
 | 9, 10 | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`), repo hygiene — but these items bind to **no `klt` verb**, and citing an unrelated passing envelope to turn them green is the dishonesty this file exists to prevent (`docs/cli/signoff.md` → "the safest default is to leave them uncited"). |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
-| 7 (both rows) | `no_evidence` | A **post-layout PEX PVT campaign exists** (`sim/sg13cmos5l-postlayout-pex-pvt/` — RECORD-001/002, klt-extracted R/C on the routed geometry) but as ngspice run records; item 7 accepts only a `klt pex` envelope for these partitions (an SDF-annotated `klt functional-verification` for an RTL digital partition — not this block's full-custom sub-case). No `klt pex` run exists yet. |
+| 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
 | 8 | `no_evidence` | No aggregated, current characterization artifact; a `generic` envelope would be the vehicle and none is committed. |
 | 11 (analog) | `no_evidence` | Analog-partition supply specs/reports do not exist yet (see above). |
 

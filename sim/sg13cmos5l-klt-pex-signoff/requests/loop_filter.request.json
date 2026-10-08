@@ -1,0 +1,9 @@
+{
+  "engine": "ngspice",
+  "netlist": "../dut/tb_loop_filter.sp",
+  "models": {"pdk": "ihp-sg13cmos5l", "lib": "libs.tech/ngspice/models/cornerMOShv.lib"},
+  "corners": {"process": [{"name": "typ", "sections": ["mos_tt", {"lib": "libs.tech/ngspice/models/cornerRES.lib", "section": "res_typ"}, {"lib": "libs.tech/ngspice/models/cornerCAP.lib", "section": "cap_typ"}]}], "temperature_c": [27]},
+  "analysis": {"kind": "tran", "args": "5n 8u"},
+  "measurements": [{"name": "t63_nz_s", "spice": ".meas tran t63_nz_s when v(nz)=0.632 rise=1"}],
+  "options": {"osdi_preload": ["/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi", "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi", "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi", "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomi.osdi", "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi"], "timeout_s": 600, "keep_artifacts": true}
+}
