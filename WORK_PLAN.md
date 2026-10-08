@@ -47,7 +47,10 @@ Issues carrying `loom:curated`.
 
 ## Proposed (Architect / Hermit)
 
-_None._
+- **#150**: Close spec row 7: isolate the dynamic charge-mismatch cause of the 8.2% static phase error *(architect)*
+- **#151**: signoff: cite T1 items 1 and 2 (design sources, layout) and gate netlist regeneration in CI *(architect)*
+- **#152**: signoff: audit PEX body-bias binding and cite T1 item 7 (post-layout) per block *(architect)*
+- **#153**: ci: run the layout generator unit tests in a workflow (T1 item 10) *(architect)*
 
 ## Epics
 
@@ -64,6 +67,6 @@ _None._
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 1 |
-| Architect / Hermit proposals | 0 |
+| Architect / Hermit proposals | 4 |
 | Active epics | 1 |
 <!-- guide:plan-body:end -->
