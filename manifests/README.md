@@ -135,9 +135,11 @@ item 11 only, so each partition row cites one envelope, mirroring item 4:
   `git diff`. Disclosed gaps of that gate: xschem is the runner's apt
   package (not a pinned container), so the `* xschem XSCHEM Vx.y.z` banner
   line (committed: 3.4.7; local verification used 3.4.4) is the one line
-  excluded from the diff; the SG13G2 PDK clone is unpinned; and the job was
-  not observed on a runner when added (the equivalent local run reproduced
-  all 12 netlists apart from that banner line).
+  excluded from the diff; the SG13G2 PDK is pinned to the last IHP-Open-PDK
+  commit before the `mm_ok=1` symbol change (the host copy has no recorded
+  revision, so this is a best-fit pin). The job was observed green on a
+  GitHub runner on PR #155; the local run also reproduced all 12 netlists
+  apart from that banner line.
 - **Item 2 (layout).** The artifacts are the six composed `pll_<block>.gds`
   in the record, with provenance in `record.md` and the reproducible flow
   `layout/bin/run-pll-cmos5l-layout-flow.sh`. The cited `klt extract`

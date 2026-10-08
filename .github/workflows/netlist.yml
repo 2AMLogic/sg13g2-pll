@@ -17,8 +17,8 @@ name: netlist regeneration gate (T1 item 1)
 #     last commit before upstream began emitting mm_ok=1 (2682d8e); default
 #     branch HEAD emits it and would drift every device line. If a pin is
 #     bumped, the netlists must be regenerated deliberately.
-#   * This job has not been observed green on a GitHub runner when it was
-#     added; the equivalent local run (xschem 3.4.4, banner line ignored)
+#   * Observed green on a GitHub runner (PR #155) after the PDK layout and
+#     pin fixes; the local run (xschem 3.4.4, banner line ignored) also
 #     reproduced all 12 committed netlists.
 
 on:
