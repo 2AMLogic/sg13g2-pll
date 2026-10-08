@@ -21,6 +21,14 @@ for each one:
     erc.missing_tie in erc_coverage.checked; nothing skipped or unknown; a
     drawn-NWell tie never presented as an assertion, a well_boxes substrate
     tie always listed in checked_by_well_assertion;
+  * run form (provenance): the four MOS blocks were run with --deck
+    sg13cmos5l at the pinned deck content hash, and the blocks that draw
+    resistors (vco: rppd + rhigh, lock_detector: rhigh) report those bodies
+    carved out in provenance.devices with non-zero area -- so a resistor body
+    can never count as a wire bridging a split supply island; loop_filter
+    (gate-less) was run with NO deck and no gate net (gates[].net, comma-
+    joined merged names) contains a declared supply, i.e. the uncarved rppd
+    "gate" cannot be what joins VSS's island;
   * loop_filter only: zero ties, an `unexpressible` ties_disclosure, the
     matching inapplicable record, and -- re-verified from the GDS itself --
     no Activ (1/*) and no NWell (31/*) drawn, i.e. no MOS body and no tap
@@ -76,6 +84,15 @@ EXPECT = {
                       "ties": {"nwell_tap": ("drawn", "VDD"), "substrate_tap": ("asserted", "VSS")}},
 }
 ANALOG_BLOCKS = tuple(EXPECT)
+# Run form. MOS blocks: the curated deck, pinned to the content hash every
+# committed report records (klt 0.6.0+ge6284fbe62e2's bundled sg13cmos5l).
+MOS_DECK = {"name": "sg13cmos5l",
+            "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909"}
+# Blocks drawing resistor bodies on GatPoly: device -> must be carved out.
+CARVED_DEVICES = {"vco": ("rppd", "rhigh"), "lock_detector": ("rhigh",)}
+# Gate-less blocks run without --deck (klayout-tools#2896).
+NO_DECK = ("loop_filter",)
+
 # A gate-less passive block may disclose its ties instead of declaring them,
 # but only when the GDS really draws none of these layers (Activ, NWell).
 DISCLOSURE_ALLOWED = {"loop_filter": (1, 31)}
@@ -94,20 +111,29 @@ def sha256_file(path):
 
 
 def gds_layers(path):
-    """Set of GDS layer numbers drawn anywhere in the stream (LAYER records)."""
+    """Set of GDS layer numbers drawn anywhere in the stream (LAYER records).
+
+    Raises ValueError on a malformed or truncated stream (bad record length,
+    record running past EOF, or no ENDLIB), so a partial parse can never
+    report a layer as absent.
+    """
     layers = set()
     data = Path(path).read_bytes()
     i = 0
     while i + 4 <= len(data):
         size, rtype = struct.unpack(">HH", data[i:i + 4])
-        if size < 4:
-            break
-        if rtype == 0x0D02 and size >= 6:  # LAYER, INTEGER_2
+        if size < 4 or size % 2:
+            raise ValueError(f"{path}: malformed GDS record length {size} at offset {i}")
+        if i + size > len(data):
+            raise ValueError(f"{path}: GDS record at offset {i} runs past end of file")
+        if rtype == 0x0D02:  # LAYER, INTEGER_2
+            if size != 6:
+                raise ValueError(f"{path}: malformed LAYER record at offset {i}")
             layers.add(struct.unpack(">h", data[i + 4:i + 6])[0])
         if rtype == 0x0400:  # ENDLIB
-            break
+            return layers
         i += size
-    return layers
+    raise ValueError(f"{path}: no ENDLIB record (truncated GDS stream)")
 
 
 def load(path):
@@ -201,6 +227,49 @@ def check_spec(spec_path, block, exp):
     return errs
 
 
+def check_run_form(doc, block, exp):
+    """Errors if the report was not produced in the form its evidence relies on."""
+    errs = []
+    prov = doc.get("provenance") or {}
+    deck = prov.get("deck")
+    devices = prov.get("devices")
+    if not isinstance(devices, list):
+        return [f"{block}: provenance.devices missing (cannot verify the run form)"]
+    if block in NO_DECK:
+        if deck is not None:
+            errs.append(f"{block}: gate-less block must be run without --deck, provenance.deck is {deck!r}")
+        if devices:
+            errs.append(f"{block}: expected no carved devices in the no-deck form, got {devices}")
+        gates = doc.get("gates")
+        if not isinstance(gates, list) or not gates:
+            errs.append(f"{block}: no gates[] in report (cannot verify the uncarved 'gate' net)")
+        else:
+            sup = {s.upper() for s in exp["supplies"]}
+            for g in gates:
+                net = g.get("net") if isinstance(g, dict) else None
+                if not isinstance(net, str):
+                    errs.append(f"{block}: gate entry without a net name: {g!r}")
+                    continue
+                hit = sup & {n.strip().upper() for n in net.split(",")}
+                if hit:
+                    errs.append(f"{block}: gate net {net!r} contains declared supply {sorted(hit)} "
+                                f"(the uncarved resistor body would join that supply's island)")
+        return errs
+    if not isinstance(deck, dict) or deck.get("name") != MOS_DECK["name"]:
+        errs.append(f"{block}: must be run with --deck {MOS_DECK['name']}, provenance.deck is {deck!r}")
+    elif deck.get("content_hash") != MOS_DECK["content_hash"]:
+        errs.append(f"{block}: deck content_hash {deck.get('content_hash')} != pinned {MOS_DECK['content_hash']}")
+    carved = {d.get("name"): d for d in devices if isinstance(d, dict)}
+    for name in CARVED_DEVICES.get(block, ()):
+        d = carved.get(name)
+        area = d.get("body_area_um2") if d else None
+        if not d or not isinstance(area, (int, float)) or area <= 0:
+            errs.append(f"{block}: {name} resistor bodies not carved out (provenance.devices: {devices})")
+        elif d.get("source") != "deck":
+            errs.append(f"{block}: {name} carve-out source {d.get('source')!r}, expected 'deck'")
+    return errs
+
+
 def check_erc(erc_record, lvs_record, specs_dir, block):
     """Return (errors, defects, input_hash) for one block."""
     exp = EXPECT[block]
@@ -222,6 +291,7 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
         errs.append(f"{block}: missing GDS {gds}")
     elif h != sha256_file(gds):
         errs.append(f"{block}: ERC input hash {h} != sha256 of {gds}")
+    errs += check_run_form(doc, block, exp)
     lvs_errs, lvs_h = check_lvs(lvs_record, block, exp["supplies"])
     errs += lvs_errs
     if lvs_h and h != lvs_h:
@@ -270,9 +340,13 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
         if absent is None:
             errs.append(f"{block}: no geometric justification for a tie disclosure")
         elif gds.is_file():
-            drawn = gds_layers(gds) & set(absent)
-            if drawn:
-                errs.append(f"{block}: tie disclosure unjustified, GDS draws layer(s) {sorted(drawn)}")
+            try:
+                drawn = gds_layers(gds) & set(absent)
+            except (OSError, ValueError) as e:
+                errs.append(f"{block}: tie disclosure unverifiable, cannot read GDS layers: {e}")
+            else:
+                if drawn:
+                    errs.append(f"{block}: tie disclosure unjustified, GDS draws layer(s) {sorted(drawn)}")
 
     if doc.get("erc_finding_count") != 0 or doc.get("erc_findings"):
         rules = sorted({f.get("rule") for f in doc.get("erc_findings") or [] if isinstance(f, dict)})

@@ -30,7 +30,7 @@ rewritten. The digital partition's item-11 evidence stays in
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `pfd` | `pll_pfd` | `30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7` | `f61226d1…14f6` | `VDD`, `VSS` | `nwell_tap` (2 NWells), `substrate_tap` (2 boxes) | `substrate_tap` | none | none | 0 | **clean** |
 | `cp` | `pll_cp` | `95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c` | `2136bac9…3f9c` | `VDD`, `VSS` | `nwell_tap` (4), `substrate_tap` (6) | `substrate_tap` | none | none | 0 | **clean** |
-| `loop_filter` | `pll_loop_filter` | `8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3` | `9277b45d…d000` | `VSS` | none (disclosed) | none | `erc.missing_tie` (`ties_disclosed_unexpressible`) | none | 0 | **clean** |
+| `loop_filter` | `pll_loop_filter` | `8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3` | `55cb027f…41a3` | `VSS` | none (disclosed) | none | `erc.missing_tie` (`ties_disclosed_unexpressible`) | none | 0 | **clean** |
 | `vco` | `pll_vco` | `21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7` | `83719d90…2764` | `VDD_VCO`, `GND_VCO` | `nwell_tap` (5), `substrate_tap` (6) | `substrate_tap` | none | none | 0 | **clean** |
 | `lock_detector` | `pll_lock_detector` | `54bea524f81541c7c3be3fdad14423acf47eb7a0972c07932701c3e691ac2afc` | `3f30879b…e5ee` | `VDD`, `VSS` | `nwell_tap` (2), `substrate_tap` (3) | `substrate_tap` | none | none | 0 | **clean** |
 
@@ -108,6 +108,21 @@ connectivity model. That is a modelling artefact. Neither net is declared,
 and R1 (`VCTRL NZ`) does not touch VSS, so VSS's one-island verdict is
 unaffected. Only the declared-supply verdict is used from this run. Upstream
 issue klayout-tools#2896 describes the gap in general terms.
+
+CI enforces this form mechanically rather than in prose:
+`manifests/check_erc_coverage.py` requires loop_filter's
+`provenance.deck` to be null and rejects the report if any `gates[].net`
+contains a declared supply (`VSS`). It also requires the four MOS blocks to
+report the `sg13cmos5l` deck at content hash `sha256:1912f174…2909`, and
+`vco`/`lock_detector` to list their rppd/rhigh carve-outs in
+`provenance.devices`.
+
+The loop_filter spec's `_comment` was corrected after the first run of this
+record: it had carried the MOS blocks' stackup and `--deck` text. Only the
+comment changed, which changed the spec hash. The loop_filter report was
+re-run with the same pinned build and `run-erc.sh`; the only difference in
+the report is `provenance.spec.content_hash`. The other four reports and the
+deck-form error envelope came out byte-identical.
 
 ## LVS half (cited, not re-run)
 

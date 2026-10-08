@@ -475,7 +475,10 @@ KLT=/path/to/venv/bin/klt layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/
   form, and the record explains why VSS's verdict is unaffected.
 - **Antenna stays `not_checked`**, as in the divider-chain reads above.
 - `manifests/check_erc_coverage.py` (CI) checks all five reports against
-  their GDS, spec, LVS pair and expected rails and ties. See
+  their GDS, spec, LVS pair and expected rails and ties, and checks the run
+  form from each report's `provenance`: the pinned `sg13cmos5l` deck and the
+  rppd/rhigh carve-outs on the MOS blocks, and for loop_filter no deck and no
+  gate net that contains `VSS`. See
   `manifests/README.md` → Item 11.
 
 ## What it is not

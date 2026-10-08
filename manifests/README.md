@@ -338,7 +338,16 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
     `net_correspondence`. Every supply and tie must be in
     `erc_coverage.checked`, with nothing `skipped` or `unknown`. A drawn-NWell
     tie must never be reported as an assertion, and the substrate tie must
-    be. Findings must be zero. Because the committed tier report says `met`,
+    be. The run form is checked from `provenance`: the four MOS blocks must
+    report `deck.name: sg13cmos5l` at the pinned deck `content_hash`, and
+    `vco` (rppd, rhigh) and `lock_detector` (rhigh) must list those
+    resistor bodies as carved out in `provenance.devices`, so no resistor
+    body can bridge a split supply island. `loop_filter` must report
+    `deck: null`, and no `gates[].net` may contain a declared supply (its
+    one uncarved rppd "gate" is `NZ,VCTRL`, which must not touch `VSS`).
+    Its no-ties disclosure is re-checked against the GDS layer set, and a
+    malformed or truncated stream fails the gate rather than reading as
+    "layer absent". Findings must be zero. Because the committed tier report says `met`,
     all five must be clean. An `unmet` state would have to list each
     defective block's follow-up issue in the script's `KNOWN_DEFECTS`.
 
