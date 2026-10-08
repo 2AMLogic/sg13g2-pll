@@ -443,6 +443,41 @@ same-GDS LVS `match` carrying both supplies in its `net_correspondence`,
 the compose route records pinning `nwell_tap`/`substrate_tap` into their
 supply nets, and the checked-tie probe above.
 
+## ERC: T1 item 11 power-delivery (structural), analog partition (#147)
+
+The five analog blocks each have their own supply spec next to this README:
+`erc-supply-spec.pll_{pfd,cp,loop_filter,vco,lock_detector}.json`. Their
+reports are frozen in `reports/20261008-230856-cd95c87/`. That is an
+ERC-only derived record over the GDS of `20261003-183059-dc5644a`, and
+`LATEST` is deliberately left unchanged. Read its `record.md` first, then
+reproduce with that record's `run-erc.sh`, run from the repo root at the
+grading `klt` pin `e6284fbe62e2` (installed in a throwaway venv):
+
+```bash
+KLT=/path/to/venv/bin/klt layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/run-erc.sh
+```
+
+- **All five report `erc_status: "clean"` with zero findings.** Each
+  declared supply forms one island: `VDD`/`VSS` for pfd, cp and
+  lock_detector, `VDD_VCO`/`GND_VCO` for vco, and `VSS` for loop_filter.
+  Each MOS block declares two ties, both **checked**. `nwell_tap` sits on
+  the drawn NWell, with Cont∩nSD∩Activ as the tap. `substrate_tap` uses
+  `well_layer: null` plus one `well_boxes` box per nfet group, with
+  Cont∩pSD∩Activ as the tap; the run reports it as
+  `checked_by_well_assertion`, which is the weaker, caller-asserted claim.
+  The MOS blocks run with `--deck sg13cmos5l`, so the rppd/rhigh bodies are
+  carved out of GatPoly.
+- **loop_filter is passive.** It draws no Activ, no NWell and no MOS, so it
+  declares no ties and discloses that (`ties_disclosure.kind:
+  "unexpressible"`). klt cannot run it in the MOS blocks' form either: it
+  exits 1 on a cell with no transistor gate (friction row below,
+  klayout-tools#2896). Its report uses the no-`active_layer`, no-`--deck`
+  form, and the record explains why VSS's verdict is unaffected.
+- **Antenna stays `not_checked`**, as in the divider-chain reads above.
+- `manifests/check_erc_coverage.py` (CI) checks all five reports against
+  their GDS, spec, LVS pair and expected rails and ties. See
+  `manifests/README.md` → Item 11.
+
 ## What it is not
 
 - **Not a partial drawing — and no longer an LVS-gapped one.** As of record
@@ -605,6 +640,7 @@ first and filed there — generic tool-gap description only, no design content.
 
 | Gap | Filed | Status | Effect here |
 | --- | --- | --- | --- |
+| `klt erc` exits 1 ("no net ... has any geometry on the declared gate role") on a cell with **no transistor gate**, so a passive cell's supply nets and ties cannot be checked in the normal `active_layer` + `--deck` form. The message also points the user at layer numbers instead of the real cause. | [klayout-tools#2896](https://github.com/2AMLogic/klayout-tools/issues/2896) (filed by #147) | open | `loop_filter`'s item-11 ERC report uses a spec with no `active_layer`, run without `--deck`, so the rppd body becomes a fake "gate" in that run. The refused form's error envelope is committed in `reports/20261008-230856-cd95c87/`. |
 | `klt gen-compose`'s router has **no track or layer assignment between nets**: every net's backbone lands on one shared layer, and the first net accepted rejects the rest with `crosses already-routed net`. Measured on `cp` — 8 groups, 14 devices, 13 multi-pin nets, ~180 µm × 16 µm — at `klt` `b10fa3c`: **1 of 13 nets routes**, independent of placement spacing. **Re-measured at the current pin by #35 and unchanged** — 1 of 13, 24 legs rejected `crosses already-routed net 'DN'` — and re-taken on every run since (`gen-compose.probe.block-*.json`). | [klayout-tools#1467](https://github.com/2AMLogic/klayout-tools/issues/1467) (filed by #29's pass; re-measurement recorded on it by #35) | open | This flow draws its own interconnect (`cmos5l_route.py`). This is the reason a pin bump past #1462 does *not* retire it. |
 | `gen.py`'s `_PDK_ROLE_LAYERS` gives both IHP families **exactly one routing metal role** (`metal` = `Metal1`, the device-pad layer), where sky130 and gf180mcu each get `metal`/`metal2`/`metal3` + `via1`/`via2`. So `gen-compose`'s `routing.cross_block_layer_role` — the only escape it offers from *crosses already-routed net* — cannot be named at all: the request is rejected with *"'metal2' is not a known layer role for PDK family 'sg13cmos5l'"*. | [klayout-tools#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (new, filed by #35's pass; the IHP sibling of the closed sky130/gf180mcu #433/#1058) | open | Compounds #1467: even if that issue's per-net layer assignment lands, this family has no second plane to assign. Both must land before `gen-compose` can route a block this size here. |
 | Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z, and now present at this repo's pin** (issue #31's own re-bump — `layout/requirements.txt` pins past its merge commit `b10fa3c6e`) | `klt gen mos_array`/`res_array` do now draw here, DRC-clean. **#35 re-evaluated the local footprints against that output and kept them** — see "Generator-vs-local footprints" above for the three measurements and the two upstream issues (#1472/#1473) that would have to land first. The `res_array` half already clears the bar and is the place a future swap starts. |

@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "file": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/pll_loop_filter.gds",
+  "spec": "layout/sg13cmos5l-pll/erc-supply-spec.pll_loop_filter.json",
+  "pdk": null,
+  "findings_only": false,
+  "gate_role": "gatpoly",
+  "gate_count": 1,
+  "gates": [
+    {
+      "gate_id": "gate0",
+      "net": "NZ,VCTRL",
+      "gate_area_um2": 486.64,
+      "antenna_verdict": "unchecked",
+      "levels": [
+        {
+          "layer": "gatpoly",
+          "step_area_um2": 486.64,
+          "cumulative_area_um2": 486.64,
+          "antenna_ratio": 1.0,
+          "antenna_ratio_max": null,
+          "antenna_ratio_source": null,
+          "verdict": "unchecked",
+          "remedy": null
+        },
+        {
+          "layer": "Metal1",
+          "step_area_um2": 430.3133,
+          "cumulative_area_um2": 916.9533,
+          "antenna_ratio": 1.884254,
+          "antenna_ratio_max": null,
+          "antenna_ratio_source": null,
+          "verdict": "unchecked",
+          "remedy": null
+        },
+        {
+          "layer": "Metal2",
+          "step_area_um2": 465.3423,
+          "cumulative_area_um2": 1382.2956,
+          "antenna_ratio": 2.840489,
+          "antenna_ratio_max": null,
+          "antenna_ratio_source": null,
+          "verdict": "unchecked",
+          "remedy": null
+        },
+        {
+          "layer": "Metal3",
+          "step_area_um2": 690.5733,
+          "cumulative_area_um2": 2072.8689,
+          "antenna_ratio": 4.259553,
+          "antenna_ratio_max": null,
+          "antenna_ratio_source": null,
+          "verdict": "unchecked",
+          "remedy": null
+        },
+        {
+          "layer": "Metal4",
+          "step_area_um2": 429.5133,
+          "cumulative_area_um2": 2502.3822,
+          "antenna_ratio": 5.142163,
+          "antenna_ratio_max": null,
+          "antenna_ratio_source": null,
+          "verdict": "unchecked",
+          "remedy": null
+        }
+      ]
+    }
+  ],
+  "erc_findings": [],
+  "erc_finding_count": 0,
+  "erc_status": "clean",
+  "status": "not_checked",
+  "coverage": {
+    "scope": "antenna",
+    "schema_version": 1,
+    "known": true,
+    "checked": [],
+    "skipped": [
+      {
+        "id": "antenna:[\"gate0\",\"Metal1\"]",
+        "reason": "missing_antenna_pdk"
+      },
+      {
+        "id": "antenna:[\"gate0\",\"Metal2\"]",
+        "reason": "missing_antenna_pdk"
+      },
+      {
+        "id": "antenna:[\"gate0\",\"Metal3\"]",
+        "reason": "missing_antenna_pdk"
+      },
+      {
+        "id": "antenna:[\"gate0\",\"Metal4\"]",
+        "reason": "missing_antenna_pdk"
+      }
+    ],
+    "inapplicable": [
+      {
+        "id": "antenna:[\"gate0\",\"gatpoly\"]",
+        "reason": "gate_reference_level"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": true,
+    "nothing_checked_reasons": [
+      "gate_reference_level",
+      "missing_antenna_pdk"
+    ]
+  },
+  "erc_coverage": {
+    "scope": "connectivity",
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "erc.floating_gate:[\"gate0\"]",
+      "erc.net_connectivity:[\"VSS\"]"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "erc.missing_tie:[]",
+        "reason": "ties_disclosed_unexpressible"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": [],
+    "checked_by_assertion": [],
+    "checked_by_well_assertion": []
+  },
+  "ties_disclosure": {
+    "reason": "passive block (one rppd, two cap_cmomi MoM caps): no Activ, no NWell and no MOS are drawn, so neither a well tie nor a substrate tap exists to name; the rppd bulk is the global substrate biased by the MOS blocks' own taps",
+    "kind": "unexpressible"
+  },
+  "provenance": {
+    "klt_version": "0.6.0+ge6284fbe62e2",
+    "klayout_version": "0.30.10",
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "content_hash": "sha256:8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+      "role": "layout"
+    },
+    "spec": {
+      "content_hash": "sha256:9277b45dd75b38429187944c8d588ac3eda8a25a77a7974118a7371ad08ed000"
+    },
+    "devices": []
+  }
+}

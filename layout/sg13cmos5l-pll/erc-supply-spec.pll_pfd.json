@@ -1,0 +1,168 @@
+{
+  "_comment": [
+    "klt erc supply spec for `pll_pfd` (T1 item 11, analog partition; issue #147).",
+    "Input: layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/pll_pfd.gds (top cell pll_pfd).",
+    "Run (repo root): klt erc <gds> <this spec> --top pll_pfd --deck sg13cmos5l --format json",
+    "-- see the dated ERC record's run-erc.sh for the exact pinned build.",
+    "",
+    "Supplies (subckt port list): VDD, VSS. LVS pairs VDD->VDD and VSS->VSS (pin: true).",
+    "Body rails in the reference: every pfet body on VDD, every nfet body on VSS.",
+    "",
+    "Stackup/vias: GatPoly (5/0, gate role, active_layer Activ 1/0) -> Metal1",
+    "(8/0) -> Metal2 (10/0) -> Metal3 (30/0) -> Metal4 (50/0), bridged by Cont",
+    "(6/0), Via1 (19/0), Via2 (29/0), Via3 (49/0). Same layer numbers and the",
+    "same dual-source provenance (sg13cmos5l.lyp + the curated sg13cmos5l deck",
+    "LAYER_NAMES table) as ../erc-supply-spec.json, extended by Metal4/Via3",
+    "because the MoM capacitors (Recog.mom 99/39) are drawn on Metal1..Metal4;",
+    "a declared layer the block does not draw is not an error (docs/cli/erc.md).",
+    "Label text is read from Metal1.pin (8/2) and Metal3.pin (30/2) -- the only",
+    "metal pin layers carrying text in these streams (Metal3.pin holds",
+    "cmos5l_route.py's one-per-net trunk label).",
+    "",
+    "Run with `--deck sg13cmos5l` so the deck's own rppd/rhigh/rsil body regions",
+    "(GatPoly & PolyRes & ...) are carved out of the gatpoly role: a drawn",
+    "resistor body is a device, not a wire (docs/cli/erc.md, 'Device bodies",
+    "are not wires'). MoM capacitors are NOT carved (MomCapacitorDevice is not",
+    "matched by --deck at this build); their two finger sets are disjoint",
+    "geometry, so they cannot merge two nets in this model.",
+    "",
+    "Supplies: every top-level supply port of design/sg13cmos5l/netlist/<block>.spice",
+    "(DR-004 rail table), cross-checked against the same-GDS LVS net_correspondence in",
+    "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/lvs.<block>.json. `expected_islands` is this repo's annotation (klt",
+    "erc ignores unknown keys): 1 means exactly one electrical island, which is",
+    "the only outcome without an erc.unconnected_net finding.",
+    "",
+    "Tie `nwell_tap` (2 merged NWell shapes, one per pfet group: pfd_pfet_w5_l0p5, pfd_pfet_w10_l0p5):",
+    "the curated deck derives a well tie as nSD & Activ & NWell (klayout-tools#1414).",
+    "Declared as tap_layer Cont (6/0) narrowed by tap_requires [nSD 7/0, Activ 1/0]",
+    "inside each drawn NWell (31/0) -- this excludes every pfet source/drain",
+    "contact (pSD 14/0 Activ), so the narrowing removes real geometry and the",
+    "tie is graded checked, not skipped-degenerate (klayout-tools#2199). Each",
+    "NWell shape must independently hold a tap reaching VDD. Drawn well:",
+    "physically checked.",
+    "",
+    "Tie `substrate_tap`: this stream draws NO p-well/substrate polygon (no 46/0,",
+    "no 40/0), so the nfet bodies sit in the bare global p-substrate. Declared",
+    "with well_layer null + well_boxes (klayout-tools#2255): one box per nfet",
+    "group cell, = that instance's bounding box in the GDS rounded outward to",
+    "0.01 um (pfd_nfet_w2_l0p5, pfd_nfet_w4_l0p5). The tap is Cont (6/0) narrowed by tap_requires [pSD",
+    "14/0, Activ 1/0] (the deck's pSD & (Activ - NWell) substrate tie; it excludes",
+    "the nfet source/drain contacts, which have no pSD, and the poly resistor head",
+    "contacts, which have no Activ). Each asserted box must independently hold a",
+    "tap reaching VSS. LIMIT: this is checked_by_well_assertion -- the region",
+    "is the caller's word, not a drawn well, and is weaker evidence than the",
+    "drawn-NWell tie above. The substrate under the resistors/MoM caps is not",
+    "asserted (those devices have no MOS body; rppd/rhigh bulk is the global",
+    "substrate per the reference netlist)."
+  ],
+  "stackup": [
+    {
+      "name": "gatpoly",
+      "layer": "5/0",
+      "role": "gate",
+      "active_layer": "1/0"
+    },
+    {
+      "name": "Metal1",
+      "layer": "8/0",
+      "label_layer": "8/2"
+    },
+    {
+      "name": "Metal2",
+      "layer": "10/0"
+    },
+    {
+      "name": "Metal3",
+      "layer": "30/0",
+      "label_layer": "30/2"
+    },
+    {
+      "name": "Metal4",
+      "layer": "50/0"
+    }
+  ],
+  "vias": [
+    {
+      "name": "Cont",
+      "layer": "6/0",
+      "between": [
+        "gatpoly",
+        "Metal1"
+      ]
+    },
+    {
+      "name": "Via1",
+      "layer": "19/0",
+      "between": [
+        "Metal1",
+        "Metal2"
+      ]
+    },
+    {
+      "name": "Via2",
+      "layer": "29/0",
+      "between": [
+        "Metal2",
+        "Metal3"
+      ]
+    },
+    {
+      "name": "Via3",
+      "layer": "49/0",
+      "between": [
+        "Metal3",
+        "Metal4"
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "VDD",
+      "kind": "supply",
+      "expected_islands": 1
+    },
+    {
+      "name": "VSS",
+      "kind": "supply",
+      "expected_islands": 1
+    }
+  ],
+  "ties": [
+    {
+      "name": "nwell_tap",
+      "well_layer": "31/0",
+      "tap_layer": "6/0",
+      "tap_requires": [
+        "7/0",
+        "1/0"
+      ],
+      "connect_to": "Metal1",
+      "net": "VDD"
+    },
+    {
+      "name": "substrate_tap",
+      "well_layer": null,
+      "well_boxes": [
+        [
+          0.12,
+          0.78,
+          126.33,
+          4.1
+        ],
+        [
+          133.48,
+          0.78,
+          138.93,
+          4.1
+        ]
+      ],
+      "tap_layer": "6/0",
+      "tap_requires": [
+        "14/0",
+        "1/0"
+      ],
+      "connect_to": "Metal1",
+      "net": "VSS"
+    }
+  ]
+}
