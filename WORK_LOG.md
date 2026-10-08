@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-08
 
+- **PR #149**: signoff: cite T1 item 4 (LVS clean) for both partitions (record 20261003-183059-dc5644a)
+- **Issue #146** (closed): signoff: cite T1 item 4 (LVS clean) for both partitions now that all six blocks match (record 20261003-183059-dc5644a)
 - **Issue #100** (closed): Post-layout PVT needs a representative floorplan (and post-layout arms for pfd/lock_detector) — the open risk #30 recorded and left unowned
 
 ### 2026-10-07
