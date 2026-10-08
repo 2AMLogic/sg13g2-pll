@@ -8,7 +8,7 @@
 
 ## Verdict, read off the committed report
 
-`tier: null` — 3 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
+`tier: null` — 5 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
 "mixed-signal"`). Grade run:
 
 ```
@@ -51,7 +51,7 @@ cannot check on its own.
 
 ### The one artifact story every citation traces to
 
-Every citation in the manifest pins the same layout revision:
+The digital partition's citations (items 3, 11.digital, 4.digital) all pin the same `pll_divider_chain` layout revision:
 
 ```
 sha256:27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196
@@ -65,6 +65,11 @@ The ERC and LVS citations are committed envelopes whose own
 `provenance.input.content_hash` already carries this hash; the DRC
 citation is a **command-backed** entry that re-runs `klt drc` live, and
 its pin is graded against the fresh run's own reported input hash.
+
+The divider GDS is byte-identical in the later record
+`20261003-183059-dc5644a` (same sha256), which is why item 4's digital
+citation can live in the newer record without changing that revision. The
+**analog** GDS revisions are a separate story, told under item 4.
 
 ### Item 3 — DRC clean: `met` (both partition rows), with the coverage disclosure the grader cannot check
 
@@ -99,6 +104,57 @@ against the artifact as committed, not against a file's say-so.
     with **no drawn geometry at those levels in this stream**, so the deck
     itself skips them. The block routes supplies/signal on Metal1–Metal3
     only.
+
+### Item 4 — LVS clean: `4.analog` and `4.digital` `met`, from record `20261003-183059-dc5644a`
+
+Both rows cite a wrapper report from the immutable record
+`layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/` (the #136
+closure), using `"pointer": "/response"` to reach the `klt lvs` envelope
+inside the wrapper (`returncode`, `ok`, `response`, `stderr`). Pointer
+support is why the grader pin moved (see "The tool that grades"). The
+committed wrappers are cited as-is: nothing was normalised or re-run.
+
+- `4.digital` = `lvs.divider_chain.json`, pinned to
+  `sha256:27149fd0…5196` = sha256 of `pll_divider_chain.gds` (the
+  digital partition is exactly this block; hash unchanged since
+  `20260923-020931-a95a887-dirty`).
+- `4.analog` = `lvs.lock_detector.json`, pinned to
+  `sha256:54bea524…afc` = sha256 of `pll_lock_detector.gds`. **Why
+  `lock_detector`:** it is the block whose `SUB!` `PU`/`PD` split was the
+  last documented LVS mismatch (closed by #136), so citing it is the
+  strongest single sample. One citation stands for five blocks, so
+  it is **not** trusted alone: `manifests/check_lvs_coverage.py` (a CI step
+  in `signoff.yml`; negative tests in `manifests/test_check_lvs_coverage.py`,
+  run on temporary copies) inspects the exact record the manifest cites and
+  requires for every analog block wrapper `ok: true`, `returncode: 0`,
+  `response.status == "match"`, and
+  `response.provenance.input.content_hash` equal to the sha256 of the
+  adjacent `pll_<block>.gds`. A missing, failed, mismatching or stale
+  sibling fails CI even though the grader never sees it.
+
+All six blocks, as verified by that gate (record `20261003-183059-dc5644a`,
+569 of 569 devices, 295 nets across the six):
+
+| Block | Partition | `pll_<block>.gds` sha256 (= envelope input hash) |
+| --- | --- | --- |
+| `pfd` | analog | `30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7` |
+| `cp` | analog | `95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c` |
+| `loop_filter` | analog | `8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3` |
+| `vco` | analog | `21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7` |
+| `lock_detector` | analog (**cited**) | `54bea524f81541c7c3be3fdad14423acf47eb7a0972c07932701c3e691ac2afc` |
+| `divider_chain` | digital (**cited**) | `27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196` |
+
+Disclosures that travel with these envelopes (not softened):
+
+- **`power_connectivity.status` is `"unchecked"`** in both cited envelopes
+  (expected for a SPICE reference). That satisfies item 4; it is **not** a
+  verified power grid and must not be read as one.
+- **`klayout_version_mismatch: true`** on every source envelope: they were
+  recorded with `klt 0.6.0+gdaf06a51afaf` on KLayout `0.30.12`, not the
+  engine version the tool expected. The grader accepts this provenance
+  (`input_verified: true`, status `met`), but the record is not claimed to
+  have been produced on the expected KLayout, and these are not newly
+  generated evidence: this change re-grades committed 2026-10-03 reports.
 
 ### Item 11 — power delivery (structural): `11.digital` `met`; `11.analog` `unmet` with nothing yet to cite
 
@@ -145,7 +201,6 @@ against the artifact as committed, not against a file's say-so.
 | Item | `reason` | The claim-compatible state behind it |
 | --- | --- | --- |
 | 1, 2, 9, 10 | `no_evidence` | Real material exists — committed schematics (`design/sg13cmos5l/*.sch`), composed GDS (`layout/sg13cmos5l-pll/reports/…/pll_*.gds`), committed testbenches (`sim/sg13cmos5l-*`), repo hygiene — but these items bind to **no `klt` verb**, and citing an unrelated passing envelope to turn them green is the dishonesty this file exists to prevent (`docs/cli/signoff.md` → "the safest default is to leave them uncited"). |
-| 4 (both rows) | `no_evidence` | LVS `match` exists for five blocks — `pfd`, `cp`, `divider_chain`, `loop_filter` (#114/#119), `vco` (#113: schematic resistor bodies re-declared on `VSS`; committed pathways under `sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/reports/`) — while `lock_detector`'s residual is its documented `SUB!` `PU`/`PD` split. A bare-key citation would render both partitions `met` off the partition that does match — deliberately not cited. |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
 | 7 (both rows) | `no_evidence` | A **post-layout PEX PVT campaign exists** (`sim/sg13cmos5l-postlayout-pex-pvt/` — RECORD-001/002, klt-extracted R/C on the routed geometry) but as ngspice run records; item 7 accepts only a `klt pex` envelope for these partitions (an SDF-annotated `klt functional-verification` for an RTL digital partition — not this block's full-custom sub-case). No `klt pex` run exists yet. |
@@ -158,27 +213,37 @@ The grade is meaningful only tied to the build that produced it — the
 committed `build` block of [`sg13g2-pll.tier-report.json`](sg13g2-pll.tier-report.json):
 
 ```
-klt 0.5.0+gb15edf5e3a2e  (klayout-tools @ b15edf5e3a2e56467a3406c98a2555eb1a5ae45c,
-dirty: false, grading_ruleset_id: sha256:1a01464d…)
+klt 0.6.0+ge6284fbe62e2  (klayout-tools @ e6284fbe62e25d9b293eed07889cb80a0b87e2f4,
+dirty: false, grading_ruleset_id: sha256:9f99f04d…)
 ```
 
-exactly the upstream commit the committed ERC evidence itself self-attests
-in every ERC envelope's `provenance.klt_version` — one build produced both
-the evidence and this grade. This commit bundles the 11-item tier doc
-(klayout-tools#2025/#2057) whose item-11 grading rules match the running
-build, which is why neither `--tiers-doc` overrides nor the PyPI `0.5.0`
-release (10-item doc, no item-11 ruleset) can re-grade this file. Install
+the first upstream commit whose manifest evidence bindings accept an
+RFC 6901 `"pointer"` (klayout-tools#2376), which the item-4 citations need
+to reach the `klt lvs` envelope under `/response` of the committed wrapper
+reports. The previous pin (`b15edf5e3a2e`, klt 0.5.0) has no `pointer`
+support, so it could not grade these citations; the PyPI `0.5.0` release
+(10-item doc, no item-11 ruleset) still cannot re-grade this file.
+
+**Checklist diff between pins** (`b15edf5e3a2e` to `e6284fbe62e2`): the
+tier doc `docs/design-evidence-tiers.md` changed (ruleset id
+`1a01464d…` to `9f99f04d…`, doc hash changed) but the denominator stays
+22 (11 items x 2 partitions), and comparing the committed 0.5.0 report with
+the fresh 0.6.0 grade row by row (id, partition, status, reason, title) the
+only changes are `4.analog` and `4.digital` going `unmet/no_evidence` to
+`met`. Items 3 and 11.digital remain `met`; `klayout` stays pinned at
+`0.30.10`. The tier-doc additions are partition-boundary reporting and
+extra ERC tie reasons, which do not affect these rows. Install
 the grader from a **clean clone** of the pinned commit — a
 `git+https://…@<commit>` direct install builds from a dirty temp checkout
 and reports `dirty: true` in the report's build block:
 
 ```bash
 git clone https://github.com/2AMLogic/klayout-tools /tmp/klt
-git -C /tmp/klt checkout b15edf5e3a2e56467a3406c98a2555eb1a5ae45c
+git -C /tmp/klt checkout e6284fbe62e25d9b293eed07889cb80a0b87e2f4
 python3 -m venv /tmp/klt-venv
 # klayout pinned to this commit's own uv.lock entry (KLAYOUT_VERSION_EXPECTED)
 /tmp/klt-venv/bin/pip install -q "klayout==0.30.10" /tmp/klt
-/tmp/klt-venv/bin/klt --version   # klt 0.5.0+gb15edf5e3a2e
+/tmp/klt-venv/bin/klt --version   # klt 0.6.0+ge6284fbe62e2
 ```
 
 and the committed report is reproduced with the grade re-run from the
@@ -193,7 +258,9 @@ process's working directory — no manifest-relative anchoring):
 ## CI — the gate that keeps this honest
 
 [`.github/workflows/signoff.yml`](../.github/workflows/signoff.yml)
-installs the pinned grader at that commit, re-runs the full grade (the
+installs the pinned grader at that commit, first runs `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
+cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS) and its
+temporary-copy negative tests, then re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
 re-read and its pinned `content_hash` re-checked), and byte-compares the
 fresh report against the committed one.
