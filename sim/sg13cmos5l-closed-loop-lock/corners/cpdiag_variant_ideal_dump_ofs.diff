@@ -1,0 +1,8 @@
+--- snapshot/cp_cascbias.spice
++++ variant/cp
+@@ -32,3 +32,4 @@
+ XLEGN IBN ICN DN DNB VOUT VDUMP VSS cp_leg_n
+-XBUF VOUT IBN VDUMP VDD VSS cp_dumpbuf
++EDUMP VDUMP vdofs VOUT VSS 1
++VDOFS vdofs VSS dc -0.937396
+ XMBP nxp IBP VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
