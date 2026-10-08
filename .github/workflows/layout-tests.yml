@@ -1,0 +1,44 @@
+name: layout generator unit tests
+
+# Runs layout/tests (issue #153, T1 item 10) so the layout flow's own suite
+# cannot rot unseen (cf. #124, #130, #132).
+#
+# Runner is pytest, not `unittest discover`: the tests use pytest fixtures,
+# parametrize, raises and importorskip, and `unittest discover` collects 0 of
+# them. pytest is installed into the throwaway CI venv only; the klt pin comes
+# from layout/requirements.txt, the same file layout/bin/setup-venv.sh uses.
+#
+# No test here needs a `klt` subprocess or a PDK root (verified: 84 pass, 0
+# skipped with the pinned install). Any test that did would carry its own
+# in-file skip with a stated reason, and `-rs` prints those reasons.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  layout-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create venv from layout/requirements.txt
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/layout-venv"
+          "$RUNNER_TEMP/layout-venv/bin/pip" install --quiet --upgrade pip
+          "$RUNNER_TEMP/layout-venv/bin/pip" install --quiet -r layout/requirements.txt pytest
+
+      - name: Run layout unit tests
+        run: |
+          "$RUNNER_TEMP/layout-venv/bin/python" -m pytest layout/tests -q -rs
