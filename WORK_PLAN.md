@@ -44,7 +44,6 @@ _None._
 Issues carrying `loom:curated`.
 
 - **#16**: [Epic #542] 5A — Port to SG13CMOS5L for Chipalooza Challenge #6 brief *(curated)*
-- **#100**: Post-layout PVT needs a representative floorplan (and post-layout arms for pfd/lock_detector) — the open risk #30 recorded and left unowned *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -64,7 +63,7 @@ _None._
 | In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 2 |
+| Curated | 1 |
 | Architect / Hermit proposals | 0 |
 | Active epics | 1 |
 <!-- guide:plan-body:end -->
