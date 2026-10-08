@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Item-4 coverage gate: every analog block's LVS envelope in the cited record.
+"""Items 1/2/4 coverage gate: every analog block's LVS envelope in the cited record.
 
 manifests/sg13g2-pll.json cites ONE analog LVS envelope (lock_detector) for
 T1 item 4's analog partition. That sample must not conceal a missing or stale
@@ -36,9 +36,15 @@ def sha256_file(path):
     return "sha256:" + h.hexdigest()
 
 
-def check_block(record, block):
-    """Return a list of error strings for one block (empty = pass)."""
-    rep = record / f"lvs.{block}.json"
+def check_block(record, block, kind="lvs"):
+    """Return a list of error strings for one block (empty = pass).
+
+    kind "lvs" (T1 item 4 and item 1) expects status "match" in
+    lvs.<block>.json; kind "extract" (T1 item 2) expects status "extracted"
+    in extract.pll_<block>.json. Both are bound to the adjacent GDS hash.
+    """
+    rep = record / (f"lvs.{block}.json" if kind == "lvs" else f"extract.pll_{block}.json")
+    want_status = "match" if kind == "lvs" else "extracted"
     gds = record / f"pll_{block}.gds"
     if not rep.is_file():
         return [f"{block}: missing report {rep}"]
@@ -56,8 +62,8 @@ def check_block(record, block):
     resp = doc.get("response")
     if not isinstance(resp, dict):
         return errs + [f"{block}: no /response object"]
-    if resp.get("status") != "match":
-        errs.append(f"{block}: response.status is {resp.get('status')!r}, expected 'match'")
+    if resp.get("status") != want_status:
+        errs.append(f"{block}: response.status is {resp.get('status')!r}, expected {want_status!r}")
     prov = resp.get("provenance")
     inp = prov.get("input") if isinstance(prov, dict) else None
     recorded = inp.get("content_hash") if isinstance(inp, dict) else None
@@ -76,12 +82,18 @@ def check_block(record, block):
 def check_manifest(manifest_path, record):
     errs = []
     ev = json.loads(Path(manifest_path).read_text()).get("evidence", {})
-    for key, block in (("4.analog", "lock_detector"), ("4.digital", DIGITAL_BLOCK)):
+    cites = (
+        ("1.analog", "lvs", "lock_detector"), ("1.digital", "lvs", DIGITAL_BLOCK),
+        ("2.analog", "extract", "lock_detector"), ("2.digital", "extract", DIGITAL_BLOCK),
+        ("4.analog", "lvs", "lock_detector"), ("4.digital", "lvs", DIGITAL_BLOCK),
+    )
+    for key, kind, block in cites:
         c = ev.get(key)
         if not isinstance(c, dict):
             errs.append(f"manifest: {key} citation missing")
             continue
-        want = (record / f"lvs.{block}.json").as_posix()
+        name = f"lvs.{block}.json" if kind == "lvs" else f"extract.pll_{block}.json"
+        want = (record / name).as_posix()
         if c.get("file") != want:
             errs.append(f"manifest: {key} cites {c.get('file')!r}, expected {want!r}")
         if c.get("pointer") != "/response":
@@ -103,9 +115,9 @@ def main(argv=None):
     a = ap.parse_args(argv)
     record = Path(a.record) if a.record else record_from_manifest(a.manifest)
     errs = []
-    for b in ANALOG_BLOCKS:
-        errs += check_block(record, b)
-    errs += check_block(record, DIGITAL_BLOCK)
+    for kind in ("lvs", "extract"):
+        for b in ANALOG_BLOCKS + (DIGITAL_BLOCK,):
+            errs += check_block(record, b, kind)
     if not a.record:
         errs += check_manifest(a.manifest, record)
     if errs:
@@ -113,7 +125,7 @@ def main(argv=None):
         for e in errs:
             print("  " + e, file=sys.stderr)
         return 1
-    print(f"OK: {record}: {len(ANALOG_BLOCKS)} analog + {DIGITAL_BLOCK} LVS envelopes match their adjacent GDS")
+    print(f"OK: {record}: {len(ANALOG_BLOCKS)} analog + {DIGITAL_BLOCK} LVS and extract envelopes match their adjacent GDS")
     return 0
 
 

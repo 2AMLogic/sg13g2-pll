@@ -22,6 +22,7 @@ class Cov(unittest.TestCase):
         self.tmp = Path(tempfile.mkdtemp())
         for b in BLOCKS:
             shutil.copy(REC / f"lvs.{b}.json", self.tmp)
+            shutil.copy(REC / f"extract.pll_{b}.json", self.tmp)
             shutil.copy(REC / f"pll_{b}.gds", self.tmp)
 
     def tearDown(self):
@@ -48,6 +49,16 @@ class Cov(unittest.TestCase):
                 self.setUp()
                 self.edit(b, lambda d: d["response"].__setitem__("status", "mismatch"))
                 self.assertEqual(self.run_main(), 1)
+
+    def test_extract_envelope_faults(self):
+        p = self.tmp / "extract.pll_vco.json"
+        d = json.loads(p.read_text())
+        d["response"]["status"] = "failed"
+        p.write_text(json.dumps(d))
+        self.assertEqual(self.run_main(), 1)
+        self.setUp()
+        (self.tmp / "extract.pll_cp.json").unlink()
+        self.assertEqual(self.run_main(), 1)
 
     def test_missing_report(self):
         (self.tmp / "lvs.vco.json").unlink()

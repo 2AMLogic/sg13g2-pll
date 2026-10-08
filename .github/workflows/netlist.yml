@@ -1,0 +1,63 @@
+name: netlist regeneration gate (T1 item 1)
+
+# T1 item 1 ("Design sources") requires the netlist be regenerated on design
+# change. This job regenerates every committed netlist with its committed
+# generator (design/netlist.sh, design/sg13cmos5l/netlist.sh) and fails on
+# `git diff` against the committed copy (issue #151).
+#
+# Honest gaps (not hidden):
+#   * xschem comes from the runner's apt package, not a pinned container. The
+#     committed netlists carry a `* xschem XSCHEM Vx.y.z` banner line; the
+#     runner's xschem version can differ from the one that generated the
+#     committed files (committed: 3.4.7), so ONLY that banner line is
+#     excluded from the diff (git diff -I). Every other line must match.
+#   * The SG13CMOS5L PDK is pinned to the commit used for the committed
+#     netlists' host; the SG13G2 PDK (IHP-Open-PDK) is cloned at its default
+#     branch because the host copy has no recorded revision. If upstream
+#     symbol changes alter a netlist, this job fails and the PDK pin (or the
+#     netlist) must be revisited deliberately.
+#   * This job has not been observed green on a GitHub runner when it was
+#     added; the equivalent local run (xschem 3.4.4, banner line ignored)
+#     reproduced all 12 committed netlists.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  netlists:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install xschem (runner apt package; not version-pinned)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xschem xvfb
+          xschem --version | head -1
+
+      - name: Fetch the PDKs
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pdk"
+          git clone --quiet --depth 1 https://github.com/IHP-GmbH/IHP-Open-PDK "$RUNNER_TEMP/pdk/ihp-sg13g2"
+          git clone --quiet https://github.com/IHP-GmbH/ihp-sg13cmos5l "$RUNNER_TEMP/pdk/ihp-sg13cmos5l"
+          git -C "$RUNNER_TEMP/pdk/ihp-sg13cmos5l" checkout --quiet 607e18d4bd9214a52575c194b4181ef449f9252f
+
+      - name: Regenerate netlists and fail on drift
+        run: |
+          set -euo pipefail
+          export PDK_ROOT="$RUNNER_TEMP/pdk"
+          xvfb-run -a ./design/netlist.sh
+          xvfb-run -a ./design/sg13cmos5l/netlist.sh
+          if ! git diff --exit-code -I'^\* xschem XSCHEM V' -- design; then
+            echo "::error::Committed netlists differ from what the committed generators emit from the committed .sch. Regenerate with design/netlist.sh and design/sg13cmos5l/netlist.sh and commit."
+            exit 1
+          fi
+          echo "Committed netlists match regenerated output (xschem version banner line excluded)."

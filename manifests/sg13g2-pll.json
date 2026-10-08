@@ -2,6 +2,26 @@
   "block": "sg13g2-pll",
   "kind": "mixed-signal",
   "evidence": {
+    "1.analog": {
+      "file": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/lvs.lock_detector.json",
+      "pointer": "/response",
+      "content_hash": "sha256:54bea524f81541c7c3be3fdad14423acf47eb7a0972c07932701c3e691ac2afc"
+    },
+    "1.digital": {
+      "file": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/lvs.divider_chain.json",
+      "pointer": "/response",
+      "content_hash": "sha256:27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196"
+    },
+    "2.analog": {
+      "file": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/extract.pll_lock_detector.json",
+      "pointer": "/response",
+      "content_hash": "sha256:54bea524f81541c7c3be3fdad14423acf47eb7a0972c07932701c3e691ac2afc"
+    },
+    "2.digital": {
+      "file": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/extract.pll_divider_chain.json",
+      "pointer": "/response",
+      "content_hash": "sha256:27149fd03a59d5f59ea23ae39b7f0ea7d61c765e79022184960ca04ec4ba5196"
+    },
     "3": {
       "command": [
         "klt",
