@@ -1,0 +1,81 @@
+name: netlist regeneration gate (T1 item 1)
+
+# T1 item 1 ("Design sources") requires the netlist be regenerated on design
+# change. This job regenerates every committed netlist with its committed
+# generator (design/netlist.sh, design/sg13cmos5l/netlist.sh) and fails on
+# `git diff` against the committed copy (issue #151).
+#
+# Honest gaps (not hidden):
+#   * xschem comes from the runner's apt package, not a pinned container. The
+#     committed netlists carry a `* xschem XSCHEM Vx.y.z` banner line; the
+#     runner's xschem version can differ from the one that generated the
+#     committed files (committed: 3.4.7), so ONLY that banner line is
+#     excluded from the diff (git diff -I). Every other line must match.
+#   * Both PDKs are pinned. SG13CMOS5L is pinned to the commit used for the
+#     committed netlists' host. The host SG13G2 copy has no recorded revision
+#     (its symbols date from March 2026), so IHP-Open-PDK is pinned to the
+#     last commit before upstream began emitting mm_ok=1 (2682d8e); default
+#     branch HEAD emits it and would drift every device line. If a pin is
+#     bumped, the netlists must be regenerated deliberately.
+#   * Observed green on a GitHub runner (PR #155) after the PDK layout and
+#     pin fixes; the local run (xschem 3.4.4, banner line ignored) also
+#     reproduced all 12 committed netlists.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  netlists:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install xschem (runner apt package; not version-pinned)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xschem xvfb
+          xschem --version | head -1
+
+      - name: Fetch the PDKs
+        run: |
+          set -euo pipefail
+          # Layouts differ: IHP-Open-PDK holds the variant dir ihp-sg13g2/ one
+          # level below its root, so its PDK_ROOT is the clone root itself.
+          # ihp-sg13cmos5l is a repo whose root IS the variant dir, so it must
+          # be cloned into a PDK_ROOT directory under that name.
+          mkdir -p "$RUNNER_TEMP/pdk"
+          # Pinned to the last commit before the mm_ok symbol change
+          # (00fd98f, 2026-05-22), which appends mm_ok=1 to every device line.
+          git init --quiet "$RUNNER_TEMP/IHP-Open-PDK"
+          git -C "$RUNNER_TEMP/IHP-Open-PDK" fetch --quiet --depth 1 https://github.com/IHP-GmbH/IHP-Open-PDK 2682d8ef855b8b33e12bc0d13b4f1d023c79ef9e
+          git -C "$RUNNER_TEMP/IHP-Open-PDK" checkout --quiet FETCH_HEAD
+          # The cmos5l symbol dir symlinks ../../../../ihp-sg13g2/... i.e. a
+          # sibling ihp-sg13g2 under ITS PDK_ROOT; provide that sibling.
+          ln -s "$RUNNER_TEMP/IHP-Open-PDK/ihp-sg13g2" "$RUNNER_TEMP/pdk/ihp-sg13g2"
+          git clone --quiet https://github.com/IHP-GmbH/ihp-sg13cmos5l "$RUNNER_TEMP/pdk/ihp-sg13cmos5l"
+          git -C "$RUNNER_TEMP/pdk/ihp-sg13cmos5l" checkout --quiet 607e18d4bd9214a52575c194b4181ef449f9252f
+
+      - name: Regenerate netlists and fail on drift
+        run: |
+          set -euo pipefail
+          # design/xschemrc sources $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc.
+          PDK_ROOT="$RUNNER_TEMP/IHP-Open-PDK" PDK=ihp-sg13g2 xvfb-run -a ./design/netlist.sh
+          PDK_ROOT="$RUNNER_TEMP/pdk" PDK=ihp-sg13cmos5l xvfb-run -a ./design/sg13cmos5l/netlist.sh
+          if ! git diff --exit-code -I'^\* xschem XSCHEM V' -- design; then
+            echo "::error::Committed netlists differ from what the committed generators emit from the committed .sch. Regenerate with design/netlist.sh and design/sg13cmos5l/netlist.sh and commit."
+            exit 1
+          fi
+          # Modified tracked files were already judged by the diff above (which
+          # ignores the version banner); here catch generated-but-uncommitted.
+          if git status --porcelain --untracked-files=all -- design | grep '^??'; then
+            echo "::error::Generators produced untracked files under design/ (a generated netlist is not committed)."
+            exit 1
+          fi
+          echo "Committed netlists match regenerated output (xschem version banner line excluded)."
