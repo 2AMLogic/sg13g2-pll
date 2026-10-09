@@ -42,7 +42,11 @@ no longer matches the `pll_cp` layout or the committed `cp` leg. The gate's
 `STALE_PENDING` entry keeps the report and leg-integrity checks for `cp`,
 requires the staleness to be real, forbids citing `cp` from the manifest, and
 fails once #195 refreshes the leg until the entry is removed. `pex.cp.json`
-here describes the pre-#165 buffer.
+here describes the pre-#165 buffer. The same holds for the `pll_cp` LVS, ERC
+and DRC evidence: `manifests/check_{lvs,erc,drc}_coverage.py` still pass for
+`cp` only because they bind to the committed GDS, not to the schematic
+export, so the cited LVS `match` describes the pre-#165 buffer. That layout
+evidence is stale until #195 redraws `cp` and re-runs it.
 
 This proves **nominal evidence integrity**, not a complete PVT or spec pass:
 one corner per block, no `limits` declared. `lock_detector` remains explicitly

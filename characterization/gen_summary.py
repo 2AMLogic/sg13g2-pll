@@ -75,7 +75,8 @@ def read_rows(table, root=ROOT):
     if table.get("kind") == "json":
         obj = json.loads(p.read_text())
         for key in table["rows_path"].split("."):
-            obj = obj[key]
+            # A list step takes an integer index (e.g. klt reports: "corners.0.measurements").
+            obj = obj[int(key)] if isinstance(obj, list) else obj[key]
         return [{k: ("" if v is None else str(v)) for k, v in r.items()} for r in obj]
     with open(p, newline="") as f:
         return list(csv.DictReader(f))

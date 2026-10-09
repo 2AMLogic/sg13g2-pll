@@ -76,6 +76,12 @@
    "issue": "#178",
    "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md",
    "text": "The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists."
+  },
+  {
+   "id": "cp-dumpbuf-nominal-only",
+   "title": "cp tracking dump buffer (DR-010) nominal-only, layout stale",
+   "issue": "#165, #195",
+   "text": "The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the |VDUMP-VOUT| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The committed cp layout, and its LVS/ERC/DRC/PEX evidence, still describe the pre-#165 buffer until #195."
   }
  ],
  "datasets": [
@@ -908,6 +914,356 @@
     "pvt-axes-partial"
    ],
    "record_sha256": "112d3a800b576be4c2392767f4c22cba8d3cc150178d352e32fd4d0d2aec890e"
+  },
+  {
+   "id": "cp-tracking-dumpbuf-dc",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "cp with the DR-010 tracking dump buffer (complementary unity-gain 5T OTA pair), snapshot netlist-snapshots/cp_otabuf.spice (sha256 c8a55d8d...); negative control is the pre-#165 source-follower cp",
+   "context": "schematic, not extracted (committed cp layout still has the pre-#165 buffer, #195)",
+   "conditions": "one nominal point only: mos_tt, 27 C, 3.3 V (klt corner id mos_tt/novdd/27C); no other PVT corner ran (15-corner batch request errored on every corner, klt-sim-a4729666c143; first submit batch_no_capacity)",
+   "method": "klt sim DC sweeps (VDUMP-VOUT offset, Icp trim and up/dn mismatch, supply current), AC input-capacitance probe, and buffer loop-gain probe; local single-corner runs",
+   "record": "sim/sg13cmos5l-cp-icp-trim/records/RECORD-005-issue165-tracking-dumpbuf-dc.md",
+   "tables": [
+    {
+     "id": "dc",
+     "path": "sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_nominal.json",
+     "kind": "json",
+     "rows_path": "corners.0.measurements",
+     "sha256": "9906d8dc0ab121302e56aaeb2dc5b7cd427ff50262692f3fa9a01a9003fff172"
+    },
+    {
+     "id": "control",
+     "path": "sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_control_nominal.json",
+     "kind": "json",
+     "rows_path": "corners.0.measurements",
+     "sha256": "c000dfacee32c553d46d4ee0134cfd994d7d8899a7c9bbf4808cf1d4710d98f8"
+    },
+    {
+     "id": "cin",
+     "path": "sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_cin_nominal.json",
+     "kind": "json",
+     "rows_path": "corners.0.measurements",
+     "sha256": "88f036d81a17a487899140c15c7cbd6a306498b15a6e67531a45acbf928321b4"
+    },
+    {
+     "id": "loopgain",
+     "path": "sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_lg_nominal.json",
+     "kind": "json",
+     "rows_path": "corners.0.measurements",
+     "sha256": "9948577ad3365c93b547f52491cfd07e5db147e4929ce64aaa67ea58c178509e"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 2.5 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_2p5"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 5 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_5"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 10 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_10"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 20 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_20"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 40 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_40"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 80 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_80"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "mV",
+     "quantity": "signed VDUMP-VOUT idle at VOUT = 2.40 V, 10 uA code",
+     "where": {
+      "name": "ofs_off_at2p40_mv_10"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "uA",
+     "quantity": "cp supply current idle at VOUT = 2.40 V, 10 uA code",
+     "where": {
+      "name": "idd_off_at2p40_ua_10"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "dc",
+     "column": "value",
+     "units": "%",
+     "quantity": "max |UP/DN mismatch|, VOUT 0.9-2.9 V, 10 uA code",
+     "where": {
+      "name": "mm_absmax_0p90_2p90_pct_10"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 2.5 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_2p5"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 5 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_5"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 10 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_10"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 20 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_20"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 40 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_40"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "control",
+     "column": "value",
+     "units": "mV",
+     "quantity": "NEGATIVE CONTROL (pre-#165 source follower): max |VDUMP-VOUT| idle, VOUT 0.3-2.7 V, 80 uA code",
+     "where": {
+      "name": "ofs_off_max_mv_80"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "cin",
+     "column": "value",
+     "units": "fF",
+     "quantity": "buffer-added VOUT capacitance over VOUT 0.3-2.9 V (one row per VOUT point)",
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "loopgain",
+     "column": "value",
+     "units": "rad",
+     "quantity": "buffer loop phase margin at VDUMP = 0.5 V",
+     "where": {
+      "name": "pm_rad_0p5"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "loopgain",
+     "column": "value",
+     "units": "rad",
+     "quantity": "buffer loop phase margin at VDUMP = 1 V",
+     "where": {
+      "name": "pm_rad_1"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "loopgain",
+     "column": "value",
+     "units": "rad",
+     "quantity": "buffer loop phase margin at VDUMP = 1.65 V",
+     "where": {
+      "name": "pm_rad_1p65"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "loopgain",
+     "column": "value",
+     "units": "rad",
+     "quantity": "buffer loop phase margin at VDUMP = 2.4 V",
+     "where": {
+      "name": "pm_rad_2p4"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    },
+    {
+     "table": "loopgain",
+     "column": "value",
+     "units": "rad",
+     "quantity": "buffer loop phase margin at VDUMP = 2.7 V",
+     "where": {
+      "name": "pm_rad_2p7"
+     },
+     "coverage_columns": [
+      "name"
+     ]
+    }
+   ],
+   "notes": [
+    "NOMINAL ONLY. Every table here is a single corner (mos_tt/27 C/3.3 V). The |VDUMP-VOUT| offset across PVT and the cp-icp-trim re-run across PVT are not established; the PVT batch report (reports/sim.otabuf_pvt.batch.json) is 15/15 errored and carries no measurement.",
+    "Coverage column `name` is the measurement name in the klt report; the bench's own limit verdicts in those reports are not reproduced here (no pass/fail column).",
+    "Random (Monte Carlo) offset and low Icp*Tref are not bounded by this record."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-dumpbuf-nominal-only"
+   ],
+   "record_sha256": "d01c0de774e62511fb250eb573cbceef050af33cbf872627009011f0eb40e9e9"
+  },
+  {
+   "id": "closed-loop-tracking-dumpbuf",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "RECORD-005/006 proposal deck (behavioural divide-by-64, R1 2400u, ideal MOM caps, XCDECAP stripped, ideal IREF) with cp replaced by the DR-010 snapshot netlist-snapshots/cp_otabuf.spice; not committed-PLL performance",
+   "context": "schematic, pre-layout, closed loop, proposal deck",
+   "conditions": "one nominal point (mos_tt, res_typ, 27 C, 3.3 V); 49 reference cycles; run twice (repeat byte-identical); no other PVT corner ran",
+   "method": "closed-loop transient; per-reference-cycle frequency error and phase error as fractions of f_ref / T_ref",
+   "record": "sim/sg13cmos5l-closed-loop-lock/records/RECORD-007-tracking-dumpbuf-closed-loop-rerun.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_otabuf.csv",
+     "sha256": "2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "NOMINAL ONLY, PROPOSAL DECK. RECORD-007 reports a static phase error of 0.779 % of T_ref at this one point (was 8.20 % in RECORD-005); row 7 is not established across PVT, on the committed loop, or post-layout. The extrema above span the full trace including the startup transient and are not a steady-state figure.",
+    "The repeat run (corners/lock_trace_cpdiag_otabuf_rep.csv) is byte-identical to the cited trace."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-dumpbuf-nominal-only",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "76da1312be6711b3701a7482ba3f414c0096d9a20069c386336ed15720692c9a"
   },
   {
    "id": "closed-loop-real-divider",

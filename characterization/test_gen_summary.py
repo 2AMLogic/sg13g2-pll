@@ -54,6 +54,15 @@ class Extrema(unittest.TestCase):
         self.assertEqual((e["min"], e["max"]), (min(vals), max(vals)))
 
 
+    def test_json_rows_path_list_index(self):
+        """A numeric rows_path step indexes a list (klt report corners.0.measurements)."""
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "r.json"
+            p.write_text(json.dumps({"corners": [{"measurements": [{"name": "a", "value": 1.5}]}]}))
+            rows = g.read_rows({"path": "r.json", "kind": "json", "rows_path": "corners.0.measurements"}, root=d)
+            self.assertEqual(rows, [{"name": "a", "value": "1.5"}])
+
+
 class Tree(unittest.TestCase):
     """Copy only the files sources.json cites into a temp root."""
 
