@@ -1,0 +1,71 @@
+{
+  "engine": "ngspice",
+  "netlist": "tb_cp_mc.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Vup 0 3.3 3.3"
+  },
+  "measurements": [
+    {
+      "name": "iup_a",
+      "unit": "A",
+      "expr": "i(Vout)[1]"
+    },
+    {
+      "name": "idn_a",
+      "unit": "A",
+      "expr": "i(Vout)[0]"
+    },
+    {
+      "name": "mismatch_pct",
+      "unit": "%",
+      "expr": "(i(Vout)[1] + i(Vout)[0]) / ((i(Vout)[1] - i(Vout)[0]) / 2) * 100",
+      "limits": {
+        "min": -3.5,
+        "max": 3.5
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12"
+    ],
+    "timeout_s": 600
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt_mismatch",
+      "mos_ss_mismatch",
+      "mos_ff_mismatch",
+      "mos_sf_mismatch",
+      "mos_fs_mismatch"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "monte_carlo": {
+    "n": 100,
+    "seed": 178,
+    "vary": "mismatch",
+    "quantiles": [
+      0.5,
+      5,
+      50,
+      95,
+      99.5
+    ]
+  }
+}
