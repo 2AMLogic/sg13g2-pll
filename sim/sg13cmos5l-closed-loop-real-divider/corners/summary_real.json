@@ -1,0 +1,66 @@
+{
+ "tag": "real",
+ "n_samples": 25001,
+ "t_end_s": 2.5e-06,
+ "vctrl_start": 2.46,
+ "vctrl_end": 3.23745037,
+ "vctrl_min": 2.33385698,
+ "vctrl_max": 3.31238124,
+ "n_ref_cycles_in_trace": 49,
+ "lock_time_s": null,
+ "longest_dual_lock_run_cycles": 0,
+ "longest_dual_lock_run_start_s": null,
+ "longest_freq_lock_run_cycles": 0,
+ "longest_freq_lock_run_start_s": null,
+ "windows": {
+  "all": {
+   "t0": 0.0,
+   "t1": 1.0000025,
+   "clk_edges": 3502,
+   "fb_edges": 28,
+   "ref_edges": 50,
+   "f_vco_hz_mean": 1400935772.3914552,
+   "f_fb_hz_mean": 11013090.613819918,
+   "f_ref_hz_mean": 19999999.999996293,
+   "clk_edges_per_fb_period": {
+    "107": 1,
+    "128": 26
+   },
+   "mean_ratio_edges": 127.22222222222223
+  },
+  "final_500ns": {
+   "t0": 2.0000000000000003e-06,
+   "t1": 1.0000025,
+   "clk_edges": 702,
+   "fb_edges": 6,
+   "ref_edges": 10,
+   "f_vco_hz_mean": 1405031026.387094,
+   "f_fb_hz_mean": 10978313.273833748,
+   "f_ref_hz_mean": 19999999.999979805,
+   "clk_edges_per_fb_period": {
+    "128": 5
+   },
+   "mean_ratio_edges": 128.0
+  },
+  "avg_window": {
+   "t0": 2.0000000000000003e-06,
+   "t1": 1.0000025,
+   "clk_edges": 702,
+   "fb_edges": 6,
+   "ref_edges": 10,
+   "f_vco_hz_mean": 1405031026.387094,
+   "f_fb_hz_mean": 10978313.273833748,
+   "f_ref_hz_mean": 19999999.999979805,
+   "clk_edges_per_fb_period": {
+    "128": 5
+   },
+   "mean_ratio_edges": 128.0
+  }
+ },
+ "final20_df_min": -0.4518269953723017,
+ "final20_df_max": -0.45034757392476227,
+ "final20_df_mean": -0.451091648014809,
+ "final20_phase_min": -0.8042283163798397,
+ "final20_phase_max": 0.9108875037886548,
+ "final20_phase_mean": 0.0624163353040483
+}
