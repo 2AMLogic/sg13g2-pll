@@ -42,6 +42,13 @@ cascode-bias node, and biasing the dump follower's tail from it would triple
 that tail's current (measured 103 uA vs 46 uA total cp supply current at
 VOUT = 2.4 V). IBN is the mirror-bias node, matching gf180-pll's own
 cp_dumpbuf wiring (VBN/VBP), and is the right node for a 1x tail.
+TRACKING DUMP NODE (issue #165, DR-010). cp_dumpbuf is now a complementary
+pair of unity-gain 5T OTAs (ported from gf180-pll's cp_dumpbuf), not an NMOS
+source follower: VDUMP tracks VOUT at DC instead of sitting one V_GS
+(~0.94 V) below it, which removes the dump-node charge-sharing term
+sim/sg13cmos5l-closed-loop-lock/records/RECORD-006 isolated. Its PMOS tail
+needs the PMOS mirror gate, so XBUF now takes IBP as well as IBN (both are
+the mirror-bias nodes, not the cascode-bias nodes).
 }
 G {}
 K {}
@@ -77,6 +84,7 @@ C {lab_pin.sym} 500 140 0 0 {name=l22 lab=VSS}
 C {cp_dumpbuf.sym} 900 0 0 0 {name=XBUF }
 C {lab_pin.sym} 860 -20 0 0 {name=l23 lab=VOUT}
 C {lab_pin.sym} 860 20 0 0 {name=l24 lab=IBN}
+C {lab_pin.sym} 860 60 0 0 {name=l28 lab=IBP}
 C {lab_pin.sym} 940 0 0 0 {name=l25 lab=VDUMP}
 C {lab_pin.sym} 880 -80 0 0 {name=l26 lab=VDD}
 C {lab_pin.sym} 920 80 0 0 {name=l27 lab=VSS}

@@ -1,0 +1,156 @@
+{
+  "engine": "ngspice",
+  "netlist": "tb_cp_otabuf_cin.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "ac",
+    "args": "lin 1 1e6 1e6"
+  },
+  "measurements": [
+    {
+      "name": "cin_ff_0p3",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r0)) - imag(i(Vm_b0))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_0p5",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r1)) - imag(i(Vm_b1))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_0p7",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r2)) - imag(i(Vm_b2))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_0p9",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r3)) - imag(i(Vm_b3))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_1p1",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r4)) - imag(i(Vm_b4))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_1p3",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r5)) - imag(i(Vm_b5))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_1p5",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r6)) - imag(i(Vm_b6))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_1p7",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r7)) - imag(i(Vm_b7))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_1p9",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r8)) - imag(i(Vm_b8))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_2p1",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r9)) - imag(i(Vm_b9))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_2p3",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r10)) - imag(i(Vm_b10))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_2p5",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r11)) - imag(i(Vm_b11))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_2p7",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r12)) - imag(i(Vm_b12))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    },
+    {
+      "name": "cin_ff_2p9",
+      "unit": "fF",
+      "expr": "(imag(i(Vm_r13)) - imag(i(Vm_b13))) / (2 * pi * 1e6) * 1e15",
+      "limits": {
+        "max": 16.9
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt",
+      "mos_ss",
+      "mos_ff",
+      "mos_sf",
+      "mos_fs"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "batch": {
+    "capacity_wait_s": 900
+  }
+}

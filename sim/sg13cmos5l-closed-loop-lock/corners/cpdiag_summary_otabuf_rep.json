@@ -1,0 +1,90 @@
+{
+ "cp_snapshot": {
+  "file": "cp_otabuf.spice",
+  "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+ },
+ "cycle_csv_sha256": "3eb8c7a3f6673925f883957a9693008de8a8b39284d29cbc3813860e36584b68",
+ "cycle_final20_median": {
+  "i_lead": null,
+  "i_off": 3.003458499631906e-11,
+  "i_ovl": null,
+  "lead_is_up": 1.0,
+  "q_cycle": -1.3754913100740347e-16,
+  "q_edge": null,
+  "q_lead": -4.147170781195496e-15,
+  "q_ovl": -2.9676576408146206e-15,
+  "q_rest": 6.958546957172255e-15,
+  "t_lead": 3.782965876876254e-10,
+  "t_ovl": 8.071407849033124e-10,
+  "t_tail": 1.9426811655297863e-12
+ },
+ "fb_edges": 50,
+ "finite": true,
+ "inputs_sha256": {
+  "bundle": "04faae6884bd4cac7cb7e1ee7d4ef4429121379efcb77a5d046eb764b7e31b1e",
+  "cp_cascbias.spice": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452",
+  "cpdiag_build.py": "401266f2484e80bf998e5aa67a6d260674a4ce15162100d5848bb0832dfc031b",
+  "cpdiag_metrics.py": "5af171c754f48614954ee382c0f4a7be446c9833c1ffd71cd07f8810b773231e",
+  "deck_generated": "0b7865e7628f8e486f5f94c2e33f20ae2f3e23994c0a8f5484b7652786da35fd",
+  "deck_template": "384d76bf5a104475ddfc1de64c4d40c21fe8af8b74b488b9b716998818ba8abb",
+  "models_inc": "8cf3679745526a4860d0fd8181c39a9c9c90125226a707d11466a2b4e625a01c",
+  "pfd.spice": "cc9657043b755854e86d11aef6d13a9ee3301fa0df19373e543d461d6138c483"
+ },
+ "lock_metrics": {
+  "df_max": 0.0002884489891760051,
+  "df_mean": 9.100495507195592e-06,
+  "df_min": -0.0001588478431502357,
+  "lock_time_s": 4.0004999999999093e-07,
+  "longest_dual_lock_run": 42,
+  "longest_dual_lock_start_s": 4.0004999999999093e-07,
+  "longest_freq_lock_run": 45,
+  "n_cycles": 49,
+  "n_final": 20,
+  "phase_max": 0.00800000000100857,
+  "phase_mean": 0.00779132569891053,
+  "phase_min": 0.007305769696339839
+ },
+ "meas": {
+  "i_cp": -6.48882e-05,
+  "i_ld": -2.71027e-05,
+  "i_pfd": -5.77693e-05,
+  "i_vco": -0.00201225,
+  "vc_avg": 2.38682,
+  "vc_max": 2.389863,
+  "vc_min": 2.371333
+ },
+ "n_pulse_pairs": 49,
+ "ngspice_exit": 0,
+ "pvt": {
+  "mos": "mos_tt",
+  "res": "res_typ",
+  "temp_c": 27.0,
+  "vdd_v": 3.3
+ },
+ "ref_edges": 50,
+ "tag": "_rep",
+ "tools": {
+  "klt": [
+   "klt 0.7.0+gb82427b30c96"
+  ],
+  "ngspice": [
+   "******",
+   "** ngspice-46 : Circuit level simulation program"
+  ],
+  "ngspice_path": [
+   "/home/ubuntu/.local/bin/ngspice"
+  ],
+  "pdk_git_head": [
+   "607e18d4bd9214a52575c194b4181ef449f9252f"
+  ],
+  "python": "3.12.3"
+ },
+ "trace_sha256": "2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602",
+ "tstop": "2500n",
+ "variant": "otabuf",
+ "vctrl_first_last": [
+  2.46,
+  2.38707033
+ ],
+ "vdump_mean_last20pct_V": 2.372556168281057
+}

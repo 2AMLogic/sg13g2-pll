@@ -1,0 +1,413 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_cin.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "90f9f37eea4241d3bd8c7fbdf36bdab8b92e52195d32f064c252f1bb52f9dc86",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_cin.sp",
+        "scope": "repo",
+        "sha256": "90f9f37eea4241d3bd8c7fbdf36bdab8b92e52195d32f064c252f1bb52f9dc86"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 14,
+    "measurements_with_limits": 14,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_0p3\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_0p5\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_0p7\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_0p9\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_1p1\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_1p3\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_1p5\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_1p7\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_1p9\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_2p1\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_2p3\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_2p5\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_2p7\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"cin_ff_2p9\",\"max\"]"
+    ],
+    "skipped": [],
+    "inapplicable": [],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+gb82427b30c96",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:90f9f37eea4241d3bd8c7fbdf36bdab8b92e52195d32f064c252f1bb52f9dc86",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "cin_ff_0p3",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 5.17192111909,
+        "margin": 11.728078880909997
+      }
+    },
+    {
+      "name": "cin_ff_0p5",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 5.399497252291,
+        "margin": 11.500502747709
+      }
+    },
+    {
+      "name": "cin_ff_0p7",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 6.970189104577,
+        "margin": 9.929810895423
+      }
+    },
+    {
+      "name": "cin_ff_0p9",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 5.849757137385,
+        "margin": 11.050242862614999
+      }
+    },
+    {
+      "name": "cin_ff_1p1",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 4.203878984059,
+        "margin": 12.696121015941
+      }
+    },
+    {
+      "name": "cin_ff_1p3",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.937891578221,
+        "margin": 12.962108421778998
+      }
+    },
+    {
+      "name": "cin_ff_1p5",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.850955050527,
+        "margin": 13.049044949472998
+      }
+    },
+    {
+      "name": "cin_ff_1p7",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.793806446454,
+        "margin": 13.106193553546
+      }
+    },
+    {
+      "name": "cin_ff_1p9",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.752175760057,
+        "margin": 13.147824239942999
+      }
+    },
+    {
+      "name": "cin_ff_2p1",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.727786994269,
+        "margin": 13.172213005730999
+      }
+    },
+    {
+      "name": "cin_ff_2p3",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 3.857563349094,
+        "margin": 13.042436650905998
+      }
+    },
+    {
+      "name": "cin_ff_2p5",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 8.478678661687,
+        "margin": 8.421321338312998
+      }
+    },
+    {
+      "name": "cin_ff_2p7",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 10.46016890917,
+        "margin": 6.439831090829999
+      }
+    },
+    {
+      "name": "cin_ff_2p9",
+      "unit": "fF",
+      "limits": {
+        "max": 16.9
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 8.85343819974,
+        "margin": 8.04656180026
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 5.156,
+      "measurements": [
+        {
+          "name": "cin_ff_0p3",
+          "value": 5.17192111909,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 11.728078880909997
+        },
+        {
+          "name": "cin_ff_0p5",
+          "value": 5.399497252291,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 11.500502747709
+        },
+        {
+          "name": "cin_ff_0p7",
+          "value": 6.970189104577,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 9.929810895423
+        },
+        {
+          "name": "cin_ff_0p9",
+          "value": 5.849757137385,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 11.050242862614999
+        },
+        {
+          "name": "cin_ff_1p1",
+          "value": 4.203878984059,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 12.696121015941
+        },
+        {
+          "name": "cin_ff_1p3",
+          "value": 3.937891578221,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 12.962108421778998
+        },
+        {
+          "name": "cin_ff_1p5",
+          "value": 3.850955050527,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 13.049044949472998
+        },
+        {
+          "name": "cin_ff_1p7",
+          "value": 3.793806446454,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 13.106193553546
+        },
+        {
+          "name": "cin_ff_1p9",
+          "value": 3.752175760057,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 13.147824239942999
+        },
+        {
+          "name": "cin_ff_2p1",
+          "value": 3.727786994269,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 13.172213005730999
+        },
+        {
+          "name": "cin_ff_2p3",
+          "value": 3.857563349094,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 13.042436650905998
+        },
+        {
+          "name": "cin_ff_2p5",
+          "value": 8.478678661687,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 8.421321338312998
+        },
+        {
+          "name": "cin_ff_2p7",
+          "value": 10.46016890917,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 6.439831090829999
+        },
+        {
+          "name": "cin_ff_2p9",
+          "value": 8.85343819974,
+          "unit": "fF",
+          "status": "pass",
+          "margin": 8.04656180026
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

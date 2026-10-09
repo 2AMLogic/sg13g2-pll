@@ -1,0 +1,1143 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_dc.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "7d524861abb902b69ee75776c77f1de6d7ea31afc27ebe5ff48cf0f97a2fddfb",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_dc.sp",
+        "scope": "repo",
+        "sha256": "7d524861abb902b69ee75776c77f1de6d7ea31afc27ebe5ff48cf0f97a2fddfb"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 45,
+    "measurements_with_limits": 6,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_10\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_20\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_2p5\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_40\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_5\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_80\",\"max\"]",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idd_off_at2p40_ua_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_20\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_2p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_40\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_80\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"inet_both_at2p70_na_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_20\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_2p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_40\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_80\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_absmax_0p90_2p90_pct_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_20\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_2p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_40\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_80\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_20\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_2p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_40\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_80\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_dn_at2p40_mv_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_dn_max_mv_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_at1p65_mv_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_at2p40_mv_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_20\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_2p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_40\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_80\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_up_at2p40_mv_10\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_up_max_mv_10\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idd_off_at2p40_ua_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_20\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_40\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"idn_at1p65_ua_80\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"inet_both_at2p70_na_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_20\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_40\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"iup_at1p65_ua_80\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_absmax_0p90_2p90_pct_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_20\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_40\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at1p65_pct_80\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_20\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_40\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"mm_at2p40_pct_80\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_dn_at2p40_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_dn_max_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_at1p65_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_at2p40_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_20\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_40\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_off_max_mv_to2p9_80\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_up_at2p40_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ofs_up_max_mv_10\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+gb82427b30c96",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:7d524861abb902b69ee75776c77f1de6d7ea31afc27ebe5ff48cf0f97a2fddfb",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "ofs_off_max_mv_2p5",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 13.62362144896,
+        "margin": 86.37637855104
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_5",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 14.4974548034,
+        "margin": 85.5025451966
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_10",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 14.91810564253,
+        "margin": 85.08189435747
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_20",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 21.22812501231,
+        "margin": 78.77187498769
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_40",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 37.76126983892,
+        "margin": 62.23873016108
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_80",
+      "unit": "mV",
+      "limits": {
+        "max": 100.0
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 70.21120035902,
+        "margin": 29.788799640980002
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_2p5",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 13.62362144896,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_5",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 14.4974548034,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 14.91810564253,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_20",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 21.22812501231,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_40",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 37.76126983892,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_80",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 70.21120035902,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_at2p40_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -14.8711332575,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_off_at1p65_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -4.80475978287,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_up_max_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 155.6032560014,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_dn_max_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 173.4555740174,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_up_at2p40_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -93.3312048614,
+        "margin": null
+      }
+    },
+    {
+      "name": "ofs_dn_at2p40_mv_10",
+      "unit": "mV",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 66.22609214178,
+        "margin": null
+      }
+    },
+    {
+      "name": "idd_off_at2p40_ua_10",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 61.5604877996,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_2p5",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 2.500257918244,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_2p5",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.508543481,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_2p5",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.33084013897,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_2p5",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.588031502822,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_5",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 5.000325207301,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_5",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -5.01204460617,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_5",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.234098402078,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_5",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.415501714819,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_10",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 10.00046906637,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_10",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -10.0175216029,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_10",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.17037210997,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_10",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.298465212142,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_20",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 20.00081612199,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_20",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -20.0262106844,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_20",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.126887078504,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_20",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.217433776107,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_40",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 40.00268674073,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_40",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -40.0487075019,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_40",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.114978037731,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_40",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.19669930833,
+        "margin": null
+      }
+    },
+    {
+      "name": "iup_at1p65_ua_80",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 80.04953963596,
+        "margin": null
+      }
+    },
+    {
+      "name": "idn_at1p65_ua_80",
+      "unit": "uA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -80.2313153407,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at1p65_pct_80",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.226821481344,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_at2p40_pct_80",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -0.665256103018,
+        "margin": null
+      }
+    },
+    {
+      "name": "mm_absmax_0p90_2p90_pct_10",
+      "unit": "%",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 0.5825585787624,
+        "margin": null
+      }
+    },
+    {
+      "name": "inet_both_at2p70_na_10",
+      "unit": "nA",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -39.1443171141,
+        "margin": null
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 8.545,
+      "measurements": [
+        {
+          "name": "ofs_off_max_mv_2p5",
+          "value": 13.62362144896,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 86.37637855104
+        },
+        {
+          "name": "ofs_off_max_mv_5",
+          "value": 14.4974548034,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 85.5025451966
+        },
+        {
+          "name": "ofs_off_max_mv_10",
+          "value": 14.91810564253,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 85.08189435747
+        },
+        {
+          "name": "ofs_off_max_mv_20",
+          "value": 21.22812501231,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 78.77187498769
+        },
+        {
+          "name": "ofs_off_max_mv_40",
+          "value": 37.76126983892,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 62.23873016108
+        },
+        {
+          "name": "ofs_off_max_mv_80",
+          "value": 70.21120035902,
+          "unit": "mV",
+          "status": "pass",
+          "margin": 29.788799640980002
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_2p5",
+          "value": 13.62362144896,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_5",
+          "value": 14.4974548034,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_10",
+          "value": 14.91810564253,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_20",
+          "value": 21.22812501231,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_40",
+          "value": 37.76126983892,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_max_mv_to2p9_80",
+          "value": 70.21120035902,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_at2p40_mv_10",
+          "value": -14.8711332575,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_off_at1p65_mv_10",
+          "value": -4.80475978287,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_up_max_mv_10",
+          "value": 155.6032560014,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_dn_max_mv_10",
+          "value": 173.4555740174,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_up_at2p40_mv_10",
+          "value": -93.3312048614,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ofs_dn_at2p40_mv_10",
+          "value": 66.22609214178,
+          "unit": "mV",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idd_off_at2p40_ua_10",
+          "value": 61.5604877996,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_2p5",
+          "value": 2.500257918244,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_2p5",
+          "value": -2.508543481,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_2p5",
+          "value": -0.33084013897,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_2p5",
+          "value": -0.588031502822,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_5",
+          "value": 5.000325207301,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_5",
+          "value": -5.01204460617,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_5",
+          "value": -0.234098402078,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_5",
+          "value": -0.415501714819,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_10",
+          "value": 10.00046906637,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_10",
+          "value": -10.0175216029,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_10",
+          "value": -0.17037210997,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_10",
+          "value": -0.298465212142,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_20",
+          "value": 20.00081612199,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_20",
+          "value": -20.0262106844,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_20",
+          "value": -0.126887078504,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_20",
+          "value": -0.217433776107,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_40",
+          "value": 40.00268674073,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_40",
+          "value": -40.0487075019,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_40",
+          "value": -0.114978037731,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_40",
+          "value": -0.19669930833,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "iup_at1p65_ua_80",
+          "value": 80.04953963596,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_at1p65_ua_80",
+          "value": -80.2313153407,
+          "unit": "uA",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at1p65_pct_80",
+          "value": -0.226821481344,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_at2p40_pct_80",
+          "value": -0.665256103018,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mm_absmax_0p90_2p90_pct_10",
+          "value": 0.5825585787624,
+          "unit": "%",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "inet_both_at2p70_na_10",
+          "value": -39.1443171141,
+          "unit": "nA",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

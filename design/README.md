@@ -38,7 +38,8 @@ design/
   # Charge-pump-owned leaf cells
   cp_leg_n.sch/.sym         NMOS sink leg: mirror + cascode + steering switches
   cp_leg_p.sch/.sym         PMOS source leg: mirror + cascode + steering switches
-  cp_dumpbuf.sch/.sym       VDUMP tracking buffer (simplified, see below)
+  cp_dumpbuf.sch/.sym       VDUMP tracking buffer (simplified on SG13G2; a
+                            unity-gain 5T-OTA pair on SG13CMOS5L, see below)
 
   # VCO-owned leaf cells
   vco_bias.sch/.sym         beta-multiplier core + V-I converter + band select
@@ -123,11 +124,24 @@ comment, not silently:
   voltage-input pins the first port pass left them as. The off-block current
   reference itself (a bandgap-referenced `Iref`) is still not part of this
   design.
-- **`cp_dumpbuf.sch`** is a single NMOS source-follower tracking buffer, not
-  gf180-pll's closed-loop complementary 5T-OTA pair. It still satisfies
-  DR-005's (gf180-pll) no-loop-signal-charge compatibility test in spirit
-  (it only senses `VOUT`, never drives loop charge back into it) but is an
-  offset follower, not a unity-gain buffer.
+- **`cp_dumpbuf.sch`** (SG13G2 original, `design/cp_dumpbuf.sch`) is a single
+  NMOS source-follower tracking buffer, not gf180-pll's closed-loop
+  complementary 5T-OTA pair. It still satisfies DR-005's (gf180-pll)
+  no-loop-signal-charge compatibility test in spirit (it only senses `VOUT`,
+  never drives loop charge back into it) but is an offset follower, not a
+  unity-gain buffer. **On the SG13CMOS5L port this is no longer the case**:
+  since issue #165 /
+  [DR-010](../spec/decision-records/DR-010-cp-dumpbuf-tracking-ota-pair.md),
+  `design/sg13cmos5l/cp_dumpbuf.sch` is gf180-pll's complementary pair of
+  unity-gain 5T OTAs (outputs tied on `VDUMP`, tails mirrored 1.5x off
+  `IBN`/`IBP`, so the symbol gains an `IBP` pin), re-sized with deliberately
+  small input pairs (2u/1u NMOS, 6u/0.5u PMOS) so the loop-filter node sees
+  at most ~10.5 fF more (nominal, <= 1% of this loop's 1.69 pF C1). `VDUMP`
+  now tracks `VOUT` to ~15 mV (nominal) instead of sitting ~0.94 V below it,
+  which removes the dump-node charge-sharing term
+  `sim/sg13cmos5l-closed-loop-lock/records/RECORD-006` isolated as the cause
+  of row 7's 8.2% static phase error. Cost: ~26 uA more `cp` supply current at
+  the 10 uA code. The SG13G2 original is unchanged.
 - **`divider_chain.sch`** hardwires all 6 `div23_cell` instances always
   active (a fixed-length chain) rather than gf180-pll's chain-length
   termination + one-hot output mux, which is the mechanism that covers the

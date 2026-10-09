@@ -24,6 +24,7 @@ the min/max.
 | Divider speed evidence | #168 | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources; the SG13G2 divider has none. |
 | Charge-pump dump-node correction | #165 | The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved. |
 | cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
+| cp tracking dump buffer (DR-010) nominal-only, layout stale | #165, #195 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The committed cp layout, and its LVS/ERC/DRC/PEX evidence, still describe the pre-#165 buffer until #195. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 
@@ -256,6 +257,67 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0156155 | 0.088 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0110246 | 0.0111642 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
+
+### cp-tracking-dumpbuf-dc
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: cp with the DR-010 tracking dump buffer (complementary unity-gain 5T OTA pair), snapshot netlist-snapshots/cp_otabuf.spice (sha256 c8a55d8d...); negative control is the pre-#165 source-follower cp
+- **Context**: schematic, not extracted (committed cp layout still has the pre-#165 buffer, #195)
+- **Conditions**: one nominal point only: mos_tt, 27 C, 3.3 V (klt corner id mos_tt/novdd/27C); no other PVT corner ran (15-corner batch request errored on every corner, klt-sim-a4729666c143; first submit batch_no_capacity)
+- **Method**: klt sim DC sweeps (VDUMP-VOUT offset, Icp trim and up/dn mismatch, supply current), AC input-capacitance probe, and buffer loop-gain probe; local single-corner runs
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-005-issue165-tracking-dumpbuf-dc.md` (sha256 `d01c0de774e62511fb250eb573cbceef050af33cbf872627009011f0eb40e9e9`)
+- **Table `dc`**: `sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_nominal.json` (sha256 `9906d8dc0ab121302e56aaeb2dc5b7cd427ff50262692f3fa9a01a9003fff172`)
+- **Table `control`**: `sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_control_nominal.json` (sha256 `c000dfacee32c553d46d4ee0134cfd994d7d8899a7c9bbf4808cf1d4710d98f8`)
+- **Table `cin`**: `sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_cin_nominal.json` (sha256 `88f036d81a17a487899140c15c7cbd6a306498b15a6e67531a45acbf928321b4`)
+- **Table `loopgain`**: `sim/sg13cmos5l-cp-icp-trim/reports/sim.otabuf_lg_nominal.json` (sha256 `9948577ad3365c93b547f52491cfd07e5db147e4929ce64aaa67ea58c178509e`)
+- **Note**: NOMINAL ONLY. Every table here is a single corner (mos_tt/27 C/3.3 V). The |VDUMP-VOUT| offset across PVT and the cp-icp-trim re-run across PVT are not established; the PVT batch report (reports/sim.otabuf_pvt.batch.json) is 15/15 errored and carries no measurement.
+- **Note**: Coverage column `name` is the measurement name in the klt report; the bench's own limit verdicts in those reports are not reproduced here (no pass/fail column).
+- **Note**: Random (Monte Carlo) offset and low Icp*Tref are not bounded by this record.
+- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only, layout stale (#165, #195)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 2.5 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_2p5 | 1 | 0 | 13.6236 | 13.6236 | `name`: ofs_off_max_mv_2p5 |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 5 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_5 | 1 | 0 | 14.4975 | 14.4975 | `name`: ofs_off_max_mv_5 |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 10 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_10 | 1 | 0 | 14.9181 | 14.9181 | `name`: ofs_off_max_mv_10 |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 20 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_20 | 1 | 0 | 21.2281 | 21.2281 | `name`: ofs_off_max_mv_20 |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 40 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_40 | 1 | 0 | 37.7613 | 37.7613 | `name`: ofs_off_max_mv_40 |
+| max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 80 uA code (`value`) | mV | `dc` | name=ofs_off_max_mv_80 | 1 | 0 | 70.2112 | 70.2112 | `name`: ofs_off_max_mv_80 |
+| signed VDUMP-VOUT idle at VOUT = 2.40 V, 10 uA code (`value`) | mV | `dc` | name=ofs_off_at2p40_mv_10 | 1 | 0 | -14.8711 | -14.8711 | `name`: ofs_off_at2p40_mv_10 |
+| cp supply current idle at VOUT = 2.40 V, 10 uA code (`value`) | uA | `dc` | name=idd_off_at2p40_ua_10 | 1 | 0 | 61.5605 | 61.5605 | `name`: idd_off_at2p40_ua_10 |
+| max \|UP/DN mismatch\|, VOUT 0.9-2.9 V, 10 uA code (`value`) | % | `dc` | name=mm_absmax_0p90_2p90_pct_10 | 1 | 0 | 0.582559 | 0.582559 | `name`: mm_absmax_0p90_2p90_pct_10 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 2.5 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_2p5 | 1 | 0 | 930.425 | 930.425 | `name`: ofs_off_max_mv_2p5 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 5 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_5 | 1 | 0 | 954.748 | 954.748 | `name`: ofs_off_max_mv_5 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 10 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_10 | 1 | 0 | 983.678 | 983.678 | `name`: ofs_off_max_mv_10 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 20 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_20 | 1 | 0 | 1019.52 | 1019.52 | `name`: ofs_off_max_mv_20 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 40 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_40 | 1 | 0 | 1065.41 | 1065.41 | `name`: ofs_off_max_mv_40 |
+| NEGATIVE CONTROL (pre-#165 source follower): max \|VDUMP-VOUT\| idle, VOUT 0.3-2.7 V, 80 uA code (`value`) | mV | `control` | name=ofs_off_max_mv_80 | 1 | 0 | 1125.95 | 1125.95 | `name`: ofs_off_max_mv_80 |
+| buffer-added VOUT capacitance over VOUT 0.3-2.9 V (one row per VOUT point) (`value`) | fF | `cin` | - | 14 | 0 | 3.72779 | 10.4602 | `name`: 14 distinct (cin_ff_0p3 .. cin_ff_2p9) |
+| buffer loop phase margin at VDUMP = 0.5 V (`value`) | rad | `loopgain` | name=pm_rad_0p5 | 1 | 0 | 1.30048 | 1.30048 | `name`: pm_rad_0p5 |
+| buffer loop phase margin at VDUMP = 1 V (`value`) | rad | `loopgain` | name=pm_rad_1 | 1 | 0 | 1.34506 | 1.34506 | `name`: pm_rad_1 |
+| buffer loop phase margin at VDUMP = 1.65 V (`value`) | rad | `loopgain` | name=pm_rad_1p65 | 1 | 0 | 1.28203 | 1.28203 | `name`: pm_rad_1p65 |
+| buffer loop phase margin at VDUMP = 2.4 V (`value`) | rad | `loopgain` | name=pm_rad_2p4 | 1 | 0 | 1.30931 | 1.30931 | `name`: pm_rad_2p4 |
+| buffer loop phase margin at VDUMP = 2.7 V (`value`) | rad | `loopgain` | name=pm_rad_2p7 | 1 | 0 | 1.32612 | 1.32612 | `name`: pm_rad_2p7 |
+
+### closed-loop-tracking-dumpbuf
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: RECORD-005/006 proposal deck (behavioural divide-by-64, R1 2400u, ideal MOM caps, XCDECAP stripped, ideal IREF) with cp replaced by the DR-010 snapshot netlist-snapshots/cp_otabuf.spice; not committed-PLL performance
+- **Context**: schematic, pre-layout, closed loop, proposal deck
+- **Conditions**: one nominal point (mos_tt, res_typ, 27 C, 3.3 V); 49 reference cycles; run twice (repeat byte-identical); no other PVT corner ran
+- **Method**: closed-loop transient; per-reference-cycle frequency error and phase error as fractions of f_ref / T_ref
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-007-tracking-dumpbuf-closed-loop-rerun.md` (sha256 `76da1312be6711b3701a7482ba3f414c0096d9a20069c386336ed15720692c9a`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_otabuf.csv` (sha256 `2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602`)
+- **Note**: NOMINAL ONLY, PROPOSAL DECK. RECORD-007 reports a static phase error of 0.779 % of T_ref at this one point (was 8.20 % in RECORD-005); row 7 is not established across PVT, on the committed loop, or post-layout. The extrema above span the full trace including the startup transient and are not a steady-state figure.
+- **Note**: The repeat run (corners/lock_trace_cpdiag_otabuf_rep.csv) is byte-identical to the cited trace.
+- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only, layout stale (#165, #195), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.0521963 | 0.013975 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.00834327 | 0.0221139 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 
 ### closed-loop-real-divider
 

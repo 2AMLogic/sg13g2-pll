@@ -1,0 +1,455 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_loopgain.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "1ee9fd409da09e12027962cf095ca3469704efec13f2d0aaabcdf80463de9bcf",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/testbench/tb_cp_otabuf_loopgain.sp",
+        "scope": "repo",
+        "sha256": "1ee9fd409da09e12027962cf095ca3469704efec13f2d0aaabcdf80463de9bcf"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 15,
+    "measurements_with_limits": 5,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt/novdd/27C\",\"pm_rad_0p5\",\"min\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"pm_rad_1\",\"min\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"pm_rad_1p65\",\"min\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"pm_rad_2p4\",\"min\"]",
+      "limit:[0,\"mos_tt/novdd/27C\",\"pm_rad_2p7\",\"min\"]",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_0p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_1\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_1p65\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_2p4\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_2p7\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_0p5\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_1\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_1p65\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_2p4\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_2p7\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_1p65\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_2p4\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"a0_db_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_1p65\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_2p4\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ugf_hz_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+gb82427b30c96",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:1ee9fd409da09e12027962cf095ca3469704efec13f2d0aaabcdf80463de9bcf",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "a0_db_0p5",
+      "unit": "dB",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 31.8696,
+        "margin": null
+      }
+    },
+    {
+      "name": "ugf_hz_0p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 154973000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_rad_0p5",
+      "unit": "rad",
+      "limits": {
+        "min": 0.785398
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.30048,
+        "margin": 0.515082
+      }
+    },
+    {
+      "name": "a0_db_1",
+      "unit": "dB",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 35.1918,
+        "margin": null
+      }
+    },
+    {
+      "name": "ugf_hz_1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 242594000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_rad_1",
+      "unit": "rad",
+      "limits": {
+        "min": 0.785398
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.34506,
+        "margin": 0.5596619999999999
+      }
+    },
+    {
+      "name": "a0_db_1p65",
+      "unit": "dB",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 35.688,
+        "margin": null
+      }
+    },
+    {
+      "name": "ugf_hz_1p65",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 187902000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_rad_1p65",
+      "unit": "rad",
+      "limits": {
+        "min": 0.785398
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.28203,
+        "margin": 0.49663199999999996
+      }
+    },
+    {
+      "name": "a0_db_2p4",
+      "unit": "dB",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 35.6013,
+        "margin": null
+      }
+    },
+    {
+      "name": "ugf_hz_2p4",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 188697000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_rad_2p4",
+      "unit": "rad",
+      "limits": {
+        "min": 0.785398
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.30931,
+        "margin": 0.5239119999999999
+      }
+    },
+    {
+      "name": "a0_db_2p7",
+      "unit": "dB",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 35.8007,
+        "margin": null
+      }
+    },
+    {
+      "name": "ugf_hz_2p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 115851000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_rad_2p7",
+      "unit": "rad",
+      "limits": {
+        "min": 0.785398
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.32612,
+        "margin": 0.5407219999999999
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 1.652,
+      "measurements": [
+        {
+          "name": "a0_db_0p5",
+          "value": 31.8696,
+          "unit": "dB",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ugf_hz_0p5",
+          "value": 154973000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_rad_0p5",
+          "value": 1.30048,
+          "unit": "rad",
+          "status": "pass",
+          "margin": 0.515082
+        },
+        {
+          "name": "a0_db_1",
+          "value": 35.1918,
+          "unit": "dB",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ugf_hz_1",
+          "value": 242594000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_rad_1",
+          "value": 1.34506,
+          "unit": "rad",
+          "status": "pass",
+          "margin": 0.5596619999999999
+        },
+        {
+          "name": "a0_db_1p65",
+          "value": 35.688,
+          "unit": "dB",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ugf_hz_1p65",
+          "value": 187902000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_rad_1p65",
+          "value": 1.28203,
+          "unit": "rad",
+          "status": "pass",
+          "margin": 0.49663199999999996
+        },
+        {
+          "name": "a0_db_2p4",
+          "value": 35.6013,
+          "unit": "dB",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ugf_hz_2p4",
+          "value": 188697000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_rad_2p4",
+          "value": 1.30931,
+          "unit": "rad",
+          "status": "pass",
+          "margin": 0.5239119999999999
+        },
+        {
+          "name": "a0_db_2p7",
+          "value": 35.8007,
+          "unit": "dB",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ugf_hz_2p7",
+          "value": 115851000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_rad_2p7",
+          "value": 1.32612,
+          "unit": "rad",
+          "status": "pass",
+          "margin": 0.5407219999999999
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}
