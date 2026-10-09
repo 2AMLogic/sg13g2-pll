@@ -391,8 +391,45 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
 | 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
-| 8 | `no_evidence` | No aggregated, current characterization artifact; a `generic` envelope would be the vehicle and none is committed. |
+| 8 | `no_evidence` | `characterization/SUMMARY.md` now exists (generated and CI-checked, #171), but it is **deliberately not cited**. See "Item 8 decision (#171)" below. |
 | 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
+
+## Item 8 decision (#171): characterization summary exists, item stays `unmet`
+
+[`characterization/SUMMARY.md`](../characterization/SUMMARY.md) aggregates the
+committed `sim/` evidence (source map and sha256 pins in
+[`characterization/sources.json`](../characterization/sources.json); CI
+regenerates it, byte-compares it, and re-checks every source hash and every
+min/max, with no simulation). It is not cited from the manifest.
+
+**Grader-contract check.** Re-read against the pin in
+`.github/workflows/signoff.yml` (`e6284fbe62e2`, `klt 0.6.0+ge6284fbe62e2`;
+`docs/cli/signoff.md`, "Generic evidence"), item 8 accepts a `generic` evidence
+envelope and nothing else (kind-restricted since klayout-tools#2044):
+`schema_version: 1`, `kind: "generic"`, `status: "pass"|"fail"` (caller-asserted,
+never re-derived), optional `summary`, `source`, `provenance`. Only
+`provenance.input.content_hash` can pin freshness; a manifest `content_hash` pin
+on a generic envelope without it renders `unmet`/`unverifiable_provenance`.
+The envelope has no `partial` status.
+
+**Decision.** Emitting `status: "pass"` would assert that the block is
+characterized, which the summary itself says it is not; emitting `fail` would
+only swap one `unmet` reason for another. So no envelope is committed and the
+tier report and manifest are unchanged (item 8 stays `unmet`/`no_evidence`).
+
+**Remaining requirement to grade item 8 `met`.** All of the following, then a
+hand-written `generic` envelope generated from the summary (with
+`provenance.input.content_hash` over `SUMMARY.md`), cited with a pinned
+`content_hash`, and the tier report regenerated with the pinned klt (never by
+hand):
+
+- a ratified spec table (#148), so the summary can be read against a spec;
+- full PVT coverage on the current DUT, including the `lock_detector` bodyfix
+  re-verification (#139) and the `lock_detector` PEX re-extraction (#157);
+- divider speed evidence on the current design (#168);
+- the charge-pump correction and a closed loop that acquires (#165; the nominal
+  real-divider loop does not acquire and the static phase error failure is
+  retained in the summary).
 
 ## The tool that grades
 
