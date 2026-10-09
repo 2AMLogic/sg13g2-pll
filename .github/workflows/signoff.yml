@@ -95,6 +95,16 @@ jobs:
           python3 manifests/check_pex_coverage.py
           python3 manifests/test_check_pex_coverage.py
 
+      # T1 item 9: every sim/ bench must be indexed in sim/README.md "Cold
+      # start" with an executable entry point and documented invocation, and
+      # every record must cite a PDK revision + tool version consistent with
+      # the pin. Pre-gate records (append-only) are grandfathered in
+      # KNOWN_DEFECTS (#182); item 9 stays unmet and uncited until it clears.
+      - name: Item-9 testbench coverage and PDK-pin gate (sim/ benches + records)
+        run: |
+          python3 manifests/check_testbench_coverage.py
+          python3 manifests/test_check_testbench_coverage.py
+
       - name: Install the pinned grading build of klt
         run: |
           set -euo pipefail
