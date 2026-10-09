@@ -4,6 +4,18 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-08
 
+- **PR #164**: sim: RECORD-006 -- isolate cp dump-node charge sharing as row 7's 8.2% static phase error
+- **PR #163**: docs: refresh README status to match landed design, layout and evidence
+- **PR #162**: signoff: klt erc supply evidence for the five analog blocks; T1 item 11.analog met (#147)
+- **PR #158**: signoff: audit PEX body-bias and cite T1 item 7 (post-layout) (#152)
+- **PR #156**: ci: run layout generator unit tests (layout-tests job)
+- **PR #155**: signoff: cite T1 items 1 and 2 and gate netlist regeneration in CI
+- **Issue #150** (closed): Close spec row 7: isolate the dynamic charge-mismatch cause of the 8.2% static phase error
+- **Issue #160** (closed): docs: reconcile README pre-plan status with landed PLL design and verification evidence
+- **Issue #147** (closed): layout: klt erc supply specs and reports for the five analog blocks (T1 item 11, analog partition)
+- **Issue #152** (closed): signoff: audit PEX body-bias binding and cite T1 item 7 (post-layout) per block
+- **Issue #153** (closed): ci: run the layout generator unit tests in a workflow (T1 item 10)
+- **Issue #151** (closed): signoff: cite T1 items 1 and 2 (design sources, layout) and gate netlist regeneration in CI
 - **PR #149**: signoff: cite T1 item 4 (LVS clean) for both partitions (record 20261003-183059-dc5644a)
 - **Issue #146** (closed): signoff: cite T1 item 4 (LVS clean) for both partitions now that all six blocks match (record 20261003-183059-dc5644a)
 - **Issue #100** (closed): Post-layout PVT needs a representative floorplan (and post-layout arms for pfd/lock_detector) — the open risk #30 recorded and left unowned

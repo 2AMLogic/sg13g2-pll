@@ -25,7 +25,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#159**: sim: verify nominal closed-loop acquisition with the repaired transistor-level divider
 
 ## PRs Awaiting Review
 
@@ -44,13 +44,11 @@ _None._
 Issues carrying `loom:curated`.
 
 - **#16**: [Epic #542] 5A — Port to SG13CMOS5L for Chipalooza Challenge #6 brief *(curated)*
+- **#157**: pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
-- **#150**: Close spec row 7: isolate the dynamic charge-mismatch cause of the 8.2% static phase error *(architect)*
-- **#151**: signoff: cite T1 items 1 and 2 (design sources, layout) and gate netlist regeneration in CI *(architect)*
-- **#152**: signoff: audit PEX body-bias binding and cite T1 item 7 (post-layout) per block *(architect)*
-- **#153**: ci: run the layout generator unit tests in a workflow (T1 item 10) *(architect)*
+_None._
 
 ## Epics
 
@@ -63,10 +61,10 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 0 |
 | Operator priority | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 0 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 1 |
-| Architect / Hermit proposals | 4 |
+| Curated | 2 |
+| Architect / Hermit proposals | 0 |
 | Active epics | 1 |
 <!-- guide:plan-body:end -->
