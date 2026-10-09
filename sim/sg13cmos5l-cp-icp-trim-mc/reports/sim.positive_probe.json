@@ -1,0 +1,417 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+    "scope": "repo"
+  },
+  "status": "fail",
+  "corner_count": 3,
+  "passed": 1,
+  "failed": 2,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 3,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 2,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+        "scope": "repo",
+        "sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/netlist-snapshots/cp.spice",
+        "scope": "repo",
+        "sha256": "ebdb53ca67cc412f767ea55dcfc40050c137455dc40ef1941dd9531638901f4f"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ],
+    "monte_carlo": {
+      "n": 3,
+      "seed": 178,
+      "vary": "mismatch",
+      "family_mismatch": [
+        {
+          "family": "other",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'other' family could not be verified; treat any sampled spread for it as unconfirmed."
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "corners_simulated": 3,
+    "measurements_declared": 3,
+    "measurements_with_limits": 1,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"mismatch_pct\",\"max\"]",
+      "limit:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"mismatch_pct\",\"min\"]",
+      "limit:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"mismatch_pct\",\"max\"]",
+      "limit:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"mismatch_pct\",\"min\"]",
+      "limit:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"mismatch_pct\",\"max\"]",
+      "limit:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"mismatch_pct\",\"min\"]",
+      "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"iup_a\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5c94de0ebbfe",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "iup_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": 9.876168501937e-06,
+        "margin": null
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": 1.0151001698449e-05,
+        "stddev": 2.3875686948017136e-07,
+        "min": 9.876168501937e-06,
+        "max": 1.03072565104e-05,
+        "quantiles": {
+          "p5": 9.9155096600443e-06,
+          "p50": 1.026958008301e-05,
+          "p95": 1.0303488867661001e-05
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": 1.0151001698449e-05,
+            "stddev": 2.3875686948017136e-07,
+            "min": 9.876168501937e-06,
+            "max": 1.03072565104e-05,
+            "quantiles": {
+              "p5": 9.9155096600443e-06,
+              "p50": 1.026958008301e-05,
+              "p95": 1.0303488867661001e-05
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "idn_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": -9.59814389269e-06,
+        "margin": null
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": -9.58670737667e-06,
+        "stddev": 1.0023751506807211e-07,
+        "min": -9.68073611863e-06,
+        "max": -9.48124211869e-06,
+        "quantiles": {
+          "p5": -9.672476896035999e-06,
+          "p50": -9.59814389269e-06,
+          "p95": -9.49293229609e-06
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": -9.58670737667e-06,
+            "stddev": 1.0023751506807211e-07,
+            "min": -9.68073611863e-06,
+            "max": -9.48124211869e-06,
+            "quantiles": {
+              "p5": -9.672476896035999e-06,
+              "p50": -9.59814389269e-06,
+              "p95": -9.49293229609e-06
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "mismatch_pct",
+      "unit": "%",
+      "limits": {
+        "min": -3.5,
+        "max": 3.5
+      },
+      "status": "fail",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc2",
+        "value": 7.982836929652,
+        "margin": -4.482836929652
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": 5.702366770204667,
+        "stddev": 2.6103059136122115,
+        "min": 2.855295772315,
+        "max": 7.982836929652,
+        "quantiles": {
+          "p5": 3.1966629559482,
+          "p50": 6.268967608647,
+          "p95": 7.8114499975515
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": 5.702366770204667,
+            "stddev": 2.6103059136122115,
+            "min": 2.855295772315,
+            "max": 7.982836929652,
+            "quantiles": {
+              "p5": 3.1966629559482,
+              "p50": 6.268967608647,
+              "p95": 7.8114499975515
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.347,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 9.876168501937e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -9.59814389269e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": 2.855295772315,
+          "unit": "%",
+          "status": "pass",
+          "margin": 0.6447042276850001
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 0,
+        "seed": 930596641,
+        "process_seed": 580724698,
+        "mismatch_seed": 386875718
+      }
+    },
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc1",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "fail",
+      "runtime_s": 0.9,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.03072565104e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -9.68073611863e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": 6.268967608647,
+          "unit": "%",
+          "status": "fail",
+          "margin": -2.7689676086470003
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 1,
+        "seed": 806092852,
+        "process_seed": 580724698,
+        "mismatch_seed": 1245634589
+      }
+    },
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc2",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "fail",
+      "runtime_s": 0.499,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.026958008301e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -9.48124211869e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": 7.982836929652,
+          "unit": "%",
+          "status": "fail",
+          "margin": -4.482836929652
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 2,
+        "seed": 898105191,
+        "process_seed": 580724698,
+        "mismatch_seed": 1752344463
+      }
+    }
+  ]
+}

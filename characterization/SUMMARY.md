@@ -23,6 +23,7 @@ the min/max.
 | lock_detector post-layout/PEX gap | #157 | lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7. |
 | Divider speed evidence | #168 | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources; the SG13G2 divider has none. |
 | Charge-pump dump-node correction | #165 | The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved. |
+| cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 

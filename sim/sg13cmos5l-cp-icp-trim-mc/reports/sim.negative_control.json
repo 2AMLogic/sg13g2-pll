@@ -1,0 +1,1369 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 20,
+  "passed": 20,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 20,
+    "sim__corner__passed_count": 20,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+        "scope": "repo",
+        "sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/netlist-snapshots/cp.spice",
+        "scope": "repo",
+        "sha256": "ebdb53ca67cc412f767ea55dcfc40050c137455dc40ef1941dd9531638901f4f"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ],
+    "monte_carlo": {
+      "n": 20,
+      "seed": 178,
+      "vary": "mismatch",
+      "family_mismatch": [
+        {
+          "family": "other",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'other' family could not be verified; treat any sampled spread for it as unconfirmed."
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "corners_simulated": 20,
+    "measurements_declared": 3,
+    "measurements_with_limits": 1,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt/novdd/27C/mc0\",\"mismatch_pct\",\"max\"]",
+      "limit:[0,\"mos_tt/novdd/27C/mc0\",\"mismatch_pct\",\"min\"]",
+      "limit:[1,\"mos_tt/novdd/27C/mc1\",\"mismatch_pct\",\"max\"]",
+      "limit:[1,\"mos_tt/novdd/27C/mc1\",\"mismatch_pct\",\"min\"]",
+      "limit:[10,\"mos_tt/novdd/27C/mc10\",\"mismatch_pct\",\"max\"]",
+      "limit:[10,\"mos_tt/novdd/27C/mc10\",\"mismatch_pct\",\"min\"]",
+      "limit:[11,\"mos_tt/novdd/27C/mc11\",\"mismatch_pct\",\"max\"]",
+      "limit:[11,\"mos_tt/novdd/27C/mc11\",\"mismatch_pct\",\"min\"]",
+      "limit:[12,\"mos_tt/novdd/27C/mc12\",\"mismatch_pct\",\"max\"]",
+      "limit:[12,\"mos_tt/novdd/27C/mc12\",\"mismatch_pct\",\"min\"]",
+      "limit:[13,\"mos_tt/novdd/27C/mc13\",\"mismatch_pct\",\"max\"]",
+      "limit:[13,\"mos_tt/novdd/27C/mc13\",\"mismatch_pct\",\"min\"]",
+      "limit:[14,\"mos_tt/novdd/27C/mc14\",\"mismatch_pct\",\"max\"]",
+      "limit:[14,\"mos_tt/novdd/27C/mc14\",\"mismatch_pct\",\"min\"]",
+      "limit:[15,\"mos_tt/novdd/27C/mc15\",\"mismatch_pct\",\"max\"]",
+      "limit:[15,\"mos_tt/novdd/27C/mc15\",\"mismatch_pct\",\"min\"]",
+      "limit:[16,\"mos_tt/novdd/27C/mc16\",\"mismatch_pct\",\"max\"]",
+      "limit:[16,\"mos_tt/novdd/27C/mc16\",\"mismatch_pct\",\"min\"]",
+      "limit:[17,\"mos_tt/novdd/27C/mc17\",\"mismatch_pct\",\"max\"]",
+      "limit:[17,\"mos_tt/novdd/27C/mc17\",\"mismatch_pct\",\"min\"]",
+      "limit:[18,\"mos_tt/novdd/27C/mc18\",\"mismatch_pct\",\"max\"]",
+      "limit:[18,\"mos_tt/novdd/27C/mc18\",\"mismatch_pct\",\"min\"]",
+      "limit:[19,\"mos_tt/novdd/27C/mc19\",\"mismatch_pct\",\"max\"]",
+      "limit:[19,\"mos_tt/novdd/27C/mc19\",\"mismatch_pct\",\"min\"]",
+      "limit:[2,\"mos_tt/novdd/27C/mc2\",\"mismatch_pct\",\"max\"]",
+      "limit:[2,\"mos_tt/novdd/27C/mc2\",\"mismatch_pct\",\"min\"]",
+      "limit:[3,\"mos_tt/novdd/27C/mc3\",\"mismatch_pct\",\"max\"]",
+      "limit:[3,\"mos_tt/novdd/27C/mc3\",\"mismatch_pct\",\"min\"]",
+      "limit:[4,\"mos_tt/novdd/27C/mc4\",\"mismatch_pct\",\"max\"]",
+      "limit:[4,\"mos_tt/novdd/27C/mc4\",\"mismatch_pct\",\"min\"]",
+      "limit:[5,\"mos_tt/novdd/27C/mc5\",\"mismatch_pct\",\"max\"]",
+      "limit:[5,\"mos_tt/novdd/27C/mc5\",\"mismatch_pct\",\"min\"]",
+      "limit:[6,\"mos_tt/novdd/27C/mc6\",\"mismatch_pct\",\"max\"]",
+      "limit:[6,\"mos_tt/novdd/27C/mc6\",\"mismatch_pct\",\"min\"]",
+      "limit:[7,\"mos_tt/novdd/27C/mc7\",\"mismatch_pct\",\"max\"]",
+      "limit:[7,\"mos_tt/novdd/27C/mc7\",\"mismatch_pct\",\"min\"]",
+      "limit:[8,\"mos_tt/novdd/27C/mc8\",\"mismatch_pct\",\"max\"]",
+      "limit:[8,\"mos_tt/novdd/27C/mc8\",\"mismatch_pct\",\"min\"]",
+      "limit:[9,\"mos_tt/novdd/27C/mc9\",\"mismatch_pct\",\"max\"]",
+      "limit:[9,\"mos_tt/novdd/27C/mc9\",\"mismatch_pct\",\"min\"]",
+      "measurement:[0,\"mos_tt/novdd/27C/mc0\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C/mc0\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C/mc1\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C/mc1\",\"iup_a\"]/observation",
+      "measurement:[10,\"mos_tt/novdd/27C/mc10\",\"idn_a\"]/observation",
+      "measurement:[10,\"mos_tt/novdd/27C/mc10\",\"iup_a\"]/observation",
+      "measurement:[11,\"mos_tt/novdd/27C/mc11\",\"idn_a\"]/observation",
+      "measurement:[11,\"mos_tt/novdd/27C/mc11\",\"iup_a\"]/observation",
+      "measurement:[12,\"mos_tt/novdd/27C/mc12\",\"idn_a\"]/observation",
+      "measurement:[12,\"mos_tt/novdd/27C/mc12\",\"iup_a\"]/observation",
+      "measurement:[13,\"mos_tt/novdd/27C/mc13\",\"idn_a\"]/observation",
+      "measurement:[13,\"mos_tt/novdd/27C/mc13\",\"iup_a\"]/observation",
+      "measurement:[14,\"mos_tt/novdd/27C/mc14\",\"idn_a\"]/observation",
+      "measurement:[14,\"mos_tt/novdd/27C/mc14\",\"iup_a\"]/observation",
+      "measurement:[15,\"mos_tt/novdd/27C/mc15\",\"idn_a\"]/observation",
+      "measurement:[15,\"mos_tt/novdd/27C/mc15\",\"iup_a\"]/observation",
+      "measurement:[16,\"mos_tt/novdd/27C/mc16\",\"idn_a\"]/observation",
+      "measurement:[16,\"mos_tt/novdd/27C/mc16\",\"iup_a\"]/observation",
+      "measurement:[17,\"mos_tt/novdd/27C/mc17\",\"idn_a\"]/observation",
+      "measurement:[17,\"mos_tt/novdd/27C/mc17\",\"iup_a\"]/observation",
+      "measurement:[18,\"mos_tt/novdd/27C/mc18\",\"idn_a\"]/observation",
+      "measurement:[18,\"mos_tt/novdd/27C/mc18\",\"iup_a\"]/observation",
+      "measurement:[19,\"mos_tt/novdd/27C/mc19\",\"idn_a\"]/observation",
+      "measurement:[19,\"mos_tt/novdd/27C/mc19\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/27C/mc2\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/27C/mc2\",\"iup_a\"]/observation",
+      "measurement:[3,\"mos_tt/novdd/27C/mc3\",\"idn_a\"]/observation",
+      "measurement:[3,\"mos_tt/novdd/27C/mc3\",\"iup_a\"]/observation",
+      "measurement:[4,\"mos_tt/novdd/27C/mc4\",\"idn_a\"]/observation",
+      "measurement:[4,\"mos_tt/novdd/27C/mc4\",\"iup_a\"]/observation",
+      "measurement:[5,\"mos_tt/novdd/27C/mc5\",\"idn_a\"]/observation",
+      "measurement:[5,\"mos_tt/novdd/27C/mc5\",\"iup_a\"]/observation",
+      "measurement:[6,\"mos_tt/novdd/27C/mc6\",\"idn_a\"]/observation",
+      "measurement:[6,\"mos_tt/novdd/27C/mc6\",\"iup_a\"]/observation",
+      "measurement:[7,\"mos_tt/novdd/27C/mc7\",\"idn_a\"]/observation",
+      "measurement:[7,\"mos_tt/novdd/27C/mc7\",\"iup_a\"]/observation",
+      "measurement:[8,\"mos_tt/novdd/27C/mc8\",\"idn_a\"]/observation",
+      "measurement:[8,\"mos_tt/novdd/27C/mc8\",\"iup_a\"]/observation",
+      "measurement:[9,\"mos_tt/novdd/27C/mc9\",\"idn_a\"]/observation",
+      "measurement:[9,\"mos_tt/novdd/27C/mc9\",\"iup_a\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C/mc0\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C/mc0\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt/novdd/27C/mc1\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt/novdd/27C/mc1\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[10,\"mos_tt/novdd/27C/mc10\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[10,\"mos_tt/novdd/27C/mc10\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[11,\"mos_tt/novdd/27C/mc11\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[11,\"mos_tt/novdd/27C/mc11\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[12,\"mos_tt/novdd/27C/mc12\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[12,\"mos_tt/novdd/27C/mc12\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[13,\"mos_tt/novdd/27C/mc13\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[13,\"mos_tt/novdd/27C/mc13\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[14,\"mos_tt/novdd/27C/mc14\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[14,\"mos_tt/novdd/27C/mc14\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[15,\"mos_tt/novdd/27C/mc15\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[15,\"mos_tt/novdd/27C/mc15\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[16,\"mos_tt/novdd/27C/mc16\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[16,\"mos_tt/novdd/27C/mc16\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[17,\"mos_tt/novdd/27C/mc17\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[17,\"mos_tt/novdd/27C/mc17\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[18,\"mos_tt/novdd/27C/mc18\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[18,\"mos_tt/novdd/27C/mc18\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[19,\"mos_tt/novdd/27C/mc19\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[19,\"mos_tt/novdd/27C/mc19\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt/novdd/27C/mc2\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt/novdd/27C/mc2\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"mos_tt/novdd/27C/mc3\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"mos_tt/novdd/27C/mc3\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"mos_tt/novdd/27C/mc4\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"mos_tt/novdd/27C/mc4\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"mos_tt/novdd/27C/mc5\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"mos_tt/novdd/27C/mc5\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"mos_tt/novdd/27C/mc6\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"mos_tt/novdd/27C/mc6\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"mos_tt/novdd/27C/mc7\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"mos_tt/novdd/27C/mc7\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"mos_tt/novdd/27C/mc8\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"mos_tt/novdd/27C/mc8\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[9,\"mos_tt/novdd/27C/mc9\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[9,\"mos_tt/novdd/27C/mc9\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5c94de0ebbfe",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "iup_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C/mc0",
+        "value": 1.0000082759e-05,
+        "margin": null
+      },
+      "monte_carlo": {
+        "n": 20,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": 1.0000082759e-05,
+        "stddev": 0.0,
+        "min": 1.0000082759e-05,
+        "max": 1.0000082759e-05,
+        "quantiles": {
+          "p5": 1.0000082759e-05,
+          "p50": 1.0000082759e-05,
+          "p95": 1.0000082759e-05
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt/novdd/27C",
+            "n": 20,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": 1.0000082759e-05,
+            "stddev": 0.0,
+            "min": 1.0000082759e-05,
+            "max": 1.0000082759e-05,
+            "quantiles": {
+              "p5": 1.0000082759e-05,
+              "p50": 1.0000082759e-05,
+              "p95": 1.0000082759e-05
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "idn_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C/mc0",
+        "value": -1.00299740943e-05,
+        "margin": null
+      },
+      "monte_carlo": {
+        "n": 20,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": -1.00299740943e-05,
+        "stddev": 0.0,
+        "min": -1.00299740943e-05,
+        "max": -1.00299740943e-05,
+        "quantiles": {
+          "p5": -1.00299740943e-05,
+          "p50": -1.00299740943e-05,
+          "p95": -1.00299740943e-05
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt/novdd/27C",
+            "n": 20,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": -1.00299740943e-05,
+            "stddev": 0.0,
+            "min": -1.00299740943e-05,
+            "max": -1.00299740943e-05,
+            "quantiles": {
+              "p5": -1.00299740943e-05,
+              "p50": -1.00299740943e-05,
+              "p95": -1.00299740943e-05
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "mismatch_pct",
+      "unit": "%",
+      "limits": {
+        "min": -3.5,
+        "max": 3.5
+      },
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C/mc0",
+        "value": -0.298464807648,
+        "margin": 3.201535192352
+      },
+      "monte_carlo": {
+        "n": 20,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": -0.298464807648,
+        "stddev": 0.0,
+        "min": -0.298464807648,
+        "max": -0.298464807648,
+        "quantiles": {
+          "p5": -0.298464807648,
+          "p50": -0.298464807648,
+          "p95": -0.298464807648
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt/novdd/27C",
+            "n": 20,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": -0.298464807648,
+            "stddev": 0.0,
+            "min": -0.298464807648,
+            "max": -0.298464807648,
+            "quantiles": {
+              "p5": -0.298464807648,
+              "p50": -0.298464807648,
+              "p95": -0.298464807648
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C/mc0",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 1.745,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 0,
+        "seed": 930596641,
+        "process_seed": 580724698,
+        "mismatch_seed": 386875718
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc1",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.898,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 1,
+        "seed": 806092852,
+        "process_seed": 580724698,
+        "mismatch_seed": 1245634589
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc2",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.897,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 2,
+        "seed": 898105191,
+        "process_seed": 580724698,
+        "mismatch_seed": 1752344463
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc3",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.5,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 3,
+        "seed": 2141057696,
+        "process_seed": 580724698,
+        "mismatch_seed": 349477393
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc4",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.698,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 4,
+        "seed": 1537546343,
+        "process_seed": 580724698,
+        "mismatch_seed": 751711242
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc5",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 1.099,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 5,
+        "seed": 968366295,
+        "process_seed": 580724698,
+        "mismatch_seed": 2020384564
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc6",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.701,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 6,
+        "seed": 538848671,
+        "process_seed": 580724698,
+        "mismatch_seed": 1288510664
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc7",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.598,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 7,
+        "seed": 707509020,
+        "process_seed": 580724698,
+        "mismatch_seed": 1146552836
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc8",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.8,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 8,
+        "seed": 769563261,
+        "process_seed": 580724698,
+        "mismatch_seed": 86929794
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc9",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.501,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 9,
+        "seed": 881444727,
+        "process_seed": 580724698,
+        "mismatch_seed": 1506453902
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc10",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.697,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 10,
+        "seed": 1985524799,
+        "process_seed": 580724698,
+        "mismatch_seed": 957584139
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc11",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 1.3,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 11,
+        "seed": 2124777420,
+        "process_seed": 580724698,
+        "mismatch_seed": 1522543965
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc12",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.697,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 12,
+        "seed": 567200165,
+        "process_seed": 580724698,
+        "mismatch_seed": 1792307997
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc13",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.552,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 13,
+        "seed": 85922081,
+        "process_seed": 580724698,
+        "mismatch_seed": 347304915
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc14",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.548,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 14,
+        "seed": 1275884329,
+        "process_seed": 580724698,
+        "mismatch_seed": 1621822865
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc15",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.502,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 15,
+        "seed": 1891070419,
+        "process_seed": 580724698,
+        "mismatch_seed": 956988846
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc16",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.594,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 16,
+        "seed": 1941868342,
+        "process_seed": 580724698,
+        "mismatch_seed": 306349284
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc17",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.698,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 17,
+        "seed": 1881938661,
+        "process_seed": 580724698,
+        "mismatch_seed": 165397077
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc18",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.55,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 18,
+        "seed": 596829694,
+        "process_seed": 580724698,
+        "mismatch_seed": 2075342149
+      }
+    },
+    {
+      "corner_id": "mos_tt/novdd/27C/mc19",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.549,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.0000082759e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.00299740943e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -0.298464807648,
+          "unit": "%",
+          "status": "pass",
+          "margin": 3.201535192352
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 19,
+        "seed": 1291086309,
+        "process_seed": 580724698,
+        "mismatch_seed": 2123301976
+      }
+    }
+  ]
+}

@@ -69,6 +69,13 @@
    "title": "Charge-pump dump-node correction",
    "issue": "#165",
    "text": "The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved."
+  },
+  {
+   "id": "cp-mismatch-mc",
+   "title": "cp up/dn mismatch Monte Carlo not run",
+   "issue": "#178",
+   "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md",
+   "text": "The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists."
   }
  ],
  "datasets": [

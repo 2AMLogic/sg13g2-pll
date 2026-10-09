@@ -136,6 +136,7 @@ fleet rather than hand-launched ngspice loops.
 | `sg13cmos5l-closed-loop-lock` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-lock/testbench/run.sh` |
 | `sg13cmos5l-closed-loop-real-divider` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-real-divider/testbench/run.sh` |
 | `sg13cmos5l-cp-icp-trim` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-cp-icp-trim/testbench/run.sh` |
+| `sg13cmos5l-cp-icp-trim-mc` | `testbench/gen_requests.py` | `cd sim/sg13cmos5l-cp-icp-trim-mc && PDK_ROOT=$PDK_ROOT testbench/gen_requests.py && klt sim testbench/negative_control.request.json --backend local --format json` |
 | `sg13cmos5l-divider-nrange-retiming` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-divider-nrange-retiming/testbench/run.sh` |
 | `sg13cmos5l-klt-pex-signoff` | `run-klt-pex.sh` | `PDK_ROOT=$PDK_ROOT sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh <block>` |
 | `sg13cmos5l-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-lock-detector-window/testbench/run.sh` |
