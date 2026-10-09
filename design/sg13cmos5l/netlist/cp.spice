@@ -15,7 +15,7 @@ XIUP UP UPB VDD VSS inv_hv
 XIDN DN DNB VDD VSS inv_hv
 XLEGP IBP ICP UP UPB VOUT VDUMP VDD cp_leg_p
 XLEGN IBN ICN DN DNB VOUT VDUMP VSS cp_leg_n
-XBUF VOUT IBN VDUMP VDD VSS cp_dumpbuf
+XBUF VOUT IBN IBP VDUMP VDD VSS cp_dumpbuf
 XMBP nxp IBP VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
 XMBPC IBP ICP nxp VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
 XMCP ICP ICP VDD VDD sg13_hv_pmos w=6u l=3u ng=1 m=1
@@ -73,16 +73,25 @@ XSWD VDUMP DNB sw VSS sg13_hv_nmos w=6u l=0.3u ng=1 m=1
 .ends
 
 
-* expanding   symbol:  cp_dumpbuf.sym # of pins=5
+* expanding   symbol:  cp_dumpbuf.sym # of pins=6
 ** sym_path: design/sg13cmos5l/cp_dumpbuf.sym
 ** sch_path: design/sg13cmos5l/cp_dumpbuf.sch
-.subckt cp_dumpbuf VOUT IBIAS VDUMP VDD VSS
+.subckt cp_dumpbuf VOUT IBN IBP VDUMP VDD VSS
 *.ipin VOUT
-*.ipin IBIAS
+*.ipin IBN
+*.ipin IBP
 *.opin VDUMP
 *.iopin VDD
 *.iopin VSS
-XM1 VDD VOUT VDUMP VSS sg13_hv_nmos w=6u l=0.5u ng=1 m=1
-XM2 VDUMP IBIAS VSS VSS sg13_hv_nmos w=4u l=1u ng=1 m=1
+XMTN NSRC IBN VSS VSS sg13_hv_nmos w=12u l=1u ng=1 m=1
+XMN1 NDA VOUT NSRC VSS sg13_hv_nmos w=16u l=1u ng=1 m=1
+XMN2 VDUMP VDUMP NSRC VSS sg13_hv_nmos w=16u l=1u ng=1 m=1
+XMN3 NDA NDA VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMN4 VDUMP NDA VDD VDD sg13_hv_pmos w=24u l=1u ng=1 m=1
+XMTP PSRC IBP VDD VDD sg13_hv_pmos w=36u l=1u ng=1 m=1
+XMP1 PDA VOUT PSRC PSRC sg13_hv_pmos w=48u l=1u ng=1 m=1
+XMP2 VDUMP VDUMP PSRC PSRC sg13_hv_pmos w=48u l=1u ng=1 m=1
+XMP3 PDA PDA VSS VSS sg13_hv_nmos w=16u l=1u ng=1 m=1
+XMP4 VDUMP PDA VSS VSS sg13_hv_nmos w=16u l=1u ng=1 m=1
 .ends
 
