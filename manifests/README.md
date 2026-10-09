@@ -448,7 +448,9 @@ process's working directory — no manifest-relative anchoring):
 installs the pinned grader at that commit, first runs `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
 cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS) and
 `manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
-item 11), each with its temporary-copy negative tests, then re-runs the full grade (the
+item 11) and `manifests/check_pex_coverage.py` (all five nominal `klt pex`
+envelopes and their flattened schematic legs, item 7 siblings; `lock_detector`
+withheld, #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, then re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
 re-read and its pinned `content_hash` re-checked), and byte-compares the
 fresh report against the committed one.
