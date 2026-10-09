@@ -85,6 +85,70 @@ the *charge*-domain (per-reference-cycle, switching) part of that
 methodology item is still not exercised, and that record says so in its own
 "What this does not bound".
 
+## Cold start
+
+How a third party reproduces any recorded result, and the PDK revision the
+repo is pinned to. Checked by `manifests/check_testbench_coverage.py` (T1
+item 9, issue #179); every bench with a `records/` directory must be indexed
+below and vice versa.
+
+**Pinned PDK revisions.** One line per PDK tree (parsed by the gate):
+
+```
+PDK-PIN ihp-sg13cmos5l 607e18d4bd9214a52575c194b4181ef449f9252f
+PDK-PIN ihp-sg13g2 UNKNOWN
+```
+
+Provenance of the pins, stated honestly: no committed record cites a PDK
+commit (they name only the install path and `ngspice-46`/`-47`). The
+`ihp-sg13cmos5l` pin is the clean git checkout installed at `~/share/pdk` on
+the worker host as of 2026-10-09 (commit date 2026-08-25); it is **not**
+proven to be what each record ran against, and several records ran on an
+arm64 macOS host whose tree is unknown. The `ihp-sg13g2` tree on the worker
+is not a git checkout, so its revision cannot be recovered and is `UNKNOWN`.
+The gate therefore fails the `ihp-sg13g2` pin and grandfathers all 37
+existing records (append-only, so not editable) in `KNOWN_DEFECTS`, tracked
+by issue #182. Item 9 stays `unmet` until that is closed; it is not claimed
+met here.
+
+**Install steps** (no host-wide tools; everything is user-space):
+
+1. Clone the PDK tree at the pin and expose its parent as `PDK_ROOT`:
+   `git clone https://github.com/IHP-GmbH/ihp-sg13cmos5l "$PDK_ROOT/ihp-sg13cmos5l" && git -C "$PDK_ROOT/ihp-sg13cmos5l" checkout 607e18d4bd9214a52575c194b4181ef449f9252f`
+   (the `ihp-sg13g2` tree is cloned the same way from
+   `https://github.com/IHP-GmbH/IHP-Open-PDK` once its pin is established).
+2. ngspice 46 with OSDI support (records were produced with `ngspice-46`;
+   a few with `ngspice-47`, noted in those records).
+3. Build the OSDI models the tree needs (`psp103`, `psp103_nqs`, `mosvar`,
+   `r3_cmc`) per the PDK's `libs.tech/verilog-a/openvaf-compile-va.sh`; on a
+   non-x86-64 host also rebuild `cap_cmomi`/`cap_cmomf` (see the host
+   requirement above). `sim/tools/check-osdi-arch.sh` preflights this.
+4. `export PDK_ROOT=<parent dir>`; `export PDK=ihp-sg13cmos5l` (or
+   `ihp-sg13g2`), then run the entry point from the repo root.
+
+On a shared worker, multi-corner grids go through `klt sim` to the batch
+fleet rather than hand-launched ngspice loops.
+
+**Bench index** (slug, entry point, invocation):
+
+| Bench | Entry point | Invocation |
+| --- | --- | --- |
+| `sg13cmos5l-closed-loop-lock` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-lock/testbench/run.sh` |
+| `sg13cmos5l-closed-loop-real-divider` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-real-divider/testbench/run.sh` |
+| `sg13cmos5l-cp-icp-trim` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-cp-icp-trim/testbench/run.sh` |
+| `sg13cmos5l-divider-nrange-retiming` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-divider-nrange-retiming/testbench/run.sh` |
+| `sg13cmos5l-klt-pex-signoff` | `run-klt-pex.sh` | `PDK_ROOT=$PDK_ROOT sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh <block>` |
+| `sg13cmos5l-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-lock-detector-window/testbench/run.sh` |
+| `sg13cmos5l-loop-bandwidth-pm` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-loop-bandwidth-pm/testbench/run.sh` |
+| `sg13cmos5l-loop-filter-momcap` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-loop-filter-momcap/testbench/run.sh` |
+| `sg13cmos5l-postlayout-pex-pvt` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-postlayout-pex-pvt/testbench/run.sh` |
+| `sg13cmos5l-vco-decap-momcap` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-decap-momcap/testbench/run.sh` |
+| `sg13cmos5l-vco-duty-cycle` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-duty-cycle/testbench/run.sh` |
+| `sg13cmos5l-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-kvco-table/testbench/run.sh` |
+| `sg13g2-divider-repair-reverification` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-divider-repair-reverification/testbench/run.sh` |
+| `sg13g2-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-lock-detector-window/testbench/run.sh` |
+| `sg13g2-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-vco-kvco-table/testbench/run.sh` |
+
 ## PDK scope — two independent campaigns, one convention
 
 This repo targets two PDKs in parallel (`design/README.md` "SG13CMOS5L
