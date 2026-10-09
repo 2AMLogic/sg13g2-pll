@@ -7,8 +7,12 @@ Reuses the campaign's own dual-lock criterion UNCHANGED by loading
 lock_analysis() from ../../sg13cmos5l-closed-loop-lock/testbench/extract.py
 (|delta f|/f_ref < 1% AND |phase err| < 5% of T_ref, >= 20 consecutive ref
 cycles). Adds divider-ratio / edge-count / VCO-frequency extraction.
-Writes OUT_DIR/trace_TAG.csv (per-ref-cycle) and OUT_DIR/summary_TAG.json,
-and a decimated waveform OUT_DIR/wave_TAG.csv (1 sample/ns of vctrl).
+Writes OUT_DIR/trace_TAG.csv (per-ref-cycle), OUT_DIR/summary_TAG.json, and
+a decimated waveform OUT_DIR/vctrl_TAG.csv (columns t_s,vctrl_v,fb_v; about
+1 sample/ns).  In summary_TAG.json each window's "t1" is the last simulated
+sample time t[-1]; the window is closed at its end (no edge is excluded for
+lying at or before t1) -- the window has no upper cut-off other than the end
+of the record.
 """
 import importlib.util, json, os, sys
 
@@ -47,9 +51,12 @@ fb_e = camp.rising_edges(t, fb, VTH)
 clk_e = camp.rising_edges(t, clk, VTH)
 
 def window_stats(t0, t1):
-    c = [e for e in clk_e if t0 <= e < t1]
-    b = [e for e in fb_e if t0 <= e < t1]
-    r = [e for e in ref_e if t0 <= e < t1]
+    # Window = [t0, end of record].  Every interpolated edge lies at or before
+    # t[-1] = t1, so no upper bound is applied (this is the same edge set the
+    # earlier "e < tend + 1" test selected; "+ 1" was a 1-second sentinel).
+    c = [e for e in clk_e if e >= t0]
+    b = [e for e in fb_e if e >= t0]
+    r = [e for e in ref_e if e >= t0]
     d = {"t0": t0, "t1": t1, "clk_edges": len(c), "fb_edges": len(b), "ref_edges": len(r)}
     d["f_vco_hz_mean"] = (len(c) - 1) / (c[-1] - c[0]) if len(c) > 1 else None
     d["f_fb_hz_mean"] = (len(b) - 1) / (b[-1] - b[0]) if len(b) > 1 else None
@@ -63,9 +70,9 @@ def window_stats(t0, t1):
     return d
 
 tend = t[-1]
-w_all = window_stats(0.0, tend + 1)
-w_fin = window_stats(max(tend - 500e-9, 0.0), tend + 1)
-w_avg = window_stats(tavg0, tend + 1)
+w_all = window_stats(0.0, tend)
+w_fin = window_stats(max(tend - 500e-9, 0.0), tend)
+w_avg = window_stats(tavg0, tend)
 
 # longest dual-lock / freq-lock runs, final-20 stats
 def longest(pred):
