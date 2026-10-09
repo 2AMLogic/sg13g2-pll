@@ -71,15 +71,16 @@ to the other.
 
 ## Target specification
 
-The target specification is **still a draft in progress**: no ratified
-target-spec table exists, and none should be inferred from the decision
-records. The porting plan carries the sibling PLLs' spec structure onto
-SG13G2 and binds no numeric value; drafting the spec is tracked in issue
-[#148](https://github.com/2AMLogic/sg13g2-pll/issues/148). See
-[`spec/README.md`](spec/README.md) for the index. No value is binding until
-ratified through a decision record, and no value is ever edited to match a
-simulation result. Open measured gaps (for example lock-time row 7, issue
-[#150](https://github.com/2AMLogic/sg13g2-pll/issues/150)) stay visible in
+The [target-spec table](spec/target-spec.md) is **DRAFT, not ratified**.
+It landed through issue
+[#148](https://github.com/2AMLogic/sg13g2-pll/issues/148) and records each
+row's measured, proposed, unspecified or open status, with evidence and
+questions for the ratifiers. See [`spec/README.md`](spec/README.md) for the
+index. Ratification remains a separate two-key act (`ratification/ee-key`,
+`ratification/market-key`); no value is binding until ratified, and no value
+is ever edited to match a simulation result. Open measured gaps (for example
+row 7 static phase error, issue
+[#165](https://github.com/2AMLogic/sg13g2-pll/issues/165)) stay visible in
 the proposal and tier report rather than being relaxed.
 
 Maturity ladder: porting plan → spec ratified → schematic simulated across

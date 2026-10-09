@@ -4,6 +4,17 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-09
 
+- **PR #193**: manifests: spec row-table citation gate
+- **PR #192**: sim: npn13G2 r_o/matching vs cp CMOS cascode, klt bipolar extract/LVS probe, DR-009 (Closes #181)
+- **PR #191**: sim: Monte Carlo bench for cp up/dn mismatch (controls; campaign blocked) (Part of #178)
+- **PR #183**: ci: validate sim evidence records and enforce append-only
+- **PR #184**: signoff: gate testbench coverage and PDK-revision pinning (T1 item 9)
+- **PR #177**: spec: draft target-spec.md from porting plan and DR-005 to DR-008
+- **Issue #186** (closed): spec: CI gate resolving target-spec.md row citations (T1 item 5)
+- **Issue #181** (closed): sim: SG13G2 npn13G2 characterization to test DR-002's deferred HBT cascode trigger, plus klt bipolar extract/LVS probe
+- **Issue #180** (closed): ci: validate sim evidence records and enforce append-only (T1 item 10)
+- **Issue #179** (closed): signoff: gate testbench coverage and PDK-revision pinning across sim benches (T1 item 9)
+- **Issue #148** (closed): spec: draft spec/target-spec.md from the porting plan and DR-005 to DR-008 (prerequisite for T1 item 5, both partitions)
 - **PR #175**: signoff: validate DRC coverage and freshness for all six composed PLL blocks
 - **PR #174**: characterization: generated, CI-checked summary of committed sim evidence (#171)
 - **PR #173**: signoff: gate sibling PEX reports and flattened schematic provenance
