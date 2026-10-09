@@ -4,6 +4,9 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-09
 
+- **PR #197**: cp_dumpbuf: VDUMP tracks VOUT via unity-gain 5T OTA pair (DR-010); row 7 0.78% at nominal
+- **Issue #165** (closed): cp: make VDUMP track VOUT at DC to remove dump-node charge sharing (row 7 static phase error)
+- **Issue #161** (closed): Auditor guard review: worktree-write-confinement-unresolved-var (retain safety pending replay)
 - **PR #193**: manifests: spec row-table citation gate
 - **PR #192**: sim: npn13G2 r_o/matching vs cp CMOS cascode, klt bipolar extract/LVS probe, DR-009 (Closes #181)
 - **PR #191**: sim: Monte Carlo bench for cp up/dn mismatch (controls; campaign blocked) (Part of #178)
