@@ -2,6 +2,19 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-09
+
+- **PR #175**: signoff: validate DRC coverage and freshness for all six composed PLL blocks
+- **PR #174**: characterization: generated, CI-checked summary of committed sim evidence (#171)
+- **PR #173**: signoff: gate sibling PEX reports and flattened schematic provenance
+- **PR #172**: sim: retain divider-speed evidence, index real-divider bench, fix extract window end (#168)
+- **Issue #171** (closed): characterization: derive a revision-qualified PLL evidence summary for T1 item 8
+- **Issue #170** (closed): signoff: gate sibling PEX reports and flattened schematic provenance
+- **Issue #169** (closed): signoff: validate DRC coverage and freshness for all six composed PLL blocks
+- **Issue #168** (closed): Follow-on from PR #167: retain divider-speed evidence and index the nominal bench
+- **PR #167**: sim: nominal closed-loop with repaired divider_chain does not acquire (#159)
+- **Issue #159** (closed): sim: verify nominal closed-loop acquisition with the repaired transistor-level divider
+
 ### 2026-10-08
 
 - **PR #164**: sim: RECORD-006 -- isolate cp dump-node charge sharing as row 7's 8.2% static phase error
