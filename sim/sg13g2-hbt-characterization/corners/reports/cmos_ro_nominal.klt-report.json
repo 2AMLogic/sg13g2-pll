@@ -1,0 +1,884 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13g2-hbt-characterization/testbench/tb_cmos_ro.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "83b24cd6ca19a6bb12e9ecd2273d2ad0ec552ba1b9dea7a6fad6107cfeddb283",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13g2-hbt-characterization/testbench/tb_cmos_ro.sp",
+        "scope": "repo",
+        "sha256": "83b24cd6ca19a6bb12e9ecd2273d2ad0ec552ba1b9dea7a6fad6107cfeddb283"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 33,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io10_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io10_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io10_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io1_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io1_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io1_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io2_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io2_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io2_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io3_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io3_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io3_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io4_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io4_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io4_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io5_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io5_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io5_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io6_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io6_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io6_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io7_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io7_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io7_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io8_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io8_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io8_80u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io9_10u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io9_2p5u\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"io9_80u\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"ibn_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io10_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io10_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io10_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io6_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io6_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io6_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io7_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io7_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io7_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io8_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io8_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io8_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io9_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io9_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"io9_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5c94de0ebbfe",
+    "klayout_version": "0.30.12",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": null
+    },
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:83b24cd6ca19a6bb12e9ecd2273d2ad0ec552ba1b9dea7a6fad6107cfeddb283",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "ibn_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 0.666982,
+        "margin": null
+      }
+    },
+    {
+      "name": "ibn_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 0.768027,
+        "margin": null
+      }
+    },
+    {
+      "name": "ibn_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 1.06038,
+        "margin": null
+      }
+    },
+    {
+      "name": "io1_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.49311e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io2_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.49922e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io3_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.50237e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io4_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.50501e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io5_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.50741e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io6_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.50966e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io7_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.51193e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io8_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.51482e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io9_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.51972e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io10_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -2.52898e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io1_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -9.81048e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io2_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -9.99384e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "io3_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00034e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io4_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00097e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io5_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.0015e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io6_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00199e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io7_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00246e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io8_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.003e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io9_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00389e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io10_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -1.00556e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io1_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -6.70867e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io2_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -7.74591e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io3_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -7.95206e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io4_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.0135e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io5_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02163e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io6_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02413e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io7_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02583e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io8_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02725e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io9_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02848e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "io10_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": -8.02932e-05,
+        "margin": null
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.168,
+      "measurements": [
+        {
+          "name": "ibn_2p5u",
+          "value": 0.666982,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ibn_10u",
+          "value": 0.768027,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ibn_80u",
+          "value": 1.06038,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io1_2p5u",
+          "value": -2.49311e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io2_2p5u",
+          "value": -2.49922e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io3_2p5u",
+          "value": -2.50237e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io4_2p5u",
+          "value": -2.50501e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io5_2p5u",
+          "value": -2.50741e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io6_2p5u",
+          "value": -2.50966e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io7_2p5u",
+          "value": -2.51193e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io8_2p5u",
+          "value": -2.51482e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io9_2p5u",
+          "value": -2.51972e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io10_2p5u",
+          "value": -2.52898e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io1_10u",
+          "value": -9.81048e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io2_10u",
+          "value": -9.99384e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io3_10u",
+          "value": -1.00034e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io4_10u",
+          "value": -1.00097e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io5_10u",
+          "value": -1.0015e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io6_10u",
+          "value": -1.00199e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io7_10u",
+          "value": -1.00246e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io8_10u",
+          "value": -1.003e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io9_10u",
+          "value": -1.00389e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io10_10u",
+          "value": -1.00556e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io1_80u",
+          "value": -6.70867e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io2_80u",
+          "value": -7.74591e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io3_80u",
+          "value": -7.95206e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io4_80u",
+          "value": -8.0135e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io5_80u",
+          "value": -8.02163e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io6_80u",
+          "value": -8.02413e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io7_80u",
+          "value": -8.02583e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io8_80u",
+          "value": -8.02725e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io9_80u",
+          "value": -8.02848e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "io10_80u",
+          "value": -8.02932e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/cmos_nom/mos_tt_novdd_27C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/cmos_nom/mos_tt_novdd_27C/corner.cir"
+      },
+      "monte_carlo": null
+    }
+  ]
+}

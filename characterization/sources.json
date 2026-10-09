@@ -1330,6 +1330,77 @@
     "lock-detector-pvt"
    ],
    "record_sha256": "a9b432b67c4cf9cd0d23dfa8552300d0c33f8166fc5b507e5201aa8fa234b0cf"
+  },
+  {
+   "id": "g2-npn13g2-ro-matching",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "device-level benches (testbench/tb_hbt_ro.sp, tb_hbt_mm.sp: npn13G2 Nx=1 mirror; tb_cmos_ro.sp: cp_leg_n CMOS cascode leg); IHP-Open-PDK v0.3.0 model files",
+   "context": "device characterization (schematic-level, not the PLL)",
+   "conditions": "HBT: hbt_typ/bcs/wcs x -40/27/125 C (MC n=50 per corner for matching); CMOS leg: mos_tt / 27 C only; ngspice-46",
+   "method": "DC Ic-Vce sweep (r_o) and Monte Carlo mirror ratio",
+   "record": "sim/sg13g2-hbt-characterization/records/RECORD-001-npn13g2-ro-matching-vs-cmos-cascode.md",
+   "tables": [
+    {
+     "id": "hbt_ro",
+     "path": "sim/sg13g2-hbt-characterization/corners/hbt_ro.csv",
+     "sha256": "c3cceda8139ed9fa485a2a5f17d8a264cea6d7e5eb9eb7ee2bf503d1c9814f40"
+    },
+    {
+     "id": "hbt_mm_summary",
+     "path": "sim/sg13g2-hbt-characterization/corners/hbt_mm_summary.csv",
+     "sha256": "bf8af052beaae1552ef93c3f05c823f6c013597ebba3ae486c496f920f678f2f"
+    },
+    {
+     "id": "cmos_ro_nominal",
+     "path": "sim/sg13g2-hbt-characterization/corners/cmos_ro_nominal.csv",
+     "sha256": "540cf02fc7c243d67811f2dfd4a45e60213261752c0a2cfdba5677cedc70b2b1"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hbt_ro",
+     "column": "ic_a",
+     "units": "A",
+     "quantity": "npn13G2 collector current over the Vce sweep (r_o is derived in the record, not tabulated)",
+     "coverage_columns": [
+      "process",
+      "temp_c",
+      "iref_a"
+     ]
+    },
+    {
+     "table": "hbt_mm_summary",
+     "column": "sigma_ratio",
+     "units": "1 (fraction)",
+     "quantity": "npn13G2 mirror-ratio standard deviation (200 ratios per cell)",
+     "coverage_columns": [
+      "process",
+      "temp_c",
+      "iref_a"
+     ]
+    },
+    {
+     "table": "cmos_ro_nominal",
+     "column": "isink_a",
+     "units": "A",
+     "quantity": "CMOS cascode leg sink current over the Vout sweep",
+     "coverage_columns": [
+      "corner",
+      "iref_a"
+     ]
+    }
+   ],
+   "notes": [
+    "CMOS cascode leg exercised at mos_tt / 27 C only; its -40/125 C, mos_ss/mos_ff and Monte Carlo runs failed on the batch fleet and were not run. The DR-002 trigger verdict (DR-009) rests on the one corner where both legs exist.",
+    "Matching is the PDK mismatch model's sampled spread; klt sim reports bipolar mismatch activity as not independently verified for sg13g2."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "88da474a34f00a13e60cca48dff55c367fdc9246e9b6e442eff20a53be10dabc"
   }
  ]
 }

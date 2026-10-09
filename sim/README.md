@@ -147,6 +147,7 @@ fleet rather than hand-launched ngspice loops.
 | `sg13cmos5l-vco-duty-cycle` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-duty-cycle/testbench/run.sh` |
 | `sg13cmos5l-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-kvco-table/testbench/run.sh` |
 | `sg13g2-divider-repair-reverification` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-divider-repair-reverification/testbench/run.sh` |
+| `sg13g2-hbt-characterization` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-hbt-characterization/testbench/run.sh` |
 | `sg13g2-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-lock-detector-window/testbench/run.sh` |
 | `sg13g2-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-vco-kvco-table/testbench/run.sh` |
 

@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "engine": "klayout",
+  "layout": "npn_probe.gds",
+  "reference": "npn_probe.reference.spice",
+  "top": "npn_probe",
+  "reference_top": "NPN_PROBE",
+  "parameter_tolerance": null,
+  "options": {
+    "combine_devices": false,
+    "combine_devices_per_circuit": null,
+    "combine_devices_max_attempts": 5,
+    "flatten_layout": true,
+    "flatten_reference": true,
+    "netgen_setup": null,
+    "parameter_tolerance": null,
+    "compare_parameters": null,
+    "power_connectivity": null,
+    "anchor_top_level_pins": null,
+    "supply_nets": [
+      "GND",
+      "VCC",
+      "VDD",
+      "VGND",
+      "VPWR",
+      "VSS"
+    ]
+  },
+  "hints_applied": null,
+  "status": "match",
+  "power_connectivity": {
+    "status": "unchecked",
+    "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+    "power_pins": [],
+    "power_pins_derivation": null,
+    "instance_count": 0,
+    "expected_nets": null,
+    "unchecked_expected_pins": [],
+    "findings": [],
+    "finding_count": 0
+  },
+  "body_verification": {
+    "status": "verified",
+    "reason": null,
+    "device_classes": [],
+    "device_count": 0,
+    "findings": [],
+    "finding_count": 0
+  },
+  "device_parameter_coverage": [],
+  "mismatch_count": 4,
+  "error_count": 0,
+  "category_counts": {
+    "topology": 3,
+    "topology.flattened": 1
+  },
+  "category_error_counts": {},
+  "counts": {
+    "nets": {
+      "layout": 1,
+      "reference": 4,
+      "matched": 4
+    },
+    "devices": {
+      "layout": 0,
+      "reference": 0,
+      "matched": 0
+    },
+    "pins": {
+      "layout": 1,
+      "reference": 4,
+      "matched": 4
+    }
+  },
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmim",
+    "rfcmim",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor",
+    "dantenna",
+    "dpantenna"
+  ],
+  "environment": {
+    "engine": "klayout",
+    "engine_version": "0.30.12",
+    "netgen_binary": null,
+    "layout_sha256": "6c49933ee553d17940c842e67ba3dce70a8536c810f7d6484d77d3c33696e2ea",
+    "reference_sha256": "9588ab7d8c99c1b9a394819e6576e739473a39eab8dbb4d9740e5bf6b2b02da0",
+    "extracted_netlist": null
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5c94de0ebbfe",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "sg13g2",
+      "content_hash": "sha256:bf483105cb17948270f0cad45d9418787654bfc0a5ffd04a2e2413d8c7d3b6e7",
+      "released": true
+    },
+    "input": {
+      "content_hash": "sha256:6c49933ee553d17940c842e67ba3dce70a8536c810f7d6484d77d3c33696e2ea",
+      "role": "layout"
+    },
+    "klayout_version_mismatch": false
+  },
+  "mismatches": [
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "nets were paired ambiguously; the comparer resolved it structurally (consider a hints.same_nets entry to pin this down)",
+      "side": "both",
+      "net": {
+        "layout": "vsubs",
+        "reference": "B"
+      },
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
+      "side": "layout",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology",
+      "severity": "warning",
+      "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
+      "side": "layout",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    },
+    {
+      "category": "topology.flattened",
+      "severity": "warning",
+      "description": "options.flatten_reference flattened the reference netlist before comparing: 2 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+      "side": "reference",
+      "net": null,
+      "device": null,
+      "property": null,
+      "details": null,
+      "circuit": null,
+      "instance": null,
+      "subcircuit": null
+    }
+  ],
+  "net_correspondence": [
+    {
+      "layout": "vsubs",
+      "reference": "B",
+      "pin": true
+    },
+    {
+      "layout": null,
+      "reference": "C",
+      "pin": false
+    },
+    {
+      "layout": null,
+      "reference": "E",
+      "pin": false
+    },
+    {
+      "layout": null,
+      "reference": "SUB",
+      "pin": false
+    }
+  ]
+}
