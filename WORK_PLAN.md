@@ -25,7 +25,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#159**: sim: verify nominal closed-loop acquisition with the repaired transistor-level divider
+- **#178**: sim: Monte Carlo bench for cp up/dn mirror mismatch with klt yield report (T1 item 6)
 
 ## PRs Awaiting Review
 
@@ -48,7 +48,10 @@ Issues carrying `loom:curated`.
 
 ## Proposed (Architect / Hermit)
 
-_None._
+- **#187**: sim: supply-range 3.0/3.3/3.6 V sweep beyond cp for spec row 18 (T1 item 5) *(architect)*
+- **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5) *(architect)*
+- **#189**: divider_chain: size to close row 3 retiming at 1562 MHz (R-3, T1 item 5) *(architect)*
+- **#190**: sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5) *(architect)*
 
 ## Epics
 
@@ -65,6 +68,6 @@ _None._
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 2 |
-| Architect / Hermit proposals | 0 |
+| Architect / Hermit proposals | 4 |
 | Active epics | 1 |
 <!-- guide:plan-body:end -->
