@@ -37,6 +37,34 @@ permissions:
   contents: read
 
 jobs:
+  # Evidence-record hygiene (issue #180, T1 item 10): sim/**/records/ numbering,
+  # required format, characterization/sources.json coverage, and (pull requests
+  # only) append-only enforcement: a PR that deletes, renames or edits a record
+  # already on the base branch fails. Offline, stdlib-only, runs no simulation.
+  records:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Records checker unit tests
+        run: python3 characterization/test_check_records.py
+
+      - name: Records format, numbering and sources.json coverage
+        run: python3 characterization/check_records.py
+
+      - name: Records are append-only (pull requests)
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: python3 characterization/check_records.py --base "origin/$BASE_REF"
+
   grade:
     runs-on: ubuntu-latest
     timeout-minutes: 30
