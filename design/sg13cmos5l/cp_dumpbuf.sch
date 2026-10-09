@@ -27,15 +27,21 @@ closes each unity-gain loop. Where both are in range they act in parallel;
 outside its range an OTA's tail collapses and its output device turns off
 (high impedance, no fight). Every internal node is diode-clamped to a rail
 by its mirror diode, so the DC operating point is defined at every corner.
-SIZING (L = 1u everywhere, as the cp legs).
+SIZING (L = 1u except the PMOS input pair).
 - Tails: MTN 12u/1u off IBN (1.5x the 8u/1u NMOS mirror device) and MTP
   36u/1u off IBP (1.5x the 24u/1u PMOS mirror device): ~1.5x Icp each, so
   the tail current SCALES WITH THE TRIM CODE. A 5T OTA's output drive is its
   tail current; it must hold VDUMP while one polarity is asserted alone and
   the other leg dumps its full Icp into VDUMP (a one-sided PFD state, i.e.
   acquisition), so tail > Icp at every code.
-- Input pairs wide (MN1/MN2 16u/1u, MP1/MP2 48u/1u) for gm: the residual
-  input offset IS the residual VDUMP-VOUT error.
+- Input pairs are deliberately SMALL (MN1/MN2 2u/1u, MP1/MP2 6u/0.5u), the
+  opposite of gf180-pll's 16u/48u. Reason: this loop's C1 is ~1.69 pF and C2
+  ~0.1 pF (gf180-pll: ~130 pF), and MN1/MP1 gate the loop-filter node. The
+  gf180 sizing measured 28-112 fF of added VOUT capacitance (worst where the
+  PMOS pair's tail runs out of headroom, VOUT 2.5-2.9 V), 1.7-6.6% of C1 and
+  up to 1.1x C2. 2u/1u + 6u/0.5u measures 3.7-10.5 fF over VOUT 0.3-2.9 V
+  (<= 0.62% of C1), inside the <= 1% loading condition DR-001 adopts from
+  gf180-pll DR-005, at the cost of a larger (still ~15 mV) idle offset.
 - Mirror loads 1:1 (MN3/MN4 24u/1u PMOS, MP3/MP4 16u/1u NMOS): a ratioed load
   would buy drive at the price of systematic input offset.
 - MP1/MP2 bulk tied to their common source PSRC (own n-well) to remove body
@@ -57,12 +63,12 @@ C {lab_pin.sym} 20 270 0 0 {name=lMTN_d lab=NSRC}
 C {lab_pin.sym} -20 300 0 0 {name=lMTN_g lab=IBN}
 C {lab_pin.sym} 20 330 0 0 {name=lMTN_s lab=VSS}
 C {lab_pin.sym} 20 300 0 0 {name=lMTN_b lab=VSS}
-C {sg13cmos5l_pr/sg13_hv_nmos.sym} 300 200 0 0 {name=MN1 model=sg13_hv_nmos w=16u l=1u ng=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/sg13_hv_nmos.sym} 300 200 0 0 {name=MN1 model=sg13_hv_nmos w=2u l=1u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 320 170 0 0 {name=lMN1_d lab=NDA}
 C {lab_pin.sym} 280 200 0 0 {name=lMN1_g lab=VOUT}
 C {lab_pin.sym} 320 230 0 0 {name=lMN1_s lab=NSRC}
 C {lab_pin.sym} 320 200 0 0 {name=lMN1_b lab=VSS}
-C {sg13cmos5l_pr/sg13_hv_nmos.sym} 600 200 0 0 {name=MN2 model=sg13_hv_nmos w=16u l=1u ng=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/sg13_hv_nmos.sym} 600 200 0 0 {name=MN2 model=sg13_hv_nmos w=2u l=1u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 620 170 0 0 {name=lMN2_d lab=VDUMP}
 C {lab_pin.sym} 580 200 0 0 {name=lMN2_g lab=VDUMP}
 C {lab_pin.sym} 620 230 0 0 {name=lMN2_s lab=NSRC}
@@ -82,12 +88,12 @@ C {lab_pin.sym} 20 -270 0 0 {name=lMTP_d lab=PSRC}
 C {lab_pin.sym} -20 -300 0 0 {name=lMTP_g lab=IBP}
 C {lab_pin.sym} 20 -330 0 0 {name=lMTP_s lab=VDD}
 C {lab_pin.sym} 20 -300 0 0 {name=lMTP_b lab=VDD}
-C {sg13cmos5l_pr/sg13_hv_pmos.sym} 300 -200 0 0 {name=MP1 model=sg13_hv_pmos w=48u l=1u ng=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/sg13_hv_pmos.sym} 300 -200 0 0 {name=MP1 model=sg13_hv_pmos w=6u l=0.5u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 320 -170 0 0 {name=lMP1_d lab=PDA}
 C {lab_pin.sym} 280 -200 0 0 {name=lMP1_g lab=VOUT}
 C {lab_pin.sym} 320 -230 0 0 {name=lMP1_s lab=PSRC}
 C {lab_pin.sym} 320 -200 0 0 {name=lMP1_b lab=PSRC}
-C {sg13cmos5l_pr/sg13_hv_pmos.sym} 600 -200 0 0 {name=MP2 model=sg13_hv_pmos w=48u l=1u ng=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/sg13_hv_pmos.sym} 600 -200 0 0 {name=MP2 model=sg13_hv_pmos w=6u l=0.5u ng=1 m=1 spiceprefix=X}
 C {lab_pin.sym} 620 -170 0 0 {name=lMP2_d lab=VDUMP}
 C {lab_pin.sym} 580 -200 0 0 {name=lMP2_g lab=VDUMP}
 C {lab_pin.sym} 620 -230 0 0 {name=lMP2_s lab=PSRC}
