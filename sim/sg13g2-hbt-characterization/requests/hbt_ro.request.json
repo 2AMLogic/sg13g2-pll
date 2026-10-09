@@ -1,0 +1,103 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "netlist": "../testbench/tb_hbt_ro.sp",
+  "models": {
+    "pdk": "ihp-sg13g2",
+    "lib": "libs.tech/ngspice/models/cornerHBT.lib"
+  },
+  "corners": {
+    "process": [
+      "hbt_typ",
+      "hbt_bcs",
+      "hbt_wcs"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Iref 2.5u 80u 2.5u"
+  },
+  "measurements": [
+    {
+      "name": "vbe_2p5u",
+      "spice": ".meas dc vbe_2p5u find v(nb) at=2.5e-06"
+    },
+    {
+      "name": "vbe_10u",
+      "spice": ".meas dc vbe_10u find v(nb) at=1e-05"
+    },
+    {
+      "name": "vbe_80u",
+      "spice": ".meas dc vbe_80u find v(nb) at=8e-05"
+    },
+    {
+      "name": "ic1_2p5u",
+      "spice": ".meas dc ic1_2p5u find i(vc1) at=2.5e-06"
+    },
+    {
+      "name": "ic2_2p5u",
+      "spice": ".meas dc ic2_2p5u find i(vc2) at=2.5e-06"
+    },
+    {
+      "name": "ic3_2p5u",
+      "spice": ".meas dc ic3_2p5u find i(vc3) at=2.5e-06"
+    },
+    {
+      "name": "ic4_2p5u",
+      "spice": ".meas dc ic4_2p5u find i(vc4) at=2.5e-06"
+    },
+    {
+      "name": "ic5_2p5u",
+      "spice": ".meas dc ic5_2p5u find i(vc5) at=2.5e-06"
+    },
+    {
+      "name": "ic1_10u",
+      "spice": ".meas dc ic1_10u find i(vc1) at=1e-05"
+    },
+    {
+      "name": "ic2_10u",
+      "spice": ".meas dc ic2_10u find i(vc2) at=1e-05"
+    },
+    {
+      "name": "ic3_10u",
+      "spice": ".meas dc ic3_10u find i(vc3) at=1e-05"
+    },
+    {
+      "name": "ic4_10u",
+      "spice": ".meas dc ic4_10u find i(vc4) at=1e-05"
+    },
+    {
+      "name": "ic5_10u",
+      "spice": ".meas dc ic5_10u find i(vc5) at=1e-05"
+    },
+    {
+      "name": "ic1_80u",
+      "spice": ".meas dc ic1_80u find i(vc1) at=8e-05"
+    },
+    {
+      "name": "ic2_80u",
+      "spice": ".meas dc ic2_80u find i(vc2) at=8e-05"
+    },
+    {
+      "name": "ic3_80u",
+      "spice": ".meas dc ic3_80u find i(vc3) at=8e-05"
+    },
+    {
+      "name": "ic4_80u",
+      "spice": ".meas dc ic4_80u find i(vc4) at=8e-05"
+    },
+    {
+      "name": "ic5_80u",
+      "spice": ".meas dc ic5_80u find i(vc5) at=8e-05"
+    }
+  ],
+  "options": {
+    "timeout_s": 600,
+    "keep_artifacts": true
+  }
+}

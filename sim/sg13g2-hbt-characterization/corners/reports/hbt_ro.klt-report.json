@@ -1,0 +1,2387 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13g2-hbt-characterization/testbench/tb_hbt_ro.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 9,
+  "passed": 9,
+  "failed": 0,
+  "errored": 0,
+  "metrics": {
+    "sim__corner__count": 9,
+    "sim__corner__passed_count": 9,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "bae3d705445de8d6b8de4aa798a0e3e5e7cab617d6495d9c56473bc5377de462",
+    "netlist_sha256": "8f2b30753ef016cc3891cdda4e0975868319e3101b3691fa6bde16ee376632a8",
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-88622d7e1391",
+      "bucket": "2am-batch-jobs-221082181346",
+      "region": "us-east-1",
+      "instance_id": "i-0c3ed8993f4b69888",
+      "instance_type": "c7i.8xlarge",
+      "availability_zone": "us-east-1d",
+      "ami_id": "ami-0e40e3245f1923ac8",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "2",
+      "physical_cores": "16",
+      "elapsed_seconds": 26
+    }
+  },
+  "coverage": {
+    "corners_simulated": 9,
+    "measurements_declared": 18,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_80u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_80u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_80u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_80u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_80u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_10u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_2p5u\"]/observation",
+      "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_80u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_10u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_2p5u\"]/observation",
+      "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_80u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_10u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_2p5u\"]/observation",
+      "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_80u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_10u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_2p5u\"]/observation",
+      "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_80u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_10u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_2p5u\"]/observation",
+      "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_80u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_10u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_2p5u\"]/observation",
+      "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_80u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_10u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_2p5u\"]/observation",
+      "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_80u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_10u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_2p5u\"]/observation",
+      "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_80u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_10u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_2p5u\"]/observation",
+      "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_80u\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"hbt_typ/novdd/-40C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"hbt_typ/novdd/27C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"hbt_typ/novdd/125C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"hbt_bcs/novdd/-40C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"hbt_bcs/novdd/27C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"hbt_bcs/novdd/125C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"hbt_wcs/novdd/-40C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"hbt_wcs/novdd/27C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic1_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic2_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic3_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic4_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"ic5_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_10u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_2p5u\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"hbt_wcs/novdd/125C\",\"vbe_80u\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.6.0",
+    "klayout_version": "0.30.12",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": null
+    },
+    "deck": {
+      "name": "cornerHBT.lib",
+      "content_hash": "sha256:bae3d705445de8d6b8de4aa798a0e3e5e7cab617d6495d9c56473bc5377de462",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:8f2b30753ef016cc3891cdda4e0975868319e3101b3691fa6bde16ee376632a8",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "vbe_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": 0.77551,
+        "margin": null
+      }
+    },
+    {
+      "name": "vbe_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": 0.803916,
+        "margin": null
+      }
+    },
+    {
+      "name": "vbe_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": 0.848296,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic1_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -2.48179e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic2_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -2.48679e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic3_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -2.49154e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic4_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -2.49628e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic5_2p5u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -2.50186e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic1_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -9.90527e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic2_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -9.93866e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic3_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -9.9712e-06,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic4_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -1.00037e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic5_10u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -1.00394e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic1_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -7.7875e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic2_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -7.88655e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic3_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -7.98798e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic4_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -8.09258e-05,
+        "margin": null
+      }
+    },
+    {
+      "name": "ic5_80u",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "hbt_typ/novdd/-40C",
+        "value": -8.20302e-05,
+        "margin": null
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "hbt_typ/novdd/-40C",
+      "process": "hbt_typ",
+      "supply_v": {},
+      "temperature_c": -40,
+      "status": "pass",
+      "runtime_s": 0.328,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.77551,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.803916,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.848296,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.48179e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.48679e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.49154e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.49628e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.50186e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.90527e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.93866e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.9712e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -1.00037e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00394e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.7875e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.88655e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.98798e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.09258e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.20302e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_typ_novdd_n40C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_typ_novdd_n40C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_typ/novdd/27C",
+      "process": "hbt_typ",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.329,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.689482,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.726399,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.783522,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.47537e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.48015e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.48461e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.48916e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.49543e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.88688e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.91665e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.94516e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -9.97385e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00084e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.80977e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.89299e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.97713e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.06342e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.15605e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_typ_novdd_27C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_typ_novdd_27C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_typ/novdd/125C",
+      "process": "hbt_typ",
+      "supply_v": {},
+      "temperature_c": 125,
+      "status": "pass",
+      "runtime_s": 0.326,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.554543,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.604237,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.680593,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.4698e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.47497e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.47915e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.48397e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.49388e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.8649e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.89404e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.91903e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -9.94547e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -9.98831e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.82014e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.89201e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.96091e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.03153e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.11372e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_typ_novdd_125C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_typ_novdd_125C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_bcs/novdd/-40C",
+      "process": "hbt_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "status": "pass",
+      "runtime_s": 0.325,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.770834,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.799171,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.842943,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.48716e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.49219e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.49699e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.50177e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.50742e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.92483e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.95878e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.99191e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -1.0025e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00614e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.79475e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.89887e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -8.00575e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.1162e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.23301e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_bcs_novdd_n40C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_bcs_novdd_n40C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_bcs/novdd/27C",
+      "process": "hbt_bcs",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.017,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.683449,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.720302,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.776877,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.48508e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.48989e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.4944e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.49901e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.50539e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.92338e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.95364e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.98266e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -1.00119e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00472e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.83334e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.92031e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -8.00845e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.09899e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.19627e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_bcs_novdd_27C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_bcs_novdd_27C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_bcs/novdd/125C",
+      "process": "hbt_bcs",
+      "supply_v": {},
+      "temperature_c": 125,
+      "status": "pass",
+      "runtime_s": 0.017,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.546503,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.596137,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.67201,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.48546e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.49066e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.4949e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.49982e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.51006e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.92519e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.95472e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.98019e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -1.00073e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00515e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.86538e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.94005e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -8.01195e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.08573e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.17164e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_bcs_novdd_125C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_bcs_novdd_125C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_wcs/novdd/-40C",
+      "process": "hbt_wcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "status": "pass",
+      "runtime_s": 0.009,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.781581,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.810056,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.855047,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.47292e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.47787e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.48257e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.48724e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.49273e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.87275e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.90542e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.93721e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -9.96896e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -1.00037e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.77112e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.86464e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.96017e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.05844e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.16202e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_wcs_novdd_n40C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_wcs_novdd_n40C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_wcs/novdd/27C",
+      "process": "hbt_wcs",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.009,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.6973,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.734284,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.791956,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.45935e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.46407e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.46848e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.47295e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.47905e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.82653e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.85565e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.88347e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -9.91141e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -9.94491e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.7687e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.84758e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.92713e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -8.00853e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.09581e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_wcs_novdd_27C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_wcs_novdd_27C/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "hbt_wcs/novdd/125C",
+      "process": "hbt_wcs",
+      "supply_v": {},
+      "temperature_c": 125,
+      "status": "pass",
+      "runtime_s": 0.017,
+      "measurements": [
+        {
+          "name": "vbe_2p5u",
+          "value": 0.564933,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_10u",
+          "value": 0.614691,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "vbe_80u",
+          "value": 0.691529,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_2p5u",
+          "value": -2.44405e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_2p5u",
+          "value": -2.44917e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_2p5u",
+          "value": -2.45329e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_2p5u",
+          "value": -2.45796e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_2p5u",
+          "value": -2.46743e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_10u",
+          "value": -9.76566e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_10u",
+          "value": -9.79424e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_10u",
+          "value": -9.81856e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_10u",
+          "value": -9.84411e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_10u",
+          "value": -9.88507e-06,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic1_80u",
+          "value": -7.74496e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic2_80u",
+          "value": -7.8134e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic3_80u",
+          "value": -7.87859e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic4_80u",
+          "value": -7.94523e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ic5_80u",
+          "value": -8.0226e-05,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/b181/hbt_ro/hbt_wcs_novdd_125C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/b181/hbt_ro/hbt_wcs_novdd_125C/corner.cir"
+      },
+      "monte_carlo": null
+    }
+  ]
+}

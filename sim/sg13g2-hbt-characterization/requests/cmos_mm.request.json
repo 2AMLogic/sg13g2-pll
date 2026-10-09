@@ -1,0 +1,103 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "netlist": "../testbench/tb_cmos_mm.sp",
+  "models": {
+    "pdk": "ihp-sg13g2",
+    "lib": "libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "corners": {
+    "process": [
+      "mos_tt_mismatch",
+      "mos_ss_mismatch",
+      "mos_ff_mismatch"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Iref 2.5u 80u 2.5u"
+  },
+  "measurements": [
+    {
+      "name": "ibn_2p5u",
+      "spice": ".meas dc ibn_2p5u find v(IBN) at=2.5e-06"
+    },
+    {
+      "name": "ibn_10u",
+      "spice": ".meas dc ibn_10u find v(IBN) at=1e-05"
+    },
+    {
+      "name": "ibn_80u",
+      "spice": ".meas dc ibn_80u find v(IBN) at=8e-05"
+    },
+    {
+      "name": "io1_2p5u",
+      "spice": ".meas dc io1_2p5u find i(vo1) at=2.5e-06"
+    },
+    {
+      "name": "io2_2p5u",
+      "spice": ".meas dc io2_2p5u find i(vo2) at=2.5e-06"
+    },
+    {
+      "name": "io3_2p5u",
+      "spice": ".meas dc io3_2p5u find i(vo3) at=2.5e-06"
+    },
+    {
+      "name": "io4_2p5u",
+      "spice": ".meas dc io4_2p5u find i(vo4) at=2.5e-06"
+    },
+    {
+      "name": "io1_10u",
+      "spice": ".meas dc io1_10u find i(vo1) at=1e-05"
+    },
+    {
+      "name": "io2_10u",
+      "spice": ".meas dc io2_10u find i(vo2) at=1e-05"
+    },
+    {
+      "name": "io3_10u",
+      "spice": ".meas dc io3_10u find i(vo3) at=1e-05"
+    },
+    {
+      "name": "io4_10u",
+      "spice": ".meas dc io4_10u find i(vo4) at=1e-05"
+    },
+    {
+      "name": "io1_80u",
+      "spice": ".meas dc io1_80u find i(vo1) at=8e-05"
+    },
+    {
+      "name": "io2_80u",
+      "spice": ".meas dc io2_80u find i(vo2) at=8e-05"
+    },
+    {
+      "name": "io3_80u",
+      "spice": ".meas dc io3_80u find i(vo3) at=8e-05"
+    },
+    {
+      "name": "io4_80u",
+      "spice": ".meas dc io4_80u find i(vo4) at=8e-05"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/ngspice/osdi/mosvar.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "timeout_s": 600,
+    "keep_artifacts": true,
+    "stage_model_inputs": true
+  },
+  "monte_carlo": {
+    "n": 50,
+    "seed": 181,
+    "vary": "mismatch"
+  }
+}
