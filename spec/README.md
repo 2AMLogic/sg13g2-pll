@@ -33,9 +33,13 @@
     now-drawn `design/sg13cmos5l/*.sch` boundary pins rather than a literal
     (not-yet-scoped) pad-ring wrapper cell.
 
-No target spec (this repo's equivalent of `2AMLogic/gf180-pll`'s `pll.md` or
-`2AMLogic/sky130-pll`'s `target-spec.md`) exists yet — DR-001/DR-002 are the
-prerequisite architecture/device-flavor decisions porting-plan.md's own
-closing Summary says must land before that draft can be seeded.
+- [`target-spec.md`](target-spec.md) — the **DRAFT** target spec (issue
+  #148): one row per `porting-plan.md` §1.2 row, each marked measured /
+  proposed / not specified / open with its gate, classified deterministic or
+  statistical and by partition (analog loop path or `divider_chain`), with a
+  "Needs a ruling" section for the ratifiers. Not ratified: ratification is
+  the separate two-key act (`ratification/ee-key`, `ratification/market-key`).
+  Playing the role `2AMLogic/gf180-pll`'s `pll.md` and
+  `2AMLogic/sky130-pll`'s `target-spec.md` play in the siblings.
 
 See the repo README for scope.
