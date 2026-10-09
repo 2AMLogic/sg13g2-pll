@@ -7,6 +7,9 @@
   bench's snapshot), Iref = 10 uA, VDD = 3.3 V, VOUT = 2.40 V.
 - **Tooling**: `klt 0.7.0+g5c94de0ebbfe`, `ngspice-46`, `~/share/pdk/ihp-sg13cmos5l`,
   x86-64 Linux worker.
+- **PDK revision**: `ihp-sg13cmos5l` commit `607e18d4bd9214a52575c194b4181ef449f9252f`
+  (clean git checkout at `~/share/pdk/ihp-sg13cmos5l` on the worker; matches
+  the `PDK-PIN` in `sim/README.md`).
 - **Reproduce**: `README.md` "Cold start".
 
 ## Finding 1: the mismatch model exists and is live
