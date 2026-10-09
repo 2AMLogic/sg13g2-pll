@@ -36,6 +36,14 @@ gate fails and names the block: the evidence is stale and must be regenerated
 (re-flatten, `run-klt-pex.sh`, re-verify); editing the hashes alone cannot pass
 because the re-flatten compare is independent. Old results are never rewritten.
 
+**`cp` is stale-pending (#195).** Issue #165 / DR-010 replaced `cp_dumpbuf`
+(source follower -> tracking 5T-OTA pair), so `design/sg13cmos5l/netlist/cp.spice`
+no longer matches the `pll_cp` layout or the committed `cp` leg. The gate's
+`STALE_PENDING` entry keeps the report and leg-integrity checks for `cp`,
+requires the staleness to be real, forbids citing `cp` from the manifest, and
+fails once #195 refreshes the leg until the entry is removed. `pex.cp.json`
+here describes the pre-#165 buffer.
+
 This proves **nominal evidence integrity**, not a complete PVT or spec pass:
 one corner per block, no `limits` declared. `lock_detector` remains explicitly
 withheld pending #157; a `pex.lock_detector.json` appearing before the gate is

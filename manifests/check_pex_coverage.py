@@ -28,6 +28,15 @@ the fresh grade, so this gate inspects all five blocks and requires, per block:
 lock_detector is explicitly WITHHELD (issue #157): no pex.lock_detector.json
 may exist yet. When #157 supplies valid evidence, promote it into BLOCKS.
 
+STALE_PENDING names a block whose design export has deliberately moved ahead
+of its layout/PEX evidence, with the open follow-up that refreshes it (the
+same documented-unmet pattern as check_erc_coverage.py's KNOWN_DEFECTS). For
+such a block every report check and the leg-integrity check (committed leg ==
+the leg the PEX run used) still apply; the export and a fresh re-flatten must
+genuinely DIFFER from the provenance (the staleness is real), and once the
+follow-up refreshes the leg the gate fails until the entry is removed. The
+manifest's 7.* citations may not name a STALE_PENDING block.
+
 SCOPE: this proves nominal evidence integrity (the envelopes are real, pass,
 body-biased, bound to the right GDS and fresh legs). It is NOT a PVT or spec
 pass: the requests declare no limits and run one corner.
@@ -46,6 +55,10 @@ from pathlib import Path
 SIGNOFF = "sim/sg13cmos5l-klt-pex-signoff"
 BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain")
 WITHHELD = {"lock_detector": "#157"}
+# Block -> follow-up issue that re-draws its layout and re-runs its PEX.
+# cp: issue #165 / DR-010 replaced cp_dumpbuf (source follower -> tracking
+# 5T-OTA pair); the pll_cp layout and its PEX leg predate it (#195).
+STALE_PENDING = {"cp": "#195"}
 REQUESTS = {"pfd": ["pfd"], "cp": ["cp_up", "cp_dn"], "loop_filter": ["loop_filter"],
             "vco": ["vco"], "divider_chain": ["divider_chain"]}
 
@@ -75,7 +88,9 @@ def check_leg(root, block, prov):
     if sha256_file(leg) != ent.get("leg_sha256"):
         errs.append(f"{block}: schematic leg sha256 {sha256_file(leg)} != leg-provenance {ent.get('leg_sha256')} "
                     "(leg altered after its PEX run; regenerate and re-run klt pex)")
-    if sha256_file(src) != ent.get("source_sha256"):
+    pending = STALE_PENDING.get(block)
+    src_fresh = sha256_file(src) == ent.get("source_sha256")
+    if pending is None and not src_fresh:
         errs.append(f"{block}: design export {src.name} sha256 {sha256_file(src)} != leg-provenance "
                     f"{ent.get('source_sha256')} (source changed since the leg was flattened; PEX evidence is stale)")
     flat = root / SIGNOFF / "flatten-schematic.py"
@@ -92,9 +107,13 @@ def check_leg(root, block, prov):
         with tempfile.TemporaryDirectory() as t:
             out = Path(t) / "regen.sp"
             out.write_text(r.stdout)
-            if out.read_bytes() != leg.read_bytes():
+            leg_fresh = out.read_bytes() == leg.read_bytes()
+            if pending is None and not leg_fresh:
                 errs.append(f"{block}: committed schematic leg differs from a fresh re-flatten of {src.name} "
                             "(stale or edited leg; re-flatten, re-run run-klt-pex.sh, re-verify)")
+            if pending is not None and (src_fresh or leg_fresh):
+                errs.append(f"{block}: listed in STALE_PENDING ({pending}) but its export/leg is fresh; "
+                            "remove the entry (stale entry)")
     pins = str(ent.get("pins"))
     run = (root / SIGNOFF / "run-klt-pex.sh")
     if run.is_file() and f"pins={pins} " not in run.read_text() and f"pins={pins};" not in run.read_text():
@@ -197,6 +216,8 @@ def main(argv=None):
         blk = next((b for b in BLOCKS if c.get("file") == f"{SIGNOFF}/reports/pex.{b}.json"), None)
         if blk is None:
             errs.append(f"manifest: {key} cites {c.get('file')!r}, not one of the gated reports")
+        elif blk in STALE_PENDING:
+            errs.append(f"manifest: {key} cites {blk}, whose PEX evidence is STALE_PENDING {STALE_PENDING[blk]}")
         elif c.get("content_hash") != hashes.get(blk):
             errs.append(f"manifest: {key} pinned to {c.get('content_hash')}, {blk} GDS is {hashes.get(blk)}")
     if errs:
@@ -204,7 +225,8 @@ def main(argv=None):
         for e in errs:
             print("  " + e, file=sys.stderr)
         return 1
-    print(f"OK: {len(BLOCKS)} nominal PEX envelopes + flattened legs fresh; "
+    stale = ", ".join(f"{b} ({i})" for b, i in STALE_PENDING.items()) or "none"
+    print(f"OK: {len(BLOCKS)} nominal PEX envelopes; flattened legs fresh except stale-pending: {stale}; "
           f"withheld: {', '.join(f'{b} ({i})' for b, i in WITHHELD.items())}. "
           "Nominal evidence integrity only -- not a PVT/spec pass.")
     return 0

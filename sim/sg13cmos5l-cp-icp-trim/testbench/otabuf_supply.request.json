@@ -1,0 +1,287 @@
+{
+  "engine": "ngspice",
+  "netlist": "tb_cp_otabuf_dc.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Vs 0.30 2.90 0.05"
+  },
+  "measurements": [
+    {
+      "name": "ofs_off_max_mv_2p5",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff2p5.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_5",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff5.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_10",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff10.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_20",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff20.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_40",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff40.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_80",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff80.vdump)[0,48] - v(vs)[0,48])) * 1000",
+      "limits": {
+        "max": 100.0
+      }
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_2p5",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff2p5.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_5",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff5.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_10",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff10.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_20",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff20.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_40",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff40.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_max_mv_to2p9_80",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xoff80.vdump) - v(vs))) * 1000"
+    },
+    {
+      "name": "ofs_off_at2p40_mv_10",
+      "unit": "mV",
+      "expr": "(v(xoff10.vdump)[42] - v(vs)[42]) * 1000"
+    },
+    {
+      "name": "ofs_off_at1p65_mv_10",
+      "unit": "mV",
+      "expr": "(v(xoff10.vdump)[27] - v(vs)[27]) * 1000"
+    },
+    {
+      "name": "ofs_up_max_mv_10",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xup10.vdump)[0,48] - v(vs)[0,48])) * 1000"
+    },
+    {
+      "name": "ofs_dn_max_mv_10",
+      "unit": "mV",
+      "expr": "vecmax(abs(v(xdn10.vdump)[0,48] - v(vs)[0,48])) * 1000"
+    },
+    {
+      "name": "ofs_up_at2p40_mv_10",
+      "unit": "mV",
+      "expr": "(v(xup10.vdump)[42] - v(vs)[42]) * 1000"
+    },
+    {
+      "name": "ofs_dn_at2p40_mv_10",
+      "unit": "mV",
+      "expr": "(v(xdn10.vdump)[42] - v(vs)[42]) * 1000"
+    },
+    {
+      "name": "idd_off_at2p40_ua_10",
+      "unit": "uA",
+      "expr": "i(Vmdd_off10)[42] * 1e6"
+    },
+    {
+      "name": "iup_at1p65_ua_2p5",
+      "unit": "uA",
+      "expr": "i(Vm_up2p5)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_2p5",
+      "unit": "uA",
+      "expr": "i(Vm_dn2p5)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_2p5",
+      "unit": "%",
+      "expr": "(i(Vm_up2p5)[27] + i(Vm_dn2p5)[27]) / ((i(Vm_up2p5)[27] - i(Vm_dn2p5)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_2p5",
+      "unit": "%",
+      "expr": "(i(Vm_up2p5)[42] + i(Vm_dn2p5)[42]) / ((i(Vm_up2p5)[42] - i(Vm_dn2p5)[42]) / 2) * 100"
+    },
+    {
+      "name": "iup_at1p65_ua_5",
+      "unit": "uA",
+      "expr": "i(Vm_up5)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_5",
+      "unit": "uA",
+      "expr": "i(Vm_dn5)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_5",
+      "unit": "%",
+      "expr": "(i(Vm_up5)[27] + i(Vm_dn5)[27]) / ((i(Vm_up5)[27] - i(Vm_dn5)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_5",
+      "unit": "%",
+      "expr": "(i(Vm_up5)[42] + i(Vm_dn5)[42]) / ((i(Vm_up5)[42] - i(Vm_dn5)[42]) / 2) * 100"
+    },
+    {
+      "name": "iup_at1p65_ua_10",
+      "unit": "uA",
+      "expr": "i(Vm_up10)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_10",
+      "unit": "uA",
+      "expr": "i(Vm_dn10)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_10",
+      "unit": "%",
+      "expr": "(i(Vm_up10)[27] + i(Vm_dn10)[27]) / ((i(Vm_up10)[27] - i(Vm_dn10)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_10",
+      "unit": "%",
+      "expr": "(i(Vm_up10)[42] + i(Vm_dn10)[42]) / ((i(Vm_up10)[42] - i(Vm_dn10)[42]) / 2) * 100"
+    },
+    {
+      "name": "iup_at1p65_ua_20",
+      "unit": "uA",
+      "expr": "i(Vm_up20)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_20",
+      "unit": "uA",
+      "expr": "i(Vm_dn20)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_20",
+      "unit": "%",
+      "expr": "(i(Vm_up20)[27] + i(Vm_dn20)[27]) / ((i(Vm_up20)[27] - i(Vm_dn20)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_20",
+      "unit": "%",
+      "expr": "(i(Vm_up20)[42] + i(Vm_dn20)[42]) / ((i(Vm_up20)[42] - i(Vm_dn20)[42]) / 2) * 100"
+    },
+    {
+      "name": "iup_at1p65_ua_40",
+      "unit": "uA",
+      "expr": "i(Vm_up40)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_40",
+      "unit": "uA",
+      "expr": "i(Vm_dn40)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_40",
+      "unit": "%",
+      "expr": "(i(Vm_up40)[27] + i(Vm_dn40)[27]) / ((i(Vm_up40)[27] - i(Vm_dn40)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_40",
+      "unit": "%",
+      "expr": "(i(Vm_up40)[42] + i(Vm_dn40)[42]) / ((i(Vm_up40)[42] - i(Vm_dn40)[42]) / 2) * 100"
+    },
+    {
+      "name": "iup_at1p65_ua_80",
+      "unit": "uA",
+      "expr": "i(Vm_up80)[27] * 1e6"
+    },
+    {
+      "name": "idn_at1p65_ua_80",
+      "unit": "uA",
+      "expr": "i(Vm_dn80)[27] * 1e6"
+    },
+    {
+      "name": "mm_at1p65_pct_80",
+      "unit": "%",
+      "expr": "(i(Vm_up80)[27] + i(Vm_dn80)[27]) / ((i(Vm_up80)[27] - i(Vm_dn80)[27]) / 2) * 100"
+    },
+    {
+      "name": "mm_at2p40_pct_80",
+      "unit": "%",
+      "expr": "(i(Vm_up80)[42] + i(Vm_dn80)[42]) / ((i(Vm_up80)[42] - i(Vm_dn80)[42]) / 2) * 100"
+    },
+    {
+      "name": "mm_absmax_0p90_2p90_pct_10",
+      "unit": "%",
+      "expr": "vecmax(abs((i(Vm_up10)[12,52] + i(Vm_dn10)[12,52]) / ((i(Vm_up10)[12,52] - i(Vm_dn10)[12,52]) / 2))) * 100"
+    },
+    {
+      "name": "inet_both_at2p70_na_10",
+      "unit": "nA",
+      "expr": "i(Vm_both10)[48] * 1e9"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt"
+    ],
+    "temperature_c": [
+      27
+    ],
+    "supply_v": {
+      "Vdd": [
+        3.0,
+        3.6
+      ]
+    }
+  },
+  "batch": {
+    "capacity_wait_s": 900
+  }
+}

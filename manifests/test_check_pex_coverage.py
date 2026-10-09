@@ -86,9 +86,39 @@ class Pex(unittest.TestCase):
         self.fails("cp: layout.path", "cp: provenance input hash")
 
     def test_altered_leg(self):
-        leg = self.root / S / "dut/pll_cp.schematic.sp"
+        leg = self.root / S / "dut/pll_pfd.schematic.sp"
         leg.write_text(leg.read_text() + "* tampered\n")
-        self.fails("cp: schematic leg sha256", "cp: committed schematic leg differs")
+        self.fails("pfd: schematic leg sha256", "pfd: committed schematic leg differs")
+
+    def test_altered_leg_of_stale_pending_block(self):
+        # A STALE_PENDING block keeps its leg-integrity check.
+        b = next(iter(chk.STALE_PENDING))
+        leg = self.root / S / f"dut/pll_{b}.schematic.sp"
+        leg.write_text(leg.read_text() + "* tampered\n")
+        self.fails(f"{b}: schematic leg sha256")
+
+    def test_stale_pending_entry_must_be_removed_once_fresh(self):
+        # Simulate the follow-up: re-flatten the leg and re-pin its provenance.
+        import subprocess
+        b = next(iter(chk.STALE_PENDING))
+        pp = self.root / S / "leg-provenance.json"
+        ent = json.loads(pp.read_text())["blocks"][b]
+        r = subprocess.run([sys.executable, "-I", str(self.root / S / "flatten-schematic.py"),
+                            f"../../design/sg13cmos5l/netlist/{b}.spice", str(ent["top"]),
+                            str(ent["new_name"]), str(ent["pins"])],
+                           cwd=self.root / S, capture_output=True, text=True, check=True)
+        leg = self.root / S / f"dut/pll_{b}.schematic.sp"
+        leg.write_text(r.stdout)
+        src = self.root / f"design/sg13cmos5l/netlist/{b}.spice"
+        self.edit(pp, lambda d: d["blocks"][b].update(leg_sha256=chk.sha256_file(leg),
+                                                      source_sha256=chk.sha256_file(src)))
+        self.fails(f"{b}: listed in STALE_PENDING", "stale entry")
+
+    def test_stale_pending_block_cannot_be_cited(self):
+        b = next(iter(chk.STALE_PENDING))
+        mp = self.root / MANIFEST
+        self.edit(mp, lambda d: d["evidence"]["7.analog"].update(file=f"{S}/reports/pex.{b}.json"))
+        self.fails(f"manifest: 7.analog cites {b}")
 
     def test_changed_source_export(self):
         src = self.root / "design/sg13cmos5l/netlist/vco.spice"

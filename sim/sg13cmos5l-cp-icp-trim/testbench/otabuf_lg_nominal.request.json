@@ -1,0 +1,125 @@
+{
+  "engine": "ngspice",
+  "netlist": "tb_cp_otabuf_loopgain.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "ac",
+    "args": "dec 20 1e3 1e11"
+  },
+  "measurements": [
+    {
+      "name": "a0_db_0p5",
+      "unit": "dB",
+      "spice": ".meas ac a0_db_0p5 find vdb(x0.vdump) at=1e3"
+    },
+    {
+      "name": "ugf_hz_0p5",
+      "unit": "Hz",
+      "spice": ".meas ac ugf_hz_0p5 when vdb(x0.vdump)=0"
+    },
+    {
+      "name": "pm_rad_0p5",
+      "unit": "rad",
+      "spice": ".meas ac pm_rad_0p5 find vp(x0.vdump) when vdb(x0.vdump)=0",
+      "limits": {
+        "min": 0.785398
+      }
+    },
+    {
+      "name": "a0_db_1",
+      "unit": "dB",
+      "spice": ".meas ac a0_db_1 find vdb(x1.vdump) at=1e3"
+    },
+    {
+      "name": "ugf_hz_1",
+      "unit": "Hz",
+      "spice": ".meas ac ugf_hz_1 when vdb(x1.vdump)=0"
+    },
+    {
+      "name": "pm_rad_1",
+      "unit": "rad",
+      "spice": ".meas ac pm_rad_1 find vp(x1.vdump) when vdb(x1.vdump)=0",
+      "limits": {
+        "min": 0.785398
+      }
+    },
+    {
+      "name": "a0_db_1p65",
+      "unit": "dB",
+      "spice": ".meas ac a0_db_1p65 find vdb(x2.vdump) at=1e3"
+    },
+    {
+      "name": "ugf_hz_1p65",
+      "unit": "Hz",
+      "spice": ".meas ac ugf_hz_1p65 when vdb(x2.vdump)=0"
+    },
+    {
+      "name": "pm_rad_1p65",
+      "unit": "rad",
+      "spice": ".meas ac pm_rad_1p65 find vp(x2.vdump) when vdb(x2.vdump)=0",
+      "limits": {
+        "min": 0.785398
+      }
+    },
+    {
+      "name": "a0_db_2p4",
+      "unit": "dB",
+      "spice": ".meas ac a0_db_2p4 find vdb(x3.vdump) at=1e3"
+    },
+    {
+      "name": "ugf_hz_2p4",
+      "unit": "Hz",
+      "spice": ".meas ac ugf_hz_2p4 when vdb(x3.vdump)=0"
+    },
+    {
+      "name": "pm_rad_2p4",
+      "unit": "rad",
+      "spice": ".meas ac pm_rad_2p4 find vp(x3.vdump) when vdb(x3.vdump)=0",
+      "limits": {
+        "min": 0.785398
+      }
+    },
+    {
+      "name": "a0_db_2p7",
+      "unit": "dB",
+      "spice": ".meas ac a0_db_2p7 find vdb(x4.vdump) at=1e3"
+    },
+    {
+      "name": "ugf_hz_2p7",
+      "unit": "Hz",
+      "spice": ".meas ac ugf_hz_2p7 when vdb(x4.vdump)=0"
+    },
+    {
+      "name": "pm_rad_2p7",
+      "unit": "rad",
+      "spice": ".meas ac pm_rad_2p7 find vp(x4.vdump) when vdb(x4.vdump)=0",
+      "limits": {
+        "min": 0.785398
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "backend": "local",
+  "corners": {
+    "process": [
+      "mos_tt"
+    ],
+    "temperature_c": [
+      27
+    ]
+  }
+}
