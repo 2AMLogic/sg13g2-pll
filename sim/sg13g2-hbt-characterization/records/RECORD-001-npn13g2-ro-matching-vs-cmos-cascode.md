@@ -13,6 +13,17 @@
   `vbe_max = vce_max = 1.6`, `vbc_max = 5.1`), xschem symbol
   `sg13g2_pr/npn13G2.sym`. `klt sim` client **0.6.0** for the batch runs (see
   "Tool friction"), `klt` 0.7.0 for the local probe and extract/LVS.
+- **PDK revision**: `IHP-Open-PDK` commit `5cccb161f7492697cfa52eb14dc03beb00bdca9e`
+  (tag `v0.3.0`). The installed `~/share/pdk/ihp-sg13g2` tree is not a git checkout; its
+  `.fetched-version` marker reads `0.3.0`, and the git blob hashes of the six model files
+  these benches load (`sg13g2_hbt_mod.lib`, `sg13g2_hbt_mod_mismatch.lib`, `cornerHBT.lib`,
+  `cornerMOShv.lib`, `sg13g2_moshv_mod.lib`, `sg13g2_moshv_parm.lib`) are identical to
+  `ihp-sg13g2/libs.tech/ngspice/models/` at that tag. The batch report
+  `corners/reports/hbt_ro.klt-report.json` records `models_lib_sha256` `bae3d705...`, which
+  equals the sha256 of the local `cornerHBT.lib`; `cmos_ro_nominal.klt-report.json`'s
+  `5a1f862d...` equals the local `cornerMOShv.lib`. The slim `hbt_mm` report carries no
+  model hash, so the MC job's fleet-side tree is not independently confirmed. The other
+  files in the tree (and the OSDI objects) were not compared.
 - **Reproduce**: `testbench/run.sh` (requests in `requests/`, reducer
   `testbench/analyze.py`; raw reports in `corners/reports/`, CSVs in `corners/`).
 - **Matrix**: `corners/matrix.md`.

@@ -358,6 +358,28 @@ the min/max.
 | divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 6 | 0 | 6.53234e-07 | 1.28355e-06 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 6 | 0 | -0.000237713 | -0.000218613 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
 
+### g2-npn13g2-ro-matching
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: device-level benches (testbench/tb_hbt_ro.sp, tb_hbt_mm.sp: npn13G2 Nx=1 mirror; tb_cmos_ro.sp: cp_leg_n CMOS cascode leg); IHP-Open-PDK v0.3.0 model files
+- **Context**: device characterization (schematic-level, not the PLL)
+- **Conditions**: HBT: hbt_typ/bcs/wcs x -40/27/125 C (MC n=50 per corner for matching); CMOS leg: mos_tt / 27 C only; ngspice-46
+- **Method**: DC Ic-Vce sweep (r_o) and Monte Carlo mirror ratio
+- **Record**: `sim/sg13g2-hbt-characterization/records/RECORD-001-npn13g2-ro-matching-vs-cmos-cascode.md` (sha256 `88da474a34f00a13e60cca48dff55c367fdc9246e9b6e442eff20a53be10dabc`)
+- **Table `hbt_ro`**: `sim/sg13g2-hbt-characterization/corners/hbt_ro.csv` (sha256 `c3cceda8139ed9fa485a2a5f17d8a264cea6d7e5eb9eb7ee2bf503d1c9814f40`)
+- **Table `hbt_mm_summary`**: `sim/sg13g2-hbt-characterization/corners/hbt_mm_summary.csv` (sha256 `bf8af052beaae1552ef93c3f05c823f6c013597ebba3ae486c496f920f678f2f`)
+- **Table `cmos_ro_nominal`**: `sim/sg13g2-hbt-characterization/corners/cmos_ro_nominal.csv` (sha256 `540cf02fc7c243d67811f2dfd4a45e60213261752c0a2cfdba5677cedc70b2b1`)
+- **Note**: CMOS cascode leg exercised at mos_tt / 27 C only; its -40/125 C, mos_ss/mos_ff and Monte Carlo runs failed on the batch fleet and were not run. The DR-002 trigger verdict (DR-009) rests on the one corner where both legs exist.
+- **Note**: Matching is the PDK mismatch model's sampled spread; klt sim reports bipolar mismatch activity as not independently verified for sg13g2.
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| npn13G2 collector current over the Vce sweep (r_o is derived in the record, not tabulated) (`ic_a`) | A | `hbt_ro` | - | 135 | 0 | 2.44405e-06 | 8.23301e-05 | `process`: hbt_bcs, hbt_typ, hbt_wcs; `temp_c`: -40, 27, 125; `iref_a`: 2.5e-06, 1e-05, 8e-05 |
+| npn13G2 mirror-ratio standard deviation (200 ratios per cell) (`sigma_ratio`) | 1 (fraction) | `hbt_mm_summary` | - | 27 | 0 | 0.126026 | 0.163061 | `process`: hbt_bcs_mismatch, hbt_typ_mismatch, hbt_wcs_mismatch; `temp_c`: -40, 27, 125; `iref_a`: 2.5e-06, 1e-05, 8e-05 |
+| CMOS cascode leg sink current over the Vout sweep (`isink_a`) | A | `cmos_ro_nominal` | - | 30 | 0 | 2.49311e-06 | 8.02932e-05 | `corner`: mos_tt/novdd/27C; `iref_a`: 2.5e-06, 1e-05, 8e-05 |
+
 ## Superseded / historical (not current-design claims)
 
 ### loop-bw-pm-resized-full
