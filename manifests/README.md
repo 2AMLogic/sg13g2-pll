@@ -519,3 +519,11 @@ fresh report against the committed one.
   grader's ruleset changed — all of them are exactly the "rot" this
   machinery exists to catch. The report is refreshed by regenerating and
   recommitting it, never by hand-editing.
+
+- **Spec citation gate (`manifests/check_spec_citations.py`).** A CI step in
+  `signoff.yml` (negative tests in `manifests/test_check_spec_citations.py`)
+  checks that every bench, record, `R-n` ruling and `DR-NNN` decision record
+  cited in `spec/target-spec.md`'s Row table exists, and that Status is M/P/N/O
+  with M rows citing a record and O rows carrying a gate or ruling. Structure
+  and resolution only: it never reads bounds or compares Status to measured
+  compliance.
