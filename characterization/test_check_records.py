@@ -153,6 +153,58 @@ class AppendOnly(Fixture):
 
     def test_bad_base_reports(self):
         self.assertTrue(any("failed" in e for e in c.check_append_only(self.root, "nope")))
+        self.assertTrue(c.check_baseline_growth(self.root, "nope", {}))
+
+
+class BaselineGrowth(AppendOnly):
+    """records_baseline.json may only shrink relative to the base ref."""
+    NEW = "sim/bench/records/RECORD-003-c.md"
+
+    def setUp(self):
+        super().setUp()
+        # Base branch carries a baseline with one grandfathered entry of each kind.
+        git(self.root, "checkout", "-q", "main")
+        write(self.root, "sim/bench/records/RECORD-002-dup.md", REC.format(n="002"))
+        self.old = "sim/bench/records/RECORD-002-dup.md"
+        self.baseline = {"unlisted_in_sources": [self.old], "duplicate_numbers": {"sim/bench": [2]}}
+        self.write_baseline(self.baseline)
+        git(self.root, "add", "-A")
+        git(self.root, "commit", "-q", "-m", "baseline")
+        git(self.root, "checkout", "-q", "pr")
+        git(self.root, "reset", "-q", "--hard", "main")
+
+    def write_baseline(self, b):
+        write(self.root, c.BASELINE_REL, json.dumps(b))
+
+    def test_unchanged_ok(self):
+        self.assertEqual(self.errs("main"), [])
+
+    def test_unlisted_entry_added_fails(self):
+        write(self.root, self.NEW, REC.format(n="003"))
+        self.write_baseline({**self.baseline, "unlisted_in_sources": [self.old, self.NEW]})
+        self.commit()
+        e = self.errs("main")
+        self.assertTrue(any("unlisted_in_sources adds" in x and "RECORD-003" in x for x in e), e)
+
+    def test_duplicate_entry_added_fails(self):
+        write(self.root, "sim/bench/records/RECORD-001-dup.md", REC.format(n="001"))
+        self.write_baseline({"unlisted_in_sources": [self.old, "sim/bench/records/RECORD-001-dup.md"],
+                             "duplicate_numbers": {"sim/bench": [1, 2]}})
+        self.commit()
+        e = self.errs("main")
+        self.assertTrue(any("duplicate_numbers adds sim/bench 001" in x for x in e), e)
+        self.assertTrue(any("unlisted_in_sources adds" in x for x in e), e)
+
+    def test_shrink_ok(self):
+        s = json.loads((self.root / "characterization/sources.json").read_text())
+        s["datasets"][0]["extra_records"].append(self.old)
+        write(self.root, "characterization/sources.json", json.dumps(s))
+        self.write_baseline({"unlisted_in_sources": [], "duplicate_numbers": {"sim/bench": [2]}})
+        self.commit()
+        self.assertEqual(self.errs("main"), [])
+
+    def test_base_without_baseline_skipped(self):
+        self.assertEqual(c.check_baseline_growth(self.root, "main~1", self.baseline), [])
 
 
 class Committed(unittest.TestCase):

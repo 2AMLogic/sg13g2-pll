@@ -20,6 +20,10 @@ none is invented, each holds for all of them):
      records_baseline.json (historical records that predate this checker).
   4. with --base: no record present at the base ref may be deleted, renamed,
      modified or type-changed (new records may be added).
+  5. with --base: records_baseline.json may only shrink -- every
+     unlisted_in_sources path and duplicate_numbers (bench, number) entry must
+     already be present in the base ref's copy.  A base without the file (the
+     PR that introduces it) is skipped.
 """
 import argparse
 import json
@@ -140,14 +144,45 @@ def check_append_only(root, base):
     return errs
 
 
+BASELINE_REL = "characterization/records_baseline.json"
+
+
+def check_baseline_growth(root, base, baseline):
+    """Fail on any records_baseline.json entry that the copy at `base` lacks."""
+    v = subprocess.run(["git", "-C", str(root), "rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"],
+                       capture_output=True, text=True)
+    if v.returncode != 0:
+        return [f"cannot resolve base ref {base} to check {BASELINE_REL} growth"]
+    r = subprocess.run(["git", "-C", str(root), "show", f"{base}:{BASELINE_REL}"],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        return []  # base predates the baseline: this change introduces it
+    try:
+        old = json.loads(r.stdout)
+    except json.JSONDecodeError as e:
+        return [f"{BASELINE_REL} at {base} is not valid JSON: {e}"]
+    errs = []
+    old_unlisted = set(old.get("unlisted_in_sources", []))
+    for p in sorted(set(baseline.get("unlisted_in_sources", [])) - old_unlisted):
+        errs.append(f"{BASELINE_REL}: unlisted_in_sources adds {p}, absent at {base} "
+                    "(the baseline may only shrink; list new records in sources.json)")
+    old_dups = {(b, int(n)) for b, ns in old.get("duplicate_numbers", {}).items() for n in ns}
+    new_dups = {(b, int(n)) for b, ns in baseline.get("duplicate_numbers", {}).items() for n in ns}
+    for b, n in sorted(new_dups - old_dups):
+        errs.append(f"{BASELINE_REL}: duplicate_numbers adds {b} {n:03d}, absent at {base} "
+                    "(the baseline may only shrink; give the new record the next free number)")
+    return errs
+
+
 def run(root=ROOT, base=None):
     root = Path(root)
     sources = json.loads((root / "characterization/sources.json").read_text())
-    bp = root / "characterization/records_baseline.json"
+    bp = root / BASELINE_REL
     baseline = json.loads(bp.read_text()) if bp.exists() else {}
     errs = check_layout(root, baseline) + check_format(root) + check_sources(root, sources, baseline)
     if base:
         errs += check_append_only(root, base)
+        errs += check_baseline_growth(root, base, baseline)
     return errs
 
 
