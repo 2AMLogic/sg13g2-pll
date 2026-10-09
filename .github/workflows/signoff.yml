@@ -61,6 +61,17 @@ jobs:
           python3 manifests/check_erc_coverage.py
           python3 manifests/test_check_erc_coverage.py
 
+      # T1 item 7: the manifest cites only the vco and divider_chain PEX
+      # envelopes. This gate validates all five nominal klt pex reports
+      # (status, body bias, GDS input hash, block identity) and that the
+      # flattened schematic legs match a fresh re-flatten of the design
+      # exports. lock_detector stays withheld (#157). Nominal evidence
+      # integrity only -- not a PVT/spec pass.
+      - name: Item-7 PEX sibling coverage gate (five nominal envelopes + legs)
+        run: |
+          python3 manifests/check_pex_coverage.py
+          python3 manifests/test_check_pex_coverage.py
+
       - name: Install the pinned grading build of klt
         run: |
           set -euo pipefail
