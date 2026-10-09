@@ -133,6 +133,14 @@ jobs:
           python3 manifests/check_testbench_coverage.py
           python3 manifests/test_check_testbench_coverage.py
 
+      # Spec citation gate: every Measured-by bench/record, R-n and DR-NNN in
+      # spec/target-spec.md's Row table resolves. Structure only; never reads
+      # bounds or Status vs measured compliance. Offline, seconds.
+      - name: Spec row-table citation gate (benches, records, R-n, DR-NNN)
+        run: |
+          python3 manifests/check_spec_citations.py
+          python3 manifests/test_check_spec_citations.py
+
       - name: Install the pinned grading build of klt
         run: |
           set -euo pipefail
