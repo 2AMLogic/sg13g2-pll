@@ -87,6 +87,23 @@ against the artifact as committed, not against a file's say-so.
   569/569 devices — the MoM caps drawn at #119 closed the former
   device-level gap, and #121's 78 added divider devices re-drew clean) —
   the mechanically graded citation is one of them, re-run live.
+- **Sibling-record check (`manifests/check_drc_coverage.py`).** The live
+  command re-runs the divider only, so the other five blocks are not
+  re-graded. A `signoff.yml` CI step (negative tests in
+  `manifests/test_check_drc_coverage.py`, run on temporary copies) resolves the
+  authoritative six-block record from the manifest's LVS/layout citations
+  (`20261003-183059-dc5644a`, whose `drc.pll_<block>.json` wrappers are the
+  committed same-revision runs) and requires for every block: wrapper
+  `ok: true`, `returncode: 0`, `status: clean` with `violation_count` 0 and no
+  listed violations, provenance input hash equal to the sha256 of the adjacent
+  `pll_<block>.gds`, and a `coverage` object that still carries the
+  `rules_skipped` and `layers_in_stream_without_rules` disclosures (they may
+  be non-empty; the starter deck is not required to be complete, and this is
+  not a foundry-signoff claim). It also verifies the live item-3 command's
+  divider GDS hash equals both the citation's `content_hash` and the record's
+  divider GDS, so the older immutable record path it targets is bound to the
+  same divider content. A new layout revision therefore needs fresh matching
+  DRC evidence; historical records are never edited.
 - **Coverage gaps, quoted from the cited envelope** (item 3 requires these
   disclosed, never hidden behind "clean"):
   - `layers_in_stream_without_rules`:
@@ -483,7 +500,8 @@ process's working directory — no manifest-relative anchoring):
 
 [`.github/workflows/signoff.yml`](../.github/workflows/signoff.yml)
 installs the pinned grader at that commit, first runs `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
-cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS) and
+cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS),
+`manifests/check_drc_coverage.py` (all six composed-block DRC reports, item 3) and
 `manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
 item 11) and `manifests/check_pex_coverage.py` (all five nominal `klt pex`
 envelopes and their flattened schematic legs, item 7 siblings; `lock_detector`
