@@ -1,0 +1,52 @@
+{
+  "_comment": "Source/leg provenance for the flattened schematic legs in dut/. The legs are produced by flatten-schematic.py (run from this directory) from the design export named in source. check_pex_coverage.py re-flattens into a temp dir and byte-compares; editing a hash here without regenerating the leg and re-running klt pex cannot pass. Do not hand-edit.",
+  "flattener": "sim/sg13cmos5l-klt-pex-signoff/flatten-schematic.py",
+  "blocks": {
+    "pfd": {
+      "source": "design/sg13cmos5l/netlist/pfd.spice",
+      "source_sha256": "sha256:c4a848e83ceeb1f8440609b629575b4266bf72eb1c3f2a308882ed7a99597587",
+      "top": "pfd",
+      "new_name": "pll_pfd",
+      "pins": "DN,FB,REF,UP,VDD,VSS",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_pfd.schematic.sp",
+      "leg_sha256": "sha256:c9428b5e5de312095ba7003ffb9134da61d8f44c62211a218996bff12fb5bc93"
+    },
+    "cp": {
+      "source": "design/sg13cmos5l/netlist/cp.spice",
+      "source_sha256": "sha256:8330c39098b1158cb8f306b6a13201c468216dda1e642f3b8a1566f2b55e3b6c",
+      "top": "cp",
+      "new_name": "pll_cp",
+      "pins": "DN,IBN,IBP,ICN,ICP,UP,VDD,VOUT,VSS",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_cp.schematic.sp",
+      "leg_sha256": "sha256:15381749e5cf6f54f381dfa79d5f535d9f1d14d69aa45816560a5ebcc65b3f1e"
+    },
+    "loop_filter": {
+      "source": "design/sg13cmos5l/netlist/loop_filter.spice",
+      "source_sha256": "sha256:0a3f551bffdbc76388011d873b85f159ad066489b09970600495e255edd6724d",
+      "top": "loop_filter",
+      "new_name": "pll_loop_filter",
+      "pins": "NZ,VCTRL,VSS",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_loop_filter.schematic.sp",
+      "leg_sha256": "sha256:27129567249e78f53eb2c0b3d4c9c6f8ed68bcf3058380f68e23e62a978b5db1"
+    },
+    "vco": {
+      "source": "design/sg13cmos5l/netlist/vco.spice",
+      "source_sha256": "sha256:479eacab10a71e3b991f18c7f64b52737dd7152992d27d3151c0bb0115f79d64",
+      "top": "vco",
+      "new_name": "pll_vco",
+      "pins": "B0,B1,CLK,GND_VCO,VCTRL,VDD_VCO",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_vco.schematic.sp",
+      "leg_sha256": "sha256:03cfeae2652e3b78fb6d029c2c890c7f85e094ff3314bdb50005148bed3d0d0f"
+    },
+    "divider_chain": {
+      "source": "design/sg13cmos5l/netlist/divider_chain.spice",
+      "source_sha256": "sha256:455546435c76782041228f6e10ee53841b91a6c501aa647ecf9338e2feaddf9c",
+      "top": "divider_chain",
+      "new_name": "pll_divider_chain",
+      "pins": "CKIN,CKIN_VCO,DIVOUT,FB,P0,P1,P2,P3,P4,P5,VDD_DIV,VSS",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_divider_chain.schematic.sp",
+      "leg_sha256": "sha256:b3aa65b2edb787d17fa590499abcff9f46da4be1058462ab713f634db3dcc267"
+    }
+  },
+  "flattener_sha256": "sha256:1dbb3810da427485578001cee6ae410ee6f72c213db035aaf055d53595227155"
+}
