@@ -61,6 +61,16 @@ jobs:
           python3 manifests/check_erc_coverage.py
           python3 manifests/test_check_erc_coverage.py
 
+      # Characterization summary (issue #171): characterization/SUMMARY.md is
+      # generated from the sim/ files named in characterization/sources.json.
+      # Fails if a listed source is missing or its sha256 changed, if a
+      # min/max or any other rendered line no longer matches a fresh
+      # generation, or if SUMMARY.md is stale. Offline; runs no simulation.
+      - name: Characterization summary (source hashes, extrema, freshness)
+        run: |
+          python3 characterization/test_gen_summary.py
+          python3 characterization/gen_summary.py --check
+
       - name: Install the pinned grading build of klt
         run: |
           set -euo pipefail

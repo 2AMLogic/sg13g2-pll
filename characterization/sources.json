@@ -1,0 +1,1328 @@
+{
+ "schema_version": 1,
+ "description": "Explicit source map for characterization/SUMMARY.md. Sources are listed by hand; sim/ is never globbed. sha256 values are filled by `gen_summary.py --update-hashes` and verified in CI. No spec or target values appear here.",
+ "sections": [
+  {
+   "id": "sg13cmos5l-nominal-pex",
+   "title": "SG13CMOS5L: nominal-corner PEX (not PVT)"
+  },
+  {
+   "id": "sg13cmos5l-postlayout-pex-pvt",
+   "title": "SG13CMOS5L: post-layout (PEX) PVT campaigns"
+  },
+  {
+   "id": "sg13cmos5l-schematic-pvt",
+   "title": "SG13CMOS5L: schematic-level campaigns (current)"
+  },
+  {
+   "id": "sg13cmos5l-nominal-single-point",
+   "title": "SG13CMOS5L: nominal single-point and closed-loop results (failures retained)"
+  },
+  {
+   "id": "sg13g2",
+   "title": "SG13G2 (non-port design)"
+  },
+  {
+   "id": "superseded",
+   "title": "Superseded / historical (not current-design claims)"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "no-ratified-spec",
+   "title": "No ratified spec table",
+   "issue": "#148",
+   "text": "There is no ratified target spec to compare against. This summary therefore carries no pass/fail-versus-spec column and derives no target from any measurement."
+  },
+  {
+   "id": "pvt-axes-partial",
+   "title": "Partial PVT axes",
+   "issue": "none filed",
+   "text": "Most campaigns use a 3-bundle PVT convention (typ/slow/fast), a fixed supply (3.3 V) and a subset of band codes or trim codes; none is a full cross-product. Each dataset lists the corner coverage actually present in its CSVs. Targeted fine-trim and nominal records cover single tuples only."
+  },
+  {
+   "id": "bodyfix-pvt",
+   "title": "Bodyfix (#136) not re-verified across PVT",
+   "issue": "#139",
+   "text": "The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only (RECORD-005). The last full-PVT evidence is for the previous DUT."
+  },
+  {
+   "id": "lock-detector-pvt",
+   "title": "lock_detector PVT gaps",
+   "issue": "#139",
+   "text": "The full-PVT lock_detector grid for the current DUT is owed."
+  },
+  {
+   "id": "lock-detector-pex",
+   "title": "lock_detector post-layout/PEX gap",
+   "issue": "#157",
+   "text": "lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7."
+  },
+  {
+   "id": "divider-speed",
+   "title": "Divider speed evidence",
+   "issue": "#168",
+   "text": "Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources; the SG13G2 divider has none."
+  },
+  {
+   "id": "cp-charge-sharing",
+   "title": "Charge-pump dump-node correction",
+   "issue": "#165",
+   "text": "The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved."
+  }
+ ],
+ "datasets": [
+  {
+   "id": "klt-pex-nominal",
+   "section": "sg13cmos5l-nominal-pex",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "routed GDS layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a (pll_pfd, pll_cp, pll_loop_filter, pll_vco, pll_divider_chain); schematic leg design/sg13cmos5l/netlist/<block>.spice",
+   "context": "extracted (klt pex) vs schematic; `delta_pct` is extracted relative to schematic",
+   "conditions": "mos_tt (+res_typ/cap_typ where present), 27 C, 3.3 V; ngspice-46; klt 0.6.0+g1eb3e4bfd0f5; KLayout 0.30.12; --backend local",
+   "method": "klt pex envelopes (schema_version 2); one corner per block, nominal only",
+   "record": "sim/sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md",
+   "tables": [
+    {
+     "id": "pex_pfd",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/pex.pfd.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "61db8546b25b19bcf45ca290dc3294ceeffaaafc63316a3cd9eca2429cecb260"
+    },
+    {
+     "id": "pex_cp",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/pex.cp.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "d4a3ef1206157636ec1a8e0eb383c294b5feb39991564ed08a2067cde293af92"
+    },
+    {
+     "id": "pex_loop_filter",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/pex.loop_filter.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "6686c95ba637243d5a7a8e73a42ee477f71e566f6510585c23924ee71dc02208"
+    },
+    {
+     "id": "pex_vco",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/pex.vco.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "eddf5f5f8b9e5d6aa8ec0f937ddd4b527a2839d1244a9ff25a3454631c82cf7f"
+    },
+    {
+     "id": "pex_divider_chain",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/pex.divider_chain.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "96d17f566b31474ccf283baf34a8dc51ece517dd57f8749ed631577946a7641e"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "pex_pfd",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "pfd extracted-vs-schematic delta (up_avg, dn_avg rows)",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_cp",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "cp extracted-vs-schematic delta (icp_up_a, icp_dn_a rows)",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_loop_filter",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "loop_filter extracted-vs-schematic delta (t63_nz_s row)",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_vco",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "vco extracted-vs-schematic delta (clk_period_s row)",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_divider_chain",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "divider_chain extracted-vs-schematic delta (div_period_s, ck_period_s rows)",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_vco",
+     "column": "extracted_value",
+     "units": "s",
+     "quantity": "vco extracted clk_period_s",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "pex_vco",
+     "column": "schematic_value",
+     "units": "s",
+     "quantity": "vco schematic clk_period_s",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    }
+   ],
+   "notes": [
+    "Nominal PEX, one corner per block: this is NOT a PVT result.",
+    "No request declares limits; `status: pass` in the envelopes means 'ran and compared', not 'met a spec'.",
+    "lock_detector was not run (stale committed PEX, #157)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "lock-detector-pex"
+   ],
+   "record_sha256": "6d27e42d100ebda96fb297222d1ab6a3b8debbada9d5cd65f002bdb403108eee"
+  },
+  {
+   "id": "postlayout-pex-vco",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_vco extracted from routed GDS layout record 20260921-155747-c44fa68 (floorplan-aware route, RECORD-002; klt 0.4.0+g729ee531e176)",
+   "context": "extracted (postlayout arm) vs frozen schematic (schematic arm); only postlayout-arm rows summarised here",
+   "conditions": "3 PVT bundles (typ/slow/fast = mos_tt+res_typ+27C / mos_ss+res_wcs+125C / mos_ff+res_bcs-40C) x 4 band codes x 5 VCTRL; 3.3 V only; 30 ns tran; ngspice-46",
+   "method": "open-loop transient, period measured per run; deviation = postlayout/schematic",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-002-floorplan-aware-vco-route.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/results.csv",
+     "sha256": "df87ebc6f880cd9648066630c5982d5d38f3d571fd9dda923746884b47e17f1b"
+    },
+    {
+     "id": "deviation",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/deviation.csv",
+     "sha256": "028de33db5c4b15526c5588fdc3bb8e495cd3052cc68cdca106307f9b21d2eac"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco open-loop frequency, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "deviation",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "vco postlayout-vs-schematic frequency deviation",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Bundle PVT (3 corners), not a full cross-product."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "79a7c066cac4e00550694c266c10aa1cbe2450563d43394a70424f5966fc1630"
+  },
+  {
+   "id": "postlayout-pex-cp",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_cp extracted from routed GDS, byte-identical across layout records 20260830-204105-457cf5b and 20260921-155747-c44fa68 (RECORD-001 sec 1.3, RECORD-002 sec 5.2); DC-trim matrix NOT re-run on the as-drawn-cascode-bias-replica or the later #165 fix",
+   "context": "extracted (postlayout arm) vs frozen schematic; only postlayout-arm rows summarised",
+   "conditions": "Icp trim ladder (iref) x mos_corner x temp x VDD x VOUT sweep points per corners/cp_results.csv; ngspice-46",
+   "method": "DC sweep, delivered current vs output voltage",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md",
+   "tables": [
+    {
+     "id": "cp_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/cp_results.csv",
+     "sha256": "42e5ba0fe04d572a5a2fc1ee8dd153b2b013294367ec8a6aa0fd4a53321fc704"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "cp_results",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "cp postlayout delivered current, UP state",
+     "where": {
+      "arm": "postlayout",
+      "state": "up"
+     },
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a"
+     ]
+    },
+    {
+     "table": "cp_results",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "cp postlayout delivered current, DN state",
+     "where": {
+      "arm": "postlayout",
+      "state": "dn"
+     },
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a"
+     ]
+    }
+   ],
+   "notes": [
+    "Uncorrected for the dump-node charge-sharing term (#165)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-charge-sharing"
+   ],
+   "record_sha256": "237f4a0e7f7cf410e9413d323fd826ae6063aaa3b773bb280c743dab3ca26b12"
+  },
+  {
+   "id": "postlayout-pex-pfd",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_pfd extracted from routed GDS layout record 20260921-155747-c44fa68 (RECORD-003)",
+   "context": "extracted (postlayout arm) vs frozen schematic; only postlayout-arm rows summarised",
+   "conditions": "pfd_results.csv cases/offsets/corners as listed in coverage; ngspice-46",
+   "method": "transient, duty fraction of UP/DN outputs for a fixed REF/FB lead",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md",
+   "tables": [
+    {
+     "id": "pfd_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/pfd_results.csv",
+     "sha256": "20740d7604733451752f09dcf83269d5f1d9cfbbfd302f979134323f54aecdea"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "pfd_results",
+     "column": "up_duty_frac",
+     "units": "fraction",
+     "quantity": "pfd UP duty fraction, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "case",
+      "offset_s",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "pfd_results",
+     "column": "dn_duty_frac",
+     "units": "fraction",
+     "quantity": "pfd DN duty fraction, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "case",
+      "offset_s",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    }
+   ],
+   "notes": [
+    "12-run case matrix, not a PVT grid; a pfd PVT result also depends on the reset-chain composition disclosed in RECORD-003."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "d46a1309738e46e6594d8080b3baef565ee33e25b4df2cab7b6aa4a01fe515c6"
+  },
+  {
+   "id": "postlayout-pex-lock-detector",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "pll_lock_detector extracted from layout record 20260921-155747-c44fa68 (RECORD-003) -- PRE-#136 DUT; the #136 bodyfix GDS has not been re-extracted (#157)",
+   "context": "extracted (postlayout arm) vs whole-cell schematic; only postlayout-arm rows summarised",
+   "conditions": "mos_corner x res_corner x temp x VSUP per coverage; ngspice-46",
+   "method": "transient window-width (twin) measurement",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md",
+   "tables": [
+    {
+     "id": "ld_window",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window.csv",
+     "sha256": "fd88ed4bf2da7b99996728e371585a4af48a51fd66d46ecef59b27da4557a9ab"
+    },
+    {
+     "id": "ld_deviation",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation.csv",
+     "sha256": "8d961cabb1f816e47a32c5212cf33eb4dd115be918929281d18e1d08ce656647"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "ld_window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "lock_detector window width (rising), postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "deck",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ld_window",
+     "column": "twin_f_s",
+     "units": "s",
+     "quantity": "lock_detector window width (falling), postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "deck",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ld_deviation",
+     "column": "twin_r_delta_pct",
+     "units": "%",
+     "quantity": "lock_detector whole-cell postlayout-vs-schematic twin_r deviation",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Measured on the DUT before the #136 bodyfix; not re-verified across PVT after it."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "bodyfix-pvt",
+    "lock-detector-pex",
+    "lock-detector-pvt"
+   ],
+   "record_sha256": "d46a1309738e46e6594d8080b3baef565ee33e25b4df2cab7b6aa4a01fe515c6"
+  },
+  {
+   "id": "postlayout-pex-loop-filter",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_loop_filter extracted from routed GDS layout record 20260923-020931-a95a887-dirty (RECORD-004)",
+   "context": "extracted (postlayout arm) vs frozen schematic; only postlayout-arm rows summarised",
+   "conditions": "res_corner x temp x MoM-cap fraction per coverage; ngspice-46",
+   "method": "AC response; zero/pole frequencies and total capacitance extracted",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md",
+   "tables": [
+    {
+     "id": "lf_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/lf_results.csv",
+     "sha256": "990cf857b638dfab4a796e13c05c57811c9339895615236ec87bdfff67be3725"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "lf_results",
+     "column": "fz_hz",
+     "units": "Hz",
+     "quantity": "loop_filter zero frequency, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "lf_results",
+     "column": "fp_hz",
+     "units": "Hz",
+     "quantity": "loop_filter pole frequency, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "lf_results",
+     "column": "ctot_f",
+     "units": "F",
+     "quantity": "loop_filter total capacitance, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    }
+   ],
+   "notes": [],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "f2642e6134182c4de7f4a41d7501b552c9514b48b8d94944fdb7949ecd99304a"
+  },
+  {
+   "id": "postlayout-pex-divider-chain",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_divider_chain (post-#112 repair) extracted from routed GDS layout record 20260923-020931-a95a887-dirty (RECORD-004)",
+   "context": "extracted (postlayout arm) vs frozen schematic; only postlayout-arm rows summarised",
+   "conditions": "mos_corner x temp x VDD, programming words per coverage; ngspice-46",
+   "method": "transient; division period and supply current",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md",
+   "tables": [
+    {
+     "id": "div_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/div_results.csv",
+     "sha256": "df72af3fa1ad6fcfa13ac28fcba8f78dd9a03045d029edf1012030248cdaa745"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "div_results",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider_chain output period (tdiv_a), postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    },
+    {
+     "table": "div_results",
+     "column": "tdiv_b_s",
+     "units": "s",
+     "quantity": "divider_chain output period (tdiv_b), postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    },
+    {
+     "table": "div_results",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider_chain supply current, postlayout arm",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Functional speed (max input frequency) is not covered here; see divider-speed gap (#168)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "f2642e6134182c4de7f4a41d7501b552c9514b48b8d94944fdb7949ecd99304a"
+  },
+  {
+   "id": "loop-bw-pm-finetrim",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "loop_filter_resized.spice (DR-006 R1 x44.2) with fine-trim Icp from cp-icp-trim RECORD-003/004; Kvco/fvco/n_div from loop-bandwidth-pm RECORD-002",
+   "context": "schematic, not extracted",
+   "conditions": "targeted tuples closing the band=00 / f_ref=4.5 MHz PM gaps only: issue #83 (slow, mid, 3.75 uA) and #79 (fast/typ/slow, low, 11 uA)",
+   "method": "analytic loop model from simulated Kvco, Icp and filter AC; fc and PM computed",
+   "record": "sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-004-issue79-close-band00-low-fref4p5-pm-gap.md",
+   "extra_records": [
+    "sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-003-issue83-close-band00-mid-fref4p5-pm-gap.md"
+   ],
+   "tables": [
+    {
+     "id": "issue83",
+     "path": "sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue83_finetrim.csv",
+     "sha256": "67c7184a176a33d1f484e96ebabd41493f33c1fc2fa61b7dc8b492e414a8d2f4"
+    },
+    {
+     "id": "issue79",
+     "path": "sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue79_finetrim.csv",
+     "sha256": "96f515dfc57d8acb4700520c5d82eb568fa1578f163f6520561f8bf332982ee6"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "issue83",
+     "column": "pm_deg",
+     "units": "deg",
+     "quantity": "phase margin, issue #83 tuple",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    },
+    {
+     "table": "issue83",
+     "column": "fc_hz",
+     "units": "Hz",
+     "quantity": "loop crossover frequency, issue #83 tuple",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    },
+    {
+     "table": "issue79",
+     "column": "pm_deg",
+     "units": "deg",
+     "quantity": "phase margin, issue #79 tuples",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    },
+    {
+     "table": "issue79",
+     "column": "fc_hz",
+     "units": "Hz",
+     "quantity": "loop crossover frequency, issue #79 tuples",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    }
+   ],
+   "notes": [
+    "Covers only the tuples listed; the rest of the (bundle, band, interval, f_ref) space is in the superseded RECORD-002 table (section 'superseded') and was not re-run on a later DUT.",
+    "The csv `meets_*` columns are the record's own comparisons against its internal 45 deg / ceiling thresholds; they are not reproduced here (no pass/fail column)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "372d1e4c99234dfa7357c6e608b95d6dc130461109f58a0400465d997785f060",
+   "extra_records_sha256": [
+    "b30578ffffb25e93d3461f77da3e3d87bedb334b9dd348986a12ac2d51d65fbf"
+   ]
+  },
+  {
+   "id": "cp-icp-finetrim",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "netlist-snapshots/cp.spice (post-DR-006 cascode-bias replica), instantiated verbatim; not the #165 charge-sharing correction",
+   "context": "schematic, not extracted",
+   "conditions": "issue #83: mos_ss/125 C/3.3 V, 3.75 uA code. issue #79: mos_ff/-40 C, mos_tt/27 C, mos_ss/125 C, 3.3 V, 11 uA code",
+   "method": "DC delivered current at VOUT = 1.65 V",
+   "record": "sim/sg13cmos5l-cp-icp-trim/records/RECORD-004-issue79-finetrim-icp.md",
+   "extra_records": [
+    "sim/sg13cmos5l-cp-icp-trim/records/RECORD-003-issue83-finetrim-icp.md"
+   ],
+   "tables": [
+    {
+     "id": "issue83",
+     "path": "sim/sg13cmos5l-cp-icp-trim/corners/results_issue83_finetrim.csv",
+     "sha256": "4f71051104fd05406a03faf2d22f857beb0483ba574eaa90e52c8b2796b07554"
+    },
+    {
+     "id": "issue79",
+     "path": "sim/sg13cmos5l-cp-icp-trim/corners/results_issue79_finetrim.csv",
+     "sha256": "6a7da118ad5c13edc7258f5dc1bb1d9291662ef3c66da5ae0dbe13fdf69d6eec"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "issue83",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "Icp UP/DN (3.75 uA code)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a",
+      "state"
+     ]
+    },
+    {
+     "table": "issue79",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "Icp UP/DN (11 uA code)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a",
+      "state"
+     ]
+    }
+   ],
+   "notes": [
+    "Targeted points, not the full six-code campaign (that campaign is in cp-icp-trim RECORD-001/002, outside this first-version selection)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "cp-charge-sharing"
+   ],
+   "record_sha256": "03110e5c6dd4763fbf1d3feb48e094171ff5d3d017c5636b3c54c01d191bcd73",
+   "extra_records_sha256": [
+    "482d9e84eba0c6ad27f27dda98c7615f58f9292f7a6247b6da4fb6c9a74f2ba6"
+   ]
+  },
+  {
+   "id": "divider-repair-reverification",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "divider_chain as repaired by issue #112 (netlist-snapshots/divider_chain_repaired.spice)",
+   "context": "schematic, not extracted",
+   "conditions": "mos_corner x temp x VDD per coverage; ngspice-46",
+   "method": "transient: DFF setup, hold and functional division",
+   "record": "sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13cmos5l-divider-nrange-retiming/corners/hold.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13cmos5l-divider-nrange-retiming/corners/func.csv",
+     "sha256": "f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_b_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_b",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (#168)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "5812315e4dfd1f466bf4774cced691aa8f8d9b5dc23cf8c5fc2ed7072c9458a4"
+  },
+  {
+   "id": "closed-loop-static-phase-error",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "real mitigated cp (netlist-snapshots/cp_cascbias.spice, commit d54ff69) with pfd #56 fix; behavioural divide-by-64 in the feedback path (RECORD-001), so no divider hardware is exercised",
+   "context": "schematic, pre-layout, closed loop",
+   "conditions": "one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles",
+   "method": "closed-loop transient; per-reference-cycle frequency error and phase error as fractions of f_ref / T_ref",
+   "record": "sim/sg13cmos5l-closed-loop-lock/records/RECORD-005-cascbias-real-cp-static-phase-error-rerun.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias.csv",
+     "sha256": "fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "FAILURE RETAINED: RECORD-005 reports a static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %), against the 5 % criterion the record itself uses; the extrema above span the full trace including the startup transient and are not a steady-state figure.",
+    "Row 7 static phase error is not closed; cause under investigation as the cp dump-node charge-sharing term (#165)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-charge-sharing",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "112d3a800b576be4c2392767f4c22cba8d3cc150178d352e32fd4d0d2aec890e"
+  },
+  {
+   "id": "closed-loop-real-divider",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "repaired transistor-level divider_chain in the loop (netlist-snapshots at design/sg13cmos5l/netlist @3da79b6; RECORD-001 sha256 table)",
+   "context": "schematic, pre-layout, closed loop",
+   "conditions": "one nominal point (mos_tt, res_typ, 27 C, 3.3 V); 2.5 us; local ngspice-46",
+   "method": "closed-loop transient; trace_real = per-reference-cycle error, vctrl_real = control-voltage waveform",
+   "record": "sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/trace_real.csv",
+     "sha256": "1cbb04ddad474c2d3d9af68e403dff0e280603402ff2ce09596275da5e3cd394"
+    },
+    {
+     "id": "vctrl",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real.csv",
+     "sha256": "e7bdb538654ba6006680beb91ba3d39df95fd263006e583cf71e0ec058458df8"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "vctrl",
+     "column": "vctrl_v",
+     "units": "V",
+     "quantity": "VCTRL over the 2.5 us run",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "FAILURE RETAINED: the loop does NOT acquire (no dual-lock run; longest_dual_lock_run_cycles = 0 in corners/summary_real.json). The extrema above describe a non-locked trajectory.",
+    "Divider functional-speed margin evidence from #168 is recorded in the same slug (edges_divspeed_*.json) but is not selected into this first version."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "d4112388f829f3da5169bf662ebc91d8867dd3ac6025d62b7b24ea4cc7877c9a"
+  },
+  {
+   "id": "lock-detector-bodyfix-nominal",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136; RECORD-005)",
+   "context": "schematic, pre-layout",
+   "conditions": "nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz); bodyfix not re-verified across PVT",
+   "method": "transient ladder and Schmitt threshold extraction",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md",
+   "tables": [
+    {
+     "id": "ladder",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_nominal.csv",
+     "sha256": "e4038f438b07b5b17be0917b7a0fa778eedc1e41dbffcf787587ecf677d9733e"
+    },
+    {
+     "id": "schmitt",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_nominal.csv",
+     "sha256": "97ac47a0bc658b3e9548991edd91fe64daa3f90c7c1d85cd110d157a3e737999"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "ladder",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    },
+    {
+     "table": "ladder",
+     "column": "hysteresis_pct_of_window",
+     "units": "% of window",
+     "quantity": "hysteresis as % of window",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    },
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv hysteresis",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "bodyfix-pvt",
+    "lock-detector-pvt"
+   ],
+   "record_sha256": "15313f19b3bb3d73e0ef5f9687eb0a016901f58fb578d7f79e6821a93ffa03a6"
+  },
+  {
+   "id": "g2-vco-kvco-table",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "design/netlist/vco.spice frozen at commit e737c5afb7db2ae2889dd1fc083eb8a15713e7fd (netlist-snapshots/vco.spice)",
+   "context": "schematic, open loop",
+   "conditions": "3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46",
+   "method": "open-loop transient, period measured",
+   "record": "sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13g2-vco-kvco-table/corners/results.csv",
+     "sha256": "63e6f2a24897cf392cdb8789ed8b6839ee60d5754273c946599a96e6de3c7bad"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco open-loop frequency",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Bundle PVT (3 corners), not a full cross-product."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5"
+  },
+  {
+   "id": "g2-lock-detector-window",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "design/netlist/lock_detector.spice as of issue #82 (netlist-snapshots/lock_detector_resized.spice)",
+   "context": "schematic",
+   "conditions": "corner lists per coverage; ngspice-46",
+   "method": "transient window width, ladder discharge and Schmitt threshold extraction",
+   "record": "sim/sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13g2-lock-detector-window/corners/window_resized.csv",
+     "sha256": "c8c9e510d7d38d055d5acf39e7cbecdb782f892f8e31848def8501812eea8560"
+    },
+    {
+     "id": "schmitt",
+     "path": "sim/sg13g2-lock-detector-window/corners/schmitt_resized.csv",
+     "sha256": "654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24"
+    },
+    {
+     "id": "ladder",
+     "path": "sim/sg13g2-lock-detector-window/corners/ladder_resized.csv",
+     "sha256": "49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "cap_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz"
+     ]
+    },
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv hysteresis",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ladder",
+     "column": "hysteresis_pct_of_window",
+     "units": "% of window",
+     "quantity": "hysteresis as % of window",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    }
+   ],
+   "notes": [
+    "Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "9bc950952a2aa07444e24d4d341b52afff17dedf6daaca8b17fcd4707027e8eb"
+  },
+  {
+   "id": "g2-divider-repair",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)",
+   "context": "schematic",
+   "conditions": "hold and functional rows per coverage; ngspice-46",
+   "method": "transient: hold and division",
+   "record": "sim/sg13g2-divider-repair-reverification/records/RECORD-001-divider-repair-reverification.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/hold.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/func.csv",
+     "sha256": "186d60c2d4c6b332bc533128ea5d111ab2e3e401a358c4d18e835a0e9aaec102"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "0834a8b9b4ed0527aaeea6675d3297d59765c271927773feb2530b42e90ebc40"
+  },
+  {
+   "id": "loop-bw-pm-resized-full",
+   "section": "superseded",
+   "pdk": "SG13CMOS5L",
+   "status": "superseded",
+   "dut_revision": "loop_filter_resized.spice with the original 6-code Icp ladder (RECORD-002); superseded for the band=00 f_ref=4.5 MHz tuples by RECORD-003/004 fine-trim rows",
+   "context": "schematic",
+   "conditions": "full amended f_ref range x bundles x bands x Kvco intervals x Icp codes per coverage",
+   "method": "analytic loop model",
+   "record": "sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-r1-resize-full-fref-range.md",
+   "tables": [
+    {
+     "id": "results_resized",
+     "path": "sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized.csv",
+     "sha256": "a2397a8ac202820ac380b898b0d4543cdd41bcd0e4f17f6cdbd0ba7db29f5370"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results_resized",
+     "column": "pm_deg",
+     "units": "deg",
+     "quantity": "phase margin (all rows, includes rows that fail the record's own PM threshold)",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    },
+    {
+     "table": "results_resized",
+     "column": "fc_hz",
+     "units": "Hz",
+     "quantity": "loop crossover frequency",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "kvco_interval",
+      "fref_hz",
+      "trim_code"
+     ]
+    }
+   ],
+   "notes": [
+    "Superseded as a design-state claim by the fine-trim rows for the tuples they cover; retained as history. Older results.csv (as-drawn filter) is not selected."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "ae03b5353bef5bfbe87ab3c94a7f16324fc94c3f785825368686c8e78e0684de"
+  },
+  {
+   "id": "lock-detector-crowbarfix-pvt",
+   "section": "superseded",
+   "pdk": "SG13CMOS5L",
+   "status": "superseded",
+   "dut_revision": "lock_detector_crowbarfix.spice (RECORD-004, #76); superseded by the #136 bodyfix DUT, whose PVT re-verification is owed (#139)",
+   "context": "schematic",
+   "conditions": "corner lists per coverage; ngspice-46",
+   "method": "transient window width and Schmitt threshold extraction",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/window_crowbarfix.csv",
+     "sha256": "2ee284dfacde951f0fbc1f9f183c533d652755280902f9d484f313481d2bf8fc"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "dut_variant",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz"
+     ]
+    },
+    {
+     "table": "window",
+     "column": "twin_f_s",
+     "units": "s",
+     "quantity": "window width (falling)",
+     "coverage_columns": [
+      "dut_variant",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz"
+     ]
+    }
+   ],
+   "notes": [
+    "Last full-PVT lock_detector window evidence, but of a DUT that has since changed (bodyfix)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "bodyfix-pvt",
+    "lock-detector-pvt"
+   ],
+   "record_sha256": "a9b432b67c4cf9cd0d23dfa8552300d0c33f8166fc5b507e5201aa8fa234b0cf"
+  }
+ ]
+}
