@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # issue #159 supporting diagnostic: ONE nominal ngspice run of divider_chain alone
 # at one ideal clock frequency.  Usage: PDK_ROOT=.. PDK=.. ./run_div_speed.sh <fclk_Hz>
+# LOG_SUFFIX (optional) is appended to the copied log name so a re-run does not
+# overwrite a committed log.  Persists edge counts to corners/edges_divspeed_<MHz>MHz.{txt,json}.
 # Counts clk rising edges between successive fb rising edges (threshold 1.65 V).
 FCLK="${1:?usage: run_div_speed.sh <fclk_hz>}"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"
@@ -21,10 +23,13 @@ sed -e "s#@PDK_ROOT@#$PDK_ROOT#g" -e "s#@PDK@#$PDK#g" -e "s/@FCLK@/$FCLK/g" \
 START=$(date +%s)
 ( cd "$WORK" && timeout 1200 ngspice -b tb.sp > log.txt 2>&1 ) || echo "ngspice exit $?" >&2
 mkdir -p "$RECORD_DIR/corners"
-cp "$WORK/log.txt" "$RECORD_DIR/corners/log_divspeed_$(python3 -c "print(int(${FCLK}/1e6))")MHz.txt"
+cp "$WORK/log.txt" "$RECORD_DIR/corners/log_divspeed_$(python3 -c "print(int(${FCLK}/1e6))")MHz${LOG_SUFFIX:-}.txt"
 echo "wall_seconds=$(( $(date +%s) - START ))" >&2
-python3 -I - "$WORK/wave.dat" "$FCLK" <<'PY'
-import sys
+TAGMHZ="$(python3 -c "print(int(${FCLK}/1e6))")"
+# Persist the printed edge counts as a committed extraction artifact
+# (../corners/edges_divspeed_<MHz>MHz.json) alongside the printed line + i_div.
+python3 -I - "$WORK/wave.dat" "$FCLK" "$TSTOP" "$RECORD_DIR/corners/edges_divspeed_${TAGMHZ}MHz.json" <<'PY' | tee "$RECORD_DIR/corners/edges_divspeed_${TAGMHZ}MHz.txt"
+import sys, json
 rows=[l.split() for l in open(sys.argv[1]) if l.strip()]
 t=[float(r[0]) for r in rows]; clk=[float(r[1]) for r in rows]; fb=[float(r[3]) for r in rows]
 def edges(v):
@@ -32,5 +37,8 @@ def edges(v):
 c,f=edges(clk),edges(fb)
 r=[sum(1 for x in c if f[i]<=x<f[i+1]) for i in range(len(f)-1)]
 print(f"fclk={sys.argv[2]} clk_edges={len(c)} fb_edges={len(f)} clk_edges_per_fb_period={r}")
+json.dump({"fclk_hz":float(sys.argv[2]),"tstop":sys.argv[3],"threshold_v":1.65,
+           "n_samples":len(t),"clk_edges":len(c),"fb_edges":len(f),
+           "clk_edges_per_fb_period":r,"fb_edge_times_s":f},open(sys.argv[4],"w"),indent=1)
 PY
-grep -E "^i_div" "$WORK/log.txt" || true
+grep -E "^i_div" "$WORK/log.txt" | tee -a "$RECORD_DIR/corners/edges_divspeed_${TAGMHZ}MHz.txt" || true

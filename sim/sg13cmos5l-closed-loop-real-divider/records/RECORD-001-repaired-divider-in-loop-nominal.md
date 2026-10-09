@@ -83,6 +83,25 @@ same rails/word/latch `.ic`, ideal 50 %-duty pulse clock, one nominal run per fr
 | 640 MHz | 64, 64, 64, 64 | 1462 uA |
 | 1.28 GHz | **96**, 96, 96, 96, 96 | 2274 uA |
 
+Persisted extraction artifacts (one pair per run; the `.txt` is the exact line the script
+prints, the `.json` adds sample count, threshold, TSTOP and every FB edge time):
+[200 MHz](../corners/edges_divspeed_200MHz.txt) / [json](../corners/edges_divspeed_200MHz.json),
+[640 MHz](../corners/edges_divspeed_640MHz.txt) / [json](../corners/edges_divspeed_640MHz.json),
+[1.28 GHz](../corners/edges_divspeed_1280MHz.txt) / [json](../corners/edges_divspeed_1280MHz.json).
+The table above is checked against them: 260/320/512 clk edges, 5/5/6 fb edges, and the FB
+edge spacing times f_clk reproduces 64/64/96 exactly in every period.
+
+**Re-run conditions (issue #168, added after the original runs).** The table was first
+produced under ngspice-46 and only the logs were committed. The three runs were repeated
+once each (single nominal `ngspice -b`, sequential, same scripts/parameters/`TSTOP`) to
+produce the artifacts above. This host's `/usr/bin/ngspice` is 42 and cannot load the
+PDK's OSDI v0.4 models, so the re-run used an existing local ngspice-47 build
+(`/tmp/b209-ngs/inst/bin/ngspice`, not installed or modified). Result: identical edge
+counts and `i_div` (-459.058 uA, -1462.13 uA, -2273.73 uA) to the original logs. Original
+`log_divspeed_*MHz.txt` are left untouched; the re-run logs are
+`corners/log_divspeed_*MHz_rerun168.txt` (they differ from the originals only in the
+transient-step reference listing). Not a PVT or post-layout result.
+
 So the repaired chain divides exactly by 64 at 200 and 640 MHz but already miscounts at the
 1.28 GHz the control loop locks at (an ideal clock gives 96; the in-loop VCO waveform gives
 128 — a different wrong ratio, same failure class). Consistent with, and an in-loop
@@ -112,4 +131,5 @@ PDK_ROOT=<root> PDK=ihp-sg13cmos5l ./run.sh control   # ~minutes
 PDK_ROOT=<root> PDK=ihp-sg13cmos5l ./run.sh real      # 912 s wall, 2 threads, this host
 PDK_ROOT=<root> PDK=ihp-sg13cmos5l TSTOP_OVERRIDE=1300n ./run_div_speed.sh 2e8
 ```
+(`run_div_speed.sh` also writes `corners/edges_divspeed_<MHz>MHz.{txt,json}`; set `LOG_SUFFIX=_x` to keep an existing log.)
 (`run_div_speed.sh 6.4e8` with `TSTOP_OVERRIDE=500n`; `run_div_speed.sh 1.28e9` with the 400n default.)

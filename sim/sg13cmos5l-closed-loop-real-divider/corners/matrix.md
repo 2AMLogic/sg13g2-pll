@@ -24,3 +24,8 @@ and is out of scope here.
 Supporting divider-alone diagnostic (`testbench/run_div_speed.sh`): same rails,
 word, latch `.ic` and solver options; ideal pulse clock at 200 MHz, 640 MHz and
 1.28 GHz, one nominal run each (not a corner grid).
+Persisted extraction per run: [200 MHz](edges_divspeed_200MHz.txt),
+[640 MHz](edges_divspeed_640MHz.txt), [1.28 GHz](edges_divspeed_1280MHz.txt)
+(each with a `.json` of the same name); ratios 64 / 64 / 96 clk edges per FB period.
+These were re-run once each under issue #168 (ngspice-47, nominal; see RECORD-001
+"Re-run conditions"); original logs are unchanged.

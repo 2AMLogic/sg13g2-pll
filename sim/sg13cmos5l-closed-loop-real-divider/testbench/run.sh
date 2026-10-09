@@ -8,9 +8,10 @@
 #   PDK_ROOT=<root> PDK=ihp-sg13cmos5l ./run.sh control
 #   PDK_ROOT=<root> PDK=ihp-sg13cmos5l ./run.sh real
 #
-# Writes ../corners/wave_<arm>.csv.gz-free raw trace "../corners/trace_<arm>.csv"
-# (decimated waveform for re-extraction), "../corners/log_<arm>.txt" and then
-# calls extract.py. Overrides: TSTOP_OVERRIDE, TAVG0_OVERRIDE, TAG_SUFFIX.
+# Calls extract.py, which writes ../corners/trace_<arm>.csv (per-ref-cycle
+# lock trace), ../corners/summary_<arm>.json and ../corners/vctrl_<arm>.csv
+# (decimated vctrl/fb waveform, ~1 sample/ns); this script also copies the
+# ngspice log to ../corners/log_<arm>.txt. Overrides: TSTOP_OVERRIDE, TAVG0_OVERRIDE, TAG_SUFFIX.
 ARM="${1:?usage: run.sh control|real}"
 case "$ARM" in control|real) ;; *) echo "arm must be control|real" >&2; exit 2;; esac
 
