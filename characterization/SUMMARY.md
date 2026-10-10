@@ -24,7 +24,7 @@ the min/max.
 | Divider speed evidence | #168 | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources; the SG13G2 divider has none. |
 | Charge-pump dump-node correction | #165 | The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved. |
 | cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
-| cp tracking dump buffer (DR-010) nominal-only, layout stale | #165, #195 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The committed cp layout, and its LVS/ERC/DRC/PEX evidence, still describe the pre-#165 buffer until #195. |
+| cp tracking dump buffer (DR-010) nominal-only | #165, #195 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
 | Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #196, #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
@@ -33,16 +33,17 @@ the min/max.
 
 - **PDK**: SG13CMOS5L
 - **Status**: current
-- **DUT revision**: routed GDS layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a (pll_pfd, pll_cp, pll_loop_filter, pll_vco, pll_divider_chain); schematic leg design/sg13cmos5l/netlist/<block>.spice
+- **DUT revision**: routed GDS layout/sg13cmos5l-pll/reports/20261010-012952-a4ca1b8 (pll_pfd, pll_cp, pll_loop_filter, pll_vco, pll_divider_chain; cp is the DR-010 redraw, #195); schematic leg design/sg13cmos5l/netlist/<block>.spice
 - **Context**: extracted (klt pex) vs schematic; `delta_pct` is extracted relative to schematic
 - **Conditions**: mos_tt (+res_typ/cap_typ where present), 27 C, 3.3 V; ngspice-46; klt 0.6.0+g1eb3e4bfd0f5; KLayout 0.30.12; --backend local
 - **Method**: klt pex envelopes (schema_version 2); one corner per block, nominal only
+- **Record**: `sim/sg13cmos5l-klt-pex-signoff/records/RECORD-002-dr010-cp-redraw-pex-refresh.md` (sha256 `c964b52ac1f568dcc0d936d487dad14fbe50288c97525a3f742d02324db75cfb`)
 - **Record**: `sim/sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` (sha256 `6d27e42d100ebda96fb297222d1ab6a3b8debbada9d5cd65f002bdb403108eee`)
-- **Table `pex_pfd`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.pfd.json` (sha256 `61db8546b25b19bcf45ca290dc3294ceeffaaafc63316a3cd9eca2429cecb260`)
-- **Table `pex_cp`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.cp.json` (sha256 `d4a3ef1206157636ec1a8e0eb383c294b5feb39991564ed08a2067cde293af92`)
-- **Table `pex_loop_filter`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.loop_filter.json` (sha256 `6686c95ba637243d5a7a8e73a42ee477f71e566f6510585c23924ee71dc02208`)
-- **Table `pex_vco`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.vco.json` (sha256 `eddf5f5f8b9e5d6aa8ec0f937ddd4b527a2839d1244a9ff25a3454631c82cf7f`)
-- **Table `pex_divider_chain`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.divider_chain.json` (sha256 `96d17f566b31474ccf283baf34a8dc51ece517dd57f8749ed631577946a7641e`)
+- **Table `pex_pfd`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.pfd.json` (sha256 `e6010bd66571435875b54976bc607db4e5365168637af5a840c0f454b034d66c`)
+- **Table `pex_cp`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.cp.json` (sha256 `cc4c86a08e1e2125a9533bf52f26268d718d130de3462c8610086942bb358a5c`)
+- **Table `pex_loop_filter`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.loop_filter.json` (sha256 `06652d39d28c364c82267ea7c7e2a4483c9cbad2367bf31b475b626bc72137b4`)
+- **Table `pex_vco`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.vco.json` (sha256 `56e094dcf3c5edceaedc9319f596ccb9552593e0b4dab36f61d36b3f2d3072b4`)
+- **Table `pex_divider_chain`**: `sim/sg13cmos5l-klt-pex-signoff/reports/pex.divider_chain.json` (sha256 `54e3a04331d61fb31fe881cbad3ef563be93ef5dd576c807aac4453af977d3c3`)
 - **Note**: Nominal PEX, one corner per block: this is NOT a PVT result.
 - **Note**: No request declares limits; `status: pass` in the envelopes means 'ran and compared', not 'met a spec'.
 - **Note**: lock_detector was not run (stale committed PEX, #157).
@@ -51,7 +52,7 @@ the min/max.
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | pfd extracted-vs-schematic delta (up_avg, dn_avg rows) (`delta_pct`) | % | `pex_pfd` | - | 2 | 0 | 9.251 | 77.848 | `spec_row`: dn_avg, up_avg; `corner_id`: mos_tt/novdd/27C |
-| cp extracted-vs-schematic delta (icp_up_a, icp_dn_a rows) (`delta_pct`) | % | `pex_cp` | - | 2 | 0 | -0.051 | 0.173 | `spec_row`: cp_dn.request.icp_dn_a, cp_up.request.icp_up_a; `corner_id`: mos_tt/novdd/27C |
+| cp extracted-vs-schematic delta (icp_up_a, icp_dn_a rows) (`delta_pct`) | % | `pex_cp` | - | 2 | 0 | -0.039 | 0.141 | `spec_row`: cp_dn.request.icp_dn_a, cp_up.request.icp_up_a; `corner_id`: mos_tt/novdd/27C |
 | loop_filter extracted-vs-schematic delta (t63_nz_s row) (`delta_pct`) | % | `pex_loop_filter` | - | 1 | 0 | 29.646 | 29.646 | `spec_row`: t63_nz_s; `corner_id`: typ/novdd/27C |
 | vco extracted-vs-schematic delta (clk_period_s row) (`delta_pct`) | % | `pex_vco` | - | 1 | 0 | 151.008 | 151.008 | `spec_row`: clk_period_s; `corner_id`: typ/novdd/27C |
 | divider_chain extracted-vs-schematic delta (div_period_s, ck_period_s rows) (`delta_pct`) | % | `pex_divider_chain` | - | 2 | 0 | -0.002 | 0 | `spec_row`: ck_period_s, div_period_s; `corner_id`: mos_tt/novdd/27C |
@@ -266,7 +267,7 @@ the min/max.
 - **PDK**: SG13CMOS5L
 - **Status**: current
 - **DUT revision**: cp with the DR-010 tracking dump buffer (complementary unity-gain 5T OTA pair), snapshot netlist-snapshots/cp_otabuf.spice (sha256 c8a55d8d...); negative control is the pre-#165 source-follower cp
-- **Context**: schematic, not extracted (committed cp layout still has the pre-#165 buffer, #195)
+- **Context**: schematic, not extracted (the #195 cp layout's nominal klt pex bench measures Icp only, not VDUMP tracking)
 - **Conditions**: one nominal point only: mos_tt, 27 C, 3.3 V (klt corner id mos_tt/novdd/27C); no other PVT corner ran (15-corner batch request errored on every corner, klt-sim-a4729666c143; first submit batch_no_capacity)
 - **Method**: klt sim DC sweeps (VDUMP-VOUT offset, Icp trim and up/dn mismatch, supply current), AC input-capacitance probe, and buffer loop-gain probe; local single-corner runs
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-005-issue165-tracking-dumpbuf-dc.md` (sha256 `d01c0de774e62511fb250eb573cbceef050af33cbf872627009011f0eb40e9e9`)
@@ -277,7 +278,7 @@ the min/max.
 - **Note**: NOMINAL ONLY. Every table here is a single corner (mos_tt/27 C/3.3 V). The |VDUMP-VOUT| offset across PVT and the cp-icp-trim re-run across PVT are not established; the PVT batch report (reports/sim.otabuf_pvt.batch.json) is 15/15 errored and carries no measurement.
 - **Note**: Coverage column `name` is the measurement name in the klt report; the bench's own limit verdicts in those reports are not reproduced here (no pass/fail column).
 - **Note**: Random (Monte Carlo) offset and low Icp*Tref are not bounded by this record.
-- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only, layout stale (#165, #195)
+- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only (#165, #195)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -315,7 +316,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_otabuf.csv` (sha256 `2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602`)
 - **Note**: NOMINAL ONLY, PROPOSAL DECK. RECORD-007 reports a static phase error of 0.779 % of T_ref at this one point (was 8.20 % in RECORD-005); row 7 is not established across PVT, on the committed loop, or post-layout. The extrema above span the full trace including the startup transient and are not a steady-state figure.
 - **Note**: The repeat run (corners/lock_trace_cpdiag_otabuf_rep.csv) is byte-identical to the cited trace.
-- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only, layout stale (#165, #195), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only (#165, #195), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
