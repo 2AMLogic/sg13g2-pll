@@ -4,6 +4,9 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-10
 
+- **PR #222**: sim: inventory 37 grandfathered records and pin ihp-sg13g2 (item 9 campaign phase 1)
+- **Issue #210** (closed): Item 9 campaign: inventory 37 grandfathered records and pin ihp-sg13g2
+
 - **PR #208**: Item 9: validate append-only provenance addenda and superseding reruns
 - **Issue #198** (closed): Item 9: validate append-only provenance addenda and superseding reruns
 - **PR #205**: layout: redraw pll_cp for DR-010; refresh cp LVS/ERC/PEX evidence and re-pin the manifest (#195)

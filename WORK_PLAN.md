@@ -58,6 +58,7 @@ Issues carrying `loom:curated`.
 
 - **#6**: Track the gap to T1 sim-validated / bronze (klayout-tools design-evidence tiers)
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
+- **#199**: Item 9: campaign to recover or replace unpinned measurement evidence
 
 ## Backlog Balance
 
@@ -71,5 +72,5 @@ Issues carrying `loom:curated`.
 | Approved PRs awaiting merge | 0 |
 | Curated | 3 |
 | Architect / Hermit proposals | 4 |
-| Active epics | 2 |
+| Active epics | 3 |
 <!-- guide:plan-body:end -->
