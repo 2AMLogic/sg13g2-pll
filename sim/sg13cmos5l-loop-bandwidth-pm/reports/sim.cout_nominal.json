@@ -1,0 +1,2078 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_cp_cout_issue196.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_cp_cout_issue196.sp",
+        "scope": "repo",
+        "sha256": "1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007"
+      },
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+        "name": "cap_cmomi.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "9e16967935d9a69f5a18629f83be8bbd7d3d50ac6dae230f8e00b369ba969b04"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "006ebb9bb05729e408966da04b3c02391ef3e460666e3a59ec2900c8089ea6cc"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350"
+      }
+    ],
+    "corner_section_libs": [
+      {
+        "name": "cornerRES.lib",
+        "path": null,
+        "scope": "external",
+        "sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 84,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p9\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout400k_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_b10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"cout_ff_c375_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"gout_ns_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5e5b55992a7f",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "cout_ff_c375_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.3512659504,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.60553659204,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.640299042,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.433616020726,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.63994217719,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.229639894583,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.67260816287,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.73790939788,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 11.74823459248,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.338412145586,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 12.00456083509,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 1.941196972688,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 12.53731735098,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 13.22990916575,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 13.28308758507,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.259720061172,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 13.2823366953,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.361728633425,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.4853706477,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 12.04361463699,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 12.20902293099,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.193857499606,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 12.20871045479,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.321462335917,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.06886862113,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.34282237084,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.4194943913,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.138943386778,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.41935242229,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p1",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.266476840672,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.933908440844,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.03189091872,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.04761828568,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.0939993405,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.04748077193,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.281790040693,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.836057748403,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.909514447599,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.919070768272,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.058559397072,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.918931161938,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.290203677061,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.761333823808,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.826322661284,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.834333057918,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.03251621483,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.834194183274,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.292260502653,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.706212900501,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.768265779831,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.775950268341,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.016090019775,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.775811836808,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.293675939569,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.670152716076,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.737662773723,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.747398152241,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.009875779455,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.747258661007,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p1",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.295774387349,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.660547728315,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.872528590687,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.952588322468,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.014965241592,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 9.952424097377,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.307750259952,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 10.41019520748,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.51185631505,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.82416374923,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.033177653359,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.82382521915,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.303992043301,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 15.80997494389,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 16.52766073435,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 16.57925178399,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.067491825171,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 16.57912233249,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -0.145845597746,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.92375430172,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.97634687342,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 14.98465069665,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 6.122908673683,
+        "margin": null
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 15.34644565602,
+        "margin": null
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 1.900766634366,
+        "margin": null
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "typ/novdd/27C",
+      "process": "typ",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 8.383,
+      "measurements": [
+        {
+          "name": "cout_ff_c375_0p3",
+          "value": 11.3512659504,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p3",
+          "value": 11.60553659204,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p3",
+          "value": 11.640299042,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p3",
+          "value": 6.433616020726,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p3",
+          "value": 11.63994217719,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p3",
+          "value": -0.229639894583,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p5",
+          "value": 11.67260816287,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p5",
+          "value": 11.73790939788,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p5",
+          "value": 11.74823459248,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p5",
+          "value": 6.338412145586,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p5",
+          "value": 12.00456083509,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p5",
+          "value": 1.941196972688,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p7",
+          "value": 12.53731735098,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p7",
+          "value": 13.22990916575,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p7",
+          "value": 13.28308758507,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p7",
+          "value": 6.259720061172,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p7",
+          "value": 13.2823366953,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p7",
+          "value": -0.361728633425,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p9",
+          "value": 10.4853706477,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p9",
+          "value": 12.04361463699,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p9",
+          "value": 12.20902293099,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p9",
+          "value": 6.193857499606,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p9",
+          "value": 12.20871045479,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p9",
+          "value": -0.321462335917,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p1",
+          "value": 10.06886862113,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p1",
+          "value": 10.34282237084,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p1",
+          "value": 10.4194943913,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p1",
+          "value": 6.138943386778,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p1",
+          "value": 10.41935242229,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p1",
+          "value": -0.266476840672,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p3",
+          "value": 9.933908440844,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p3",
+          "value": 10.03189091872,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p3",
+          "value": 10.04761828568,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p3",
+          "value": 6.0939993405,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p3",
+          "value": 10.04748077193,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p3",
+          "value": -0.281790040693,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p5",
+          "value": 9.836057748403,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p5",
+          "value": 9.909514447599,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p5",
+          "value": 9.919070768272,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p5",
+          "value": 6.058559397072,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p5",
+          "value": 9.918931161938,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p5",
+          "value": -0.290203677061,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p7",
+          "value": 9.761333823808,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p7",
+          "value": 9.826322661284,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p7",
+          "value": 9.834333057918,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p7",
+          "value": 6.03251621483,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p7",
+          "value": 9.834194183274,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p7",
+          "value": -0.292260502653,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p9",
+          "value": 9.706212900501,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p9",
+          "value": 9.768265779831,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p9",
+          "value": 9.775950268341,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p9",
+          "value": 6.016090019775,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p9",
+          "value": 9.775811836808,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p9",
+          "value": -0.293675939569,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p1",
+          "value": 9.670152716076,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p1",
+          "value": 9.737662773723,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p1",
+          "value": 9.747398152241,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p1",
+          "value": 6.009875779455,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p1",
+          "value": 9.747258661007,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p1",
+          "value": -0.295774387349,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p3",
+          "value": 9.660547728315,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p3",
+          "value": 9.872528590687,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p3",
+          "value": 9.952588322468,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p3",
+          "value": 6.014965241592,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p3",
+          "value": 9.952424097377,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p3",
+          "value": -0.307750259952,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p5",
+          "value": 10.41019520748,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p5",
+          "value": 14.51185631505,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p5",
+          "value": 14.82416374923,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p5",
+          "value": 6.033177653359,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p5",
+          "value": 14.82382521915,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p5",
+          "value": -0.303992043301,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p7",
+          "value": 15.80997494389,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p7",
+          "value": 16.52766073435,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p7",
+          "value": 16.57925178399,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p7",
+          "value": 6.067491825171,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p7",
+          "value": 16.57912233249,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p7",
+          "value": -0.145845597746,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p9",
+          "value": 14.92375430172,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p9",
+          "value": 14.97634687342,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p9",
+          "value": 14.98465069665,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p9",
+          "value": 6.122908673683,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p9",
+          "value": 15.34644565602,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p9",
+          "value": 1.900766634366,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

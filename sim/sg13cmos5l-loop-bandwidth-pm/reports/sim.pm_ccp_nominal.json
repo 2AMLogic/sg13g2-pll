@@ -1,0 +1,4572 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_loop_ac_ccp_issue196.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "netlist_sha256": "5db864a70171e982d88c3f21ce11f0162ca0be9cf50c7ab8cd04089ca74c955c",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_loop_ac_ccp_issue196.sp",
+        "scope": "repo",
+        "sha256": "5db864a70171e982d88c3f21ce11f0162ca0be9cf50c7ab8cd04089ca74c955c"
+      },
+      {
+        "path": null,
+        "scope": "external",
+        "sha256": "ea8e1e2b2efcb072c0b516138f4ef1900691d217b7f1d8a7e810efe2de5d5e9a"
+      },
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/netlist-snapshots/loop_filter_resized.spice",
+        "scope": "repo",
+        "sha256": "5c8293087b5867fbeec32552a57ce54aa4e5a1b3572e7da86cacc874f921843a"
+      },
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+        "name": "cap_cmomi.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "9e16967935d9a69f5a18629f83be8bbd7d3d50ac6dae230f8e00b369ba969b04"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "006ebb9bb05729e408966da04b3c02391ef3e460666e3a59ec2900c8089ea6cc"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "4fead17bc2e9cbfe3df6f106e9dbd6f2cdcd48c002af9c56c2ca0b0712fce350"
+      }
+    ],
+    "corner_section_libs": [
+      {
+        "name": "cornerRES.lib",
+        "path": null,
+        "scope": "external",
+        "sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e"
+      }
+    ]
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 192,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_lonly\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_nocp\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p9\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p1\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p3\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p5\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p7\"]/observation",
+      "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p9\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr007_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_fast_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"fc_hz_dr008_typ_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr007_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_fast_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"ph_rad_dr008_typ_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr007_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_fast_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_slow_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_lonly\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_nocp\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"typ/novdd/27C\",\"pm_deg_dr008_typ_v2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.7.0+g5e5b55992a7f",
+    "klayout_version": "0.30.12",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:5db864a70171e982d88c3f21ce11f0162ca0be9cf50c7ab8cd04089ca74c955c",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "fc_hz_dr008_fast_nocp",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 388697.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_nocp",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.28234,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_nocp",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.2316,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_lonly",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 388698.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_lonly",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.28234,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_lonly",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.2318,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386630.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2924,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.6553,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386524.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29263,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.6421,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386348.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29382,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5738,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386538.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2929,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.6265,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386854.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29137,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7144,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386921.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29105,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7327,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386944.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29094,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.739,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386959.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29086,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7432,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386969.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29081,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7461,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386974.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29079,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7475,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386938.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29096,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.7374,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 386075.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29513,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4987,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 385762.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29662,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4135,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 385882.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29538,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4845,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_nocp",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 385151.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_nocp",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.28563,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_nocp",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.0432,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_lonly",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 385151.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_lonly",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.28562,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_lonly",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.0434,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383111.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29562,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4709,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383007.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29585,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4577,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 382833.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29703,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.3899,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383020.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29612,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.4422,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383331.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29459,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5296,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383396.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29427,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5478,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383419.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29416,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5541,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383434.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29409,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5582,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383444.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29404,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5611,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383449.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29402,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5625,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 383413.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29419,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.5525,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 382565.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29833,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.3154,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 382258.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29981,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.2307,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 382375.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.29858,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 48.3011,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_nocp",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 407827.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_nocp",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2655,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_nocp",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 50.1965,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_lonly",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 407828.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_lonly",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2655,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_lonly",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 50.1966,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405597.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27593,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.599,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405481.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27616,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.5859,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405294.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2774,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.5146,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405498.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27645,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.5692,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405838.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27486,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6604,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405910.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27452,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6793,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405934.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27441,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6859,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405951.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27433,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6902,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405962.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27428,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6932,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405968.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27426,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6947,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405929.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27444,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.6842,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 405000.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.27876,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.4368,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 404663.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.2803,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.3485,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 404793.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.279,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 49.423,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_nocp",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 339937.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_nocp",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.33252,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_nocp",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 46.3567,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_lonly",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 339937.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_lonly",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.33251,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_lonly",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 46.3569,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338294.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34138,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.8488,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338184.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34176,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.827,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338130.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34231,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.7954,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338422.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34072,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.8865,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338482.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.3404,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9051,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338502.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34029,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.911,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338516.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34022,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9154,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338527.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34016,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9188,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338535.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34012,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9212,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p1",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338540.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p1",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34009,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p1",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9228,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p3",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338541.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p3",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34008,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p3",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.9233,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p5",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 338434.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p5",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34066,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p5",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.8899,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p7",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 337660.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p7",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34483,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p7",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.6513,
+        "margin": null
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p9",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 337654.0,
+        "margin": null
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p9",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": -2.34428,
+        "margin": null
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p9",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "typ/novdd/27C",
+        "value": 45.6827,
+        "margin": null
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "typ/novdd/27C",
+      "process": "typ",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 13.548,
+      "measurements": [
+        {
+          "name": "fc_hz_dr008_fast_nocp",
+          "value": 388697.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_nocp",
+          "value": -2.28234,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_nocp",
+          "value": 49.2316,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_lonly",
+          "value": 388698.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_lonly",
+          "value": -2.28234,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_lonly",
+          "value": 49.2318,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v0p3",
+          "value": 386630.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v0p3",
+          "value": -2.2924,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v0p3",
+          "value": 48.6553,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v0p5",
+          "value": 386524.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v0p5",
+          "value": -2.29263,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v0p5",
+          "value": 48.6421,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v0p7",
+          "value": 386348.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v0p7",
+          "value": -2.29382,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v0p7",
+          "value": 48.5738,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v0p9",
+          "value": 386538.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v0p9",
+          "value": -2.2929,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v0p9",
+          "value": 48.6265,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v1p1",
+          "value": 386854.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v1p1",
+          "value": -2.29137,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v1p1",
+          "value": 48.7144,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v1p3",
+          "value": 386921.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v1p3",
+          "value": -2.29105,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v1p3",
+          "value": 48.7327,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v1p5",
+          "value": 386944.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v1p5",
+          "value": -2.29094,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v1p5",
+          "value": 48.739,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v1p7",
+          "value": 386959.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v1p7",
+          "value": -2.29086,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v1p7",
+          "value": 48.7432,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v1p9",
+          "value": 386969.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v1p9",
+          "value": -2.29081,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v1p9",
+          "value": 48.7461,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v2p1",
+          "value": 386974.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v2p1",
+          "value": -2.29079,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v2p1",
+          "value": 48.7475,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v2p3",
+          "value": 386938.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v2p3",
+          "value": -2.29096,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v2p3",
+          "value": 48.7374,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v2p5",
+          "value": 386075.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v2p5",
+          "value": -2.29513,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v2p5",
+          "value": 48.4987,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v2p7",
+          "value": 385762.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v2p7",
+          "value": -2.29662,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v2p7",
+          "value": 48.4135,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_fast_v2p9",
+          "value": 385882.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast_v2p9",
+          "value": -2.29538,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast_v2p9",
+          "value": 48.4845,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_nocp",
+          "value": 385151.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_nocp",
+          "value": -2.28563,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_nocp",
+          "value": 49.0432,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_lonly",
+          "value": 385151.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_lonly",
+          "value": -2.28562,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_lonly",
+          "value": 49.0434,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v0p3",
+          "value": 383111.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v0p3",
+          "value": -2.29562,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v0p3",
+          "value": 48.4709,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v0p5",
+          "value": 383007.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v0p5",
+          "value": -2.29585,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v0p5",
+          "value": 48.4577,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v0p7",
+          "value": 382833.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v0p7",
+          "value": -2.29703,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v0p7",
+          "value": 48.3899,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v0p9",
+          "value": 383020.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v0p9",
+          "value": -2.29612,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v0p9",
+          "value": 48.4422,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v1p1",
+          "value": 383331.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v1p1",
+          "value": -2.29459,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v1p1",
+          "value": 48.5296,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v1p3",
+          "value": 383396.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v1p3",
+          "value": -2.29427,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v1p3",
+          "value": 48.5478,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v1p5",
+          "value": 383419.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v1p5",
+          "value": -2.29416,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v1p5",
+          "value": 48.5541,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v1p7",
+          "value": 383434.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v1p7",
+          "value": -2.29409,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v1p7",
+          "value": 48.5582,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v1p9",
+          "value": 383444.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v1p9",
+          "value": -2.29404,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v1p9",
+          "value": 48.5611,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v2p1",
+          "value": 383449.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v2p1",
+          "value": -2.29402,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v2p1",
+          "value": 48.5625,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v2p3",
+          "value": 383413.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v2p3",
+          "value": -2.29419,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v2p3",
+          "value": 48.5525,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v2p5",
+          "value": 382565.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v2p5",
+          "value": -2.29833,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v2p5",
+          "value": 48.3154,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v2p7",
+          "value": 382258.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v2p7",
+          "value": -2.29981,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v2p7",
+          "value": 48.2307,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ_v2p9",
+          "value": 382375.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ_v2p9",
+          "value": -2.29858,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ_v2p9",
+          "value": 48.3011,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_nocp",
+          "value": 407827.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_nocp",
+          "value": -2.2655,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_nocp",
+          "value": 50.1965,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_lonly",
+          "value": 407828.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_lonly",
+          "value": -2.2655,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_lonly",
+          "value": 50.1966,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v0p3",
+          "value": 405597.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v0p3",
+          "value": -2.27593,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v0p3",
+          "value": 49.599,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v0p5",
+          "value": 405481.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v0p5",
+          "value": -2.27616,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v0p5",
+          "value": 49.5859,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v0p7",
+          "value": 405294.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v0p7",
+          "value": -2.2774,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v0p7",
+          "value": 49.5146,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v0p9",
+          "value": 405498.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v0p9",
+          "value": -2.27645,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v0p9",
+          "value": 49.5692,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v1p1",
+          "value": 405838.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v1p1",
+          "value": -2.27486,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v1p1",
+          "value": 49.6604,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v1p3",
+          "value": 405910.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v1p3",
+          "value": -2.27452,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v1p3",
+          "value": 49.6793,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v1p5",
+          "value": 405934.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v1p5",
+          "value": -2.27441,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v1p5",
+          "value": 49.6859,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v1p7",
+          "value": 405951.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v1p7",
+          "value": -2.27433,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v1p7",
+          "value": 49.6902,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v1p9",
+          "value": 405962.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v1p9",
+          "value": -2.27428,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v1p9",
+          "value": 49.6932,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v2p1",
+          "value": 405968.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v2p1",
+          "value": -2.27426,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v2p1",
+          "value": 49.6947,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v2p3",
+          "value": 405929.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v2p3",
+          "value": -2.27444,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v2p3",
+          "value": 49.6842,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v2p5",
+          "value": 405000.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v2p5",
+          "value": -2.27876,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v2p5",
+          "value": 49.4368,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v2p7",
+          "value": 404663.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v2p7",
+          "value": -2.2803,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v2p7",
+          "value": 49.3485,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow_v2p9",
+          "value": 404793.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow_v2p9",
+          "value": -2.279,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow_v2p9",
+          "value": 49.423,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_nocp",
+          "value": 339937.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_nocp",
+          "value": -2.33252,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_nocp",
+          "value": 46.3567,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_lonly",
+          "value": 339937.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_lonly",
+          "value": -2.33251,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_lonly",
+          "value": 46.3569,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v0p3",
+          "value": 338294.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v0p3",
+          "value": -2.34138,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v0p3",
+          "value": 45.8488,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v0p5",
+          "value": 338184.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v0p5",
+          "value": -2.34176,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v0p5",
+          "value": 45.827,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v0p7",
+          "value": 338130.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v0p7",
+          "value": -2.34231,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v0p7",
+          "value": 45.7954,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v0p9",
+          "value": 338422.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v0p9",
+          "value": -2.34072,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v0p9",
+          "value": 45.8865,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v1p1",
+          "value": 338482.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v1p1",
+          "value": -2.3404,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v1p1",
+          "value": 45.9051,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v1p3",
+          "value": 338502.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v1p3",
+          "value": -2.34029,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v1p3",
+          "value": 45.911,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v1p5",
+          "value": 338516.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v1p5",
+          "value": -2.34022,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v1p5",
+          "value": 45.9154,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v1p7",
+          "value": 338527.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v1p7",
+          "value": -2.34016,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v1p7",
+          "value": 45.9188,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v1p9",
+          "value": 338535.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v1p9",
+          "value": -2.34012,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v1p9",
+          "value": 45.9212,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v2p1",
+          "value": 338540.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v2p1",
+          "value": -2.34009,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v2p1",
+          "value": 45.9228,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v2p3",
+          "value": 338541.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v2p3",
+          "value": -2.34008,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v2p3",
+          "value": 45.9233,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v2p5",
+          "value": 338434.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v2p5",
+          "value": -2.34066,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v2p5",
+          "value": 45.8899,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v2p7",
+          "value": 337660.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v2p7",
+          "value": -2.34483,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v2p7",
+          "value": 45.6513,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow_v2p9",
+          "value": 337654.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow_v2p9",
+          "value": -2.34428,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow_v2p9",
+          "value": 45.6827,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

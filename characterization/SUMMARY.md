@@ -25,6 +25,7 @@ the min/max.
 | Charge-pump dump-node correction | #165 | The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved. |
 | cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
 | cp tracking dump buffer (DR-010) nominal-only, layout stale | #165, #195 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The committed cp layout, and its LVS/ERC/DRC/PEX evidence, still describe the pre-#165 buffer until #195. |
+| Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #196, #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 
@@ -320,6 +321,33 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.0521963 | 0.013975 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.00834327 | 0.0221139 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
+### loop-bw-pm-real-cp-vout-cap
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: loop_filter_resized.spice (DR-006) with the real idle DR-010 cp (netlist-snapshots/cp_otabuf.spice, sha256 c8a55d8d...) on VCTRL in place of the ideal-Gcp-only load; tuple Icp/Kvco/n_div/f_ref from loop-bandwidth-pm RECORD-003/004
+- **Context**: schematic, not extracted (cp layout parasitics and the DR-010 redraw are not included, #195)
+- **Conditions**: one nominal point only: typ bundle (mos_tt + res_typ, 27 C, 3.3 V), local single-corner runs; the fast/slow bundle request was submitted to the batch fleet and not run (klt-sim-3a086f48e27a, exit 87, batch_job_failed; klayout-tools#2851, #2727) and the cout fast/slow request was withdrawn
+- **Method**: klt sim AC: idle cp VOUT capacitance probe over VOUT 0.3-2.9 V (1 MHz), and open-loop AC PM/f_c with the real idle cp on the loop-filter node, reduced by testbench/summarize_issue196.py
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-005-issue196-cp-vout-capacitance-pm-recheck.md` (sha256 `501b8bb6a8b85633e2eb25ccb7e866d465a10bdabd1fe119c062e79d612771e8`)
+- **Table `cout`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/cout_issue196.csv` (sha256 `8191a73926fc2f65a3cdff41d7ae2e113497b6292b7f71713bef1aa1a324287f`)
+- **Table `pm`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue196_ccp.csv` (sha256 `e8003c344f0172ad49e4718622e292f0019dd0cba3811958fe466e23d9c8ca6b`)
+- **Note**: NOMINAL ONLY, SCHEMATIC ONLY. Only the dr008_typ tuple was measured; dr008_fast, dr008_slow and dr007_slow are status=blocked in the csv with NA after-columns (filtered out above by status=ran), not passed. The pm_deg_before row spans all four tuples because it is the committed RECORD-003/004 baseline.
+- **Note**: The DR-008 fast projected flip (about 44.93 deg own interval / 44.77 deg full range) in RECORD-005 is an estimate from a typ-model sensitivity applied to the fast baseline, not a verdict; the measured fast/slow grid is #203. DR-007/DR-008 and spec row 6a are not edited.
+- **Note**: The csv verdict_* columns are the record's own comparisons against its 45 deg / f_ref/10 thresholds; they are not reproduced here (no pass/fail column).
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk (#196, #203)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| total idle cp capacitance on VOUT, 11 uA code (DR-008), one row per VOUT point (`cout_ff_11u`) | fF | `cout` | - | 14 | 0 | 9.747 | 16.579 | `pvt_bundle`: typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| total idle cp capacitance on VOUT, 3.75 uA code (DR-007), one row per VOUT point (`cout_ff_3p75u`) | fF | `cout` | - | 14 | 0 | 9.661 | 15.81 | `pvt_bundle`: typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| legs + switches only (ideal buffer), 10 uA code (`cout_ff_legs_only_10u`) | fF | `cout` | - | 14 | 0 | 6.01 | 6.434 | `pvt_bundle`: typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| buffer-only part, 10 uA code (cross-check against cp-icp-trim RECORD-005) (`cout_ff_buffer_only_10u`) | fF | `cout` | - | 14 | 0 | 3.728 | 10.46 | `pvt_bundle`: typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| PM before (ideal Gcp, RECORD-003/004), every tuple (`pm_deg_before`) | deg | `pm` | - | 4 | 0 | 45.592 | 53.454 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
+| PM with the real idle cp, worst VCTRL over the tuple's own Kvco interval (measured tuples only; blocked tuples are NA in the csv) (`pm_deg_after_own_interval`) | deg | `pm` | status=ran | 1 | 0 | 48.39 | 48.39 | `tuple`: dr008_typ; `pvt_bundle`: typ |
+| PM with the real idle cp, worst VCTRL over 0.3-2.9 V (measured tuples only; blocked tuples are NA in the csv) (`pm_deg_after_full_range`) | deg | `pm` | status=ran | 1 | 0 | 48.231 | 48.231 | `tuple`: dr008_typ; `pvt_bundle`: typ |
+| max loop crossover with the real idle cp, 0.3-2.9 V (measured tuples only; blocked tuples are NA in the csv) (`fc_hz_max_full_range`) | Hz | `pm` | status=ran | 1 | 0 | 383449 | 383449 | `tuple`: dr008_typ; `pvt_bundle`: typ |
 
 ### closed-loop-real-divider
 

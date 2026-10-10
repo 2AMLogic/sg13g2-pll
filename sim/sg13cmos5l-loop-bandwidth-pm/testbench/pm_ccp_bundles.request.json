@@ -1,0 +1,1031 @@
+{
+  "engine": "ngspice",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomi.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomf.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "netlist": "tb_loop_ac_ccp_issue196.sp",
+  "analysis": {
+    "kind": "ac",
+    "args": "dec 200 10 1e9"
+  },
+  "measurements": [
+    {
+      "name": "fc_hz_dr008_fast_nocp",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_nocp when vdb(fb_dr008_fast_nocp)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_nocp",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_nocp find vp(fb_dr008_fast_nocp) when vdb(fb_dr008_fast_nocp)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_nocp",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_nocp param='180+ph_rad_dr008_fast_nocp*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_lonly",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_lonly when vdb(fb_dr008_fast_lonly)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_lonly",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_lonly find vp(fb_dr008_fast_lonly) when vdb(fb_dr008_fast_lonly)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_lonly",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_lonly param='180+ph_rad_dr008_fast_lonly*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v0p3 when vdb(fb_dr008_fast_v0p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v0p3 find vp(fb_dr008_fast_v0p3) when vdb(fb_dr008_fast_v0p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v0p3 param='180+ph_rad_dr008_fast_v0p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v0p5 when vdb(fb_dr008_fast_v0p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v0p5 find vp(fb_dr008_fast_v0p5) when vdb(fb_dr008_fast_v0p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v0p5 param='180+ph_rad_dr008_fast_v0p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v0p7 when vdb(fb_dr008_fast_v0p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v0p7 find vp(fb_dr008_fast_v0p7) when vdb(fb_dr008_fast_v0p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v0p7 param='180+ph_rad_dr008_fast_v0p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v0p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v0p9 when vdb(fb_dr008_fast_v0p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v0p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v0p9 find vp(fb_dr008_fast_v0p9) when vdb(fb_dr008_fast_v0p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v0p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v0p9 param='180+ph_rad_dr008_fast_v0p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v1p1 when vdb(fb_dr008_fast_v1p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v1p1 find vp(fb_dr008_fast_v1p1) when vdb(fb_dr008_fast_v1p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v1p1 param='180+ph_rad_dr008_fast_v1p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v1p3 when vdb(fb_dr008_fast_v1p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v1p3 find vp(fb_dr008_fast_v1p3) when vdb(fb_dr008_fast_v1p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v1p3 param='180+ph_rad_dr008_fast_v1p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v1p5 when vdb(fb_dr008_fast_v1p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v1p5 find vp(fb_dr008_fast_v1p5) when vdb(fb_dr008_fast_v1p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v1p5 param='180+ph_rad_dr008_fast_v1p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v1p7 when vdb(fb_dr008_fast_v1p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v1p7 find vp(fb_dr008_fast_v1p7) when vdb(fb_dr008_fast_v1p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v1p7 param='180+ph_rad_dr008_fast_v1p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v1p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v1p9 when vdb(fb_dr008_fast_v1p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v1p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v1p9 find vp(fb_dr008_fast_v1p9) when vdb(fb_dr008_fast_v1p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v1p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v1p9 param='180+ph_rad_dr008_fast_v1p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v2p1 when vdb(fb_dr008_fast_v2p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v2p1 find vp(fb_dr008_fast_v2p1) when vdb(fb_dr008_fast_v2p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v2p1 param='180+ph_rad_dr008_fast_v2p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v2p3 when vdb(fb_dr008_fast_v2p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v2p3 find vp(fb_dr008_fast_v2p3) when vdb(fb_dr008_fast_v2p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v2p3 param='180+ph_rad_dr008_fast_v2p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v2p5 when vdb(fb_dr008_fast_v2p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v2p5 find vp(fb_dr008_fast_v2p5) when vdb(fb_dr008_fast_v2p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v2p5 param='180+ph_rad_dr008_fast_v2p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v2p7 when vdb(fb_dr008_fast_v2p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v2p7 find vp(fb_dr008_fast_v2p7) when vdb(fb_dr008_fast_v2p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v2p7 param='180+ph_rad_dr008_fast_v2p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_fast_v2p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast_v2p9 when vdb(fb_dr008_fast_v2p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast_v2p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast_v2p9 find vp(fb_dr008_fast_v2p9) when vdb(fb_dr008_fast_v2p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast_v2p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast_v2p9 param='180+ph_rad_dr008_fast_v2p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_nocp",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_nocp when vdb(fb_dr008_typ_nocp)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_nocp",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_nocp find vp(fb_dr008_typ_nocp) when vdb(fb_dr008_typ_nocp)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_nocp",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_nocp param='180+ph_rad_dr008_typ_nocp*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_lonly",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_lonly when vdb(fb_dr008_typ_lonly)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_lonly",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_lonly find vp(fb_dr008_typ_lonly) when vdb(fb_dr008_typ_lonly)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_lonly",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_lonly param='180+ph_rad_dr008_typ_lonly*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v0p3 when vdb(fb_dr008_typ_v0p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v0p3 find vp(fb_dr008_typ_v0p3) when vdb(fb_dr008_typ_v0p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v0p3 param='180+ph_rad_dr008_typ_v0p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v0p5 when vdb(fb_dr008_typ_v0p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v0p5 find vp(fb_dr008_typ_v0p5) when vdb(fb_dr008_typ_v0p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v0p5 param='180+ph_rad_dr008_typ_v0p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v0p7 when vdb(fb_dr008_typ_v0p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v0p7 find vp(fb_dr008_typ_v0p7) when vdb(fb_dr008_typ_v0p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v0p7 param='180+ph_rad_dr008_typ_v0p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v0p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v0p9 when vdb(fb_dr008_typ_v0p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v0p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v0p9 find vp(fb_dr008_typ_v0p9) when vdb(fb_dr008_typ_v0p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v0p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v0p9 param='180+ph_rad_dr008_typ_v0p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v1p1 when vdb(fb_dr008_typ_v1p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v1p1 find vp(fb_dr008_typ_v1p1) when vdb(fb_dr008_typ_v1p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v1p1 param='180+ph_rad_dr008_typ_v1p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v1p3 when vdb(fb_dr008_typ_v1p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v1p3 find vp(fb_dr008_typ_v1p3) when vdb(fb_dr008_typ_v1p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v1p3 param='180+ph_rad_dr008_typ_v1p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v1p5 when vdb(fb_dr008_typ_v1p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v1p5 find vp(fb_dr008_typ_v1p5) when vdb(fb_dr008_typ_v1p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v1p5 param='180+ph_rad_dr008_typ_v1p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v1p7 when vdb(fb_dr008_typ_v1p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v1p7 find vp(fb_dr008_typ_v1p7) when vdb(fb_dr008_typ_v1p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v1p7 param='180+ph_rad_dr008_typ_v1p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v1p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v1p9 when vdb(fb_dr008_typ_v1p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v1p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v1p9 find vp(fb_dr008_typ_v1p9) when vdb(fb_dr008_typ_v1p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v1p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v1p9 param='180+ph_rad_dr008_typ_v1p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v2p1 when vdb(fb_dr008_typ_v2p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v2p1 find vp(fb_dr008_typ_v2p1) when vdb(fb_dr008_typ_v2p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v2p1 param='180+ph_rad_dr008_typ_v2p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v2p3 when vdb(fb_dr008_typ_v2p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v2p3 find vp(fb_dr008_typ_v2p3) when vdb(fb_dr008_typ_v2p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v2p3 param='180+ph_rad_dr008_typ_v2p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v2p5 when vdb(fb_dr008_typ_v2p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v2p5 find vp(fb_dr008_typ_v2p5) when vdb(fb_dr008_typ_v2p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v2p5 param='180+ph_rad_dr008_typ_v2p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v2p7 when vdb(fb_dr008_typ_v2p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v2p7 find vp(fb_dr008_typ_v2p7) when vdb(fb_dr008_typ_v2p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v2p7 param='180+ph_rad_dr008_typ_v2p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ_v2p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ_v2p9 when vdb(fb_dr008_typ_v2p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ_v2p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ_v2p9 find vp(fb_dr008_typ_v2p9) when vdb(fb_dr008_typ_v2p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ_v2p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ_v2p9 param='180+ph_rad_dr008_typ_v2p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_nocp",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_nocp when vdb(fb_dr008_slow_nocp)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_nocp",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_nocp find vp(fb_dr008_slow_nocp) when vdb(fb_dr008_slow_nocp)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_nocp",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_nocp param='180+ph_rad_dr008_slow_nocp*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_lonly",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_lonly when vdb(fb_dr008_slow_lonly)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_lonly",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_lonly find vp(fb_dr008_slow_lonly) when vdb(fb_dr008_slow_lonly)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_lonly",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_lonly param='180+ph_rad_dr008_slow_lonly*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v0p3 when vdb(fb_dr008_slow_v0p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v0p3 find vp(fb_dr008_slow_v0p3) when vdb(fb_dr008_slow_v0p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v0p3 param='180+ph_rad_dr008_slow_v0p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v0p5 when vdb(fb_dr008_slow_v0p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v0p5 find vp(fb_dr008_slow_v0p5) when vdb(fb_dr008_slow_v0p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v0p5 param='180+ph_rad_dr008_slow_v0p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v0p7 when vdb(fb_dr008_slow_v0p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v0p7 find vp(fb_dr008_slow_v0p7) when vdb(fb_dr008_slow_v0p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v0p7 param='180+ph_rad_dr008_slow_v0p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v0p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v0p9 when vdb(fb_dr008_slow_v0p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v0p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v0p9 find vp(fb_dr008_slow_v0p9) when vdb(fb_dr008_slow_v0p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v0p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v0p9 param='180+ph_rad_dr008_slow_v0p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v1p1 when vdb(fb_dr008_slow_v1p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v1p1 find vp(fb_dr008_slow_v1p1) when vdb(fb_dr008_slow_v1p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v1p1 param='180+ph_rad_dr008_slow_v1p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v1p3 when vdb(fb_dr008_slow_v1p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v1p3 find vp(fb_dr008_slow_v1p3) when vdb(fb_dr008_slow_v1p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v1p3 param='180+ph_rad_dr008_slow_v1p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v1p5 when vdb(fb_dr008_slow_v1p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v1p5 find vp(fb_dr008_slow_v1p5) when vdb(fb_dr008_slow_v1p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v1p5 param='180+ph_rad_dr008_slow_v1p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v1p7 when vdb(fb_dr008_slow_v1p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v1p7 find vp(fb_dr008_slow_v1p7) when vdb(fb_dr008_slow_v1p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v1p7 param='180+ph_rad_dr008_slow_v1p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v1p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v1p9 when vdb(fb_dr008_slow_v1p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v1p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v1p9 find vp(fb_dr008_slow_v1p9) when vdb(fb_dr008_slow_v1p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v1p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v1p9 param='180+ph_rad_dr008_slow_v1p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v2p1 when vdb(fb_dr008_slow_v2p1)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v2p1 find vp(fb_dr008_slow_v2p1) when vdb(fb_dr008_slow_v2p1)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v2p1 param='180+ph_rad_dr008_slow_v2p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v2p3 when vdb(fb_dr008_slow_v2p3)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v2p3 find vp(fb_dr008_slow_v2p3) when vdb(fb_dr008_slow_v2p3)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v2p3 param='180+ph_rad_dr008_slow_v2p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v2p5 when vdb(fb_dr008_slow_v2p5)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v2p5 find vp(fb_dr008_slow_v2p5) when vdb(fb_dr008_slow_v2p5)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v2p5 param='180+ph_rad_dr008_slow_v2p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v2p7 when vdb(fb_dr008_slow_v2p7)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v2p7 find vp(fb_dr008_slow_v2p7) when vdb(fb_dr008_slow_v2p7)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v2p7 param='180+ph_rad_dr008_slow_v2p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow_v2p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow_v2p9 when vdb(fb_dr008_slow_v2p9)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow_v2p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow_v2p9 find vp(fb_dr008_slow_v2p9) when vdb(fb_dr008_slow_v2p9)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow_v2p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow_v2p9 param='180+ph_rad_dr008_slow_v2p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_nocp",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_nocp when vdb(fb_dr007_slow_nocp)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_nocp",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_nocp find vp(fb_dr007_slow_nocp) when vdb(fb_dr007_slow_nocp)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_nocp",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_nocp param='180+ph_rad_dr007_slow_nocp*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_lonly",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_lonly when vdb(fb_dr007_slow_lonly)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_lonly",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_lonly find vp(fb_dr007_slow_lonly) when vdb(fb_dr007_slow_lonly)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_lonly",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_lonly param='180+ph_rad_dr007_slow_lonly*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v0p3 when vdb(fb_dr007_slow_v0p3)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v0p3 find vp(fb_dr007_slow_v0p3) when vdb(fb_dr007_slow_v0p3)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v0p3 param='180+ph_rad_dr007_slow_v0p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v0p5 when vdb(fb_dr007_slow_v0p5)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v0p5 find vp(fb_dr007_slow_v0p5) when vdb(fb_dr007_slow_v0p5)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v0p5 param='180+ph_rad_dr007_slow_v0p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v0p7 when vdb(fb_dr007_slow_v0p7)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v0p7 find vp(fb_dr007_slow_v0p7) when vdb(fb_dr007_slow_v0p7)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v0p7 param='180+ph_rad_dr007_slow_v0p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v0p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v0p9 when vdb(fb_dr007_slow_v0p9)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v0p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v0p9 find vp(fb_dr007_slow_v0p9) when vdb(fb_dr007_slow_v0p9)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v0p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v0p9 param='180+ph_rad_dr007_slow_v0p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v1p1 when vdb(fb_dr007_slow_v1p1)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v1p1 find vp(fb_dr007_slow_v1p1) when vdb(fb_dr007_slow_v1p1)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v1p1 param='180+ph_rad_dr007_slow_v1p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v1p3 when vdb(fb_dr007_slow_v1p3)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v1p3 find vp(fb_dr007_slow_v1p3) when vdb(fb_dr007_slow_v1p3)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v1p3 param='180+ph_rad_dr007_slow_v1p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v1p5 when vdb(fb_dr007_slow_v1p5)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v1p5 find vp(fb_dr007_slow_v1p5) when vdb(fb_dr007_slow_v1p5)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v1p5 param='180+ph_rad_dr007_slow_v1p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v1p7 when vdb(fb_dr007_slow_v1p7)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v1p7 find vp(fb_dr007_slow_v1p7) when vdb(fb_dr007_slow_v1p7)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v1p7 param='180+ph_rad_dr007_slow_v1p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v1p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v1p9 when vdb(fb_dr007_slow_v1p9)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v1p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v1p9 find vp(fb_dr007_slow_v1p9) when vdb(fb_dr007_slow_v1p9)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v1p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v1p9 param='180+ph_rad_dr007_slow_v1p9*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p1",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v2p1 when vdb(fb_dr007_slow_v2p1)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p1",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v2p1 find vp(fb_dr007_slow_v2p1) when vdb(fb_dr007_slow_v2p1)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p1",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v2p1 param='180+ph_rad_dr007_slow_v2p1*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p3",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v2p3 when vdb(fb_dr007_slow_v2p3)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p3",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v2p3 find vp(fb_dr007_slow_v2p3) when vdb(fb_dr007_slow_v2p3)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p3",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v2p3 param='180+ph_rad_dr007_slow_v2p3*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p5",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v2p5 when vdb(fb_dr007_slow_v2p5)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p5",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v2p5 find vp(fb_dr007_slow_v2p5) when vdb(fb_dr007_slow_v2p5)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p5",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v2p5 param='180+ph_rad_dr007_slow_v2p5*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p7",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v2p7 when vdb(fb_dr007_slow_v2p7)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p7",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v2p7 find vp(fb_dr007_slow_v2p7) when vdb(fb_dr007_slow_v2p7)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p7",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v2p7 param='180+ph_rad_dr007_slow_v2p7*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow_v2p9",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow_v2p9 when vdb(fb_dr007_slow_v2p9)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow_v2p9",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow_v2p9 find vp(fb_dr007_slow_v2p9) when vdb(fb_dr007_slow_v2p9)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow_v2p9",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow_v2p9 param='180+ph_rad_dr007_slow_v2p9*57.29577951308232'"
+    }
+  ],
+  "backend": "batch",
+  "corners": {
+    "process": [
+      {
+        "name": "fast",
+        "sections": [
+          "mos_ff",
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_bcs"
+          }
+        ]
+      },
+      {
+        "name": "slow",
+        "sections": [
+          "mos_ss",
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_wcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      125
+    ]
+  },
+  "exclude": [
+    {
+      "process": "fast",
+      "temperature_c": 125
+    },
+    {
+      "process": "slow",
+      "temperature_c": -40
+    }
+  ],
+  "batch": {
+    "capacity_wait_s": 900
+  }
+}
