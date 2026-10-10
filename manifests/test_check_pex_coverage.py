@@ -20,6 +20,7 @@ REPO = Path.cwd().resolve()
 MANIFEST = "manifests/sg13g2-pll.json"
 S = chk.SIGNOFF
 REC = Path(json.loads((REPO / MANIFEST).read_text())["evidence"]["4.analog"]["file"]).parent
+ORIG_STALE = dict(chk.STALE_PENDING)
 
 
 class Pex(unittest.TestCase):
@@ -36,6 +37,8 @@ class Pex(unittest.TestCase):
         (rec / "lvs.lock_detector.json").write_text("{}")
 
     def tearDown(self):
+        chk.STALE_PENDING.clear()
+        chk.STALE_PENDING.update(ORIG_STALE)
         shutil.rmtree(self.root)
 
     def run_chk(self):
@@ -90,35 +93,59 @@ class Pex(unittest.TestCase):
         leg.write_text(leg.read_text() + "* tampered\n")
         self.fails("pfd: schematic leg sha256", "pfd: committed schematic leg differs")
 
+    # STALE_PENDING is empty since #195; these tests inject an entry to keep the
+    # mechanism's negative coverage (tearDown restores the module state).
+    def stale(self, b="cp", issue="#999"):
+        chk.STALE_PENDING[b] = issue
+        return b
+
+    def make_export_stale(self, b):
+        src = self.root / f"design/sg13cmos5l/netlist/{b}.spice"
+        txt = src.read_text()
+        self.assertIn("w=2u", txt)
+        src.write_text(txt.replace("w=2u", "w=3u", 1))
+
+    def test_stale_pending_is_empty(self):
+        # #195 acceptance: no block is excused from the freshness checks.
+        self.assertEqual(ORIG_STALE, {})
+
     def test_altered_leg_of_stale_pending_block(self):
         # A STALE_PENDING block keeps its leg-integrity check.
-        b = next(iter(chk.STALE_PENDING))
+        b = self.stale()
+        self.make_export_stale(b)
         leg = self.root / S / f"dut/pll_{b}.schematic.sp"
         leg.write_text(leg.read_text() + "* tampered\n")
         self.fails(f"{b}: schematic leg sha256")
 
+    def test_genuinely_stale_pending_block_passes(self):
+        # The documented-unmet state still works when the staleness is real.
+        b = self.stale()
+        self.make_export_stale(b)
+        rc, err = self.run_chk()
+        self.assertEqual(rc, 0, err)
+
     def test_stale_pending_entry_must_be_removed_once_fresh(self):
-        # Simulate the follow-up: re-flatten the leg and re-pin its provenance.
-        import subprocess
-        b = next(iter(chk.STALE_PENDING))
-        pp = self.root / S / "leg-provenance.json"
-        ent = json.loads(pp.read_text())["blocks"][b]
-        r = subprocess.run([sys.executable, "-I", str(self.root / S / "flatten-schematic.py"),
-                            f"../../design/sg13cmos5l/netlist/{b}.spice", str(ent["top"]),
-                            str(ent["new_name"]), str(ent["pins"])],
-                           cwd=self.root / S, capture_output=True, text=True, check=True)
-        leg = self.root / S / f"dut/pll_{b}.schematic.sp"
-        leg.write_text(r.stdout)
-        src = self.root / f"design/sg13cmos5l/netlist/{b}.spice"
-        self.edit(pp, lambda d: d["blocks"][b].update(leg_sha256=chk.sha256_file(leg),
-                                                      source_sha256=chk.sha256_file(src)))
+        # cp's export, leg and report are fresh: re-listing it must fail.
+        b = self.stale()
         self.fails(f"{b}: listed in STALE_PENDING", "stale entry")
 
     def test_stale_pending_block_cannot_be_cited(self):
-        b = next(iter(chk.STALE_PENDING))
+        b = self.stale()
+        self.make_export_stale(b)
         mp = self.root / MANIFEST
         self.edit(mp, lambda d: d["evidence"]["7.analog"].update(file=f"{S}/reports/pex.{b}.json"))
         self.fails(f"manifest: 7.analog cites {b}")
+
+    def test_cp_export_change_is_stale(self):
+        # Without an exception, a moved cp export fails closed (the pre-#195 state).
+        self.make_export_stale("cp")
+        self.fails("cp: design export cp.spice sha256", "PEX evidence is stale")
+
+    def test_cp_report_on_pre_dr010_gds(self):
+        # The pre-#195 envelope's input hash (the source-follower pll_cp).
+        self.edit(self.rep("cp"), lambda d: d["provenance"]["input"].update(
+            content_hash="sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c"))
+        self.fails("cp: provenance input hash")
 
     def test_changed_source_export(self):
         src = self.root / "design/sg13cmos5l/netlist/vco.spice"

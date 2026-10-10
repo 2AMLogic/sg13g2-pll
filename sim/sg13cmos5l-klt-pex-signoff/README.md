@@ -1,7 +1,9 @@
 # sg13cmos5l-klt-pex-signoff
 
-`klt pex` envelopes (T1 item 7, issue #152) for the routed blocks of layout
-record `20261003-183059-dc5644a`. This slug is separate from
+`klt pex` envelopes (T1 item 7, issue #152) for the routed blocks of the
+layout record the manifest's `4.analog` citation names. That is
+`20261010-012952-a4ca1b8` since #195 (RECORD-002); RECORD-001 measured
+`20261003-183059-dc5644a`. This slug is separate from
 `../sg13cmos5l-postlayout-pex-pvt/` (ngspice PVT campaign) because item 7
 accepts only a `klt pex` JSON envelope, which that campaign never produced.
 
@@ -15,7 +17,15 @@ run-klt-pex.sh          regenerates one reports/pex.<block>.json
 flatten-schematic.py    hierarchical design netlist -> one flat .subckt
 ```
 
-`PDK_ROOT=<parent of ihp-sg13cmos5l> ./run-klt-pex.sh <pfd|cp|loop_filter|vco|divider_chain>`
+`PDK_ROOT=<parent of ihp-sg13cmos5l> [KLT=<klt>] ./run-klt-pex.sh <pfd|cp|loop_filter|vco|divider_chain>`
+
+The runner binds to the directory of the manifest's `4.analog` citation, the
+same derivation the gate uses, so it cannot run against a record the gate does
+not check. The committed envelopes were produced with
+`klt 0.6.0+g1eb3e4bfd0f5` and ngspice-46 (see each RECORD). The installed
+`psp103`/`psp103_nqs`/`mosvar` OSDI objects target OSDI v0.4. ngspice-46
+loads them. ngspice-42 (OSDI v0.3 only) fails at model load. `--backend batch`
+refuses `osdi_preload`.
 
 Every request is a single corner and runs with `--backend local`. A
 multi-corner or Monte Carlo version must be expressed as `klt sim` corners /
@@ -36,17 +46,16 @@ gate fails and names the block: the evidence is stale and must be regenerated
 (re-flatten, `run-klt-pex.sh`, re-verify); editing the hashes alone cannot pass
 because the re-flatten compare is independent. Old results are never rewritten.
 
-**`cp` is stale-pending (#195).** Issue #165 / DR-010 replaced `cp_dumpbuf`
-(source follower -> tracking 5T-OTA pair), so `design/sg13cmos5l/netlist/cp.spice`
-no longer matches the `pll_cp` layout or the committed `cp` leg. The gate's
-`STALE_PENDING` entry keeps the report and leg-integrity checks for `cp`,
-requires the staleness to be real, forbids citing `cp` from the manifest, and
-fails once #195 refreshes the leg until the entry is removed. `pex.cp.json`
-here describes the pre-#165 buffer. The same holds for the `pll_cp` LVS, ERC
-and DRC evidence: `manifests/check_{lvs,erc,drc}_coverage.py` still pass for
-`cp` only because they bind to the committed GDS, not to the schematic
-export, so the cited LVS `match` describes the pre-#165 buffer. That layout
-evidence is stale until #195 redraws `cp` and re-runs it.
+**`cp` is fresh again (#195, RECORD-002).** Issue #165 / DR-010 replaced
+`cp_dumpbuf` (source follower -> tracking 5T-OTA pair). From #165 until #195,
+`cp` was carried as a `STALE_PENDING` entry. #195 redrew `pll_cp` (LVS
+`match` 28/28 devices, 22/22 nets, DRC and ERC clean), re-flattened the leg,
+re-ran all five envelopes against the new record, and emptied
+`STALE_PENDING`. The mechanism is kept and negative-tested. **The cp
+envelope still measures only the output current**, at DC, with one leg
+steered to `VOUT`. It does not observe `VDUMP` tracking, so the DR-010
+buffer's post-layout behaviour is not evidenced here (see RECORD-002's
+limits).
 
 This proves **nominal evidence integrity**, not a complete PVT or spec pass:
 one corner per block, no `limits` declared. `lock_detector` remains explicitly

@@ -15,14 +15,28 @@ for each one:
     distinct (no block evidenced by another block's run);
   * its provenance.spec.content_hash equals sha256 of the committed spec
     layout/sg13cmos5l-pll/erc-supply-spec.pll_<block>.json, whose supply
-    nets are exactly the block's DR-004 rails (each `expected_islands: 1`)
-    and whose ties are exactly the ones expected below;
+    nets are exactly the block's DR-004 rails (each `expected_islands: 1`,
+    or the native `islands: 1` on a strict build) and whose ties are
+    exactly the ones expected below;
+  * cp only (issue #195, DR-010): its PMOS OTA input pair ties its bulk to
+    its own source, so pll_cp draws one NWell on `XBUF.PSRC` beside five on
+    `VDD`. The one NWell layer then carries two bias classes with no marker
+    layer to separate them, so the two NWell ties select their wells with
+    literal boxes (`well_excludes_boxes` on the VDD tie, the same boxes as
+    `well_requires_boxes` on the PSRC tie: complementary by construction,
+    klayout-tools#2540). Such a "drawn_selected" tie must be in
+    erc_coverage.checked AND in checked_by_well_assertion (the selection is
+    the caller's word), and its non-supply net must be declared with one
+    island and connectivity-checked. Any other block's spec may not use a
+    well selector at all;
   * coverage: every declared supply's erc.net_connectivity and every tie's
     erc.missing_tie in erc_coverage.checked; nothing skipped or unknown; a
     drawn-NWell tie never presented as an assertion, a well_boxes substrate
     tie always listed in checked_by_well_assertion;
   * run form (provenance): the four MOS blocks were run with --deck
-    sg13cmos5l at the pinned deck content hash, and the blocks that draw
+    sg13cmos5l at the pinned deck content hash (cp: at the pinned build
+    in BLOCK_BUILD, the one build here that has the box selectors and the
+    deck hash it bundles), and the blocks that draw
     resistors (vco: rppd + rhigh, lock_detector: rhigh) report those bodies
     carved out in provenance.devices with non-zero area -- so a resistor body
     can never count as a wire bridging a split supply island; loop_filter
@@ -75,8 +89,12 @@ DEFAULT_NETLISTS = "design/sg13cmos5l/netlist"
 EXPECT = {
     "pfd": {"supplies": ("VDD", "VSS"),
             "ties": {"nwell_tap": ("drawn", "VDD"), "substrate_tap": ("asserted", "VSS")}},
-    "cp": {"supplies": ("VDD", "VSS"),
-           "ties": {"nwell_tap": ("drawn", "VDD"), "substrate_tap": ("asserted", "VSS")}},
+    # cp (DR-010, #195): five VDD wells plus the PMOS input pair's own
+    # source-tied well on XBUF.PSRC, selected by literal box (see docstring).
+    "cp": {"supplies": ("VDD", "VSS"), "signals": ("XBUF.PSRC",),
+           "ties": {"nwell_tap": ("drawn_selected", "VDD"),
+                    "psrc_nwell_tap": ("drawn_selected", "XBUF.PSRC"),
+                    "substrate_tap": ("asserted", "VSS")}},
     "loop_filter": {"supplies": ("VSS",), "ties": {}},
     "vco": {"supplies": ("VDD_VCO", "GND_VCO"),
             "ties": {"nwell_tap": ("drawn", "VDD_VCO"), "substrate_tap": ("asserted", "GND_VCO")}},
@@ -88,6 +106,17 @@ ANALOG_BLOCKS = tuple(EXPECT)
 # committed report records (klt 0.6.0+ge6284fbe62e2's bundled sg13cmos5l).
 MOS_DECK = {"name": "sg13cmos5l",
             "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909"}
+# Per-block build pin, overriding MOS_DECK. cp's well ties need
+# well_requires_boxes / well_excludes_boxes (klayout-tools#2540), which the
+# grading build (e6284fbe62e2) predates -- and silently ignores as unknown
+# keys. cp is therefore run at klayout-tools 1eb3e4bfd0f5 (the item-7 klt pex
+# build), pinned here by version AND bundled-deck hash.
+BLOCK_BUILD = {
+    "cp": {"klt_version": "0.6.0+g1eb3e4bfd0f5",
+           "deck": {"name": "sg13cmos5l",
+                    "content_hash": "sha256:db9f44fadafe6a1f7d83729b299d98127144f9e66497cf7f5197c486d38c222a"}},
+}
+WELL_SELECTORS = ("well_requires", "well_excludes", "well_requires_boxes", "well_excludes_boxes")
 # Blocks drawing resistor bodies on GatPoly: device -> must be carved out.
 CARVED_DEVICES = {"vco": ("rppd", "rhigh"), "lock_detector": ("rhigh",)}
 # Gate-less blocks run without --deck (klayout-tools#2896).
@@ -200,9 +229,19 @@ def check_spec(spec_path, block, exp):
     sup = [n for n in nets if n.get("kind") == "supply"]
     if sorted(n.get("name") for n in sup) != sorted(exp["supplies"]):
         errs.append(f"{block}: spec supplies {[n.get('name') for n in sup]} != DR-004 rails {list(exp['supplies'])}")
+    def one_island(n):
+        # `expected_islands` is this repo's annotation (ignored by builds that
+        # ignore unknown keys); `islands` is the native, graded field (#2400).
+        keys = [k for k in ("expected_islands", "islands") if k in n]
+        return bool(keys) and all(n[k] == 1 for k in keys)
     for n in sup:
-        if n.get("expected_islands") != 1:
-            errs.append(f"{block}: spec supply {n.get('name')} expected_islands is {n.get('expected_islands')!r}, expected 1")
+        if not one_island(n):
+            errs.append(f"{block}: spec supply {n.get('name')} islands is "
+                        f"{n.get('islands', n.get('expected_islands'))!r}, expected 1")
+    for name in exp.get("signals", ()):
+        n = next((n for n in nets if n.get("name") == name), None)
+        if n is None or n.get("kind", "signal") != "signal" or not one_island(n):
+            errs.append(f"{block}: spec must declare signal net {name} with exactly one island")
     ties = {t.get("name"): t for t in spec.get("ties") or []}
     if set(ties) != set(exp["ties"]):
         errs.append(f"{block}: spec ties {sorted(ties)} != expected {sorted(exp['ties'])}")
@@ -212,12 +251,27 @@ def check_spec(spec_path, block, exp):
             continue
         if t.get("net") != net:
             errs.append(f"{block}: tie {name} net {t.get('net')!r}, expected {net!r}")
-        if kind == "drawn" and t.get("well_layer") != "31/0":
+        if kind in ("drawn", "drawn_selected") and t.get("well_layer") != "31/0":
             errs.append(f"{block}: tie {name} must be on the drawn NWell 31/0")
+        if kind in ("drawn", "asserted") and any(t.get(k) for k in WELL_SELECTORS):
+            errs.append(f"{block}: tie {name} uses a well selector; only a declared drawn_selected tie may")
+        if kind == "drawn_selected":
+            if t.get("well_boxes") or t.get("well_requires") or t.get("well_excludes"):
+                errs.append(f"{block}: tie {name} must select by literal box only (no well_boxes/marker selectors)")
+            if bool(t.get("well_requires_boxes")) == bool(t.get("well_excludes_boxes")):
+                errs.append(f"{block}: tie {name} must carry exactly one of well_requires_boxes/well_excludes_boxes")
         if kind == "asserted" and (t.get("well_layer") is not None or not t.get("well_boxes")):
             errs.append(f"{block}: tie {name} must be a well_layer null + well_boxes assertion")
         if not t.get("tap_requires"):
             errs.append(f"{block}: tie {name} has no tap_requires narrowing")
+    sel = [ties[n] for n, (k, _) in exp["ties"].items() if k == "drawn_selected" and n in ties]
+    if sel:
+        def boxes(key):
+            return sorted(tuple(b) for t in sel for b in (t.get(key) or []))
+        req, exc = boxes("well_requires_boxes"), boxes("well_excludes_boxes")
+        if not req or req != exc:
+            errs.append(f"{block}: box-selected NWell ties are not complementary "
+                        f"(requires {req} != excludes {exc}); some well would be graded twice or never")
     if not exp["ties"]:
         disc = spec.get("ties_disclosure") or {}
         if disc.get("kind") != "unexpressible" or not str(disc.get("reason", "")).strip():
@@ -255,10 +309,14 @@ def check_run_form(doc, block, exp):
                     errs.append(f"{block}: gate net {net!r} contains declared supply {sorted(hit)} "
                                 f"(the uncarved resistor body would join that supply's island)")
         return errs
-    if not isinstance(deck, dict) or deck.get("name") != MOS_DECK["name"]:
-        errs.append(f"{block}: must be run with --deck {MOS_DECK['name']}, provenance.deck is {deck!r}")
-    elif deck.get("content_hash") != MOS_DECK["content_hash"]:
-        errs.append(f"{block}: deck content_hash {deck.get('content_hash')} != pinned {MOS_DECK['content_hash']}")
+    build = BLOCK_BUILD.get(block)
+    want_deck = build["deck"] if build else MOS_DECK
+    if build and prov.get("klt_version") != build["klt_version"]:
+        errs.append(f"{block}: run with klt {prov.get('klt_version')!r}, pinned {build['klt_version']!r}")
+    if not isinstance(deck, dict) or deck.get("name") != want_deck["name"]:
+        errs.append(f"{block}: must be run with --deck {want_deck['name']}, provenance.deck is {deck!r}")
+    elif deck.get("content_hash") != want_deck["content_hash"]:
+        errs.append(f"{block}: deck content_hash {deck.get('content_hash')} != pinned {want_deck['content_hash']}")
     carved = {d.get("name"): d for d in devices if isinstance(d, dict)}
     for name in CARVED_DEVICES.get(block, ()):
         d = carved.get(name)
@@ -311,9 +369,9 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
     if not isinstance(cov, dict) or cov.get("known") is not True or cov.get("nothing_checked"):
         return errs + [f"{block}: erc_coverage missing, unknown or nothing_checked"], defects, h
     checked = set(cov.get("checked") or [])
-    for s in exp["supplies"]:
+    for s in exp["supplies"] + exp.get("signals", ()):
         if f'erc.net_connectivity:["{s}"]' not in checked:
-            errs.append(f"{block}: supply {s} connectivity not in erc_coverage.checked")
+            errs.append(f"{block}: net {s} connectivity not in erc_coverage.checked")
     well_asserted = set(cov.get("checked_by_well_assertion") or [])
     tap_asserted = set(cov.get("checked_by_assertion") or [])
     for name, (kind, _net) in exp["ties"].items():
@@ -324,6 +382,9 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
             errs.append(f"{block}: drawn-well tie {name} reported as an assertion")
         if kind == "asserted" and wid not in well_asserted:
             errs.append(f"{block}: substrate tie {name} not listed in checked_by_well_assertion")
+        if kind == "drawn_selected" and (wid not in well_asserted or wid in tap_asserted):
+            errs.append(f"{block}: box-selected well tie {name} must be listed in checked_by_well_assertion "
+                        "(and only there)")
     if cov.get("skipped"):
         errs.append(f"{block}: erc_coverage.skipped is not empty: {cov.get('skipped')}")
     if cov.get("unknown"):

@@ -1,0 +1,155 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_loop_filter.gds",
+    "reference": "loop_filter.reference.spice",
+    "top": "pll_loop_filter",
+    "reference_top": "LOOP_FILTER",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ]
+    },
+    "hints_applied": null,
+    "status": "match",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "mismatch_count": 2,
+    "error_count": 0,
+    "category_counts": {
+      "topology": 2
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 4,
+        "reference": 4,
+        "matched": 4
+      },
+      "devices": {
+        "layout": 3,
+        "reference": 3,
+        "matched": 3
+      },
+      "pins": {
+        "layout": 4,
+        "reference": 2,
+        "matched": 4
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "layout_sha256": "8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+      "reference_sha256": "df6647e4c375355598b720ab34ef1f7af9ff233c38159bd429059b489add5606",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": true
+    },
+    "mismatches": [
+      {
+        "category": "topology",
+        "severity": "warning",
+        "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
+        "side": "layout",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      },
+      {
+        "category": "topology",
+        "severity": "warning",
+        "description": "device class has no counterpart on the other side, but no devices of this class were extracted either -- not a real topology mismatch",
+        "side": "layout",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "NZ",
+        "reference": "NZ",
+        "pin": true
+      },
+      {
+        "layout": "vsubs",
+        "reference": "SUB!",
+        "pin": true
+      },
+      {
+        "layout": "VCTRL",
+        "reference": "VCTRL",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": "klt: warning: resolved klayout engine version '0.30.12' differs from klayout==0.30.10, the version this klayout-tools build/commit was tested against -- DRC/LVS report counts (deck content hash, rules_skipped, category_counts, ...) may differ from a report generated with klayout==0.30.10, even though the verdict itself is unaffected. To reproduce the exact engine: `uv tool install \"klayout-tools @ git+...@<sha>\" --with klayout==0.30.10` -- see docs/json-contract.md's \"Shared `provenance` block\"."
+}

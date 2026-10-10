@@ -23,19 +23,67 @@ this repo's `sim/` per-PDK prefixes. The two ports' records are separate
 evidence trails with separate `LATEST` pointers on purpose: they are
 different PDKs, different decks, and different device sets.
 
-## Status: routed, DRC-clean, **every device drawn**, and LVS `match` on **all six blocks** (#136)
+## Status: routed, DRC-clean, **every device drawn**, and LVS `match` on **all six blocks** (#136, cp redrawn by #195)
 
 Per the current record (`reports/LATEST`):
 
 | Block | Devices (schematic) | Drawn | Group DRC clean | Group re-extract matches | Composed + routed | Terminals routed | Nets | Block DRC | Block re-extract matches | **`klt lvs`** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `pfd` | 66 | 66 | 66 | 66 | yes | 202 | 37 | clean | yes | **`match`** — devices 66/66, nets 37/37 |
-| `cp` | 20 | 20 | 20 | 20 | yes | 70 | 18 | clean | yes | **`match`** — devices 20/20, nets 18/18 |
+| `cp` | 28 | 28 | 28 | 28 | yes | 97 | 22 | clean | yes | **`match`** — devices 28/28, nets 22/22 (#195: DR-010 two-OTA `cp_dumpbuf`; `MP1`/`MP2` bulk on `XBUF_PSRC` in its own NWell) |
 | `loop_filter` | 3 | 3 | 3 | 3 | yes | 6 | 3 | clean | yes | **`match`** — devices 3/3, nets 4/4 (#114) |
 | `vco` | 45 | 45 | 45 | 45 | yes | 139 | 33 | clean | yes | **`match`** — devices 45/45, nets 33/33 (#113: schematic `XBIAS` resistor bodies re-declared on `VSS`; `pll_vco.gds` unchanged) |
 | `divider_chain` | 394 | 394 | 394 | 394 | yes | 1184 | 181 | clean | yes | **`match`** — devices 394/394, nets 181/181 (absorbs #121's `dff_tg_hv` fix via the #113 record rebuild) |
 | `lock_detector` | 41 | 41 | 41 | 41 | yes | 124 | 23 | clean | yes | **`match`** — devices 41/41, nets 23/23 (#136: `RPU` body re-declared on `VSS`, and the `w=0.25u` `XMPD` footprint now contacted; all three `cap_cmomi` units match, #114) |
-| **Total** | **569** | **569** | **569** | **569** | **6/6** | **1725** | **295** | **6/6 clean** | **6/6** | **6/6 `match`** |
+| **Total** | **577** | **577** | **577** | **577** | **6/6** | **1752** | **299** | **6/6 clean** | **6/6** | **6/6 `match`** |
+
+**Re-run for issue #195** (record `20261010-012952-a4ca1b8`, built
+unmodified from a clean tree at `a4ca1b8`, same `klt` pin). #165 / DR-010
+replaced `cp_dumpbuf` (a 2-device NMOS source follower) with a complementary
+pair of unity-gain 5T OTAs: 10 devices, a new `IBP` pin on `cp_dumpbuf`, and
+internal nets `NSRC`/`PSRC`/`NDA`/`PDA`. The previous record drew `pll_cp`
+from the pre-#165 netlist. The unmodified flow draws the new circuit with
+no generator change: `cp` **28/28 devices, 22/22 nets, LVS `match`**, block
+DRC clean, and every group DRC-clean and re-extract-matching.
+
+The one new structure is the PMOS input pair (`MP1`/`MP2`, `w=6u l=0.5u`),
+whose bulk is its own source `PSRC`. Groups are keyed by `(class, W, L)`.
+This pair is the only `pfet w=6u l=0.5u` in cp, so it forms its own group
+(`cp_pfet_w6_l0p5`). `draw_mos_group` gives that group its own NWell and n+
+tap and labels the well with the schematic body net. Checked rather than
+assumed:
+
+- The extraction puts both devices' bulk on `XBUF_PSRC`, not `VDD`, and LVS
+  pairs it to the reference `BUF_PSRC`.
+- `pll_cp` draws six merged NWells (five `VDD`, one `XBUF.PSRC`). The PSRC well's
+  nearest different-net NWell is **7.36 um** away, against the PDK's `NW.b1`
+  (1.80 um, different-net PWell width). The curated deck has **no NWell
+  rule** (`31/0` is in `layers_in_stream_without_rules`), so this number
+  comes from a caller-side probe,
+  [`diagnosis/issue-195/probe-nwell.py`](diagnosis/issue-195/probe-nwell.py)
+  (output `probe-nwell.pll_cp.txt`), not from `klt drc`. The deck gap is filed as
+  [klayout-tools#3012](https://github.com/2AMLogic/klayout-tools/issues/3012).
+- ERC: the two NWell bias classes are graded by complementary literal-box
+  tie selections. This needs `klt erc`'s `well_requires_boxes` /
+  `well_excludes_boxes` (klayout-tools#2540), which the grading build
+  predates, so cp's ERC runs at `klt 0.6.0+g1eb3e4bfd0f5`. See
+  [`erc-supply-spec.pll_cp.md`](erc-supply-spec.pll_cp.md) and the ERC
+  record [`reports/20261010-014035-a4ca1b8/`](reports/20261010-014035-a4ca1b8/record.md).
+  It reports all five analog blocks clean, plus three cp negative runs.
+- Two regression tests in `layout/tests/test_pll_cmos5l_layout.py` cover the
+  body-net grouping. Every planned MOS group must agree on one body net, and
+  the cp pair must be drawn as its own well labelled `XBUF.PSRC`.
+
+**Every non-cp GDS is byte-identical** to `20261003-183059-dc5644a`
+(`cmp`: 50 of the 53 GDS files both records share are identical. The three that
+differ are all cp: `pll_cp`, `cp_pfet_w24_l1`, which grows from 4 to 6 devices
+with `MN3`/`MN4`, and the `gencompose_cp_probe` probe cell. The cp groups
+`cp_nfet_w4_l1`/`cp_nfet_w6_l0p5` are gone, and five new cp groups are
+added). Every other block's
+verdict is unchanged. The device count moves 569 -> 577 (cp +8) and the nets 295 -> 299
+(cp +4). The manifest's item 1/2/4/11 citations, and the five `klt pex`
+envelopes in `sim/sg13cmos5l-klt-pex-signoff/` (now RECORD-002), were
+re-pinned to this record. The cited GDS hashes are unchanged.
 
 **Re-run for issue #136** (record `20261003-183059-dc5644a`, built from a
 clean tree at `dc5644a`), which closes the last LVS residual. The baseline
@@ -443,19 +491,35 @@ same-GDS LVS `match` carrying both supplies in its `net_correspondence`,
 the compose route records pinning `nwell_tap`/`substrate_tap` into their
 supply nets, and the checked-tie probe above.
 
-## ERC: T1 item 11 power-delivery (structural), analog partition (#147)
+## ERC: T1 item 11 power-delivery (structural), analog partition (#147, #195)
 
 The five analog blocks each have their own supply spec next to this README:
-`erc-supply-spec.pll_{pfd,cp,loop_filter,vco,lock_detector}.json`. Their
-reports are frozen in `reports/20261008-230856-cd95c87/`. That is an
-ERC-only derived record over the GDS of `20261003-183059-dc5644a`, and
-`LATEST` is deliberately left unchanged. Read its `record.md` first, then
-reproduce with that record's `run-erc.sh`, run from the repo root at the
-grading `klt` pin `e6284fbe62e2` (installed in a throwaway venv):
+`erc-supply-spec.pll_{pfd,cp,loop_filter,vco,lock_detector}.json`. The
+current reports are frozen in `reports/20261010-014035-a4ca1b8/` (#195). That
+is an ERC-only derived record over the GDS of `20261010-012952-a4ca1b8`, and
+it does not repoint `LATEST`. It supersedes `reports/20261008-230856-cd95c87/`
+(#147, over `20261003-183059-dc5644a`), which stays frozen. Read its
+`record.md` first. Then reproduce from the repo root with its `run-erc.sh`,
+using two `klt` builds, each in a throwaway venv: the grading pin
+`e6284fbe62e2` for pfd, loop_filter, vco and lock_detector, and
+`1eb3e4bfd0f5` for cp:
 
 ```bash
-KLT=/path/to/venv/bin/klt layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/run-erc.sh
+KLT=/path/to/grading-venv/bin/klt KLT_CP=/path/to/1eb3e4-venv/bin/klt \
+  layout/sg13cmos5l-pll/reports/20261010-014035-a4ca1b8/run-erc.sh
 ```
+
+- **cp (#195) has three ties, not two.** The DR-010 PMOS input pair ties
+  its bulk to its own source, so `pll_cp` draws one NWell on `XBUF.PSRC`
+  beside five on `VDD`. One NWell layer carrying two bias classes cannot be
+  graded at the grading build: its two-tie spec reports the PSRC well as
+  missing a `VDD` tie (committed as a negative run). cp's spec therefore
+  selects the two classes with complementary literal boxes
+  (`well_excludes_boxes` / `well_requires_boxes`, klayout-tools#2540, needs
+  the newer build). Both NWell ties are reported under
+  `checked_by_well_assertion`, and `XBUF.PSRC` is declared and checked as
+  one island. Derivation: [`erc-supply-spec.pll_cp.md`](erc-supply-spec.pll_cp.md).
+  The strict build rejects unknown keys, so this spec carries no `_comment`.
 
 - **All five report `erc_status: "clean"` with zero findings.** Each
   declared supply forms one island: `VDD`/`VSS` for pfd, cp and
@@ -484,9 +548,9 @@ KLT=/path/to/venv/bin/klt layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/
 ## What it is not
 
 - **Not a partial drawing — and no longer an LVS-gapped one.** As of record
-  `20261003-183059-dc5644a` (`reports/LATEST`, #136) all 569/569 planned
+  `20261010-012952-a4ca1b8` (`reports/LATEST`, #195) all 577/577 planned
   devices are drawn, including the five MoM capacitors, and all six blocks are
-  LVS `match`. Earlier records in this directory narrate the older states
+  LVS `match` (#136 reached this first at 569/569; #195 redrew cp for DR-010). Earlier records in this directory narrate the older states
   (undrawn capacitors, 3/6 then 5/6 `match`); those are historical and
   unchanged. What stays true is that a `match` here is a topology verdict on
   a floorplan that is not a considered one (next bullet).
@@ -558,7 +622,8 @@ repeated here because this file is where a layout reader arrives first:
    to every block including `vco`.
 2. **The post-layout records predate the current 6/6 LVS match.** All six
    blocks are LVS `match` at the current layout record
-   `20261003-183059-dc5644a` (#136; see the next section), but the PEX/PVT
+   `20261010-012952-a4ca1b8` (#195; first reached at
+   `20261003-183059-dc5644a`, #136; see the next section), but the PEX/PVT
    records were measured on earlier layouts whose LVS state was narrower
    (3/6, later 5/6 with `lock_detector` unmatched). The newer layout evidence
    does not retroactively change those records' inputs or conclusions; each
@@ -657,6 +722,7 @@ first and filed there — generic tool-gap description only, no design content.
 | `klt extract --parasitics` emits **three-terminal `R` cards** for deck-recognised `rppd`/`rhigh` resistors (`R$39 a b bulk 7800 rppd L=30U W=1U`). ngspice's `R` card takes two nodes, so the extracted netlist is unparseable as written. | the already-filed [klayout-tools#1157](https://github.com/2AMLogic/klayout-tools/issues/1157) (*"klt extract's bare (non-`--pdk`) output for a 3-terminal drawn-resistor class is not ngspice-simulatable"*) — #30's pass recorded a [confirmation comment](https://github.com/2AMLogic/klayout-tools/issues/1157#issuecomment-5740464634) on it (2026-09-19) rather than opening a duplicate, **narrowing that issue's own scope condition**: the 3-node `R` card is emitted *with* `--pdk` supplied too, so it is not limited to bare mode | open | `sim/sg13cmos5l-postlayout-pex-pvt/testbench/pex-to-ngspice.py` (transform 2) rebinds them to the PDK's own resistor subcircuit call — the identical binding the schematic netlist uses — and self-checks that no parasitic R/C card count changes. |
 | `klt extract` writes hierarchical net names joined with a **`.`** (`XBIAS.n2s` for a net that came from a sub-instance). `.` is ngspice's own hierarchy separator, so such a node cannot be probed, `.meas`'d or `.ic`'d by its written name, and the same token parses as a path expression wherever a node reference is read. | [klayout-tools#2145](https://github.com/2AMLogic/klayout-tools/issues/2145) (new, filed by #30's pass; the net-name sibling of #1157's device-card gap) | open | `pex-to-ngspice.py` (transform 1) rewrites `A.b` → `A_b`, matched only between two identifier characters so numeric literals (`L=0.28U`) and dot commands (`.SUBCKT`/`.ENDS`/`.GLOBAL`) are never touched. Cost: the simulated net names diverge from the names in the extraction JSON report and the SPEF, so cross-referencing a result back to the report is a manual mapping step. |
 | `klt drc`'s enclosure rules only flag an enclosed-layer shape that *partially* overlaps the enclosing layer (the deliberate `interacting` scope of klayout-tools#318's fix), and decks have no other way to require coverage — so a `Via1` sitting on **no** `Metal1` at all passes `metal1.enclosing.via1.1` clean, the most severe form of that violation invisible. The `sg13cmos5l` deck also reads no `Cont` rule (`6/0` is listed under `layers_in_stream_without_rules`). Reproduced at both this repo's pin (`daf06a51`) and `c2d79ead`. | [klayout-tools#2726](https://github.com/2AMLogic/klayout-tools/issues/2726) (new, filed by #136's pass) | open | Hid #136's open `XMPD` for three records: two riser `Via1`s landed beside a 0.25 µm-wide device's pads and no source/drain contact was drawn, and every DRC report said `clean`; only LVS saw it. The footprint is fixed (`cmos5l_devices.draw_hv_mos` now raises on an uncontacted terminal, and `layout/tests/` asserts every Via1 landing sits on a contacted Metal1 pad), and [`diagnosis/issue-136/probe-terminal-geometry.py`](diagnosis/issue-136/probe-terminal-geometry.py) checks orphan `Via1`s directly — a caller-side stand-in until the deck can. |
+| The curated `sg13cmos5l` DRC deck has **no NWell rule at all**: no width, no same-net spacing (`NW.b`, 0.62 um) and no different-net spacing (`NW.b1`, 1.80 um). `31/0` appears only in `layers_in_stream_without_rules`. A layout with NWells on different nets therefore gets a clean verdict on the well-to-well rules its correctness depends on. Reproduced on a two-well synthetic GDS at `daf06a51` and `1eb3e4bf`. This is the IHP sibling of the closed sky130 #1420. | [klayout-tools#3012](https://github.com/2AMLogic/klayout-tools/issues/3012) (new, filed by #195's pass) | open | First exercised by #195's DR-010 cp, whose source-tied PMOS pair sits in an NWell on `XBUF.PSRC` beside five `VDD` wells. The separation (7.36 um minimum) is measured caller-side by [`diagnosis/issue-195/probe-nwell.py`](diagnosis/issue-195/probe-nwell.py) and is not claimed as deck coverage. |
 
 **Also confirmed, not a gap** (checked rather than assumed):
 

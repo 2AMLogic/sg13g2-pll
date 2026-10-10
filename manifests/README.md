@@ -66,8 +66,8 @@ The ERC and LVS citations are committed envelopes whose own
 citation is a **command-backed** entry that re-runs `klt drc` live, and
 its pin is graded against the fresh run's own reported input hash.
 
-The divider GDS is byte-identical in the later record
-`20261003-183059-dc5644a` (same sha256), which is why item 4's digital
+The divider GDS is byte-identical in the later records
+`20261003-183059-dc5644a` and `20261010-012952-a4ca1b8` (same sha256), which is why item 4's digital
 citation can live in the newer record without changing that revision. The
 **analog** GDS revisions are a separate story, told under item 4.
 
@@ -92,7 +92,7 @@ against the artifact as committed, not against a file's say-so.
   re-graded. A `signoff.yml` CI step (negative tests in
   `manifests/test_check_drc_coverage.py`, run on temporary copies) resolves the
   authoritative six-block record from the manifest's LVS/layout citations
-  (`20261003-183059-dc5644a`, whose `drc.pll_<block>.json` wrappers are the
+  (`20261010-012952-a4ca1b8` since #195, whose `drc.pll_<block>.json` wrappers are the
   committed same-revision runs) and requires for every block: wrapper
   `ok: true`, `returncode: 0`, `status: clean` with `violation_count` 0 and no
   listed violations, provenance input hash equal to the sha256 of the adjacent
@@ -132,7 +132,7 @@ envelope over these artifacts is cited", and the claim itself rests on the
 committed material named below. Compound (list) citations are accepted for
 item 11 only, so each partition row cites one envelope, mirroring item 4:
 
-| Row | Cites (record `20261003-183059-dc5644a`) | Pinned to |
+| Row | Cites (record `20261010-012952-a4ca1b8`, #195) | Pinned to |
 | --- | --- | --- |
 | `1.analog` | `lvs.lock_detector.json` (`/response`) | `pll_lock_detector.gds` `54bea524…afc` |
 | `1.digital` | `lvs.divider_chain.json` (`/response`) | `pll_divider_chain.gds` `27149fd0…5196` |
@@ -175,14 +175,24 @@ item 11 only, so each partition row cites one envelope, mirroring item 4:
   or command-backed netlist-freshness check; see the friction issue filed
   at 2AMLogic/klayout-tools#2887.
 
-### Item 4 — LVS clean: `4.analog` and `4.digital` `met`, from record `20261003-183059-dc5644a`
+### Item 4 — LVS clean: `4.analog` and `4.digital` `met`, from record `20261010-012952-a4ca1b8`
 
 Both rows cite a wrapper report from the immutable record
-`layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/` (the #136
-closure), using `"pointer": "/response"` to reach the `klt lvs` envelope
-inside the wrapper (`returncode`, `ok`, `response`, `stderr`). Pointer
-support is why the grader pin moved (see "The tool that grades"). The
-committed wrappers are cited as-is: nothing was normalised or re-run.
+`layout/sg13cmos5l-pll/reports/20261010-012952-a4ca1b8/`, using
+`"pointer": "/response"` to reach the `klt lvs` envelope inside the wrapper
+(`returncode`, `ok`, `response`, `stderr`). Pointer support is why the
+grader pin moved (see "The tool that grades"). The committed wrappers are
+cited as-is: nothing was normalised.
+
+**Re-pinned by #195.** That record is a full flow re-run that redraws
+`pll_cp` for DR-010 (#165). Every non-cp block GDS, including both cited
+ones, is byte-identical to the #136 closure record
+`20261003-183059-dc5644a`, which stays frozen. So the cited `content_hash`
+values are unchanged. Every 1/2/4 citation moved to the new directory
+together, because `check_lvs_coverage.py`, `check_drc_coverage.py`,
+`check_erc_coverage.py` and `check_pex_coverage.py` all derive the one
+authoritative six-block record from `4.analog`. With the citations left on
+the old directory, those gates would have kept checking the pre-#165 `pll_cp`.
 
 - `4.digital` = `lvs.divider_chain.json`, pinned to
   `sha256:27149fd0…5196` = sha256 of `pll_divider_chain.gds` (the
@@ -202,13 +212,13 @@ committed wrappers are cited as-is: nothing was normalised or re-run.
   adjacent `pll_<block>.gds`. A missing, failed, mismatching or stale
   sibling fails CI even though the grader never sees it.
 
-All six blocks, as verified by that gate (record `20261003-183059-dc5644a`,
-569 of 569 devices, 295 nets across the six):
+All six blocks, as verified by that gate (record `20261010-012952-a4ca1b8`,
+577 of 577 devices, 299 nets across the six):
 
 | Block | Partition | `pll_<block>.gds` sha256 (= envelope input hash) |
 | --- | --- | --- |
 | `pfd` | analog | `30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7` |
-| `cp` | analog | `95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c` |
+| `cp` | analog | `840267fda95d9ae699ba85f2fc7b7931a19cc05bf2e3c93d2978899545dfe050` (DR-010 redraw, #195; was `95c64289…872c`) |
 | `loop_filter` | analog | `8a3c9e3ee57f2b414133b9a4b0ff7a0cf3a8be889940cfaa3780587565debce3` |
 | `vco` | analog | `21d0d72a7ca94dda5e739863d4dc7b65378096cf879a6ad15f6a7f5ea01818f7` |
 | `lock_detector` | analog (**cited**) | `54bea524f81541c7c3be3fdad14423acf47eb7a0972c07932701c3e691ac2afc` |
@@ -223,15 +233,17 @@ Disclosures that travel with these envelopes (not softened):
   recorded with `klt 0.6.0+gdaf06a51afaf` on KLayout `0.30.12`, not the
   engine version the tool expected. The grader accepts this provenance
   (`input_verified: true`, status `met`), but the record is not claimed to
-  have been produced on the expected KLayout, and these are not newly
-  generated evidence: this change re-grades committed 2026-10-03 reports.
+  have been produced on the expected KLayout. (#195's record was produced
+  with the same pin and engine, so this disclosure carries over unchanged.)
 
 ### Item 7 — post-layout verification: `7.analog` and `7.digital` `met`, audit-first (#152)
 
 **What is cited.** Item 7 accepts only a `klt pex` envelope. Five were
-produced (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, one nominal corner each,
-`--backend local`; `sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`) against
-layout record `20261003-183059-dc5644a`, and each envelope's
+produced (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, ngspice-46, one nominal
+corner each, `--backend local`; `sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`).
+They were re-run by #195 against layout record `20261010-012952-a4ca1b8`
+(RECORD-002; the runner now reads that record from `4.analog`), and each
+envelope's
 `provenance.input.content_hash` equals the GDS hash in the item 1/2 table
 above:
 
@@ -245,7 +257,8 @@ envelope (a list of envelopes with different hashes grades
 `invalid_evidence`). The cited one is the block with the *largest* shift, not
 the most flattering. The other committed envelopes are not cited but are in
 the same directory: `pfd` (UP/DN average duty, +77.8 % / +9.3 %), `cp`
-(output current at 10 uA reference, +0.17 % up / -0.05 % down),
+(output current at 10 uA reference, +0.141 % up / -0.039 % down on the
+DR-010 redraw; this DC bench does not observe the dump buffer's tracking),
 `loop_filter` (NZ step-response t63, +29.6 %).
 
 **Body-bias audit (the step that decides what may be cited).** Each block's
@@ -260,6 +273,16 @@ GDS compared with the current record's:
 | `vco` | `pll_vco.pex.spice` | yes | nmos `GND_VCO` (21), pmos `VDD_VCO` (17), `rppd`/`rhigh` `GND_VCO` | `biased` | pass |
 | `divider_chain` | `pll_divider_chain.pex.spice` | yes | nmos `VSS` (173), pmos `VDD_DIV` (120) | `biased` | pass |
 | `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** |
+
+That table records the #152 audit. **#195 changes cp's row.** The current
+`pll_cp.gds` (`840267fd…e050`) is the DR-010 redraw, so the cp snapshot above
+no longer matches it. That snapshot belongs to the postlayout-pex-pvt campaign
+and describes the pre-#165 cp. The redraw's own bindings are taken from the
+layout record's `pll_cp.extracted.spice`: nmos `VSS` (14), pmos `VDD` (12),
+and pmos `XBUF_PSRC` (2). Those two are `MP1`/`MP2`, whose bulk is their source
+by design (DR-010). The new `pex.cp.json` reports `body_bias.status:
+biased` with zero unbiased devices. `XBUF_PSRC` is a driven internal node,
+not an anonymous body net.
 
 No snapshot had a body on an anonymous net, and every `unbiased_pmos_body_nets`
 list is empty. **`lock_detector` is not cited**: its committed PEX netlist
@@ -332,11 +355,11 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
   that all five analog blocks are clean** (#147). The compound citation is
   `[erc, lvs]`:
   - the `erc` part is
-    `layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/erc.supply-spec.pll_lock_detector.json`,
+    `layout/sg13cmos5l-pll/reports/20261010-014035-a4ca1b8/erc.supply-spec.pll_lock_detector.json`,
     a direct `klt erc` envelope run at the grading build
     (`0.6.0+ge6284fbe62e2`, KLayout 0.30.10) with `--deck sg13cmos5l`.
   - the `lvs` part is the item-4 envelope
-    `reports/20261003-183059-dc5644a/lvs.lock_detector.json` (`/response`,
+    `reports/20261010-012952-a4ca1b8/lvs.lock_detector.json` (`/response`,
     `status: match`). Its `net_correspondence` pairs `VDD`→`VDD` and
     `VSS`→`VSS` (pin: true).
   - Both parts are pinned to `pll_lock_detector.gds`
@@ -369,12 +392,13 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
     defective block's follow-up issue in the script's `KNOWN_DEFECTS`.
 
   All five, read from the committed reports (record
-  [`20261008-230856-cd95c87`](../layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87/record.md)):
+  [`20261010-014035-a4ca1b8`](../layout/sg13cmos5l-pll/reports/20261010-014035-a4ca1b8/record.md),
+  #195; it supersedes `20261008-230856-cd95c87`, which stays frozen):
 
   | Block | `erc_status` | Findings | Input hash (`pll_<block>.gds` = LVS input) | Supplies checked (1 island each) | Ties checked | Asserted (well_boxes) | Inapplicable |
   | --- | --- | --- | --- | --- | --- | --- | --- |
   | `pfd` | clean | 0 | `30588e30…16a7` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
-  | `cp` | clean | 0 | `95c64289…872c` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
+  | `cp` | clean | 0 | `840267fd…e050` | `VDD`, `VSS` (+ `XBUF.PSRC`, 1 island) | `nwell_tap` (VDD wells), `psrc_nwell_tap` (the PSRC well), `substrate_tap` | all three | — |
   | `loop_filter` | clean | 0 | `8a3c9e3e…bce3` | `VSS` | none | — | `erc.missing_tie` (`ties_disclosed_unexpressible`: no Activ/NWell/MOS drawn) |
   | `vco` | clean | 0 | `21d0d72a…18f7` | `VDD_VCO`, `GND_VCO` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
   | `lock_detector` (**cited**) | clean | 0 | `54bea524…2afc` | `VDD`, `VSS` | `nwell_tap`, `substrate_tap` | `substrate_tap` | — |
@@ -388,6 +412,20 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
     evidence than a drawn well, and the verdict of record says so in
     `power_delivery.ties_checked_by_well_assertion`. The drawn-NWell
     `nwell_tap` is the physically checked half.
+  - **cp's NWell selection is an assertion too (#195).** The DR-010 PMOS
+    pair's source-tied well (`XBUF.PSRC`) shares the NWell layer with five
+    `VDD` wells, and no layer marks the difference. cp's spec therefore
+    picks the two classes with complementary literal boxes, so both NWell
+    ties appear under `checked_by_well_assertion` (the wells and taps are
+    still drawn). This needs the box selectors of klayout-tools#2540, which
+    postdate the grading build. **cp's ERC report is therefore produced by
+    `klt 0.6.0+g1eb3e4bfd0f5`** (pinned per block in `check_erc_coverage.py`'s
+    `BLOCK_BUILD`), not by `e6284fbe62e2`. The grader reads only the cited
+    `lock_detector` pair, so the tier report is unaffected. The grading
+    build's own run on the old two-tie spec is committed as a negative run:
+    one `erc.missing_tie` on the PSRC well. Well-to-well spacing is not
+    checked by the curated deck at all (klayout-tools#3012). A caller-side
+    probe measures it at 7.36 um against `NW.b1` = 1.80 um.
   - **`loop_filter` has no tie to check, and says so.** It is passive (one
     rppd, two MoM caps), with no Activ, no NWell and no MOS. CI accepts its
     disclosure only after re-reading the GDS. It is not presented as checked
@@ -396,9 +434,9 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
     no transistor gate (filed as klayout-tools#2896). Its report uses the
     no-`active_layer`, no-`--deck` form, in which the rppd body becomes a
     fake "gate" (see the record).
-  - **The LVS halves are the 2026-10-03 envelopes** (`klt
+  - **The LVS halves are the `20261010-012952-a4ca1b8` envelopes** (`klt
     0.6.0+gdaf06a51afaf`, KLayout 0.30.12, `klayout_version_mismatch:
-    true`), cited unchanged and bound to the ERC runs by input hash.
+    true`), bound to the ERC runs by input hash.
 
 ### Every `unmet` row, in one line each (full `reason`s in the report)
 

@@ -298,6 +298,72 @@ class Cov(unittest.TestCase):
                           lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
                 self.assertEqual(self.run_main(), 1)
 
+    # --- cp (#195, DR-010): the PSRC well selected by literal box ---------
+    def cp_spec_case(self, fn):
+        spec = self.specs / "erc-supply-spec.pll_cp.json"
+        self.edit(spec, fn)
+        self.edit(self.rep("cp"), lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
+        return self.run_main()
+
+    def test_cp_spec_box_selection_rules(self):
+        def tie(d, name):
+            return next(t for t in d["ties"] if t["name"] == name)
+        cases = {
+            "psrc tie dropped": lambda d: d.update(ties=[t for t in d["ties"] if t["name"] != "psrc_nwell_tap"]),
+            "not complementary": lambda d: tie(d, "nwell_tap").update(
+                well_excludes_boxes=[[192.6, 0.34, 208.36, 4.18]]),
+            "vdd tie selects nothing out": lambda d: tie(d, "nwell_tap").pop("well_excludes_boxes"),
+            "both selectors on one tie": lambda d: tie(d, "psrc_nwell_tap").update(
+                well_excludes_boxes=[[0, 0, 1, 1]]),
+            "marker selector instead of box": lambda d: tie(d, "psrc_nwell_tap").update(well_requires=["44/0"]),
+            "psrc tie on VDD": lambda d: tie(d, "psrc_nwell_tap").update(net="VDD"),
+            "psrc net undeclared": lambda d: d.update(nets=[n for n in d["nets"] if n["name"] != "XBUF.PSRC"]),
+            "psrc net two islands": lambda d: d["nets"][2].update(islands=2),
+            "supply island count": lambda d: d["nets"][0].update(islands=2),
+        }
+        for name, fn in cases.items():
+            with self.subTest(name):
+                self.setUp()
+                self.assertEqual(self.cp_spec_case(fn), 1)
+
+    def test_sibling_may_not_use_well_selector(self):
+        spec = self.specs / "erc-supply-spec.pll_pfd.json"
+        self.edit(spec, lambda d: d["ties"][0].update(well_excludes_boxes=[[0, 0, 1, 1]]))
+        self.edit(self.rep("pfd"), lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
+        self.assertEqual(self.run_main(), 1)
+
+    def test_cp_box_selected_ties_coverage(self):
+        for wid in ('erc.missing_tie:["psrc_nwell_tap"]', 'erc.missing_tie:["nwell_tap"]'):
+            with self.subTest(f"{wid} not presented as assertion"):
+                self.setUp()
+                self.edit(self.rep("cp"), lambda d: d["erc_coverage"].update(
+                    checked_by_well_assertion=[c for c in d["erc_coverage"]["checked_by_well_assertion"] if c != wid]))
+                self.assertEqual(self.run_main(), 1)
+            with self.subTest(f"{wid} not checked"):
+                self.setUp()
+                self.edit(self.rep("cp"), lambda d: d["erc_coverage"].update(
+                    checked=[c for c in d["erc_coverage"]["checked"] if c != wid]))
+                self.assertEqual(self.run_main(), 1)
+        self.setUp()
+        self.edit(self.rep("cp"), lambda d: d["erc_coverage"].update(
+            checked=[c for c in d["erc_coverage"]["checked"] if c != 'erc.net_connectivity:["XBUF.PSRC"]']))
+        self.assertEqual(self.run_main(), 1, "PSRC island not connectivity-checked")
+        self.setUp()
+        self.edit(self.rep("cp"), lambda d: d["erc_coverage"].update(
+            skipped=[{"id": 'erc.missing_tie:["psrc_nwell_tap"]', "reason": "degenerate_well_selection"}]))
+        self.assertEqual(self.run_main(), 1, "degenerate box selection")
+
+    def test_cp_build_pin(self):
+        self.edit(self.rep("cp"), lambda d: d["provenance"].update(klt_version="0.6.0+ge6284fbe62e2"))
+        self.assertEqual(self.run_main(), 1, "cp run on a build without the box selectors")
+        self.setUp()
+        self.edit(self.rep("cp"), lambda d: d["provenance"]["deck"].update(content_hash=chk.MOS_DECK["content_hash"]))
+        self.assertEqual(self.run_main(), 1, "cp deck hash is not the pinned build's")
+        self.setUp()
+        self.edit(self.rep("pfd"), lambda d: d["provenance"]["deck"].update(
+            content_hash=chk.BLOCK_BUILD["cp"]["deck"]["content_hash"]))
+        self.assertEqual(self.run_main(), 1, "the cp pin does not extend to siblings")
+
     def test_manifest_citation(self):
         self.edit(self.manifest, lambda d: d["evidence"].pop("11.analog"))
         self.assertEqual(self.run_main(), 1, "met claim with no 11.analog citation")

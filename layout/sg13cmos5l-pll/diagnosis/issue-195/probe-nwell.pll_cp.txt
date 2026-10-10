@@ -1,0 +1,16 @@
+$ layout/.venv/bin/python layout/sg13cmos5l-pll/diagnosis/issue-195/probe-nwell.py layout/sg13cmos5l-pll/reports/20261010-012952-a4ca1b8/pll_cp.gds pll_cp
+# klayout 0.30.12, sha256 840267fda95d9ae699ba85f2fc7b7931a19cc05bf2e3c93d2978899545dfe050
+cp_pfet_w5_l0p5: NWell.pin label(s) ['VDD'], bbox [172.600, 0.340, 185.800, 4.380] um, 1 merged shape(s)
+cp_pfet_w6_l0p3: NWell.pin label(s) ['VDD'], bbox [193.160, 0.340, 208.360, 4.180] um, 1 merged shape(s)
+cp_pfet_w6_l0p5: NWell.pin label(s) ['XBUF.PSRC'], bbox [215.720, 0.340, 230.920, 4.380] um, 1 merged shape(s)
+cp_pfet_w6_l3: NWell.pin label(s) ['VDD'], bbox [238.280, 0.340, 245.520, 6.880] um, 1 merged shape(s)
+cp_pfet_w24_l1: NWell.pin label(s) ['VDD'], bbox [252.880, 0.340, 407.920, 4.880] um, 1 merged shape(s)
+cp_pfet_w36_l1: NWell.pin label(s) ['VDD'], bbox [415.280, 0.340, 452.520, 4.880] um, 1 merged shape(s)
+top cell merged NWell shapes: 6
+different-net NWell pairs (NW.b1 >= 1.80 um):
+  cp_pfet_w5_l0p5 ['VDD'] <-> cp_pfet_w6_l0p5 ['XBUF.PSRC']: 29.920 um ok
+  cp_pfet_w6_l0p3 ['VDD'] <-> cp_pfet_w6_l0p5 ['XBUF.PSRC']: 7.360 um ok
+  cp_pfet_w6_l0p5 ['XBUF.PSRC'] <-> cp_pfet_w6_l3 ['VDD']: 7.360 um ok
+  cp_pfet_w6_l0p5 ['XBUF.PSRC'] <-> cp_pfet_w24_l1 ['VDD']: 21.960 um ok
+  cp_pfet_w6_l0p5 ['XBUF.PSRC'] <-> cp_pfet_w36_l1 ['VDD']: 184.360 um ok
+# exit 0

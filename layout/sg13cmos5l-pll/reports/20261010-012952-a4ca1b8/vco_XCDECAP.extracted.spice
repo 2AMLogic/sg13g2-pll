@@ -1,0 +1,7 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell vco_XCDECAP
+.SUBCKT vco_XCDECAP
+* device instance $1 r0 *1 0,0 cap_cmomi
+XD_$1 \$1 \$2 cap_cmomi PARAMS: W=70 L=70
+.ENDS vco_XCDECAP
