@@ -1,0 +1,307 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "engine": "klayout",
+    "layout": "pll_pfd.gds",
+    "reference": "pfd.reference.spice",
+    "top": "pll_pfd",
+    "reference_top": "PFD",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ]
+    },
+    "hints_applied": null,
+    "status": "match",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 37,
+        "reference": 37,
+        "matched": 37
+      },
+      "devices": {
+        "layout": 66,
+        "reference": 66,
+        "matched": 66
+      },
+      "pins": {
+        "layout": 37,
+        "reference": 6,
+        "matched": 37
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "layout_sha256": "30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7",
+      "reference_sha256": "dc53018f65a100f252cfecf73618aa1b4fe006195e195d513f270625a145a5fc",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.6.0+gdaf06a51afaf",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:1912f17486e78de5259aab5d68533488ebbd239a05018f096217aa62ddee2909",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:30588e30497221d5211eec168e71a1e326a821c65e4cb43b18aab622729f16a7",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": true
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 6 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "DN",
+        "reference": "DN",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_d1",
+        "reference": "ED_DN_D1",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_d2",
+        "reference": "ED_DN_D2",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_d3",
+        "reference": "ED_DN_D3",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_d4",
+        "reference": "ED_DN_D4",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_XN1_mid1",
+        "reference": "ED_DN_N1_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_ntmp",
+        "reference": "ED_DN_NTMP",
+        "pin": true
+      },
+      {
+        "layout": "XED_DN_XD5",
+        "reference": "ED_DN_XD5",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_d1",
+        "reference": "ED_UP_D1",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_d2",
+        "reference": "ED_UP_D2",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_d3",
+        "reference": "ED_UP_D3",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_d4",
+        "reference": "ED_UP_D4",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_XN1_mid1",
+        "reference": "ED_UP_N1_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_ntmp",
+        "reference": "ED_UP_NTMP",
+        "pin": true
+      },
+      {
+        "layout": "XED_UP_XD5",
+        "reference": "ED_UP_XD5",
+        "pin": true
+      },
+      {
+        "layout": "FB",
+        "reference": "FB",
+        "pin": true
+      },
+      {
+        "layout": "XLD_XNQB_mid1",
+        "reference": "LD_NQB_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLD_XNQ_mid1",
+        "reference": "LD_NQ_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLD_RB",
+        "reference": "LD_RB",
+        "pin": true
+      },
+      {
+        "layout": "XLD_SB",
+        "reference": "LD_SB",
+        "pin": true
+      },
+      {
+        "layout": "XLU_XNQB_mid1",
+        "reference": "LU_NQB_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLU_XNQ_mid1",
+        "reference": "LU_NQ_MID1",
+        "pin": true
+      },
+      {
+        "layout": "XLU_RB",
+        "reference": "LU_RB",
+        "pin": true
+      },
+      {
+        "layout": "XLU_SB",
+        "reference": "LU_SB",
+        "pin": true
+      },
+      {
+        "layout": "net1",
+        "reference": "NET1",
+        "pin": true
+      },
+      {
+        "layout": "net2",
+        "reference": "NET2",
+        "pin": true
+      },
+      {
+        "layout": "XNR_mid1",
+        "reference": "NR_MID1",
+        "pin": true
+      },
+      {
+        "layout": "REF",
+        "reference": "REF",
+        "pin": true
+      },
+      {
+        "layout": "reset",
+        "reference": "RESET",
+        "pin": true
+      },
+      {
+        "layout": "reset_d1",
+        "reference": "RESET_D1",
+        "pin": true
+      },
+      {
+        "layout": "reset_d2",
+        "reference": "RESET_D2",
+        "pin": true
+      },
+      {
+        "layout": "reset_raw",
+        "reference": "RESET_RAW",
+        "pin": true
+      },
+      {
+        "layout": "set_dn",
+        "reference": "SET_DN",
+        "pin": true
+      },
+      {
+        "layout": "set_up",
+        "reference": "SET_UP",
+        "pin": true
+      },
+      {
+        "layout": "UP",
+        "reference": "UP",
+        "pin": true
+      },
+      {
+        "layout": "VDD",
+        "reference": "VDD",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": "klt: warning: resolved klayout engine version '0.30.12' differs from klayout==0.30.10, the version this klayout-tools build/commit was tested against -- DRC/LVS report counts (deck content hash, rules_skipped, category_counts, ...) may differ from a report generated with klayout==0.30.10, even though the verdict itself is unaffected. To reproduce the exact engine: `uv tool install \"klayout-tools @ git+...@<sha>\" --with klayout==0.30.10` -- see docs/json-contract.md's \"Shared `provenance` block\"."
+}
