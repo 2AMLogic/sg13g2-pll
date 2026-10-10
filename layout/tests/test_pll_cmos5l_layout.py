@@ -260,6 +260,44 @@ def test_group_body_net_refuses_to_pick_when_members_disagree():
     assert flow.group_body_net(group) is None
 
 
+def test_every_planned_mos_group_has_exactly_one_body_net(cmos5l_plan):
+    """Groups are keyed by (class, W, L), not by body net. A group that mixed
+    two body nets would be drawn in one well under an invented `<group>_B`
+    label (see `group_body_net`). So every group the committed netlists
+    produce must agree on one body net, including the DR-010 source-tied pair
+    (issue #195)."""
+    for block in cmos5l_plan["blocks"]:
+        for group in block["groups"]:
+            if group["generator"] == "mos_array":
+                assert flow.group_body_net(group) is not None, (block["name"], group["id"])
+
+
+def test_cp_source_tied_pmos_pair_gets_its_own_well_on_its_source_net(cmos5l_plan):
+    """DR-010 (#165): cp_dumpbuf's PMOS OTA input pair ties its bulk to its own
+    source `PSRC`. Its group must be the only pfet group on that body net, and
+    it must be drawn as a separate well labelled with that net rather than
+    `VDD`. The #195 layout record's LVS `match` and ERC `psrc_nwell_tap` rest
+    on this."""
+    cp = next(b for b in cmos5l_plan["blocks"] if b["name"] == "cp")
+    pfet = {g["id"]: g for g in cp["groups"]
+            if g["generator"] == "mos_array" and g["params"]["flavor"] == "pfet"}
+    bodies = {gid: flow.group_body_net(g) for gid, g in pfet.items()}
+    psrc = [gid for gid, net in bodies.items() if net != "VDD"]
+    assert psrc == ["cp_pfet_w6_l0p5"], bodies
+    group = pfet["cp_pfet_w6_l0p5"]
+    assert bodies["cp_pfet_w6_l0p5"] == "XBUF.PSRC"
+    assert all(m["ports"][f"U{m['unit']}_S"] == "XBUF.PSRC" for m in group["members"])
+
+    builder = dev.Builder()
+    geometry = flow.draw_mos_group(builder, group)
+    cell = builder.layout.cell(group["id"])
+    assert cell.shapes(builder.layout.layer(*dev.L_NWELL)).size() == 1
+    labels = [s.text.string for s in cell.shapes(builder.layout.layer(*dev.L_NWELL_PIN)).each()
+              if s.is_text()]
+    assert labels == ["XBUF.PSRC"]
+    assert geometry["body_tie"] == {"kind": "nwell_tap", "net": "XBUF.PSRC", "well_labelled": True}
+
+
 def test_nfet_group_draws_no_well_at_all():
     """An NMOS body is the p-substrate: a well here would be wrong against the
     PCell *and* would flip the deck's `active - nwell` NMOS derivation."""
