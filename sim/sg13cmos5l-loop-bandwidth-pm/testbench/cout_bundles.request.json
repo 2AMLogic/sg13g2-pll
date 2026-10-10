@@ -1,0 +1,491 @@
+{
+  "engine": "ngspice",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomi.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomf.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "netlist": "tb_cp_cout_issue196.sp",
+  "analysis": {
+    "kind": "ac",
+    "args": "lin 3 4e5 1e6"
+  },
+  "measurements": [
+    {
+      "name": "cout_ff_c375_0p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_0))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_0p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_0))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_0p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_0))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_0p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_0))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_0p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_0))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_0p3",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_0))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_0p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_1))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_0p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_1))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_0p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_1))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_0p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_1))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_0p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_1))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_0p5",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_1))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_0p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_2))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_0p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_2))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_0p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_2))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_0p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_2))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_0p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_2))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_0p7",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_2))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_0p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_3))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_0p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_3))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_0p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_3))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_0p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_3))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_0p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_3))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_0p9",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_3))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_1p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_4))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_1p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_4))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_1p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_4))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_1p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_4))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_1p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_4))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_1p1",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_4))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_1p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_5))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_1p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_5))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_1p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_5))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_1p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_5))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_1p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_5))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_1p3",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_5))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_1p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_6))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_1p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_6))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_1p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_6))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_1p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_6))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_1p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_6))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_1p5",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_6))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_1p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_7))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_1p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_7))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_1p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_7))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_1p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_7))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_1p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_7))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_1p7",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_7))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_1p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_8))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_1p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_8))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_1p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_8))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_1p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_8))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_1p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_8))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_1p9",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_8))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_2p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_9))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_2p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_9))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_2p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_9))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_2p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_9))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_2p1",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_9))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_2p1",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_9))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_2p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_10))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_2p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_10))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_2p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_10))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_2p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_10))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_2p3",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_10))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_2p3",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_10))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_2p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_11))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_2p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_11))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_2p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_11))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_2p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_11))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_2p5",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_11))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_2p5",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_11))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_2p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_12))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_2p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_12))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_2p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_12))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_2p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_12))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_2p7",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_12))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_2p7",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_12))[2] * 1e9"
+    },
+    {
+      "name": "cout_ff_c375_2p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c375_13))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c10_2p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c10_13))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_c11_2p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_13))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout_ff_b10_2p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_b10_13))[2] / (2 * pi * 1e6) * 1e15"
+    },
+    {
+      "name": "cout400k_ff_c11_2p9",
+      "unit": "fF",
+      "expr": "imag(i(Vm_c11_13))[0] / (2 * pi * 4e5) * 1e15"
+    },
+    {
+      "name": "gout_ns_c11_2p9",
+      "unit": "nS",
+      "expr": "real(i(Vm_c11_13))[2] * 1e9"
+    }
+  ],
+  "backend": "batch",
+  "corners": {
+    "process": [
+      {
+        "name": "fast",
+        "sections": [
+          "mos_ff",
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_bcs"
+          }
+        ]
+      },
+      {
+        "name": "slow",
+        "sections": [
+          "mos_ss",
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_wcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      125
+    ]
+  },
+  "exclude": [
+    {
+      "process": "fast",
+      "temperature_c": 125
+    },
+    {
+      "process": "slow",
+      "temperature_c": -40
+    }
+  ],
+  "batch": {
+    "capacity_wait_s": 900
+  }
+}
