@@ -25,7 +25,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#198**: Item 9: validate append-only provenance addenda and superseding reruns
+_None._
 
 ## PRs Awaiting Review
 
@@ -46,7 +46,6 @@ Issues carrying `loom:curated`.
 - **#16**: [Epic #542] 5A — Port to SG13CMOS5L for Chipalooza Challenge #6 brief *(curated)*
 - **#157**: pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152) *(curated)*
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
-- **#198**: Item 9: validate append-only provenance addenda and superseding reruns *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -67,10 +66,10 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 0 |
 | Operator priority | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 1 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 4 |
+| Curated | 3 |
 | Architect / Hermit proposals | 4 |
 | Active epics | 2 |
 <!-- guide:plan-body:end -->
