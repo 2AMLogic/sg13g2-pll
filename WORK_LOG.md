@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-10
 
+- **PR #208**: Item 9: validate append-only provenance addenda and superseding reruns
+- **Issue #198** (closed): Item 9: validate append-only provenance addenda and superseding reruns
 - **PR #205**: layout: redraw pll_cp for DR-010; refresh cp LVS/ERC/PEX evidence and re-pin the manifest (#195)
 - **PR #204**: loop-bandwidth-pm: real idle cp on VCTRL in PM bench; re-check DR-007/DR-008 tuples (#196)
 - **PR #202**: Burn down records_baseline.json: cite 5 historical records (19 -> 14)
