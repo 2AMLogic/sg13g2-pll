@@ -4,6 +4,7 @@ Run from the repo root: python3 manifests/test_check_testbench_coverage.py
 The committed sim/ tree is never modified.
 """
 import contextlib
+import hashlib
 import io
 import json
 import os
@@ -159,6 +160,202 @@ class Cov(unittest.TestCase):
         rc, err = self.run_main()
         self.assertEqual(rc, 1)
         self.assertIn("UNKNOWN", err)
+
+
+SG = "sg13g2-vco-kvco-table"
+REV2 = "b" * 40
+
+
+class Addenda(Cov):
+    def orig(self, slug=SLUG):
+        p = next((self.sim / slug / "records").glob("RECORD-*.md"))
+        return p, p.relative_to(self.sim).as_posix()
+
+    def addendum(self, rel, kind="recovered", name="ADDENDUM-001-x.md", **kw):
+        p = self.sim / rel
+        f = {"FOR": rel, "KIND": kind, "SHA256": hashlib.sha256(p.read_bytes()).hexdigest(),
+             "EVIDENCE": "host checkout log"}
+        if kind == "recovered":
+            f.update({"TOOL": "ngspice-46"})
+        f.update(kw)
+        lines = [f"ADDENDUM-{k}: {v}" for k, v in f.items() if v is not None]
+        if kind == "recovered" and "PDK" not in kw:
+            lines.append(f"ADDENDUM-PDK: {tree_for(rel)} {PIN}")
+        if "PDK" in kw:
+            lines = [l for l in lines if not l.startswith("ADDENDUM-PDK: None")]
+        (self.sim / rel).parent.joinpath(name).write_text("\n".join(lines) + "\n")
+
+    def test_recovered_resolves_and_original_untouched(self):
+        p, rel = self.orig()
+        before = p.read_bytes()
+        self.addendum(rel)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 0, err)
+        self.assertEqual(p.read_bytes(), before)
+
+    def test_recovered_differing_from_pin_is_retained(self):
+        p, rel = self.orig()
+        self.addendum(rel, PDK=None)
+        a = p.parent / "ADDENDUM-001-x.md"
+        a.write_text(a.read_text() + f"ADDENDUM-PDK: ihp-sg13cmos5l {REV2}\n")
+        a.write_text("\n".join(l for l in a.read_text().splitlines()
+                               if PIN not in l) + "\n")
+        self.assertEqual(self.run_main()[0], 0)
+
+    def test_mixed_pdk_ok_and_contradiction_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel)
+        a = p.parent / "ADDENDUM-001-x.md"
+        base = a.read_text()
+        a.write_text(base + f"ADDENDUM-PDK: ihp-sg13g2 {REV2}\n")
+        self.assertEqual(self.run_main()[0], 0)
+        a.write_text(base + f"ADDENDUM-PDK: ihp-sg13cmos5l {REV2}\n")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("contradictory", err)
+
+    def test_wrong_tree_and_short_revision_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel, PDK=None)
+        a = p.parent / "ADDENDUM-001-x.md"
+        a.write_text(a.read_text() + f"ADDENDUM-PDK: ihp-sg13zz {PIN}\n")
+        rc, err = self.run_main()
+        self.assertIn("unknown PDK tree", err)
+        a.write_text(a.read_text().replace(f"ihp-sg13zz {PIN}", "ihp-sg13g2 abc123"))
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("40-hex", err)
+
+    def test_missing_tool_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel, TOOL="")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("no tool version", err)
+
+    def test_missing_evidence_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel, EVIDENCE="")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("missing ADDENDUM-EVIDENCE", err)
+
+    def test_hash_mismatch_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel, SHA256="0" * 64)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("SHA256", err)
+
+    def test_dangling_and_cross_bench_for_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel, FOR=f"{SLUG}/records/RECORD-777-none.md")
+        rc, err = self.run_main()
+        self.assertIn("dangling ADDENDUM-FOR", err)
+        _, other = self.orig(SG)
+        self.addendum(rel, FOR=other)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("not a record in the same bench", err)
+
+    def test_unresolved_original_stays_open_and_item9_stays_unmet(self):
+        p, rel = self.orig()
+        self.addendum(rel, TOOL="")
+        self.set_tier("met")
+        self.assertEqual(self.run_main()[0], 1)
+
+    def test_premature_item9_evidence_with_partial_resolution_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel)
+        self.man.write_text(json.dumps({"evidence": {"9.analog": {"file": "x"}}}))
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("cites item 9", err)
+
+    def test_addendum_for_passing_record_fails(self):
+        p, rel = self.orig()
+        new = self.new_record(GOOD)
+        self.addendum(new.relative_to(self.sim).as_posix())
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("no provenance defect", err)
+
+    def test_duplicate_addenda_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel)
+        self.addendum(rel, name="ADDENDUM-002-y.md")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("more than one addendum", err)
+
+    def rerun(self, rel, body=None, name="RECORD-098-rerun.md"):
+        body = body or f"Supersedes {Path(rel).name}.\n{GOOD}"
+        return self.new_record(body, name=name).relative_to(self.sim).as_posix()
+
+    def test_superseding_rerun_resolves(self):
+        p, rel = self.orig()
+        rr = self.rerun(rel)
+        self.addendum(rel, "superseded", RERUN=rr)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 0, err)
+
+    def test_superseded_must_not_assert_old_environment(self):
+        p, rel = self.orig()
+        rr = self.rerun(rel)
+        self.addendum(rel, "superseded", RERUN=rr, TOOL="ngspice-46")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("does not prove the old environment", err)
+
+    def test_unrelated_rerun_fails(self):
+        p, rel = self.orig()
+        rr = self.rerun(rel, body=GOOD)
+        self.addendum(rel, "superseded", RERUN=rr)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("unrelated", err)
+
+    def test_rerun_dangling_cross_bench_self_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel, "superseded", RERUN=f"{SLUG}/records/RECORD-777-x.md")
+        self.assertIn("dangling ADDENDUM-RERUN", self.run_main()[1])
+        _, other = self.orig(SG)
+        self.addendum(rel, "superseded", RERUN=other)
+        self.assertIn("same bench", self.run_main()[1])
+        self.addendum(rel, "superseded", RERUN=rel)
+        self.assertIn("supersede itself", self.run_main()[1])
+
+    def test_rerun_with_bad_provenance_fails(self):
+        p, rel = self.orig()
+        rr = self.rerun(rel, body=f"Supersedes {Path(rel).name}.\n{BAD}")
+        self.addendum(rel, "superseded", RERUN=rr)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("is itself unresolved", err)
+
+    def test_cyclic_supersession_fails(self):
+        p, rel = self.orig()
+        a = self.new_record(f"x {Path(rel).name}\n{BAD}", name="RECORD-097-a.md")
+        ra = a.relative_to(self.sim).as_posix()
+        with p.open("a") as f:  # temp copy only: make the back-reference resolvable
+            f.write("\nsee RECORD-097-a.md\n")
+        # original -> a -> original
+        self.addendum(rel, "superseded", RERUN=ra)
+        self.addendum(ra, "superseded", RERUN=rel, name="ADDENDUM-002-y.md")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("cyclic", err)
+
+    def test_sg13g2_tree_recovery(self):
+        p, rel = self.orig(SG)
+        self.addendum(rel, PDK=None)
+        a = p.parent / "ADDENDUM-001-x.md"
+        a.write_text(a.read_text() + f"ADDENDUM-PDK: ihp-sg13g2 {REV2}\n")
+        self.assertEqual(self.run_main()[0], 0)
+
+
+def tree_for(rel):
+    return chk.tree_of(rel.split("/")[0])
 
 
 if __name__ == "__main__":

@@ -27,11 +27,35 @@ met, KNOWN_DEFECTS must be empty and the pins resolved; while it is non-empty
 the manifest must not cite any item-9 evidence (a topically unrelated passing
 envelope would render item 9 met dishonestly).
 
+Provenance addenda (append-only migration of a grandfathered record). A
+committed record is never edited. Instead a new file
+``sim/<slug>/records/ADDENDUM-*.md`` associates itself with ONE original in
+the same bench through ``KEY: value`` lines (format: sim/README.md,
+"Provenance addenda"):
+  * ``ADDENDUM-FOR``  bench-relative path of the original record;
+  * ``ADDENDUM-KIND`` ``recovered`` (historical provenance was recovered from
+    evidence) or ``superseded`` (a new rerun replaces the evidence claim);
+  * ``ADDENDUM-SHA256`` sha256 of the original's bytes (pins "unmodified");
+  * ``ADDENDUM-EVIDENCE`` what was recovered / rerun (non-empty);
+  * recovered: one or more ``ADDENDUM-PDK: <tree> <40-hex>`` lines (several
+    trees = a mixed-PDK record; the slug is never trusted) and
+    ``ADDENDUM-TOOL`` (ngspice-NN / klt X.Y);
+  * superseded: ``ADDENDUM-RERUN`` = same-bench RECORD-*.md that cites the
+    original by file name and itself passes (or is itself resolved); PDK
+    lines are forbidden, since a new run does not prove the old environment.
+A valid association resolves the original's defect (the KNOWN_DEFECTS entry
+stays until a human removes it; it is then reported as resolved). Missing,
+contradictory, dangling, cyclic, cross-bench, duplicate or hash-mismatched
+associations fail closed. Historical revisions that differ from today's pin
+are kept as-is and reported, never rewritten. Item 9 stays unmet/uncited
+while any defect is unresolved or any pin is UNKNOWN.
+
 Stdlib only. Exit 0 = pass, 1 = fail.
 
 Usage: check_testbench_coverage.py [--sim DIR] [--manifest P] [--tier-report P]
 """
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -88,6 +112,138 @@ PIN_RE = re.compile(r"^PDK-PIN (\S+) ([0-9a-f]{40}|UNKNOWN)\s*$", re.M)
 ROW_RE = re.compile(r"^\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|", re.M)
 
 
+TREES = ("ihp-sg13g2", "ihp-sg13cmos5l")
+ADD_RE = re.compile(r"^ADDENDUM-([A-Z0-9]+):[ \t]*(.*?)[ \t]*$", re.M)
+SINGLE = ("FOR", "KIND", "SHA256", "EVIDENCE", "TOOL", "RERUN")
+
+
+def parse_addendum(path, sim):
+    """Return (assoc dict | None, errors). Pure syntax/field checks."""
+    rel = path.relative_to(sim).as_posix()
+    errs = []
+    fields, pdk = {}, []
+    for k, v in ADD_RE.findall(path.read_text(errors="replace")):
+        if k == "PDK":
+            m = re.fullmatch(r"(\S+) ([0-9a-f]{40})", v)
+            if not m:
+                errs.append(f"{rel}: ADDENDUM-PDK needs '<tree> <40-hex revision>', got {v!r}")
+            else:
+                pdk.append(m.groups())
+        elif k in SINGLE:
+            if k in fields:
+                errs.append(f"{rel}: duplicate ADDENDUM-{k}")
+            fields[k] = v
+        else:
+            errs.append(f"{rel}: unknown field ADDENDUM-{k}")
+    for k in ("FOR", "KIND", "SHA256", "EVIDENCE"):
+        if not fields.get(k):
+            errs.append(f"{rel}: missing ADDENDUM-{k}")
+    kind = fields.get("KIND")
+    if kind == "recovered":
+        if not pdk:
+            errs.append(f"{rel}: recovered addendum has no ADDENDUM-PDK line")
+        seen = {}
+        for tree, rev in pdk:
+            if tree not in TREES:
+                errs.append(f"{rel}: unknown PDK tree {tree!r}")
+            if seen.setdefault(tree, rev) != rev:
+                errs.append(f"{rel}: contradictory revisions for tree {tree}")
+        if not TOOL_RE.search(fields.get("TOOL", "")):
+            errs.append(f"{rel}: recovered addendum has no tool version (ADDENDUM-TOOL)")
+        if "RERUN" in fields:
+            errs.append(f"{rel}: recovered addendum must not name a rerun")
+    elif kind == "superseded":
+        if not fields.get("RERUN"):
+            errs.append(f"{rel}: superseded addendum has no ADDENDUM-RERUN")
+        if pdk or "TOOL" in fields:
+            errs.append(f"{rel}: superseded addendum must not assert the old PDK/tool "
+                        "(a new run does not prove the old environment)")
+    elif kind is not None:
+        errs.append(f"{rel}: ADDENDUM-KIND must be recovered|superseded, got {kind!r}")
+    if errs:
+        return None, errs
+    return dict(fields, pdk=dict(pdk), addendum=rel), []
+
+
+def load_associations(sim, on_disk):
+    """Map original rel path -> association; plus errors."""
+    assocs, errs = {}, []
+    for s in on_disk:
+        for add in sorted((sim / s / "records").glob("ADDENDUM-*.md")):
+            a, e = parse_addendum(add, sim)
+            errs += e
+            if a is None:
+                continue
+            tgt = a["FOR"]
+            if not tgt.startswith(s + "/records/") or "/" in tgt[len(s) + 9:] or ".." in tgt:
+                errs.append(f"{a['addendum']}: ADDENDUM-FOR {tgt} is not a record in the same bench")
+                continue
+            orig = sim / tgt
+            if not (orig.is_file() and Path(tgt).name.startswith("RECORD-")):
+                errs.append(f"{a['addendum']}: dangling ADDENDUM-FOR {tgt}")
+                continue
+            if hashlib.sha256(orig.read_bytes()).hexdigest() != a["SHA256"].lower():
+                errs.append(f"{a['addendum']}: ADDENDUM-SHA256 does not match the bytes of {tgt}")
+                continue
+            if tgt in assocs:
+                errs.append(f"{tgt}: more than one addendum ({assocs[tgt]['addendum']}, "
+                            f"{a['addendum']})")
+                continue
+            a["bench"] = s
+            assocs[tgt] = a
+    return assocs, errs
+
+
+def resolve(rel, defects, assocs, sim, pins, state, errs, notes):
+    """True if record `rel` is defect-free or resolved by a valid association."""
+    if rel not in defects:
+        return True
+    if rel in state:  # memo: True/False, or None while in progress (cycle)
+        if state[rel] is None:
+            errs.append(f"{rel}: cyclic addendum/rerun chain")
+            state[rel] = False
+        return state[rel]
+    state[rel] = None
+    a = assocs.get(rel)
+    ok = False
+    if a is None:
+        pass
+    elif a["KIND"] == "recovered":
+        text = (sim / rel).read_text(errors="replace")
+        revs = {m.lower() for m in REV_RE.findall(text)}
+        allrevs = set(a["pdk"].values())
+        bad = [r for r in revs if not any(x.startswith(r) for x in allrevs)]
+        if bad:
+            errs.append(f"{a['addendum']}: contradicts revision(s) {sorted(bad)} cited by {rel}")
+        else:
+            ok = True
+            for tree, rev in sorted(a["pdk"].items()):
+                pin = pins.get(tree)
+                if pin and re.fullmatch(r"[0-9a-f]{40}", pin) and pin != rev:
+                    notes.append(f"recovered {rel}: historical {tree} revision {rev} "
+                                 f"differs from today's pin {pin} (retained)")
+            if len(a["pdk"]) > 1:
+                notes.append(f"recovered {rel}: mixed-PDK record {sorted(a['pdk'])}")
+    else:
+        rr = a["RERUN"]
+        rp = sim / rr
+        if not rr.startswith(a["bench"] + "/records/") or ".." in rr or "/" in rr[len(a["bench"]) + 9:]:
+            errs.append(f"{a['addendum']}: ADDENDUM-RERUN {rr} is not a record in the same bench")
+        elif rr == rel:
+            errs.append(f"{a['addendum']}: record cannot supersede itself")
+        elif not (rp.is_file() and Path(rr).name.startswith("RECORD-")):
+            errs.append(f"{a['addendum']}: dangling ADDENDUM-RERUN {rr}")
+        elif Path(rel).name not in rp.read_text(errors="replace"):
+            errs.append(f"{a['addendum']}: rerun {rr} does not cite {Path(rel).name} (unrelated)")
+        elif not resolve(rr, defects, assocs, sim, pins, state, errs, notes):
+            errs.append(f"{a['addendum']}: rerun {rr} is itself unresolved")
+        else:
+            ok = True
+            notes.append(f"superseded {rel} by rerun {rr} (old environment still unproven)")
+    state[rel] = ok
+    return ok
+
+
 def tree_of(slug):
     return "ihp-sg13g2" if slug.startswith("sg13g2-") else "ihp-sg13cmos5l"
 
@@ -140,16 +296,6 @@ def main(argv=None):
     for s in index:
         if s not in on_disk:
             errs.append(f"{s}: listed in the sim/README.md bench index but no sim/{s}/records/")
-    for tree in sorted({tree_of(s) for s in on_disk}):
-        if tree not in pins:
-            errs.append(f"{tree}: no PDK-PIN line in the Cold start section")
-        elif pins[tree] == "UNKNOWN":
-            msg = f"{tree}: PDK revision pin is UNKNOWN (no record establishes it)"
-            if KNOWN_DEFECTS:
-                notes.append(f"known (follow-up #{FOLLOWUP}) {msg}")
-            else:
-                errs.append(msg)
-
     defects = {}
     for s in on_disk:
         if s in index:
@@ -169,28 +315,48 @@ def main(argv=None):
             if re_:
                 defects[rel] = re_
 
+    assocs, ae = load_associations(sim, on_disk)
+    errs += ae
+    for rel in assocs:
+        if rel not in defects:
+            errs.append(f"{assocs[rel]['addendum']}: {rel} has no provenance defect to resolve")
+    state, unresolved = {}, set()
     for rel, d in sorted(defects.items()):
-        if rel in KNOWN_DEFECTS:
+        if resolve(rel, defects, assocs, sim, pins, state, errs, notes):
+            notes.append(f"resolved {rel} via {assocs[rel]['addendum']}")
+        elif rel in KNOWN_DEFECTS:
+            unresolved.add(rel)
             notes.append(f"known (follow-up #{KNOWN_DEFECTS[rel]}) {rel}: {'; '.join(d)}")
         else:
+            unresolved.add(rel)
             errs.append(f"{rel}: {'; '.join(d)}")
     for rel in KNOWN_DEFECTS:
         if rel not in defects:
             errs.append(f"KNOWN_DEFECTS lists {rel} but it passes (stale entry)")
+    for tree in sorted({tree_of(s) for s in on_disk}):
+        if tree not in pins:
+            errs.append(f"{tree}: no PDK-PIN line in the Cold start section")
+        elif pins[tree] == "UNKNOWN":
+            msg = f"{tree}: PDK revision pin is UNKNOWN (no record establishes it)"
+            if unresolved:
+                notes.append(f"known (follow-up #{FOLLOWUP}) {msg}")
+            else:
+                errs.append(msg)
 
     ev = json.loads(Path(a.manifest).read_text()).get("evidence", {})
     items = json.loads(Path(a.tier_report).read_text()).get("items", [])
     met = [i for i in items if i.get("id") == 9 and i.get("status") == "met"]
     cited = [k for k in ev if k == "9" or k.startswith("9.")]
     if met:
-        if KNOWN_DEFECTS or defects:
+        if unresolved:
             errs.append("tier report grades item 9 met while records still lack a PDK revision")
-    elif cited and (KNOWN_DEFECTS or defects or any(v == "UNKNOWN" for v in pins.values())):
+    elif cited and (unresolved or any(v == "UNKNOWN" for v in pins.values())):
         errs.append(f"manifest cites item 9 evidence {cited} while the gate still has open defects")
 
     if errs:
         return fail(errs, notes)
-    print(f"OK: {len(on_disk)} benches indexed; {len(KNOWN_DEFECTS)} grandfathered records")
+    print(f"OK: {len(on_disk)} benches indexed; {len(KNOWN_DEFECTS)} grandfathered records, "
+          f"{len(unresolved)} unresolved")
     for n in notes:
         print("  " + n)
     return 0
