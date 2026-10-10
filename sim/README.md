@@ -96,20 +96,45 @@ below and vice versa.
 
 ```
 PDK-PIN ihp-sg13cmos5l 607e18d4bd9214a52575c194b4181ef449f9252f
-PDK-PIN ihp-sg13g2 UNKNOWN
+PDK-PIN ihp-sg13g2 5cccb161f7492697cfa52eb14dc03beb00bdca9e
 ```
 
-Provenance of the pins, stated honestly: no committed record cites a PDK
-commit (they name only the install path and `ngspice-46`/`-47`). The
-`ihp-sg13cmos5l` pin is the clean git checkout installed at `~/share/pdk` on
-the worker host as of 2026-10-09 (commit date 2026-08-25); it is **not**
-proven to be what each record ran against, and several records ran on an
-arm64 macOS host whose tree is unknown. The `ihp-sg13g2` tree on the worker
-is not a git checkout, so its revision cannot be recovered and is `UNKNOWN`.
-The gate therefore fails the `ihp-sg13g2` pin and grandfathers all 37
-existing records (append-only, so not editable) in `KNOWN_DEFECTS`, tracked
-by issue #182. Item 9 stays `unmet` until that is closed; it is not claimed
-met here.
+Provenance of the pins, stated honestly: none of the 37 grandfathered
+records cites a full PDK commit. They name only the install path and
+`ngspice-46`/`-47`. The `ihp-sg13cmos5l` pin is the clean git checkout
+installed at `~/share/pdk` on the worker host as of 2026-10-09 (commit date
+2026-08-25). Its reflog shows one clone at 2026-08-25 15:54 UTC and no later
+checkout.
+
+The `ihp-sg13g2` pin (issue #210) is upstream `IHP-GmbH/IHP-Open-PDK` tag
+`v0.3.0`, commit `5cccb161f7492697cfa52eb14dc03beb00bdca9e`. The worker's
+tree is a release-tarball install (`.fetched-version` = `0.3.0`), not a git
+checkout. The pin was established by a separate user-space clone of that
+commit (under `/tmp`, nothing host-wide touched), compared with
+`diff -rq` against the installed tree:
+
+* every one of the commit's `ihp-sg13g2/` files is present and
+  byte-identical (0 differing files);
+* the installed tree only *adds* host-local products: the compiled
+  `libs.tech/ngspice/osdi/*.osdi`, `__pycache__/`, and submodule content
+  the tarball does not carry.
+
+Upstream `main` has since changed 23 `ngspice/models` files, so a fresh
+clone of `main` would not reproduce the run environment. Commands and
+output: [`provenance-migration.md`](provenance-migration.md) § "Pin
+verification".
+
+Both pins are today's reproducibility targets. Neither proves what an
+individual record ran against: several records ran on an arm64 macOS host
+whose trees are unknown. Note also that `ihp-sg13cmos5l` tracks most of its
+ngspice model cards and the `psp103`/`psp103_nqs`/`mosvar`/`r3_cmc` OSDI
+paths as symlinks into the sibling `ihp-sg13g2` tree, so CMOS5L
+transistor-level runs read both trees (see `provenance-migration.md`).
+
+All 37 existing records (append-only, so not editable) stay grandfathered in
+`KNOWN_DEFECTS`, tracked by issue #182. Their per-record inventory and
+recovered/superseded dispositions are in `provenance-migration.md`. Item 9
+stays `unmet` until every record is resolved; it is not claimed met here.
 
 ### Provenance addenda (append-only migration)
 
@@ -159,8 +184,12 @@ ADDENDUM-EVIDENCE: <what was rerun>
 
 1. Clone the PDK tree at the pin and expose its parent as `PDK_ROOT`:
    `git clone https://github.com/IHP-GmbH/ihp-sg13cmos5l "$PDK_ROOT/ihp-sg13cmos5l" && git -C "$PDK_ROOT/ihp-sg13cmos5l" checkout 607e18d4bd9214a52575c194b4181ef449f9252f`
-   (the `ihp-sg13g2` tree is cloned the same way from
-   `https://github.com/IHP-GmbH/IHP-Open-PDK` once its pin is established).
+   The `ihp-sg13g2` tree is the `ihp-sg13g2/` subdirectory of
+   `https://github.com/IHP-GmbH/IHP-Open-PDK` at its pin:
+   `git clone https://github.com/IHP-GmbH/IHP-Open-PDK "$PDK_SRC" && git -C "$PDK_SRC" checkout 5cccb161f7492697cfa52eb14dc03beb00bdca9e`,
+   then expose `$PDK_SRC/ihp-sg13g2` as `$PDK_ROOT/ihp-sg13g2`. It must be a
+   sibling of `ihp-sg13cmos5l`, whose relative model symlinks resolve into
+   it.
 2. ngspice 46 with OSDI support (records were produced with `ngspice-46`;
    a few with `ngspice-47`, noted in those records).
 3. Build the OSDI models the tree needs (`psp103`, `psp103_nqs`, `mosvar`,

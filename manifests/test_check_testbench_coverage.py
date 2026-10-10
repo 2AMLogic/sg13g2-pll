@@ -154,6 +154,13 @@ class Cov(unittest.TestCase):
         self.assertIn("cites item 9", err)
 
     def test_unknown_pin_fails_once_nothing_grandfathered(self):
+        # The committed README pins every tree (issue #210), so put an
+        # UNKNOWN pin into the temporary copy to exercise the check.
+        p = self.sim / "README.md"
+        text, n = re.subn(r"^PDK-PIN ihp-sg13g2 \S+$", "PDK-PIN ihp-sg13g2 UNKNOWN",
+                          p.read_text(), flags=re.M)
+        self.assertEqual(n, 1)
+        p.write_text(text)
         chk.KNOWN_DEFECTS.clear()
         for rec in (self.sim).glob("*/records/RECORD-*.md"):
             rec.write_text(GOOD)
