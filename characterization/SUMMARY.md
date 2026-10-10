@@ -206,9 +206,11 @@ the min/max.
 - **Method**: DC delivered current at VOUT = 1.65 V
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-004-issue79-finetrim-icp.md` (sha256 `03110e5c6dd4763fbf1d3feb48e094171ff5d3d017c5636b3c54c01d191bcd73`)
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-003-issue83-finetrim-icp.md` (sha256 `482d9e84eba0c6ad27f27dda98c7615f58f9292f7a6247b6da4fb6c9a74f2ba6`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-002-cascode-bias-mismatch-remeasure.md` (sha256 `744be48ecd826030234e3cf6f7de54aae92f57c4ae9e85bf4c686fbcb4b3ed7b`)
 - **Table `issue83`**: `sim/sg13cmos5l-cp-icp-trim/corners/results_issue83_finetrim.csv` (sha256 `4f71051104fd05406a03faf2d22f857beb0483ba574eaa90e52c8b2796b07554`)
 - **Table `issue79`**: `sim/sg13cmos5l-cp-icp-trim/corners/results_issue79_finetrim.csv` (sha256 `6a7da118ad5c13edc7258f5dc1bb1d9291662ef3c66da5ae0dbe13fdf69d6eec`)
 - **Note**: Targeted points, not the full six-code campaign (that campaign is in cp-icp-trim RECORD-001/002, outside this first-version selection).
+- **Note**: cp-icp-trim RECORD-002 is cited as historical context only: it is the full six-code Icp trim and mismatch re-measurement on the post-DR-006 (cascode-bias replica) cp, the same pre-#165 cp these targeted points use. Its tables are not selected here, so it contributes no extremum; it does not cover the #165 tracking dump buffer cp (see cp-tracking-dumpbuf-dc) and does not repair provenance (#199). cp-icp-trim RECORD-001 (pre-DR-006 cp) stays uncited.
 - **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Charge-pump dump-node correction (#165)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -453,8 +455,13 @@ the min/max.
 - **Conditions**: full amended f_ref range x bundles x bands x Kvco intervals x Icp codes per coverage
 - **Method**: analytic loop model
 - **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-r1-resize-full-fref-range.md` (sha256 `ae03b5353bef5bfbe87ab3c94a7f16324fc94c3f785825368686c8e78e0684de`)
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-001-loop-bandwidth-phase-margin.md` (sha256 `d43a3f8db2d1e320a8e409a86d112ab627c68f549d50098e9d4cc6455996ad04`)
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-icp-input-refresh.md` (sha256 `449062e1905ea888d23c4f2eb36713ee51a78f70e66f389b2295e3f2be71592d`)
+- **Record**: `sim/sg13cmos5l-loop-filter-momcap/records/RECORD-002-r1-resize-momcap.md` (sha256 `b665252373aa13728bb5275c83566f816c544e200d3a5765d05a03a01019b15d`)
+- **Record**: `sim/sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` (sha256 `dc3f74cbea6d8e923e343d00799572bd9cb22c8c46ef924a0ddaca7b355c4f7f`)
 - **Table `results_resized`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized.csv` (sha256 `a2397a8ac202820ac380b898b0d4543cdd41bcd0e4f17f6cdbd0ba7db29f5370`)
 - **Note**: Superseded as a design-state claim by the fine-trim rows for the tuples they cover; retained as history. Older results.csv (as-drawn filter) is not selected.
+- **Note**: Historical lineage only; the extra records are cited for context and no table of theirs is selected, so no extremum above comes from them. loop-bandwidth-pm RECORD-001 is the as-drawn-filter predecessor (0/90 combinations met PM >= 45 deg; its results.csv is not selected). loop-bandwidth-pm RECORD-002 (icp-input-refresh, #72) is a mechanical re-derivation after the cp Icp table changed (max 0.782 % Icp shift, no verdict flips); it is not a new claim. loop-filter-momcap RECORD-002 and vco-kvco-table RECORD-001 are the measured R1/C1/C2 and Kvco inputs of the analytic model, taken at the DUT revisions each record names (resized loop_filter; vco as frozen in that record) and not re-verified against any later netlist; this citation does not repair their provenance (#199).
 - **Gaps**: No ratified spec table (#148)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
