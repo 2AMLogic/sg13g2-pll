@@ -8,13 +8,21 @@
 # envelope to reports/pex.<block>.json -- the file manifests/sg13g2-pll.json
 # cites as item 7.
 #
-#   PDK_ROOT=<parent of ihp-sg13cmos5l> ./run-klt-pex.sh <block>
+#   PDK_ROOT=<parent of ihp-sg13cmos5l> [KLT=<klt>] ./run-klt-pex.sh <block>
 #   blocks: pfd cp loop_filter vco divider_chain
+#
+# The layout record is NOT hardcoded (issue #195): it is the directory of the
+# manifest's 4.analog citation -- the same derivation
+# manifests/check_pex_coverage.py uses -- so a run can only bind to the record
+# the gate checks. KLT defaults to `klt` on PATH; the committed envelopes name
+# the build they were produced with in provenance.klt_version (see RECORD-*).
 set -euo pipefail
 : "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
+KLT="${KLT:-klt}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$HERE/../.." && pwd)"
-REC="layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a"
+REC="$(python3 -I -c 'import json, posixpath, sys; print(posixpath.dirname(json.load(open(sys.argv[1]))["evidence"]["4.analog"]["file"]))' "$REPO/manifests/sg13g2-pll.json")"
+[ -f "$REPO/$REC/pll_lock_detector.gds" ] || { echo "manifest 4.analog record $REC has no GDS" >&2; exit 2; }
 block="${1:?block}"
 case "$block" in
   pfd)           reqs=(pfd);              pins=DN,FB,REF,UP,VDD,VSS ;;
@@ -29,7 +37,7 @@ esac
 args=(); for r in "${reqs[@]}"; do args+=("sim/sg13cmos5l-klt-pex-signoff/requests/$r.request.json"); done
 work="$(mktemp -d)"; trap 'rm -rf "$work"' EXIT
 cd "$REPO"
-klt pex "$REC/pll_$block.gds" "${args[@]}" --deck sg13cmos5l --top "pll_$block" \
+"$KLT" pex "$REC/pll_$block.gds" "${args[@]}" --deck sg13cmos5l --top "pll_$block" \
   --pdk ihp-sg13cmos5l --pdk-root "$PDK_ROOT" --pins "$pins" --backend local \
   --outdir "$work" -o "$work/pll_$block.pex.spice" --format json \
   > "sim/sg13cmos5l-klt-pex-signoff/reports/pex.$block.json"

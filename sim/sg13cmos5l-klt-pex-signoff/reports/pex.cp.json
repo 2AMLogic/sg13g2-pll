@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "pass",
   "layout": {
-    "path": "layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a/pll_cp.gds",
+    "path": "layout/sg13cmos5l-pll/reports/20261010-012952-a4ca1b8/pll_cp.gds",
     "scope": "repo"
   },
   "netlist": {
@@ -15,9 +15,9 @@
   },
   "extraction": {
     "deck": "sg13cmos5l",
-    "device_count": 20,
-    "net_count": 18,
-    "netlist_sha256": "d828b53a2f7a4d05568f2d862628ab2a3b55a670afa90819df604c25bff49fc1",
+    "device_count": 28,
+    "net_count": 22,
+    "netlist_sha256": "c4d23bbfd32ede037aec648091bf36908a2883599fe1b4e79415bc9bd968c802",
     "model": {
       "capacitance": "net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net",
       "coupling": "vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled",
@@ -76,16 +76,16 @@
       "spec_row": "cp_up.request.icp_up_a",
       "corner_id": "mos_tt/novdd/27C",
       "schematic_value": 1.000047e-05,
-      "extracted_value": 1.001774e-05,
-      "delta_pct": 0.173,
+      "extracted_value": 1.001459e-05,
+      "delta_pct": 0.141,
       "status": "pass"
     },
     {
       "spec_row": "cp_dn.request.icp_dn_a",
       "corner_id": "mos_tt/novdd/27C",
       "schematic_value": -1.00175e-05,
-      "extracted_value": -1.00226e-05,
-      "delta_pct": -0.051,
+      "extracted_value": -1.00214e-05,
+      "delta_pct": -0.039,
       "status": "pass"
     }
   ],
@@ -125,7 +125,7 @@
       "released": false
     },
     "input": {
-      "content_hash": "sha256:95c64289aabffba79a0eee418c5f2012ef4c04f710bf325124e65fd8b640872c",
+      "content_hash": "sha256:840267fda95d9ae699ba85f2fc7b7931a19cc05bf2e3c93d2978899545dfe050",
       "role": "layout"
     }
   }

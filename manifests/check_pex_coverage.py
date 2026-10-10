@@ -56,9 +56,9 @@ SIGNOFF = "sim/sg13cmos5l-klt-pex-signoff"
 BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain")
 WITHHELD = {"lock_detector": "#157"}
 # Block -> follow-up issue that re-draws its layout and re-runs its PEX.
-# cp: issue #165 / DR-010 replaced cp_dumpbuf (source follower -> tracking
-# 5T-OTA pair); the pll_cp layout and its PEX leg predate it (#195).
-STALE_PENDING = {"cp": "#195"}
+# Empty: #195 redrew pll_cp for DR-010 (#165) and refreshed its leg and
+# envelope (layout record 20261010-012952-a4ca1b8), retiring the cp entry.
+STALE_PENDING = {}
 REQUESTS = {"pfd": ["pfd"], "cp": ["cp_up", "cp_dn"], "loop_filter": ["loop_filter"],
             "vco": ["vco"], "divider_chain": ["divider_chain"]}
 
