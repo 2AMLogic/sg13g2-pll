@@ -543,7 +543,7 @@ cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS),
 `manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
 item 11) and `manifests/check_pex_coverage.py` (all five nominal `klt pex`
 envelopes and their flattened schematic legs, item 7 siblings; `lock_detector`
-withheld, #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182, so item 9 stays `unmet` and uncited in the manifest), then re-runs the full grade (the
+withheld, #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182 and can be resolved only by validated append-only `ADDENDUM-*.md` associations (recovered provenance or superseding rerun; format in `sim/README.md` "Provenance addenda", issue #198; no addenda are committed yet, migration status 0 of 37 resolved), so item 9 stays `unmet` and uncited in the manifest), then re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
 re-read and its pinned `content_hash` re-checked), and byte-compares the
 fresh report against the committed one.

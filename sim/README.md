@@ -111,6 +111,50 @@ existing records (append-only, so not editable) in `KNOWN_DEFECTS`, tracked
 by issue #182. Item 9 stays `unmet` until that is closed; it is not claimed
 met here.
 
+### Provenance addenda (append-only migration)
+
+Committed records are never edited, renamed or deleted. A grandfathered
+record (`KNOWN_DEFECTS` in `manifests/check_testbench_coverage.py`) is
+resolved only by a **new** file `sim/<slug>/records/ADDENDUM-NNN-<topic>.md`
+in the same bench, one addendum per original, made of `KEY: value` lines
+(other prose is ignored). Two kinds:
+
+```
+ADDENDUM-FOR: <slug>/records/RECORD-001-....md   # the original, same bench
+ADDENDUM-KIND: recovered
+ADDENDUM-SHA256: <sha256 of the original's bytes>  # proves it is unmodified
+ADDENDUM-PDK: ihp-sg13g2 <40-hex revision>        # repeat per tree if mixed
+ADDENDUM-TOOL: ngspice-46
+ADDENDUM-EVIDENCE: <what was recovered, e.g. host PDK checkout log, path/date>
+```
+
+```
+ADDENDUM-FOR: <slug>/records/RECORD-001-....md
+ADDENDUM-KIND: superseded
+ADDENDUM-SHA256: <sha256 of the original>
+ADDENDUM-RERUN: <slug>/records/RECORD-0NN-....md   # same bench, cites the original by file name
+ADDENDUM-EVIDENCE: <what was rerun>
+```
+
+* `recovered` establishes the *historical* PDK revision(s) and tool of the old
+  run from evidence. Revisions are never inferred from today's installed PDK
+  or from the slug; a bench that used both trees lists both `ADDENDUM-PDK`
+  lines. A recovered revision that differs from today's pin is kept and
+  reported by the gate (the pin is today's reproducibility target, not a claim
+  about the past). Contradicting a revision the original itself cites fails.
+* `superseded` replaces the *evidence claim* with a new measurement. It must
+  not carry `ADDENDUM-PDK`/`ADDENDUM-TOOL`: a new run does not prove the old
+  run's environment. The rerun is an ordinary `RECORD-*.md` and must itself
+  cite a PDK revision and tool version (and match the pin).
+* The gate fails closed on: missing fields, bad hash, dangling or cross-bench
+  references, a rerun that does not cite the original (unrelated), cyclic or
+  self supersession, duplicate addenda for one record, unknown PDK tree or
+  contradictory revisions, an addendum for a record with no defect, and an
+  unresolved rerun. Resolved `KNOWN_DEFECTS` entries are retained (reported as
+  resolved) until a human removes them; unresolved ones stay open.
+  Item 9 stays unmet and uncited while any record is unresolved or any pin is
+  `UNKNOWN`.
+
 **Install steps** (no host-wide tools; everything is user-space):
 
 1. Clone the PDK tree at the pin and expose its parent as `PDK_ROOT`:
