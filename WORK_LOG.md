@@ -2,6 +2,15 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-10
+
+- **PR #205**: layout: redraw pll_cp for DR-010; refresh cp LVS/ERC/PEX evidence and re-pin the manifest (#195)
+- **PR #204**: loop-bandwidth-pm: real idle cp on VCTRL in PM bench; re-check DR-007/DR-008 tuples (#196)
+- **PR #202**: Burn down records_baseline.json: cite 5 historical records (19 -> 14)
+- **Issue #196** (closed): loop-bandwidth-pm: PM bench omits cp's VOUT capacitance on the 100 fF C2 node; re-check the sub-1-degree PM tuples
+- **Issue #195** (closed): layout: redraw pll_cp for the DR-010 tracking dump buffer; refresh cp LVS/ERC/PEX evidence
+- **Issue #185** (closed): Burn down characterization/records_baseline.json grandfathered exceptions
+
 ### 2026-10-09
 
 - **PR #197**: cp_dumpbuf: VDUMP tracks VOUT via unity-gain 5T OTA pair (DR-010); row 7 0.78% at nominal
