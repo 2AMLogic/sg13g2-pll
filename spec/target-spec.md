@@ -106,9 +106,10 @@ All at 3.3 V, pre-layout.
 - `divider_chain` (repaired): -199.3 to -256.8 uA at 100 MHz over 9 corners:
   `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md`.
   Not measured at the operating frequency (up to 1562.0 MHz).
-- Closed-loop four-domain figure (`pfd`+`cp`+`vco`+`lock_detector`) 2.483 mA /
+- Closed-loop four-domain figure (`pfd`+`cp`+`vco`+`lock_detector`) 2.484 mA (pinned dual-tree rerun, RECORD-010; 2.483 mA in the original run) /
   8.20 mW at one point, on the pre-repair design:
-  `sim/sg13cmos5l-closed-loop-lock/records/RECORD-001-closed-loop-lock-spur-power.md`.
+  `sim/sg13cmos5l-closed-loop-lock/records/RECORD-001-closed-loop-lock-spur-power.md`,
+  superseded by `sim/sg13cmos5l-closed-loop-lock/records/RECORD-010-closed-loop-lock-rerun-pinned.md`.
   Its `divider_chain` figure (7.653 mA) is flagged in that record as inflated
   by the unrepaired divider, so it is not used here.
 

@@ -409,6 +409,25 @@ the min/max.
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0118577 | 0.00999422 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0179057 | 0.0994505 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 
+### closed-loop-lock-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical bench at commit 1da08d7 (pre-repair pfd and non-dividing divider_chain; Part B uses a behavioural divide-by-64); NOT the repaired divider, the repaired pfd or the committed-design lock
+- **Context**: schematic, pre-layout, closed loop (proposal deck, 2.5 us)
+- **Conditions**: one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46 x86-64 (original: ngspice-47 arm64); dual-tree PDK revisions cited in the record
+- **Method**: unmodified rerun of RECORD-001's run.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (outcome reproduced, numbers not byte-identical to RECORD-001's trace)
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-010-closed-loop-lock-rerun-pinned.md` (sha256 `eb79b8fe662dbbdd2fb4397bde79d38254ab1216388ea5cd96ceb16dbec17771`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_rerun225.csv` (sha256 `a31381e37265bbb23d109516792b7dac7692b1adf53b9306bc35ed0e5d7f63d1`)
+- **Note**: FAILURE RETAINED: Part B (behavioural divider, R1 x20 proposal) diverges: delta_f/f_ref drifts from +0.84 % to -22.9 % over 49 cycles with repeated cycle slips; lock_time = None (longest dual-lock run 4 cycles). Part A (real pre-repair divider) is not in this table and never toggles fb.
+- **Note**: Same outcome as RECORD-001 but not byte-identical (different host/arch/ngspice version); proposal deck with a behavioural divider, no repaired-divider or reference-spur claim.
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.229352 | 0.00836313 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.564611 | 0.573715 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
 ### lock-detector-bodyfix-nominal
 
 - **PDK**: SG13CMOS5L
