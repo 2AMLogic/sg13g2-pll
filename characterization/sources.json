@@ -1469,6 +1469,53 @@
    "record_sha256": "d4112388f829f3da5169bf662ebc91d8867dd3ac6025d62b7b24ea4cc7877c9a"
   },
   {
+   "id": "closed-loop-pfd-parity-rerun",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "historical bench at commit 65e2cb6 (defective as-drawn pfd with diagnostic third-inverter patch); NOT the repaired design",
+   "context": "schematic, pre-layout, closed loop (diagnostic control, 400 ns)",
+   "conditions": "one nominal point (mos_tt, 27 C, 3.3 V); 400 ns; local ngspice-46; dual-tree PDK revisions cited in the record",
+   "method": "rerun of RECORD-002's patched-PFD closed-loop control; trace = per-reference-cycle error at seven timestamps",
+   "record": "sim/sg13cmos5l-closed-loop-lock/records/RECORD-008-pfd-reset-parity-diagnostic-rerun.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_pfdfix_rerun226.csv",
+     "sha256": "65fa88478be18d3fa5104ecff17f47ac195f0dd1bf18d7527714f9dd3031848d"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error (patched PFD, 400 ns)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error (patched PFD, 400 ns)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "DIAGNOSTIC, NOT A LOCK: 400 ns bounded plateau with a diagnostic-patched PFD on the historical bench; delta_f has not reversed sign. No lock, reference-spur or repaired-divider claim.",
+    "The record's standalone-PFD diagnostic (pfd_polarity_diag_rerun226.csv) is not summarised numerically: 3 of 4 cases reproduced, the patched REF-leads-FB case did not (see the record)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "128581bd93d6c3a6420a07ca54a76d47b23393e1eaced5cf149ec0c4ceda2f13"
+  },
+  {
    "id": "lock-detector-bodyfix-nominal",
    "section": "sg13cmos5l-nominal-single-point",
    "pdk": "SG13CMOS5L",
