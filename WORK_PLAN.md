@@ -46,6 +46,7 @@ Issues carrying `loom:curated`.
 - **#16**: [Epic #542] 5A — Port to SG13CMOS5L for Chipalooza Challenge #6 brief *(curated)*
 - **#157**: pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152) *(curated)*
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
+- **#212**: Item 9 campaign: charge-pump and divider-retiming provenance *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -59,6 +60,7 @@ Issues carrying `loom:curated`.
 - **#6**: Track the gap to T1 sim-validated / bronze (klayout-tools design-evidence tiers)
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
 - **#199**: Item 9: campaign to recover or replace unpinned measurement evidence
+- **#211**: Item 9 campaign: closed-loop lock and real-divider provenance
 
 ## Backlog Balance
 
@@ -70,7 +72,7 @@ Issues carrying `loom:curated`.
 | In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
-| Curated | 3 |
+| Curated | 4 |
 | Architect / Hermit proposals | 4 |
-| Active epics | 3 |
+| Active epics | 4 |
 <!-- guide:plan-body:end -->
