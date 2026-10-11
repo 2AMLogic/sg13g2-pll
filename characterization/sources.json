@@ -1516,6 +1516,53 @@
    "record_sha256": "128581bd93d6c3a6420a07ca54a76d47b23393e1eaced5cf149ec0c4ceda2f13"
   },
   {
+   "id": "closed-loop-pfd-fix-rerun",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "historical bench at commit d633b9d (repaired pfd with XI1B, #56; Part B uses a behavioural divide-by-64); NOT the repaired divider or the committed-design lock",
+   "context": "schematic, pre-layout, closed loop (proposal deck, 2.5 us)",
+   "conditions": "one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46; dual-tree PDK revisions cited in the record",
+   "method": "unmodified rerun of RECORD-003's run.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (byte-identical to RECORD-003's trace)",
+   "record": "sim/sg13cmos5l-closed-loop-lock/records/RECORD-009-pfd-reset-fix-closed-loop-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_rerun227.csv",
+     "sha256": "93d320d06b2337d55de5ac30edfa6872ff61fe82721d9fa9972d8a33c35532b4"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "FAILURE RETAINED: frequency-locked but static phase error 9.110 % to 9.196 % of T_ref over the final 20 cycles against the 5 % criterion; lock_time = None (longest dual-lock run 4 cycles). Extrema above span the whole trace including startup and are not a steady-state figure.",
+    "Reproduces RECORD-003 Part B byte-for-byte; proposal deck with a behavioural divider, no repaired-divider or reference-spur claim."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "51cacfb4d1641bf227aaab5f8ab6b6c0de0717ad0a0887f21436b3a18092cf61"
+  },
+  {
    "id": "lock-detector-bodyfix-nominal",
    "section": "sg13cmos5l-nominal-single-point",
    "pdk": "SG13CMOS5L",
