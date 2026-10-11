@@ -281,6 +281,25 @@ the min/max.
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0156155 | 0.088 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0110246 | 0.0111642 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
 
+### closed-loop-lock-icpeq-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical bench at commit f38b0ee (RECORD-004's diagnostic: #56-corrected pfd snapshot, behavioural divide-by-64, cp replaced by an ideal exactly-symmetric behavioural substitution); NOT the committed cp design, the repaired divider or a committed-design lock
+- **Context**: schematic, pre-layout, closed loop (proposal deck with ideal-symmetric cp, 2.5 us)
+- **Conditions**: one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46 x86-64 (original: ngspice-47 arm64); dual-tree PDK revisions cited in the record
+- **Method**: unmodified rerun of RECORD-004's run_closed_loop_icp_eq_diag.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (outcome reproduced, numbers not byte-identical to RECORD-004's trace)
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-012-icp-mismatch-diagnostic-rerun-pinned.md` (sha256 `a1e2d301e2c1aee33ce09378c67557ed20e69950381ef556c6208116ae749caa`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_icpeq_rerun228.csv` (sha256 `a8987a4ead9822e907f9882a4c4b08710bdb05ec0d5a2b9004023acca038dbd6`)
+- **Note**: RESULT RETAINED (diagnostic, not a committed-design lock): with cp forced exactly symmetric the static phase error collapses to simulator noise (final-20-cycle mean -0.00044 % vs. the original run's -0.00235 %, both against the 9.176 % RECORD-003 baseline); longest dual-lock run 41 cycles from 450 ns to the end of the window with zero drop-outs, lock_time 450 ns -- identical to RECORD-004. Part B (behavioural divider, R1 x20 proposal) with an ideal cp; no real-cp, repaired-divider or reference-spur claim.
+- **Note**: Same outcome as RECORD-004 but not byte-identical (different host/arch/ngspice version); differences at the 1e-5..1e-4 of T_ref noise level, tabulated in the record.
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.00910967 | 0.0243417 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.0593058 | 0.00606496 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
 ### cp-tracking-dumpbuf-dc
 
 - **PDK**: SG13CMOS5L
