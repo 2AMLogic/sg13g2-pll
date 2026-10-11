@@ -371,6 +371,25 @@ the min/max.
 | per-cycle frequency error (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.454764 | -0.382095 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 | VCTRL over the 2.5 us run (`vctrl_v`) | V | `vctrl` | - | 2501 | 0 | 2.34927 | 3.31095 | `t_s`: 2501 distinct (0.000000e+00 .. 2.500000e-06) |
 
+### closed-loop-pfd-parity-rerun
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical bench at commit 65e2cb6 (defective as-drawn pfd with diagnostic third-inverter patch); NOT the repaired design
+- **Context**: schematic, pre-layout, closed loop (diagnostic control, 400 ns)
+- **Conditions**: one nominal point (mos_tt, 27 C, 3.3 V); 400 ns; local ngspice-46; dual-tree PDK revisions cited in the record
+- **Method**: rerun of RECORD-002's patched-PFD closed-loop control; trace = per-reference-cycle error at seven timestamps
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-008-pfd-reset-parity-diagnostic-rerun.md` (sha256 `128581bd93d6c3a6420a07ca54a76d47b23393e1eaced5cf149ec0c4ceda2f13`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_pfdfix_rerun226.csv` (sha256 `65fa88478be18d3fa5104ecff17f47ac195f0dd1bf18d7527714f9dd3031848d`)
+- **Note**: DIAGNOSTIC, NOT A LOCK: 400 ns bounded plateau with a diagnostic-patched PFD on the historical bench; delta_f has not reversed sign. No lock, reference-spur or repaired-divider claim.
+- **Note**: The record's standalone-PFD diagnostic (pfd_polarity_diag_rerun226.csv) is not summarised numerically: 3 of 4 cases reproduced, the patched REF-leads-FB case did not (see the record).
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle frequency error (patched PFD, 400 ns) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 7 | 0 | -0.0118677 | 0.00997458 | `t_s`: 5.004999999999986e-08, 1.0005e-07, 1.5005e-07, 2.0004999999999849e-07, 2.500499999999966e-07, 3.000499999999947e-07, 3.5004999999999284e-07 |
+| per-cycle phase error (patched PFD, 400 ns) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 7 | 0 | 0.017974 | 0.066 | `t_s`: 5.004999999999986e-08, 1.0005e-07, 1.5005e-07, 2.0004999999999849e-07, 2.500499999999966e-07, 3.000499999999947e-07, 3.5004999999999284e-07 |
+
 ### lock-detector-bodyfix-nominal
 
 - **PDK**: SG13CMOS5L
