@@ -262,6 +262,25 @@ the min/max.
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0156155 | 0.088 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0110246 | 0.0111642 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
 
+### closed-loop-static-phase-error-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: real mitigated cp (netlist-snapshots/cp_cascbias.spice) with pfd #56 fix; behavioural divide-by-64 in the feedback path, so no divider hardware is exercised; historical bench rebuilt from commit f54b9ef
+- **Context**: schematic, pre-layout, closed loop (proposal deck, 2.5 us)
+- **Conditions**: one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46 x86-64 on loom-worker-3; dual-tree PDK revisions cited in the record
+- **Method**: unmodified rerun of RECORD-005's run_closed_loop_cascbias.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (trace byte-identical to RECORD-005's)
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-011-cascbias-real-cp-rerun-pinned.md` (sha256 `2dad8252173c82d6d7ec9d402a24c69a68a36d1ee0cccffcca00d8b8ee8be6ac`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias_rerun229.csv` (sha256 `fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7`)
+- **Note**: FAILURE RETAINED: the rerun reproduces RECORD-005 exactly, including its static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %) against the 5 % criterion and lock_time = None (longest dual-lock run 4 cycles); the extrema above span the full trace including the startup transient and are not a steady-state figure.
+- **Note**: NOMINAL ONLY, PROPOSAL DECK: supersedes RECORD-005's evidence claim at one point; it implies no PVT grid coverage (the full-grid re-run for this DUT is owed, #139).
+- **Gaps**: No ratified spec table (#148), Charge-pump dump-node correction (#165), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0156155 | 0.088 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
+| per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0110246 | 0.0111642 | `t_s`: 49 distinct (5.004999999999986e-08 .. 2.4500500000004544e-06) |
+
 ### cp-tracking-dumpbuf-dc
 
 - **PDK**: SG13CMOS5L
