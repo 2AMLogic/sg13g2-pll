@@ -7,8 +7,10 @@ the original run's PDK revision, tool or host (arm64 macOS, ngspice-47,
 unrecorded tree); it only replaces the evidence claim with the measurement in
 `RECORD-010-closed-loop-lock-rerun-pinned.md`, which carries the dual-tree
 revisions, tool, host and command. The rerun reproduced RECORD-001's
-qualitative outcome and every quantity it cites to within about 1 percent
-(spur figure 0.06 dB), but it is NOT byte-identical (different host, arch and
+qualitative outcome and its cited quantities: currents to within 0.2 percent
+except the low-current `lock_detector` domain (about 2 percent on Part A),
+voltages and `delta_f/f_ref` to within about 1 percent, spur figure within
+0.06 dB. It is NOT byte-identical (different host, arch and
 ngspice build); the small differences are tabulated in the rerun record. Part
 A and Part B, single PVT point only.
 
