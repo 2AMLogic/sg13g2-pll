@@ -71,6 +71,38 @@ class Layout(Fixture):
         self.assertTrue(any("not named" in e for e in self.errs()))
 
 
+ADD = ("# ADDENDUM-001: provenance\n\nADDENDUM-FOR: bench/records/RECORD-001-a.md\n"
+       "ADDENDUM-KIND: recovered\nADDENDUM-SHA256: abc\nADDENDUM-EVIDENCE: transcripts\n")
+
+
+class Addendum(Fixture):
+    def put(self, text=ADD, name="ADDENDUM-001-provenance-recovered.md"):
+        write(self.root, f"sim/bench/records/{name}", text)
+
+    def test_addendum_accepted_and_not_numbered(self):
+        self.put()
+        self.assertEqual(self.errs(), [])
+
+    def test_addendum_does_not_hide_gap(self):
+        self.put()
+        (self.root / self.paths[0]).rename(self.root / "sim/bench/records/RECORD-003-a.md")
+        self.assertTrue(any("gap" in e for e in c.check_layout(self.root, {})))
+
+    def test_addendum_missing_keys(self):
+        self.put("# nothing\n")
+        self.assertTrue(any("missing ADDENDUM-FOR" in e for e in self.errs()))
+
+    def test_addendum_bad_kind_and_target(self):
+        self.put(ADD.replace("recovered", "bogus").replace("RECORD-001-a", "RECORD-009-x"))
+        e = "\n".join(self.errs())
+        self.assertIn("ADDENDUM-KIND must be", e)
+        self.assertIn("not an existing record", e)
+
+    def test_malformed_addendum_name_rejected(self):
+        self.put(name="ADDENDUM-1-x.md")
+        self.assertTrue(any("not named" in e for e in self.errs()))
+
+
 class Format(Fixture):
     def test_title_mismatch(self):
         write(self.root, self.paths[1], REC.format(n="009"))

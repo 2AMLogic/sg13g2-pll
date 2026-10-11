@@ -193,8 +193,9 @@ Legend:
 | 37 | `sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `b3031f6` 2026-09-09 | G | g2 | arm64 macOS (host/tree unknown) | sum, src, manifests/test_check_spec_citations.py, spec | superseded | #217 |
 
 Totals:
-- 2 `recovered` candidates: #7 (E1) and #6 (E2).
-- 35 `superseded`.
+- 1 `recovered`: #7 (E1 validated, ADDENDUM-001). #6 (E2) failed validation
+  and is `superseded`.
+- 36 `superseded`.
 - Every one of the 34 `sg13cmos5l-*` rows is mixed-PDK.
 - #18 also carries the explicit `ihp-sg13g2` `schmitt_rewire` arm.
 - #35 transfers CMOS5L-tree results.
@@ -230,7 +231,7 @@ Totals:
 
 | Batch | Records (rows above) | Recovered | Superseded (N / G) | Flags |
 |---|---|---|---|---|
-| #211 closed-loop lock + real divider | 1–7 | 2 (#6, #7) | 5 (5 N / 0 G) | **Decompose.** 5 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. Split the two recovery addenda (no simulation) from the 5 nominal reruns. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. Blocked on #221 for the rerun half. |
+| #211 closed-loop lock + real divider | 1–7 | 1 (#7) | 6 (6 N / 0 G) | **Decompose.** 6 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. The recovery addendum for #7 is done (#224); the 6 nominal reruns remain. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. Blocked on #221 for the rerun half. |
 | #212 charge pump + divider retiming | 8–14 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids. `klt sim`'s batch backend refuses `ihp-sg13cmos5l` (`2AMLogic/klayout-tools#2727`, open), and host policy forbids local grids. Exceeds 8 files. Also blocked on #221. |
 | #213 PEX sign-off + lock detector | 15–20 | 0 | 6 (2 N / 4 G) | **Decompose.** #15 (`klt pex`, 5 single-corner blocks) and #20 (nominal) can run locally. #16–#19 are grids, blocked on klayout-tools#2727. #18 needs both `schmitt_rewire` arms. Coordinate #139 (RECORD-005's owed full grid). Blocked on #221. |
 | #214 loop bandwidth + loop filter | 21–27 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids (klayout-tools#2727). Exceeds 8 files. Coordinate #203 and DR-007/DR-008, which cite #23/#24. Blocked on #221. |

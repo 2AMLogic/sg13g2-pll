@@ -66,7 +66,7 @@ Producing runs, quoted from the tool-call records:
 - `agent-a8f933b5` line 32, 2026-10-09T00:16:34Z, real arm:
   `cd .../.loom/worktrees/issue-159/sim/sg13cmos5l-closed-loop-real-divider/testbench && export PDK_ROOT=/home/ubuntu/share/pdk PDK=ihp-sg13cmos5l && (time ./run.sh real) > /tmp/real159.out 2>&1; echo done; tail -30 /tmp/real159.out`;
   line 58, 2026-10-09T00:31:48Z: "completed (exit code 0)".
-- `agent-a8f933b5` lines 70, 74, 78 (2026-10-09T00:32:27Z to 00:36:12Z):
+- `agent-a8f933b5` lines 70 (the heredoc creating `run_div_speed.sh`, with the 1.28e9 run chained in the same command), 74, 78 (2026-10-09T00:32:27Z to 00:36:12Z):
   `export PDK_ROOT=/home/ubuntu/share/pdk PDK=ihp-sg13cmos5l; time ./run_div_speed.sh 1.28e9`,
   then `TSTOP_OVERRIDE=1300n ./run_div_speed.sh 2e8`, then
   `TSTOP_OVERRIDE=500n ./run_div_speed.sh 6.4e8`.
@@ -86,7 +86,7 @@ $ readlink -f $(which -a ngspice | head -1); sha256sum ~/.local/bin/ngspice
 /home/ubuntu/.local/bin/ngspice
 555e04b8ddf17a382fe28d409251ce8968ba983b8c82396fb78e1ff542aa5dd5  /home/ubuntu/.local/bin/ngspice
 $ ls -l --time-style=full-iso ~/.local/bin/ngspice     # mtime 2026-08-01 17:41:35, predates the runs
-$ ~/.local/bin/ngspice --version | sed -n 3p            # ** ngspice-46 : Circuit level simulation program
+$ ~/.local/bin/ngspice --version | sed -n 2p            # ** ngspice-46 : Circuit level simulation program
 ```
 
 `/usr/bin/ngspice` is ngspice-42, which cannot load the PDK's OSDI v0.4
