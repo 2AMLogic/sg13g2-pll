@@ -390,6 +390,25 @@ the min/max.
 | per-cycle frequency error (patched PFD, 400 ns) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 7 | 0 | -0.0118677 | 0.00997458 | `t_s`: 5.004999999999986e-08, 1.0005e-07, 1.5005e-07, 2.0004999999999849e-07, 2.500499999999966e-07, 3.000499999999947e-07, 3.5004999999999284e-07 |
 | per-cycle phase error (patched PFD, 400 ns) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 7 | 0 | 0.017974 | 0.066 | `t_s`: 5.004999999999986e-08, 1.0005e-07, 1.5005e-07, 2.0004999999999849e-07, 2.500499999999966e-07, 3.000499999999947e-07, 3.5004999999999284e-07 |
 
+### closed-loop-pfd-fix-rerun
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical bench at commit d633b9d (repaired pfd with XI1B, #56; Part B uses a behavioural divide-by-64); NOT the repaired divider or the committed-design lock
+- **Context**: schematic, pre-layout, closed loop (proposal deck, 2.5 us)
+- **Conditions**: one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46; dual-tree PDK revisions cited in the record
+- **Method**: unmodified rerun of RECORD-003's run.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (byte-identical to RECORD-003's trace)
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-009-pfd-reset-fix-closed-loop-rerun-pinned.md` (sha256 `51cacfb4d1641bf227aaab5f8ab6b6c0de0717ad0a0887f21436b3a18092cf61`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_rerun227.csv` (sha256 `93d320d06b2337d55de5ac30edfa6872ff61fe82721d9fa9972d8a33c35532b4`)
+- **Note**: FAILURE RETAINED: frequency-locked but static phase error 9.110 % to 9.196 % of T_ref over the final 20 cycles against the 5 % criterion; lock_time = None (longest dual-lock run 4 cycles). Extrema above span the whole trace including startup and are not a steady-state figure.
+- **Note**: Reproduces RECORD-003 Part B byte-for-byte; proposal deck with a behavioural divider, no repaired-divider or reference-spur claim.
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.0118577 | 0.00999422 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | 0.0179057 | 0.0994505 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
 ### lock-detector-bodyfix-nominal
 
 - **PDK**: SG13CMOS5L

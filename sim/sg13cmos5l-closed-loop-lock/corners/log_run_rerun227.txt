@@ -1,0 +1,35 @@
+C1=1.6912e-12F C2=1.0015e-13F CW=6.4098e-14F C1_ld=3.2049e-14F density=1001529000.0000fF/um^2
+=== Part A: as-drawn (500n simulated) ===
+i_pfd               =  -1.37967e-05 from=  3.00000e-07 to=  5.00000e-07
+i_cp                =  -2.22565e-05 from=  3.00000e-07 to=  5.00000e-07
+i_vco               =  -2.62758e-03 from=  3.00000e-07 to=  5.00000e-07
+i_div               =  -7.69846e-03 from=  3.00000e-07 to=  5.00000e-07
+i_ld                =  -1.60346e-04 from=  3.00000e-07 to=  5.00000e-07
+vc_avg              =  3.29952e+00 from=  3.00000e-07 to=  5.00000e-07
+vc_max              =  3.30152e+00 at=  4.99385e-07
+vc_min              =  3.29613e+00 at=  3.00040e-07
+i_pfd = -1.37967e-05
+i_cp = -2.22565e-05
+i_vco = -2.62758e-03
+i_div = -7.69846e-03
+i_ld = -1.60346e-04
+vc_avg = 3.299524e+00
+vc_max = 3.301520e+00
+vc_min = 3.296133e+00
+=== Part B: proposal (2500n simulated) ===
+i_pfd               =  -5.75362e-05 from=  2.00000e-06 to=  2.50000e-06
+i_cp                =  -2.46643e-05 from=  2.00000e-06 to=  2.50000e-06
+i_vco               =  -2.01234e-03 from=  2.00000e-06 to=  2.50000e-06
+i_ld                =  -4.59949e-05 from=  2.00000e-06 to=  2.50000e-06
+vc_avg              =  2.38711e+00 from=  2.00000e-06 to=  2.50000e-06
+vc_max              =  2.41958e+00 at=  2.10508e-06
+vc_min              =  2.34929e+00 at=  2.00066e-06
+i_pfd = -5.75362e-05
+i_cp = -2.46643e-05
+i_vco = -2.01234e-03
+i_ld = -4.59949e-05
+vc_avg = 2.387113e+00
+vc_max = 2.419578e+00
+vc_min = 2.349293e+00
+[as_drawn] i_pfd=-1.37967e-05 i_cp=-2.22565e-05 i_vco=-0.00262758 i_div=-0.00769846 i_ld=-0.000160346 vc: 2.46->3.29975538 lock_time=None n_cycles=0 spur_dBc=-33.5154456810057
+[proposal] i_pfd=-5.75362e-05 i_cp=-2.46643e-05 i_vco=-0.00201234 i_div=None i_ld=-4.59949e-05 vc: 2.46->2.38733396 lock_time=None n_cycles=49 spur_dBc=-44.42510984128538
