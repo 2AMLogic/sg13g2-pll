@@ -365,5 +365,62 @@ def tree_for(rel):
     return chk.tree_of(rel.split("/")[0])
 
 
+PIN_G2 = "5cccb161f7492697cfa52eb14dc03beb00bdca9e"
+TREE_PINS = {"ihp-sg13cmos5l": PIN, "ihp-sg13g2": PIN_G2}
+
+
+class MultiTreeCitation(Cov):
+    """A record may cite one revision per known tree; each is checked against that tree's pin."""
+
+    def check(self, body):
+        p = self.new_record(body)
+        return chk.check_record(p, PIN, TREE_PINS)
+
+    def test_two_trees_both_match(self):
+        errs, disc = self.check(
+            f"`ngspice-46`, PDK ihp-sg13cmos5l revision {PIN}\n"
+            f"PDK ihp-sg13g2 revision {PIN_G2} (symlinked models)\n")
+        self.assertEqual((errs, disc), ([], []))
+
+    def test_two_trees_short_form_both_match(self):
+        errs, disc = self.check(
+            f"`ngspice-46`, PDK revision {PIN}; ihp-sg13g2 {PIN_G2[:12]}\n")
+        self.assertEqual((errs, disc), ([], []))
+
+    def test_second_tree_mismatch_is_discrepancy(self):
+        errs, disc = self.check(
+            f"`ngspice-46`, PDK ihp-sg13cmos5l revision {PIN}\n"
+            f"PDK ihp-sg13g2 revision {REV2}\n")
+        self.assertEqual(errs, [])
+        self.assertEqual(len(disc), 1)
+        self.assertIn(REV2, disc[0])
+
+    def test_revision_checked_against_its_own_tree_not_bench_tree(self):
+        # the g2 hash is wrong for the bench tree but right for its own tree: no discrepancy;
+        # swapped trees: both are discrepancies.
+        errs, disc = self.check(
+            f"`ngspice-46`, PDK ihp-sg13cmos5l revision {PIN_G2}\n"
+            f"PDK ihp-sg13g2 revision {PIN}\n")
+        self.assertEqual(len(disc), 2)
+
+    def test_single_tree_unchanged(self):
+        self.assertEqual(self.check(GOOD), ([], []))
+        errs, disc = self.check(f"`ngspice-46`, PDK revision {REV2}\n")
+        self.assertEqual(len(disc), 1)
+
+    def test_main_gate_flags_second_tree_mismatch(self):
+        self.new_record(f"`ngspice-46`, PDK ihp-sg13cmos5l revision {PIN}\n"
+                        f"PDK ihp-sg13g2 revision {REV2}\n")
+        rc, err = self.run_main()
+        self.assertNotEqual(rc, 0)
+        self.assertIn(REV2, err)
+
+    def test_main_gate_accepts_two_trees(self):
+        self.new_record(f"`ngspice-46`, PDK ihp-sg13cmos5l revision {PIN}\n"
+                        f"PDK ihp-sg13g2 revision {PIN_G2}\n")
+        rc, err = self.run_main()
+        self.assertNotIn(PIN_G2, err)
+
+
 if __name__ == "__main__":
     unittest.main()

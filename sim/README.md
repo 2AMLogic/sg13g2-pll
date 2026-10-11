@@ -171,6 +171,12 @@ ADDENDUM-EVIDENCE: <what was rerun>
   not carry `ADDENDUM-PDK`/`ADDENDUM-TOOL`: a new run does not prove the old
   run's environment. The rerun is an ordinary `RECORD-*.md` and must itself
   cite a PDK revision and tool version (and match the pin).
+* A `RECORD-*.md` (including a rerun) may cite revisions for more than one
+  known tree, written `PDK <tree> revision <hex>` or `<tree> <hex>`. Each
+  tree-qualified revision is compared with **that tree's** pin; a mismatch is
+  a DISCREPANCY. Use this when a `sg13cmos5l-*` bench reads `ihp-sg13g2`
+  content through the upstream symlinks (cite both trees; never drop one).
+  An unqualified revision is compared with the bench tree's pin, as before.
 * The gate fails closed on: missing fields, bad hash, dangling or cross-bench
   references, a rerun that does not cite the original (unrelated), cyclic or
   self supersession, duplicate addenda for one record, unknown PDK tree or
