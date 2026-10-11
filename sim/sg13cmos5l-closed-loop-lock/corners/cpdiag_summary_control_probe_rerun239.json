@@ -1,0 +1,80 @@
+{
+ "cycle_csv_sha256": "9b4d9437586b3dab32abd6b797262e1306e1c8eece3c8efbc7ef212c7f377a85",
+ "cycle_final20_median": {
+  "i_lead": 9.341614198702586e-06,
+  "i_off": -2.6420771282103766e-08,
+  "i_ovl": null,
+  "lead_is_up": 1.0,
+  "q_cycle": 2.028351021640093e-17,
+  "q_edge": null,
+  "q_lead": 1.7532111777553254e-14,
+  "q_ovl": -2.3170765058781376e-14,
+  "q_rest": 5.6715038136004054e-15,
+  "t_lead": 4.117664168917649e-09,
+  "t_ovl": 8.051129512993899e-10,
+  "t_tail": 2.2984105886048e-12
+ },
+ "fb_edges": 50,
+ "finite": true,
+ "inputs_sha256": {
+  "bundle": "cc23bff45279c7b929526f3e720fb21851402ffe0f9f2dc8c7e776b0d2a74689",
+  "cp_cascbias.spice": "7b07391852d5686a3aec2eaff2ef9e158ddd69d29adc1d1304514c52284f35ff",
+  "cpdiag_build.py": "401266f2484e80bf998e5aa67a6d260674a4ce15162100d5848bb0832dfc031b",
+  "cpdiag_metrics.py": "5af171c754f48614954ee382c0f4a7be446c9833c1ffd71cd07f8810b773231e",
+  "deck_generated": "0b7865e7628f8e486f5f94c2e33f20ae2f3e23994c0a8f5484b7652786da35fd",
+  "deck_template": "384d76bf5a104475ddfc1de64c4d40c21fe8af8b74b488b9b716998818ba8abb",
+  "models_inc": "8cf3679745526a4860d0fd8181c39a9c9c90125226a707d11466a2b4e625a01c",
+  "pfd.spice": "cc9657043b755854e86d11aef6d13a9ee3301fa0df19373e543d461d6138c483"
+ },
+ "lock_metrics": {
+  "df_max": 5.801869657430798e-05,
+  "df_mean": -9.954442784935232e-07,
+  "df_min": -8.407984583973885e-05,
+  "lock_time_s": null,
+  "longest_dual_lock_run": 4,
+  "longest_dual_lock_start_s": 1.0005e-07,
+  "longest_freq_lock_run": 42,
+  "n_cycles": 49,
+  "n_final": 20,
+  "phase_max": 0.08211667087744835,
+  "phase_mean": 0.08203417527004449,
+  "phase_min": 0.08199999999091327
+ },
+ "meas": {
+  "i_cp": -3.92579e-05,
+  "i_ld": -4.44831e-05,
+  "i_pfd": -5.75494e-05,
+  "i_vco": -0.00201233,
+  "vc_avg": 2.387071,
+  "vc_max": 2.416785,
+  "vc_min": 2.350205
+ },
+ "n_pulse_pairs": 49,
+ "ngspice_exit": 0,
+ "ref_edges": 50,
+ "tag": "_rerun239",
+ "tools": {
+  "klt": [
+   "klt 0.7.0+g122d607d5c52"
+  ],
+  "ngspice": [
+   "******",
+   "** ngspice-46 : Circuit level simulation program"
+  ],
+  "ngspice_path": [
+   "/tmp/r239/bin/ngspice"
+  ],
+  "pdk_git_head": [
+   "607e18d4bd9214a52575c194b4181ef449f9252f"
+  ],
+  "python": "3.12.3"
+ },
+ "trace_sha256": "9bd585d1be43c25898d83563d3c40882c5020b69b2adb96a35496d73f82b25c2",
+ "tstop": "2500n",
+ "variant": "control_probe",
+ "vctrl_first_last": [
+  2.46,
+  2.38737733
+ ],
+ "vdump_mean_last20pct_V": 1.4953370674268556
+}

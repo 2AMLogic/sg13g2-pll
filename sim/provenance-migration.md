@@ -159,7 +159,7 @@ Legend:
 | 3 | `sg13cmos5l-closed-loop-lock/records/RECORD-003-pfd-reset-fix-closed-loop-rerun.md` | `d633b9d` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop | superseded | #211 |
 | 4 | `sg13cmos5l-closed-loop-lock/records/RECORD-004-icp-mismatch-phase-error-diagnostic.md` | `f38b0ee` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base | superseded | #211 |
 | 5 | `sg13cmos5l-closed-loop-lock/records/RECORD-005-cascbias-real-cp-static-phase-error-rerun.md` | `f54b9ef` 2026-08-30 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop | superseded | #211 |
-| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | superseded (E2 failed validation, #224; rerun owed) | #211 |
+| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | superseded (E2 failed validation, #224; partial rerun landed, #239: ADDENDUM-006 -> RECORD-013, `control_probe` + `ideal_dump` only) | #211 |
 | 7 | `sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md` | `33fd583` 2026-10-09 | N | cmos5l + g2 (symlinked) | **loom-worker-1**, 2026-10-08/09 session transcripts (E1) | sum, src, sim/README, spec | recovered (E1 validated, #224: ADDENDUM-001) | #211 |
 | 8 | `sg13cmos5l-cp-icp-trim/records/RECORD-001-icp-trim-and-mismatch.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, spec | superseded | #212 |
 | 9 | `sg13cmos5l-cp-icp-trim/records/RECORD-002-cascode-bias-mismatch-remeasure.md` | `f54b9ef` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, spec | superseded | #212 |
@@ -226,6 +226,12 @@ Totals:
   `sg13cmos5l-closed-loop-lock` (single nominal diagnostic; the multi-run
   variants must go through `klt sim`), which is blocked on #221 because it
   must cite the `ihp-sg13g2` revision.
+  **Update (#239):** the rerun landed as `RECORD-013-cp-dynamic-charge-term-rerun-pinned.md`
+  with `ADDENDUM-006-record-006-superseded.md` (`superseded`). Coverage is
+  partial by design: `control_probe` and `ideal_dump` (closed loop and
+  open-loop pulse bench) were rerun locally; the remaining variants were
+  submitted to the batch fleet and refused by its instance cap
+  (`BATCH_MAX_CONCURRENT_INSTANCES=8`) and are recorded as not rerun.
 
 ## Execution batches
 

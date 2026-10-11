@@ -300,6 +300,28 @@ the min/max.
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.00910967 | 0.0243417 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.0593058 | 0.00606496 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 
+### closed-loop-lock-cp-dynamic-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical RECORD-006 bench: frozen cp_cascbias.spice (7b073918...) and pfd.spice (cc965704...) snapshots, behavioural divide-by-64, R1 x20 proposal deck, variants control_probe (raw current probe on cp VOUT) and ideal_dump (ideal unity VCVS replacing the dump buffer); NOT the committed DR-010 cp, the repaired divider or a committed-design lock
+- **Context**: schematic, pre-layout, closed loop (proposal deck, 2.5 us) plus open-loop charge-per-pulse bench
+- **Conditions**: one nominal point (mos_tt, res_typ, 27 C, 3.3 V); 49 reference cycles; local ngspice-46 x86-64 (original: ngspice-47); dual-tree PDK revisions cited in the record; PARTIAL rerun: only control_probe and ideal_dump, other RECORD-006 variants not rerun
+- **Method**: unmodified rerun of RECORD-006's run_cp_dynamic_diag.sh and run_cp_pulse_charge.sh for two variants; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (open-loop charge identical to RECORD-006, closed-loop traces not byte-identical)
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-013-cp-dynamic-charge-term-rerun-pinned.md` (sha256 `e2407445741ed2d123c75148fd5ddf5aacbfc6ca7f51f0d6c961c93dad45adb7`)
+- **Table `trace_control_probe`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_control_probe_rerun239.csv` (sha256 `9bd585d1be43c25898d83563d3c40882c5020b69b2adb96a35496d73f82b25c2`)
+- **Table `trace_ideal_dump`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_ideal_dump_rerun239.csv` (sha256 `85ed0f3e1c2d9db5c5924498518d8240b7e19c91b0f2a911023458ca89ef9d38`)
+- **Note**: RESULT RETAINED (diagnostic, not a committed-design lock), PARTIAL rerun: control_probe final-20-cycle phase error 8.2034 % (RECORD-006: 8.204 %), longest dual-lock run 4 cycles, no lock time; ideal_dump 1.0478 % (RECORD-006: 1.048 %), 45-cycle dual-lock run, lock time 250 ns. Open-loop charge per UP+DN pair -41.302 fC (probe) and -8.099 fC (ideal_dump), identical to RECORD-006.
+- **Note**: Closed-loop traces are not byte-identical to RECORD-006's (different host/ngspice build; per-cycle differences <= 0.030 pp, tabulated in the record). The other RECORD-006 variants (control_hist, ideal_sw, ideal_dump_ofs, reset_narrow, reset_wide, repeats) are NOT rerun; the batch submit was refused by the fleet's instance cap.
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle frequency error (control_probe variant, whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace_control_probe` | - | 49 | 0 | -0.0111143 | 0.011304 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle phase error (control_probe variant, whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace_control_probe` | - | 49 | 0 | 0.0156692 | 0.088 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle frequency error (ideal_dump variant, whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace_ideal_dump` | - | 49 | 0 | -0.00863013 | 0.0221846 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+| per-cycle phase error (ideal_dump variant, whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace_ideal_dump` | - | 49 | 0 | -0.046223 | 0.0146939 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
 ### cp-tracking-dumpbuf-dc
 
 - **PDK**: SG13CMOS5L
