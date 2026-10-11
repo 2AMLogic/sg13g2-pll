@@ -159,8 +159,8 @@ Legend:
 | 3 | `sg13cmos5l-closed-loop-lock/records/RECORD-003-pfd-reset-fix-closed-loop-rerun.md` | `d633b9d` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop | superseded | #211 |
 | 4 | `sg13cmos5l-closed-loop-lock/records/RECORD-004-icp-mismatch-phase-error-diagnostic.md` | `f38b0ee` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base | superseded | #211 |
 | 5 | `sg13cmos5l-closed-loop-lock/records/RECORD-005-cascbias-real-cp-static-phase-error-rerun.md` | `f54b9ef` 2026-08-30 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop | superseded | #211 |
-| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | recovered (candidate, E2) | #211 |
-| 7 | `sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md` | `33fd583` 2026-10-09 | N | cmos5l + g2 (symlinked) | **loom-worker-1**, 2026-10-08/09 session transcripts (E1) | sum, src, sim/README, spec | recovered (candidate, E1) | #211 |
+| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | superseded (E2 failed validation, #224; rerun owed) | #211 |
+| 7 | `sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md` | `33fd583` 2026-10-09 | N | cmos5l + g2 (symlinked) | **loom-worker-1**, 2026-10-08/09 session transcripts (E1) | sum, src, sim/README, spec | recovered (E1 validated, #224: ADDENDUM-001) | #211 |
 | 8 | `sg13cmos5l-cp-icp-trim/records/RECORD-001-icp-trim-and-mismatch.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, spec | superseded | #212 |
 | 9 | `sg13cmos5l-cp-icp-trim/records/RECORD-002-cascode-bias-mismatch-remeasure.md` | `f54b9ef` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, spec | superseded | #212 |
 | 10 | `sg13cmos5l-cp-icp-trim/records/RECORD-003-issue83-finetrim-icp.md` | `e54bd37` 2026-08-30 | G (targeted) | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, sg13cmos5l-loop-bandwidth-pm/RECORD-003, DR-007, spec | superseded | #212 |
@@ -198,6 +198,33 @@ Totals:
 - Every one of the 34 `sg13cmos5l-*` rows is mixed-PDK.
 - #18 also carries the explicit `ihp-sg13g2` `schmitt_rewire` arm.
 - #35 transfers CMOS5L-tree results.
+
+## Candidate validation outcomes (issue #224)
+
+- **Row 7, `sg13cmos5l-closed-loop-real-divider/RECORD-001`: E1 validated.**
+  `ADDENDUM-001-provenance-recovered.md` quotes the producing-run commands,
+  the in-session `ngspice-46` banner and the tree-state evidence, with
+  transcript hashes. The `rerun168` ngspice-47 divider-speed logs are
+  explicitly outside its scope.
+- **Row 6, `sg13cmos5l-closed-loop-lock/RECORD-006`: E2 failed validation.
+  No addendum is written; disposition is now `superseded`.** The OSDI hashes
+  and the `607e18d4bd92` prefix do match `loom-worker-1` today, but that is
+  the record's own bytes checked against today's tree, not contemporaneous
+  evidence:
+  - The record was committed 2026-10-08T23:36Z, before the oldest transcript
+    on this host (2026-10-08T23:29Z start; the first mention of its `cpdiag_*`
+    artifacts is 2026-10-09T00:40Z, a later reader). There is no producing
+    session, so the host cannot be tied to `loom-worker-1`.
+  - Its tool is `ngspice-47` from a `/tmp/b209-ngs` scratch build. That
+    binary no longer exists on this host, so the cited sha256 `825bee45...`
+    cannot be checked.
+  - The record never names the `ihp-sg13g2` revision, and hashes only four
+    compiled OSDI objects, not the model cards it also read.
+  Recovering from this would be inferring the revision from today's
+  install, which the contract forbids. Follow-up: a superseding rerun in
+  `sg13cmos5l-closed-loop-lock` (single nominal diagnostic; the multi-run
+  variants must go through `klt sim`), which is blocked on #221 because it
+  must cite the `ihp-sg13g2` revision.
 
 ## Execution batches
 
