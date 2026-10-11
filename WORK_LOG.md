@@ -4,6 +4,14 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-11
 
+- **PR #247**: sim: partial rerun of RECORD-006 (control_probe, ideal_dump) on pinned dual-tree PDK; superseded addendum (Closes #239)
+- **PR #246**: sim: rerun RECORD-004 ideal-cp diagnostic on pinned dual-tree PDK; superseded addendum (Closes #228)
+- **PR #245**: sim: supersede RECORD-005 provenance by pinned dual-tree nominal rerun (Closes #229)
+- **PR #244**: sim: supersede closed-loop RECORD-001 provenance by pinned dual-tree rerun (Closes #225)
+- **Issue #239** (closed): Item 9: supersede closed-loop RECORD-006 provenance by rerun
+- **Issue #229** (closed): Item 9: supersede closed-loop RECORD-005 provenance by rerun
+- **Issue #228** (closed): Item 9: supersede closed-loop RECORD-004 provenance by rerun
+- **Issue #225** (closed): Item 9: supersede closed-loop RECORD-001 provenance by rerun
 - **PR #242**: sim: supersede RECORD-003 provenance by pinned dual-tree rerun (Closes #227)
 - **PR #241**: sim: supersede RECORD-002 provenance by dual-tree rerun (Closes #226)
 - **PR #240**: sim: recover real-divider RECORD-001 provenance; RECORD-006 fails validation
