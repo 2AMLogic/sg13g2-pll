@@ -113,6 +113,10 @@ ROW_RE = re.compile(r"^\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|", r
 
 
 TREES = ("ihp-sg13g2", "ihp-sg13cmos5l")
+# Tree-qualified citation: "<tree> [revision] <hex>" (e.g. "PDK ihp-sg13g2 revision <hex>").
+TREE_REV_RE = re.compile(
+    r"\b(ihp-sg13g2|ihp-sg13cmos5l)\b[\s:=@`]{0,4}(?:(?:revision|commit|rev)\b[\s:=@`]{0,4})?([0-9a-f]{12,40})\b",
+    re.I)
 ADD_RE = re.compile(r"^ADDENDUM-([A-Z0-9]+):[ \t]*(.*?)[ \t]*$", re.M)
 SINGLE = ("FOR", "KIND", "SHA256", "EVIDENCE", "TOOL", "RERUN")
 
@@ -261,17 +265,31 @@ def parse_readme(sim):
     return dict(PIN_RE.findall(sect)), {m[0]: m[1:] for m in ROW_RE.findall(sect)}, []
 
 
-def check_record(path, pin):
-    """Return (errors, discrepancies) for one record."""
+def check_record(path, pin, tree_pins=None):
+    """Return (errors, discrepancies) for one record.
+
+    `pin` is the pin of the bench's own tree. A revision cited in the
+    tree-qualified form ("<tree> [revision] <hex>") for a known tree is
+    compared with that tree's pin from `tree_pins`; all other revisions are
+    compared with `pin` exactly as before. A mismatch is a discrepancy.
+    """
     text = path.read_text(errors="replace")
     errs, disc = [], []
-    revs = {m.lower() for m in REV_RE.findall(text)}
+    tree_pins = tree_pins or {}
+    qualified = {}  # hex -> {trees}
+    for t, h in TREE_REV_RE.findall(text):
+        qualified.setdefault(h.lower(), set()).add(t.lower())
+    revs = {m.lower() for m in REV_RE.findall(text)} | set(qualified)
     if not revs:
         errs.append("no PDK revision (commit hash) cited")
-    elif pin and re.fullmatch(r"[0-9a-f]{40}", pin):
-        for r in revs:
-            if not pin.startswith(r):
-                disc.append(f"cites PDK revision {r}, pin is {pin}")
+    else:
+        for r in sorted(revs):
+            targets = [(t, tree_pins.get(t)) for t in sorted(qualified.get(r, ()))]
+            if not targets:
+                targets = [(None, pin)]
+            for t, tp in targets:
+                if tp and re.fullmatch(r"[0-9a-f]{40}", tp) and not tp.startswith(r):
+                    disc.append(f"cites PDK revision {r}, pin is {tp}" + (f" ({t})" if t else ""))
     if not TOOL_RE.search(text):
         errs.append("no tool version cited (ngspice-NN / klt X.Y)")
     return errs, disc
@@ -309,7 +327,7 @@ def main(argv=None):
                 errs.append(f"{s}: invocation {inv!r} does not document entry point {entry}")
         for rec in sorted((sim / s / "records").glob("RECORD-*.md")):
             rel = rec.relative_to(sim).as_posix()
-            re_, disc = check_record(rec, pins.get(tree_of(s)))
+            re_, disc = check_record(rec, pins.get(tree_of(s)), pins)
             for d in disc:
                 errs.append(f"DISCREPANCY {rel}: {d}")
             if re_:
