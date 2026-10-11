@@ -2,6 +2,19 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-11
+
+- **PR #242**: sim: supersede RECORD-003 provenance by pinned dual-tree rerun (Closes #227)
+- **PR #241**: sim: supersede RECORD-002 provenance by dual-tree rerun (Closes #226)
+- **PR #240**: sim: recover real-divider RECORD-001 provenance; RECORD-006 fails validation
+- **PR #238**: manifests: multi-tree PDK revision citations in records (Closes #221)
+- **Issue #227** (closed): Item 9: supersede closed-loop RECORD-003 provenance by rerun
+- **Issue #226** (closed): Item 9: supersede closed-loop RECORD-002 provenance by rerun
+- **Issue #224** (closed): Item 9: recover provenance for closed-loop RECORD-006 and real-divider RECORD-001
+- **Issue #221** (closed): Item 9 gate: rerun records in sg13cmos5l benches cannot cite the ihp-sg13g2 revision their symlinked models resolve to
+- **Issue #220** (closed): Item 9 campaign: integrate resolved provenance and regenerate tier evidence
+- **Issue #219** (closed): Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance
+
 ### 2026-10-10
 
 - **PR #222**: sim: inventory 37 grandfathered records and pin ihp-sg13g2 (item 9 campaign phase 1)
