@@ -932,6 +932,54 @@
    "record_sha256": "112d3a800b576be4c2392767f4c22cba8d3cc150178d352e32fd4d0d2aec890e"
   },
   {
+   "id": "closed-loop-static-phase-error-rerun-pinned",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "real mitigated cp (netlist-snapshots/cp_cascbias.spice) with pfd #56 fix; behavioural divide-by-64 in the feedback path, so no divider hardware is exercised; historical bench rebuilt from commit f54b9ef",
+   "context": "schematic, pre-layout, closed loop (proposal deck, 2.5 us)",
+   "conditions": "one nominal point (mos_tt, 27 C, 3.3 V); 49 reference cycles; local ngspice-46 x86-64 on loom-worker-3; dual-tree PDK revisions cited in the record",
+   "method": "unmodified rerun of RECORD-005's run_closed_loop_cascbias.sh; per-reference-cycle frequency and phase error as fractions of f_ref / T_ref (trace byte-identical to RECORD-005's)",
+   "record": "sim/sg13cmos5l-closed-loop-lock/records/RECORD-011-cascbias-real-cp-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias_rerun229.csv",
+     "sha256": "fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error (whole trace, includes startup transient)",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "FAILURE RETAINED: the rerun reproduces RECORD-005 exactly, including its static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %) against the 5 % criterion and lock_time = None (longest dual-lock run 4 cycles); the extrema above span the full trace including the startup transient and are not a steady-state figure.",
+    "NOMINAL ONLY, PROPOSAL DECK: supersedes RECORD-005's evidence claim at one point; it implies no PVT grid coverage (the full-grid re-run for this DUT is owed, #139)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-charge-sharing",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "2dad8252173c82d6d7ec9d402a24c69a68a36d1ee0cccffcca00d8b8ee8be6ac"
+  },
+  {
    "id": "cp-tracking-dumpbuf-dc",
    "section": "sg13cmos5l-nominal-single-point",
    "pdk": "SG13CMOS5L",
