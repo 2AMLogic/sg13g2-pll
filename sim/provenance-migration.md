@@ -159,8 +159,8 @@ Legend:
 | 3 | `sg13cmos5l-closed-loop-lock/records/RECORD-003-pfd-reset-fix-closed-loop-rerun.md` | `d633b9d` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop | superseded | #211 |
 | 4 | `sg13cmos5l-closed-loop-lock/records/RECORD-004-icp-mismatch-phase-error-diagnostic.md` | `f38b0ee` 2026-08-30 | N, multi-run | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base | superseded | #211 |
 | 5 | `sg13cmos5l-closed-loop-lock/records/RECORD-005-cascbias-real-cp-static-phase-error-rerun.md` | `f54b9ef` 2026-08-30 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop | superseded | #211 |
-| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | recovered (candidate, E2) | #211 |
-| 7 | `sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md` | `33fd583` 2026-10-09 | N | cmos5l + g2 (symlinked) | **loom-worker-1**, 2026-10-08/09 session transcripts (E1) | sum, src, sim/README, spec | recovered (candidate, E1) | #211 |
+| 6 | `sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md` | `41699d8` 2026-10-08 | N, multi-run | cmos5l + g2 (symlinked) | x86-64 Linux shared worker; **record cites** cmos5l `607e18d4bd92` and OSDI sha256 prefixes that match worker-1 today | base, spec | superseded (E2 failed validation, #224; rerun owed) | #211 |
+| 7 | `sg13cmos5l-closed-loop-real-divider/records/RECORD-001-repaired-divider-in-loop-nominal.md` | `33fd583` 2026-10-09 | N | cmos5l + g2 (symlinked) | **loom-worker-1**, 2026-10-08/09 session transcripts (E1) | sum, src, sim/README, spec | recovered (E1 validated, #224: ADDENDUM-001) | #211 |
 | 8 | `sg13cmos5l-cp-icp-trim/records/RECORD-001-icp-trim-and-mismatch.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, spec | superseded | #212 |
 | 9 | `sg13cmos5l-cp-icp-trim/records/RECORD-002-cascode-bias-mismatch-remeasure.md` | `f54b9ef` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, spec | superseded | #212 |
 | 10 | `sg13cmos5l-cp-icp-trim/records/RECORD-003-issue83-finetrim-icp.md` | `e54bd37` 2026-08-30 | G (targeted) | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, sg13cmos5l-loop-bandwidth-pm/RECORD-003, DR-007, spec | superseded | #212 |
@@ -193,17 +193,45 @@ Legend:
 | 37 | `sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `b3031f6` 2026-09-09 | G | g2 | arm64 macOS (host/tree unknown) | sum, src, manifests/test_check_spec_citations.py, spec | superseded | #217 |
 
 Totals:
-- 2 `recovered` candidates: #7 (E1) and #6 (E2).
-- 35 `superseded`.
+- 1 `recovered`: #7 (E1 validated, ADDENDUM-001). #6 (E2) failed validation
+  and is `superseded`.
+- 36 `superseded`.
 - Every one of the 34 `sg13cmos5l-*` rows is mixed-PDK.
 - #18 also carries the explicit `ihp-sg13g2` `schmitt_rewire` arm.
 - #35 transfers CMOS5L-tree results.
+
+## Candidate validation outcomes (issue #224)
+
+- **Row 7, `sg13cmos5l-closed-loop-real-divider/RECORD-001`: E1 validated.**
+  `ADDENDUM-001-provenance-recovered.md` quotes the producing-run commands,
+  the in-session `ngspice-46` banner and the tree-state evidence, with
+  transcript hashes. The `rerun168` ngspice-47 divider-speed logs are
+  explicitly outside its scope.
+- **Row 6, `sg13cmos5l-closed-loop-lock/RECORD-006`: E2 failed validation.
+  No addendum is written; disposition is now `superseded`.** The OSDI hashes
+  and the `607e18d4bd92` prefix do match `loom-worker-1` today, but that is
+  the record's own bytes checked against today's tree, not contemporaneous
+  evidence:
+  - The record was committed 2026-10-08T23:36Z, before the oldest transcript
+    on this host (2026-10-08T23:29Z start; the first mention of its `cpdiag_*`
+    artifacts is 2026-10-09T00:40Z, a later reader). There is no producing
+    session, so the host cannot be tied to `loom-worker-1`.
+  - Its tool is `ngspice-47` from a `/tmp/b209-ngs` scratch build. That
+    binary no longer exists on this host, so the cited sha256 `825bee45...`
+    cannot be checked.
+  - The record never names the `ihp-sg13g2` revision, and hashes only four
+    compiled OSDI objects, not the model cards it also read.
+  Recovering from this would be inferring the revision from today's
+  install, which the contract forbids. Follow-up: a superseding rerun in
+  `sg13cmos5l-closed-loop-lock` (single nominal diagnostic; the multi-run
+  variants must go through `klt sim`), which is blocked on #221 because it
+  must cite the `ihp-sg13g2` revision.
 
 ## Execution batches
 
 | Batch | Records (rows above) | Recovered | Superseded (N / G) | Flags |
 |---|---|---|---|---|
-| #211 closed-loop lock + real divider | 1–7 | 2 (#6, #7) | 5 (5 N / 0 G) | **Decompose.** 5 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. Split the two recovery addenda (no simulation) from the 5 nominal reruns. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. Blocked on #221 for the rerun half. |
+| #211 closed-loop lock + real divider | 1–7 | 1 (#7) | 6 (6 N / 0 G) | **Decompose.** 6 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. The recovery addendum for #7 is done (#224); the 6 nominal reruns remain. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. Blocked on #221 for the rerun half. |
 | #212 charge pump + divider retiming | 8–14 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids. `klt sim`'s batch backend refuses `ihp-sg13cmos5l` (`2AMLogic/klayout-tools#2727`, open), and host policy forbids local grids. Exceeds 8 files. Also blocked on #221. |
 | #213 PEX sign-off + lock detector | 15–20 | 0 | 6 (2 N / 4 G) | **Decompose.** #15 (`klt pex`, 5 single-corner blocks) and #20 (nominal) can run locally. #16–#19 are grids, blocked on klayout-tools#2727. #18 needs both `schmitt_rewire` arms. Coordinate #139 (RECORD-005's owed full grid). Blocked on #221. |
 | #214 loop bandwidth + loop filter | 21–27 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids (klayout-tools#2727). Exceeds 8 files. Coordinate #203 and DR-007/DR-008, which cite #23/#24. Blocked on #221. |

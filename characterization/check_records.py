@@ -35,6 +35,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 NAME_RE = re.compile(r"^RECORD-(\d{3})-[A-Za-z0-9][A-Za-z0-9._-]*\.md$")
+ADDENDUM_RE = re.compile(r"^ADDENDUM-(\d{3})-[A-Za-z0-9][A-Za-z0-9._-]*\.md$")
+ADDENDUM_KINDS = ("recovered", "superseded")
 H1_RE = re.compile(r"^# RECORD-(\d{3}): \S")
 RECORD_PATH_RE = re.compile(r"^sim/[^/]+/records/RECORD-[^/]+\.md$")
 
@@ -43,6 +45,28 @@ def bench_dirs(root):
     sim = Path(root) / "sim"
     return sorted(d for d in sim.iterdir()
                   if d.is_dir() and ((d / "testbench").is_dir() or (d / "records").is_dir()))
+
+
+def check_addendum(root, f):
+    """Light structural check of an ADDENDUM-NNN-<topic>.md file."""
+    rel = f.relative_to(root).as_posix()
+    keys = {}
+    for line in f.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^(ADDENDUM-[A-Z0-9]+): (.+\S)\s*$", line)
+        if m:
+            keys.setdefault(m.group(1), []).append(m.group(2))
+    errs = []
+    for k in ("ADDENDUM-FOR", "ADDENDUM-KIND", "ADDENDUM-SHA256", "ADDENDUM-EVIDENCE"):
+        if k not in keys:
+            errs.append(f"{rel}: missing {k} line")
+    kind = keys.get("ADDENDUM-KIND", [None])[0]
+    if kind is not None and kind not in ADDENDUM_KINDS:
+        errs.append(f"{rel}: ADDENDUM-KIND must be one of {', '.join(ADDENDUM_KINDS)}")
+    for target in keys.get("ADDENDUM-FOR", [])[:1]:
+        bench = f.parent.parent.name
+        if not target.startswith(bench + "/records/") or not (Path(root) / "sim" / target).is_file():
+            errs.append(f"{rel}: ADDENDUM-FOR {target} is not an existing record of the same bench")
+    return errs
 
 
 def check_layout(root, baseline):
@@ -57,8 +81,13 @@ def check_layout(root, baseline):
         nums = []
         for f in sorted(rec.iterdir()):
             m = NAME_RE.match(f.name)
-            if not m:
-                errs.append(f"{rel}/records/{f.name}: not named RECORD-NNN-<slug>.md")
+            if not m and ADDENDUM_RE.match(f.name):
+                # Provenance addenda (sim/README.md) are not numbered records:
+                # they stay out of the RECORD numbering and gap checks.
+                errs.extend(check_addendum(root, f))
+            elif not m:
+                errs.append(f"{rel}/records/{f.name}: not named RECORD-NNN-<slug>.md "
+                            "or ADDENDUM-NNN-<topic>.md")
             else:
                 nums.append(int(m.group(1)))
         if not nums:
