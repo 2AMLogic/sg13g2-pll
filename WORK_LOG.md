@@ -2,6 +2,10 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-12
+
+- **Issue #211** (closed): Item 9 campaign: closed-loop lock and real-divider provenance
+
 ### 2026-10-11
 
 - **PR #247**: sim: partial rerun of RECORD-006 (control_probe, ideal_dump) on pinned dual-tree PDK; superseded addendum (Closes #239)
