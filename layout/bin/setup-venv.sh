@@ -37,10 +37,12 @@ echo "setup-venv.sh: installed"
   echo "  an IHP-Open-PDK (ihp-sg13g2) install." >&2
 }
 # The SG13CMOS5L port (issue #24) resolves a *second*, separate PDK install
-# (IHP-GmbH/ihp-sg13cmos5l, not a variant inside IHP-Open-PDK), so check it
-# independently rather than assuming the sg13g2 hit above covers both.
+# (the ihp-sg13cmos5l/ subtree of IHP-GmbH/IHP-Open-PDK; the former split
+# IHP-GmbH/ihp-sg13cmos5l repository is archived), so check it independently
+# rather than assuming the sg13g2 hit above covers both.
 "$VENV/bin/klt" pdk find --pdk ihp-sg13cmos5l || {
   echo "setup-venv.sh: WARNING: no resolvable ihp-sg13cmos5l PDK install found." >&2
   echo "  layout/bin/run-pll-cmos5l-layout-flow.sh needs one; point \$PDK_ROOT" >&2
-  echo "  at an ihp-sg13cmos5l install (see layout/sg13cmos5l-pll/README.md)." >&2
+  echo "  at a directory holding the ihp-sg13cmos5l/ subtree of IHP-Open-PDK" >&2
+  echo "  (see layout/sg13cmos5l-pll/README.md and sim/README.md install steps)." >&2
 }
