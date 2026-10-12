@@ -62,6 +62,7 @@ Issues carrying `loom:curated`.
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
 - **#199**: Item 9: campaign to recover or replace unpinned measurement evidence
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance
+- **#250**: Re-stamp SG13CMOS5L PDK pin from klayout-tools (IHP-Open-PDK dev f7bca326)
 
 ## Backlog Balance
 
@@ -75,5 +76,5 @@ Issues carrying `loom:curated`.
 | Approved PRs awaiting merge | 0 |
 | Curated | 5 |
 | Architect / Hermit proposals | 4 |
-| Active epics | 4 |
+| Active epics | 5 |
 <!-- guide:plan-body:end -->

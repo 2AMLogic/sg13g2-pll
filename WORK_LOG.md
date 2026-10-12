@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-12
 
+- **PR #253**: chore(ci): adopt unified IHP-Open-PDK SG13CMOS5L pin for install and netlist CI
+- **Issue #252** (closed): Adopt the unified IHP-Open-PDK SG13CMOS5L pin in install and netlist CI
 - **Issue #211** (closed): Item 9 campaign: closed-loop lock and real-divider provenance
 
 ### 2026-10-11
