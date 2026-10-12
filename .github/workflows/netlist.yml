@@ -46,21 +46,33 @@ jobs:
       - name: Fetch the PDKs
         run: |
           set -euo pipefail
-          # Layouts differ: IHP-Open-PDK holds the variant dir ihp-sg13g2/ one
-          # level below its root, so its PDK_ROOT is the clone root itself.
-          # ihp-sg13cmos5l is a repo whose root IS the variant dir, so it must
-          # be cloned into a PDK_ROOT directory under that name.
+          # Two PDK trees are needed under one PDK_ROOT ($RUNNER_TEMP/pdk):
+          #   ihp-sg13g2/       -> the ihp-sg13g2 variant of an old IHP-Open-PDK pin
+          #   ihp-sg13cmos5l/   -> the ihp-sg13cmos5l/ subtree of the unified
+          #                        IHP-Open-PDK (the split IHP-GmbH repo of the
+          #                        same name is archived)
+          # The cmos5l model/symbol symlinks are relative (../../../../ihp-sg13g2/...)
+          # and must resolve to a sibling ihp-sg13g2 under PDK_ROOT, so the cmos5l
+          # subtree is COPIED (not symlinked) into PDK_ROOT: a symlinked variant dir
+          # would resolve those links inside the unified tree instead.
           mkdir -p "$RUNNER_TEMP/pdk"
-          # Pinned to the last commit before the mm_ok symbol change
+          # ihp-sg13g2: pinned to the last commit before the mm_ok symbol change
           # (00fd98f, 2026-05-22), which appends mm_ok=1 to every device line.
           git init --quiet "$RUNNER_TEMP/IHP-Open-PDK"
           git -C "$RUNNER_TEMP/IHP-Open-PDK" fetch --quiet --depth 1 https://github.com/IHP-GmbH/IHP-Open-PDK 2682d8ef855b8b33e12bc0d13b4f1d023c79ef9e
           git -C "$RUNNER_TEMP/IHP-Open-PDK" checkout --quiet FETCH_HEAD
-          # The cmos5l symbol dir symlinks ../../../../ihp-sg13g2/... i.e. a
-          # sibling ihp-sg13g2 under ITS PDK_ROOT; provide that sibling.
           ln -s "$RUNNER_TEMP/IHP-Open-PDK/ihp-sg13g2" "$RUNNER_TEMP/pdk/ihp-sg13g2"
-          git clone --quiet https://github.com/IHP-GmbH/ihp-sg13cmos5l "$RUNNER_TEMP/pdk/ihp-sg13cmos5l"
-          git -C "$RUNNER_TEMP/pdk/ihp-sg13cmos5l" checkout --quiet 607e18d4bd9214a52575c194b4181ef449f9252f
+          # ihp-sg13cmos5l: immutable exact-commit tarball, fail-closed on SHA256
+          # (never follows moving dev). The hash was verified by downloading the
+          # archive independently (issue #252); a mismatch aborts before extraction.
+          CMOS5L_COMMIT=f7bca32694fe3d58be0cc7d9df4b9f5db7161a14
+          CMOS5L_SHA256=5eb6f8a9b0b2ecc4fa08cc30627668406f85b1a97834f278036c43f0c0dbc70b
+          mkdir -p "$RUNNER_TEMP/pdk-dl" "$RUNNER_TEMP/pdk-unified"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/pdk-dl/pdk.tgz" "https://codeload.github.com/IHP-GmbH/IHP-Open-PDK/tar.gz/$CMOS5L_COMMIT"
+          echo "$CMOS5L_SHA256  $RUNNER_TEMP/pdk-dl/pdk.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/pdk-dl/pdk.tgz" -C "$RUNNER_TEMP/pdk-unified" --strip-components=1 "IHP-Open-PDK-$CMOS5L_COMMIT/ihp-sg13cmos5l"
+          cp -a "$RUNNER_TEMP/pdk-unified/ihp-sg13cmos5l" "$RUNNER_TEMP/pdk/ihp-sg13cmos5l"
+          test -f "$RUNNER_TEMP/pdk/ihp-sg13cmos5l/libs.tech/xschem/xschemrc"
 
       - name: Regenerate netlists and fail on drift
         run: |

@@ -188,8 +188,18 @@ ADDENDUM-EVIDENCE: <what was rerun>
 
 **Install steps** (no host-wide tools; everything is user-space):
 
-1. Clone the PDK tree at the pin and expose its parent as `PDK_ROOT`:
-   `git clone https://github.com/IHP-GmbH/ihp-sg13cmos5l "$PDK_ROOT/ihp-sg13cmos5l" && git -C "$PDK_ROOT/ihp-sg13cmos5l" checkout 607e18d4bd9214a52575c194b4181ef449f9252f`
+1. Fetch the PDK trees and expose them as siblings under `PDK_ROOT`.
+   `ihp-sg13cmos5l` is the `ihp-sg13cmos5l/` subtree of
+   `https://github.com/IHP-GmbH/IHP-Open-PDK` (the split
+   `IHP-GmbH/ihp-sg13cmos5l` repository is archived). Install pin, fetched as
+   an exact-commit tarball and checked before extraction (copy the subtree
+   into `$PDK_ROOT/ihp-sg13cmos5l`; do not symlink it, so its relative model
+   symlinks resolve to the sibling `ihp-sg13g2`):
+   `curl -fsSL -o pdk.tgz https://codeload.github.com/IHP-GmbH/IHP-Open-PDK/tar.gz/f7bca32694fe3d58be0cc7d9df4b9f5db7161a14 && echo "5eb6f8a9b0b2ecc4fa08cc30627668406f85b1a97834f278036c43f0c0dbc70b  pdk.tgz" | sha256sum -c - && tar -xzf pdk.tgz --strip-components=1 -C "$PDK_UNIFIED" IHP-Open-PDK-f7bca32694fe3d58be0cc7d9df4b9f5db7161a14/ihp-sg13cmos5l && cp -a "$PDK_UNIFIED/ihp-sg13cmos5l" "$PDK_ROOT/ihp-sg13cmos5l"`
+   Note: the `PDK-PIN ihp-sg13cmos5l` line above and the recorded evidence
+   still name the legacy split-repository commit; evidence reruns on the new
+   pin and the pin switch are owned by #213-#218, so records made before that
+   cite the legacy revision, not this install pin.
    The `ihp-sg13g2` tree is the `ihp-sg13g2/` subdirectory of
    `https://github.com/IHP-GmbH/IHP-Open-PDK` at its pin:
    `git clone https://github.com/IHP-GmbH/IHP-Open-PDK "$PDK_SRC" && git -C "$PDK_SRC" checkout 5cccb161f7492697cfa52eb14dc03beb00bdca9e`,
