@@ -168,7 +168,7 @@ Legend:
 | 12 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-001-nrange-retiming-margin.md` | `1d824d3` 2026-08-30 | G | cmos5l + g2 (symlinked) | not stated; `~/share/pdk` | base, prop | superseded | #212 |
 | 13 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-002-pdk-root-token-fix-reverification.md` | `b8a14c8` 2026-08-30 | G (partial re-run) | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | base | superseded | #212 |
 | 14 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` | `a95a887` 2026-09-22 | G | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, prop, sg13g2-divider-repair-reverification/RECORD-001, spec | superseded | #212 |
-| 15 | `sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` | `e56e14a` 2026-10-08 | N, 5 blocks | cmos5l + g2 (symlinked); envelope `pdk.version` is null | not stated; klt 0.6.0 envelopes | sum, src, spec | superseded | #213 |
+| 15 | `sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` | `e56e14a` 2026-10-08 | N, 5 blocks | cmos5l + g2 (symlinked); envelope `pdk.version` is null | not stated; klt 0.6.0 envelopes | sum, src, spec | superseded (rerun landed, #255: ADDENDUM-001 -> RECORD-003, all 5 blocks, old-layout nominal only) | #213 |
 | 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded | #213 |
 | 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded | #213 |
 | 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded | #213 |
@@ -232,6 +232,16 @@ Totals:
   open-loop pulse bench) were rerun locally; the remaining variants were
   submitted to the batch fleet and refused by its instance cap
   (`BATCH_MAX_CONCURRENT_INSTANCES=8`) and are recorded as not rerun.
+
+- **Row 15, `sg13cmos5l-klt-pex-signoff/RECORD-001`: resolved by rerun (#255).**
+  `ADDENDUM-001-record-001-superseded.md` -> `RECORD-003-klt-pex-nominal-rerun-pinned.md`
+  (`superseded`; no recovery of the original environment). All five blocks
+  were rerun at the nominal corner on the reconstructed original inputs
+  (layout `20261003-183059-dc5644a`, dut/requests from `e56e14a`) with both
+  PDK pins, klt 0.7.1.dev228 and ngspice-46; every delta reproduces. Scope is
+  the OLD layout record only: the current PEX envelopes (`reports/pex.*.json`,
+  RECORD-002) and whole-design sign-off are not refreshed, and no consumer was
+  changed because none of its figures was replaced.
 
 ## Execution batches
 
