@@ -173,7 +173,7 @@ Legend:
 | 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded | #213 |
 | 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded | #213 |
 | 19 | `sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` | `36e4bae` 2026-08-31 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, manifests/test_check_spec_citations.py, sim/README, spec | superseded | #213 |
-| 20 | `sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` | `3fd7967` 2026-10-03 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; `/home/ubuntu/.local/bin/ngspice` | sum, src, prop, layout/sg13cmos5l-pll/README.md, spec | superseded | #213 |
+| 20 | `sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` | `3fd7967` 2026-10-03 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; `/home/ubuntu/.local/bin/ngspice` | sum, src, prop, layout/sg13cmos5l-pll/README.md, spec | superseded (rerun landed, #256: ADDENDUM-001 -> RECORD-006, nominal only; full-PVT still owed as #139) | #213 |
 | 21 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-001-loop-bandwidth-phase-margin.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, prop | superseded | #214 |
 | 22 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-icp-input-refresh.md` | `f54b9ef` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, sg13cmos5l-cp-icp-trim/RECORD-002 | superseded | #214 |
 | 23 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-r1-resize-full-fref-range.md` | `ffec56a` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, sg13cmos5l-cp-icp-trim/RECORD-003, sg13cmos5l-cp-icp-trim/RECORD-004, sim/sg13cmos5l-cp-icp-trim/testbench/run_issue79_finetrim.sh, sim/sg13cmos5l-cp-icp-trim/testbench/run_issue83_finetrim.sh, RECORD-003, RECORD-004, sim/sg13cmos5l-loop-bandwidth-pm/testbench/run_issue79_finetrim.sh, sim/sg13cmos5l-loop-bandwidth-pm/testbench/run_issue83_finetrim.sh, DR-007, DR-008, spec | superseded | #214 |
@@ -232,6 +232,19 @@ Totals:
   open-loop pulse bench) were rerun locally; the remaining variants were
   submitted to the batch fleet and refused by its instance cap
   (`BATCH_MAX_CONCURRENT_INSTANCES=8`) and are recorded as not rerun.
+- **Row 20, `sg13cmos5l-lock-detector-window/RECORD-005`: resolved by rerun
+  (#256).** `ADDENDUM-001-record-005-superseded.md` ->
+  `RECORD-006-rpu-body-on-vss-rerun-pinned.md` (`superseded`; no recovery of
+  the original environment). The nominal single corner was rerun with both
+  PDK pins, ngspice-46 and klt 0.7.1.dev256 on `loom-worker-3`, against the
+  frozen DUT snapshot — byte-identical to the producing revision (`3fd7967`),
+  so no reconstruction was needed — through `run_rerun256.sh` (`run.sh` with
+  the output suffix changed only; the one drift since `3fd7967`,
+  `testbench/gen_ladder.py` -> `sim/tools/gen_lock_ladder.py`, is a file
+  relocation). All seven outputs reproduce RECORD-005's committed
+  `*_bodyfix_nominal.*` set byte-identically. Scope is nominal-only, same as
+  the original: the full-PVT grid stays owed as #139, and no consumer was
+  changed because no figure was replaced.
 
 - **Row 15, `sg13cmos5l-klt-pex-signoff/RECORD-001`: resolved by rerun (#255).**
   `ADDENDUM-001-record-001-superseded.md` -> `RECORD-003-klt-pex-nominal-rerun-pinned.md`
