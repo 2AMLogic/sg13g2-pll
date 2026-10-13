@@ -59,6 +59,33 @@ the min/max.
 | vco extracted clk_period_s (`extracted_value`) | s | `pex_vco` | - | 1 | 0 | 3.64896e-09 | 3.64896e-09 | `spec_row`: clk_period_s; `corner_id`: typ/novdd/27C |
 | vco schematic clk_period_s (`schematic_value`) | s | `pex_vco` | - | 1 | 0 | 1.45372e-09 | 1.45372e-09 | `spec_row`: clk_period_s; `corner_id`: typ/novdd/27C |
 
+### klt-pex-nominal-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: routed GDS layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a (the OLD layout record RECORD-001 measured, original pre-DR-010 cp); schematic legs and requests as of commit e56e14a. NOT the authoritative layout record 20261010-012952-a4ca1b8 that the klt-pex-nominal entry describes
+- **Context**: extracted (klt pex) vs schematic; `delta_pct` is extracted relative to schematic
+- **Conditions**: mos_tt (+res_typ/cap_typ where present), 27 C, 3.3 V; ngspice-46 x86-64; klt 0.7.1.dev228+g2f51907f7f2e; KLayout 0.30.12; --backend local; dual-tree PDK revisions cited in the record
+- **Method**: unmodified rerun of RECORD-001's klt pex flow on its reconstructed inputs (klt pex envelopes, schema_version 2); one corner per block, nominal only
+- **Record**: `sim/sg13cmos5l-klt-pex-signoff/records/RECORD-003-klt-pex-nominal-rerun-pinned.md` (sha256 `8a2fdd7b4549e208958de965515ebe68b50146c7eb1919860456a6f65b68edeb`)
+- **Table `rerun_pfd`**: `sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.pfd.json` (sha256 `13e88ac90606fde72af0c0dad441cc4c4cb6750b35681c277c592bbe7dad5789`)
+- **Table `rerun_cp`**: `sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.cp.json` (sha256 `0f7cc2d0fc5497e45abbc0bfc590f759437a8ce35ccd61c9c4136bc4b0c9fc04`)
+- **Table `rerun_loop_filter`**: `sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.loop_filter.json` (sha256 `f7f12a97ae0ef9fc21a4b9bf39e8dc39da2b749858c5acd50ec7357a403c4919`)
+- **Table `rerun_vco`**: `sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.vco.json` (sha256 `c55d5b826f824677439beb1f528b184e9f8eb5f6d6e1fc06bfca9b0e42ef5526`)
+- **Table `rerun_divider_chain`**: `sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.divider_chain.json` (sha256 `f3eaa7f5d3e9f05af19f876154e98300fbdeceb19cb451fd98f0b3de7a1b5f2f`)
+- **Note**: Reproduces RECORD-001 on the old layout record; it does NOT refresh the current PEX envelopes (layout 20261010-012952-a4ca1b8, RECORD-002) or whole-design sign-off.
+- **Note**: Nominal PEX, one corner per block: this is NOT a PVT result. No request declares limits; `status: pass` means 'ran and compared', not 'met a spec'.
+- **Note**: lock_detector was not run (#157).
+- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), lock_detector post-layout/PEX gap (#157)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pfd extracted-vs-schematic delta (up_avg, dn_avg rows), old layout record (`delta_pct`) | % | `rerun_pfd` | - | 2 | 0 | 9.251 | 77.848 | `spec_row`: dn_avg, up_avg; `corner_id`: mos_tt/novdd/27C |
+| cp extracted-vs-schematic delta (icp_up_a, icp_dn_a rows), old layout record (`delta_pct`) | % | `rerun_cp` | - | 2 | 0 | -0.051 | 0.173 | `spec_row`: cp_dn.request.icp_dn_a, cp_up.request.icp_up_a; `corner_id`: mos_tt/novdd/27C |
+| loop_filter extracted-vs-schematic delta (t63_nz_s rows), old layout record (`delta_pct`) | % | `rerun_loop_filter` | - | 1 | 0 | 29.646 | 29.646 | `spec_row`: t63_nz_s; `corner_id`: typ/novdd/27C |
+| vco extracted-vs-schematic delta (clk_period_s rows), old layout record (`delta_pct`) | % | `rerun_vco` | - | 1 | 0 | 151.008 | 151.008 | `spec_row`: clk_period_s; `corner_id`: typ/novdd/27C |
+| divider_chain extracted-vs-schematic delta (div_period_s, ck_period_s rows), old layout record (`delta_pct`) | % | `rerun_divider_chain` | - | 2 | 0 | -0.002 | 0 | `spec_row`: ck_period_s, div_period_s; `corner_id`: mos_tt/novdd/27C |
+
 ## SG13CMOS5L: post-layout (PEX) PVT campaigns
 
 ### postlayout-pex-vco

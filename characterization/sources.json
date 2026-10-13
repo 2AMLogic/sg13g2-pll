@@ -230,6 +230,117 @@
    ]
   },
   {
+   "id": "klt-pex-nominal-rerun-pinned",
+   "section": "sg13cmos5l-nominal-pex",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "routed GDS layout/sg13cmos5l-pll/reports/20261003-183059-dc5644a (the OLD layout record RECORD-001 measured, original pre-DR-010 cp); schematic legs and requests as of commit e56e14a. NOT the authoritative layout record 20261010-012952-a4ca1b8 that the klt-pex-nominal entry describes",
+   "context": "extracted (klt pex) vs schematic; `delta_pct` is extracted relative to schematic",
+   "conditions": "mos_tt (+res_typ/cap_typ where present), 27 C, 3.3 V; ngspice-46 x86-64; klt 0.7.1.dev228+g2f51907f7f2e; KLayout 0.30.12; --backend local; dual-tree PDK revisions cited in the record",
+   "method": "unmodified rerun of RECORD-001's klt pex flow on its reconstructed inputs (klt pex envelopes, schema_version 2); one corner per block, nominal only",
+   "record": "sim/sg13cmos5l-klt-pex-signoff/records/RECORD-003-klt-pex-nominal-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "rerun_pfd",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.pfd.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "13e88ac90606fde72af0c0dad441cc4c4cb6750b35681c277c592bbe7dad5789"
+    },
+    {
+     "id": "rerun_cp",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.cp.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "0f7cc2d0fc5497e45abbc0bfc590f759437a8ce35ccd61c9c4136bc4b0c9fc04"
+    },
+    {
+     "id": "rerun_loop_filter",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.loop_filter.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "f7f12a97ae0ef9fc21a4b9bf39e8dc39da2b749858c5acd50ec7357a403c4919"
+    },
+    {
+     "id": "rerun_vco",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.vco.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "c55d5b826f824677439beb1f528b184e9f8eb5f6d6e1fc06bfca9b0e42ef5526"
+    },
+    {
+     "id": "rerun_divider_chain",
+     "path": "sim/sg13cmos5l-klt-pex-signoff/reports/rerun255/pex.divider_chain.json",
+     "kind": "json",
+     "rows_path": "delta",
+     "sha256": "f3eaa7f5d3e9f05af19f876154e98300fbdeceb19cb451fd98f0b3de7a1b5f2f"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "rerun_pfd",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "pfd extracted-vs-schematic delta (up_avg, dn_avg rows), old layout record",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "rerun_cp",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "cp extracted-vs-schematic delta (icp_up_a, icp_dn_a rows), old layout record",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "rerun_loop_filter",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "loop_filter extracted-vs-schematic delta (t63_nz_s rows), old layout record",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "rerun_vco",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "vco extracted-vs-schematic delta (clk_period_s rows), old layout record",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    },
+    {
+     "table": "rerun_divider_chain",
+     "column": "delta_pct",
+     "units": "%",
+     "quantity": "divider_chain extracted-vs-schematic delta (div_period_s, ck_period_s rows), old layout record",
+     "coverage_columns": [
+      "spec_row",
+      "corner_id"
+     ]
+    }
+   ],
+   "notes": [
+    "Reproduces RECORD-001 on the old layout record; it does NOT refresh the current PEX envelopes (layout 20261010-012952-a4ca1b8, RECORD-002) or whole-design sign-off.",
+    "Nominal PEX, one corner per block: this is NOT a PVT result. No request declares limits; `status: pass` means 'ran and compared', not 'met a spec'.",
+    "lock_detector was not run (#157)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "lock-detector-pex"
+   ],
+   "record_sha256": "8a2fdd7b4549e208958de965515ebe68b50146c7eb1919860456a6f65b68edeb"
+  },
+  {
    "id": "postlayout-pex-vco",
    "section": "sg13cmos5l-postlayout-pex-pvt",
    "pdk": "SG13CMOS5L",
