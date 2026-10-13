@@ -518,7 +518,7 @@ the min/max.
 ### lock-detector-bodyfix-nominal
 
 - **PDK**: SG13CMOS5L
-- **Status**: current
+- **Status**: superseded
 - **DUT revision**: lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136; RECORD-005)
 - **Context**: schematic, pre-layout
 - **Conditions**: nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz); bodyfix not re-verified across PVT
@@ -527,6 +527,7 @@ the min/max.
 - **Table `ladder`**: `sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_nominal.csv` (sha256 `e4038f438b07b5b17be0917b7a0fa778eedc1e41dbffcf787587ecf677d9733e`)
 - **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_nominal.csv` (sha256 `97ac47a0bc658b3e9548991edd91fe64daa3f90c7c1d85cd110d157a3e737999`)
 - **Note**: Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
+- **Note**: Superseded as the provenance claim by RECORD-006 (issue #256: ADDENDUM-001 -> RECORD-006-rpu-body-on-vss-rerun-pinned.md, nominal rerun at the pinned dual-tree PDK revisions; every output byte-identical). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
 - **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -534,6 +535,32 @@ the min/max.
 | window width (rising) (`twin_r_s`) | s | `ladder` | - | 1 | 0 | 6.66809e-09 | 6.66809e-09 | `corner_tag`: mos_tt_res_typ_27c_3.3v_3p5MHz_real |
 | hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 1 | 0 | 300 | 300 | `corner_tag`: mos_tt_res_typ_27c_3.3v_3p5MHz_real |
 | schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 1 | 0 | 0.94179 | 0.94179 | `mos_corner`: mos_tt; `temp_c`: 27; `vsup_v`: 3.3 |
+
+### lock-detector-bodyfix-nominal-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136), byte-identical to the producing revision 3fd7967 and to today's design netlist modulo comments (RECORD-006)
+- **Context**: schematic, pre-layout
+- **Conditions**: nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz); ngspice-46 x86-64; klt 0.7.1.dev256; dual-tree PDK revisions cited in the record; bodyfix not re-verified across PVT
+- **Method**: unmodified rerun of RECORD-005's nominal campaign through testbench/run_rerun256.sh (run.sh with the output suffix changed only)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-006-rpu-body-on-vss-rerun-pinned.md` (sha256 `766010fa3bf18872535cbebc48024e58569205751074708744c99ba6a60934a3`)
+- **Table `ladder`**: `sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_nominal_rerun256.csv` (sha256 `e4038f438b07b5b17be0917b7a0fa778eedc1e41dbffcf787587ecf677d9733e`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_nominal_rerun256.csv` (sha256 `97ac47a0bc658b3e9548991edd91fe64daa3f90c7c1d85cd110d157a3e737999`)
+- **Table `window`**: `sim/sg13cmos5l-lock-detector-window/corners/window_bodyfix_nominal_rerun256.csv` (sha256 `f2ee589c47381f328d7bc284dd6e91345c79619be5e6f441c5521069878de5fd`)
+- **Table `rc_extract`**: `sim/sg13cmos5l-lock-detector-window/corners/rc_extract_bodyfix_nominal_rerun256.csv` (sha256 `5c2401af67b3d99b5f70b2e4ea71bce399ca01482c24cb2ef19d5573c94b93fd`)
+- **Table `tstep`**: `sim/sg13cmos5l-lock-detector-window/corners/tstep_convergence_bodyfix_nominal_rerun256.csv` (sha256 `d09457ae685a1bd77604bc98fbd43dece4d5a84b407571995006457d1e88dadd`)
+- **Note**: Rerun evidence for RECORD-005's claim (issue #256): every one of the seven output files is byte-identical to the committed *_bodyfix_nominal.* set RECORD-005 cites, so the two datasets carry the same numbers.
+- **Note**: Nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz): this is NOT a PVT result. Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
+- **Note**: Dual-tree PDK provenance is in the record: ihp-sg13cmos5l 607e18d4 + ihp-sg13g2 5cccb161, ngspice-46, loom-worker-3.
+- **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| window width (rising) (`twin_r_s`) | s | `ladder` | - | 1 | 0 | 6.66809e-09 | 6.66809e-09 | `corner_tag`: mos_tt_res_typ_27c_3.3v_3p5MHz_real |
+| hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 1 | 0 | 300 | 300 | `corner_tag`: mos_tt_res_typ_27c_3.3v_3p5MHz_real |
+| schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 1 | 0 | 0.94179 | 0.94179 | `mos_corner`: mos_tt; `temp_c`: 27; `vsup_v`: 3.3 |
+| bare delaywin_hv window width (rising) (`twin_r_s`) | s | `window` | - | 1 | 0 | 6.66809e-09 | 6.66809e-09 | `corner_tag`: mos_tt_res_typ_27c_3.3v_24p4MHz_real |
 
 ## SG13G2 (non-port design)
 
