@@ -2,6 +2,13 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-13
+
+- **PR #259**: sim: rerun RECORD-005 nominal lock-detector window on pinned dual-tree PDK; superseded addendum
+- **PR #258**: sim: supersede klt-pex-signoff RECORD-001 with pinned nominal rerun (Closes #255)
+- **Issue #256** (closed): Item 9 (#213 child): supersede lock-detector-window RECORD-005 (nominal body-on-VSS)
+- **Issue #255** (closed): Item 9 (#213 child): supersede klt-pex-signoff RECORD-001 (nominal 5-block PEX)
+
 ### 2026-10-12
 
 - **PR #253**: chore(ci): adopt unified IHP-Open-PDK SG13CMOS5L pin for install and netlist CI
