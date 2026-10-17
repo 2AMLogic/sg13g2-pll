@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-17
+
+- **PR #263**: feat(layout): dedupe future layout report artifacts via content-addressed store
+- **Issue #261** (closed): Prepare future layout-output deduplication while preserving historical runs and per-run provenance
+
 ### 2026-10-13
 
 - **PR #259**: sim: rerun RECORD-005 nominal lock-detector window on pinned dual-tree PDK; superseded addendum
