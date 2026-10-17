@@ -9,7 +9,10 @@
 ## Verdict, read off the committed report
 
 `tier: null` — 12 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
-"mixed-signal"`). Grade run:
+"mixed-signal"`). Item 10 moved to `met` on both partitions (#266), and item 1
+moved to `unmet` on both: the klt pin bump that brought the item-10 producer
+also made items 1, 9 and 10 refuse native citations (see "Item 1" and "Item
+10" below), so the count is unchanged. Grade run:
 
 ```
 klt signoff --manifest manifests/sg13g2-pll.json --format json
@@ -122,9 +125,21 @@ against the artifact as committed, not against a file's say-so.
     itself skips them. The block routes supplies/signal on Metal1–Metal3
     only.
 
-### Items 1 and 2 — design sources and layout: all four rows `met`, with a relevance disclosure the grader cannot check
+### Items 1 and 2 — design sources and layout: item 2 `met`, item 1 `unmet` since the #266 pin bump; a relevance disclosure the grader cannot check
 
-Items 1 and 2 bind to no `klt` verb: `klt signoff` grades them on whether
+**Item 1 is `unmet`/`wrong_kind` on both partitions as of the #266 pin bump.**
+At the pin used by the earlier version of this report, items 1 and 2 accepted
+any fresh passing native envelope. The current pin (klayout-tools#2844)
+accepts only an artifact-anchored `generic` attestation for items 1, 9 and 10
+(produced by `klt signoff --attest`), so the `1.analog`/`1.digital` LVS
+citations in the table below are no longer accepted; the rows are kept in the
+manifest so the change is visible, and they are the evidence an item-1
+inventory would be built from. Item 2 still accepts native citations and is
+unchanged. Attesting item 1 (`klt signoff --attest 1`) is tracked in #267
+and was out of scope for #266. The rest of this section describes the
+sources and the gap behind the old citations and still holds.
+
+Items 1 and 2 bound to no `klt` verb at the previous pin: `klt signoff` graded them on whether
 *some* passing native envelope was cited and fresh against its pinned
 `content_hash`, **not** on topical relevance (`docs/cli/signoff.md` → "Items
 1, 2, 9, and 10"). A `met` row here therefore means "a fresh passing
@@ -442,12 +457,53 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 
 | Item | `reason` | The claim-compatible state behind it |
 | --- | --- | --- |
-| 9, 10 | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`), repo hygiene — but these items bind to **no `klt` verb**, and citing an unrelated passing envelope to turn them green is the dishonesty this file exists to prevent (`docs/cli/signoff.md` → "the safest default is to leave them uncited"). |
+| 1 (both rows) | `wrong_kind` | Since the #266 pin bump (klayout-tools#2844) item 1 accepts only a `klt signoff --attest 1` envelope; the cited LVS envelopes are native and are refused. The committed schematics and the netlists derived from them exist, with freshness enforced by `netlist.yml`, but no item-1 inventory or envelope has been produced yet. |
+| 9 (both rows) | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`) — and item 9 does bind to a verb (`klt signoff --attest 9`), so it is **not** "unbindable". It stays uncited because the `check_testbench_coverage.py` gate still carries 37 grandfathered pre-gate records (#182, #198) and an item-9 attestation is owned by the #199 campaign. Citing an unrelated passing envelope to turn it green is the dishonesty this file exists to prevent. |
+| 10 | — | **No longer `unmet`: both rows `met`** (see "Item 10" below). |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
 | 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
 | 8 | `no_evidence` | `characterization/SUMMARY.md` now exists (generated and CI-checked, #171), but it is **deliberately not cited**. See "Item 8 decision (#171)" below. |
 | 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
+
+## Item 10 — repo hygiene: both rows `met`, from a `klt signoff --attest 10` envelope (#266)
+
+| Row | Cites | Pinned to |
+| --- | --- | --- |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `9e36e959…261b9` |
+| `10.digital` | the same envelope | the same inventory hash |
+
+Both partitions cite the one envelope, as the manifest requires for a
+mixed-signal block. The envelope is tool-produced (`klt signoff --attest 10
+--inventory manifests/inventories/item-10.json -o …`); nothing in it is
+hand-written, and nothing is borrowed from another item's evidence.
+
+**What the attestation checks.** Each of the hygiene files exists and is
+hashed: `README.md`, `LICENSE`, `spec/target-spec.md` and the three workflows
+`.github/workflows/{signoff,layout-tests,netlist}.yml`. Sixteen audit commands
+then each run, without a shell, from the repo root and must exit 0: the
+records checker and its unit tests, the summary generator's unit tests and
+`--check`, and the six `manifests/check_*` gates with their unit tests (the
+same offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
+--attest 10 --inventory … --check …` re-attests and diffs against the
+committed envelope, so an edited or missing hygiene file, or a failing gate,
+fails the `grade` job.
+
+**What it does not check.**
+
+- It does not run the CI workflows, simulations, DRC/LVS or the netlist
+  regeneration (`netlist.yml`, `layout-tests.yml`); those need xschem, a
+  simulator or network, and CI runs them itself. The workflows are attested
+  as present and unchanged, not as green.
+- It does not run `check_records.py --base` (append-only enforcement), which
+  needs a PR base ref; `signoff.yml` still runs it on pull requests.
+- It does not judge the content of the README or the spec. The README's spec
+  table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
+  asks for "its spec table", not a ratified one; ratification is item 5's
+  precondition (#148), and `spec/` is unchanged here.
+- The manifest pin binds the inventory file only. A change to an inventoried
+  file leaves the pin fresh and is caught by the `--check` step, not by the
+  manifest grade.
 
 ## Item 8 decision (#171): characterization summary exists, item stays `unmet`
 
@@ -458,8 +514,9 @@ regenerates it, byte-compares it, and re-checks every source hash and every
 min/max, with no simulation). It is not cited from the manifest.
 
 **Grader-contract check.** Re-read against the pin in
-`.github/workflows/signoff.yml` (`e6284fbe62e2`, `klt 0.6.0+ge6284fbe62e2`;
-`docs/cli/signoff.md`, "Generic evidence"), item 8 accepts a `generic` evidence
+`.github/workflows/signoff.yml` (at the time, `e6284fbe62e2`, `klt
+0.6.0+ge6284fbe62e2`; `docs/cli/signoff.md`, "Generic evidence"; not
+re-read at the #266 bump to `44cc42323184`, and item 8 is still uncited), item 8 accepts a `generic` evidence
 envelope and nothing else (kind-restricted since klayout-tools#2044):
 `schema_version: 1`, `kind: "generic"`, `status: "pass"|"fail"` (caller-asserted,
 never re-derived), optional `summary`, `source`, `provenance`. Only
@@ -492,18 +549,34 @@ The grade is meaningful only tied to the build that produced it — the
 committed `build` block of [`sg13g2-pll.tier-report.json`](sg13g2-pll.tier-report.json):
 
 ```
-klt 0.6.0+ge6284fbe62e2  (klayout-tools @ e6284fbe62e25d9b293eed07889cb80a0b87e2f4,
-dirty: false, grading_ruleset_id: sha256:9f99f04d…)
+klt 0.7.1.dev1744+g44cc42323184  (klayout-tools @ 44cc42323184a2f3a440b89789bf174488a6b1e4,
+dirty: false, grading_ruleset_id: sha256:903c4365…)
 ```
 
-the first upstream commit whose manifest evidence bindings accept an
-RFC 6901 `"pointer"` (klayout-tools#2376), which the item-4 citations need
-to reach the `klt lvs` envelope under `/response` of the committed wrapper
-reports. The previous pin (`b15edf5e3a2e`, klt 0.5.0) has no `pointer`
-support, so it could not grade these citations; the PyPI `0.5.0` release
-(10-item doc, no item-11 ruleset) still cannot re-grade this file.
+a commit containing the `klt signoff --attest` producer (klayout-tools#2844,
+needed for item 10) and still accepting the RFC 6901 `"pointer"` bindings
+(klayout-tools#2376) that the item-4 citations use. The #266 bump moved from
+`e6284fbe62e2` (klt 0.6.0, KLayout 0.30.10) to `44cc42323184` (KLayout
+0.30.12, from that commit's `uv.lock`).
 
-**Checklist diff between pins** (`b15edf5e3a2e` to `e6284fbe62e2`): the
+**Rows that moved at the #266 bump** (committed report before and after,
+row by row on id, partition, status, reason): `10.analog` and `10.digital`
+`unmet/no_evidence` to `met` (the goal); `1.analog` and `1.digital` `met` to
+`unmet/wrong_kind` (a consequence of the tool, not of any artifact change:
+classified at `67e684ed`, the merge of klayout-tools#2844, and the grade does
+not move at `67e684ed~1`, which has no producer; no commit that has the
+`--attest` producer keeps item 1 `met` on a native citation). Every other row
+is identical, including the `1`/`2`/`3`/`4`/`7`/`11` rows that stay `met` and
+`5`/`6`/`8`/`9` that stay `unmet/no_evidence`; T2-T4 stay
+`tier_not_supported`. Top-level fields that moved: `build` and
+`source_doc_content_hash` (the checklist doc changed upstream; the 22-item
+denominator is unchanged).
+
+The previous pins' history: `b15edf5e3a2e` (klt 0.5.0) had no `pointer`
+support, so it could not grade the item-4 citations; the PyPI `0.5.0`
+release (10-item doc, no item-11 ruleset) still cannot re-grade this file.
+
+**Checklist diff between the earlier pins** (`b15edf5e3a2e` to `e6284fbe62e2`; superseded by the #266 bump above, kept for history): the
 tier doc `docs/design-evidence-tiers.md` changed (ruleset id
 `1a01464d…` to `9f99f04d…`, doc hash changed) but the denominator stays
 22 (11 items x 2 partitions), and comparing the committed 0.5.0 report with
@@ -511,18 +584,19 @@ the fresh 0.6.0 grade row by row (id, partition, status, reason, title) the
 only changes are `4.analog` and `4.digital` going `unmet/no_evidence` to
 `met`. Items 3 and 11.digital remain `met`; `klayout` stays pinned at
 `0.30.10`. The tier-doc additions are partition-boundary reporting and
-extra ERC tie reasons, which do not affect these rows. Install
-the grader from a **clean clone** of the pinned commit — a
+extra ERC tie reasons, which do not affect these rows.
+
+Install the grader from a **clean clone** of the pinned commit — a
 `git+https://…@<commit>` direct install builds from a dirty temp checkout
 and reports `dirty: true` in the report's build block:
 
 ```bash
 git clone https://github.com/2AMLogic/klayout-tools /tmp/klt
-git -C /tmp/klt checkout e6284fbe62e25d9b293eed07889cb80a0b87e2f4
+git -C /tmp/klt checkout 44cc42323184a2f3a440b89789bf174488a6b1e4
 python3 -m venv /tmp/klt-venv
 # klayout pinned to this commit's own uv.lock entry (KLAYOUT_VERSION_EXPECTED)
-/tmp/klt-venv/bin/pip install -q "klayout==0.30.10" /tmp/klt
-/tmp/klt-venv/bin/klt --version   # klt 0.6.0+ge6284fbe62e2
+/tmp/klt-venv/bin/pip install -q "klayout==0.30.12" /tmp/klt
+/tmp/klt-venv/bin/klt --version   # klt 0.7.1.dev1744+g44cc42323184
 ```
 
 and the committed report is reproduced with the grade re-run from the
@@ -532,7 +606,15 @@ process's working directory — no manifest-relative anchoring):
 ```bash
 /tmp/klt-venv/bin/klt signoff --manifest manifests/sg13g2-pll.json --format json \
   | diff - manifests/sg13g2-pll.tier-report.json
+/tmp/klt-venv/bin/klt signoff --attest 10 --inventory manifests/inventories/item-10.json \
+  --check manifests/inventories/item-10.envelope.json   # exit 0 = still attests
 ```
+
+Regenerate the item-10 envelope with the same command plus
+`-o manifests/inventories/item-10.envelope.json` whenever an inventoried
+file (the hygiene files, including `signoff.yml`) or the inventory changes,
+then regenerate the tier report. The hygiene files are hashed into the
+envelope, so editing one without re-attesting fails CI.
 
 ## CI — the gate that keeps this honest
 

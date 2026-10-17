@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 10,
+  "summary": "T1 item 10 (Repo hygiene): 22/22 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/inventories/item-10.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 22,
+    "passed_count": 22,
+    "checks": [
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/layout-tests.yml",
+        "passed": true,
+        "content_hash": "sha256:294307a6d0b3e92d3b21589cb19087188ea2498fe893448928c25b11b3617cc4"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/netlist.yml",
+        "passed": true,
+        "content_hash": "sha256:474428807ce74842b9ce3cb5995c473eb75c14d7d1170e108b4655786e2d0b3f"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/signoff.yml",
+        "passed": true,
+        "content_hash": "sha256:5f101b0bdfc351e5479ebdadbe6137bcfc84919e716a6dfd072c4a023ba9b6c3"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "LICENSE",
+        "passed": true,
+        "content_hash": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "README.md",
+        "passed": true,
+        "content_hash": "sha256:821e0c1fc448d7426821270779f2e7f250cfd050688b6654d0de57ca8f664b45"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": "spec/target-spec.md",
+        "passed": true,
+        "content_hash": "sha256:d8eca726195b70fec15eb343d51ad43058b26ccf9d7b13f83cf92a037772b02f"
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "records-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "characterization/test_check_records.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "records-format",
+        "argv": [
+          "python3",
+          "-B",
+          "characterization/check_records.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "summary-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "characterization/test_gen_summary.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "summary-fresh",
+        "argv": [
+          "python3",
+          "-B",
+          "characterization/gen_summary.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "lvs-coverage",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_lvs_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "lvs-coverage-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_lvs_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "drc-coverage",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_drc_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "drc-coverage-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_drc_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "erc-coverage",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_erc_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "erc-coverage-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_erc_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pex-coverage",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_pex_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pex-coverage-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_pex_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "testbench-coverage",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_testbench_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "testbench-coverage-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_testbench_coverage.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "spec-citations",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_spec_citations.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "spec-citations-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_spec_citations.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.7.1.dev1744+g44cc42323184",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/inventories/item-10.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:9e36e9597fed02501d57bd5b31489f7b7208eb86f0a0685e9a9490424f7261b9"
+    }
+  }
+}

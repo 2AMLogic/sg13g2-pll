@@ -3,10 +3,11 @@ name: klt signoff (block tier report)
 # The graded-T1-state gate for manifests/sg13g2-pll.json (issue #104).
 #
 # Re-runs `klt signoff --manifest` at a pinned upstream commit
-# (e6284fbe62e2, klt 0.6.0+ge6284fbe62e2: the first commit whose manifest
-# evidence bindings accept an RFC 6901 "pointer", klayout-tools#2376, which
-# the item-4 citations need to reach the klt envelope under /response of the
-# LVS wrapper reports; the 11-item tier doc is unchanged in effect, see
+# (44cc42323184, klt 0.7.1.dev1744+g44cc42323184, klayout 0.30.12 from its
+# uv.lock: a commit containing the `klt signoff --attest` producer,
+# klayout-tools#2844, which item 10 needs, and still accepting the RFC 6901
+# "pointer" bindings, klayout-tools#2376, that the item-4 citations use to
+# reach the klt envelope under /response of the LVS wrapper reports; see
 # manifests/README.md), then byte-compares the fresh report against
 # manifests/sg13g2-pll.tier-report.json — the verdict of record the
 # gap-to-T1 tracker (issue #6) points at. A separate step first runs
@@ -145,14 +146,14 @@ jobs:
         run: |
           set -euo pipefail
           git clone --quiet https://github.com/2AMLogic/klayout-tools "$RUNNER_TEMP/klt"
-          git -C "$RUNNER_TEMP/klt" checkout --quiet e6284fbe62e25d9b293eed07889cb80a0b87e2f4
+          git -C "$RUNNER_TEMP/klt" checkout --quiet 44cc42323184a2f3a440b89789bf174488a6b1e4
           python -m venv "$RUNNER_TEMP/klt-venv"
           # klayout is pinned to the graded commit's own uv.lock entry
-          # (0.30.10 at this build, unchanged from the previous pin) so the
+          # (0.30.12 at this build; the previous pin used 0.30.10) so the
           # engine that produced the committed report is the engine that
           # re-grades it — the byte-compare below must not drift on a
           # dependency floor resolving to a newer wheel.
-          "$RUNNER_TEMP/klt-venv/bin/pip" install --quiet "klayout==0.30.10" "$RUNNER_TEMP/klt"
+          "$RUNNER_TEMP/klt-venv/bin/pip" install --quiet "klayout==0.30.12" "$RUNNER_TEMP/klt"
           "$RUNNER_TEMP/klt-venv/bin/klt" --version
 
       - name: Re-run the block grade (command-backed citations re-run live)
@@ -173,6 +174,18 @@ jobs:
           else
             echo "klt signoff exit 0: every rendered T1 item is met."
           fi
+
+      # T1 item 10: the attestation envelope is produced by `klt signoff
+      # --attest 10` from manifests/inventories/item-10.json. Re-attesting
+      # re-runs every inventoried check and diffs the envelope, so a changed
+      # or missing hygiene file, or a failing audit command, fails here
+      # (the manifest pin alone only binds the inventory file itself).
+      - name: Re-attest T1 item 10 (repo hygiene inventory vs committed envelope)
+        run: |
+          PATH="$RUNNER_TEMP/klt-venv/bin:$PATH" \
+            klt signoff --attest 10 \
+              --inventory manifests/inventories/item-10.json \
+              --check manifests/inventories/item-10.envelope.json
 
       - name: Byte-compare the fresh grade against the committed verdict
         run: |
