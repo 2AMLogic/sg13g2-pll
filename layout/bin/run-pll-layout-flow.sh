@@ -47,5 +47,10 @@ python3 "$HERE/pll_layout.py" \
 
 python3 "$HERE/render-pll-record.py" "$RECORD_DIR" "$KLT" "$PDK_VARIANT" "${PDK_ROOT:-}"
 
+# Storage only (issue #261): move large artifacts into the shared immutable
+# reports/objects/ store, leave same-path symlinks, write artifacts.json and
+# verify every reference. record.md/plan.json/build.json stay inline.
+python3 "$HERE/record_store.py" dedupe "$RECORD_DIR"
+
 echo "$RECORD_ID" > "$PLL_DIR/reports/LATEST"
 echo "run-pll-layout-flow.sh: done -- $RECORD_DIR/record.md"
