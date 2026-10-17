@@ -88,6 +88,7 @@ layout/
     pll_cmos5l_layout.py           # SG13CMOS5L: plan -> draw -> klt drc/extract/lvs -> compose
     run-pll-cmos5l-layout-flow.sh  # SG13CMOS5L driver
     render-pll-cmos5l-record.py    # renders a SG13CMOS5L record's record.md
+    record_store.py                # content-addressed dedupe + verify of a finished record
     setup-venv.sh                  # create/refresh layout/.venv from requirements.txt
   tests/                           # PDK-free unit coverage (plan + geometry, no klt subprocess)
   .venv/                           # gitignored -- klt install, created by setup-venv.sh

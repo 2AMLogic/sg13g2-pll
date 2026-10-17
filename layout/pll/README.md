@@ -236,7 +236,23 @@ layout/pll/
       compose.<block>.response.json  # ...and its response
       extract.pll_<block>.json       # the composed block cell's own `klt extract` result
       <group>.gds / pll_<block>.gds  # the drawn/composed streams themselves
+      artifacts.json         # (records from issue #261 on) sha256/size/storage
+                             # of every file below record.md/plan.json/build.json
+    objects/<sha256>         # shared, immutable, read-only content store
 ```
+
+**Deduplicated storage (issue #261).** From the first record written after
+that change, the driver moves each artifact of 64 KiB or more into
+`reports/objects/<sha256>` and leaves a relative symlink at the original
+path, so every path above still resolves. `record.md`, `plan.json` and
+`build.json` are always inline, so each run keeps its own outcome and
+failure evidence. Records written before this change are plain files and are
+never touched. `layout/bin/record_store.py verify <record-dir>` fails on a
+missing, dangling or corrupt reference; an object that does not hash to its
+name is refused, not reused. This changes storage only: a run that was not
+executed has no record, and reuse never stands in for a rerun. The first
+deduplicated record stores its full artifact set once; savings appear only
+from later runs, and none is measured here.
 
 `<record-id>` mirrors `sim/`'s `<YYYYMMDD>-<HHMMSS>-<short-git-sha>` (UTC)
 convention (see `sim/README.md`) — including the `-dirty` suffix's meaning:

@@ -787,6 +787,16 @@ layout/sg13cmos5l-pll/
                                    #   `sg13_lv_*` is actually visible
 ```
 
+**Deduplicated storage (issue #261).** From the first record written after
+that change, artifacts of 64 KiB or more are moved into the shared immutable
+`reports/objects/<sha256>` store and replaced by a same-path relative
+symlink; `record.md`, `plan.json` and `build.json` stay inline, and an
+`artifacts.json` lists every other file's sha256, size and storage kind.
+Earlier records are plain files and are never touched.
+`layout/bin/record_store.py verify <record-dir>` fails on a missing,
+dangling or corrupt reference. Storage only: per-run outcomes are unchanged,
+and reuse never substitutes for a rerun. No saving is measured here.
+
 The `gen-compose.probe.block-*` and `gen.probe.*`/`genprobe_*` artifacts are
 **evidence about the tools, not part of the layout**: nothing they draw is
 composed, routed, LVS'd, or counted in this record's verdict. See
