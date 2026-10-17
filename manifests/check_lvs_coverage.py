@@ -82,8 +82,9 @@ def check_block(record, block, kind="lvs"):
 def check_manifest(manifest_path, record):
     errs = []
     ev = json.loads(Path(manifest_path).read_text()).get("evidence", {})
+    # Items 1.* are not listed: since #267 they cite the item-1 attestation
+    # envelope, not this record.
     cites = (
-        ("1.analog", "lvs", "lock_detector"), ("1.digital", "lvs", DIGITAL_BLOCK),
         ("2.analog", "extract", "lock_detector"), ("2.digital", "extract", DIGITAL_BLOCK),
         ("4.analog", "lvs", "lock_detector"), ("4.digital", "lvs", DIGITAL_BLOCK),
     )

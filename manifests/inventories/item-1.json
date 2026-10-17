@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 1,
+  "description": "T1 item 1 (design sources) for sg13g2-pll (#267): the committed xschem schematics and the 12 SPICE netlists exported from them. Each netlist's check is manifests/check_netlist_stamp.py, an xschem-free digest stamp (signoff.yml installs no xschem); the xschem regeneration gate is netlist.yml.",
+  "sources": [
+    "design/cp.sch",
+    "design/cp_dumpbuf.sch",
+    "design/cp_leg_n.sch",
+    "design/cp_leg_p.sch",
+    "design/delaywin_hv.sch",
+    "design/dff_tg_hv.sch",
+    "design/div23_cell.sch",
+    "design/divider_chain.sch",
+    "design/edgedet.sch",
+    "design/inv2x_hv.sch",
+    "design/inv_hv.sch",
+    "design/lock_detector.sch",
+    "design/loop_filter.sch",
+    "design/nand2_hv.sch",
+    "design/nand3_hv.sch",
+    "design/nor2_hv.sch",
+    "design/pfd.sch",
+    "design/schmitt_hv.sch",
+    "design/sg13cmos5l/cp.sch",
+    "design/sg13cmos5l/cp_dumpbuf.sch",
+    "design/sg13cmos5l/cp_leg_n.sch",
+    "design/sg13cmos5l/cp_leg_p.sch",
+    "design/sg13cmos5l/delaywin_hv.sch",
+    "design/sg13cmos5l/dff_tg_hv.sch",
+    "design/sg13cmos5l/div23_cell.sch",
+    "design/sg13cmos5l/divider_chain.sch",
+    "design/sg13cmos5l/edgedet.sch",
+    "design/sg13cmos5l/inv2x_hv.sch",
+    "design/sg13cmos5l/inv_hv.sch",
+    "design/sg13cmos5l/lock_detector.sch",
+    "design/sg13cmos5l/loop_filter.sch",
+    "design/sg13cmos5l/nand2_hv.sch",
+    "design/sg13cmos5l/nand3_hv.sch",
+    "design/sg13cmos5l/nor2_hv.sch",
+    "design/sg13cmos5l/pfd.sch",
+    "design/sg13cmos5l/schmitt_hv.sch",
+    "design/sg13cmos5l/srlatch.sch",
+    "design/sg13cmos5l/tgate_hv.sch",
+    "design/sg13cmos5l/vco.sch",
+    "design/sg13cmos5l/vco_bias.sch",
+    "design/sg13cmos5l/vco_stage.sch",
+    "design/sg13cmos5l/xor2_hv.sch",
+    "design/srlatch.sch",
+    "design/tgate_hv.sch",
+    "design/vco.sch",
+    "design/vco_bias.sch",
+    "design/vco_stage.sch",
+    "design/xor2_hv.sch"
+  ],
+  "derived": [
+    {
+      "path": "design/netlist/cp.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/cp.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/netlist/divider_chain.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/divider_chain.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/netlist/lock_detector.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/lock_detector.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/netlist/loop_filter.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/loop_filter.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/netlist/pfd.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/pfd.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/netlist/vco.spice",
+      "generator": "design/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/vco.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/cp.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/cp.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/divider_chain.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/divider_chain.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/lock_detector.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/lock_detector.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/loop_filter.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/loop_filter.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/pfd.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/pfd.spice"
+        ]
+      }
+    },
+    {
+      "path": "design/sg13cmos5l/netlist/vco.spice",
+      "generator": "design/sg13cmos5l/netlist.sh",
+      "check": {
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/vco.spice"
+        ]
+      }
+    }
+  ]
+}
