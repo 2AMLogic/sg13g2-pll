@@ -8,11 +8,10 @@
 
 ## Verdict, read off the committed report
 
-`tier: null` — 12 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
-"mixed-signal"`). Item 10 moved to `met` on both partitions (#266), and item 1
-moved to `unmet` on both: the klt pin bump that brought the item-10 producer
-also made items 1, 9 and 10 refuse native citations (see "Item 1" and "Item
-10" below), so the count is unchanged. Grade run:
+`tier: null` — 14 of 22 T1 items `met` (22 = 11 items × 2 partitions, `kind:
+"mixed-signal"`). Item 10 moved to `met` on both partitions (#266); item 1 went
+`unmet` on both at that pin bump and is `met` again from a
+`klt signoff --attest 1` envelope (#267; see "Items 1 and 2"). Grade run:
 
 ```
 klt signoff --manifest manifests/sg13g2-pll.json --format json
@@ -125,18 +124,32 @@ against the artifact as committed, not against a file's say-so.
     itself skips them. The block routes supplies/signal on Metal1–Metal3
     only.
 
-### Items 1 and 2 — design sources and layout: item 2 `met`, item 1 `unmet` since the #266 pin bump; a relevance disclosure the grader cannot check
+### Items 1 and 2 — design sources and layout: both `met`; item 1 from a `klt signoff --attest 1` envelope (#267)
 
-**Item 1 is `unmet`/`wrong_kind` on both partitions as of the #266 pin bump.**
-At the pin used by the earlier version of this report, items 1 and 2 accepted
-any fresh passing native envelope. The current pin (klayout-tools#2844)
-accepts only an artifact-anchored `generic` attestation for items 1, 9 and 10
-(produced by `klt signoff --attest`), so the `1.analog`/`1.digital` LVS
-citations in the table below are no longer accepted; the rows are kept in the
-manifest so the change is visible, and they are the evidence an item-1
-inventory would be built from. Item 2 still accepts native citations and is
-unchanged. Attesting item 1 (`klt signoff --attest 1`) is tracked in #267
-and was out of scope for #266. The rest of this section describes the
+**Item 1 is `met` on both partitions from an artifact-anchored attestation
+(#267).** The pin that brought the item-10 producer (klayout-tools#2844, #266)
+accepts only a `generic` attestation for items 1, 9 and 10, so the native
+`klt lvs` citations item 1 used to carry were refused (`unmet`/`wrong_kind`).
+`1.analog` and `1.digital` now both cite
+[`inventories/item-1.envelope.json`](inventories/item-1.envelope.json), bound to
+inventory [`inventories/item-1.json`](inventories/item-1.json) (`sources`: the 48
+`design/**/*.sch`; `derived`: the 12 committed netlists, 6 per PDK tree). The
+envelope hashes every source and netlist, so a drifted schematic or netlist fails
+`klt signoff --attest 1 --check` in `signoff.yml`. Item 2 still accepts native
+citations and is unchanged.
+
+**Disclosed gap: no xschem in `signoff.yml`.** Each derived netlist's freshness
+`check` is the offline [`check_netlist_stamp.py`](check_netlist_stamp.py): it
+compares every `*.sch`/`*.sym` in a tree and each netlist against
+[`../design/netlist.stamp.json`](../design/netlist.stamp.json), so editing a
+source or a netlist without re-stamping fails. It does **not** regenerate: it
+cannot show the stamped netlist equals what xschem emits for the stamped
+sources. That regeneration gate stays `netlist.yml` (`design/netlist.sh --check`,
+runner-apt xschem). After a design change: run both `netlist.sh`, get
+`netlist.yml` green, `python3 manifests/check_netlist_stamp.py --update`, then
+re-attest and regrade (commands under "Reproducing the grade").
+
+The rest of this section describes the
 sources and the gap behind the old citations and still holds.
 
 Items 1 and 2 bound to no `klt` verb at the previous pin: `klt signoff` graded them on whether
@@ -457,7 +470,7 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 
 | Item | `reason` | The claim-compatible state behind it |
 | --- | --- | --- |
-| 1 (both rows) | `wrong_kind` | Since the #266 pin bump (klayout-tools#2844) item 1 accepts only a `klt signoff --attest 1` envelope; the cited LVS envelopes are native and are refused. The committed schematics and the netlists derived from them exist, with freshness enforced by `netlist.yml`, but no item-1 inventory or envelope has been produced yet. |
+| 1 (both rows) | — | **No longer `unmet`: both rows `met`** (#267; see "Items 1 and 2"). Cited from a `klt signoff --attest 1` envelope; the per-netlist freshness check is an offline digest stamp, not an xschem regeneration (disclosed there).
 | 9 (both rows) | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`) — and item 9 does bind to a verb (`klt signoff --attest 9`), so it is **not** "unbindable". It stays uncited because the `check_testbench_coverage.py` gate still carries 37 grandfathered pre-gate records (#182, #198) and an item-9 attestation is owned by the #199 campaign. Citing an unrelated passing envelope to turn it green is the dishonesty this file exists to prevent. |
 | 10 | — | **No longer `unmet`: both rows `met`** (see "Item 10" below). |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
@@ -608,9 +621,11 @@ process's working directory — no manifest-relative anchoring):
   | diff - manifests/sg13g2-pll.tier-report.json
 /tmp/klt-venv/bin/klt signoff --attest 10 --inventory manifests/inventories/item-10.json \
   --check manifests/inventories/item-10.envelope.json   # exit 0 = still attests
+/tmp/klt-venv/bin/klt signoff --attest 1 --inventory manifests/inventories/item-1.json \
+  --check manifests/inventories/item-1.envelope.json    # exit 0 = still attests
 ```
 
-Regenerate the item-10 envelope with the same command plus
+Regenerate the item-1 envelope likewise (`--attest 1`, `-o …/item-1.envelope.json`) after a design change. Regenerate the item-10 envelope with the same command plus
 `-o manifests/inventories/item-10.envelope.json` whenever an inventoried
 file (the hygiene files, including `signoff.yml`) or the inventory changes,
 then regenerate the tier report. The hygiene files are hashed into the

@@ -96,7 +96,8 @@ def check_manifest(manifest_path, record, cites=True):
     """Citations resolve into the record; the live item-3 command binds to it."""
     errs = []
     ev = json.loads(Path(manifest_path).read_text()).get("evidence", {})
-    for key in (("1.analog", "1.digital", "2.analog", "2.digital", "4.analog", "4.digital") if cites else ()):
+    # Items 1.* cite the item-1 attestation envelope (#267), not this record.
+    for key in (("2.analog", "2.digital", "4.analog", "4.digital") if cites else ()):
         c = ev.get(key)
         if not isinstance(c, dict) or Path(c.get("file", "")).parent != record:
             errs.append(f"manifest: {key} does not cite the record {record}")

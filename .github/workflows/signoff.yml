@@ -187,6 +187,21 @@ jobs:
               --inventory manifests/inventories/item-10.json \
               --check manifests/inventories/item-10.envelope.json
 
+      # T1 item 1: the attestation envelope is produced by `klt signoff
+      # --attest 1` from manifests/inventories/item-1.json. Re-attesting fails
+      # if a source schematic or derived netlist drifts (both are hashed into
+      # the envelope) or a netlist is stale against manifests/check_netlist_stamp.py.
+      # Honest gap: this job installs no xschem, so the per-netlist freshness
+      # check is that offline digest stamp, not a regeneration; the xschem
+      # regeneration gate is netlist.yml (design/netlist.sh --check).
+      - name: Re-attest T1 item 1 (design sources + netlists vs committed envelope)
+        run: |
+          python3 manifests/test_check_netlist_stamp.py
+          PATH="$RUNNER_TEMP/klt-venv/bin:$PATH" \
+            klt signoff --attest 1 \
+              --inventory manifests/inventories/item-1.json \
+              --check manifests/inventories/item-1.envelope.json
+
       - name: Byte-compare the fresh grade against the committed verdict
         run: |
           set -euo pipefail

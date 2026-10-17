@@ -5,7 +5,7 @@
   "tier": null,
   "t1_item_count": 22,
   "build_t1_item_count": 22,
-  "t1_met_count": 12,
+  "t1_met_count": 14,
   "source_doc": "docs/design-evidence-tiers.md",
   "source_doc_content_hash": "sha256:a26b90262320d0fbd32b3f549a02b6300832706041797a559d8bf6bdb62efdc7",
   "build": {
@@ -25,10 +25,35 @@
       "partition": "analog",
       "text": "committed schematic sources (or generator) plus the netlist derived from them, regenerated on design change.",
       "notes": [],
-      "status": "unmet",
-      "reason": "wrong_kind",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/inventories/item-1.envelope.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:47b4834558b74e322ac26ed7643eb38a3c52b62f594f2cd358daf4ec7d448a38",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 1,
+          "path": {
+            "path": "manifests/inventories/item-1.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:47b4834558b74e322ac26ed7643eb38a3c52b62f594f2cd358daf4ec7d448a38",
+          "input_verified": true,
+          "summary": "T1 item 1 (Design sources): 72/72 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/inventories/item-1.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 72,
+            "passed_count": 72
+          }
+        }
+      }
     },
     {
       "tier": "T1",
@@ -37,10 +62,35 @@
       "partition": "digital",
       "text": "committed RTL sources plus the synthesized gate-level netlist derived from them, regenerated on design change. For a hand-captured full-custom digital partition (no RTL, no synthesis step \u2014 see \"Full-custom digital sub-case\" above), this item is satisfied instead by the Analog column's artifact: committed schematic sources (or generator) plus the netlist derived from them, regenerated on design change, with every logic gate captured as a schematic exactly like an analog partition's.",
       "notes": [],
-      "status": "unmet",
-      "reason": "wrong_kind",
+      "status": "met",
+      "reason": null,
       "graded_by_build": true,
-      "citation": null
+      "citation": {
+        "file": "manifests/inventories/item-1.envelope.json",
+        "command": null,
+        "kind": "generic",
+        "check_status": "pass",
+        "content_hash": "sha256:47b4834558b74e322ac26ed7643eb38a3c52b62f594f2cd358daf4ec7d448a38",
+        "input_verified": true,
+        "exit_status": 0,
+        "artifact_binding": {
+          "t1_item": 1,
+          "path": {
+            "path": "manifests/inventories/item-1.json",
+            "scope": "repo"
+          },
+          "content_hash": "sha256:47b4834558b74e322ac26ed7643eb38a3c52b62f594f2cd358daf4ec7d448a38",
+          "input_verified": true,
+          "summary": "T1 item 1 (Design sources): 72/72 attestation checks passed (klt signoff --attest)",
+          "source": "manifests/inventories/item-1.json",
+          "attestation": {
+            "producer": "klt signoff --attest",
+            "inventory_schema_version": 1,
+            "check_count": 72,
+            "passed_count": 72
+          }
+        }
+      }
     },
     {
       "tier": "T1",

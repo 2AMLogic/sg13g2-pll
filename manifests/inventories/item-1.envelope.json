@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "kind": "generic",
+  "status": "pass",
+  "t1_item": 1,
+  "summary": "T1 item 1 (Design sources): 72/72 attestation checks passed (klt signoff --attest)",
+  "source": "manifests/inventories/item-1.json",
+  "attestation": {
+    "producer": "klt signoff --attest",
+    "inventory_schema_version": 1,
+    "hash_algorithm": "sha256-raw-bytes",
+    "check_count": 72,
+    "passed_count": 72,
+    "checks": [
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp.sch",
+        "passed": true,
+        "content_hash": "sha256:7c87b60e6928c6a2eb305e85821ce3f8726548e562f70023e602e08e6845ddb5"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_dumpbuf.sch",
+        "passed": true,
+        "content_hash": "sha256:6228a831f3fe045294e3617c200916a68e5ac2672f75469dae2ead468dee0451"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_n.sch",
+        "passed": true,
+        "content_hash": "sha256:c869a2658c7ce4d57a7247a503dc9542e4ddc18b5ecaa6113af0bb66fd10b2d8"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/cp_leg_p.sch",
+        "passed": true,
+        "content_hash": "sha256:5f351e235d58cf1d91da86d8e2560bc64bfccb4d0fb918b2c72d959759881a5c"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/delaywin_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:9cb7895e84eb68eb31414835178cfff32c2e872a5aa93d27ccacb35682579d7b"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/dff_tg_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:81df47990458f60ff6073bc4bc1f04aebfb08a65cbc04f1cbc2be5b30c5ab04b"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/div23_cell.sch",
+        "passed": true,
+        "content_hash": "sha256:2f51152571cafd5afb2ae877a39a3373903e190123a74c97a3ea36e458e654cd"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/divider_chain.sch",
+        "passed": true,
+        "content_hash": "sha256:f6f052d57c5c26b7b5e0ff155b00ff3653fb9bf389645ba8301eff1bcec6bc0c"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/edgedet.sch",
+        "passed": true,
+        "content_hash": "sha256:ebb49a2ae24fa33b1fd2363d316bb93f7d9f00e687903e59ec88dacffa82c79f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/inv2x_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:1347b87e212d8b2b5da92ad08dcdd844cee73d9bb95d799d3f55edfde1ea5fa7"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/inv_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:bd62c12aaac492a4f7eeade395fc1204a9f5d7857ef1417811a12f752592023f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/lock_detector.sch",
+        "passed": true,
+        "content_hash": "sha256:93c537a6522d7f6f3689be395e8ff52449cd1416470b531621e96b2cff58f160"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/loop_filter.sch",
+        "passed": true,
+        "content_hash": "sha256:7308eb6e036edb500db7e1df1dd8debba271d68c3d79d586b77daf16921a14f1"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/nand2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:7a17cf6dd3b9b8e43e52327dcec4cd61690af4ef84b32f28ca276b5a7b655172"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/nand3_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:9d54c35ba671aa2d72b3a06d9ed4bf8b9f3457aee995dbb52c4e95145e58253a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/nor2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:27cacafbfca85efae70eae2a2219bd704b2478e5840f32c04a2770addf5a4ffa"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/pfd.sch",
+        "passed": true,
+        "content_hash": "sha256:07b18bb5ddf6c6154b94719f1e9f1c68daef541c1e52de0fed16218d8a6b92b0"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/schmitt_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:058c9df75140546ec72f717b87af08b0e994d9a5ffcaff3dc5c8032dc24fb61b"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/cp.sch",
+        "passed": true,
+        "content_hash": "sha256:35bf4696b602435021118682726a2cc799c8e537872080f10d17eeffafa89cac"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/cp_dumpbuf.sch",
+        "passed": true,
+        "content_hash": "sha256:395e3e195a32a9edc21c6d6b646b891f2dc97506085ff3c49543c123e95ddc70"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/cp_leg_n.sch",
+        "passed": true,
+        "content_hash": "sha256:1ff0958afebbe96e7ac7190aaebf197f530b08638f7a1e87f181f43c0ab0a106"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/cp_leg_p.sch",
+        "passed": true,
+        "content_hash": "sha256:6c2049a2b41872e840415f7386162d1ea361209b74f542ffd8191b088f2bf1ac"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/delaywin_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:7db30f3031bcf2c53aea3dbce63a86546f50637d903d137ed63361254e4d3fcf"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/dff_tg_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:c73daada1dc4367bb163bd10cfdcc3464c33c97a860d816155185003584b0cc6"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/div23_cell.sch",
+        "passed": true,
+        "content_hash": "sha256:1a42064b6bf67419b97de6e542aaccb0bae1f8577f5743a50112987ff28231f8"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/divider_chain.sch",
+        "passed": true,
+        "content_hash": "sha256:0ff0a1b12e5ccd8dbf94d69488f4b679b527ba6166c3076c11c1ac71fb86c761"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/edgedet.sch",
+        "passed": true,
+        "content_hash": "sha256:ac11ef1a19332668e7e0f30915e7f4d6d1a3e6666899332abd49f1ac77912f3a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/inv2x_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:0b93e4639c8102105b4a6259f3bd4a47738092c1b72fa220aadb096b5738dd3f"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/inv_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:de71d6fed884437bedfde92a306d5d15636df27a8b4687f592404dfaa399c1bb"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/lock_detector.sch",
+        "passed": true,
+        "content_hash": "sha256:231324f2dd0d60baa6b879af4122a89be614e1b9bf709227cf082d22c27f3bab"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/loop_filter.sch",
+        "passed": true,
+        "content_hash": "sha256:ffb6f6422498819aeb59e448442b66646af7f84c945849a778a50d3f39bc75c5"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/nand2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:370a3745f45bed18991356f95031a53f633b3151215cf33643db4e1969d0b7bd"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/nand3_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:54116fd05c0ac3c265363e8f9655b6b72385da2b01e7e57ce45890f89273a04a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/nor2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:eaf5b137e2a10541cba31725f9237c853b3e08d368236d45dbeae514e0b42c19"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/pfd.sch",
+        "passed": true,
+        "content_hash": "sha256:dbe8733d677c01fde127d8953d04cbac2e84495a7b4c2094af41c15f29bf8425"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/schmitt_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:974c3f5900fe5ce88a7cd1e127e21bcf93faf95b0debeff625a4efbce59d6a1a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/srlatch.sch",
+        "passed": true,
+        "content_hash": "sha256:9c08ce8abf5a2fa19ef3fbbd16d7ecd88a7ab1ab35b9c61a19f1efadc60c906b"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/tgate_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:666b91e4c60beda5c943fb0b5514702fada90d36c5c67e85c4f61e2ccf4607a3"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/vco.sch",
+        "passed": true,
+        "content_hash": "sha256:2a50e292a4082bbd66dbaf6a0601ae0451c78daad5207653c8fa731b0fee34be"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/vco_bias.sch",
+        "passed": true,
+        "content_hash": "sha256:a35b5d9da51396c051f97d5cbf2dc97367e7db37fdf616ffb32529efacc30e15"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/vco_stage.sch",
+        "passed": true,
+        "content_hash": "sha256:a4de1313208033847dcc5f008b77b70579577d8e515f07c7bb6cec9ee49f25da"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/sg13cmos5l/xor2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:fe3c2bdc7111b40dbd3c729b7193f0cf5b7f13c82b9aab1988df6c6c5bd1673a"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/srlatch.sch",
+        "passed": true,
+        "content_hash": "sha256:84817826b6ae7777ec976b8f1879fab15e4713f11ad6415eadc3f48c075a25d3"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/tgate_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:b2df3bb6a974b0454a302cd2b667f7fff816ebbe98d1ced4bc1b198b05490480"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/vco.sch",
+        "passed": true,
+        "content_hash": "sha256:4b57eb14abbe99d8e351f1104f81947bdab2dca4773a18f02da36b7014ac61f0"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/vco_bias.sch",
+        "passed": true,
+        "content_hash": "sha256:32b774c6d46890864760ad3edd462cc34f2a98946c944014b3f0a341ee5d093c"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/vco_stage.sch",
+        "passed": true,
+        "content_hash": "sha256:b503d29cb0d9fc6a8991de6bbc591c065b102bf321f84614f4ce86b9b6e9775c"
+      },
+      {
+        "check": "present",
+        "role": "source",
+        "path": "design/xor2_hv.sch",
+        "passed": true,
+        "content_hash": "sha256:6abbc19f67575528e8218663e9334abea6f16d2150246e8c7b8cc186160af81f"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/cp.spice",
+        "passed": true,
+        "content_hash": "sha256:fae22c5b17ba8fcd0da05cfd21e81afc9620b7abff5822d19f8c58357ca5ad70"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/divider_chain.spice",
+        "passed": true,
+        "content_hash": "sha256:ce2b944631dfbd4e367ce8504d50f5c86ae74658743c1ee10c64438a3ee6bc90"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/lock_detector.spice",
+        "passed": true,
+        "content_hash": "sha256:c55bcfa480f6a640b65f92d47df7c0f55a2d78444a2e849bc01aefc4232cdc75"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/loop_filter.spice",
+        "passed": true,
+        "content_hash": "sha256:0cfada0b4c37599aac0b0ed7feb559eafb32096e0a728a1114d4689e191ef8b8"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/pfd.spice",
+        "passed": true,
+        "content_hash": "sha256:76871aa2b93155a09e244188394c37b2de1a5f45cf3d9e103fcab9daf8556be6"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/netlist/vco.spice",
+        "passed": true,
+        "content_hash": "sha256:f1b9be3ce51e1f2bd45f460b93a8730d3902fb132a748f8eaa6109d996b2a129"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/cp.spice",
+        "passed": true,
+        "content_hash": "sha256:cec4a8afb1d38cb52f9c9b1582e127782e69bf52c7bcbad4c33658f536d932ed"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/divider_chain.spice",
+        "passed": true,
+        "content_hash": "sha256:455546435c76782041228f6e10ee53841b91a6c501aa647ecf9338e2feaddf9c"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/lock_detector.spice",
+        "passed": true,
+        "content_hash": "sha256:0730a067c2a37041a1814be8d31177986da1d0b0c5583f8ca0b04986e27cc1a9"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/loop_filter.spice",
+        "passed": true,
+        "content_hash": "sha256:0a3f551bffdbc76388011d873b85f159ad066489b09970600495e255edd6724d"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/pfd.spice",
+        "passed": true,
+        "content_hash": "sha256:c4a848e83ceeb1f8440609b629575b4266bf72eb1c3f2a308882ed7a99597587"
+      },
+      {
+        "check": "present",
+        "role": "derived",
+        "path": "design/sg13cmos5l/netlist/vco.spice",
+        "passed": true,
+        "content_hash": "sha256:479eacab10a71e3b991f18c7f64b52737dd7152992d27d3151c0bb0115f79d64"
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/cp.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/cp.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/divider_chain.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/divider_chain.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/lock_detector.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/lock_detector.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/loop_filter.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/loop_filter.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/pfd.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/pfd.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/netlist/vco.spice",
+        "generator": "design/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/netlist/vco.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/cp.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/cp.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/divider_chain.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/divider_chain.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/lock_detector.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/lock_detector.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/loop_filter.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/loop_filter.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/pfd.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/pfd.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "freshness",
+        "target": "design/sg13cmos5l/netlist/vco.spice",
+        "generator": "design/sg13cmos5l/netlist.sh",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/check_netlist_stamp.py",
+          "--netlist",
+          "design/sg13cmos5l/netlist/vco.spice"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      }
+    ]
+  },
+  "provenance": {
+    "klt_version": "0.7.1.dev1744+g44cc42323184",
+    "klayout_version": null,
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "path": {
+        "path": "manifests/inventories/item-1.json",
+        "scope": "repo"
+      },
+      "content_hash": "sha256:47b4834558b74e322ac26ed7643eb38a3c52b62f594f2cd358daf4ec7d448a38"
+    }
+  }
+}
