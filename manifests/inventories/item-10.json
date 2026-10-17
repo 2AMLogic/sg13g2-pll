@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "kind": "t1-attestation-inventory",
+  "t1_item": 10,
+  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, and the offline stdlib-only gates those workflows run (everything in signoff.yml except the base-ref append-only check, which needs a PR base).",
+  "hygiene": [
+    "README.md",
+    "LICENSE",
+    "spec/target-spec.md",
+    ".github/workflows/signoff.yml",
+    ".github/workflows/layout-tests.yml",
+    ".github/workflows/netlist.yml"
+  ],
+  "checks": [
+    {
+      "name": "records-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "characterization/test_check_records.py"
+      ]
+    },
+    {
+      "name": "records-format",
+      "argv": [
+        "python3",
+        "-B",
+        "characterization/check_records.py"
+      ]
+    },
+    {
+      "name": "summary-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "characterization/test_gen_summary.py"
+      ]
+    },
+    {
+      "name": "summary-fresh",
+      "argv": [
+        "python3",
+        "-B",
+        "characterization/gen_summary.py",
+        "--check"
+      ]
+    },
+    {
+      "name": "lvs-coverage",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_lvs_coverage.py"
+      ]
+    },
+    {
+      "name": "lvs-coverage-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_lvs_coverage.py"
+      ]
+    },
+    {
+      "name": "drc-coverage",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_drc_coverage.py"
+      ]
+    },
+    {
+      "name": "drc-coverage-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_drc_coverage.py"
+      ]
+    },
+    {
+      "name": "erc-coverage",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_erc_coverage.py"
+      ]
+    },
+    {
+      "name": "erc-coverage-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_erc_coverage.py"
+      ]
+    },
+    {
+      "name": "pex-coverage",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_pex_coverage.py"
+      ]
+    },
+    {
+      "name": "pex-coverage-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_pex_coverage.py"
+      ]
+    },
+    {
+      "name": "testbench-coverage",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_testbench_coverage.py"
+      ]
+    },
+    {
+      "name": "testbench-coverage-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_testbench_coverage.py"
+      ]
+    },
+    {
+      "name": "spec-citations",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/check_spec_citations.py"
+      ]
+    },
+    {
+      "name": "spec-citations-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_spec_citations.py"
+      ]
+    }
+  ]
+}
