@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-17
 
+- **PR #268**: feat(signoff): attest T1 item 10 with klt signoff --attest and bump the grading pin
+- **Issue #266** (closed): T1 item 10: attest repo hygiene with klt signoff --attest (both partitions)
 - **PR #263**: feat(layout): dedupe future layout report artifacts via content-addressed store
 - **Issue #261** (closed): Prepare future layout-output deduplication while preserving historical runs and per-run provenance
 
