@@ -7,7 +7,7 @@ Current backlog state maintained by the Loom Guide role.
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
-- **#270**: feat(signoff): attest T1 item 1 with klt signoff --attest 1
+_None._
 
 ## Very Important
 
@@ -31,7 +31,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#267**: T1 item 1: attest design sources with klt signoff --attest 1 (both partitions)
+_None._
 
 ## PRs Awaiting Review
 
@@ -43,7 +43,7 @@ _None._
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
-- **#270**: feat(signoff): attest T1 item 1 with klt signoff --attest 1
+_None._
 
 ## Proposed
 
@@ -54,7 +54,6 @@ Issues carrying `loom:curated`.
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
 - **#212**: Item 9 campaign: charge-pump and divider-retiming provenance *(curated)*
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance *(curated)*
-- **#267**: T1 item 1: attest design sources with klt signoff --attest 1 (both partitions) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -76,14 +75,14 @@ Issues carrying `loom:curated`.
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 1 |
+| Operator merge-risk holds | 0 |
 | Very important | 0 |
 | Important | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 1 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 1 |
-| Curated | 6 |
+| Approved PRs awaiting merge | 0 |
+| Curated | 5 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->

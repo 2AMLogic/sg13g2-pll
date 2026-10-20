@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-20
+
+- **PR #270**: feat(signoff): attest T1 item 1 with klt signoff --attest 1
+- **Issue #267** (closed): T1 item 1: attest design sources with klt signoff --attest 1 (both partitions)
+
 ### 2026-10-17
 
 - **PR #268**: feat(signoff): attest T1 item 10 with klt signoff --attest and bump the grading pin
