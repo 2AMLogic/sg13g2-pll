@@ -2,6 +2,10 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-22
+
+- **Issue #273** (closed): Remove unreferenced layout report dirs (~76 MB of superseded run records)
+
 ### 2026-10-20
 
 - **PR #270**: feat(signoff): attest T1 item 1 with klt signoff --attest 1
