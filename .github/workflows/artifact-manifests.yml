@@ -1,0 +1,29 @@
+name: artifact manifests
+
+# Checks manifests/artifacts/*.manifest.json (evidence bytes kept in the fleet
+# artifact store, only a manifest committed): schema, `artifact:` URIs only, no
+# storage location, no stored object duplicated in git. Stdlib only; separate
+# from signoff.yml so that byte-compare gate and its klt pin are untouched.
+#
+# Honest gap: this job has no broker access, so it does NOT re-hash stored
+# bytes. `klt artifact verify <manifest>` on a fleet worker does that.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  artifact-manifests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests
+        run: python3 scripts/test_check_artifact_manifests.py
+      - name: Check manifests
+        run: python3 scripts/check_artifact_manifests.py

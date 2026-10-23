@@ -662,3 +662,5 @@ fresh report against the committed one.
   with M rows citing a record and O rows carrying a gate or ruling. Structure
   and resolution only: it never reads bounds or compares Status to measured
   compliance.
+
+New raw evidence stored outside git is described in [`artifacts/README.md`](artifacts/README.md).
