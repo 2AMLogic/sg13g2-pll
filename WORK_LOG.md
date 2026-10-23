@@ -4,6 +4,10 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-10-23
 
+- **PR #284**: fix: add third reset-chain inverter to top-level pfd for AND(UP,DN) reset
+- **Issue #283** (closed): Fix pfd self-reset inverter-parity defect in top-level design/pfd.sch (sibling of #56)
+- **PR #281**: characterization: repoint or drop gap rows citing closed trackers
+- **Issue #279** (closed): characterization: re-audit the SUMMARY.md open-gaps table; five gap rows cite closed trackers (#148, #165, #168, #195, #196)
 - **PR #280**: feat: keep new evidence bytes in the artifact store, commit manifests
 - **Issue #278** (closed): Adopt the common artifact store for sim evidence (manifests in git, bytes via klt artifact)
 
