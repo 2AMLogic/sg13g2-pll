@@ -16,16 +16,15 @@ the min/max.
 
 | Gap | Tracker | Detail |
 | --- | --- | --- |
-| No ratified spec table | #148 | There is no ratified target spec to compare against. This summary therefore carries no pass/fail-versus-spec column and derives no target from any measurement. |
+| No ratified spec table | none filed | The target spec is drafted in spec/target-spec.md (Status: DRAFT) but not ratified: it awaits the two-key ratification under ratification/. This summary therefore carries no pass/fail-versus-spec column and derives no target from any measurement. |
 | Partial PVT axes | none filed | Most campaigns use a 3-bundle PVT convention (typ/slow/fast), a fixed supply (3.3 V) and a subset of band codes or trim codes; none is a full cross-product. Each dataset lists the corner coverage actually present in its CSVs. Targeted fine-trim and nominal records cover single tuples only. |
 | Bodyfix (#136) not re-verified across PVT | #139 | The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only (RECORD-005). The last full-PVT evidence is for the previous DUT. |
 | lock_detector PVT gaps | #139 | The full-PVT lock_detector grid for the current DUT is owed. |
 | lock_detector post-layout/PEX gap | #157 | lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7. |
-| Divider speed evidence | #168 | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources; the SG13G2 divider has none. |
-| Charge-pump dump-node correction | #165 | The cp numbers here are for the DUT before the VDUMP-tracks-VOUT correction; the static phase error failure (row 7) is unresolved. |
+| Divider speed evidence | none filed | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none. |
 | cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
-| cp tracking dump buffer (DR-010) nominal-only | #165, #195 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
-| Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #196, #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
+| cp tracking dump buffer (DR-010) nominal-only | #178 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
+| Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 
@@ -47,7 +46,7 @@ the min/max.
 - **Note**: Nominal PEX, one corner per block: this is NOT a PVT result.
 - **Note**: No request declares limits; `status: pass` in the envelopes means 'ran and compared', not 'met a spec'.
 - **Note**: lock_detector was not run (stale committed PEX, #157).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), lock_detector post-layout/PEX gap (#157)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), lock_detector post-layout/PEX gap (#157)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -76,7 +75,7 @@ the min/max.
 - **Note**: Reproduces RECORD-001 on the old layout record; it does NOT refresh the current PEX envelopes (layout 20261010-012952-a4ca1b8, RECORD-002) or whole-design sign-off.
 - **Note**: Nominal PEX, one corner per block: this is NOT a PVT result. No request declares limits; `status: pass` means 'ran and compared', not 'met a spec'.
 - **Note**: lock_detector was not run (#157).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), lock_detector post-layout/PEX gap (#157)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), lock_detector post-layout/PEX gap (#157)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -100,7 +99,7 @@ the min/max.
 - **Table `results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/results.csv` (sha256 `df87ebc6f880cd9648066630c5982d5d38f3d571fd9dda923746884b47e17f1b`)
 - **Table `deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/deviation.csv` (sha256 `028de33db5c4b15526c5588fdc3bb8e495cd3052cc68cdca106307f9b21d2eac`)
 - **Note**: Bundle PVT (3 corners), not a full cross-product.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -117,8 +116,8 @@ the min/max.
 - **Method**: DC sweep, delivered current vs output voltage
 - **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md` (sha256 `237f4a0e7f7cf410e9413d323fd826ae6063aaa3b773bb280c743dab3ca26b12`)
 - **Table `cp_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/cp_results.csv` (sha256 `42e5ba0fe04d572a5a2fc1ee8dd153b2b013294367ec8a6aa0fd4a53321fc704`)
-- **Note**: Uncorrected for the dump-node charge-sharing term (#165).
-- **Gaps**: No ratified spec table (#148), Charge-pump dump-node correction (#165)
+- **Note**: Uncorrected for the dump-node charge-sharing term (#165); the corrected cp is in cp-tracking-dumpbuf-dc.
+- **Gaps**: No ratified spec table (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -136,7 +135,7 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md` (sha256 `d46a1309738e46e6594d8080b3baef565ee33e25b4df2cab7b6aa4a01fe515c6`)
 - **Table `pfd_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/pfd_results.csv` (sha256 `20740d7604733451752f09dcf83269d5f1d9cfbbfd302f979134323f54aecdea`)
 - **Note**: 12-run case matrix, not a PVT grid; a pfd PVT result also depends on the reset-chain composition disclosed in RECORD-003.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -155,7 +154,7 @@ the min/max.
 - **Table `ld_window`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window.csv` (sha256 `fd88ed4bf2da7b99996728e371585a4af48a51fd66d46ecef59b27da4557a9ab`)
 - **Table `ld_deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation.csv` (sha256 `8d961cabb1f816e47a32c5212cf33eb4dd115be918929281d18e1d08ce656647`)
 - **Note**: Measured on the DUT before the #136 bodyfix; not re-verified across PVT after it.
-- **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -173,7 +172,7 @@ the min/max.
 - **Method**: AC response; zero/pole frequencies and total capacitance extracted
 - **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` (sha256 `f2642e6134182c4de7f4a41d7501b552c9514b48b8d94944fdb7949ecd99304a`)
 - **Table `lf_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/lf_results.csv` (sha256 `990cf857b638dfab4a796e13c05c57811c9339895615236ec87bdfff67be3725`)
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -191,8 +190,8 @@ the min/max.
 - **Method**: transient; division period and supply current
 - **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` (sha256 `f2642e6134182c4de7f4a41d7501b552c9514b48b8d94944fdb7949ecd99304a`)
 - **Table `div_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/div_results.csv` (sha256 `df72af3fa1ad6fcfa13ac28fcba8f78dd9a03045d029edf1012030248cdaa745`)
-- **Note**: Functional speed (max input frequency) is not covered here; see divider-speed gap (#168).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Divider speed evidence (#168)
+- **Note**: Functional speed (max input frequency) is not covered here; see the divider-speed gap.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -216,7 +215,7 @@ the min/max.
 - **Table `issue79`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue79_finetrim.csv` (sha256 `96f515dfc57d8acb4700520c5d82eb568fa1578f163f6520561f8bf332982ee6`)
 - **Note**: Covers only the tuples listed; the rest of the (bundle, band, interval, f_ref) space is in the superseded RECORD-002 table (section 'superseded') and was not re-run on a later DUT.
 - **Note**: The csv `meets_*` columns are the record's own comparisons against its internal 45 deg / ceiling thresholds; they are not reproduced here (no pass/fail column).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -240,7 +239,7 @@ the min/max.
 - **Table `issue79`**: `sim/sg13cmos5l-cp-icp-trim/corners/results_issue79_finetrim.csv` (sha256 `6a7da118ad5c13edc7258f5dc1bb1d9291662ef3c66da5ae0dbe13fdf69d6eec`)
 - **Note**: Targeted points, not the full six-code campaign (that campaign is in cp-icp-trim RECORD-001/002, outside this first-version selection).
 - **Note**: cp-icp-trim RECORD-002 is cited as historical context only: it is the full six-code Icp trim and mismatch re-measurement on the post-DR-006 (cascode-bias replica) cp, the same pre-#165 cp these targeted points use. Its tables are not selected here, so it contributes no extremum; it does not cover the #165 tracking dump buffer cp (see cp-tracking-dumpbuf-dc) and does not repair provenance (#199). cp-icp-trim RECORD-001 (pre-DR-006 cp) stays uncited.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Charge-pump dump-node correction (#165)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -258,8 +257,8 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` (sha256 `5812315e4dfd1f466bf4774cced691aa8f8d9b5dc23cf8c5fc2ed7072c9458a4`)
 - **Table `hold`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/func.csv` (sha256 `f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63`)
-- **Note**: Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (#168).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Divider speed evidence (#168)
+- **Note**: Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -281,8 +280,8 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-005-cascbias-real-cp-static-phase-error-rerun.md` (sha256 `112d3a800b576be4c2392767f4c22cba8d3cc150178d352e32fd4d0d2aec890e`)
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias.csv` (sha256 `fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7`)
 - **Note**: FAILURE RETAINED: RECORD-005 reports a static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %), against the 5 % criterion the record itself uses; the extrema above span the full trace including the startup transient and are not a steady-state figure.
-- **Note**: Row 7 static phase error is not closed; cause under investigation as the cp dump-node charge-sharing term (#165).
-- **Gaps**: No ratified spec table (#148), Charge-pump dump-node correction (#165), Partial PVT axes (none filed)
+- **Note**: Row 7 static phase error is not closed on this DUT; the cause was the cp dump-node charge-sharing term (#165), corrected in the DR-010 cp (nominal row 7 in cp-tracking-dumpbuf-dc).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -301,7 +300,8 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias_rerun229.csv` (sha256 `fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7`)
 - **Note**: FAILURE RETAINED: the rerun reproduces RECORD-005 exactly, including its static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %) against the 5 % criterion and lock_time = None (longest dual-lock run 4 cycles); the extrema above span the full trace including the startup transient and are not a steady-state figure.
 - **Note**: NOMINAL ONLY, PROPOSAL DECK: supersedes RECORD-005's evidence claim at one point; it implies no PVT grid coverage (the full-grid re-run for this DUT is owed, #139).
-- **Gaps**: No ratified spec table (#148), Charge-pump dump-node correction (#165), Partial PVT axes (none filed)
+- **Note**: Pre-DR-010 cp (before the VDUMP-tracks-VOUT correction, #165); the corrected-cp nominal row 7 is in cp-tracking-dumpbuf-dc.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -320,7 +320,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_icpeq_rerun228.csv` (sha256 `a8987a4ead9822e907f9882a4c4b08710bdb05ec0d5a2b9004023acca038dbd6`)
 - **Note**: RESULT RETAINED (diagnostic, not a committed-design lock): with cp forced exactly symmetric the static phase error collapses to simulator noise (final-20-cycle mean -0.00044 % vs. the original run's -0.00235 %, both against the 9.176 % RECORD-003 baseline); longest dual-lock run 41 cycles from 450 ns to the end of the window with zero drop-outs, lock_time 450 ns -- identical to RECORD-004. Part B (behavioural divider, R1 x20 proposal) with an ideal cp; no real-cp, repaired-divider or reference-spur claim.
 - **Note**: Same outcome as RECORD-004 but not byte-identical (different host/arch/ngspice version); differences at the 1e-5..1e-4 of T_ref noise level, tabulated in the record.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -340,7 +340,7 @@ the min/max.
 - **Table `trace_ideal_dump`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_ideal_dump_rerun239.csv` (sha256 `85ed0f3e1c2d9db5c5924498518d8240b7e19c91b0f2a911023458ca89ef9d38`)
 - **Note**: RESULT RETAINED (diagnostic, not a committed-design lock), PARTIAL rerun: control_probe final-20-cycle phase error 8.2034 % (RECORD-006: 8.204 %), longest dual-lock run 4 cycles, no lock time; ideal_dump 1.0478 % (RECORD-006: 1.048 %), 45-cycle dual-lock run, lock time 250 ns. Open-loop charge per UP+DN pair -41.302 fC (probe) and -8.099 fC (ideal_dump), identical to RECORD-006.
 - **Note**: Closed-loop traces are not byte-identical to RECORD-006's (different host/ngspice build; per-cycle differences <= 0.030 pp, tabulated in the record). The other RECORD-006 variants (control_hist, ideal_sw, ideal_dump_ofs, reset_narrow, reset_wide, repeats) are NOT rerun; the batch submit was refused by the fleet's instance cap.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -365,7 +365,7 @@ the min/max.
 - **Note**: NOMINAL ONLY. Every table here is a single corner (mos_tt/27 C/3.3 V). The |VDUMP-VOUT| offset across PVT and the cp-icp-trim re-run across PVT are not established; the PVT batch report (reports/sim.otabuf_pvt.batch.json) is 15/15 errored and carries no measurement.
 - **Note**: Coverage column `name` is the measurement name in the klt report; the bench's own limit verdicts in those reports are not reproduced here (no pass/fail column).
 - **Note**: Random (Monte Carlo) offset and low Icp*Tref are not bounded by this record.
-- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only (#165, #195)
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -403,7 +403,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_otabuf.csv` (sha256 `2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602`)
 - **Note**: NOMINAL ONLY, PROPOSAL DECK. RECORD-007 reports a static phase error of 0.779 % of T_ref at this one point (was 8.20 % in RECORD-005); row 7 is not established across PVT, on the committed loop, or post-layout. The extrema above span the full trace including the startup transient and are not a steady-state figure.
 - **Note**: The repeat run (corners/lock_trace_cpdiag_otabuf_rep.csv) is byte-identical to the cited trace.
-- **Gaps**: No ratified spec table (#148), cp tracking dump buffer (DR-010) nominal-only (#165, #195), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -424,7 +424,7 @@ the min/max.
 - **Note**: NOMINAL ONLY, SCHEMATIC ONLY. Only the dr008_typ tuple was measured; dr008_fast, dr008_slow and dr007_slow are status=blocked in the csv with NA after-columns (filtered out above by status=ran), not passed. The pm_deg_before row spans all four tuples because it is the committed RECORD-003/004 baseline.
 - **Note**: The DR-008 fast projected flip (about 44.93 deg own interval / 44.77 deg full range) in RECORD-005 is an estimate from a typ-model sensitivity applied to the fast baseline, not a verdict; the measured fast/slow grid is #203. DR-007/DR-008 and spec row 6a are not edited.
 - **Note**: The csv verdict_* columns are the record's own comparisons against its 45 deg / f_ref/10 thresholds; they are not reproduced here (no pass/fail column).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk (#196, #203)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk (#203)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -450,7 +450,7 @@ the min/max.
 - **Table `vctrl`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real.csv` (sha256 `e7bdb538654ba6006680beb91ba3d39df95fd263006e583cf71e0ec058458df8`)
 - **Note**: FAILURE RETAINED: the loop does NOT acquire (no dual-lock run; longest_dual_lock_run_cycles = 0 in corners/summary_real.json). The extrema above describe a non-locked trajectory.
 - **Note**: Divider functional-speed margin evidence from #168 is recorded in the same slug (edges_divspeed_*.json) but is not selected into this first version.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Divider speed evidence (#168)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -470,7 +470,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_pfdfix_rerun226.csv` (sha256 `65fa88478be18d3fa5104ecff17f47ac195f0dd1bf18d7527714f9dd3031848d`)
 - **Note**: DIAGNOSTIC, NOT A LOCK: 400 ns bounded plateau with a diagnostic-patched PFD on the historical bench; delta_f has not reversed sign. No lock, reference-spur or repaired-divider claim.
 - **Note**: The record's standalone-PFD diagnostic (pfd_polarity_diag_rerun226.csv) is not summarised numerically: 3 of 4 cases reproduced, the patched REF-leads-FB case did not (see the record).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -489,7 +489,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_rerun227.csv` (sha256 `93d320d06b2337d55de5ac30edfa6872ff61fe82721d9fa9972d8a33c35532b4`)
 - **Note**: FAILURE RETAINED: frequency-locked but static phase error 9.110 % to 9.196 % of T_ref over the final 20 cycles against the 5 % criterion; lock_time = None (longest dual-lock run 4 cycles). Extrema above span the whole trace including startup and are not a steady-state figure.
 - **Note**: Reproduces RECORD-003 Part B byte-for-byte; proposal deck with a behavioural divider, no repaired-divider or reference-spur claim.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -508,7 +508,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_rerun225.csv` (sha256 `a31381e37265bbb23d109516792b7dac7692b1adf53b9306bc35ed0e5d7f63d1`)
 - **Note**: FAILURE RETAINED: Part B (behavioural divider, R1 x20 proposal) diverges: delta_f/f_ref drifts from +0.84 % to -22.9 % over 49 cycles with repeated cycle slips; lock_time = None (longest dual-lock run 4 cycles). Part A (real pre-repair divider) is not in this table and never toggles fb.
 - **Note**: Same outcome as RECORD-001 but not byte-identical (different host/arch/ngspice version); proposal deck with a behavioural divider, no repaired-divider or reference-spur claim.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -528,7 +528,7 @@ the min/max.
 - **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_nominal.csv` (sha256 `97ac47a0bc658b3e9548991edd91fe64daa3f90c7c1d85cd110d157a3e737999`)
 - **Note**: Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
 - **Note**: Superseded as the provenance claim by RECORD-006 (issue #256: ADDENDUM-001 -> RECORD-006-rpu-body-on-vss-rerun-pinned.md, nominal rerun at the pinned dual-tree PDK revisions; every output byte-identical). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
-- **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -553,7 +553,7 @@ the min/max.
 - **Note**: Rerun evidence for RECORD-005's claim (issue #256): every one of the seven output files is byte-identical to the committed *_bodyfix_nominal.* set RECORD-005 cites, so the two datasets carry the same numbers.
 - **Note**: Nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz): this is NOT a PVT result. Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
 - **Note**: Dual-tree PDK provenance is in the record: ihp-sg13cmos5l 607e18d4 + ihp-sg13g2 5cccb161, ngspice-46, loom-worker-3.
-- **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -575,7 +575,7 @@ the min/max.
 - **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` (sha256 `a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5`)
 - **Table `results`**: `sim/sg13g2-vco-kvco-table/corners/results.csv` (sha256 `63e6f2a24897cf392cdb8789ed8b6839ee60d5754273c946599a96e6de3c7bad`)
 - **Note**: Bundle PVT (3 corners), not a full cross-product.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -594,7 +594,7 @@ the min/max.
 - **Table `schmitt`**: `sim/sg13g2-lock-detector-window/corners/schmitt_resized.csv` (sha256 `654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24`)
 - **Table `ladder`**: `sim/sg13g2-lock-detector-window/corners/ladder_resized.csv` (sha256 `49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d`)
 - **Note**: Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -614,7 +614,7 @@ the min/max.
 - **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func.csv` (sha256 `186d60c2d4c6b332bc533128ea5d111ab2e3e401a358c4d18e835a0e9aaec102`)
 - **Note**: Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed), Divider speed evidence (#168)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -636,7 +636,7 @@ the min/max.
 - **Table `cmos_ro_nominal`**: `sim/sg13g2-hbt-characterization/corners/cmos_ro_nominal.csv` (sha256 `540cf02fc7c243d67811f2dfd4a45e60213261752c0a2cfdba5677cedc70b2b1`)
 - **Note**: CMOS cascode leg exercised at mos_tt / 27 C only; its -40/125 C, mos_ss/mos_ff and Monte Carlo runs failed on the batch fleet and were not run. The DR-002 trigger verdict (DR-009) rests on the one corner where both legs exist.
 - **Note**: Matching is the PDK mismatch model's sampled spread; klt sim reports bipolar mismatch activity as not independently verified for sg13g2.
-- **Gaps**: No ratified spec table (#148), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -662,7 +662,7 @@ the min/max.
 - **Table `results_resized`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized.csv` (sha256 `a2397a8ac202820ac380b898b0d4543cdd41bcd0e4f17f6cdbd0ba7db29f5370`)
 - **Note**: Superseded as a design-state claim by the fine-trim rows for the tuples they cover; retained as history. Older results.csv (as-drawn filter) is not selected.
 - **Note**: Historical lineage only; the extra records are cited for context and no table of theirs is selected, so no extremum above comes from them. loop-bandwidth-pm RECORD-001 is the as-drawn-filter predecessor (0/90 combinations met PM >= 45 deg; its results.csv is not selected). loop-bandwidth-pm RECORD-002 (icp-input-refresh, #72) is a mechanical re-derivation after the cp Icp table changed (max 0.782 % Icp shift, no verdict flips); it is not a new claim. loop-filter-momcap RECORD-002 and vco-kvco-table RECORD-001 are the measured R1/C1/C2 and Kvco inputs of the analytic model, taken at the DUT revisions each record names (resized loop_filter; vco as frozen in that record) and not re-verified against any later netlist; this citation does not repair their provenance (#199).
-- **Gaps**: No ratified spec table (#148)
+- **Gaps**: No ratified spec table (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -680,7 +680,7 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` (sha256 `a9b432b67c4cf9cd0d23dfa8552300d0c33f8166fc5b507e5201aa8fa234b0cf`)
 - **Table `window`**: `sim/sg13cmos5l-lock-detector-window/corners/window_crowbarfix.csv` (sha256 `2ee284dfacde951f0fbc1f9f183c533d652755280902f9d484f313481d2bf8fc`)
 - **Note**: Last full-PVT lock_detector window evidence, but of a DUT that has since changed (bodyfix).
-- **Gaps**: No ratified spec table (#148), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

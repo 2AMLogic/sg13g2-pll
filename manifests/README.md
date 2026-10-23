@@ -548,13 +548,17 @@ hand-written `generic` envelope generated from the summary (with
 `content_hash`, and the tier report regenerated with the pinned klt (never by
 hand):
 
-- a ratified spec table (#148), so the summary can be read against a spec;
+- a ratified spec table: the spec is drafted in `spec/target-spec.md`
+  (Status: DRAFT) and awaits the two-key ratification under `ratification/`
+  (no tracking issue filed), so the summary can be read against a spec;
 - full PVT coverage on the current DUT, including the `lock_detector` bodyfix
   re-verification (#139) and the `lock_detector` PEX re-extraction (#157);
-- divider speed evidence on the current design (#168);
-- the charge-pump correction and a closed loop that acquires (#165; the nominal
-  real-divider loop does not acquire and the static phase error failure is
-  retained in the summary).
+- divider speed evidence on the current design (no tracking issue filed; the
+  #168 follow-on retained edge counts but they are not selected into the
+  summary);
+- the charge-pump PVT and Monte Carlo evidence for the DR-010 dump buffer
+  (#178), the real-cp loop PM re-check across the fast/slow grid (#203), and a
+  closed loop that acquires (the nominal real-divider loop does not acquire).
 
 ## The tool that grades
 
