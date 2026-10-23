@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-23
+
+- **PR #280**: feat: keep new evidence bytes in the artifact store, commit manifests
+- **Issue #278** (closed): Adopt the common artifact store for sim evidence (manifests in git, bytes via klt artifact)
+
 ### 2026-10-22
 
 - **Issue #273** (closed): Remove unreferenced layout report dirs (~76 MB of superseded run records)
