@@ -2409,6 +2409,57 @@
     "pvt-axes-partial"
    ],
    "record_sha256": "88da474a34f00a13e60cca48dff55c367fdc9246e9b6e442eff20a53be10dabc"
+  },
+  {
+   "id": "g2-pfd-reset-parity",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "top-level design/netlist/pfd.spice before (origin/main 26247c1, 2-stage reset chain) and after (3-stage, XI1B) issue #283; IHP-Open-PDK pin 5cccb161",
+   "context": "PFD-only (REF/FB 5 ns lead/lag at 20 MHz), no cp/filter/vco",
+   "conditions": "mos_tt/ss/ff x -40/27/125 C, VDD 3.3 V; ngspice-46 on the batch fleet",
+   "method": "transient; UP/DN mean over 200-500 ns as a fraction of VDD for REF-leads and FB-leads",
+   "record": "sim/sg13g2-pfd-reset-parity/records/RECORD-001-pfd-reset-parity-lead-lag.md",
+   "tables": [
+    {
+     "id": "pfd_parity",
+     "path": "sim/sg13g2-pfd-reset-parity/corners/pfd_parity.csv",
+     "sha256": "fe95e6fdfe6a2bbb736288a61868542bce16830a38335e5ca1d595b2a3c90ba9"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "pfd_parity",
+     "column": "up_duty",
+     "units": "fraction of VDD",
+     "quantity": "UP output mean (before/after the reset-chain parity fix, REF-leads and FB-leads)",
+     "coverage_columns": [
+      "variant",
+      "case",
+      "process",
+      "temp_c"
+     ]
+    },
+    {
+     "table": "pfd_parity",
+     "column": "dn_duty",
+     "units": "fraction of VDD",
+     "quantity": "DN output mean (before/after the reset-chain parity fix, REF-leads and FB-leads)",
+     "coverage_columns": [
+      "variant",
+      "case",
+      "process",
+      "temp_c"
+     ]
+    }
+   ],
+   "notes": [
+    "VDD fixed at 3.3 V; no Monte Carlo, no post-layout PEX. Fleet-side PDK revision was not observed (runner pdk stamp unreadable); the pin is taken from the repo."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "b5fa3e0dd5abf298d71d62ac9eebd4ea9bc07b8381e12eb39fb346defbe4c683"
   }
  ]
 }

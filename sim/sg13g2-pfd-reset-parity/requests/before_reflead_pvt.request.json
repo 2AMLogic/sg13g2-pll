@@ -1,0 +1,45 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "netlist": "../testbench/tb_before_reflead.sp",
+  "models": {
+    "pdk": "ihp-sg13g2",
+    "lib": "libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "corners": {
+    "process": [
+      "mos_tt",
+      "mos_ss",
+      "mos_ff"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "100p 5e-07"
+  },
+  "measurements": [
+    {
+      "name": "up_avg",
+      "spice": ".meas tran up_avg avg v(up) from=2e-07 to=5e-07"
+    },
+    {
+      "name": "dn_avg",
+      "spice": ".meas tran dn_avg avg v(dn) from=2e-07 to=5e-07"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/mosvar.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "timeout_s": 600,
+    "keep_artifacts": true
+  }
+}

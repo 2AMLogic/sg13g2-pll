@@ -644,6 +644,24 @@ the min/max.
 | npn13G2 mirror-ratio standard deviation (200 ratios per cell) (`sigma_ratio`) | 1 (fraction) | `hbt_mm_summary` | - | 27 | 0 | 0.126026 | 0.163061 | `process`: hbt_bcs_mismatch, hbt_typ_mismatch, hbt_wcs_mismatch; `temp_c`: -40, 27, 125; `iref_a`: 2.5e-06, 1e-05, 8e-05 |
 | CMOS cascode leg sink current over the Vout sweep (`isink_a`) | A | `cmos_ro_nominal` | - | 30 | 0 | 2.49311e-06 | 8.02932e-05 | `corner`: mos_tt/novdd/27C; `iref_a`: 2.5e-06, 1e-05, 8e-05 |
 
+### g2-pfd-reset-parity
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: top-level design/netlist/pfd.spice before (origin/main 26247c1, 2-stage reset chain) and after (3-stage, XI1B) issue #283; IHP-Open-PDK pin 5cccb161
+- **Context**: PFD-only (REF/FB 5 ns lead/lag at 20 MHz), no cp/filter/vco
+- **Conditions**: mos_tt/ss/ff x -40/27/125 C, VDD 3.3 V; ngspice-46 on the batch fleet
+- **Method**: transient; UP/DN mean over 200-500 ns as a fraction of VDD for REF-leads and FB-leads
+- **Record**: `sim/sg13g2-pfd-reset-parity/records/RECORD-001-pfd-reset-parity-lead-lag.md` (sha256 `b5fa3e0dd5abf298d71d62ac9eebd4ea9bc07b8381e12eb39fb346defbe4c683`)
+- **Table `pfd_parity`**: `sim/sg13g2-pfd-reset-parity/corners/pfd_parity.csv` (sha256 `fe95e6fdfe6a2bbb736288a61868542bce16830a38335e5ca1d595b2a3c90ba9`)
+- **Note**: VDD fixed at 3.3 V; no Monte Carlo, no post-layout PEX. Fleet-side PDK revision was not observed (runner pdk stamp unreadable); the pin is taken from the repo.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UP output mean (before/after the reset-chain parity fix, REF-leads and FB-leads) (`up_duty`) | fraction of VDD | `pfd_parity` | - | 36 | 0 | 0.0054 | 1 | `variant`: after, before; `case`: fblead, reflead; `process`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125 |
+| DN output mean (before/after the reset-chain parity fix, REF-leads and FB-leads) (`dn_duty`) | fraction of VDD | `pfd_parity` | - | 36 | 0 | 0.0055 | 1 | `variant`: after, before; `case`: fblead, reflead; `process`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125 |
+
 ## Superseded / historical (not current-design claims)
 
 ### loop-bw-pm-resized-full
