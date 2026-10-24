@@ -31,7 +31,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#286**: Prune unreferenced superseded layout flow records (~70 MB)
 
 ## PRs Awaiting Review
 
@@ -79,7 +79,7 @@ Issues carrying `loom:curated`.
 | Very important | 0 |
 | Important | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 0 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 5 |
