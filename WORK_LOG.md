@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-24
+
+- **PR #289**: chore(layout): prune superseded flow records, document retention policy
+- **Issue #286** (closed): Prune unreferenced superseded layout flow records (~70 MB)
+
 ### 2026-10-23
 
 - **PR #284**: fix: add third reset-chain inverter to top-level pfd for AND(UP,DN) reset
