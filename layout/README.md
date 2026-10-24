@@ -74,6 +74,13 @@ Each command writes a fresh, timestamped record under its own port's
 `reports/<record-id>/` and updates that port's `reports/LATEST` to point at
 it.
 
+**Retention policy** (operator ruling, #286): the flow never edits a prior
+record, but superseded records may be pruned with `git rm`. Keep the record
+`LATEST` points at, plus any record cited elsewhere in the repo (a decision
+record, `sim/` evidence, a README). Before pruning, `git grep -l -- <record-id>`
+outside the record itself and `LATEST` must return nothing. Git history
+preserves pruned records.
+
 ## Directory layout
 
 ```
