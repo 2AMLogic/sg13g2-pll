@@ -31,7 +31,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#286**: Prune unreferenced superseded layout flow records (~70 MB)
+_None._
 
 ## PRs Awaiting Review
 
@@ -61,7 +61,6 @@ Issues carrying `loom:curated`.
 - **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5) *(architect)*
 - **#189**: divider_chain: size to close row 3 retiming at 1562 MHz (R-3, T1 item 5) *(architect)*
 - **#190**: sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5) *(architect)*
-- **#286**: Prune unreferenced superseded layout flow records (~70 MB) *(hermit)*
 
 ## Epics
 
@@ -79,10 +78,10 @@ Issues carrying `loom:curated`.
 | Very important | 0 |
 | Important | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 1 |
+| In Progress (`loom:building`) | 0 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 0 |
 | Curated | 5 |
-| Architect / Hermit proposals | 5 |
+| Architect / Hermit proposals | 4 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
