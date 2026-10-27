@@ -2,9 +2,9 @@ name: klt signoff (block tier report)
 
 # The graded-T1-state gate for manifests/sg13g2-pll.json (issue #104).
 #
-# Re-runs `klt signoff --manifest` at a pinned upstream commit
-# (44cc42323184, klt 0.7.1.dev1744+g44cc42323184, klayout 0.30.12 from its
-# uv.lock: a commit containing the `klt signoff --attest` producer,
+# Re-runs `klt signoff --manifest` at a pinned upstream release
+# (klayout-tools==0.8.0 from PyPI, klayout 0.30.12 -- the version 0.8.0
+# itself resolves; a release containing the `klt signoff --attest` producer,
 # klayout-tools#2844, which item 10 needs, and still accepting the RFC 6901
 # "pointer" bindings, klayout-tools#2376, that the item-4 citations use to
 # reach the klt envelope under /response of the LVS wrapper reports; see
@@ -145,16 +145,14 @@ jobs:
       - name: Install the pinned grading build of klt
         run: |
           set -euo pipefail
-          git clone --quiet https://github.com/2AMLogic/klayout-tools "$RUNNER_TEMP/klt"
-          git -C "$RUNNER_TEMP/klt" checkout --quiet 44cc42323184a2f3a440b89789bf174488a6b1e4
           python -m venv "$RUNNER_TEMP/klt-venv"
-          # klayout is pinned to the graded commit's own uv.lock entry
-          # (0.30.12 at this build; the previous pin used 0.30.10) so the
-          # engine that produced the committed report is the engine that
-          # re-grades it — the byte-compare below must not drift on a
-          # dependency floor resolving to a newer wheel.
-          "$RUNNER_TEMP/klt-venv/bin/pip" install --quiet "klayout==0.30.12" "$RUNNER_TEMP/klt"
+          # klayout is pinned to the version klayout-tools 0.8.0 itself
+          # resolves (0.30.12) so the engine that produced the committed
+          # report is the engine that re-grades it -- the byte-compare below
+          # must not drift on a dependency floor resolving to a newer wheel.
+          "$RUNNER_TEMP/klt-venv/bin/pip" install --quiet "klayout==0.30.12" "klayout-tools==0.8.0"
           "$RUNNER_TEMP/klt-venv/bin/klt" --version
+          test "$("$RUNNER_TEMP/klt-venv/bin/klt" --version)" = "klt 0.8.0"
 
       - name: Re-run the block grade (command-backed citations re-run live)
         run: |

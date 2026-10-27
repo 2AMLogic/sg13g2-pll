@@ -1,0 +1,278 @@
+{
+  "top": "vco_resrppd_w1_l60",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 4,
+    "file": {
+      "path": "layout/pll/reports/20261027-175143-74cf8d0-dirty/vco_resrppd_w1_l60.gds",
+      "scope": "repo"
+    },
+    "deck": "sg13g2",
+    "top": "vco_resrppd_w1_l60",
+    "dbu_um": 0.001,
+    "netlist_path": "vco_resrppd_w1_l60.spice",
+    "netlist_sha256": "d2c0dae50990e5cbd00703fcb2e85b762b83ccd4c71b3918fbab19cc76b51711",
+    "netlist_normalized_sha256": "b5a172032511a9024ddda228d7863353899e9b66347b605dee9cdaf891e63e7f",
+    "status": "extracted",
+    "device_count": 3,
+    "net_count": 7,
+    "pin_count": 1,
+    "device_counts": {
+      "rppd": 3
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 3
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 3
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 3
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 15576.95825,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        },
+        "instance_path": [
+          {
+            "cell": "res_array",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$2",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$3",
+          "b": "\\$4",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 15576.95825,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        },
+        "instance_path": [
+          {
+            "cell": "res_array",
+            "array_index": null
+          }
+        ]
+      },
+      {
+        "name": "$3",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$5",
+          "b": "\\$6",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 15576.95825,
+          "l_um": 60.0,
+          "w_um": 1.0,
+          "area_um2": 60.0,
+          "perimeter_um": 122.0
+        },
+        "instance_path": [
+          {
+            "cell": "res_array",
+            "array_index": null
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 1,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 2,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$3",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 3,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$4",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 4,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$5",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 5,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$6",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 6,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 3,
+        "net_id": 7,
+        "pin_index": 0,
+        "label_positions_um": []
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (5/1, 8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'vco_resrppd_w1_l60' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "6 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "split_net_labels": [],
+    "voltage_domain_warnings": [],
+    "missing_flavour_markers": [],
+    "unsupported_devices": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      },
+      {
+        "net": "\\$3",
+        "device": "$2",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$4",
+        "device": "$2",
+        "terminal": "b",
+        "terminal_kind": "b"
+      },
+      {
+        "net": "\\$5",
+        "device": "$3",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$6",
+        "device": "$3",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "def_pin_promotion": null,
+    "pin_renames": null,
+    "rename_declared_pins": false,
+    "declared_pins": null,
+    "def_pins": null,
+    "label_layers": null,
+    "probes": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:a69537379c9579a205e491ac57211d1a64a52d6832a1ce523da8f8beada4bbba",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 3,
+      "extract__net__count": 7,
+      "extract__pin__count": 1
+    },
+    "timing": {
+      "stages": {
+        "read_layout": 0.0,
+        "device_extraction": 0.003,
+        "diagnostics": 0.0,
+        "netlist_write": 0.0,
+        "netlist_hash": 0.0,
+        "netlist_normalized_hash": 0.0
+      },
+      "total_seconds": 0.077,
+      "unattributed_seconds": 0.073
+    }
+  },
+  "stderr": ""
+}

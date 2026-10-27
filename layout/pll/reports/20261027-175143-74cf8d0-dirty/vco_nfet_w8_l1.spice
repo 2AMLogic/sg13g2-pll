@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13g2
+
+* cell vco_nfet_w8_l1
+* pin vsubs
+.SUBCKT vco_nfet_w8_l1 vsubs
+* device instance $1 r0 *1 0.92,4 nfet
+M$1 \$2 \$3 \$1 vsubs nfet L=1U W=8U AS=3.36P AD=3.36P PS=16.84U PD=16.84U
+.ENDS vco_nfet_w8_l1

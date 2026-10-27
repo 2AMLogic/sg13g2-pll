@@ -5,11 +5,11 @@
 # would make "which build produced this record" a per-record question rather
 # than a repo-level fact.
 #
-# Pinned by exact git commit, mirroring 2AMLogic/sky130-pll's own
-# layout/requirements.txt convention (see that repo's klt-pin-decision.md)
-# and this repo's own CLAUDE.md harness-bootstrap rule: a commit hash names
-# one immutable tree, independent of PyPI's own release cadence
-# (klayout-tools#953, already tracked, cross-confirmed rather than re-filed).
+# Pinned by exact release (`==0.8.0` from PyPI) as of the 0.8.0 bump. Earlier
+# pins below were exact git commits; a `git+...@<sha>` build now reports a
+# dev version (`0.8.1.devN+g<sha>`) that no longer satisfies an `==0.8.0`
+# pin (klayout-tools#2823), so the release pin is the form that names one
+# immutable, version-checkable build.
 #
 # Bump history:
 #
@@ -33,7 +33,7 @@
 #     `5482cfe...` before pinning, so both fixes are present together. See
 #     `layout/pll/README.md`'s friction log for the re-run transcripts this
 #     bump produced.
-#   * 04c0fa91221364e4983151358b05c135691c4d40 (current pin) -- `main` HEAD as
+#   * 04c0fa91221364e4983151358b05c135691c4d40 -- `main` HEAD as
 #     of this bump (issue #24), picking up two merged upstream fixes and
 #     correcting one stale premise:
 #
@@ -59,7 +59,7 @@
 #
 #     Verified `5482cfe...` is an ancestor of `04c0fa9...` before pinning, so
 #     nothing the previous pin carried is lost.
-#   * fdf04f71ab39159838acb86e63a92d6fa0c714fa (current pin) -- `main` HEAD as
+#   * fdf04f71ab39159838acb86e63a92d6fa0c714fa -- `main` HEAD as
 #     of this bump (issue #31), picking up the fix issue #24 deliberately did
 #     not chase:
 #
@@ -84,7 +84,7 @@
 #       close it. The SG13CMOS5L side's two MoM-capacitor devices are
 #       therefore still expected to be undrawable at this pin; see
 #       `layout/sg13cmos5l-pll/README.md`.
-#   * daf06a51afaf0c98237e52e5018a880e61899ffa (current pin) -- `main` HEAD
+#   * daf06a51afaf0c98237e52e5018a880e61899ffa -- `main` HEAD
 #     as of this bump (issue #114, the `cap_cmomi` drawing pass), picking up
 #     the two closures that issue's own work rests on:
 #
@@ -113,10 +113,20 @@
 #       (`cmos5l_devices.draw_mom_cap`, issue #114), the same
 #       local-footprint decision issues #24/#35 made for MOS and resistors;
 #       see `layout/sg13cmos5l-pll/README.md`'s friction log.
+#   * 0.8.0 (current pin; PyPI release, tag v0.8.0 = c572046be644) -- moves
+#     off the `daf06a51afaf` dev commit (a pre-0.7.0 build, which 0.8.0
+#     contains) to the operator-approved release (issue #292). Picks up the
+#     0.7.0 and 0.8.0 CHANGELOG entries: the release version form
+#     (klayout-tools#2823), removal of `environment.remote.bucket` from batch
+#     reports (#3777), `klt sim` rejecting a `corners.supply_v` that names a
+#     `.param` (#2867), signoff grading changes, refreshed DRC/LVS/ERC deck
+#     content (IHP sg13g2 pad/ESD rules, #3854), and `klt lvs` refusing a
+#     bare pre-extracted netlist with a resistor `X` card (#3078). Re-run
+#     records for both layout flows follow the bump-discipline note below.
 #
 # Bump discipline, mirrored from sky130-pll: pin an exact commit, never
 # floating `main`; state in this header what the bump picks up; and re-run
 # **both** `layout/bin/run-pll-layout-flow.sh` and
 # `layout/bin/run-pll-cmos5l-layout-flow.sh`, checking the refreshed records
 # in as the non-regression (or, hopefully, regression-fixed) proof.
-klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@daf06a51afaf0c98237e52e5018a880e61899ffa
+klayout-tools==0.8.0

@@ -1,0 +1,102 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_cp
+* pin DN
+* pin DNB
+* pin IBN
+* pin IBP
+* pin ICN
+* pin ICP
+* pin UP
+* pin UPB
+* pin VDD
+* pin VDUMP
+* pin VOUT
+* pin VSS
+* pin XBUF_NDA
+* pin XBUF_NSRC
+* pin XBUF_PDA
+* pin XBUF_PSRC
+* pin XLEGN_sw
+* pin XLEGN_tail
+* pin XLEGP_sw
+* pin XLEGP_tail
+* pin nxn
+* pin nxp
+.SUBCKT pll_cp DN DNB IBN IBP ICN ICP UP UPB VDD VDUMP VOUT VSS XBUF_NDA
++ XBUF_NSRC XBUF_PDA XBUF_PSRC XLEGN_sw XLEGN_tail XLEGP_sw XLEGP_tail nxn nxp
+* device instance $1 r0 *1 2.3,3.11 nfet
+X$1 UPB UP VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $2 r0 *1 6.26,3.11 nfet
+X$2 DNB DN VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $3 r0 *1 16.86,3.36 nfet
+X$3 XBUF_NDA VOUT XBUF_NSRC VSS sg13_hv_nmos L=1U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $4 r0 *1 20.82,3.36 nfet
+X$4 VDUMP VDUMP XBUF_NSRC VSS sg13_hv_nmos L=1U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $5 r0 *1 31.42,4.36 nfet
+X$5 ICN ICN VSS VSS sg13_hv_nmos L=3U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $6 r0 *1 44.02,3.01 nfet
+X$6 VOUT DN XLEGN_sw VSS sg13_hv_nmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $7 r0 *1 51.98,3.01 nfet
+X$7 VDUMP DNB XLEGN_sw VSS sg13_hv_nmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $8 r0 *1 67.58,3.36 nfet
+X$8 XLEGN_tail IBN VSS VSS sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
++ PD=16.8U
+* device instance $9 r0 *1 77.54,3.36 nfet
+X$9 XLEGN_sw ICN XLEGN_tail VSS sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U
++ PD=16.8U
+* device instance $10 r0 *1 87.5,3.36 nfet
+X$10 nxn IBN VSS VSS sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $11 r0 *1 97.46,3.36 nfet
+X$11 IBN ICN nxn VSS sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $12 r0 *1 116.06,3.36 nfet
+X$12 XBUF_NSRC IBN VSS VSS sg13_hv_nmos L=1U W=12U AS=4.8P AD=4.8P PS=24.8U
++ PD=24.8U
+* device instance $13 r0 *1 138.66,3.36 nfet
+X$13 XBUF_PDA XBUF_PDA VSS VSS sg13_hv_nmos L=1U W=16U AS=6.4P AD=6.4P PS=32.8U
++ PD=32.8U
+* device instance $14 r0 *1 156.62,3.36 nfet
+X$14 VDUMP XBUF_PDA VSS VSS sg13_hv_nmos L=1U W=16U AS=6.4P AD=6.4P PS=32.8U
++ PD=32.8U
+* device instance $15 r0 *1 175.72,3.11 pfet
+X$15 UPB UP VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $16 r0 *1 182.68,3.11 pfet
+X$16 DNB DN VDD VDD sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $17 r0 *1 196.78,3.01 pfet
+X$17 VOUT UPB XLEGP_sw VDD sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $18 r0 *1 204.74,3.01 pfet
+X$18 VDUMP UP XLEGP_sw VDD sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U
++ PD=12.8U
+* device instance $19 r0 *1 219.34,3.11 pfet
+X$19 XBUF_PDA VOUT XBUF_PSRC XBUF_PSRC sg13_hv_pmos L=0.5U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $20 r0 *1 227.3,3.11 pfet
+X$20 VDUMP VDUMP XBUF_PSRC XBUF_PSRC sg13_hv_pmos L=0.5U W=6U AS=2.4P AD=2.4P
++ PS=12.8U PD=12.8U
+* device instance $21 r0 *1 241.9,4.36 pfet
+X$21 ICP ICP VDD VDD sg13_hv_pmos L=3U W=6U AS=2.4P AD=2.4P PS=12.8U PD=12.8U
+* device instance $22 r0 *1 265.5,3.36 pfet
+X$22 XLEGP_tail IBP VDD VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P PS=48.8U
++ PD=48.8U
+* device instance $23 r0 *1 291.46,3.36 pfet
+X$23 XLEGP_sw ICP XLEGP_tail VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P
++ PS=48.8U PD=48.8U
+* device instance $24 r0 *1 317.42,3.36 pfet
+X$24 XBUF_NDA XBUF_NDA VDD VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P PS=48.8U
++ PD=48.8U
+* device instance $25 r0 *1 343.38,3.36 pfet
+X$25 VDUMP XBUF_NDA VDD VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P PS=48.8U
++ PD=48.8U
+* device instance $26 r0 *1 369.34,3.36 pfet
+X$26 nxp IBP VDD VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P PS=48.8U PD=48.8U
+* device instance $27 r0 *1 395.3,3.36 pfet
+X$27 IBP ICP nxp VDD sg13_hv_pmos L=1U W=24U AS=9.6P AD=9.6P PS=48.8U PD=48.8U
+* device instance $28 r0 *1 433.9,3.36 pfet
+X$28 XBUF_PSRC IBP VDD VDD sg13_hv_pmos L=1U W=36U AS=14.4P AD=14.4P PS=72.8U
++ PD=72.8U
+.ENDS pll_cp

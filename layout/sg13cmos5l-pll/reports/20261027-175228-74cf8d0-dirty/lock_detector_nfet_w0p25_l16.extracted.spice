@@ -1,0 +1,9 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell lock_detector_nfet_w0p25_l16
+* pin vsubs
+.SUBCKT lock_detector_nfet_w0p25_l16 vsubs
+* device instance $1 r0 *1 1.425,10.86 nfet
+X$1 \$2 \$1 \$3 vsubs sg13_hv_nmos L=16U W=0.25U AS=0.115P AD=0.115P PS=1.4U
++ PD=1.4U
+.ENDS lock_detector_nfet_w0p25_l16
