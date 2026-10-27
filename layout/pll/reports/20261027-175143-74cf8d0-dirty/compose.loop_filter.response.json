@@ -1,0 +1,124 @@
+{
+  "cell_name": "pll_loop_filter",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_loop_filter",
+    "gds_path": "pll_loop_filter.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": "fetched:0.3.0"
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": 0.0,
+      "x1": 179.23999999999998,
+      "y1": 43.34
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "loop_filter_resrppd_w4_l120",
+        "source": "generator_report",
+        "generator": "res_array",
+        "cell_name": "loop_filter_resrppd_w4_l120",
+        "source_path": "loop_filter_resrppd_w4_l120.gds",
+        "source_digest": "sha256:346e06065ee5a3f7043ace436d160a14a84fad7d48fa7817d9b9a88b25f13693",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 120.84,
+          "y1": 4.0
+        },
+        "orientation": "none",
+        "abuts": []
+      },
+      {
+        "id": "loop_filter_XC1",
+        "source": "generator_report",
+        "generator": "cap_array",
+        "cell_name": "loop_filter_XC1",
+        "source_path": "loop_filter_XC1.gds",
+        "source_digest": "sha256:219171e918e1d885f77b4064e4e348524a4db5790f84ba58a60759e1c125fb8f",
+        "offset_um": {
+          "x": 124.84,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 124.84,
+          "y0": 0.0,
+          "x1": 166.04000000000002,
+          "y1": 43.34
+        },
+        "orientation": "none",
+        "abuts": []
+      },
+      {
+        "id": "loop_filter_XC2",
+        "source": "generator_report",
+        "generator": "cap_array",
+        "cell_name": "loop_filter_XC2",
+        "source_path": "loop_filter_XC2.gds",
+        "source_digest": "sha256:78fa2345345d56ed91c169c3b87045f9d16b478f8df97b3ddf67428dd1659f0a",
+        "offset_um": {
+          "x": 170.04,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 170.04,
+          "y0": 0.0,
+          "x1": 179.23999999999998,
+          "y1": 11.34
+        },
+        "orientation": "none",
+        "abuts": []
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "res_array:1",
+          "blocks": [
+            "loop_filter_resrppd_w4_l120"
+          ],
+          "placement_symmetric": null
+        },
+        {
+          "matched_group_id": "cap_array:1",
+          "blocks": [
+            "loop_filter_XC1",
+            "loop_filter_XC2"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13g2",
+        "source": "search root: ~/share/pdk",
+        "version": "fetched:0.3.0"
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stderr": ""
+}

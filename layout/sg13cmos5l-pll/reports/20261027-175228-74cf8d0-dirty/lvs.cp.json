@@ -1,0 +1,243 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 2,
+    "engine": "klayout",
+    "layout": {
+      "path": "layout/sg13cmos5l-pll/reports/20261027-175228-74cf8d0-dirty/pll_cp.gds",
+      "scope": "repo"
+    },
+    "reference": "cp.reference.spice",
+    "top": "pll_cp",
+    "reference_top": "CP",
+    "parameter_tolerance": null,
+    "options": {
+      "combine_devices": false,
+      "combine_devices_per_circuit": null,
+      "combine_devices_max_attempts": 5,
+      "flatten_layout": true,
+      "flatten_reference": true,
+      "netgen_setup": null,
+      "parameter_tolerance": null,
+      "compare_parameters": null,
+      "power_connectivity": null,
+      "anchor_top_level_pins": null,
+      "strict_top_level_pin_count": false,
+      "compare_mos_flavour": false,
+      "supply_nets": [
+        "GND",
+        "VCC",
+        "VDD",
+        "VGND",
+        "VPWR",
+        "VSS"
+      ],
+      "finfet_bulk": null
+    },
+    "hints_applied": null,
+    "constant_nets_applied": null,
+    "status": "match",
+    "power_connectivity": {
+      "status": "unchecked",
+      "reason": "reference.form is 'plain-element', whose reference netlist carries its own power/ground pins and nets -- they take part in the ordinary compare, so this check (which exists to cover the signal-only 'gate-level-verilog' form) does not apply",
+      "power_pins": [],
+      "power_pins_derivation": null,
+      "instance_count": 0,
+      "expected_nets": null,
+      "unchecked_expected_pins": [],
+      "findings": [],
+      "finding_count": 0
+    },
+    "body_verification": {
+      "status": "verified",
+      "reason": null,
+      "device_classes": [],
+      "device_count": 0,
+      "findings": [],
+      "finding_count": 0
+    },
+    "device_parameter_coverage": [],
+    "mismatch_count": 1,
+    "error_count": 0,
+    "category_counts": {
+      "topology.flattened": 1
+    },
+    "category_error_counts": {},
+    "counts": {
+      "nets": {
+        "layout": 22,
+        "reference": 22,
+        "matched": 22
+      },
+      "devices": {
+        "layout": 28,
+        "reference": 28,
+        "matched": 28
+      },
+      "pins": {
+        "layout": 22,
+        "reference": 9,
+        "matched": 22
+      }
+    },
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "environment": {
+      "engine": "klayout",
+      "engine_version": "0.30.12",
+      "netgen_binary": null,
+      "layout_sha256": "840267fda95d9ae699ba85f2fc7b7931a19cc05bf2e3c93d2978899545dfe050",
+      "reference_sha256": "51d15780691d6338e10567673d037c07935c15e3d2226dbeb8c1213df6df4a95",
+      "extracted_netlist": null
+    },
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:5a43b8eb0e1a4c228169cd33d820bf75ca5640812587f68c07f24f4aa2a1738f",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:840267fda95d9ae699ba85f2fc7b7931a19cc05bf2e3c93d2978899545dfe050",
+        "role": "layout"
+      },
+      "klayout_version_mismatch": false
+    },
+    "mismatches": [
+      {
+        "category": "topology.flattened",
+        "severity": "warning",
+        "description": "options.flatten_reference flattened the reference netlist before comparing: 5 circuit(s) were collapsed into 1 top-level circuit(s), substituting every subcircuit-call instance in place -- this compare verified topology only after removing the original hierarchy boundaries on this side (see docs/cli/lvs.md, \"topology.flattened\")",
+        "side": "reference",
+        "net": null,
+        "device": null,
+        "property": null,
+        "details": null,
+        "circuit": null,
+        "instance": null,
+        "subcircuit": null
+      }
+    ],
+    "net_correspondence": [
+      {
+        "layout": "XBUF_NDA",
+        "reference": "BUF_NDA",
+        "pin": true
+      },
+      {
+        "layout": "XBUF_NSRC",
+        "reference": "BUF_NSRC",
+        "pin": true
+      },
+      {
+        "layout": "XBUF_PDA",
+        "reference": "BUF_PDA",
+        "pin": true
+      },
+      {
+        "layout": "XBUF_PSRC",
+        "reference": "BUF_PSRC",
+        "pin": true
+      },
+      {
+        "layout": "DN",
+        "reference": "DN",
+        "pin": true
+      },
+      {
+        "layout": "DNB",
+        "reference": "DNB",
+        "pin": true
+      },
+      {
+        "layout": "IBN",
+        "reference": "IBN",
+        "pin": true
+      },
+      {
+        "layout": "IBP",
+        "reference": "IBP",
+        "pin": true
+      },
+      {
+        "layout": "ICN",
+        "reference": "ICN",
+        "pin": true
+      },
+      {
+        "layout": "ICP",
+        "reference": "ICP",
+        "pin": true
+      },
+      {
+        "layout": "XLEGN_sw",
+        "reference": "LEGN_SW",
+        "pin": true
+      },
+      {
+        "layout": "XLEGN_tail",
+        "reference": "LEGN_TAIL",
+        "pin": true
+      },
+      {
+        "layout": "XLEGP_sw",
+        "reference": "LEGP_SW",
+        "pin": true
+      },
+      {
+        "layout": "XLEGP_tail",
+        "reference": "LEGP_TAIL",
+        "pin": true
+      },
+      {
+        "layout": "nxn",
+        "reference": "NXN",
+        "pin": true
+      },
+      {
+        "layout": "nxp",
+        "reference": "NXP",
+        "pin": true
+      },
+      {
+        "layout": "UP",
+        "reference": "UP",
+        "pin": true
+      },
+      {
+        "layout": "UPB",
+        "reference": "UPB",
+        "pin": true
+      },
+      {
+        "layout": "VDD",
+        "reference": "VDD",
+        "pin": true
+      },
+      {
+        "layout": "VDUMP",
+        "reference": "VDUMP",
+        "pin": true
+      },
+      {
+        "layout": "VOUT",
+        "reference": "VOUT",
+        "pin": true
+      },
+      {
+        "layout": "VSS",
+        "reference": "VSS",
+        "pin": true
+      }
+    ]
+  },
+  "stderr": ""
+}

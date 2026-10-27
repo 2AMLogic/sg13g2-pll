@@ -1,0 +1,164 @@
+{
+  "top": "loop_filter_XC2",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 4,
+    "file": {
+      "path": "layout/pll/reports/20261027-175143-74cf8d0-dirty/loop_filter_XC2.gds",
+      "scope": "repo"
+    },
+    "deck": "sg13g2",
+    "top": "loop_filter_XC2",
+    "dbu_um": 0.001,
+    "netlist_path": "loop_filter_XC2.spice",
+    "netlist_sha256": "4b566895362fc23346cf8d647eeac0a6756d502a0410c0f73fe8fa763c7a1085",
+    "netlist_normalized_sha256": "3adbb51866910ccb6dbf747416274bb038ce71ddb7a122d683af0940e901b1ee",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 2,
+    "pin_count": 0,
+    "device_counts": {
+      "cap_cmim": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 36,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 129,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmim",
+      "rfcmim",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor",
+      "dantenna",
+      "dpantenna"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "cap_cmim",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2"
+        },
+        "params": {
+          "c_f": 9.728e-14,
+          "area_um2": 64.0,
+          "perimeter_um": 32.0
+        },
+        "instance_path": [
+          {
+            "cell": "cap_array",
+            "array_index": null
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 1,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 2,
+        "pin_index": null,
+        "label_positions_um": []
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (5/1, 8/25, 10/25, 30/25, 50/25, 67/25, 126/25, 134/25) anywhere in 'loop_filter_XC2' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "0 top-level pins are promoted on 'loop_filter_XC2' after extraction -- `klt lvs` has no net/device anchor to seed correspondence against a reference netlist and will report a full mismatch regardless of device-count agreement. If this design genuinely has zero top-level pins by intent, this warning can be ignored; otherwise see the pin-name-label warning above (if present) or check that --top-cell-pins/--pins/--def-pins did not demote every promoted pin (issue #1385)",
+      "1 drawn capacitor ('cap_cmim') written as a fixed-value 'C' card (the deck's nominal area+perimeter value) -- PDK process corners (e.g. mimcap_ff/mimcap_ss) do not apply to it, so schematic-vs-extracted deltas at non-typical corners include a capacitor-corner term; pass --pdk to bind the PDK capacitor subcircuit instead. See docs/cli/extract.md's 'SPICE model binding' section.",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "split_net_labels": [],
+    "voltage_domain_warnings": [],
+    "missing_flavour_markers": [],
+    "unsupported_devices": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "def_pin_promotion": null,
+    "pin_renames": null,
+    "rename_declared_pins": false,
+    "declared_pins": null,
+    "def_pins": null,
+    "label_layers": null,
+    "probes": [],
+    "pdk": null,
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": null,
+      "deck": {
+        "name": "sg13g2",
+        "content_hash": "sha256:1c95db40596afc5412e216009bcf0b775d1d74895b32738447eccbc76336dd15",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:62fe846f37371a442bee898742d50da88ab0ba3b9f92c66c8ec8552c27e92345",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 1,
+      "extract__net__count": 2,
+      "extract__pin__count": 0
+    },
+    "timing": {
+      "stages": {
+        "read_layout": 0.0,
+        "device_extraction": 0.003,
+        "diagnostics": 0.0,
+        "netlist_write": 0.0,
+        "netlist_hash": 0.0,
+        "netlist_normalized_hash": 0.0
+      },
+      "total_seconds": 0.091,
+      "unattributed_seconds": 0.088
+    }
+  },
+  "stderr": ""
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "klt.lvs.request/1",
+  "engine": "klayout",
+  "layout": {
+    "file": "pll_pfd.gds",
+    "deck": "sg13cmos5l",
+    "top": "pll_pfd"
+  },
+  "reference": {
+    "netlist": "pfd.reference.spice",
+    "deck": "sg13cmos5l"
+  },
+  "options": {
+    "flatten_layout": true,
+    "flatten_reference": true
+  }
+}

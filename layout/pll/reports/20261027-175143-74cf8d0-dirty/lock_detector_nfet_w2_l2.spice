@@ -1,0 +1,12 @@
+* extracted by klt extract --deck sg13g2
+
+* cell lock_detector_nfet_w2_l2
+* pin vsubs
+.SUBCKT lock_detector_nfet_w2_l2 vsubs
+* device instance $1 r0 *1 1.42,1 nfet
+M$1 \$2 \$7 \$1 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $2 r0 *1 4.66,1 nfet
+M$2 \$4 \$8 \$3 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+* device instance $3 r0 *1 7.9,1 nfet
+M$3 \$6 \$9 \$5 vsubs nfet L=2U W=2U AS=0.84P AD=0.84P PS=4.84U PD=4.84U
+.ENDS lock_detector_nfet_w2_l2

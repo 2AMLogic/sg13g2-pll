@@ -1,0 +1,75 @@
+{
+  "group_id": "lock_detector_XDW.XC1",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "cap_array",
+    "cell_name": "lock_detector_XDW.XC1",
+    "gds_path": "lock_detector_XDW.XC1.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": "fetched:0.3.0"
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": 0.0,
+      "y0": 0.0,
+      "x1": 46.2,
+      "y1": 48.34
+    },
+    "device_count": 1,
+    "ports": [
+      {
+        "name": "C0_BOT",
+        "net": null,
+        "layer": {
+          "layer": 67,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 0.0,
+        "y_um": 23.1,
+        "width_um": 46.2,
+        "direction_deg": 180
+      },
+      {
+        "name": "C0_TOP",
+        "net": null,
+        "layer": {
+          "layer": 126,
+          "datatype": 0,
+          "name": null
+        },
+        "x_um": 23.1,
+        "y_um": 47.52,
+        "width_um": 1.64,
+        "direction_deg": 90
+      }
+    ],
+    "navigable_regions": [],
+    "drc_hints": {
+      "min_spacing_um": 0.5,
+      "foreign_clearance_um": 0.4,
+      "matched_group_id": "cap_array:1",
+      "snapped_to_grid": false,
+      "notes": []
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13g2",
+        "source": "search root: ~/share/pdk",
+        "version": "fetched:0.3.0"
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stdout": "{\n  \"schema_version\": 1,\n  \"generator\": \"cap_array\",\n  \"cell_name\": \"lock_detector_XDW.XC1\",\n  \"gds_path\": \"lock_detector_XDW.XC1.gds\",\n  \"pdk\": {\n    \"name\": \"ihp-sg13g2\",\n    \"variant\": \"ihp-sg13g2\",\n    \"version\": \"fetched:0.3.0\"\n  },\n  \"dbu_um\": 0.001,\n  \"bbox_um\": {\n    \"x0\": 0.0,\n    \"y0\": 0.0,\n    \"x1\": 46.2,\n    \"y1\": 48.34\n  },\n  \"device_count\": 1,\n  \"ports\": [\n    {\n      \"name\": \"C0_BOT\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 67,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 0.0,\n      \"y_um\": 23.1,\n      \"width_um\": 46.2,\n      \"direction_deg\": 180\n    },\n    {\n      \"name\": \"C0_TOP\",\n      \"net\": null,\n      \"layer\": {\n        \"layer\": 126,\n        \"datatype\": 0,\n        \"name\": null\n      },\n      \"x_um\": 23.1,\n      \"y_um\": 47.52,\n      \"width_um\": 1.64,\n      \"direction_deg\": 90\n    }\n  ],\n  \"navigable_regions\": [],\n  \"drc_hints\": {\n    \"min_spacing_um\": 0.5,\n    \"foreign_clearance_um\": 0.4,\n    \"matched_group_id\": \"cap_array:1\",\n    \"snapped_to_grid\": false,\n    \"notes\": []\n  },\n  \"warnings\": [],\n  \"provenance\": {\n    \"klt_version\": \"0.8.0\",\n    \"klayout_version\": \"0.30.12\",\n    \"pdk\": {\n      \"name\": \"ihp-sg13g2\",\n      \"source\": \"search root: ~/share/pdk\",\n      \"version\": \"fetched:0.3.0\"\n    },\n    \"deck\": null,\n    \"input\": null\n  }\n}",
+  "stderr": ""
+}

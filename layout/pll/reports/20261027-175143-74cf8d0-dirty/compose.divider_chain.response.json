@@ -1,0 +1,97 @@
+{
+  "cell_name": "pll_divider_chain",
+  "attempted": true,
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 1,
+    "generator": "gen-compose",
+    "cell_name": "pll_divider_chain",
+    "gds_path": "pll_divider_chain.gds",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "variant": "ihp-sg13g2",
+      "version": "fetched:0.3.0"
+    },
+    "dbu_um": 0.001,
+    "bbox_um": {
+      "x0": -0.15,
+      "y0": 0.0,
+      "x1": 342.53000000000003,
+      "y1": 12.99
+    },
+    "ports": [],
+    "blocks": [
+      {
+        "id": "divider_chain_nfet_w2_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "divider_chain_nfet_w2_l0p5",
+        "source_path": "divider_chain_nfet_w2_l0p5.gds",
+        "source_digest": "sha256:9498f442ca34796dc37ffb326b43590ff1296a090f8d8cfd21cccc3d723bbf08",
+        "offset_um": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "bbox_um": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 342.38,
+          "y1": 2.92
+        },
+        "orientation": "none",
+        "abuts": []
+      },
+      {
+        "id": "divider_chain_pfet_w5_l0p5",
+        "source": "generator_report",
+        "generator": "mos_array",
+        "cell_name": "divider_chain_pfet_w5_l0p5",
+        "source_path": "divider_chain_pfet_w5_l0p5.gds",
+        "source_digest": "sha256:a2470a88033a890acf7dca5597984a38dfa9813972a852064c4c401349a3d1d5",
+        "offset_um": {
+          "x": 0.0,
+          "y": 6.92
+        },
+        "bbox_um": {
+          "x0": -0.15,
+          "y0": 6.77,
+          "x1": 342.53000000000003,
+          "y1": 12.99
+        },
+        "orientation": "none",
+        "abuts": []
+      }
+    ],
+    "nets": [],
+    "pins": [],
+    "unrouted_nets": [],
+    "drc_hints": {
+      "min_spacing_um": null,
+      "matched_groups": [
+        {
+          "matched_group_id": "mos_array:1x197:array",
+          "blocks": [
+            "divider_chain_nfet_w2_l0p5",
+            "divider_chain_pfet_w5_l0p5"
+          ],
+          "placement_symmetric": null
+        }
+      ],
+      "notes": []
+    },
+    "warnings": [],
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13g2",
+        "source": "search root: ~/share/pdk",
+        "version": "fetched:0.3.0"
+      },
+      "deck": null,
+      "input": null
+    }
+  },
+  "stderr": ""
+}

@@ -1,0 +1,12 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell genprobe_mos_nfet
+* pin vsubs
+.SUBCKT genprobe_mos_nfet vsubs
+* device instance $1 r0 *1 0.67,1 nfet
+X$1 \$2 \$5 \$1 vsubs sg13_lv_nmos L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U
++ PD=4.84U
+* device instance $2 r0 *1 2.41,1 nfet
+X$2 \$4 \$6 \$3 vsubs sg13_lv_nmos L=0.5U W=2U AS=0.84P AD=0.84P PS=4.84U
++ PD=4.84U
+.ENDS genprobe_mos_nfet

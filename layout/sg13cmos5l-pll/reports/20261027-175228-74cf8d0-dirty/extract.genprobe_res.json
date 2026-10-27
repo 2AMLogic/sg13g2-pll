@@ -1,0 +1,190 @@
+{
+  "returncode": 0,
+  "ok": true,
+  "response": {
+    "schema_version": 4,
+    "file": {
+      "path": "layout/sg13cmos5l-pll/reports/20261027-175228-74cf8d0-dirty/genprobe_res.gds",
+      "scope": "repo"
+    },
+    "deck": "sg13cmos5l",
+    "top": "genprobe_res",
+    "dbu_um": 0.001,
+    "netlist_path": "genprobe_res.extracted.spice",
+    "netlist_sha256": "f126769378e7ea4c4c71d6b1c643785cc00bf88b1eaaf2bebff6767b6dea0ccb",
+    "netlist_normalized_sha256": "2887c5a68a26278aad57e1b8b3d75cecb71bb6904ac3b2326efeb666008b6f52",
+    "status": "extracted",
+    "device_count": 1,
+    "net_count": 3,
+    "pin_count": 1,
+    "device_counts": {
+      "rppd": 1
+    },
+    "dummy_devices_dropped": 0,
+    "ignored_layers": [],
+    "device_recognition_only_layers": [
+      {
+        "layer": 28,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 111,
+        "datatype": 0,
+        "shapes": 1
+      },
+      {
+        "layer": 128,
+        "datatype": 0,
+        "shapes": 1
+      }
+    ],
+    "device_classes": [
+      "nfet",
+      "pfet",
+      "cap_cmomi",
+      "cap_cmomf",
+      "resistor"
+    ],
+    "devices": [
+      {
+        "name": "$1",
+        "class": "rppd",
+        "nets": {
+          "a": "\\$1",
+          "b": "\\$2",
+          "w": "vsubs"
+        },
+        "params": {
+          "r_ohm": 347641.419142,
+          "l_um": 810.0,
+          "w_um": 0.6,
+          "area_um2": 486.0,
+          "perimeter_um": 1621.2
+        },
+        "instance_path": [
+          {
+            "cell": "res_array",
+            "array_index": null
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "\\$1",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 1,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "\\$2",
+        "pin": false,
+        "device_count": 1,
+        "net_id": 2,
+        "pin_index": null,
+        "label_positions_um": []
+      },
+      {
+        "name": "vsubs",
+        "pin": true,
+        "device_count": 1,
+        "net_id": 3,
+        "pin_index": 0,
+        "label_positions_um": []
+      }
+    ],
+    "warnings": [
+      "found 0 pin-name label(s) on any of this deck's label layers (31/2, 5/2, 8/2, 10/2, 30/2, 50/2, 126/2) anywhere in 'genprobe_res' -- no net can be named, so 0 top-level pins will be promoted below and `klt lvs` will have no net/device anchor to seed a match against a reference netlist. Compare the layers `klt layers` reports for this GDS against the list above; for a `klt place-and-route` layout in particular, check that request.io.layer_h/layer_v chose a layer this --deck actually scans for pin labels (issue #1385)",
+      "deck 'sg13cmos5l' declares MOS flavour 'hv' scoped by marker layer 44/0, but that layer has no shapes in the layout; every MOS device binds to the deck's default flavour",
+      "2 nets connect to exactly one device terminal -- source/drain/body/resistor-equivalent, not a gate -- and are not a declared pin; this can be a legitimate single-terminal tie (e.g. an intentionally unterminated dummy's diffusion tie), but confirm these nets have no other intended connectivity -- see single_terminal_nets[] for the full list."
+    ],
+    "black_box_regions": [],
+    "abstracted_cells": [],
+    "unmodelled_poly": [],
+    "merged_net_labels": [],
+    "split_net_labels": [],
+    "voltage_domain_warnings": [],
+    "missing_flavour_markers": [
+      {
+        "deck": "sg13cmos5l",
+        "flavour": "hv",
+        "marker": "44/0"
+      }
+    ],
+    "unsupported_devices": [],
+    "unbiased_pmos_body_nets": [],
+    "single_terminal_nets": [
+      {
+        "net": "\\$1",
+        "device": "$1",
+        "terminal": "a",
+        "terminal_kind": "a"
+      },
+      {
+        "net": "\\$2",
+        "device": "$1",
+        "terminal": "b",
+        "terminal_kind": "b"
+      }
+    ],
+    "dead_metal": [],
+    "matched_device_groups": [],
+    "def_pin_promotion": null,
+    "pin_renames": null,
+    "rename_declared_pins": false,
+    "declared_pins": null,
+    "def_pins": null,
+    "label_layers": null,
+    "probes": [],
+    "pdk": {
+      "variant": "ihp-sg13cmos5l",
+      "root": {
+        "path": null,
+        "scope": "external"
+      },
+      "version": null
+    },
+    "provenance": {
+      "klt_version": "0.8.0",
+      "klayout_version": "0.30.12",
+      "pdk": {
+        "name": "ihp-sg13cmos5l",
+        "source": "search root: ~/share/pdk",
+        "version": null
+      },
+      "deck": {
+        "name": "sg13cmos5l",
+        "content_hash": "sha256:5a43b8eb0e1a4c228169cd33d820bf75ca5640812587f68c07f24f4aa2a1738f",
+        "released": true
+      },
+      "input": {
+        "content_hash": "sha256:5ab62ae4f513d87d1639854541a192fbd8f9ffa59f5341cf7227e5be691abbf6",
+        "role": "layout"
+      }
+    },
+    "parasitics": null,
+    "spef_path": null,
+    "subcircuit": null,
+    "metrics": {
+      "extract__device__count": 1,
+      "extract__net__count": 3,
+      "extract__pin__count": 1
+    },
+    "timing": {
+      "stages": {
+        "read_layout": 0.0,
+        "device_extraction": 0.003,
+        "diagnostics": 0.0,
+        "netlist_write": 0.0,
+        "netlist_hash": 0.0,
+        "netlist_normalized_hash": 0.0
+      },
+      "total_seconds": 0.103,
+      "unattributed_seconds": 0.099
+    }
+  },
+  "stderr": ""
+}

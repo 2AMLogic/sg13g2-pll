@@ -566,11 +566,11 @@ The grade is meaningful only tied to the build that produced it — the
 committed `build` block of [`sg13g2-pll.tier-report.json`](sg13g2-pll.tier-report.json):
 
 ```
-klt 0.7.1.dev1744+g44cc42323184  (klayout-tools @ 44cc42323184a2f3a440b89789bf174488a6b1e4,
-dirty: false, grading_ruleset_id: sha256:903c4365…)
+klt 0.8.0  (klayout-tools==0.8.0 from PyPI, tag v0.8.0 = c572046be644,
+dirty: false, grading_ruleset_id: sha256:46c446d8…)
 ```
 
-a commit containing the `klt signoff --attest` producer (klayout-tools#2844,
+a release containing the `klt signoff --attest` producer (klayout-tools#2844,
 needed for item 10) and still accepting the RFC 6901 `"pointer"` bindings
 (klayout-tools#2376) that the item-4 citations use. The #266 bump moved from
 `e6284fbe62e2` (klt 0.6.0, KLayout 0.30.10) to `44cc42323184` (KLayout
@@ -603,17 +603,15 @@ only changes are `4.analog` and `4.digital` going `unmet/no_evidence` to
 `0.30.10`. The tier-doc additions are partition-boundary reporting and
 extra ERC tie reasons, which do not affect these rows.
 
-Install the grader from a **clean clone** of the pinned commit — a
-`git+https://…@<commit>` direct install builds from a dirty temp checkout
-and reports `dirty: true` in the report's build block:
+Install the grader from the pinned PyPI release (a release build reports a
+bare `klt 0.8.0`; a `git+https://…@<commit>` build reports a dev version that
+does not satisfy `==0.8.0`, klayout-tools#2823):
 
 ```bash
-git clone https://github.com/2AMLogic/klayout-tools /tmp/klt
-git -C /tmp/klt checkout 44cc42323184a2f3a440b89789bf174488a6b1e4
 python3 -m venv /tmp/klt-venv
-# klayout pinned to this commit's own uv.lock entry (KLAYOUT_VERSION_EXPECTED)
-/tmp/klt-venv/bin/pip install -q "klayout==0.30.12" /tmp/klt
-/tmp/klt-venv/bin/klt --version   # klt 0.7.1.dev1744+g44cc42323184
+# klayout pinned to the version klayout-tools 0.8.0 itself resolves
+/tmp/klt-venv/bin/pip install -q "klayout==0.30.12" "klayout-tools==0.8.0"
+/tmp/klt-venv/bin/klt --version   # klt 0.8.0
 ```
 
 and the committed report is reproduced with the grade re-run from the
