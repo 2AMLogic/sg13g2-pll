@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-27
+
+- **PR #293**: build: pin klayout-tools to 0.8.0 and regenerate signoff evidence
+- **Issue #292** (closed): Bump klayout-tools pin daf06a51afaf → 0.8.0
+
 ### 2026-10-24
 
 - **PR #289**: chore(layout): prune superseded flow records, document retention policy
