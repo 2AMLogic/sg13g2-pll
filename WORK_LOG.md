@@ -2,6 +2,10 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-10-29
+
+- **Issue #122** (closed): README: embed the fleet burndown chart (one line)
+
 ### 2026-10-27
 
 - **PR #293**: build: pin klayout-tools to 0.8.0 and regenerate signoff evidence
