@@ -31,7 +31,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#297**: Add a static netlist guard for pfd reset-chain parity in both committed pfd netlists
 
 ## PRs Awaiting Review
 
@@ -43,7 +43,7 @@ _None._
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
-_None._
+- **#298**: test: add static pfd reset-chain parity guard
 
 ## Proposed
 
@@ -54,6 +54,7 @@ Issues carrying `loom:curated`.
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
 - **#212**: Item 9 campaign: charge-pump and divider-retiming provenance *(curated)*
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance *(curated)*
+- **#297**: Add a static netlist guard for pfd reset-chain parity in both committed pfd netlists *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -78,10 +79,10 @@ Issues carrying `loom:curated`.
 | Very important | 0 |
 | Important | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 0 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 0 |
-| Curated | 5 |
+| Approved PRs awaiting merge | 1 |
+| Curated | 6 |
 | Architect / Hermit proposals | 4 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
