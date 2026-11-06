@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-11-06
+
+- **PR #298**: test: add static pfd reset-chain parity guard
+- **Issue #297** (closed): Add a static netlist guard for pfd reset-chain parity in both committed pfd netlists
+
 ### 2026-10-29
 
 - **Issue #122** (closed): README: embed the fleet burndown chart (one line)
