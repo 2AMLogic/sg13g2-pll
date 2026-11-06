@@ -195,6 +195,8 @@ jobs:
       - name: Re-attest T1 item 1 (design sources + netlists vs committed envelope)
         run: |
           python3 manifests/test_check_netlist_stamp.py
+          python3 design/test_check_pfd_reset_parity.py
+          python3 design/check_pfd_reset_parity.py
           PATH="$RUNNER_TEMP/klt-venv/bin:$PATH" \
             klt signoff --attest 1 \
               --inventory manifests/inventories/item-1.json \

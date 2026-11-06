@@ -259,6 +259,8 @@ are on the library path, and adds `design/` itself (for this repo's own
 symbols) and every `sim/<experiment-slug>/testbench/` (once any exist, out
 of this issue's scope) to the library path.
 
+`design/check_pfd_reset_parity.py` (tested by `design/test_check_pfd_reset_parity.py`, run in `signoff.yml`) statically fails CI if either committed `pfd.spice` loses the odd-inverter reset chain after `NAND2(UP,DN)` that makes `reset = AND(UP,DN)` (#56, #283).
+
 ## Regenerating and editing
 
 The cells were emitted programmatically to keep placement and the label
