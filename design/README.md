@@ -564,6 +564,16 @@ pattern for its *layout* phase.
   below the ported 3.5 MHz floor, where gf180-pll's own (unmeasured) hand
   argument predicts chatter — this repo has not measured that regime either.
 
+  **`LOCK` polarity is active-low** (`LOCK` = 0 means locked, `LOCK` = VDD
+  means not locked), as netlisted and as measured
+  (`sim/sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md`:
+  in-window rail `lo`). The pin keeps the name `LOCK`; consumers must read it
+  as active-low. No output inverter is added. Recorded in
+  [DR-011](../spec/decision-records/DR-011-lock-detector-fref-50mhz-and-lock-polarity.md)
+  (proposed), which also proposes extending the supported `f_ref` range to
+  50 MHz with a target trip band of 11–25% (assert) / 18–37% (de-assert) of
+  `T_ref`; the block does not meet that band at 50 MHz today (rework: #302).
+
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,
 internal design stays all-3.3V per DR-002) is ratified by
