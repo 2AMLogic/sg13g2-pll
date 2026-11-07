@@ -7,7 +7,7 @@ Current backlog state maintained by the Loom Guide role.
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
-_None._
+- **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
 
 ## Very Important
 
@@ -31,7 +31,7 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-_None._
+- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296)
 
 ## PRs Awaiting Review
 
@@ -43,7 +43,7 @@ _None._
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
-_None._
+- **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
 
 ## Proposed
 
@@ -74,13 +74,13 @@ Issues carrying `loom:curated`.
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 0 |
+| Operator merge-risk holds | 1 |
 | Very important | 0 |
 | Important | 0 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 0 |
+| In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 0 |
+| Approved PRs awaiting merge | 1 |
 | Curated | 5 |
 | Architect / Hermit proposals | 4 |
 | Active epics | 5 |
