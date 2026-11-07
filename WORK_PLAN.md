@@ -54,6 +54,7 @@ Issues carrying `loom:curated`.
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
 - **#212**: Item 9 campaign: charge-pump and divider-retiming provenance *(curated)*
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance *(curated)*
+- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -81,7 +82,7 @@ Issues carrying `loom:curated`.
 | In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 0 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 5 |
+| Curated | 6 |
 | Architect / Hermit proposals | 4 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
