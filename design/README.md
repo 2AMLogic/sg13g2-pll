@@ -572,7 +572,10 @@ pattern for its *layout* phase.
   [DR-011](../spec/decision-records/DR-011-lock-detector-fref-50mhz-and-lock-polarity.md)
   (proposed), which also proposes extending the supported `f_ref` range to
   50 MHz with a target trip band of 11–25% (assert) / 18–37% (de-assert) of
-  `T_ref`; the block does not meet that band at 50 MHz today (rework: #302).
+  `T_ref`; the block does **not** meet that band across PVT today, at 3.5–24.4 MHz
+  (9 of 21 committed corners fall outside) as well as at 50 MHz (rework: #302,
+  which likely needs a topology change; see DR-011 Decision 3). The
+  11.7–24.4 % / 18.7–36.6 % figures above are `mos_tt`/`res_typ`/27 °C only.
 
 **Rail boundary**: DR-003 Finding 3's recommendation (Challenge #6's "1.2V
 digital / 3.3V analog" is the wrapper's I/O-boundary convention only,
