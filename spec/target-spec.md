@@ -89,7 +89,7 @@ the plan.
 | 11 | Power | O | Det | both | No whole-PLL total proposed. Per-domain evidence exists (below the table). Gate: R-2 and R-3 | porting-plan row 11 (re-derive, no V^2 rescale) | see per-domain list | n/a |
 | 12 | Supply sensitivity | O | Det | Analog (`vco`) | No number proposed (two-budget structure: AC ripple ceiling, DC Vctrl-window ceiling). Gate: R-7 | porting-plan row 12 | `sg13cmos5l-vco-decap-momcap`: `records/RECORD-001-decap-momcap-sensitivity.md` (decap value and fractional pole sensitivity only) | n/a |
 | 13 | Output duty cycle | O | Det | Analog (`vco`) | Candidate bound is the ported 45 to 55%, not relaxed. Measured 43.74 to 51.56% over 300 points; 30 of 300 are below 45%, all at -40 C. The candidate is therefore **not met** today; see R-8 | porting-plan row 13 (ported target) | `sg13cmos5l-vco-duty-cycle`: `records/RECORD-001-duty-cycle-and-vco-current.md` | `mos_fs`, -40 C, `VCTRL` = 0.3 V (43.74%) |
-| 14 | Output levels / drive | P | Det | Analog (`vco` output buffer) | V_OH >= 0.9 x VDD and V_OL <= 0.1 x VDD into <= 50 fF, ported as-is. No SG13CMOS5L measurement found | porting-plan row 14 | none | n/a |
+| 14 | Output levels / drive | P | Det | Analog (`vco` output buffer) | Interface: the `vco` output buffer pin. Single-ended, per node, rail-referenced: V_OH >= 0.9 x VDD and V_OL <= 0.1 x VDD (2.97 V / 0.33 V at 3.3 V) into <= 50 fF, capacitive, DC-referenced; ported as-is. No differential figure is defined. No SG13CMOS5L measurement found, so no "met" claim is made. The downstream TX-mux figure (0.4 V per side, 0.8 V differential p-p, ~0.6 V common mode, 5.0 GHz, self-biased AC-coupled squarer, as stated in issue #312) is **not assessed**: its load model differs and 5.0 GHz is outside row 1. See DR-011 | porting-plan row 14 | none | n/a |
 | 15 | Area | O | Det | both | No number proposed. Gate: a chip-level area record; no `pll_top` or wrapper exists (DR-004; `manifests/README.md`) | porting-plan row 15 (re-derive entirely) | none (per-block layouts exist under `layout/sg13cmos5l-pll/`; no area record) | n/a |
 | 16 | Lock detector targets | M | Det | Analog | Assert window >= 2.5 ns (measured 3.688 to 11.24 ns, 0/102 below); hysteresis >= 25% of window (measured 50 to 800%, 0/21 below); no chatter (`steady` 21/21 at a 10x-window phase error). Threshold sits at about 12 to 37% of a reference period over 3.5 to 24.4 MHz. "Window >= 2x worst static phase offset" is unmeasured; see R-2 | DR-006 `lock-detector-fref-dependent-threshold` (ratified) accepts the f_ref dependence; resize history in the lock-detector records | `sg13cmos5l-lock-detector-window`: `records/RECORD-003-hysteresis-fix.md`, `records/RECORD-004-crowbar-current-mitigation.md`, `records/RECORD-005-rpu-body-on-vss.md` (nominal only); SG13G2 sizing differs: `sg13g2-lock-detector-window`: `records/RECORD-001-resized-window-hysteresis-chatter.md` | per the record's 21-corner ladder; window floor margin 1.475x (RECORD-002) worst case |
 | 17 | Standby / power-down | N | Det | both | No power-down mode in v1; waived, ported as-is | porting-plan row 17 | none | n/a |
@@ -207,8 +207,8 @@ block ran at 3.3 V nominal. Ruling needed: ratify the -40 / 27 / 125 C and
 3-bundle box, and decide whether the +/-10% supply axis must be swept on the
 other blocks before row 18 is ratified.
 
-**R-10. Rows with no measurement or no proposed number.** Row 14 (levels),
-row 15 (area; gate: chip-level area record, which needs a `pll_top` or
+**R-10. Rows with no measurement or no proposed number.** Row 14 (levels; interface and consumer-figure
+statement in DR-011), row 15 (area; gate: chip-level area record, which needs a `pll_top` or
 wrapper per DR-004). Row 17 is a waiver, row 9 an omission; both need
 confirmation rather than evidence.
 
