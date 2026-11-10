@@ -66,3 +66,4 @@ C {ipin.sym} -250 -270 0 0 {name=p2 lab=DN}
 C {opin.sym} 1650 200 0 0 {name=p3 lab=LOCK}
 C {iopin.sym} -250 -700 0 0 {name=p4 lab=VDD}
 C {iopin.sym} -250 700 0 0 {name=p5 lab=VSS}
+T {LOCK (active-low)} 1620 160 0 0 0.3 0.3 {}
