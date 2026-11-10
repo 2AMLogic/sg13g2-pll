@@ -83,8 +83,10 @@ PVT or at 50 MHz, so the band below replaces it as the pass/fail criterion.
 note): the DR-006 topology is re-accepted as a disclosure of its `f_ref`
 dependence, **not** as a claim that it can land in the Decision 3 band. If the
 band proves unreachable with the accepted `XRPU`/`XMPD` integrator, meeting it
-reopens the reference-gated alternative that DR-006 rejected as "a different
-block" and a superseding record is owed (Decision 3).
+needs a different threshold mechanism (what the band physically requires is
+stated in Decision 3) and a superseding record is owed. DR-006's
+reference-gated alternative is **not** that mechanism: it gives a fixed-time,
+`T_ref`-independent threshold (Decision 3).
 
 ### 3. Numeric trip band, % of `T_ref`, for 3.5 to 50 MHz, all PVT corners (a target)
 
@@ -147,15 +149,47 @@ nominal:
    50 MHz.
 
 For the `XRPU`/`XMPD` integrator that Decision 2 re-accepts, the band therefore
-looks unreachable by sizing alone. **Expectation: #302 needs a topology
-change, e.g. the reference-gated integrator DR-006 rejected as "a different
-block". If so, DR-006's rejected alternative is reopened and a superseding
-record is owed.** The alternative is to re-derive a band (or a per-`f_ref`
-band) from the corner data with stated physical justification; the band is new
-and not previously ratified, so widening it is not a relaxation of the spec.
-Either way the 2.5 ns floor, hysteresis and no-chatter targets are not
-loosened to make results pass, and #302 comes back with a superseding record
-rather than silently missing the band.
+looks unreachable by sizing alone. **Expectation: #302 needs a topology change
+and a superseding record is owed.** What the band physically requires:
+
+- **A threshold that stays proportional to `T_ref` with a PVT-stable ratio.**
+  Today `k` is `(VDD - V_trip) / (R(rhigh) x I_sat(XMPD))`, a ratio of
+  unmatched devices. `k` would instead be set by matched or mirrored currents
+  (pull-up and pull-down mirrored from one bias, or a pull-up built from the
+  same device type as `XMPD`).
+- **A delay window small against 25 % of `T_ref` at 50 MHz**: `t_win` at most
+  about 3 ns. Today's SG13G2 nominal `twin` is 5.20 ns rise (sg13g2-lc-pll
+  nominal record), which exceeds the 5 ns assert ceiling on its own, so the
+  window-delay element needs work under any integrator.
+- **PVT tracking of that delay** (bias-tracked or reference-derived). At 50 MHz
+  the floor (2.5 ns) and ceiling (5 ns) leave a 2x span for the whole assert
+  trip, and the measured `t_win` spread is about 3x.
+
+**DR-006's reference-gated integrator is not the remedy and is not reopened by
+this band.** It delivers a fixed charge per reference period, so
+`tau = t_win + Q0 / I_sat`: a fixed time, independent of `f_ref` (DR-006's
+"`T_ref`-independent by construction"). As a fraction of `T_ref` that spans
+50 / 3.5 = 14.3x over 3.5 to 50 MHz, against the 25 / 11 = 2.27x the assert band
+allows; no single design point lands in it. It could serve only with a
+per-`f_ref` band or an absolute-time band, which changes the band's form rather
+than meeting it, and would need its own record.
+
+The lower edges (assert 11 %, de-assert 18 %) and the 25 % assert ceiling have
+no physical basis beyond "nominal measured values, rounded outward"; they are a
+conservatism pending R-2 (the "window >= 2x worst static phase offset" row 16
+half, still unmeasured), not physics. #302 must not treat 11 % at 3.5 MHz
+(31 ns) as more than that.
+
+The alternative is to re-derive a band (or a per-`f_ref` band) from the corner
+data with stated physical justification. **Before this record is ratified** the
+band is new and not previously ratified, so changing it is not a relaxation of
+the spec. **Once ratified** the band is a ratified value, and any later
+widening, or a move to per-`f_ref` or absolute-time bands, is a
+relax-after-measured-FAIL change that goes through the market key's Step 5
+(still competitive against named public parts, or escalate to
+`loom:operator`). Either way the 2.5 ns floor, hysteresis and no-chatter
+targets are not loosened to make results pass, and #302 comes back with a
+superseding record rather than silently missing the band.
 
 ### 3a. Netlist the band governs
 
@@ -165,8 +199,11 @@ MOM cap). The 50 MHz report on #296 measured the **SG13G2 sizing**,
 `design/netlist/lock_detector.spice` (`XRPU` l=500u, `sub!` body, `XMPD`
 l=12u, MIM-type cap). Topology and the `schmitt_hv` stage are the same in both.
 The band is a requirement on the block, so **both flavors are graded against
-it**; #302 and #303 must state which netlist each result is for, and the
-operator confirms which one sg13g2-lc-pll consumes (not established here).
+it**; #302 and #303 must state which netlist each result is for.
+sg13g2-lc-pll consumes `design/netlist/lock_detector.spice` (the SG13G2
+sizing): its `sim/lock-detector/method.md` benches `rhigh` 500 um into a
+45x45 MIM cap, which is that file (read by the EE key in review of #304, not
+re-run here).
 
 The "window >= 2x worst static phase offset" half of row 16 stays unmeasured
 (`spec/target-spec.md` R-2) and this record does not change it.
