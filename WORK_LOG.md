@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-11-10
+
+- **PR #308**: docs(design): annotate LOCK opin as active-low in lock_detector schematics
+- **Issue #307** (closed): lock_detector: add (active-low) note to source schematic LOCK pin
+
 ### 2026-11-06
 
 - **PR #298**: test: add static pfd reset-chain parity guard
