@@ -1,11 +1,11 @@
-# RECORD-008: rerun of RECORD-001's 92-point lock_detector grid via `klt sim` on the batch fleet (issue #327)
+# RECORD-009: rerun of RECORD-001's 92-point lock_detector grid via `klt sim` on the batch fleet (issue #327)
 
 - **Slug**: `sg13cmos5l-lock-detector-window`
 - **Issue**: #327 (split from #257, child of #213, Part of #199, item 9 provenance
   migration). Append-only. Reruns the grid behind
   `RECORD-001-window-hysteresis-chatter.md` (sha256
   `ed6fdea23c59985b55e6f82fc320c62939c7a3f075881c1ca9a9c1a48e8714f5`, verified unchanged) and is
-  the `ADDENDUM-RERUN` target of `ADDENDUM-003-record-001-superseded.md`. No earlier record or
+  the `ADDENDUM-RERUN` target of `ADDENDUM-004-record-001-superseded.md`. No earlier record or
   committed `corners/` / `netlist-snapshots/` file was edited.
 - **What was rerun**: the whole `testbench/run.sh` grid at `db36732`: 15 R/C extractions,
   92 comparator-window decks (one per ladder point), 45 Schmitt decks, 12 tstep-convergence

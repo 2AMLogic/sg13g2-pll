@@ -1,0 +1,100 @@
+{
+ "backend": "batch",
+ "engine": "ngspice",
+ "models": {
+  "pdk": "ihp-sg13cmos5l"
+ },
+ "decks": [
+  {
+   "id": "tb_postlayout_fblead_10e-9",
+   "deck": "rendered/tb_postlayout_fblead_10e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_postlayout_fblead_20e-9",
+   "deck": "rendered/tb_postlayout_fblead_20e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_postlayout_fblead_5e-9",
+   "deck": "rendered/tb_postlayout_fblead_5e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_postlayout_reflead_10e-9",
+   "deck": "rendered/tb_postlayout_reflead_10e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_postlayout_reflead_20e-9",
+   "deck": "rendered/tb_postlayout_reflead_20e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_postlayout_reflead_5e-9",
+   "deck": "rendered/tb_postlayout_reflead_5e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_fblead_10e-9",
+   "deck": "rendered/tb_schematic_fblead_10e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_fblead_20e-9",
+   "deck": "rendered/tb_schematic_fblead_20e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_fblead_5e-9",
+   "deck": "rendered/tb_schematic_fblead_5e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_reflead_10e-9",
+   "deck": "rendered/tb_schematic_reflead_10e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_reflead_20e-9",
+   "deck": "rendered/tb_schematic_reflead_20e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  },
+  {
+   "id": "tb_schematic_reflead_5e-9",
+   "deck": "rendered/tb_schematic_reflead_5e-9.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 3600
+  }
+ ],
+ "options": {
+  "timeout_s": 3600,
+  "max_workers": 2
+ },
+ "batch": {
+  "capacity_wait_s": 600
+ }
+}
