@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-10
 
+- **PR #313**: docs(spec): state row 14 output swing as single-ended per node, add DR-011
+- **Issue #312** (closed): spec: state clock output swing and load for a downstream TX mux
 - **PR #308**: docs(design): annotate LOCK opin as active-low in lock_detector schematics
 - **Issue #307** (closed): lock_detector: add (active-low) note to source schematic LOCK pin
 
