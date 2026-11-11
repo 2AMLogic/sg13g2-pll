@@ -1,0 +1,3 @@
+klt: batch job klt-sim-1a2eb5385b41 submitting to s3://<bucket>/jobs/klt-sim-1a2eb5385b41
+klt sim: batch job klt-sim-1a2eb5385b41: submitted
+klt sim: batch backend failed: batch-fleet-provision.sh launch failed (exit 1): error: 288 vCPU already running + 1 instance(s) of up to 32 vCPU exceeds BATCH_MAX_VCPU=224, and only 0 type(s) fit the -64 vCPU left (floor 3) — the spot quota is shared with ci-spot (batch-fleet.md §vCPU budget) (capacity wait budget of 600s exhausted after 6 launch attempt(s))

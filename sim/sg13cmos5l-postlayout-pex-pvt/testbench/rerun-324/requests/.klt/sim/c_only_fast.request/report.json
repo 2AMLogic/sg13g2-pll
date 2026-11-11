@@ -1,0 +1,677 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/bodies/c_only_fast.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 10,
+  "passed": 10,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {
+      "singular_matrix": 10
+    },
+    "by_severity": {
+      "warning": 10
+    },
+    "corners_with_diagnostics": 10
+  },
+  "metrics": {
+    "sim__corner__count": 10,
+    "sim__corner__passed_count": 10,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******",
+      "binary_sha256": "dc859418bedd0478ff439a2d3e2e09f4386a7f4d5e3f17671953e101a000cc60",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "e8f116520e7979bba3bc6f4e7b9de5ca0432235fc8aeac997d578343cc0fdae0",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/bodies/c_only_fast.sp",
+        "scope": "repo",
+        "sha256": "e8f116520e7979bba3bc6f4e7b9de5ca0432235fc8aeac997d578343cc0fdae0"
+      },
+      {
+        "path": "sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/inputs/vco_c_only.spice",
+        "scope": "repo",
+        "sha256": "6d397e8076856ab2b980953da5c96c7c21c29b4d9dd00a2710c258b42398ad68"
+      },
+      {
+        "path": "sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/inputs/vco_inst.spice",
+        "scope": "repo",
+        "sha256": "6d9924cc6af2986192973d5b054524c3b5becbc353fa6e5e8111b0a8431627b9"
+      }
+    ],
+    "netlist_identity": "sha256:59e7f3e29162f823b3157c07ad8db1a60ac8e25509b93faa0b342239655c9555",
+    "corner_section_libs": [
+      {
+        "name": "cornerRES.lib",
+        "path": null,
+        "scope": "external",
+        "sha256": "c6d749e72cfa2e06e4a14fac3f5662541bf6197b89265ecbedd632fd3503c425"
+      }
+    ],
+    "osdi_preload_runner_resolved": [
+      {
+        "entry": "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi",
+        "reason": "env_var"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-d9fceaabf5b0",
+      "region": "us-east-1",
+      "instance_id": "i-04da5b31fb0764d1a",
+      "instance_type": "c7i.8xlarge",
+      "availability_zone": "us-east-1f",
+      "ami_id": "ami-095c25ae241a4d360",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "2",
+      "physical_cores": "16",
+      "elapsed_seconds": 68,
+      "client_submitted_at": "2026-11-11T20:22:08.802130Z",
+      "client_launched_at": "2026-11-11T20:32:31.783274Z",
+      "client_status_terminal_at": "2026-11-11T20:34:04.290581Z",
+      "client_collected_at": "2026-11-11T20:34:05.100313Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev661+g1de5c0432aad",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "corners.process[].sections[]",
+          "corners.params",
+          "options.osdi_preload"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": "ihp-sg13cmos5l",
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": false,
+          "stamp_scope": "executed"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": null,
+        "diagnostics": [
+          "pdk stamp unreadable: FileNotFoundError"
+        ],
+        "pdk_stamp_comparison": {
+          "status": "not_comparable",
+          "reason": "worker_stamp_unavailable"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": null,
+      "job_ceiling": {
+        "basis": "conservative_serial_bound",
+        "unit_count": 10,
+        "per_unit_timeout_s": 600,
+        "overhead_s": 120.0,
+        "job_bound_s": 6120.0,
+        "max_job_seconds": 3600.0,
+        "max_job_seconds_source": "fleet_config",
+        "exceeds_ceiling": true,
+        "check": "warn",
+        "max_units_per_job": 5,
+        "recommended_hosts": 2,
+        "warning": "batch job bound 6120s (options.timeout_s 600s x 10 units + 120s; a conservative fully-serial upper bound, not a runtime estimate) exceeds the fleet's whole-job ceiling of 3600s (max_job_seconds from fleet_config); a job still running at the ceiling is killed and every unit is reported batch_job_timeout. Set request.remote.hosts to at least 2 to run one job per shard of at most 5 units, each within the ceiling"
+      }
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    }
+  },
+  "coverage": {
+    "corners_simulated": 10,
+    "measurements_declared": 1,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.3\",\"per1\"]/observation",
+      "measurement:[1,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.9\",\"per1\"]/observation",
+      "measurement:[2,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=1.5\",\"per1\"]/observation",
+      "measurement:[3,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.1\",\"per1\"]/observation",
+      "measurement:[4,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.7\",\"per1\"]/observation",
+      "measurement:[5,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.3\",\"per1\"]/observation",
+      "measurement:[6,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.9\",\"per1\"]/observation",
+      "measurement:[7,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=1.5\",\"per1\"]/observation",
+      "measurement:[8,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.1\",\"per1\"]/observation",
+      "measurement:[9,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.7\",\"per1\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.3\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.9\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=1.5\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[3,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.1\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[4,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.7\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[5,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.3\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[6,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.9\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[7,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=1.5\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[8,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.1\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[9,\"mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.7\",\"per1\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev661+g1de5c0432aad",
+    "klt_git_commit": "1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klayout_version": "0.30.13",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "source": "search root: ~/share/pdk",
+      "version": null
+    },
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:e8f116520e7979bba3bc6f4e7b9de5ca0432235fc8aeac997d578343cc0fdae0",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "per1",
+      "unit": null,
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.3",
+        "value": 2.25564e-09,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.7",
+        "value": 8.26529e-10
+      },
+      "max": {
+        "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.3",
+        "value": 2.25623e-09
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.3",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 0,
+        "p_b1v": 0,
+        "p_vctrl": 0.3
+      },
+      "status": "pass",
+      "runtime_s": 1.03,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 2.25564e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_1f57100497daf93f1ed789a454969e1dd7b5c6c2a8404effbb65279a2c039a00/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_1f57100497daf93f1ed789a454969e1dd7b5c6c2a8404effbb65279a2c039a00/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=0.9",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 0,
+        "p_b1v": 0,
+        "p_vctrl": 0.9
+      },
+      "status": "pass",
+      "runtime_s": 1.031,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 2.08586e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_48a0e7de0c9f25486102ff81420d5ba9913eb5493e05d78a8e0f3509af85e28a/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_48a0e7de0c9f25486102ff81420d5ba9913eb5493e05d78a8e0f3509af85e28a/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=1.5",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 0,
+        "p_b1v": 0,
+        "p_vctrl": 1.5
+      },
+      "status": "pass",
+      "runtime_s": 1.431,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 1.69285e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_06b7e68086d9ee4f9e2deefa7ca6bd96e4e147230681bac0c5a19e1f92ca37b5/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_06b7e68086d9ee4f9e2deefa7ca6bd96e4e147230681bac0c5a19e1f92ca37b5/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.1",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 0,
+        "p_b1v": 0,
+        "p_vctrl": 2.1
+      },
+      "status": "pass",
+      "runtime_s": 1.625,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 1.40699e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_e9f1a9cf6e0f4e047b3784ced58457b6dc4bbaf233f02995ffc49e0cc33b2300/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_e9f1a9cf6e0f4e047b3784ced58457b6dc4bbaf233f02995ffc49e0cc33b2300/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=0,p_b1v=0,p_vctrl=2.7",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 0,
+        "p_b1v": 0,
+        "p_vctrl": 2.7
+      },
+      "status": "pass",
+      "runtime_s": 1.177,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 1.21781e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_b4e5f9dceec7940c78ee8c3185c762e94a85f5ed75d0f23b551db9088a6292ae/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_b4e5f9dceec7940c78ee8c3185c762e94a85f5ed75d0f23b551db9088a6292ae/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.3",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 3.3,
+        "p_b1v": 3.3,
+        "p_vctrl": 0.3
+      },
+      "status": "pass",
+      "runtime_s": 0.974,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 2.25623e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_63a7975218a02918ab69f90bfcbf2a29a438d80eb45349763557c9f51cffb9b6/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_63a7975218a02918ab69f90bfcbf2a29a438d80eb45349763557c9f51cffb9b6/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=0.9",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 3.3,
+        "p_b1v": 3.3,
+        "p_vctrl": 0.9
+      },
+      "status": "pass",
+      "runtime_s": 0.971,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 1.96163e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_79983feebe11aae5dae429e3a1b2c8111e1cff5ab640684a11ad49d7a58084f1/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_79983feebe11aae5dae429e3a1b2c8111e1cff5ab640684a11ad49d7a58084f1/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=1.5",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 3.3,
+        "p_b1v": 3.3,
+        "p_vctrl": 1.5
+      },
+      "status": "pass",
+      "runtime_s": 1.123,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 1.26958e-09,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_f32586b89aa4f2b055ff95092d517205547cccfab589656f74ce07d033e485fd/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_f32586b89aa4f2b055ff95092d517205547cccfab589656f74ce07d033e485fd/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.1",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 3.3,
+        "p_b1v": 3.3,
+        "p_vctrl": 2.1
+      },
+      "status": "pass",
+      "runtime_s": 1.323,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 9.54851e-10,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_01ed0585fa4d11d8a6838581695925e2c1cadd3f063fdb9a972782675da1a754/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_01ed0585fa4d11d8a6838581695925e2c1cadd3f063fdb9a972782675da1a754/corner.cir"
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "mos_ff+res_bcs/novdd/-40C/params:p_b0v=3.3,p_b1v=3.3,p_vctrl=2.7",
+      "process": "mos_ff+res_bcs",
+      "supply_v": {},
+      "temperature_c": -40,
+      "params": {
+        "p_b0v": 3.3,
+        "p_b1v": 3.3,
+        "p_vctrl": 2.7
+      },
+      "status": "pass",
+      "runtime_s": 1.37,
+      "peak_rss_bytes": 50266112,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "per1",
+          "value": 8.26529e-10,
+          "unit": null,
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "singular_matrix",
+          "message": "Warning: singular matrix:  check node xs1_nh"
+        }
+      ],
+      "artifacts": {
+        "log": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_e8e3fbd103dd86f1e4ba11585473409e1260f377c28b771eba30d5bd4943cf56/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-324/sim/sg13cmos5l-postlayout-pex-pvt/testbench/rerun-324/requests/.klt/sim/c_only_fast.request/mos_ff+res_bcs_novdd_n40C_params_e8e3fbd103dd86f1e4ba11585473409e1260f377c28b771eba30d5bd4943cf56/corner.cir"
+      },
+      "monte_carlo": null
+    }
+  ]
+}
