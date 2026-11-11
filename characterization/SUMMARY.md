@@ -18,7 +18,7 @@ the min/max.
 | --- | --- | --- |
 | No ratified spec table | none filed | The target spec is drafted in spec/target-spec.md (Status: DRAFT) but not ratified: it awaits the two-key ratification under ratification/. This summary therefore carries no pass/fail-versus-spec column and derives no target from any measurement. |
 | Partial PVT axes | none filed | Most campaigns use a 3-bundle PVT convention (typ/slow/fast), a fixed supply (3.3 V) and a subset of band codes or trim codes; none is a full cross-product. Each dataset lists the corner coverage actually present in its CSVs. Targeted fine-trim and nominal records cover single tuples only. |
-| Bodyfix (#136) not re-verified across PVT | #139 | The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only (RECORD-005). The last full-PVT evidence is for the previous DUT. |
+| Bodyfix (#136) not re-verified across PVT | #139 | The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only in the records citing this gap (RECORD-005 and its nominal rerun). A full-grid rerun of the bodyfix DUT exists (RECORD-011) with its own disclosed gaps (20x probe not run; ladder PDK-confounded); those records themselves are not re-verified across PVT. |
 | lock_detector PVT gaps | #139 | The full-PVT lock_detector grid for the current DUT is owed. |
 | lock_detector post-layout/PEX gap | #157 | lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7. |
 | Divider speed evidence | none filed | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none. |
@@ -528,6 +528,89 @@ the min/max.
 | VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
 
+### resized-window-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)
+- **Context**: schematic, pre-layout
+- **Conditions**: schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (sha256 `2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv` (sha256 `5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585`)
+- **Note**: Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
+### lock-detector-bodyfix-full-grid-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136), frozen netlist snapshot (RECORD-011)
+- **Context**: schematic, pre-layout
+- **Conditions**: full 5 MOS corners x 3 temperatures x 3 supplies grid; ngspice-46 on the klt batch fleet, runner klt 0.9.0; ran-on PDK revision inferred (f7bca326), NOT the README pin, so ladder rows are PDK-confounded; 20x-window idd_outlock probe not run (RECORD-011)
+- **Method**: RECORD-004 full-grid campaign rerun on the bodyfix DUT as klt sim batch requests (testbench/run_batch.sh), compared keyed against RECORD-004 (testbench/compare_bodyfix_batch.py); 3 ladder-point units retried with trtol=1
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-011-bodyfix-full-grid-batch.md` (sha256 `89266dafc8e283aa0532706596fbb790c1c83ccd9c14f659e4c8eaff738b0e5d`)
+- **Table `ladder`**: `sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_batch.csv` (sha256 `4693a22d75366205b9832782b0b04ef33c76e6e48278fa74c1b2f0d4e79d9d7e`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_batch.csv` (sha256 `79d280073b38fc934f0998aa101898e1597a3534aa69bb883cc29e077d0e0d21`)
+- **Note**: Part of #16 (#139): full-grid rerun on the bodyfix DUT. Ran-on PDK revision is inferred, not pinned, so DUT-only attribution is not claimed; the 20x idd_outlock probe is not covered and RECORD-004's figure stays unreplicated.
+- **Note**: RECORD-004 remains the cited full-PVT source; no consumer figure was replaced.
+- **Gaps**: No ratified spec table (none filed), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| window width (rising) (`twin_r_s`) | s | `ladder` | - | 21 | 0 | 5.00714e-09 | 9.42309e-09 | `corner_tag`: 21 distinct (mos_ff_res_typ_27c_3.3v_3p5MHz_real .. mos_tt_res_wcs_27c_3.3v_3p5MHz_real) |
+| hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 21 | 0 | 50 | 800 | `corner_tag`: 21 distinct (mos_ff_res_typ_27c_3.3v_3p5MHz_real .. mos_tt_res_wcs_27c_3.3v_3p5MHz_real) |
+| schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.83314 | 1.03465 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
+### divider-retiming-sizing-sweep
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: dff_tg_hv width variants (per-group scaling of forward TGs, storage inverters, feedback, output buffer) in the row-3 repaired divider chain; baseline is the frozen divider_chain_repaired.spice
+- **Context**: schematic, pre-layout, partial campaign (issue #189)
+- **Conditions**: setup-time brackets at 3 corners (mos_tt 27 C, mos_ff -40 C, mos_ss 125 C); retime at tt/27 C/3.3 V only for the baseline; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-001)
+- **Method**: klt sim batch setup sweeps over width variants x 16 TSU points; t_setup bracket per variant and corner (testbench/analyze.py); closing bound F_close = 1/(t_arr + t_setup)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-001-xfrt-latch-sizing-sweep.md` (sha256 `98e4cdd24e44c7be51f7d000a97aba43bf67b24d9b838814172838bdd6ed7f8a`)
+- **Table `setup_brackets`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/setup-sizing-sweep2.csv` (sha256 `c7b256baf1845392868bcd6b721f9766698d84f5639148eeec247d0a810ddc91`)
+- **Note**: NOT MET, PARTIAL CAMPAIGN: the closing bound of 1562.0 MHz at 9 corners was not reached and the record claims no closing bound for any resized variant; the baseline closes at <= 922 MHz (t_arr 484.9 ps at tt/27 C, one point; not in the table).
+- **Note**: TABLE IS A TRANSCRIPTION: setup-sizing-sweep2.csv is a 1:1 mechanical transcription of the 24 lines of setup-sizing-sweep2.txt (the 8-variant sizing sweep only) into columns; no value was recomputed. The uniform-scale sweep and retime results are in the record and corners/*.txt, not in this table. The raw batch reports are corners/*.json.gz.
+- **Note**: PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets` | - | 24 | 0 | 500 | 1000 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
+| t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets` | - | 24 | 0 | 600 | 1500 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
+
+### supply-range-vco-lockdet-divider
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: vco.spice, lock_detector_bodyfix.spice (real DUT, cap_cmomi) and divider_chain_repaired.spice, frozen copies in sim/sg13cmos5l-supply-range/netlist-snapshots/
+- **Context**: schematic, pre-layout, supply-range sweep (issue #187, spec row 18 / risk R-9)
+- **Conditions**: VDD 3.0/3.3/3.6 V x 3 bundles (typ mos_tt/27 C, slow mos_ss/125 C, fast mos_ff/-40 C); 225 decks via klt sim --backend batch (ngspice-46, Spot fleet); fleet PDK tree is unstamped and not the README pin (RECORD-001)
+- **Method**: klt sim batch deck-list requests (testbench/run_batch.sh, supply_grid.py); vco frequency over 4 band codes x 5 VCTRL; lock-detector comparator window and bare Schmitt thresholds; divider functional N=64/127 at 100 MHz and retiming at 1562.0 MHz
+- **Record**: `sim/sg13cmos5l-supply-range/records/RECORD-001-supply-range-3p0-3p3-3p6.md` (sha256 `3c7a9fad1b201a61faf3f2f92a4244eab01abaeeab45f164a55ae8432bcceb1e`)
+- **Table `vco`**: `sim/sg13cmos5l-supply-range/corners/vco.csv` (sha256 `6f3f46dbbc2fab5a8565cd9dfda8add0d8e529d7d626e49c3acb1bdd0dbd20e8`)
+- **Table `lock_detector`**: `sim/sg13cmos5l-supply-range/corners/lock_detector.csv` (sha256 `a4ba2d5fcab65459b01bd4b00a574336b9af4452eedb6757ef591669323e28b3`)
+- **Table `divider`**: `sim/sg13cmos5l-supply-range/corners/divider.csv` (sha256 `ff8ea6ac72aa7cabcd47b0b0e93375a9f4232adfaa48d9efaa50106da3a0501b`)
+- **Note**: SUPPLY ENDPOINTS ONLY, 3 BUNDLES: row 18 stays Proposed; no spec bound is moved. mos_sf/mos_fs, resistor-only axis, MOM band and Monte Carlo are not swept.
+- **Note**: CONTROL DISAGREES WITH vco-kvco-table: the 3.3 V vco rows differ from that dataset by up to 3.08 % (floor 431.6 vs 445.3 MHz; ceiling 1575.6 vs 1562.0 MHz); undiagnosed, so supply effects are stated against this run's own 3.3 V rows.
+- **Note**: NOT MEASURED: lock-detector time-domain hysteresis and chatter at 3.0/3.6 V; only the window and bare Schmitt thresholds are covered.
+- **Note**: DIVIDER NOT TABULATED: divider.csv is pinned but has no summarised metric (tdiv_s has NA rows by design). Retiming at 1562.0 MHz is unmet at slow for all VDD (pre-existing, R-3); the typ/3.0 V retime tdiv anomaly (128.8 ns vs ~86 ns) is undiagnosed and a follow-up probe is owed.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output frequency (`freq_hz`) | Hz | `vco` | - | 180 | 0 | 4.29068e+08 | 1.57559e+09 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| comparator window (rising), row 16 floor >= 2.5 ns (`twin_r_s`) | s | `lock_detector` | - | 9 | 0 | 4.60152e-09 | 1.02485e-08 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| bare schmitt_hv upper threshold (`vth_up_v`) | V | `lock_detector` | - | 9 | 0 | 1.89424 | 2.26357 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| bare schmitt_hv lower threshold (`vth_dn_v`) | V | `lock_detector` | - | 9 | 0 | 1.02715 | 1.25601 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+
 ### vco-output-levels
 
 - **PDK**: SG13CMOS5L
@@ -874,6 +957,27 @@ the min/max.
 - **Table `schmitt`**: `sim/sg13g2-lock-detector-window/corners/schmitt_resized.csv` (sha256 `654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24`)
 - **Table `ladder`**: `sim/sg13g2-lock-detector-window/corners/ladder_resized.csv` (sha256 `49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d`)
 - **Note**: Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| window width (rising) (`twin_r_s`) | s | `window` | - | 37 | 0 | 3.73196e-09 | 1.02487e-08 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `cap_corner`: cap_bcs, cap_typ, cap_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63; `fref_hz`: 3.5e6, 12e6, 24.4e6 |
+| schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.83314 | 1.03465 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 21 | 0 | 25 | 800 | `corner_tag`: 21 distinct (mos_ff_res_typ_cap_typ_27c_3.3v_3p5MHz .. mos_tt_res_wcs_cap_typ_27c_3.3v_3p5MHz) |
+
+### g2-lock-detector-window-rerun
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: design/netlist/lock_detector.spice as of issue #82 (netlist-snapshots/lock_detector_resized.spice, unchanged; RECORD-002)
+- **Context**: schematic
+- **Conditions**: corner lists per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed)
+- **Method**: transient window width, ladder discharge and Schmitt threshold extraction via klt sim deck-list requests on the batch fleet (rerun of RECORD-001)
+- **Record**: `sim/sg13g2-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter-batch-rerun.md` (sha256 `f159402fa4686f56823ae2d0f91f2e7241362c1270dac0bc21446f9b9ed0a1fe`)
+- **Table `window`**: `sim/sg13g2-lock-detector-window/corners/window_resized_rerun236.csv` (sha256 `c8c9e510d7d38d055d5acf39e7cbecdb782f892f8e31848def8501812eea8560`)
+- **Table `schmitt`**: `sim/sg13g2-lock-detector-window/corners/schmitt_resized_rerun236.csv` (sha256 `654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24`)
+- **Table `ladder`**: `sim/sg13g2-lock-detector-window/corners/ladder_resized_rerun236.csv` (sha256 `49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d`)
+- **Note**: Rerun of RECORD-001 (#236) on the batch fleet; the three tables are byte-identical to RECORD-001's resized tables (same sha256). The four sizing sweeps (rc_sizing, rc_pairing, window_sizing, xmpd_sizing) were not rerun and remain RECORD-001 evidence. Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
