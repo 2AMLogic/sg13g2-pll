@@ -284,6 +284,23 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | schmitt_hv input-referred hysteresis (`hysteresis_v`) | V | `schmitt_rewire` | - | 108 | 0 | 0.00088 | 1.05856 | `pdk`: ihp-sg13cmos5l, ihp-sg13g2; `dut`: as_drawn, feedback_rewired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### lock-detector-window-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector.spice, templates and gen_ladder.py reconstructed from producing commit db36732 (not today's design) (RECORD-008)
+- **Context**: schematic, pre-layout
+- **Conditions**: 92-point grid: 5 MOS corners x resistor bundles x -40/27/125 C x 4 MOM-band variants, plus 2.97/3.63 V and 1/5 MHz sub-axes; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp not comparable and its rhigh differs from the original run (not independently verified)
+- **Method**: RECORD-001 grid rerun as 3 klt sim deck-list batch requests (testbench/batch_grid_db36732.py); window/Schmitt/tstep/C identical to the original CSVs, R(XRPU) 4-9 % lower (PDK drift), 92/92 chatter
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-window-hysteresis-chatter-rerun-pinned.md` (sha256 `9e96ebfafe7f7039bc515ee8340d573d3feb7b04da61b9ea9b9fca01e35925fd`)
+- **Table `window`**: `sim/sg13cmos5l-lock-detector-window/corners/window_rerun327.csv` (sha256 `bee4fe09152a2bb6a2cc0b6b15d935f11e470b0250c3f059c587dde9a3575656`)
+- **Note**: Historical provenance rerun (issue #327: ADDENDUM-003 -> RECORD-008). No consumer figure was replaced; RECORD-001 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| delaywin_hv comparator window (rising) (`twin_r_s`) | s | `window` | - | 92 | 0 | 2.18747e-10 | 4.08545e-10 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63; `fref_hz`: 1e6, 5e6, 25e6; `dut_variant`: ideal-0.20, ideal0.00, ideal0.20, real |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

@@ -169,7 +169,7 @@ Legend:
 | 13 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-002-pdk-root-token-fix-reverification.md` | `b8a14c8` 2026-08-30 | G (partial re-run) | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | base | superseded | #212 |
 | 14 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` | `a95a887` 2026-09-22 | G | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, prop, sg13g2-divider-repair-reverification/RECORD-001, spec | superseded | #212 |
 | 15 | `sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` | `e56e14a` 2026-10-08 | N, 5 blocks | cmos5l + g2 (symlinked); envelope `pdk.version` is null | not stated; klt 0.6.0 envelopes | sum, src, spec | superseded (rerun landed, #255: ADDENDUM-001 -> RECORD-003, all 5 blocks, old-layout nominal only) | #213 |
-| 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded | #213 |
+| 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded (rerun landed, #327: ADDENDUM-003 -> RECORD-008, full 92-point grid; **resolved**) | #213 |
 | 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded | #213 |
 | 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded (rerun landed, #329: ADDENDUM-002 -> RECORD-007, `schmitt_rewire` grid only; **resolved**) | #213 |
 | 19 | `sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` | `36e4bae` 2026-08-31 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, manifests/test_check_spec_citations.py, sim/README, spec | superseded | #213 |
@@ -256,6 +256,17 @@ Totals:
   cmos5l-rewired arm differs by up to ~2 mV per trip point. The runner's PDK
   revision is unverified (stamp unreadable; klayout-tools#5318, #3462). No
   consumer was changed.
+
+- **Row 16, `sg13cmos5l-lock-detector-window/RECORD-001`: resolved by rerun
+  (#327).** `ADDENDUM-003-record-001-superseded.md` ->
+  `RECORD-008-window-hysteresis-chatter-rerun-pinned.md` (`superseded`). The
+  full 92-point grid was rerun as three `klt sim` batch deck-list requests
+  (probe `klt-sim-1a2d7ff81cdd`; runner klt 0.9.0, ngspice-46) on files
+  reconstructed from `db36732` via `batch_grid_db36732.py`. Window, Schmitt,
+  tstep and C values are byte-identical; 92/92 chatter and 0.219-0.409 ns
+  reproduce; R(XRPU) is 4-9 % lower (PDK `rhigh` drift) and one ladder
+  threshold shifts a step. Runner PDK revision unverified. No consumer was
+  changed.
 
 - **Row 15, `sg13cmos5l-klt-pex-signoff/RECORD-001`: resolved by rerun (#255).**
   `ADDENDUM-001-record-001-superseded.md` -> `RECORD-003-klt-pex-nominal-rerun-pinned.md`
