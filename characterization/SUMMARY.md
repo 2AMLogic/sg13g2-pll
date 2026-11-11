@@ -267,6 +267,25 @@ the min/max.
 | divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
+### cp-icp-trim-historical-rerun
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: HISTORICAL cps rebuilt from git: netlist-snapshots/cp-b37918d.spice (pre-DR-006, RECORD-001's cp) and cp-f54b9ef.spice (DR-006, RECORD-002's cp); NOT the current DR-010 cp
+- **Context**: schematic, not extracted; ideal reference currents
+- **Conditions**: 5 MOS corners x -40/27/125 C at 3.3 V, plus mos_tt/27 C at 3.0 V and 3.6 V; 6 trim codes (2.5-80 uA) x UP/DN/both; Icp at VOUT = VDD/2; batch fleet, klt 0.9.2.dev661, runner 0.9.0, ngspice-46
+- **Method**: klt sim DC sweep of VOUT, one 18-instance deck per PVT point; scalar Icp at VDD/2 per (code, state)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-006-icp-trim-rerun-historical-cp.md` (sha256 `da77eaa485d21f6c8a06a07256a588df86d1b03862d3b25c763a966d79cdee3d`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-007-cascode-bias-rerun-historical-cp.md` (sha256 `1bae6d37c65a922f4eb0a2046926c5f91b6bd8679b16896fa693dfa612cefde4`)
+- **Table `rerun001`**: `sim/sg13cmos5l-cp-icp-trim/corners/rerun-record-001-results.csv` (sha256 `716fbe0d73dd31bdb8e368ed8b4c79e9232985f62962893f5bdd494a045d0879`)
+- **Table `rerun002`**: `sim/sg13cmos5l-cp-icp-trim/corners/rerun-record-002-results.csv` (sha256 `04525323480d6ec93d26c676045de0c846585eaf59aa68df34f530edacc676da`)
+- **Note**: Reruns of the historical cps for the superseded RECORD-001/002 evidence claims (addenda 001/002). Compliance curves are in rerun-record-00N-compliance.csv and are not summarised here. The cmos5l PDK revision citation is pin-based; see the limitation in RECORD-006.
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Icp UP/DN/both at VDD/2, pre-DR-006 cp (RECORD-001 rerun) (`icp_a`) | A | `rerun001` | - | 306 | 0 | -8.10508e-05 | 8.01272e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
+| Icp UP/DN/both at VDD/2, DR-006 cp (RECORD-002 rerun) (`icp_a`) | A | `rerun002` | - | 306 | 0 | -8.09425e-05 | 8.0244e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
