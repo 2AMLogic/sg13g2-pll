@@ -528,6 +528,24 @@ the min/max.
 | VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
 
+### vco-output-levels
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: design/sg13cmos5l/netlist/vco.spice at c62d98c9 (netlist-snapshots/vco.spice), XCDECAP stripped; schematic, current design
+- **Context**: schematic, not extracted; open loop, 50 fF capacitive load on the CLK output pin
+- **Conditions**: 3 PVT bundles (tt/typ, ss/wcs, ff/bcs) x -40/27/125 C x band codes 00/11 x VCTRL 0.3/1.5/2.7 V = 54 transient runs, VDD 3.3 V; ngspice-46 on the klt batch fleet (job klt-sim-3544dd136d8c), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), commits not read from the worker
+- **Method**: transient; V_OH = minimum of v(clk) over the middle half of a settled high phase, V_OL = maximum over the middle half of a settled low phase (conservative, overshoot not credited)
+- **Record**: `sim/sg13cmos5l-vco-output-levels/records/RECORD-001-vco-output-levels.md` (sha256 `26b03e5bea46fe698386173f0c106997409d076d9dba1dc8916ef86c3a8af400`)
+- **Table `results`**: `sim/sg13cmos5l-vco-output-levels/corners/results.csv` (sha256 `d58433f219434ea602ed3153bdce6615799d5dd340696c0f48df5007ca8323c9`)
+- **Note**: Measures spec row 14 inputs only; no pass/fail bound is stored here. Schematic-level, no mismatch, no post-layout parasitics, mos_sf/mos_fs and band codes 01/10 not swept.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output high level into 50 fF (`voh_v`) | V | `results` | - | 54 | 0 | 3.00277 | 3.29586 | `mos_corner`: mos_ff, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.3, 1.5, 2.7 |
+| VCO output low level into 50 fF (`vol_v`) | V | `results` | - | 54 | 0 | 0.00083 | 0.12174 | `mos_corner`: mos_ff, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.3, 1.5, 2.7 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

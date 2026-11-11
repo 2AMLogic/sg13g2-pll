@@ -3335,6 +3335,59 @@
     "no-ratified-spec"
    ],
    "record_sha256": "2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e"
+  },
+  {
+   "id": "vco-output-levels",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "design/sg13cmos5l/netlist/vco.spice at c62d98c9 (netlist-snapshots/vco.spice), XCDECAP stripped; schematic, current design",
+   "context": "schematic, not extracted; open loop, 50 fF capacitive load on the CLK output pin",
+   "conditions": "3 PVT bundles (tt/typ, ss/wcs, ff/bcs) x -40/27/125 C x band codes 00/11 x VCTRL 0.3/1.5/2.7 V = 54 transient runs, VDD 3.3 V; ngspice-46 on the klt batch fleet (job klt-sim-3544dd136d8c), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), commits not read from the worker",
+   "method": "transient; V_OH = minimum of v(clk) over the middle half of a settled high phase, V_OL = maximum over the middle half of a settled low phase (conservative, overshoot not credited)",
+   "record": "sim/sg13cmos5l-vco-output-levels/records/RECORD-001-vco-output-levels.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-vco-output-levels/corners/results.csv",
+     "sha256": "d58433f219434ea602ed3153bdce6615799d5dd340696c0f48df5007ca8323c9"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "voh_v",
+     "units": "V",
+     "quantity": "VCO output high level into 50 fF",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "vol_v",
+     "units": "V",
+     "quantity": "VCO output low level into 50 fF",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Measures spec row 14 inputs only; no pass/fail bound is stored here. Schematic-level, no mismatch, no post-layout parasitics, mos_sf/mos_fs and band codes 01/10 not swept."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "26b03e5bea46fe698386173f0c106997409d076d9dba1dc8916ef86c3a8af400"
   }
  ]
 }
