@@ -215,6 +215,7 @@ the min/max.
 - **Table `issue79`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue79_finetrim.csv` (sha256 `96f515dfc57d8acb4700520c5d82eb568fa1578f163f6520561f8bf332982ee6`)
 - **Note**: Covers only the tuples listed; the rest of the (bundle, band, interval, f_ref) space is in the superseded RECORD-002 table (section 'superseded') and was not re-run on a later DUT.
 - **Note**: The csv `meets_*` columns are the record's own comparisons against its internal 45 deg / ceiling thresholds; they are not reproduced here (no pass/fail column).
+- **Note**: Superseded as the provenance claim by RECORD-006/007 (issue #320: ADDENDUM-001/002 in loop-bandwidth-pm). The rerun does NOT reproduce these figures: the #79 tuple now fails PM on the fast bundle and the fc ceiling on the slow bundle (see loop-bw-pm-finetrim-rerun320). Retained as history; no consumer was re-pointed.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -223,6 +224,29 @@ the min/max.
 | loop crossover frequency, issue #83 tuple (`fc_hz`) | Hz | `issue83` | - | 1 | 0 | 359238 | 359238 | `pvt_bundle`: slow; `band_code`: 00; `kvco_interval`: mid; `fref_hz`: 4.500000e+06; `trim_code`: 3.75u |
 | phase margin, issue #79 tuples (`pm_deg`) | deg | `issue79` | - | 3 | 0 | 45.592 | 53.454 | `pvt_bundle`: fast, slow, typ; `band_code`: 00; `kvco_interval`: low; `fref_hz`: 4.500000e+06; `trim_code`: 11u |
 | loop crossover frequency, issue #79 tuples (`fc_hz`) | Hz | `issue79` | - | 3 | 0 | 368611 | 435237 | `pvt_bundle`: fast, slow, typ; `band_code`: 00; `kvco_interval`: low; `fref_hz`: 4.500000e+06; `trim_code`: 11u |
+
+### loop-bw-pm-finetrim-rerun320
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: loop_filter_resized.spice (frozen, byte-identical to the originals' DUT) with the originals' own Icp/Kvco/fvco/n_div inputs (Icp not remeasured, #231)
+- **Context**: schematic, not extracted
+- **Conditions**: same tuples as loop-bw-pm-finetrim: issue #83 (slow, mid, 3.75 uA) and #79 (fast/typ/slow, low, 11 uA); klt sim --backend batch, ngspice-46, ihp-sg13cmos5l f7bca326 + ihp-sg13g2 5cccb161
+- **Method**: unmodified loop AC scenario rerun through klt sim on the batch fleet; fc and PM from klt .meas
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-007-issue79-close-gap-rerun-pinned.md` (sha256 `09a0d3bee02fc2e08b9c19cfa0542d2d4ccdf40e0a1ab42b38aa4e318633db24`)
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-006-issue83-close-gap-rerun-pinned.md` (sha256 `e5a28f99afa7304351f12fc00eda8c759c85efe63fc936ec633237f742ff5de1`)
+- **Table `issue83`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue83_finetrim_rerun320.csv` (sha256 `8a64bdde404c469fac934b6c3c02bb60e0b416d8d59506124adaae8f774e6fea`)
+- **Table `issue79`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue79_finetrim_rerun320.csv` (sha256 `bff8758f8bf411843dbdd0d3e1ae05baad61b1d4a1480741bde933057c6edf0b`)
+- **Note**: The #79 rerun fails: fast PM 44.345 deg (< 45) and slow fc 4.519e5 Hz (> 450 kHz); typ passes. The #83 tuple passes with shifted figures. The original environment is not reproduced.
+- **Note**: The csv `meets_*` columns are the rerun's own comparisons against the 45 deg / ceiling thresholds; they are not reproduced here (no pass/fail column).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| phase margin, issue #83 tuple (`pm_deg`) | deg | `issue83` | - | 1 | 0 | 51.751 | 51.751 | `pvt_bundle`: slow; `band_code`: 00; `kvco_interval`: mid; `fref_hz`: 4.500000e+06; `trim_code`: 3.75u |
+| loop crossover frequency, issue #83 tuple (`fc_hz`) | Hz | `issue83` | - | 1 | 0 | 371174 | 371174 | `pvt_bundle`: slow; `band_code`: 00; `kvco_interval`: mid; `fref_hz`: 4.500000e+06; `trim_code`: 3.75u |
+| phase margin, issue #79 tuples (`pm_deg`) | deg | `issue79` | - | 3 | 0 | 44.345 | 54.953 | `pvt_bundle`: fast, slow, typ; `band_code`: 00; `kvco_interval`: low; `fref_hz`: 4.500000e+06; `trim_code`: 11u |
+| loop crossover frequency, issue #79 tuples (`fc_hz`) | Hz | `issue79` | - | 3 | 0 | 362846 | 451931 | `pvt_bundle`: fast, slow, typ; `band_code`: 00; `kvco_interval`: low; `fref_hz`: 4.500000e+06; `trim_code`: 11u |
 
 ### cp-icp-finetrim
 

@@ -1,0 +1,1047 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_loop_ac_rerun320.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 3,
+  "passed": 3,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 3,
+    "sim__corner__passed_count": 3,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******",
+      "binary_sha256": "dc859418bedd0478ff439a2d3e2e09f4386a7f4d5e3f17671953e101a000cc60",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": null,
+      "scope": "absent"
+    },
+    "models_lib_sha256": null,
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "96dd3e9d12cbb50e15867edd5eed1a811afd5160e8bc778d34e1c7ae31b52f74",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_loop_ac_rerun320.sp",
+        "scope": "repo",
+        "sha256": "96dd3e9d12cbb50e15867edd5eed1a811afd5160e8bc778d34e1c7ae31b52f74"
+      },
+      {
+        "path": null,
+        "scope": "external",
+        "sha256": "ea8e1e2b2efcb072c0b516138f4ef1900691d217b7f1d8a7e810efe2de5d5e9a"
+      },
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/netlist-snapshots/loop_filter_resized.spice",
+        "scope": "repo",
+        "sha256": "5c8293087b5867fbeec32552a57ce54aa4e5a1b3572e7da86cacc874f921843a"
+      }
+    ],
+    "netlist_identity": "sha256:cc65a0f900179575d1bac8d82dcc1cf3ed800c2a839cca7318d3adf0da1d8a3a",
+    "osdi_preload": [
+      {
+        "name": "cap_cmomi.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+      }
+    ],
+    "corner_section_libs": [
+      {
+        "name": "cornerRES.lib",
+        "path": null,
+        "scope": "external",
+        "sha256": "c6d749e72cfa2e06e4a14fac3f5662541bf6197b89265ecbedd632fd3503c425"
+      }
+    ],
+    "staged_model_inputs": [
+      {
+        "name": "cornerRES.lib",
+        "field": "models.lib",
+        "kind": "library",
+        "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9",
+        "rewritten": true,
+        "source_sha256": "c6d749e72cfa2e06e4a14fac3f5662541bf6197b89265ecbedd632fd3503c425"
+      },
+      {
+        "name": "cap_cmomi.osdi",
+        "field": "options.osdi_preload[0]",
+        "kind": "osdi",
+        "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83",
+        "rewritten": false,
+        "source_sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "field": "options.osdi_preload[1]",
+        "kind": "osdi",
+        "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18",
+        "rewritten": false,
+        "source_sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "field": "options.osdi_preload[2]",
+        "kind": "osdi",
+        "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3",
+        "rewritten": false,
+        "source_sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+      },
+      {
+        "name": "resistors_mod.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43",
+        "rewritten": false,
+        "source_sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+      },
+      {
+        "name": "resistors_mod_mismatch.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29",
+        "rewritten": false,
+        "source_sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+      },
+      {
+        "name": "resistors_stat.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6",
+        "rewritten": false,
+        "source_sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-8682d469bfe8",
+      "region": "us-east-1",
+      "instance_id": "i-041fc407a27d76c10",
+      "instance_type": "c6i.8xlarge",
+      "availability_zone": "us-east-1d",
+      "ami_id": "ami-095c25ae241a4d360",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "2",
+      "physical_cores": "16",
+      "elapsed_seconds": 8,
+      "client_submitted_at": "2026-11-11T20:07:24.250007Z",
+      "client_launched_at": "2026-11-11T20:09:49.997251Z",
+      "client_status_terminal_at": "2026-11-11T20:10:21.272794Z",
+      "client_collected_at": "2026-11-11T20:10:21.954255Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev661+g1de5c0432aad",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "corners.process[].sections[]",
+          "options.ngspice_init",
+          "options.osdi_preload",
+          "options.stage_model_inputs"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": null,
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": true,
+          "stamp_scope": "image"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": [
+          {
+            "name": "cornerRES.lib",
+            "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9"
+          },
+          {
+            "name": "cap_cmomi.osdi",
+            "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+          },
+          {
+            "name": "cap_cmomf.osdi",
+            "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+          },
+          {
+            "name": "r3_cmc.osdi",
+            "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+          },
+          {
+            "name": "resistors_mod.lib",
+            "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+          },
+          {
+            "name": "resistors_mod_mismatch.lib",
+            "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+          },
+          {
+            "name": "resistors_stat.lib",
+            "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+          }
+        ],
+        "diagnostics": [
+          "pdk root or variant unknown on worker"
+        ],
+        "pdk_stamp_comparison": {
+          "basis": "staged_model_inputs",
+          "status": "match"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": [
+        {
+          "name": "cornerRES.lib",
+          "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9"
+        },
+        {
+          "name": "cap_cmomi.osdi",
+          "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+        },
+        {
+          "name": "cap_cmomf.osdi",
+          "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+        },
+        {
+          "name": "r3_cmc.osdi",
+          "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+        },
+        {
+          "name": "resistors_mod.lib",
+          "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+        },
+        {
+          "name": "resistors_mod_mismatch.lib",
+          "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+        },
+        {
+          "name": "resistors_stat.lib",
+          "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+        }
+      ],
+      "job_ceiling": {
+        "basis": "conservative_serial_bound",
+        "unit_count": 3,
+        "per_unit_timeout_s": 900,
+        "overhead_s": 120.0,
+        "job_bound_s": 2820.0,
+        "max_job_seconds": 3600.0,
+        "max_job_seconds_source": "fleet_config",
+        "exceeds_ceiling": false,
+        "check": "warn",
+        "max_units_per_job": 3,
+        "recommended_hosts": 1
+      }
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    }
+  },
+  "coverage": {
+    "corners_simulated": 3,
+    "measurements_declared": 12,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr007_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_fast\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_typ\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr007_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_fast\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_typ\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr007_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_fast\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_slow\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_typ\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr007_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_fast\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_typ\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr007_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_fast\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_typ\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr007_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_fast\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_slow\"]/observation",
+      "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_typ\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr007_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_fast\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_typ\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr007_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_fast\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_typ\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr007_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_fast\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_slow\"]/observation",
+      "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_typ\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"fc_hz_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"ph_rad_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"pm_deg_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"fc_hz_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"ph_rad_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"typ/novdd/27C\",\"pm_deg_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"fc_hz_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"ph_rad_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr007_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_fast\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_slow\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"slow/novdd/125C\",\"pm_deg_dr008_typ\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev661+g1de5c0432aad",
+    "klt_git_commit": "1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": null,
+    "input": {
+      "content_hash": "sha256:96dd3e9d12cbb50e15867edd5eed1a811afd5160e8bc778d34e1c7ae31b52f74",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "fc_hz_dr008_fast",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 362846.0,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 362846.0
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 429133.0
+      }
+    },
+    {
+      "name": "ph_rad_dr008_fast",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.36763,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.36763
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": -2.19582
+      }
+    },
+    {
+      "name": "pm_deg_dr008_fast",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 44.3446,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 44.3446
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 54.1887
+      }
+    },
+    {
+      "name": "fc_hz_dr008_typ",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 359766.0,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 359766.0
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 424905.0
+      }
+    },
+    {
+      "name": "ph_rad_dr008_typ",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.37111,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.37111
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": -2.19849
+      }
+    },
+    {
+      "name": "pm_deg_dr008_typ",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 44.1456,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 44.1456
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 54.0361
+      }
+    },
+    {
+      "name": "fc_hz_dr008_slow",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 379444.0,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 379444.0
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 451931.0
+      }
+    },
+    {
+      "name": "ph_rad_dr008_slow",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.34964,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.34964
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": -2.18248
+      }
+    },
+    {
+      "name": "pm_deg_dr008_slow",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 45.3758,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 45.3758
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 54.9531
+      }
+    },
+    {
+      "name": "fc_hz_dr007_slow",
+      "unit": "Hz",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 320260.0,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 320260.0
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 371174.0
+      }
+    },
+    {
+      "name": "ph_rad_dr007_slow",
+      "unit": "rad",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.41944,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -2.41944
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": -2.23836
+      }
+    },
+    {
+      "name": "pm_deg_dr007_slow",
+      "unit": "deg",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 41.3765,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 41.3765
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 51.7514
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "fast/novdd/-40C",
+      "process": "fast",
+      "supply_v": {},
+      "temperature_c": -40,
+      "status": "pass",
+      "runtime_s": 0.115,
+      "peak_rss_bytes": 50008064,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "fc_hz_dr008_fast",
+          "value": 362846.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast",
+          "value": -2.36763,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast",
+          "value": 44.3446,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ",
+          "value": 359766.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ",
+          "value": -2.37111,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ",
+          "value": 44.1456,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow",
+          "value": 379444.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow",
+          "value": -2.34964,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow",
+          "value": 45.3758,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow",
+          "value": 320260.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow",
+          "value": -2.41944,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow",
+          "value": 41.3765,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "typ/novdd/27C",
+      "process": "typ",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.116,
+      "peak_rss_bytes": 50008064,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "fc_hz_dr008_fast",
+          "value": 390640.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast",
+          "value": -2.27708,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast",
+          "value": 49.5331,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ",
+          "value": 387058.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ",
+          "value": -2.28034,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ",
+          "value": 49.346,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow",
+          "value": 409954.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow",
+          "value": -2.26037,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow",
+          "value": 50.4905,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow",
+          "value": 341420.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow",
+          "value": -2.327,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow",
+          "value": 46.6727,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "slow/novdd/125C",
+      "process": "slow",
+      "supply_v": {},
+      "temperature_c": 125,
+      "status": "pass",
+      "runtime_s": 0.117,
+      "peak_rss_bytes": 50008064,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "fc_hz_dr008_fast",
+          "value": 429133.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_fast",
+          "value": -2.19582,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_fast",
+          "value": 54.1887,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_typ",
+          "value": 424905.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_typ",
+          "value": -2.19849,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_typ",
+          "value": 54.0361,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr008_slow",
+          "value": 451931.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr008_slow",
+          "value": -2.18248,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr008_slow",
+          "value": 54.9531,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fc_hz_dr007_slow",
+          "value": 371174.0,
+          "unit": "Hz",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "ph_rad_dr007_slow",
+          "value": -2.23836,
+          "unit": "rad",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "pm_deg_dr007_slow",
+          "value": 51.7514,
+          "unit": "deg",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

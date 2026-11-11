@@ -1,0 +1,152 @@
+{
+  "engine": "ngspice",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib"
+  },
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomi.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomf.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "netlist": "tb_loop_ac_rerun320.sp",
+  "analysis": {
+    "kind": "ac",
+    "args": "dec 200 10 1e9"
+  },
+  "measurements": [
+    {
+      "name": "fc_hz_dr008_fast",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_fast when vdb(fb_dr008_fast)=0"
+    },
+    {
+      "name": "ph_rad_dr008_fast",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_fast find vp(fb_dr008_fast) when vdb(fb_dr008_fast)=0"
+    },
+    {
+      "name": "pm_deg_dr008_fast",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_fast param='180+ph_rad_dr008_fast*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_typ",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_typ when vdb(fb_dr008_typ)=0"
+    },
+    {
+      "name": "ph_rad_dr008_typ",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_typ find vp(fb_dr008_typ) when vdb(fb_dr008_typ)=0"
+    },
+    {
+      "name": "pm_deg_dr008_typ",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_typ param='180+ph_rad_dr008_typ*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr008_slow",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr008_slow when vdb(fb_dr008_slow)=0"
+    },
+    {
+      "name": "ph_rad_dr008_slow",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr008_slow find vp(fb_dr008_slow) when vdb(fb_dr008_slow)=0"
+    },
+    {
+      "name": "pm_deg_dr008_slow",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr008_slow param='180+ph_rad_dr008_slow*57.29577951308232'"
+    },
+    {
+      "name": "fc_hz_dr007_slow",
+      "unit": "Hz",
+      "spice": ".meas ac fc_hz_dr007_slow when vdb(fb_dr007_slow)=0"
+    },
+    {
+      "name": "ph_rad_dr007_slow",
+      "unit": "rad",
+      "spice": ".meas ac ph_rad_dr007_slow find vp(fb_dr007_slow) when vdb(fb_dr007_slow)=0"
+    },
+    {
+      "name": "pm_deg_dr007_slow",
+      "unit": "deg",
+      "spice": ".meas ac pm_deg_dr007_slow param='180+ph_rad_dr007_slow*57.29577951308232'"
+    }
+  ],
+  "backend": "batch",
+  "batch": {
+    "capacity_wait_s": 600
+  },
+  "corners": {
+    "process": [
+      {
+        "name": "fast",
+        "sections": [
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_bcs"
+          }
+        ]
+      },
+      {
+        "name": "typ",
+        "sections": [
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_typ"
+          }
+        ]
+      },
+      {
+        "name": "slow",
+        "sections": [
+          {
+            "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerRES.lib",
+            "section": "res_wcs"
+          }
+        ]
+      }
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  },
+  "exclude": [
+    {
+      "process": "fast",
+      "temperature_c": 27
+    },
+    {
+      "process": "fast",
+      "temperature_c": 125
+    },
+    {
+      "process": "typ",
+      "temperature_c": -40
+    },
+    {
+      "process": "typ",
+      "temperature_c": 125
+    },
+    {
+      "process": "slow",
+      "temperature_c": -40
+    },
+    {
+      "process": "slow",
+      "temperature_c": 27
+    }
+  ]
+}
