@@ -2500,6 +2500,44 @@
     "no-ratified-spec"
    ],
    "record_sha256": "2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0"
+  },
+  {
+   "id": "resized-window-rerun-batch",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-008)",
+   "context": "schematic, pre-layout",
+   "conditions": "schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)",
+   "method": "RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-008)",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-008-resized-window-hysteresis-chatter-rerun-batch.md",
+   "tables": [
+    {
+     "id": "schmitt",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv",
+     "sha256": "5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv input-referred hysteresis (RECORD-002 rerun)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #328: ADDENDUM-003 -> RECORD-008). No consumer figure was replaced; RECORD-002 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "881724dcc21e33dacf4a07e32cdf3b8d01d7057f01ea2d584b6c30ac2d45d5ba"
   }
  ]
 }

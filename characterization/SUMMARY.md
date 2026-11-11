@@ -284,6 +284,23 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | schmitt_hv input-referred hysteresis (`hysteresis_v`) | V | `schmitt_rewire` | - | 108 | 0 | 0.00088 | 1.05856 | `pdk`: ihp-sg13cmos5l, ihp-sg13g2; `dut`: as_drawn, feedback_rewired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### resized-window-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-008)
+- **Context**: schematic, pre-layout
+- **Conditions**: schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-008)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-resized-window-hysteresis-chatter-rerun-batch.md` (sha256 `881724dcc21e33dacf4a07e32cdf3b8d01d7057f01ea2d584b6c30ac2d45d5ba`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv` (sha256 `5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585`)
+- **Note**: Historical provenance rerun (issue #328: ADDENDUM-003 -> RECORD-008). No consumer figure was replaced; RECORD-002 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
