@@ -1,0 +1,7 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {"pdk": "ihp-sg13g2"},
+  "decks": [{"id": "fleet_image_provenance", "deck": "prov.sp"}],
+  "options": {"timeout_s": 300, "keep_artifacts": true}
+}
