@@ -545,6 +545,27 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### lock-detector-bodyfix-full-grid-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136), frozen netlist snapshot (RECORD-011)
+- **Context**: schematic, pre-layout
+- **Conditions**: full 5 MOS corners x 3 temperatures x 3 supplies grid; ngspice-46 on the klt batch fleet, runner klt 0.9.0; ran-on PDK revision inferred (f7bca326), NOT the README pin, so ladder rows are PDK-confounded; 20x-window idd_outlock probe not run (RECORD-011)
+- **Method**: RECORD-004 full-grid campaign rerun on the bodyfix DUT as klt sim batch requests (testbench/run_batch.sh), compared keyed against RECORD-004 (testbench/compare_bodyfix_batch.py); 3 ladder-point units retried with trtol=1
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-011-bodyfix-full-grid-batch.md` (sha256 `89266dafc8e283aa0532706596fbb790c1c83ccd9c14f659e4c8eaff738b0e5d`)
+- **Table `ladder`**: `sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_batch.csv` (sha256 `4693a22d75366205b9832782b0b04ef33c76e6e48278fa74c1b2f0d4e79d9d7e`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_batch.csv` (sha256 `79d280073b38fc934f0998aa101898e1597a3534aa69bb883cc29e077d0e0d21`)
+- **Note**: Part of #16 (#139): full-grid rerun on the bodyfix DUT. Ran-on PDK revision is inferred, not pinned, so DUT-only attribution is not claimed; the 20x idd_outlock probe is not covered and RECORD-004's figure stays unreplicated.
+- **Note**: RECORD-004 remains the cited full-PVT source; no consumer figure was replaced.
+- **Gaps**: No ratified spec table (none filed), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| window width (rising) (`twin_r_s`) | s | `ladder` | - | 21 | 0 | 5.00714e-09 | 9.42309e-09 | `corner_tag`: 21 distinct (mos_ff_res_typ_27c_3.3v_3p5MHz_real .. mos_tt_res_wcs_27c_3.3v_3p5MHz_real) |
+| hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 21 | 0 | 50 | 800 | `corner_tag`: 21 distinct (mos_ff_res_typ_27c_3.3v_3p5MHz_real .. mos_tt_res_wcs_27c_3.3v_3p5MHz_real) |
+| schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.83314 | 1.03465 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ### vco-duty-cycle-xbuf1-resize-issue188
 
 - **PDK**: SG13CMOS5L
