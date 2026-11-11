@@ -1,0 +1,8 @@
+* RECORD-002 (#316): R_src-C_decap single-pole network, delta cap -1.057235e-12 F
+.include /home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cap_cmomi.lib
+.option scale=1
+Vsrc vdd 0 dc 0 ac 1
+Rsrc vdd vdd_vco 3000
+Xcdecap vdd_vco 0 cap_cmomi w=70u l=70u mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
+Cdelta vdd_vco 0 -1.057235e-12
+.end

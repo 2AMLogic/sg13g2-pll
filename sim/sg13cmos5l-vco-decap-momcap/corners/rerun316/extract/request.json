@@ -1,0 +1,46 @@
+{
+  "engine": "ngspice",
+  "netlist": "deck.cir",
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "analysis": {
+    "kind": "ac",
+    "args": "dec 5 1k 100k"
+  },
+  "measurements": [
+    {
+      "name": "im_z_100k",
+      "unit": "ohm",
+      "spice": ".meas ac im_z_100k FIND vi(n1) AT=100k"
+    },
+    {
+      "name": "cdecap_f",
+      "unit": "F",
+      "spice": ".meas ac cdecap_f PARAM='-1/(2*3.14159265*100k*im_z_100k)'"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomi.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/cap_cmomf.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12"
+    ],
+    "timeout_s": 600
+  },
+  "backend": "batch",
+  "batch": {
+    "capacity_wait_s": 600
+  },
+  "corners": {
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ]
+  }
+}
