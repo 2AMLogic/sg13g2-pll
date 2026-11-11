@@ -796,6 +796,7 @@ the min/max.
 - **Conditions**: 3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46
 - **Method**: open-loop transient, period measured
 - **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` (sha256 `a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5`)
+- **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md` (sha256 `93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729`)
 - **Table `results`**: `sim/sg13g2-vco-kvco-table/corners/results.csv` (sha256 `63e6f2a24897cf392cdb8789ed8b6839ee60d5754273c946599a96e6de3c7bad`)
 - **Note**: Bundle PVT (3 corners), not a full cross-product.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)

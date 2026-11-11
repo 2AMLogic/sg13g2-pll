@@ -312,6 +312,15 @@ Totals:
   its tree, so that discrepancy is reported in the records, not resolved. No
   consumer was changed because no figure was replaced.
 
+- **Row 37, `sg13g2-vco-kvco-table/RECORD-001`: resolved by rerun (#237).**
+  `ADDENDUM-001-superseded.md` -> `RECORD-002-kvco-band-code-table-rerun.md`
+  (`superseded`; no recovery of the original environment). The full 60-run matrix
+  was rerun on the batch fleet as one `klt sim` decks request (probe job
+  `klt-sim-b0522cef1561`, grid job `klt-sim-a102ccafc592`; ngspice-46, klt runner
+  0.9.0): 60/60 units ran, 0 `NA`, all 60 periods identical to RECORD-001. The
+  fleet-side PDK revision is the repo pin, not observed. No consumer was changed
+  because no figure was replaced.
+
 ## Execution batches
 
 | Batch | Records (rows above) | Recovered | Superseded (N / G) | Flags |
