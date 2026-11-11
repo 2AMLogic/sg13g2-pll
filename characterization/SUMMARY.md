@@ -586,6 +586,31 @@ the min/max.
 | t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets` | - | 24 | 0 | 500 | 1000 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
 | t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets` | - | 24 | 0 | 600 | 1500 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
 
+### supply-range-vco-lockdet-divider
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: vco.spice, lock_detector_bodyfix.spice (real DUT, cap_cmomi) and divider_chain_repaired.spice, frozen copies in sim/sg13cmos5l-supply-range/netlist-snapshots/
+- **Context**: schematic, pre-layout, supply-range sweep (issue #187, spec row 18 / risk R-9)
+- **Conditions**: VDD 3.0/3.3/3.6 V x 3 bundles (typ mos_tt/27 C, slow mos_ss/125 C, fast mos_ff/-40 C); 225 decks via klt sim --backend batch (ngspice-46, Spot fleet); fleet PDK tree is unstamped and not the README pin (RECORD-001)
+- **Method**: klt sim batch deck-list requests (testbench/run_batch.sh, supply_grid.py); vco frequency over 4 band codes x 5 VCTRL; lock-detector comparator window and bare Schmitt thresholds; divider functional N=64/127 at 100 MHz and retiming at 1562.0 MHz
+- **Record**: `sim/sg13cmos5l-supply-range/records/RECORD-001-supply-range-3p0-3p3-3p6.md` (sha256 `3c7a9fad1b201a61faf3f2f92a4244eab01abaeeab45f164a55ae8432bcceb1e`)
+- **Table `vco`**: `sim/sg13cmos5l-supply-range/corners/vco.csv` (sha256 `6f3f46dbbc2fab5a8565cd9dfda8add0d8e529d7d626e49c3acb1bdd0dbd20e8`)
+- **Table `lock_detector`**: `sim/sg13cmos5l-supply-range/corners/lock_detector.csv` (sha256 `a4ba2d5fcab65459b01bd4b00a574336b9af4452eedb6757ef591669323e28b3`)
+- **Table `divider`**: `sim/sg13cmos5l-supply-range/corners/divider.csv` (sha256 `ff8ea6ac72aa7cabcd47b0b0e93375a9f4232adfaa48d9efaa50106da3a0501b`)
+- **Note**: SUPPLY ENDPOINTS ONLY, 3 BUNDLES: row 18 stays Proposed; no spec bound is moved. mos_sf/mos_fs, resistor-only axis, MOM band and Monte Carlo are not swept.
+- **Note**: CONTROL DISAGREES WITH vco-kvco-table: the 3.3 V vco rows differ from that dataset by up to 3.08 % (floor 431.6 vs 445.3 MHz; ceiling 1575.6 vs 1562.0 MHz); undiagnosed, so supply effects are stated against this run's own 3.3 V rows.
+- **Note**: NOT MEASURED: lock-detector time-domain hysteresis and chatter at 3.0/3.6 V; only the window and bare Schmitt thresholds are covered.
+- **Note**: DIVIDER NOT TABULATED: divider.csv is pinned but has no summarised metric (tdiv_s has NA rows by design). Retiming at 1562.0 MHz is unmet at slow for all VDD (pre-existing, R-3); the typ/3.0 V retime tdiv anomaly (128.8 ns vs ~86 ns) is undiagnosed and a follow-up probe is owed.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output frequency (`freq_hz`) | Hz | `vco` | - | 180 | 0 | 4.29068e+08 | 1.57559e+09 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| comparator window (rising), row 16 floor >= 2.5 ns (`twin_r_s`) | s | `lock_detector` | - | 9 | 0 | 4.60152e-09 | 1.02485e-08 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| bare schmitt_hv upper threshold (`vth_up_v`) | V | `lock_detector` | - | 9 | 0 | 1.89424 | 2.26357 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| bare schmitt_hv lower threshold (`vth_dn_v`) | V | `lock_detector` | - | 9 | 0 | 1.02715 | 1.25601 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
