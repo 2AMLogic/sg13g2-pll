@@ -12,8 +12,15 @@
   sizing setup sweep `klt-sim-c1e9936f64b0` (384 units, 8 variants x 3 corners x 16 `TSU`, all pass).
   One local debug probe (two single `ngspice -b` decks, tt/27 C, waveform `meas` only) was run to
   interpret the setup cliff; it is not a result.
-- **PDK trees**: as in `../sg13cmos5l-divider-nrange-retiming/records/RECORD-005`; the worker PDK
-  revision is not independently stamped (`/opt/pdk`, no stamp). Not re-established here.
+- **PDK revisions**: trees as in `../sg13cmos5l-divider-nrange-retiming/records/RECORD-005`.
+  `sim/README.md` pins `ihp-sg13cmos5l` `607e18d4bd9214a52575c194b4181ef449f9252f`. The worker PDK
+  (`/opt/pdk`) is not independently stamped (the committed batch reports carry `pdk: null`), so the
+  ran-on revision is **inferred, not measured**: `f7bca32694fe3d58be0cc7d9df4b9f5db7161a14`, the
+  `.pdk-store.json` version (an `IHP-Open-PDK` commit) that the sibling records RECORD-005/-006 of
+  `../sg13cmos5l-divider-nrange-retiming/` and RECORD-011 of `../sg13cmos5l-lock-detector-window/`
+  cite for fleet runs. It is NOT the README pin, and no parity check against the worker was done for
+  this bench, so the sizing numbers carry the same PDK-confound caveat as those records. Not
+  re-established here.
 - **Reproduce**: `testbench/gen_sizing_requests.py <setup|retime> <c:f>... [--corners tt]` writes decks
   + a `klt sim` request (`b` = base, or `kt/ki/kf/ko` width scales); `testbench/analyze.py <report dirs>`
   reduces them. `b:b` regenerates the frozen `divider_chain_repaired.spice` byte for byte (checked).

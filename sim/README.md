@@ -227,7 +227,7 @@ fleet rather than hand-launched ngspice loops.
 | `sg13cmos5l-cp-icp-trim` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-cp-icp-trim/testbench/run.sh` |
 | `sg13cmos5l-cp-icp-trim-mc` | `testbench/gen_requests.py` | `cd sim/sg13cmos5l-cp-icp-trim-mc && PDK_ROOT=$PDK_ROOT testbench/gen_requests.py && klt sim testbench/negative_control.request.json --backend local --format json` |
 | `sg13cmos5l-divider-nrange-retiming` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-divider-nrange-retiming/testbench/run.sh` |
-| `sg13cmos5l-divider-retiming-sizing` | `testbench/gen_sizing_requests.py` + `testbench/analyze.py` | `python3 -I sim/sg13cmos5l-divider-retiming-sizing/testbench/gen_sizing_requests.py setup b:b` then `klt sim <request> --backend batch --wait-for-capacity 600` (batch only; see RECORD-001) |
+| `sg13cmos5l-divider-retiming-sizing` | `testbench/gen_sizing_requests.py` | `python3 -I sim/sg13cmos5l-divider-retiming-sizing/testbench/gen_sizing_requests.py setup b:b && klt sim <request> --backend batch --wait-for-capacity 600` |
 | `sg13cmos5l-klt-pex-signoff` | `run-klt-pex.sh` | `PDK_ROOT=$PDK_ROOT sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh <block>` |
 | `sg13cmos5l-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-lock-detector-window/testbench/run.sh` |
 | `sg13cmos5l-lock-detector-window` (batch fleet) | `testbench/run_batch.sh` | `sim/sg13cmos5l-lock-detector-window/testbench/run_batch.sh` (full grid; `NOMINAL_ONLY=1` for one corner; see `testbench/BATCH.md`) |
