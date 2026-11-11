@@ -44,7 +44,7 @@
    "id": "bodyfix-pvt",
    "title": "Bodyfix (#136) not re-verified across PVT",
    "issue": "#139",
-   "text": "The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only (RECORD-005). The last full-PVT evidence is for the previous DUT."
+   "text": "The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only in the records citing this gap (RECORD-005 and its nominal rerun). A full-grid rerun of the bodyfix DUT exists (RECORD-011) with its own disclosed gaps (20x probe not run; ladder PDK-confounded); those records themselves are not re-verified across PVT."
   },
   {
    "id": "lock-detector-pvt",
