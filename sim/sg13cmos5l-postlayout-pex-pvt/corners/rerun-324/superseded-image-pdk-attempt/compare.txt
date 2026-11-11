@@ -1,0 +1,9 @@
+rerun failures/non-pass units: none
+Matrix A results.csv: 120 original rows, 120 rerun rows, key sets equal: True
+  period ratio |rerun/orig-1| %: mean 1.457  median 1.498  max 3.177 (('schematic', 'slow', '11', '0.3'))  n=120
+  rows within 1%: 46 / 120; within 2%: 82 / 120
+  NA mismatches (orig vs rerun): none
+rc_attribution.csv: 210 original rows, 210 rerun rows, key sets equal: True
+  period ratio |rerun/orig-1| %: mean 1.488  median 1.553  max 3.175 (('none', 'slow', '11', '0.3'))  n=210
+  rows within 1%: 80 / 210; within 2%: 140 / 210
+  NA mismatches (orig vs rerun): none

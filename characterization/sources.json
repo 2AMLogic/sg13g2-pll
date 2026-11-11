@@ -393,6 +393,48 @@
    "record_sha256": "79a7c066cac4e00550694c266c10aa1cbe2450563d43394a70424f5966fc1630"
   },
   {
+   "id": "postlayout-pex-vco-rerun324",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_vco extracted from routed GDS layout record 20260921-155747-c44fa68 (floorplan-aware route, RECORD-002 flow rerun at ff8b653; klt 729ee531e176), rerun on the pinned dual-tree PDK",
+   "context": "extracted (postlayout arm); same bench as RECORD-002 rerun on the batch fleet",
+   "conditions": "3 PVT bundles (typ/slow/fast = mos_tt+res_typ+27C / mos_ss+res_wcs+125C / mos_ff+res_bcs-40C) x 4 band codes x 5 VCTRL; 3.3 V only; 30 ns tran; ngspice-46; 330 batch units across the Matrix A and RC-attribution grids",
+   "method": "open-loop transient, period measured per run (as RECORD-002)",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-007-floorplan-aware-vco-route-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/rerun-324/results.csv",
+     "sha256": "d0c75f8799590176a7dd7c1580b0d1ab7f71af6865f024a52f4057209c8b37e5"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco open-loop frequency, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Reproduces RECORD-002's Matrix A to printing precision (ADDENDUM-003); no figure in RECORD-002 or its consumers is replaced. Item 9 stays unmet."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "1e5e5dc7c56295474a88761c8ca68dc8e862d0b4d27a9414899cc6423f6e6981"
+  },
+  {
    "id": "postlayout-pex-cp",
    "section": "sg13cmos5l-postlayout-pex-pvt",
    "pdk": "SG13CMOS5L",
@@ -2287,6 +2329,9 @@
    "conditions": "3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46",
    "method": "open-loop transient, period measured",
    "record": "sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md",
+   "extra_records": [
+    "sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md"
+   ],
    "tables": [
     {
      "id": "results",
@@ -2314,7 +2359,10 @@
     "no-ratified-spec",
     "pvt-axes-partial"
    ],
-   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5"
+   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5",
+   "extra_records_sha256": [
+    "93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729"
+   ]
   },
   {
    "id": "g2-lock-detector-window",
@@ -2392,7 +2440,7 @@
    "id": "g2-divider-repair",
    "section": "sg13g2",
    "pdk": "SG13G2",
-   "status": "current",
+   "status": "superseded",
    "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)",
    "context": "schematic",
    "conditions": "hold and functional rows per coverage; ngspice-46",
@@ -2455,7 +2503,8 @@
     }
    ],
    "notes": [
-    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).",
+    "Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed."
    ],
    "gap_ids": [
     "no-ratified-spec",
@@ -2463,6 +2512,82 @@
     "divider-speed"
    ],
    "record_sha256": "0834a8b9b4ed0527aaeea6675d3297d59765c271927773feb2530b42e90ebc40"
+  },
+  {
+   "id": "g2-divider-repair-rerun-pinned",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)",
+   "context": "schematic",
+   "conditions": "hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)",
+   "method": "transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)",
+   "record": "sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/func_r002.csv",
+     "sha256": "f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319"
   },
   {
    "id": "loop-bw-pm-resized-full",

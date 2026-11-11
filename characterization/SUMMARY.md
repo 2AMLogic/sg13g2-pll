@@ -106,6 +106,23 @@ the min/max.
 | vco open-loop frequency, postlayout arm (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 3.47552e+08 | 1.18279e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | vco postlayout-vs-schematic frequency deviation (`delta_pct`) | % | `deviation` | - | 60 | 0 | -26.062 | -21.077 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 
+### postlayout-pex-vco-rerun324
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pll_vco extracted from routed GDS layout record 20260921-155747-c44fa68 (floorplan-aware route, RECORD-002 flow rerun at ff8b653; klt 729ee531e176), rerun on the pinned dual-tree PDK
+- **Context**: extracted (postlayout arm); same bench as RECORD-002 rerun on the batch fleet
+- **Conditions**: 3 PVT bundles (typ/slow/fast = mos_tt+res_typ+27C / mos_ss+res_wcs+125C / mos_ff+res_bcs-40C) x 4 band codes x 5 VCTRL; 3.3 V only; 30 ns tran; ngspice-46; 330 batch units across the Matrix A and RC-attribution grids
+- **Method**: open-loop transient, period measured per run (as RECORD-002)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-007-floorplan-aware-vco-route-rerun-pinned.md` (sha256 `1e5e5dc7c56295474a88761c8ca68dc8e862d0b4d27a9414899cc6423f6e6981`)
+- **Table `results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/rerun-324/results.csv` (sha256 `d0c75f8799590176a7dd7c1580b0d1ab7f71af6865f024a52f4057209c8b37e5`)
+- **Note**: Reproduces RECORD-002's Matrix A to printing precision (ADDENDUM-003); no figure in RECORD-002 or its consumers is replaced. Item 9 stays unmet.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco open-loop frequency, postlayout arm (rerun) (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 3.47552e+08 | 1.18279e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
 ### postlayout-pex-cp
 
 - **PDK**: SG13CMOS5L
@@ -796,6 +813,7 @@ the min/max.
 - **Conditions**: 3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46
 - **Method**: open-loop transient, period measured
 - **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` (sha256 `a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5`)
+- **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md` (sha256 `93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729`)
 - **Table `results`**: `sim/sg13g2-vco-kvco-table/corners/results.csv` (sha256 `63e6f2a24897cf392cdb8789ed8b6839ee60d5754273c946599a96e6de3c7bad`)
 - **Note**: Bundle PVT (3 corners), not a full cross-product.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
@@ -828,7 +846,7 @@ the min/max.
 ### g2-divider-repair
 
 - **PDK**: SG13G2
-- **Status**: current
+- **Status**: superseded
 - **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)
 - **Context**: schematic
 - **Conditions**: hold and functional rows per coverage; ngspice-46
@@ -837,6 +855,7 @@ the min/max.
 - **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func.csv` (sha256 `186d60c2d4c6b332bc533128ea5d111ab2e3e401a358c4d18e835a0e9aaec102`)
 - **Note**: Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Note**: Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -844,6 +863,26 @@ the min/max.
 | DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
 | divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 6 | 0 | 6.53234e-07 | 1.28355e-06 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 6 | 0 | -0.000237713 | -0.000218613 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
+
+### g2-divider-repair-rerun-pinned
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)
+- **Context**: schematic
+- **Conditions**: hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)
+- **Method**: transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)
+- **Record**: `sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md` (sha256 `d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319`)
+- **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
+- **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func_r002.csv` (sha256 `f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63`)
+- **Note**: Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 20 | 0 | 6.53068e-07 | 1.28497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+| divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
 ### g2-npn13g2-ro-matching
 
