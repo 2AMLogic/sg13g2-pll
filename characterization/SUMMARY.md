@@ -828,7 +828,7 @@ the min/max.
 ### g2-divider-repair
 
 - **PDK**: SG13G2
-- **Status**: current
+- **Status**: superseded
 - **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)
 - **Context**: schematic
 - **Conditions**: hold and functional rows per coverage; ngspice-46
@@ -837,6 +837,7 @@ the min/max.
 - **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func.csv` (sha256 `186d60c2d4c6b332bc533128ea5d111ab2e3e401a358c4d18e835a0e9aaec102`)
 - **Note**: Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Note**: Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -844,6 +845,26 @@ the min/max.
 | DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
 | divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 6 | 0 | 6.53234e-07 | 1.28355e-06 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 6 | 0 | -0.000237713 | -0.000218613 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
+
+### g2-divider-repair-rerun-pinned
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)
+- **Context**: schematic
+- **Conditions**: hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)
+- **Method**: transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)
+- **Record**: `sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md` (sha256 `d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319`)
+- **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
+- **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func_r002.csv` (sha256 `f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63`)
+- **Note**: Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 20 | 0 | 6.53068e-07 | 1.28497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+| divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
 ### g2-npn13g2-ro-matching
 

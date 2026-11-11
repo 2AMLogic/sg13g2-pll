@@ -2434,7 +2434,7 @@
    "id": "g2-divider-repair",
    "section": "sg13g2",
    "pdk": "SG13G2",
-   "status": "current",
+   "status": "superseded",
    "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)",
    "context": "schematic",
    "conditions": "hold and functional rows per coverage; ngspice-46",
@@ -2497,7 +2497,8 @@
     }
    ],
    "notes": [
-    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).",
+    "Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed."
    ],
    "gap_ids": [
     "no-ratified-spec",
@@ -2505,6 +2506,82 @@
     "divider-speed"
    ],
    "record_sha256": "0834a8b9b4ed0527aaeea6675d3297d59765c271927773feb2530b42e90ebc40"
+  },
+  {
+   "id": "g2-divider-repair-rerun-pinned",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)",
+   "context": "schematic",
+   "conditions": "hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)",
+   "method": "transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)",
+   "record": "sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/func_r002.csv",
+     "sha256": "f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319"
   },
   {
    "id": "loop-bw-pm-resized-full",
