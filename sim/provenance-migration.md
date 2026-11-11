@@ -280,6 +280,24 @@ Totals:
   RECORD-002) and whole-design sign-off are not refreshed, and no consumer was
   changed because none of its figures was replaced.
 
+- **Rows 12-13, `sg13cmos5l-divider-nrange-retiming/RECORD-001` and `RECORD-002`: resolved by rerun (#232).**
+  `ADDENDUM-002-nrange-retiming-margin-superseded.md` ->
+  `RECORD-005-nrange-retiming-margin-rerun-pinned.md` and
+  `ADDENDUM-003-pdk-root-token-fix-superseded.md` ->
+  `RECORD-006-pdk-root-token-fix-rerun-pinned.md` (`superseded`; no recovery of
+  the original environment). The pre-repair `divider_chain` snapshot is
+  byte-identical at both producing commits, and both variants (as-drawn and
+  `fbfix`) were rerun through `klt sim` on the batch fleet (runner klt 0.9.0,
+  ngspice-46; 12 jobs). `hold`, `setup`, `opconv` ran in full; the 100 MHz
+  baseline and top-of-band `retime` ran at the nominal corner only. Reproduced:
+  hold (18/18), setup (36/36), `fbfix` N = 64.00 and `idd`, `fbfix` retime
+  figures. **Not reproduced**: the as-drawn `opconv` non-convergence, the
+  as-drawn dead-chain state, and the all-`NA` as-drawn `retime`. The
+  `ihp-sg13cmos5l` tree used is the unified install pin
+  (`f7bca326...`), not the legacy `PDK-PIN` commit; the worker did not stamp
+  its tree, so that discrepancy is reported in the records, not resolved. No
+  consumer was changed because no figure was replaced.
+
 ## Execution batches
 
 | Batch | Records (rows above) | Recovered | Superseded (N / G) | Flags |
