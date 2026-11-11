@@ -2039,6 +2039,9 @@
    "conditions": "3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46",
    "method": "open-loop transient, period measured",
    "record": "sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md",
+   "extra_records": [
+    "sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md"
+   ],
    "tables": [
     {
      "id": "results",
@@ -2066,7 +2069,10 @@
     "no-ratified-spec",
     "pvt-axes-partial"
    ],
-   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5"
+   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5",
+   "extra_records_sha256": [
+    "93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729"
+   ]
   },
   {
    "id": "g2-lock-detector-window",
