@@ -379,6 +379,26 @@ the min/max.
 | Icp UP/DN/both at VDD/2, pre-DR-006 cp (RECORD-001 rerun) (`icp_a`) | A | `rerun001` | - | 306 | 0 | -8.10508e-05 | 8.01272e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
 | Icp UP/DN/both at VDD/2, DR-006 cp (RECORD-002 rerun) (`icp_a`) | A | `rerun002` | - | 306 | 0 | -8.09425e-05 | 8.0244e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
 
+### lock-detector-schmitt-crowbar-grid-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: schmitt_hv cell of lock_detector_hystfix.spice (RECORD-003 snapshot, unchanged since a595772) with the six channel lengths l=0.5u -> as-drawn/2u/4u/8u, as in RECORD-004's run_schmitt_crowbar.sh (producing commit 36e4bae)
+- **Context**: schematic, pre-layout (schmitt_hv alone, quasi-static input ramp)
+- **Conditions**: 5 MOS corners x -40/27/125 C x 2.97/3.3/3.63 V x 4 variants = 180 points, all pass; klt 0.9.0 runner on the Spot batch fleet, ngspice-46; PDK trees at the pinned revisions (ihp-sg13cmos5l 607e18d4, ihp-sg13g2 5cccb161) staged from a throwaway root
+- **Method**: four klt sim batch requests (testbench/gen_rerun331_requests.py) reproducing RECORD-004's run_schmitt_crowbar.sh grid with .meas measurements
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-crowbar-grid-rerun-batch.md` (sha256 `8ccfef1ebf094503ae76811691b38c0a08130cfbfb0ed87355a6d79dca09ca7f`)
+- **Table `crowbar`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_crowbar_variants_rerun331.csv` (sha256 `f735b0501be8d28e04b2577458bf2b213ab499b91f7081363a750318d2b1c4ba`)
+- **Note**: Rerun evidence for RECORD-004's crowbar-grid claim (issue #331): worst-case peak current 640.6/195.4/97.6/49.9 uA reproduces RECORD-004's table exactly; trip points within 0.32 %.
+- **Note**: Covers only the run_schmitt_crowbar.sh grid; RECORD-004's closed-loop/ladder evidence is not rerun. i_midband is not reproduced (i_vdd2 substituted); fall-peak estimator differs up to 7.9 % (does not affect the worst-case figure).
+- **Note**: An earlier unpinned run on the host's current PDK tree (f7bca326) is retained, uncited, under corners/rerun331-hostpdk-f7bca326/.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv hysteresis (rising minus falling trip point) (`hysteresis_v`) | V | `crowbar` | - | 180 | 0 | 0.805069 | 1.39211 | `variant`: asdrawn, long2u, long4u, long8u; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.970000e+00, 3.300000e+00, 3.630000e+00 |
+| worst-case in-band peak crowbar supply current (`i_worst_a`) | A | `crowbar` | - | 180 | 0 | 1.33252e-05 | 0.000640609 | `variant`: asdrawn, long2u, long4u, long8u; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.970000e+00, 3.300000e+00, 3.630000e+00 |
+
 ### vco-duty-cycle-rerun-fleet
 
 - **PDK**: SG13CMOS5L
