@@ -1,0 +1,60 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "decks": [
+    {
+      "id": "hold_mos_tt_27_3p3",
+      "deck": "rerun233/decks/hold_mos_tt_27_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_ss_27_3p3",
+      "deck": "rerun233/decks/hold_mos_ss_27_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_ff_27_3p3",
+      "deck": "rerun233/decks/hold_mos_ff_27_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_sf_27_3p3",
+      "deck": "rerun233/decks/hold_mos_sf_27_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_fs_27_3p3",
+      "deck": "rerun233/decks/hold_mos_fs_27_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_tt_m40_3p3",
+      "deck": "rerun233/decks/hold_mos_tt_m40_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_tt_125_3p3",
+      "deck": "rerun233/decks/hold_mos_tt_125_3p3.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_tt_27_2p97",
+      "deck": "rerun233/decks/hold_mos_tt_27_2p97.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "hold_mos_tt_27_3p63",
+      "deck": "rerun233/decks/hold_mos_tt_27_3p63.sp",
+      "timeout_s": 1800
+    }
+  ],
+  "options": {
+    "timeout_s": 1800
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}
