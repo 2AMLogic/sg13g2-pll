@@ -1,0 +1,57 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-output-levels (issue #190, spec row 14)
+* Open-loop VCO output levels into the row-14 load: a 50 fF capacitor from
+* the `vco` CLK pin to ground (spec/target-spec.md row 14: V_OH >= 0.9 x VDD,
+* V_OL <= 0.1 x VDD into <= 50 fF, single-ended, rail-referenced).
+*
+* Settled levels, deliberately conservative: V_OH is the MINIMUM of v(clk)
+* over the middle half of one settled high phase, V_OL the MAXIMUM over the
+* middle half of one settled low phase.  A plain max/min would credit
+* overshoot; this takes the worst point of the plateau.  vmax/vmin over the
+* same window are reported as information only.  Phase edges come from the
+* 50%-of-rail (1.65 V) crossings, cycles 5 and 6 (the ring start-up is
+* skipped, as in sg13cmos5l-vco-duty-cycle).
+*
+* Placeholders are substituted by testbench/gen_requests.py.  The DUT is
+* vco_open.spice: the frozen netlist-snapshots/vco.spice with XCDECAP
+* commented out (ideal zero-impedance VDD_VCO/GND_VCO make it inconsequential
+* to every node voltage measured; same derivation as the duty-cycle bench).
+
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+
+.include vco_open.spice
+
+Vvctrl vctrl 0 dc @VCTRL@
+Vb0 b0 0 dc @B0V@
+Vb1 b1 0 dc @B1V@
+Vdd vdd 0 dc 3.3
+Vsub sub! 0 dc 0
+
+Xvco vctrl b0 b1 clk vdd 0 vco
+Cload clk 0 50f
+
+.ic v(xvco.ring1)=0.5
+
+.tran @TSTEP@ 25n
+
+.control
+run
+meas tran rise1 when v(clk)=1.65 rise=5
+meas tran fall1 when v(clk)=1.65 fall=5
+meas tran rise2 when v(clk)=1.65 rise=6
+meas tran fall2 when v(clk)=1.65 fall=6
+let th = fall1 - rise1
+let tl = rise2 - fall1
+let hs = rise1 + 0.25*th
+let he = fall1 - 0.25*th
+let ls = fall1 + 0.25*tl
+let le = rise2 - 0.25*tl
+meas tran voh min v(clk) from=$&hs to=$&he
+meas tran vol max v(clk) from=$&ls to=$&le
+meas tran vmax max v(clk) from=$&rise1 to=$&rise2
+meas tran vmin min v(clk) from=$&rise1 to=$&rise2
+print rise1 fall1 rise2 fall2 voh vol vmax vmin
+.endc
+.end
