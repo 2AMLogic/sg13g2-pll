@@ -9,6 +9,12 @@
 - **Runs**: nine single-unit local `ngspice -b` runs (`ngspice-46`, one corner
   each, sequential). No grid, no batch submit, no re-run of the RECORD-006 jobs
   `klt-sim-eac8c7058128` / `klt-sim-305db5c52616`.
+- **Tooling**: `ngspice-46` (`~/.local/bin/ngspice`), x86-64 Linux shared
+  worker. `ihp-sg13cmos5l` PDK revision `607e18d4bd9214a52575c194b4181ef449f9252f`
+  is the *previous* tree (`ihp-sg13cmos5l.bak-20261015T153636Z`, clean
+  checkout, equal to the `sim/README.md` pin). The *current* tree has no git
+  revision (a copied directory); it is identified only by the file sha256
+  prefixes in the Cause table, so no revision is claimed for it.
 - **Reduction**: `pm.py` interpolates the |T| = 1 crossing (log-f, log-|T|) of
   `wrdata` output; PM = 180 deg + phase there. At the committed
   `fast` input it returns the same 44.345 deg `klt` measured.
