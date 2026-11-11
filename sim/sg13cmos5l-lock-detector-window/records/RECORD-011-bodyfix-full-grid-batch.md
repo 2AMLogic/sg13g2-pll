@@ -1,4 +1,4 @@
-# RECORD-009: full-grid rerun of the `XRPU`-bulk-on-`VSS` DUT on the batch fleet, compared with RECORD-004 (issue #139)
+# RECORD-011: full-grid rerun of the `XRPU`-bulk-on-`VSS` DUT on the batch fleet, compared with RECORD-004 (issue #139)
 
 - **Slug**: `sg13cmos5l-lock-detector-window`
 - **Issue**: #139 (Part of #16; #16 stays open, this record does not declare
