@@ -315,7 +315,7 @@ the min/max.
 - **Context**: schematic, pre-layout (schmitt_hv alone, quasi-static input ramp)
 - **Conditions**: 5 MOS corners x -40/27/125 C x 2.97/3.3/3.63 V x 4 variants = 180 points, all pass; klt 0.9.0 runner on the Spot batch fleet, ngspice-46; PDK trees at the pinned revisions (ihp-sg13cmos5l 607e18d4, ihp-sg13g2 5cccb161) staged from a throwaway root
 - **Method**: four klt sim batch requests (testbench/gen_rerun331_requests.py) reproducing RECORD-004's run_schmitt_crowbar.sh grid with .meas measurements
-- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-crowbar-grid-rerun-batch.md` (sha256 `33242a02ab291ef6fc40ab1079e2b6f3b9927c143746372900b867eaf2acf7da`)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-crowbar-grid-rerun-batch.md` (sha256 `8ccfef1ebf094503ae76811691b38c0a08130cfbfb0ed87355a6d79dca09ca7f`)
 - **Table `crowbar`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_crowbar_variants_rerun331.csv` (sha256 `f735b0501be8d28e04b2577458bf2b213ab499b91f7081363a750318d2b1c4ba`)
 - **Note**: Rerun evidence for RECORD-004's crowbar-grid claim (issue #331): worst-case peak current 640.6/195.4/97.6/49.9 uA reproduces RECORD-004's table exactly; trip points within 0.32 %.
 - **Note**: Covers only the run_schmitt_crowbar.sh grid; RECORD-004's closed-loop/ladder evidence is not rerun. i_midband is not reproduced (i_vdd2 substituted); fall-peak estimator differs up to 7.9 % (does not affect the worst-case figure).

@@ -154,3 +154,8 @@ A request cannot substitute `@VSUP@`/`@VMID@` or read a `wrdata` trace, so:
 - **Not bounded**: the original run's environment (still unproven by
   design, `superseded` addendum); post-layout behaviour; RECORD-004's
   closed-loop and ladder claims; RECORD-005 and siblings.
+- **Tool gaps filed** (`2AMLogic/klayout-tools`): `--batch-set` stall with
+  no report (#5324); no PDK-revision attestation and the unexplained
+  staged-model-card hash (#5325); a `.meas` that cannot read another
+  `.meas` (forced the `i_vdd2_*` substitution) is already tracked as #3038 /
+  #4813.
