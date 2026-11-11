@@ -490,6 +490,27 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | DIVOUT operating-point voltage (`divout_v`) | V | `opconv` | - | 4 | 0 | 1.84696 | 3.3 | `variant`: asdrawn, fbfix; `ic`: applied, none |
 
+### vco-duty-cycle-rerun-fleet
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 8bba6938...ae04, commit b37918d), XCDECAP stripped as run.sh does; NOT today's design
+- **Context**: schematic, not extracted; open loop, no external load
+- **Conditions**: 5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-2ce90b38ce36), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), worker model/OSDI sha256 identical, commits not read from the worker
+- **Method**: unmodified rerun of RECORD-001's grid as a 308-deck klt sim request (testbench/gen_rerun317_requests.py); duty = thigh/period from the transient; not byte-identical to RECORD-001
+- **Record**: `sim/sg13cmos5l-vco-duty-cycle/records/RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md` (sha256 `2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e`)
+- **Table `results`**: `sim/sg13cmos5l-vco-duty-cycle/corners/results_rerun317.csv` (sha256 `2588d49122efad5b075ab2ab74444bc926ccba91dc870d1025c65f00ebbf6f04`)
+- **Table `tstep`**: `sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_rerun317.csv` (sha256 `1e2092ff3acf4f3477ad1619c19201b37b5692bc6fbd9ce23b7d16b97c7d56c2`)
+- **Note**: Provenance rerun (issue #317: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.
+- **Note**: The failing duty-cycle result is retained, not repaired: 31 of 300 points are below the 45 % floor (RECORD-001: 30), all at -40 C; duty 43.71-51.50 % (RECORD-001: 43.74-51.56 %). Numbers differ from RECORD-001 in the last digits; the cause is not determined.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output duty cycle (`duty_pct`) | % | `results` | - | 300 | 0 | 43.7104 | 51.5039 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

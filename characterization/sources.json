@@ -3221,6 +3221,79 @@
     "lock-detector-pvt"
    ],
    "record_sha256": "30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3"
+  },
+  {
+   "id": "vco-duty-cycle-rerun-fleet",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 8bba6938...ae04, commit b37918d), XCDECAP stripped as run.sh does; NOT today's design",
+   "context": "schematic, not extracted; open loop, no external load",
+   "conditions": "5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-2ce90b38ce36), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), worker model/OSDI sha256 identical, commits not read from the worker",
+   "method": "unmodified rerun of RECORD-001's grid as a 308-deck klt sim request (testbench/gen_rerun317_requests.py); duty = thigh/period from the transient; not byte-identical to RECORD-001",
+   "record": "sim/sg13cmos5l-vco-duty-cycle/records/RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/results_rerun317.csv",
+     "sha256": "2588d49122efad5b075ab2ab74444bc926ccba91dc870d1025c65f00ebbf6f04"
+    },
+    {
+     "id": "tstep",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_rerun317.csv",
+     "sha256": "1e2092ff3acf4f3477ad1619c19201b37b5692bc6fbd9ce23b7d16b97c7d56c2"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "idd_avg_a",
+     "units": "A",
+     "quantity": "VCO average supply current",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "tstep",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle at 20p/5p timestep",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v",
+      "tstep"
+     ]
+    }
+   ],
+   "notes": [
+    "Provenance rerun (issue #317: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.",
+    "The failing duty-cycle result is retained, not repaired: 31 of 300 points are below the 45 % floor (RECORD-001: 30), all at -40 C; duty 43.71-51.50 % (RECORD-001: 43.74-51.56 %). Numbers differ from RECORD-001 in the last digits; the cause is not determined."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e"
   }
  ]
 }
