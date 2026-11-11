@@ -1,11 +1,11 @@
-# RECORD-008: rerun of RECORD-002's resized lock-detector campaign via `klt sim` on the batch fleet (issue #328)
+# RECORD-009: rerun of RECORD-002's resized lock-detector campaign via `klt sim` on the batch fleet (issue #328)
 
 - **Slug**: `sg13cmos5l-lock-detector-window`
 - **Issue**: #328 (split from #257, child of #213, Part of #199, item 9 provenance
   migration). Append-only. Reruns the campaign behind
   `RECORD-002-resized-window-hysteresis-chatter.md` (sha256
   `129f520ef9115288f01238f26cb03e7e97e57ddf1d26782ec10275226acb8cf4`, verified unchanged) and is the
-  `ADDENDUM-RERUN` target of `ADDENDUM-003-record-002-superseded.md`. No earlier record or
+  `ADDENDUM-RERUN` target of `ADDENDUM-004-record-002-superseded.md`. No earlier record or
   committed `corners/` file was edited; every output below carries the new suffix `rerun328`.
 - **DUT at its producing commit, not today's design**: `07e1866`. The frozen
   `../netlist-snapshots/lock_detector_resized.spice` was compared with
