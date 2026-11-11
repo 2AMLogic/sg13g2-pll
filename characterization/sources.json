@@ -3508,6 +3508,79 @@
     "lock-detector-pvt"
    ],
    "record_sha256": "89266dafc8e283aa0532706596fbb790c1c83ccd9c14f659e4c8eaff738b0e5d"
+  },
+  {
+   "id": "vco-duty-cycle-xbuf1-resize-issue188",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "netlist-snapshots/vco_issue188.spice (sha256 5345ab5e...b22cf8): RECORD-001's frozen vco.spice with XBUF1 replaced by MBP1 (sg13_hv_pmos w=8.5u) + MBN1 (sg13_hv_nmos w=4u); NOT today's design/sg13cmos5l/netlist/vco.spice (which has moved on elsewhere)",
+   "context": "schematic, not extracted; open loop, no external load",
+   "conditions": "5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-b48072a41655), runner klt 0.9.0, same image as RECORD-002",
+   "method": "RECORD-002's grid rerun on the XBUF1-resized DUT as a 308-deck klt sim request (testbench/gen_issue188_requests.py); duty = thigh/period from the transient",
+   "record": "sim/sg13cmos5l-vco-duty-cycle/records/RECORD-003-xbuf1-pmos-resize-duty-closure.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/results_issue188.csv",
+     "sha256": "9068c806f57bd8e2b9e5e4fc035fec5db4201bee52e18e68bfd928ccf9a68b19"
+    },
+    {
+     "id": "tstep",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_issue188.csv",
+     "sha256": "cf23ad3c5156ef47b1625809dafa1deb09f1382775307c17808c45478503f36d"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle, XBUF1 PMOS 8.5u",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "idd_avg_a",
+     "units": "A",
+     "quantity": "VCO average supply current, XBUF1 PMOS 8.5u",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "tstep",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle at 20p/5p timestep, XBUF1 PMOS 8.5u",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v",
+      "tstep"
+     ]
+    }
+   ],
+   "notes": [
+    "Issue #188: duty 46.02-53.87 % over the 300-point grid, 0 below 45 % and 0 above 55 % (RECORD-002 baseline: 31 below the floor). Pre-layout, open loop, no load, no mismatch; not post-layout and not a PVT sign-off.",
+    "Row 1 (period-derived frequency) shifts +2.3-2.9 % with this buffer and the Kvco band table is not re-baselined; the layout and PEX evidence for vco predate this netlist change."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "b65d25e46b443582acd804a6deb74b1deb4433a595befdb9b35690365a2f82db"
   }
  ]
 }

@@ -14,7 +14,8 @@ XS2 ring1 VBP VBN ring2 VDD_VCO GND_VCO vco_stage
 XS3 ring2 VBP VBN ring3 VDD_VCO GND_VCO vco_stage
 XS4 ring3 VBP VBN ring4 VDD_VCO GND_VCO vco_stage
 XS5 ring4 VBP VBN ring5 VDD_VCO GND_VCO vco_stage
-XBUF1 ring1 bufmid VDD_VCO GND_VCO inv2x_hv
+XMBP1 bufmid ring1 VDD_VCO VDD_VCO sg13_hv_pmos w=8.5u l=0.5u ng=1 m=1
+XMBN1 bufmid ring1 GND_VCO GND_VCO sg13_hv_nmos w=4u l=0.5u ng=1 m=1
 XBUF2 bufmid CLK VDD_VCO GND_VCO inv2x_hv
 XCDECAP VDD_VCO GND_VCO cap_cmomi w=70u l=70u mmin=1 mmax=4 feed=double subblock=0 m=1 mm_ok=1
 .ends

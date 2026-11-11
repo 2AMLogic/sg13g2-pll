@@ -199,6 +199,10 @@ row 8 should also move to "not specified" by the same logic.
 300 points are below 45% (minimum 43.74%). The row is not relaxed here. Ruling
 needed: redesign, or an explicit ratified deviation. Mismatch is not
 exercised (no Monte Carlo); see the Kind key.
+Proposed redesign (not yet ratified): DR-012 narrows the first output-buffer
+PMOS to 8.5u; `sg13cmos5l-vco-duty-cycle` RECORD-003 measures 46.02 to 53.87 %
+over the same 300 points. The row's table text above is left as measured
+before that change until DR-012 is ratified.
 
 **R-9. The operating box is incomplete in the DRs.** The DRs fix supply and
 device flavor; temperature range and the corner list come from bench

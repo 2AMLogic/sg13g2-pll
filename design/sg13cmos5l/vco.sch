@@ -61,11 +61,16 @@ C {lab_pin.sym} 1590 300 0 0 {name=l34 lab=ring4}
 C {lab_pin.sym} 1860 260 0 0 {name=l35 lab=ring4}
 C {lab_pin.sym} 1940 300 0 0 {name=l36 lab=ring5}
 C {lab_pin.sym} 460 260 0 0 {name=l37 lab=ring5}
-C {inv2x_hv.sym} 2350 700 0 0 {name=XBUF1 }
-C {lab_pin.sym} 2310 700 0 0 {name=l38 lab=ring1}
-C {lab_pin.sym} 2390 700 0 0 {name=l39 lab=bufmid}
-C {lab_pin.sym} 2330 660 0 0 {name=l40 lab=VDD_VCO}
-C {lab_pin.sym} 2370 740 0 0 {name=l41 lab=GND_VCO}
+C {sg13cmos5l_pr/sg13_hv_pmos.sym} 2350 600 0 0 {name=MBP1 model=sg13_hv_pmos w=8.5u l=0.5u ng=1 m=1 spiceprefix=X}
+C {sg13cmos5l_pr/sg13_hv_nmos.sym} 2350 800 0 0 {name=MBN1 model=sg13_hv_nmos w=4u l=0.5u ng=1 m=1 spiceprefix=X}
+C {lab_pin.sym} 2330 600 0 0 {name=l38 lab=ring1}
+C {lab_pin.sym} 2370 630 0 0 {name=l39 lab=bufmid}
+C {lab_pin.sym} 2370 570 0 0 {name=l40 lab=VDD_VCO}
+C {lab_pin.sym} 2370 600 0 0 {name=l41 lab=VDD_VCO}
+C {lab_pin.sym} 2330 800 0 0 {name=l46a lab=ring1}
+C {lab_pin.sym} 2370 770 0 0 {name=l46b lab=bufmid}
+C {lab_pin.sym} 2370 830 0 0 {name=l46c lab=GND_VCO}
+C {lab_pin.sym} 2370 800 0 0 {name=l46d lab=GND_VCO}
 C {inv2x_hv.sym} 2650 700 0 0 {name=XBUF2 }
 C {lab_pin.sym} 2610 700 0 0 {name=l42 lab=bufmid}
 C {lab_pin.sym} 2690 700 0 0 {name=l43 lab=CLK}
