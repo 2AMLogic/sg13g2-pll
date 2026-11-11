@@ -545,6 +545,27 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### vco-duty-cycle-xbuf1-resize-issue188
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: netlist-snapshots/vco_issue188.spice (sha256 5345ab5e...b22cf8): RECORD-001's frozen vco.spice with XBUF1 replaced by MBP1 (sg13_hv_pmos w=8.5u) + MBN1 (sg13_hv_nmos w=4u); NOT today's design/sg13cmos5l/netlist/vco.spice (which has moved on elsewhere)
+- **Context**: schematic, not extracted; open loop, no external load
+- **Conditions**: 5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-b48072a41655), runner klt 0.9.0, same image as RECORD-002
+- **Method**: RECORD-002's grid rerun on the XBUF1-resized DUT as a 308-deck klt sim request (testbench/gen_issue188_requests.py); duty = thigh/period from the transient
+- **Record**: `sim/sg13cmos5l-vco-duty-cycle/records/RECORD-003-xbuf1-pmos-resize-duty-closure.md` (sha256 `b65d25e46b443582acd804a6deb74b1deb4433a595befdb9b35690365a2f82db`)
+- **Table `results`**: `sim/sg13cmos5l-vco-duty-cycle/corners/results_issue188.csv` (sha256 `9068c806f57bd8e2b9e5e4fc035fec5db4201bee52e18e68bfd928ccf9a68b19`)
+- **Table `tstep`**: `sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_issue188.csv` (sha256 `cf23ad3c5156ef47b1625809dafa1deb09f1382775307c17808c45478503f36d`)
+- **Note**: Issue #188: duty 46.02-53.87 % over the 300-point grid, 0 below 45 % and 0 above 55 % (RECORD-002 baseline: 31 below the floor). Pre-layout, open loop, no load, no mismatch; not post-layout and not a PVT sign-off.
+- **Note**: Row 1 (period-derived frequency) shifts +2.3-2.9 % with this buffer and the Kvco band table is not re-baselined; the layout and PEX evidence for vco predate this netlist change.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output duty cycle, XBUF1 PMOS 8.5u (`duty_pct`) | % | `results` | - | 300 | 0 | 46.0241 | 53.866 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO average supply current, XBUF1 PMOS 8.5u (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000914338 | 0.00269779 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO output duty cycle at 20p/5p timestep, XBUF1 PMOS 8.5u (`duty_pct`) | % | `tstep` | - | 8 | 0 | 48.8546 | 51.8693 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
