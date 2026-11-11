@@ -44,7 +44,7 @@
    "id": "bodyfix-pvt",
    "title": "Bodyfix (#136) not re-verified across PVT",
    "issue": "#139",
-   "text": "The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only (RECORD-005). The last full-PVT evidence is for the previous DUT."
+   "text": "The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only in the records citing this gap (RECORD-005 and its nominal rerun). A full-grid rerun of the bodyfix DUT exists (RECORD-011) with its own disclosed gaps (20x probe not run; ladder PDK-confounded); those records themselves are not re-verified across PVT."
   },
   {
    "id": "lock-detector-pvt",
@@ -2437,6 +2437,78 @@
    "record_sha256": "9bc950952a2aa07444e24d4d341b52afff17dedf6daaca8b17fcd4707027e8eb"
   },
   {
+   "id": "g2-lock-detector-window-rerun",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "design/netlist/lock_detector.spice as of issue #82 (netlist-snapshots/lock_detector_resized.spice, unchanged; RECORD-002)",
+   "context": "schematic",
+   "conditions": "corner lists per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed)",
+   "method": "transient window width, ladder discharge and Schmitt threshold extraction via klt sim deck-list requests on the batch fleet (rerun of RECORD-001)",
+   "record": "sim/sg13g2-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter-batch-rerun.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13g2-lock-detector-window/corners/window_resized_rerun236.csv",
+     "sha256": "c8c9e510d7d38d055d5acf39e7cbecdb782f892f8e31848def8501812eea8560"
+    },
+    {
+     "id": "schmitt",
+     "path": "sim/sg13g2-lock-detector-window/corners/schmitt_resized_rerun236.csv",
+     "sha256": "654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24"
+    },
+    {
+     "id": "ladder",
+     "path": "sim/sg13g2-lock-detector-window/corners/ladder_resized_rerun236.csv",
+     "sha256": "49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "cap_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz"
+     ]
+    },
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv hysteresis",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ladder",
+     "column": "hysteresis_pct_of_window",
+     "units": "% of window",
+     "quantity": "hysteresis as % of window",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#236) on the batch fleet; the three tables are byte-identical to RECORD-001's resized tables (same sha256). The four sizing sweeps (rc_sizing, rc_pairing, window_sizing, xmpd_sizing) were not rerun and remain RECORD-001 evidence. Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "f159402fa4686f56823ae2d0f91f2e7241362c1270dac0bc21446f9b9ed0a1fe"
+  },
+  {
    "id": "g2-divider-repair",
    "section": "sg13g2",
    "pdk": "SG13G2",
@@ -3335,6 +3407,158 @@
     "no-ratified-spec"
    ],
    "record_sha256": "2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e"
+  },
+  {
+   "id": "resized-window-rerun-batch",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)",
+   "context": "schematic, pre-layout",
+   "conditions": "schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)",
+   "method": "RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md",
+   "tables": [
+    {
+     "id": "schmitt",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv",
+     "sha256": "5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv input-referred hysteresis (RECORD-002 rerun)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce"
+  },
+  {
+   "id": "lock-detector-bodyfix-full-grid-batch",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "lock_detector_bodyfix.spice (XRPU bulk on VSS, issue #136), frozen netlist snapshot (RECORD-011)",
+   "context": "schematic, pre-layout",
+   "conditions": "full 5 MOS corners x 3 temperatures x 3 supplies grid; ngspice-46 on the klt batch fleet, runner klt 0.9.0; ran-on PDK revision inferred (f7bca326), NOT the README pin, so ladder rows are PDK-confounded; 20x-window idd_outlock probe not run (RECORD-011)",
+   "method": "RECORD-004 full-grid campaign rerun on the bodyfix DUT as klt sim batch requests (testbench/run_batch.sh), compared keyed against RECORD-004 (testbench/compare_bodyfix_batch.py); 3 ladder-point units retried with trtol=1",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-011-bodyfix-full-grid-batch.md",
+   "tables": [
+    {
+     "id": "ladder",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_batch.csv",
+     "sha256": "4693a22d75366205b9832782b0b04ef33c76e6e48278fa74c1b2f0d4e79d9d7e"
+    },
+    {
+     "id": "schmitt",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_batch.csv",
+     "sha256": "79d280073b38fc934f0998aa101898e1597a3534aa69bb883cc29e077d0e0d21"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "ladder",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    },
+    {
+     "table": "ladder",
+     "column": "hysteresis_pct_of_window",
+     "units": "% of window",
+     "quantity": "hysteresis as % of window",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    },
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv hysteresis",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Part of #16 (#139): full-grid rerun on the bodyfix DUT. Ran-on PDK revision is inferred, not pinned, so DUT-only attribution is not claimed; the 20x idd_outlock probe is not covered and RECORD-004's figure stays unreplicated.",
+    "RECORD-004 remains the cited full-PVT source; no consumer figure was replaced."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "lock-detector-pvt"
+   ],
+   "record_sha256": "89266dafc8e283aa0532706596fbb790c1c83ccd9c14f659e4c8eaff738b0e5d"
+  },
+  {
+   "id": "divider-retiming-sizing-sweep",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "dff_tg_hv width variants (per-group scaling of forward TGs, storage inverters, feedback, output buffer) in the row-3 repaired divider chain; baseline is the frozen divider_chain_repaired.spice",
+   "context": "schematic, pre-layout, partial campaign (issue #189)",
+   "conditions": "setup-time brackets at 3 corners (mos_tt 27 C, mos_ff -40 C, mos_ss 125 C); retime at tt/27 C/3.3 V only for the baseline; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-001)",
+   "method": "klt sim batch setup sweeps over width variants x 16 TSU points; t_setup bracket per variant and corner (testbench/analyze.py); closing bound F_close = 1/(t_arr + t_setup)",
+   "record": "sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-001-xfrt-latch-sizing-sweep.md",
+   "tables": [
+    {
+     "id": "setup_brackets",
+     "path": "sim/sg13cmos5l-divider-retiming-sizing/corners/setup-sizing-sweep2.csv",
+     "sha256": "c7b256baf1845392868bcd6b721f9766698d84f5639148eeec247d0a810ddc91"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "setup_brackets",
+     "column": "t_setup_lo_ps",
+     "units": "ps",
+     "quantity": "t_setup bracket lower bound (captures fail at or below this TSU)",
+     "coverage_columns": [
+      "variant",
+      "corner"
+     ]
+    },
+    {
+     "table": "setup_brackets",
+     "column": "t_setup_hi_ps",
+     "units": "ps",
+     "quantity": "t_setup bracket upper bound (every tested TSU at or above this captures)",
+     "coverage_columns": [
+      "variant",
+      "corner"
+     ]
+    }
+   ],
+   "notes": [
+    "NOT MET, PARTIAL CAMPAIGN: the closing bound of 1562.0 MHz at 9 corners was not reached and the record claims no closing bound for any resized variant; the baseline closes at <= 922 MHz (t_arr 484.9 ps at tt/27 C, one point; not in the table).",
+    "TABLE IS A TRANSCRIPTION: setup-sizing-sweep2.csv is a 1:1 mechanical transcription of the 24 lines of setup-sizing-sweep2.txt (the 8-variant sizing sweep only) into columns; no value was recomputed. The uniform-scale sweep and retime results are in the record and corners/*.txt, not in this table. The raw batch reports are corners/*.json.gz.",
+    "PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "98e4cdd24e44c7be51f7d000a97aba43bf67b24d9b838814172838bdd6ed7f8a"
   },
   {
    "id": "supply-range-vco-lockdet-divider",
