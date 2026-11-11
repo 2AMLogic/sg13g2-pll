@@ -30,8 +30,23 @@ request (klayout-tools#2727), and it completed.
   receipts under `../reports/issue203/*/batch-receipt.json`).
 - PDK: the `ihp-sg13cmos5l` checkout the requests point at
   (`/home/ubuntu/share/pdk/ihp-sg13cmos5l`; it is not a git checkout on this
-  host, so no revision hash could be read. The `models_lib_sha256` in each
+  host, so no revision hash could be read from git. The `models_lib_sha256` in each
   report's `environment` block is the identity of record).
+- PDK revision, as far as it can be established: PDK ihp-sg13cmos5l revision
+  f7bca32694fe3d58be0cc7d9df4b9f5db7161a14. Basis: both reports carry the
+  same client-scope `models_lib_sha256`
+  (`5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a`), and
+  that equals the sha256 of `libs.tech/ngspice/models/cornerMOShv.lib` in
+  `/home/ubuntu/share/pdk/ihp-sg13cmos5l`, whose `.pdk-store.json` names
+  version `f7bca32694fe3d58be0cc7d9df4b9f5db7161a14` (the exact-commit install
+  pin in `sim/README.md` Cold start, step 1). Limits: that is one library file
+  of the client-side tree, not a tree hash, and the fleet runner's own PDK
+  copy is `scope: external` and was not hashed, so the fleet tree is assumed
+  to be the same bundle, not shown. This is **not** the `PDK-PIN
+  ihp-sg13cmos5l` hash in `sim/README.md` (`607e18d4...`, the legacy
+  split-repository commit, which that README says evidence made before the
+  pin switch owned by #213-#218 still cites); the run was not made on that
+  tree and this record does not cite it.
 - The first `klt sim` run printed its report to stdout only (`-o` holds just
   the receipt), so the reports were recovered by re-attaching to the finished
   jobs; nothing was re-simulated.
