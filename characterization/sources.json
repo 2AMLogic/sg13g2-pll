@@ -452,6 +452,161 @@
    "record_sha256": "237f4a0e7f7cf410e9413d323fd826ae6063aaa3b773bb280c743dab3ca26b12"
   },
   {
+   "id": "postlayout-pex-vco-rerun323",
+   "dut_revision": "historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2",
+   "context": "extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet",
+   "conditions": "3 PVT bundles x 4 band codes x 5 VCTRL x 2 arms (120 units); ngspice-46; PDK revisions and their verification limits in the record",
+   "method": "transient, one-period measurement of the divided-clock output",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/results-rerun323.csv",
+     "sha256": "02ced3d94b3730770c693317ccdd1d79bf0f86ff8403aa0fe325d8d5dd1ade5a"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco postlayout frequency (rerun, historical layout)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco schematic-control frequency (rerun)",
+     "where": {
+      "arm": "schematic"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Supersedes the evidence claim of RECORD-001 (ADDENDUM-001); base corners/results.csv was later overwritten by #106 and is a different layout."
+   ],
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md",
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367"
+  },
+  {
+   "id": "postlayout-pex-cp-rerun323",
+   "dut_revision": "historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2",
+   "context": "extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet",
+   "conditions": "17 PVT points x 6 trim currents x 3 switch states x 2 arms (612 units); operating point at Vout=VDD/2; ngspice-46",
+   "method": "operating point at VDD/2 (replaces the original DC sweep + nearest-VDD/2 selection)",
+   "tables": [
+    {
+     "id": "cp_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/cp_results-rerun323.csv",
+     "sha256": "e18371efabefbd87e9c5a1a48d8dbd3e80da1fa8322cc060cee1ada236c70be2"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "cp_results",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "cp postlayout delivered current, UP state (rerun)",
+     "where": {
+      "arm": "postlayout",
+      "state": "up"
+     },
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a"
+     ]
+    },
+    {
+     "table": "cp_results",
+     "column": "icp_a",
+     "units": "A",
+     "quantity": "cp postlayout delivered current, DN state (rerun)",
+     "where": {
+      "arm": "postlayout",
+      "state": "dn"
+     },
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "iref_a"
+     ]
+    }
+   ],
+   "notes": [
+    "Both-state rows (UP and DN asserted) are near-null differences and 43/102 post-layout rows differ >5% from the original; they are not summarised."
+   ],
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md",
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367"
+  },
+  {
+   "id": "postlayout-pex-rc-attribution-rerun323",
+   "dut_revision": "historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2",
+   "context": "extracted pll_vco RC-attribution variants, rerun on the batch fleet",
+   "conditions": "7 netlist variants x 3 PVT bundles x band codes 00/11 x 5 VCTRL (210 units); ngspice-46",
+   "method": "transient, one-period measurement; parasitic R shorted / C removed / C scaled",
+   "tables": [
+    {
+     "id": "rc",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/rc_attribution-rerun323.csv",
+     "sha256": "d9a4b5bb4f1a1c90b37a90f10b615aba3ea52583600bbfeaf78088dcdcaf05f4"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "rc",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco frequency, full extracted netlist (rerun)",
+     "where": {
+      "variant": "full"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Diagnostic, not a design measurement; cscale variants are parametric sensitivities, not predictions."
+   ],
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md",
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367"
+  },
+  {
    "id": "postlayout-pex-pfd",
    "section": "sg13cmos5l-postlayout-pex-pvt",
    "pdk": "SG13CMOS5L",
