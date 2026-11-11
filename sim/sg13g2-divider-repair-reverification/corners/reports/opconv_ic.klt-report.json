@@ -1,0 +1,282 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13g2-divider-repair-reverification/testbench/tb_opconv_ic.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 1,
+  "passed": 1,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 1,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******",
+      "binary_sha256": "dc859418bedd0478ff439a2d3e2e09f4386a7f4d5e3f17671953e101a000cc60",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "359ce09143b94cedcc7ee6f2b7d4d3c282b8f6bd444ac61b57a321bd79f665c8",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13g2-divider-repair-reverification/testbench/tb_opconv_ic.sp",
+        "scope": "repo",
+        "sha256": "359ce09143b94cedcc7ee6f2b7d4d3c282b8f6bd444ac61b57a321bd79f665c8"
+      },
+      {
+        "path": "sim/sg13g2-divider-repair-reverification/netlist-snapshots/divider_chain_repaired.spice",
+        "scope": "repo",
+        "sha256": "ecf87d14eebfb0b1c1c3447f56a35048bb2897e4f2a7ea8d6c549023ad505dc6"
+      }
+    ],
+    "netlist_identity": "sha256:3986ab3f6600471607a80e6e1e472327477fbd4ab2f82f837fef22587d93eb5f",
+    "osdi_preload_runner_resolved": [
+      {
+        "entry": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/mosvar.osdi",
+        "reason": "env_var"
+      },
+      {
+        "entry": "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi",
+        "reason": "env_var"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-0fd63f9c7c51",
+      "region": "us-east-1",
+      "instance_id": "i-0ab854bb19e253041",
+      "instance_type": "m6i.4xlarge",
+      "availability_zone": "us-east-1d",
+      "ami_id": "ami-095c25ae241a4d360",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "1",
+      "physical_cores": "8",
+      "elapsed_seconds": 8,
+      "client_submitted_at": "2026-11-11T20:25:19.053414Z",
+      "client_launched_at": "2026-11-11T20:27:15.205158Z",
+      "client_status_terminal_at": "2026-11-11T20:27:46.880730Z",
+      "client_collected_at": "2026-11-11T20:27:47.815173Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev661+g1de5c0432aad",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "measurements[].expr",
+          "options.osdi_preload"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": "ihp-sg13g2",
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": false,
+          "stamp_scope": "executed"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": null,
+        "diagnostics": [
+          "pdk stamp unreadable: FileNotFoundError"
+        ],
+        "pdk_stamp_comparison": {
+          "status": "not_comparable",
+          "reason": "worker_stamp_unavailable"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": null,
+      "job_ceiling": {
+        "basis": "conservative_serial_bound",
+        "unit_count": 1,
+        "per_unit_timeout_s": 1800,
+        "overhead_s": 120.0,
+        "job_bound_s": 1920.0,
+        "max_job_seconds": 3600.0,
+        "max_job_seconds_source": "fleet_config",
+        "exceeds_ceiling": false,
+        "check": "warn",
+        "max_units_per_job": 1,
+        "recommended_hosts": 1
+      }
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    }
+  },
+  "coverage": {
+    "corners_simulated": 1,
+    "measurements_declared": 2,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"mos_tt/novdd/27C\",\"divout\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/27C\",\"fb\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"divout\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt/novdd/27C\",\"fb\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev661+g1de5c0432aad",
+    "klt_git_commit": "1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klayout_version": "0.30.13",
+    "pdk": {
+      "name": "ihp-sg13g2",
+      "source": "search root: ~/share/pdk",
+      "version": "fetched:0.3.0"
+    },
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:359ce09143b94cedcc7ee6f2b7d4d3c282b8f6bd444ac61b57a321bd79f665c8",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "divout",
+      "unit": "V",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 2.319361e-09,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 2.319361e-09
+      },
+      "max": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 2.319361e-09
+      }
+    },
+    {
+      "name": "fb",
+      "unit": "V",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 8.880216e-10,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 8.880216e-10
+      },
+      "max": {
+        "corner_id": "mos_tt/novdd/27C",
+        "value": 8.880216e-10
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt/novdd/27C",
+      "process": "mos_tt",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.973,
+      "peak_rss_bytes": 50159616,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "divout",
+          "value": 2.319361e-09,
+          "unit": "V",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "fb",
+          "value": 8.880216e-10,
+          "unit": "V",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": "/tmp/s235/set/opconv_ic.request/mos_tt_novdd_27C/ngspice.log",
+        "raw": null,
+        "waveform": null,
+        "deck": "/tmp/s235/set/opconv_ic.request/mos_tt_novdd_27C/corner.cir"
+      },
+      "monte_carlo": null
+    }
+  ]
+}

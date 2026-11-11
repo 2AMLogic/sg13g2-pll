@@ -415,6 +415,23 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | schmitt_hv input-referred hysteresis (`hysteresis_v`) | V | `schmitt_rewire` | - | 108 | 0 | 0.00088 | 1.05856 | `pdk`: ihp-sg13cmos5l, ihp-sg13g2; `dut`: as_drawn, feedback_rewired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### lock-detector-window-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector.spice, templates and gen_ladder.py reconstructed from producing commit db36732 (not today's design) (RECORD-009)
+- **Context**: schematic, pre-layout
+- **Conditions**: 92-point grid: 5 MOS corners x resistor bundles x -40/27/125 C x 4 MOM-band variants, plus 2.97/3.63 V and 1/5 MHz sub-axes; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp not comparable and its rhigh differs from the original run (not independently verified)
+- **Method**: RECORD-001 grid rerun as 3 klt sim deck-list batch requests (testbench/batch_grid_db36732.py); window/Schmitt/tstep/C identical to the original CSVs, R(XRPU) 4-9 % lower (PDK drift), 92/92 chatter
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-009-window-hysteresis-chatter-rerun-pinned.md` (sha256 `1d71c9c7c61f29778933d759ef4ecb21f1d023e0aca71d925ed7f2869772b8a1`)
+- **Table `window`**: `sim/sg13cmos5l-lock-detector-window/corners/window_rerun327.csv` (sha256 `bee4fe09152a2bb6a2cc0b6b15d935f11e470b0250c3f059c587dde9a3575656`)
+- **Note**: Historical provenance rerun (issue #327: ADDENDUM-004 -> RECORD-009). No consumer figure was replaced; RECORD-001 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| delaywin_hv comparator window (rising) (`twin_r_s`) | s | `window` | - | 92 | 0 | 2.18747e-10 | 4.08545e-10 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63; `fref_hz`: 1e6, 5e6, 25e6; `dut_variant`: ideal-0.20, ideal0.00, ideal0.20, real |
+
 ### cp-icp-trim-historical-rerun
 
 - **PDK**: SG13CMOS5L
@@ -489,6 +506,44 @@ the min/max.
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | DIVOUT operating-point voltage (`divout_v`) | V | `opconv` | - | 4 | 0 | 1.84696 | 3.3 | `variant`: asdrawn, fbfix; `ic`: applied, none |
+
+### vco-duty-cycle-rerun-fleet
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 8bba6938...ae04, commit b37918d), XCDECAP stripped as run.sh does; NOT today's design
+- **Context**: schematic, not extracted; open loop, no external load
+- **Conditions**: 5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-2ce90b38ce36), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), worker model/OSDI sha256 identical, commits not read from the worker
+- **Method**: unmodified rerun of RECORD-001's grid as a 308-deck klt sim request (testbench/gen_rerun317_requests.py); duty = thigh/period from the transient; not byte-identical to RECORD-001
+- **Record**: `sim/sg13cmos5l-vco-duty-cycle/records/RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md` (sha256 `2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e`)
+- **Table `results`**: `sim/sg13cmos5l-vco-duty-cycle/corners/results_rerun317.csv` (sha256 `2588d49122efad5b075ab2ab74444bc926ccba91dc870d1025c65f00ebbf6f04`)
+- **Table `tstep`**: `sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_rerun317.csv` (sha256 `1e2092ff3acf4f3477ad1619c19201b37b5692bc6fbd9ce23b7d16b97c7d56c2`)
+- **Note**: Provenance rerun (issue #317: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.
+- **Note**: The failing duty-cycle result is retained, not repaired: 31 of 300 points are below the 45 % floor (RECORD-001: 30), all at -40 C; duty 43.71-51.50 % (RECORD-001: 43.74-51.56 %). Numbers differ from RECORD-001 in the last digits; the cause is not determined.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| VCO output duty cycle (`duty_pct`) | % | `results` | - | 300 | 0 | 43.7104 | 51.5039 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
+
+### resized-window-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)
+- **Context**: schematic, pre-layout
+- **Conditions**: schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (sha256 `2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv` (sha256 `5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585`)
+- **Note**: Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
@@ -796,6 +851,7 @@ the min/max.
 - **Conditions**: 3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46
 - **Method**: open-loop transient, period measured
 - **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` (sha256 `a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5`)
+- **Record**: `sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md` (sha256 `93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729`)
 - **Table `results`**: `sim/sg13g2-vco-kvco-table/corners/results.csv` (sha256 `63e6f2a24897cf392cdb8789ed8b6839ee60d5754273c946599a96e6de3c7bad`)
 - **Note**: Bundle PVT (3 corners), not a full cross-product.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
@@ -828,7 +884,7 @@ the min/max.
 ### g2-divider-repair
 
 - **PDK**: SG13G2
-- **Status**: current
+- **Status**: superseded
 - **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)
 - **Context**: schematic
 - **Conditions**: hold and functional rows per coverage; ngspice-46
@@ -837,6 +893,7 @@ the min/max.
 - **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func.csv` (sha256 `186d60c2d4c6b332bc533128ea5d111ab2e3e401a358c4d18e835a0e9aaec102`)
 - **Note**: Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Note**: Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -844,6 +901,26 @@ the min/max.
 | DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
 | divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 6 | 0 | 6.53234e-07 | 1.28355e-06 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 6 | 0 | -0.000237713 | -0.000218613 | `tag`: baseline, code; `variant`: repaired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: 27; `vdd_v`: 3.3; `fin_hz`: 1.000000e+08; `p_word`: 000000, 000001, 100000, 111111 |
+
+### g2-divider-repair-rerun-pinned
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)
+- **Context**: schematic
+- **Conditions**: hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)
+- **Method**: transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)
+- **Record**: `sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md` (sha256 `d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319`)
+- **Table `hold`**: `sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
+- **Table `func`**: `sim/sg13g2-divider-repair-reverification/corners/func_r002.csv` (sha256 `f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63`)
+- **Note**: Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 20 | 0 | 6.53068e-07 | 1.28497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+| divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
 ### g2-npn13g2-ro-matching
 

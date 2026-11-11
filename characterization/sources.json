@@ -2329,6 +2329,9 @@
    "conditions": "3 PVT bundles x 4 band codes x 5 VCTRL; 3.3 V; ngspice-46",
    "method": "open-loop transient, period measured",
    "record": "sim/sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md",
+   "extra_records": [
+    "sim/sg13g2-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun.md"
+   ],
    "tables": [
     {
      "id": "results",
@@ -2356,7 +2359,10 @@
     "no-ratified-spec",
     "pvt-axes-partial"
    ],
-   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5"
+   "record_sha256": "a7efd9d0579ecfd3437b11e20820a088962c4b0017c67d81134c2d0e80e6abe5",
+   "extra_records_sha256": [
+    "93b3574f97550f986c1157bfe2365c78b01360c382ffb9673c9c0c6a030dc729"
+   ]
   },
   {
    "id": "g2-lock-detector-window",
@@ -2434,7 +2440,7 @@
    "id": "g2-divider-repair",
    "section": "sg13g2",
    "pdk": "SG13G2",
-   "status": "current",
+   "status": "superseded",
    "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, base commit 8cced83)",
    "context": "schematic",
    "conditions": "hold and functional rows per coverage; ngspice-46",
@@ -2497,7 +2503,8 @@
     }
    ],
    "notes": [
-    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+    "Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only).",
+    "Superseded as the provenance claim by RECORD-002 (issue #235: ADDENDUM-001 -> RECORD-002-divider-repair-reverification-rerun-pinned.md, opconv/hold/func re-measured on the batch fleet; every shared row reproduces). Retained as history; its figures are unreplaced, so no consumer was re-pointed."
    ],
    "gap_ids": [
     "no-ratified-spec",
@@ -2505,6 +2512,82 @@
     "divider-speed"
    ],
    "record_sha256": "0834a8b9b4ed0527aaeea6675d3297d59765c271927773feb2530b42e90ebc40"
+  },
+  {
+   "id": "g2-divider-repair-rerun-pinned",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "divider_chain repaired for issue #120 (netlist-snapshots/divider_chain_repaired.spice, unchanged; RECORD-002)",
+   "context": "schematic",
+   "conditions": "hold and functional rows per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed); reltol=0.005 arm fails (timestep too small)",
+   "method": "transient on the batch fleet via klt sim requests: hold and division (rerun of RECORD-001)",
+   "record": "sim/sg13g2-divider-repair-reverification/records/RECORD-002-divider-repair-reverification-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/hold_r002.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13g2-divider-repair-reverification/corners/func_r002.csv",
+     "sha256": "f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#235) on the batch fleet. Transferred CMOS5L setup/retime evidence is excluded, not re-measured (owed to #233). Divider maximum-speed evidence absent (#168 covers SG13CMOS5L only)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "d3bbd5e77a7ce25e84b147dc5ab3ae09f09f471db824d8bdd1d0c2ff7d258319"
   },
   {
    "id": "loop-bw-pm-resized-full",
@@ -2790,6 +2873,47 @@
     "no-ratified-spec"
    ],
    "record_sha256": "2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0"
+  },
+  {
+   "id": "lock-detector-window-rerun-pinned",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector.spice, templates and gen_ladder.py reconstructed from producing commit db36732 (not today's design) (RECORD-009)",
+   "context": "schematic, pre-layout",
+   "conditions": "92-point grid: 5 MOS corners x resistor bundles x -40/27/125 C x 4 MOM-band variants, plus 2.97/3.63 V and 1/5 MHz sub-axes; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp not comparable and its rhigh differs from the original run (not independently verified)",
+   "method": "RECORD-001 grid rerun as 3 klt sim deck-list batch requests (testbench/batch_grid_db36732.py); window/Schmitt/tstep/C identical to the original CSVs, R(XRPU) 4-9 % lower (PDK drift), 92/92 chatter",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-009-window-hysteresis-chatter-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/window_rerun327.csv",
+     "sha256": "bee4fe09152a2bb6a2cc0b6b15d935f11e470b0250c3f059c587dde9a3575656"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "delaywin_hv comparator window (rising)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz",
+      "dut_variant"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #327: ADDENDUM-004 -> RECORD-009). No consumer figure was replaced; RECORD-001 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "1d71c9c7c61f29778933d759ef4ecb21f1d023e0aca71d925ed7f2869772b8a1"
   },
   {
    "id": "cp-icp-trim-historical-rerun",
@@ -3138,6 +3262,117 @@
     "lock-detector-pvt"
    ],
    "record_sha256": "30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3"
+  },
+  {
+   "id": "vco-duty-cycle-rerun-fleet",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 8bba6938...ae04, commit b37918d), XCDECAP stripped as run.sh does; NOT today's design",
+   "context": "schematic, not extracted; open loop, no external load",
+   "conditions": "5 MOS corners x 3 temperatures x 4 band codes x 5 VCTRL points = 300 transient runs, plus a 4-point x 2-timestep convergence check; ngspice-46 on the klt batch fleet (job klt-sim-2ce90b38ce36), runner klt 0.9.0; PDK revisions are the repo pins (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), worker model/OSDI sha256 identical, commits not read from the worker",
+   "method": "unmodified rerun of RECORD-001's grid as a 308-deck klt sim request (testbench/gen_rerun317_requests.py); duty = thigh/period from the transient; not byte-identical to RECORD-001",
+   "record": "sim/sg13cmos5l-vco-duty-cycle/records/RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/results_rerun317.csv",
+     "sha256": "2588d49122efad5b075ab2ab74444bc926ccba91dc870d1025c65f00ebbf6f04"
+    },
+    {
+     "id": "tstep",
+     "path": "sim/sg13cmos5l-vco-duty-cycle/corners/tstep_convergence_rerun317.csv",
+     "sha256": "1e2092ff3acf4f3477ad1619c19201b37b5692bc6fbd9ce23b7d16b97c7d56c2"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "idd_avg_a",
+     "units": "A",
+     "quantity": "VCO average supply current",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v"
+     ]
+    },
+    {
+     "table": "tstep",
+     "column": "duty_pct",
+     "units": "%",
+     "quantity": "VCO output duty cycle at 20p/5p timestep",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "band_code",
+      "vctrl_v",
+      "tstep"
+     ]
+    }
+   ],
+   "notes": [
+    "Provenance rerun (issue #317: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.",
+    "The failing duty-cycle result is retained, not repaired: 31 of 300 points are below the 45 % floor (RECORD-001: 30), all at -40 C; duty 43.71-51.50 % (RECORD-001: 43.74-51.56 %). Numbers differ from RECORD-001 in the last digits; the cause is not determined."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2d307256d877c8083871752cba091628346dbc399ebf10d5e4ca74e499bfe54e"
+  },
+  {
+   "id": "resized-window-rerun-batch",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)",
+   "context": "schematic, pre-layout",
+   "conditions": "schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)",
+   "method": "RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md",
+   "tables": [
+    {
+     "id": "schmitt",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv",
+     "sha256": "5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv input-referred hysteresis (RECORD-002 rerun)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce"
   }
  ]
 }
