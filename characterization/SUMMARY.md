@@ -252,6 +252,44 @@ the min/max.
 | divider_chain output period (tdiv_b), postlayout arm (`tdiv_b_s`) | s | `div_results` | arm=postlayout | 14 | 0 | 1.29012e-06 | 2.92011e-06 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
 | divider_chain supply current, postlayout arm (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `div_results` | arm=postlayout | 14 | 0 | -0.000861586 | -0.000809456 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
 
+### postlayout-pex-pfd-rerun325
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs frozen schematic, rerun on batch fleet
+- **Conditions**: 12-run case matrix (mos_tt, 27 C, 3.3 V); ngspice-46; PDK limits in the record
+- **Method**: transient, duty fraction of UP/DN outputs for a fixed REF/FB lead
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md` (sha256 `30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3`)
+- **Table `pfd_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/pfd_results-rerun325.csv` (sha256 `ee29ecce634c88b93919b6a16147e9f6fd230a19466ddd9a5663036a61b91f98`)
+- **Note**: Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); post-layout fblead rows do not reproduce the mode inversion on the fleet image (reproduced on the pinned tree for one deck, see record section 3).
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pfd UP duty fraction, postlayout arm (rerun) (`up_duty_frac`) | fraction | `pfd_results` | arm=postlayout | 6 | 0 | 0.023963 | 0.423991 | `case`: fblead, reflead; `offset_s`: 5e-9, 10e-9, 20e-9; `mos_corner`: mos_tt; `temp_c`: 27; `vdd_v`: 3.3 |
+| pfd DN duty fraction, postlayout arm (rerun) (`dn_duty_frac`) | fraction | `pfd_results` | arm=postlayout | 6 | 0 | 0.023916 | 0.423958 | `case`: fblead, reflead; `offset_s`: 5e-9, 10e-9, 20e-9; `mos_corner`: mos_tt; `temp_c`: 27; `vdd_v`: 3.3 |
+
+### postlayout-pex-lock-detector-rerun325
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs whole-cell schematic, rerun on batch fleet
+- **Conditions**: mos_corner x res_corner x temp x VSUP per coverage; ngspice-46; PDK limits in the record
+- **Method**: transient window-width (twin) measurement
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md` (sha256 `30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3`)
+- **Table `ld_window`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window-rerun325.csv` (sha256 `def0a13be84ffe2f97ab8813d984e17445b66e5b8190b3121ae4a166632dae3e`)
+- **Table `ld_deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation-rerun325.csv` (sha256 `9f2a4056fc1a1d61c766b1520d774c205fc7a10d8a9aa1931afaaee05d37c0a0`)
+- **Note**: Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); magnitude differs from the original (+66% vs +46% mean), resistor-model tree difference attributed in the record.
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lock_detector window width (rising), postlayout arm (rerun) (`twin_r_s`) | s | `ld_window` | arm=postlayout | 29 | 0 | 3.41504e-10 | 5.9891e-10 | `deck`: wholecell; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| lock_detector window width (falling), postlayout arm (rerun) (`twin_f_s`) | s | `ld_window` | arm=postlayout | 29 | 0 | 3.46495e-10 | 6.1242e-10 | `deck`: wholecell; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| lock_detector whole-cell postlayout-vs-schematic twin_r deviation (rerun) (`twin_r_delta_pct`) | % | `ld_deviation` | - | 29 | 0 | 62.887 | 68.9657 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: schematic-level campaigns (current)
 
 ### loop-bw-pm-finetrim

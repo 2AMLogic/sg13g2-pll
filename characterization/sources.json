@@ -2960,6 +2960,144 @@
    "record_sha256": "db611b5aaecb766deda045c2d56a8dc3fb640b34e410c6aac8f63bffe9a951b8"
   },
   {
+   "id": "postlayout-pex-pfd-rerun325",
+   "context": "extracted (postlayout arm) vs frozen schematic, rerun on batch fleet",
+   "conditions": "12-run case matrix (mos_tt, 27 C, 3.3 V); ngspice-46; PDK limits in the record",
+   "method": "transient, duty fraction of UP/DN outputs for a fixed REF/FB lead",
+   "tables": [
+    {
+     "id": "pfd_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/pfd_results-rerun325.csv",
+     "sha256": "ee29ecce634c88b93919b6a16147e9f6fd230a19466ddd9a5663036a61b91f98"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "pfd_results",
+     "column": "up_duty_frac",
+     "units": "fraction",
+     "quantity": "pfd UP duty fraction, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "case",
+      "offset_s",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "pfd_results",
+     "column": "dn_duty_frac",
+     "units": "fraction",
+     "quantity": "pfd DN duty fraction, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "case",
+      "offset_s",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); post-layout fblead rows do not reproduce the mode inversion on the fleet image (reproduced on the pinned tree for one deck, see record section 3)."
+   ],
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md",
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3"
+  },
+  {
+   "id": "postlayout-pex-lock-detector-rerun325",
+   "context": "extracted (postlayout arm) vs whole-cell schematic, rerun on batch fleet",
+   "conditions": "mos_corner x res_corner x temp x VSUP per coverage; ngspice-46; PDK limits in the record",
+   "method": "transient window-width (twin) measurement",
+   "tables": [
+    {
+     "id": "ld_window",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window-rerun325.csv",
+     "sha256": "def0a13be84ffe2f97ab8813d984e17445b66e5b8190b3121ae4a166632dae3e"
+    },
+    {
+     "id": "ld_deviation",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation-rerun325.csv",
+     "sha256": "9f2a4056fc1a1d61c766b1520d774c205fc7a10d8a9aa1931afaaee05d37c0a0"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "ld_window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "lock_detector window width (rising), postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "deck",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ld_window",
+     "column": "twin_f_s",
+     "units": "s",
+     "quantity": "lock_detector window width (falling), postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "deck",
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ld_deviation",
+     "column": "twin_r_delta_pct",
+     "units": "%",
+     "quantity": "lock_detector whole-cell postlayout-vs-schematic twin_r deviation (rerun)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); magnitude differs from the original (+66% vs +46% mean), resistor-model tree difference attributed in the record."
+   ],
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md",
+   "gap_ids": [
+    "no-ratified-spec",
+    "bodyfix-pvt",
+    "lock-detector-pex",
+    "lock-detector-pvt"
+   ],
+   "record_sha256": "30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3"
+  },
+  {
    "id": "resized-window-rerun-batch",
    "section": "sg13cmos5l-schematic-pvt",
    "pdk": "SG13CMOS5L",
