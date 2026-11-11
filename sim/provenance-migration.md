@@ -186,7 +186,7 @@ Legend:
 | 30 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md` | `07751ca` 2026-09-21 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux **and** arm64 macOS (re-measured on both) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded | #215 |
 | 31 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` | `bd62f15` 2026-09-23 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (8-core) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded | #215 |
 | 32 | `sg13cmos5l-vco-decap-momcap/records/RECORD-001-decap-momcap-sensitivity.md` | `fac4e4a` 2026-08-30 | G | cmos5l + g2 (symlinked) (`r3_cmc.osdi`) | not stated; `~/share/pdk` | base, design/README.md, prop, sim/sg13cmos5l-vco-decap-momcap/corners/matrix.md, spec | superseded | #216 |
-| 33 | `sg13cmos5l-vco-duty-cycle/records/RECORD-001-duty-cycle-and-vco-current.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, manifests/test_check_spec_citations.py, spec | superseded | #216 |
+| 33 | `sg13cmos5l-vco-duty-cycle/records/RECORD-001-duty-cycle-and-vco-current.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, manifests/test_check_spec_citations.py, spec | superseded (rerun landed, #317: ADDENDUM-001 -> RECORD-002; not byte-identical, 31/300 below 45 %) | #216 |
 | 34 | `sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `db5ec6a` 2026-08-29 | G | cmos5l + g2 (symlinked) | arm64 build host (cap_cmom* failed to load); x86-64 also named | sum, src, prop, sim/sg13cmos5l-divider-nrange-retiming/testbench/tb_div_retime.sp.tmpl, DR-005, spec | superseded | #216 |
 | 35 | `sg13g2-divider-repair-reverification/records/RECORD-001-divider-repair-reverification.md` | `e643c39` 2026-09-23 | G (partial; rest transferred) | g2 (fresh runs) + **cmos5l-tree results transferred** from `sg13cmos5l-divider-nrange-retiming/RECORD-003` | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, spec | superseded superseded (rerun landed, #235: ADDENDUM-001 -> RECORD-002, opconv/hold/func on the batch fleet; transferred CMOS5L setup/retime evidence excluded, owed to #233) | #217 |
 | 36 | `sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md` | `40b020e` 2026-08-31 | G | g2 | x86-64 Linux, 8 cores, `~/share/pdk/ihp-sg13g2`; worker not named | sum, src, design/README.md, sim/README, sim/sg13g2-lock-detector-window/README.md, sim/sg13g2-lock-detector-window/corners/matrix.md, spec | superseded | #217 |
@@ -294,6 +294,22 @@ Totals:
   reproduce; R(XRPU) is 4-9 % lower (PDK `rhigh` drift) and one ladder
   threshold shifts a step. Runner PDK revision unverified. No consumer was
   changed.
+
+- **Row 33, `sg13cmos5l-vco-duty-cycle/RECORD-001`: resolved by fleet rerun
+  (#317).** `ADDENDUM-001-record-001-superseded.md` ->
+  `RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md` (`superseded`; no
+  recovery of the original environment). All 300 grid runs plus the 8
+  timestep runs went to the batch fleet as one 308-deck `klt sim` request
+  (job `klt-sim-2ce90b38ce36`, ngspice-46, runner klt 0.9.0) against the frozen
+  DUT snapshot. The fleet worker's PDK tree has no `SOURCES` stamp, so the
+  two pins are cited as the pins, supported by identical sha256 of the six
+  OSDI objects and both corner libraries on the worker; they were not read
+  from the worker. The rerun does **not** reproduce RECORD-001 byte-for-byte
+  (duty 43.71-51.50 % vs 43.74-51.56 %; 31 of 300 points below 45 % vs 30,
+  all at -40 C; supply current within 2.2 %). The failing result is retained,
+  and no consumer was re-pointed: `spec/target-spec.md` and
+  `docs/chipalooza/challenge-6-proposal.md` still cite RECORD-001's figures,
+  which is a spec matter for a decision record.
 
 - **Row 15, `sg13cmos5l-klt-pex-signoff/RECORD-001`: resolved by rerun (#255).**
   `ADDENDUM-001-record-001-superseded.md` -> `RECORD-003-klt-pex-nominal-rerun-pinned.md`
