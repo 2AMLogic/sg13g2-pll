@@ -235,6 +235,8 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-004-issue79-finetrim-icp.md` (sha256 `03110e5c6dd4763fbf1d3feb48e094171ff5d3d017c5636b3c54c01d191bcd73`)
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-003-issue83-finetrim-icp.md` (sha256 `482d9e84eba0c6ad27f27dda98c7615f58f9292f7a6247b6da4fb6c9a74f2ba6`)
 - **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-002-cascode-bias-mismatch-remeasure.md` (sha256 `744be48ecd826030234e3cf6f7de54aae92f57c4ae9e85bf4c686fbcb4b3ed7b`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-006-issue83-finetrim-icp-rerun.md` (sha256 `8a7a2d7e8774a3bcaf6d02737dcfb36b4b8ce6ee3377d37c033b013efdabd98f`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-007-issue79-finetrim-icp-rerun.md` (sha256 `02aa102a316264bdb629fd90970f90f9946ad42f038814b288ffb4dd5e92c650`)
 - **Table `issue83`**: `sim/sg13cmos5l-cp-icp-trim/corners/results_issue83_finetrim.csv` (sha256 `4f71051104fd05406a03faf2d22f857beb0483ba574eaa90e52c8b2796b07554`)
 - **Table `issue79`**: `sim/sg13cmos5l-cp-icp-trim/corners/results_issue79_finetrim.csv` (sha256 `6a7da118ad5c13edc7258f5dc1bb1d9291662ef3c66da5ae0dbe13fdf69d6eec`)
 - **Note**: Targeted points, not the full six-code campaign (that campaign is in cp-icp-trim RECORD-001/002, outside this first-version selection).

@@ -1,0 +1,54 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "netlist": "tb_cp_finetrim_11u.sp",
+  "models": {
+    "pdk": "ihp-sg13cmos5l",
+    "lib": "libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "corners": {
+    "process": [
+      "mos_ff"
+    ],
+    "temperature_c": [
+      -40
+    ]
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Vout_up 1.65 1.65 0.05"
+  },
+  "measurements": [
+    {
+      "name": "icp_up_a",
+      "unit": "A",
+      "expr": "i(Vout_up)"
+    },
+    {
+      "name": "icp_dn_a",
+      "unit": "A",
+      "expr": "i(Vout_dn)"
+    },
+    {
+      "name": "icp_both_a",
+      "unit": "A",
+      "expr": "i(Vout_both)"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 600,
+    "keep_artifacts": true
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}
