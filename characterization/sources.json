@@ -2460,6 +2460,46 @@
     "no-ratified-spec"
    ],
    "record_sha256": "b5fa3e0dd5abf298d71d62ac9eebd4ea9bc07b8381e12eb39fb346defbe4c683"
+  },
+  {
+   "id": "schmitt-rewire-rerun-pinned",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector.spice for both PDK arms reconstructed from producing commit a595772 (not today's design); as-drawn control by reversing the XMP3/XMN3 feedback rewiring (RECORD-007)",
+   "context": "schematic, pre-layout",
+   "conditions": "3 MOS corners x 3 temperatures x 3 supplies, as-drawn vs feedback_rewired, ihp-sg13cmos5l and explicit ihp-sg13g2 arms; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)",
+   "method": "RECORD-003 schmitt_rewire grid rerun as 12 klt sim batch requests (testbench/rerun329, requests/schmitt_rewire_*.request.json); cmos5l-rewired arm differs from the original CSV by up to ~2 mV per trip point, other arms identical",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-007-hysteresis-fix-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "schmitt_rewire",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/schmitt_rewire_rerun329.csv",
+     "sha256": "ba24cbbe1d8c9a62d3dcf4642a5191cbd421ea22e81f13ce79025fe143087e78"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "schmitt_rewire",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv input-referred hysteresis",
+     "coverage_columns": [
+      "pdk",
+      "dut",
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #329: ADDENDUM-002 -> RECORD-007). No consumer figure was replaced; RECORD-003 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0"
   }
  ]
 }
