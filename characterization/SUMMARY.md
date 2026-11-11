@@ -566,6 +566,26 @@ the min/max.
 | hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 21 | 0 | 50 | 800 | `corner_tag`: 21 distinct (mos_ff_res_typ_27c_3.3v_3p5MHz_real .. mos_tt_res_wcs_27c_3.3v_3p5MHz_real) |
 | schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.83314 | 1.03465 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### divider-retiming-sizing-sweep
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: dff_tg_hv width variants (per-group scaling of forward TGs, storage inverters, feedback, output buffer) in the row-3 repaired divider chain; baseline is the frozen divider_chain_repaired.spice
+- **Context**: schematic, pre-layout, partial campaign (issue #189)
+- **Conditions**: setup-time brackets at 3 corners (mos_tt 27 C, mos_ff -40 C, mos_ss 125 C); retime at tt/27 C/3.3 V only for the baseline; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-001)
+- **Method**: klt sim batch setup sweeps over width variants x 16 TSU points; t_setup bracket per variant and corner (testbench/analyze.py); closing bound F_close = 1/(t_arr + t_setup)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-001-xfrt-latch-sizing-sweep.md` (sha256 `98e4cdd24e44c7be51f7d000a97aba43bf67b24d9b838814172838bdd6ed7f8a`)
+- **Table `setup_brackets`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/setup-sizing-sweep2.csv` (sha256 `c7b256baf1845392868bcd6b721f9766698d84f5639148eeec247d0a810ddc91`)
+- **Note**: NOT MET, PARTIAL CAMPAIGN: the closing bound of 1562.0 MHz at 9 corners was not reached and the record claims no closing bound for any resized variant; the baseline closes at <= 922 MHz (t_arr 484.9 ps at tt/27 C, one point; not in the table).
+- **Note**: TABLE IS A TRANSCRIPTION: setup-sizing-sweep2.csv is a 1:1 mechanical transcription of the 24 lines of setup-sizing-sweep2.txt (the 8-variant sizing sweep only) into columns; no value was recomputed. The uniform-scale sweep and retime results are in the record and corners/*.txt, not in this table. The raw batch reports are corners/*.json.gz.
+- **Note**: PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets` | - | 24 | 0 | 500 | 1000 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
+| t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets` | - | 24 | 0 | 600 | 1500 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

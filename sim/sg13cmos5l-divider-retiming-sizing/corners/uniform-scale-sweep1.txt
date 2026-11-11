@@ -1,0 +1,8 @@
+# sweep 1: uniform width scaling of every device in the flop (c = chain flops, f = XFRT), tt/27C unless stated
+setup c1_f1 mos_ff/-40C (500,600]; mos_ss/125C (1000,1500]; mos_tt/27C (500,600]   [old 16-point TSU list analysis]
+setup c1_f2 identical brackets to c1_f1 at all 3 corners
+setup c1_f4 identical brackets to c1_f1 at all 3 corners
+retime c1_f1 mos_tt/27C/3.3V tdiv=86.272ns t_arr=484.9ps tfb-tdiv=636.4ps idd=-2.372mA  F_close<=922 MHz (t_setup_hi=600)
+retime c1_f2 divider mis-divides (2nd DIVOUT rise at 4.49 ns, not ~86 ns); idd=-2.766mA; no valid t_arr
+retime c1_f4 tfb unresolved (fb_max 3.5 mV, FB never toggles); tdiv 5.24 ns; idd=-3.694mA
+retime c2_f1 / c2_f2 / c2_f4 DIVOUT never toggles (dvo_max 34 / 59 / 93 mV); idd -2.08 / -2.44 / -3.15 mA
