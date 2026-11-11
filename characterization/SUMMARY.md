@@ -528,6 +528,23 @@ the min/max.
 | VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
 
+### resized-window-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)
+- **Context**: schematic, pre-layout
+- **Conditions**: schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (sha256 `2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv` (sha256 `5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585`)
+- **Note**: Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

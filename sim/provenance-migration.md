@@ -170,7 +170,7 @@ Legend:
 | 14 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` | `a95a887` 2026-09-22 | G | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, prop, sg13g2-divider-repair-reverification/RECORD-001, spec | superseded (rerun landed, #233: ADDENDUM-001 -> RECORD-004; same logic outcomes) | #212 |
 | 15 | `sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` | `e56e14a` 2026-10-08 | N, 5 blocks | cmos5l + g2 (symlinked); envelope `pdk.version` is null | not stated; klt 0.6.0 envelopes | sum, src, spec | superseded (rerun landed, #255: ADDENDUM-001 -> RECORD-003, all 5 blocks, old-layout nominal only) | #213 |
 | 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded (rerun landed, #327: ADDENDUM-004 -> RECORD-009, full 92-point grid; **resolved**) | #213 |
-| 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded | #213 |
+| 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded (rerun landed, #328: ADDENDUM-005 -> RECORD-010, full grid; **resolved**) | #213 |
 | 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded (rerun landed, #329: ADDENDUM-002 -> RECORD-007, `schmitt_rewire` grid only; **resolved**) | #213 |
 | 19 | `sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` | `36e4bae` 2026-08-31 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, manifests/test_check_spec_citations.py, sim/README, spec | superseded (rerun landed, #331: ADDENDUM-003 -> RECORD-008, `run_schmitt_crowbar.sh` 180-point grid on the batch fleet; RECORD-004's closed-loop/ladder evidence not rerun) | #213 |
 | 20 | `sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` | `3fd7967` 2026-10-03 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; `/home/ubuntu/.local/bin/ngspice` | sum, src, prop, layout/sg13cmos5l-pll/README.md, spec | superseded (rerun landed, #256: ADDENDUM-001 -> RECORD-006, nominal only; full-PVT still owed as #139) | #213 |
@@ -272,6 +272,18 @@ Totals:
   ratios exact and 9/9 hold as originally; analog values differ only in the last
   printed digit; the `reltol=5e-3` arms fail as originally. RECORD-001/002
   (broken DUT) are not part of this and stay grandfathered. No consumer changed.
+
+- **Row 17, `sg13cmos5l-lock-detector-window/RECORD-002`: resolved by rerun
+  (#328).** `ADDENDUM-005-record-002-superseded.md` ->
+  `RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (`superseded`).
+  The full grid was rerun as `klt sim` batch deck-list requests (probe
+  `klt-sim-2b9efd5902c3`; phases `klt-sim-332a5a5443e3`, `-93491bd10e67`,
+  `-de093cb26886`; runner klt 0.9.0, ngspice-46) against the DUT at `07e1866`
+  (frozen snapshot, byte-identical). Window, Schmitt and C reproduce; `rhigh` R
+  is 4.5-8.7 % lower; 17 of 18 ladder corners converge (one fails with an
+  ngspice timestep error under every solver setting, retained as an NA row) and
+  one corner's assert threshold differs. Runner PDK revision unverified
+  (klayout-tools#5318, #3462). No consumer was changed.
 
 - **Row 18, `sg13cmos5l-lock-detector-window/RECORD-003`: resolved by rerun
   (#329).** `ADDENDUM-002-record-003-superseded.md` ->
