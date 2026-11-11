@@ -1,0 +1,13 @@
+arm,case,offset_s,mos_corner,temp_c,vdd_v,up_avg_v,dn_avg_v,up_duty_frac,dn_duty_frac,dominant_output
+schematic,fblead,5e-9,mos_tt,27,3.3,4.44694e-02,3.74408e-01,0.013476,0.113457,DN-dominant (textbook)
+schematic,fblead,10e-9,mos_tt,27,3.3,4.44694e-02,7.04423e-01,0.013476,0.213462,DN-dominant (textbook)
+schematic,fblead,20e-9,mos_tt,27,3.3,4.44693e-02,1.36445e+00,0.013476,0.413470,DN-dominant (textbook)
+schematic,reflead,5e-9,mos_tt,27,3.3,3.74470e-01,4.43278e-02,0.113476,0.013433,UP-dominant (textbook)
+schematic,reflead,10e-9,mos_tt,27,3.3,7.04486e-01,4.43291e-02,0.213481,0.013433,UP-dominant (textbook)
+schematic,reflead,20e-9,mos_tt,27,3.3,1.36452e+00,4.43333e-02,0.413491,0.013434,UP-dominant (textbook)
+postlayout,fblead,5e-9,mos_tt,27,3.3,7.90796e-02,4.09033e-01,0.023964,0.123949,DN-dominant (textbook)
+postlayout,fblead,10e-9,mos_tt,27,3.3,7.90794e-02,7.39044e-01,0.023963,0.223953,DN-dominant (textbook)
+postlayout,fblead,20e-9,mos_tt,27,3.3,7.90794e-02,1.39906e+00,0.023963,0.423958,DN-dominant (textbook)
+postlayout,reflead,5e-9,mos_tt,27,3.3,4.09111e-01,7.89219e-02,0.123973,0.023916,UP-dominant (textbook)
+postlayout,reflead,10e-9,mos_tt,27,3.3,7.39137e-01,7.89353e-02,0.223981,0.023920,UP-dominant (textbook)
+postlayout,reflead,20e-9,mos_tt,27,3.3,1.39917e+00,7.89479e-02,0.423991,0.023924,UP-dominant (textbook)
