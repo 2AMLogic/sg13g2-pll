@@ -2437,6 +2437,78 @@
    "record_sha256": "9bc950952a2aa07444e24d4d341b52afff17dedf6daaca8b17fcd4707027e8eb"
   },
   {
+   "id": "g2-lock-detector-window-rerun",
+   "section": "sg13g2",
+   "pdk": "SG13G2",
+   "status": "current",
+   "dut_revision": "design/netlist/lock_detector.spice as of issue #82 (netlist-snapshots/lock_detector_resized.spice, unchanged; RECORD-002)",
+   "context": "schematic",
+   "conditions": "corner lists per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed)",
+   "method": "transient window width, ladder discharge and Schmitt threshold extraction via klt sim deck-list requests on the batch fleet (rerun of RECORD-001)",
+   "record": "sim/sg13g2-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter-batch-rerun.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13g2-lock-detector-window/corners/window_resized_rerun236.csv",
+     "sha256": "c8c9e510d7d38d055d5acf39e7cbecdb782f892f8e31848def8501812eea8560"
+    },
+    {
+     "id": "schmitt",
+     "path": "sim/sg13g2-lock-detector-window/corners/schmitt_resized_rerun236.csv",
+     "sha256": "654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24"
+    },
+    {
+     "id": "ladder",
+     "path": "sim/sg13g2-lock-detector-window/corners/ladder_resized_rerun236.csv",
+     "sha256": "49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "window width (rising)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "cap_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz"
+     ]
+    },
+    {
+     "table": "schmitt",
+     "column": "hysteresis_v",
+     "units": "V",
+     "quantity": "schmitt_hv hysteresis",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vsup_v"
+     ]
+    },
+    {
+     "table": "ladder",
+     "column": "hysteresis_pct_of_window",
+     "units": "% of window",
+     "quantity": "hysteresis as % of window",
+     "coverage_columns": [
+      "corner_tag"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#236) on the batch fleet; the three tables are byte-identical to RECORD-001's resized tables (same sha256). The four sizing sweeps (rc_sizing, rc_pairing, window_sizing, xmpd_sizing) were not rerun and remain RECORD-001 evidence. Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "f159402fa4686f56823ae2d0f91f2e7241362c1270dac0bc21446f9b9ed0a1fe"
+  },
+  {
    "id": "g2-divider-repair",
    "section": "sg13g2",
    "pdk": "SG13G2",
