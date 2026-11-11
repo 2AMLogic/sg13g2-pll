@@ -290,6 +290,23 @@ the min/max.
 | divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256839 | -0.000199282 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
+### schmitt-rewire-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector.spice for both PDK arms reconstructed from producing commit a595772 (not today's design); as-drawn control by reversing the XMP3/XMN3 feedback rewiring (RECORD-007)
+- **Context**: schematic, pre-layout
+- **Conditions**: 3 MOS corners x 3 temperatures x 3 supplies, as-drawn vs feedback_rewired, ihp-sg13cmos5l and explicit ihp-sg13g2 arms; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-003 schmitt_rewire grid rerun as 12 klt sim batch requests (testbench/rerun329, requests/schmitt_rewire_*.request.json); cmos5l-rewired arm differs from the original CSV by up to ~2 mV per trip point, other arms identical
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-007-hysteresis-fix-rerun-pinned.md` (sha256 `2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0`)
+- **Table `schmitt_rewire`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rewire_rerun329.csv` (sha256 `ba24cbbe1d8c9a62d3dcf4642a5191cbd421ea22e81f13ce79025fe143087e78`)
+- **Note**: Historical provenance rerun (issue #329: ADDENDUM-002 -> RECORD-007). No consumer figure was replaced; RECORD-003 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (`hysteresis_v`) | V | `schmitt_rewire` | - | 108 | 0 | 0.00088 | 1.05856 | `pdk`: ihp-sg13cmos5l, ihp-sg13g2; `dut`: as_drawn, feedback_rewired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
