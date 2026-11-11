@@ -1,4 +1,4 @@
-# RECORD-005: rerun of RECORD-002 (floorplan-aware VCO route) on the pinned dual-tree PDK, grid on the batch fleet (issue #324)
+# RECORD-007: rerun of RECORD-002 (floorplan-aware VCO route) on the pinned dual-tree PDK, grid on the batch fleet (issue #324)
 
 - **Slug**: `sg13cmos5l-postlayout-pex-pvt`
 - **Issue**: #324 (Part of #215 / #199, item 9 provenance migration).
@@ -6,7 +6,7 @@
   `RECORD-002-floorplan-aware-vco-route.md` (sha256
   `79a7c066cac4e00550694c266c10aa1cbe2450563d43394a70424f5966fc1630`,
   verified unchanged) and is the `ADDENDUM-RERUN` target of
-  `ADDENDUM-001-record-002-superseded.md`. It edits neither
+  `ADDENDUM-003-record-002-superseded.md`. It edits neither
   `RECORD-002-floorplan-aware-vco-route.md` nor any historical file
   (`corners/results.csv`, `corners/rc_attribution.csv`,
   `netlist-snapshots/*`, `lvs-recheck/*`). Every new output is under a new

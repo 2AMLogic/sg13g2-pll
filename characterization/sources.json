@@ -393,6 +393,48 @@
    "record_sha256": "79a7c066cac4e00550694c266c10aa1cbe2450563d43394a70424f5966fc1630"
   },
   {
+   "id": "postlayout-pex-vco-rerun324",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "pll_vco extracted from routed GDS layout record 20260921-155747-c44fa68 (floorplan-aware route, RECORD-002 flow rerun at ff8b653; klt 729ee531e176), rerun on the pinned dual-tree PDK",
+   "context": "extracted (postlayout arm); same bench as RECORD-002 rerun on the batch fleet",
+   "conditions": "3 PVT bundles (typ/slow/fast = mos_tt+res_typ+27C / mos_ss+res_wcs+125C / mos_ff+res_bcs-40C) x 4 band codes x 5 VCTRL; 3.3 V only; 30 ns tran; ngspice-46; 330 batch units across the Matrix A and RC-attribution grids",
+   "method": "open-loop transient, period measured per run (as RECORD-002)",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-007-floorplan-aware-vco-route-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/rerun-324/results.csv",
+     "sha256": "d0c75f8799590176a7dd7c1580b0d1ab7f71af6865f024a52f4057209c8b37e5"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco open-loop frequency, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Reproduces RECORD-002's Matrix A to printing precision (ADDENDUM-003); no figure in RECORD-002 or its consumers is replaced. Item 9 stays unmet."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "1e5e5dc7c56295474a88761c8ca68dc8e862d0b4d27a9414899cc6423f6e6981"
+  },
+  {
    "id": "postlayout-pex-cp",
    "section": "sg13cmos5l-postlayout-pex-pvt",
    "pdk": "SG13CMOS5L",
