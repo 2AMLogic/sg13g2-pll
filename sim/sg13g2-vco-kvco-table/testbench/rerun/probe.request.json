@@ -1,0 +1,18 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13g2"
+  },
+  "decks": [
+    {
+      "id": "typ_b00_v1p5",
+      "deck": "probe-decks/typ_b00_v1p5.sp",
+      "timeout_s": 1800
+    }
+  ],
+  "options": {
+    "timeout_s": 1800,
+    "max_workers": 2
+  }
+}
