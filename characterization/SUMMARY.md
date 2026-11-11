@@ -267,6 +267,42 @@ the min/max.
 | divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
+### divider-nrange-retiming-rerun232
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pre-repair divider_chain (as-drawn and fbfix variants; snapshot byte-identical at 1d824d3); NOT the repaired divider
+- **Context**: schematic, not extracted
+- **Conditions**: hold: 9 PVT points x 2 variants; setup: 3 bundles x 6 TSU x 2 variants; klt sim batch fleet, runner klt 0.9.0, ngspice-46; cmos5l tree is the unified install pin (not the legacy PDK-PIN), see the record
+- **Method**: transient: DFF static hold and setup capture at 1562.0 MHz (rerun of RECORD-001 Findings 2 and 3)
+- **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-004-nrange-retiming-margin-rerun-pinned.md` (sha256 `e6ac31390ac7d307e50ec18e2abd36e6ae1970b2a8790d116b47405dcbea610b`)
+- **Table `hold`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-hold.csv` (sha256 `7e3a2f75ca4f7dda6756f10251918363e7d98d45d16d90c7fab6d5d6585ea284`)
+- **Table `setup`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-setup.csv` (sha256 `fff4939f49a311968318cf5d5e9e9db77597db9d13fce882cd18c6674e4e4301`)
+- **Note**: FAILURE RETAINED: as-drawn hold settles to a mid-rail 1.38-1.69 V in 9/9 corners; fbfix fails to capture a 1 at every tested TSU up to 300 ps at all 3 bundles. Baseline and retime were rerun at the nominal corner only (see the record); the as-drawn opconv non-convergence of RECORD-001 was not reproduced.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF Q at the end of the static-hold window (`q_end_v`) | V | `hold` | - | 18 | 0 | 1.37766 | 3.63 | `variant`: asdrawn, fbfix; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| DFF Q sampled a quarter period after capture (`q_sample_v`) | V | `setup` | - | 36 | 0 | -0.0307704 | 3.09104 | `variant`: asdrawn, fbfix; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `tsu_s`: 0, 4e-11, 8e-11, 1.3e-10, 2e-10, 3e-10 |
+
+### divider-opconv-rerun232
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pre-repair divider_chain (as-drawn and fbfix variants); NOT the repaired divider
+- **Context**: schematic, not extracted
+- **Conditions**: nominal point (mos_tt, 27 C, 3.3 V), 4 bare .op runs; klt sim batch fleet, ngspice-46
+- **Method**: operating point: whole-chain DC convergence with and without the .ic symmetry break
+- **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-005-pdk-root-token-fix-rerun-pinned.md` (sha256 `0a3accb30206a7edc879a00f9904734492738f4a550214573f54f35abd9835dd`)
+- **Table `opconv`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-opconv.csv` (sha256 `a725a69a96d8b5f1229cc480e35815e0373bf31998647ea67234b75410234576`)
+- **Note**: As-drawn converges to a mid-rail 1.847 V after an ngspice 'Dynamic gmin stepping failed' warning; the original records of non-convergence within 150 s were not reproduced.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DIVOUT operating-point voltage (`divout_v`) | V | `opconv` | - | 4 | 0 | 1.84696 | 3.3 | `variant`: asdrawn, fbfix; `ic`: applied, none |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
