@@ -2875,6 +2875,47 @@
    "record_sha256": "2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0"
   },
   {
+   "id": "lock-detector-window-rerun-pinned",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "lock_detector.spice, templates and gen_ladder.py reconstructed from producing commit db36732 (not today's design) (RECORD-009)",
+   "context": "schematic, pre-layout",
+   "conditions": "92-point grid: 5 MOS corners x resistor bundles x -40/27/125 C x 4 MOM-band variants, plus 2.97/3.63 V and 1/5 MHz sub-axes; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp not comparable and its rhigh differs from the original run (not independently verified)",
+   "method": "RECORD-001 grid rerun as 3 klt sim deck-list batch requests (testbench/batch_grid_db36732.py); window/Schmitt/tstep/C identical to the original CSVs, R(XRPU) 4-9 % lower (PDK drift), 92/92 chatter",
+   "record": "sim/sg13cmos5l-lock-detector-window/records/RECORD-009-window-hysteresis-chatter-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "window",
+     "path": "sim/sg13cmos5l-lock-detector-window/corners/window_rerun327.csv",
+     "sha256": "bee4fe09152a2bb6a2cc0b6b15d935f11e470b0250c3f059c587dde9a3575656"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "window",
+     "column": "twin_r_s",
+     "units": "s",
+     "quantity": "delaywin_hv comparator window (rising)",
+     "coverage_columns": [
+      "mos_corner",
+      "res_corner",
+      "temp_c",
+      "vsup_v",
+      "fref_hz",
+      "dut_variant"
+     ]
+    }
+   ],
+   "notes": [
+    "Historical provenance rerun (issue #327: ADDENDUM-004 -> RECORD-009). No consumer figure was replaced; RECORD-001 stays the cited source."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "1d71c9c7c61f29778933d759ef4ecb21f1d023e0aca71d925ed7f2869772b8a1"
+  },
+  {
    "id": "cp-icp-trim-historical-rerun",
    "section": "sg13cmos5l-schematic-pvt",
    "pdk": "SG13CMOS5L",
