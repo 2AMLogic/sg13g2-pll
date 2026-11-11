@@ -1,0 +1,28 @@
+{
+ "backend": "batch",
+ "engine": "ngspice",
+ "models": {
+  "pdk": "ihp-sg13cmos5l"
+ },
+ "decks": [
+  {
+   "id": "pdkprobe",
+   "deck": "rendered/pdkprobe.sp",
+   "inputs": [
+    {
+     "path": "rendered/probe.sh",
+     "name": "probe.sh"
+    }
+   ],
+   "outputs": [
+    "probe.out"
+   ]
+  }
+ ],
+ "options": {
+  "timeout_s": 300
+ },
+ "batch": {
+  "capacity_wait_s": 600
+ }
+}

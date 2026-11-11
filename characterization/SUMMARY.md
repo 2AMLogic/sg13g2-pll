@@ -124,6 +124,59 @@ the min/max.
 | cp postlayout delivered current, UP state (`icp_a`) | A | `cp_results` | arm=postlayout, state=up | 102 | 0 | 2.50182e-06 | 8.0628e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
 | cp postlayout delivered current, DN state (`icp_a`) | A | `cp_results` | arm=postlayout, state=dn | 102 | 0 | -8.10685e-05 | -2.50792e-06 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
 
+### postlayout-pex-vco-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet
+- **Conditions**: 3 PVT bundles x 4 band codes x 5 VCTRL x 2 arms (120 units); ngspice-46; PDK revisions and their verification limits in the record
+- **Method**: transient, one-period measurement of the divided-clock output
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/results-rerun323.csv` (sha256 `02ced3d94b3730770c693317ccdd1d79bf0f86ff8403aa0fe325d8d5dd1ade5a`)
+- **Note**: Supersedes the evidence claim of RECORD-001 (ADDENDUM-001); base corners/results.csv was later overwritten by #106 and is a different layout.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco postlayout frequency (rerun, historical layout) (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 2.17174e+08 | 7.95558e+08 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| vco schematic-control frequency (rerun) (`freq_hz`) | Hz | `results` | arm=schematic | 60 | 0 | 4.31552e+08 | 1.57559e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
+### postlayout-pex-cp-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet
+- **Conditions**: 17 PVT points x 6 trim currents x 3 switch states x 2 arms (612 units); operating point at Vout=VDD/2; ngspice-46
+- **Method**: operating point at VDD/2 (replaces the original DC sweep + nearest-VDD/2 selection)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `cp_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/cp_results-rerun323.csv` (sha256 `e18371efabefbd87e9c5a1a48d8dbd3e80da1fa8322cc060cee1ada236c70be2`)
+- **Note**: Both-state rows (UP and DN asserted) are near-null differences and 43/102 post-layout rows differ >5% from the original; they are not summarised.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cp postlayout delivered current, UP state (rerun) (`icp_a`) | A | `cp_results` | arm=postlayout, state=up | 102 | 0 | 2.50184e-06 | 8.0633e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| cp postlayout delivered current, DN state (rerun) (`icp_a`) | A | `cp_results` | arm=postlayout, state=dn | 102 | 0 | -8.10647e-05 | -2.50791e-06 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+
+### postlayout-pex-rc-attribution-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted pll_vco RC-attribution variants, rerun on the batch fleet
+- **Conditions**: 7 netlist variants x 3 PVT bundles x band codes 00/11 x 5 VCTRL (210 units); ngspice-46
+- **Method**: transient, one-period measurement; parasitic R shorted / C removed / C scaled
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `rc`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/rc_attribution-rerun323.csv` (sha256 `d9a4b5bb4f1a1c90b37a90f10b615aba3ea52583600bbfeaf78088dcdcaf05f4`)
+- **Note**: Diagnostic, not a design measurement; cscale variants are parametric sensitivities, not predictions.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco frequency, full extracted netlist (rerun) (`freq_hz`) | Hz | `rc` | variant=full | 30 | 0 | 2.17174e+08 | 7.95558e+08 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
 ### postlayout-pex-pfd
 
 - **PDK**: SG13CMOS5L
@@ -199,6 +252,44 @@ the min/max.
 | divider_chain output period (tdiv_b), postlayout arm (`tdiv_b_s`) | s | `div_results` | arm=postlayout | 14 | 0 | 1.29012e-06 | 2.92011e-06 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
 | divider_chain supply current, postlayout arm (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `div_results` | arm=postlayout | 14 | 0 | -0.000861586 | -0.000809456 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
 
+### postlayout-pex-pfd-rerun325
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs frozen schematic, rerun on batch fleet
+- **Conditions**: 12-run case matrix (mos_tt, 27 C, 3.3 V); ngspice-46; PDK limits in the record
+- **Method**: transient, duty fraction of UP/DN outputs for a fixed REF/FB lead
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md` (sha256 `30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3`)
+- **Table `pfd_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/pfd_results-rerun325.csv` (sha256 `ee29ecce634c88b93919b6a16147e9f6fd230a19466ddd9a5663036a61b91f98`)
+- **Note**: Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); post-layout fblead rows do not reproduce the mode inversion on the fleet image (reproduced on the pinned tree for one deck, see record section 3).
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pfd UP duty fraction, postlayout arm (rerun) (`up_duty_frac`) | fraction | `pfd_results` | arm=postlayout | 6 | 0 | 0.023963 | 0.423991 | `case`: fblead, reflead; `offset_s`: 5e-9, 10e-9, 20e-9; `mos_corner`: mos_tt; `temp_c`: 27; `vdd_v`: 3.3 |
+| pfd DN duty fraction, postlayout arm (rerun) (`dn_duty_frac`) | fraction | `pfd_results` | arm=postlayout | 6 | 0 | 0.023916 | 0.423958 | `case`: fblead, reflead; `offset_s`: 5e-9, 10e-9, 20e-9; `mos_corner`: mos_tt; `temp_c`: 27; `vdd_v`: 3.3 |
+
+### postlayout-pex-lock-detector-rerun325
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit 07751ca (layout record 20260921-155747-c44fa68; pre-#136 lock_detector), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs whole-cell schematic, rerun on batch fleet
+- **Conditions**: mos_corner x res_corner x temp x VSUP per coverage; ngspice-46; PDK limits in the record
+- **Method**: transient window-width (twin) measurement
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-006-postlayout-pex-pvt-pfd-and-lock-detector-rerun.md` (sha256 `30ebad1f174fbf114768ced407e30d296314de6a996e21a90309163eaf8b1bf3`)
+- **Table `ld_window`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window-rerun325.csv` (sha256 `def0a13be84ffe2f97ab8813d984e17445b66e5b8190b3121ae4a166632dae3e`)
+- **Table `ld_deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation-rerun325.csv` (sha256 `9f2a4056fc1a1d61c766b1520d774c205fc7a10d8a9aa1931afaaee05d37c0a0`)
+- **Note**: Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); magnitude differs from the original (+66% vs +46% mean), resistor-model tree difference attributed in the record.
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lock_detector window width (rising), postlayout arm (rerun) (`twin_r_s`) | s | `ld_window` | arm=postlayout | 29 | 0 | 3.41504e-10 | 5.9891e-10 | `deck`: wholecell; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| lock_detector window width (falling), postlayout arm (rerun) (`twin_f_s`) | s | `ld_window` | arm=postlayout | 29 | 0 | 3.46495e-10 | 6.1242e-10 | `deck`: wholecell; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| lock_detector whole-cell postlayout-vs-schematic twin_r deviation (rerun) (`twin_r_delta_pct`) | % | `ld_deviation` | - | 29 | 0 | 62.887 | 68.9657 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: schematic-level campaigns (current)
 
 ### loop-bw-pm-finetrim
@@ -249,7 +340,7 @@ the min/max.
 ### divider-repair-reverification
 
 - **PDK**: SG13CMOS5L
-- **Status**: current
+- **Status**: superseded
 - **DUT revision**: divider_chain as repaired by issue #112 (netlist-snapshots/divider_chain_repaired.spice)
 - **Context**: schematic, not extracted
 - **Conditions**: mos_corner x temp x VDD per coverage; ngspice-46
@@ -258,6 +349,7 @@ the min/max.
 - **Table `hold`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
 - **Table `func`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/func.csv` (sha256 `f011369c7ce3ccf25fa6aa1d7a0ee35a302e275b0c0c3b0ed6eeb1a2375acd63`)
 - **Note**: Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed).
+- **Note**: Superseded as the provenance claim by RECORD-004 (issue #233: ADDENDUM-001 -> RECORD-004-divider-repair-reverification-rerun-pinned.md, full rerun of all five stages on the batch fleet at the pinned PDK; same logic outcomes, analog values equal to the last printed digit). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -266,6 +358,120 @@ the min/max.
 | divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 20 | 0 | 6.53068e-07 | 1.28497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256838 | -0.000199281 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+
+### divider-repair-reverification-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: divider_chain as repaired by issue #112 (netlist-snapshots/divider_chain_repaired.spice), byte-identical to the producing revision a95a887 (RECORD-004)
+- **Context**: schematic, not extracted
+- **Conditions**: mos_corner x temp x VDD per coverage (RECORD-003's reduced matrices, not widened); ngspice-46 on the klt batch fleet; klt runner 0.9.0; PDK files sha256-identical to the pinned ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161 trees (worker exposes no git revision)
+- **Method**: rerun of RECORD-003's five stages as pre-composed decks (testbench/gen_rerun233_requests.py) submitted with klt sim --backend batch
+- **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-004-divider-repair-reverification-rerun-pinned.md` (sha256 `30148aabfce4da67f252f34b993d8fcedaf5c0cf8f6d845ae10a0e9da17d5b9e`)
+- **Table `hold`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun-hold.csv` (sha256 `66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82`)
+- **Table `func`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun-func.csv` (sha256 `4db634b281922e82268dd18d373b1d0f73444389094d4a80055d2a0789bda56f`)
+- **Note**: Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed).
+- **Note**: Rerun of RECORD-003 (issue #233); same matrices, no coverage added. The two reltol=5e-3 arms fail as RECORD-003 Finding 2 records.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF hold decay time (NA as recorded in the CSV) (`t_decay_s`) | s | `hold` | - | 9 | 9 | n/a | n/a | `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| divider output period tdiv_a (`tdiv_a_s`) | s | `func` | - | 20 | 0 | 6.53068e-07 | 1.28497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+| divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+| divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256839 | -0.000199282 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
+
+### schmitt-rewire-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector.spice for both PDK arms reconstructed from producing commit a595772 (not today's design); as-drawn control by reversing the XMP3/XMN3 feedback rewiring (RECORD-007)
+- **Context**: schematic, pre-layout
+- **Conditions**: 3 MOS corners x 3 temperatures x 3 supplies, as-drawn vs feedback_rewired, ihp-sg13cmos5l and explicit ihp-sg13g2 arms; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-003 schmitt_rewire grid rerun as 12 klt sim batch requests (testbench/rerun329, requests/schmitt_rewire_*.request.json); cmos5l-rewired arm differs from the original CSV by up to ~2 mV per trip point, other arms identical
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-007-hysteresis-fix-rerun-pinned.md` (sha256 `2d14bc74dd452241fb9f31808293c8edcd0cc655603a701c0e77692c3af211b0`)
+- **Table `schmitt_rewire`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rewire_rerun329.csv` (sha256 `ba24cbbe1d8c9a62d3dcf4642a5191cbd421ea22e81f13ce79025fe143087e78`)
+- **Note**: Historical provenance rerun (issue #329: ADDENDUM-002 -> RECORD-007). No consumer figure was replaced; RECORD-003 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (`hysteresis_v`) | V | `schmitt_rewire` | - | 108 | 0 | 0.00088 | 1.05856 | `pdk`: ihp-sg13cmos5l, ihp-sg13g2; `dut`: as_drawn, feedback_rewired; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
+### cp-icp-trim-historical-rerun
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: HISTORICAL cps rebuilt from git: netlist-snapshots/cp-b37918d.spice (pre-DR-006, RECORD-001's cp) and cp-f54b9ef.spice (DR-006, RECORD-002's cp); NOT the current DR-010 cp
+- **Context**: schematic, not extracted; ideal reference currents
+- **Conditions**: 5 MOS corners x -40/27/125 C at 3.3 V, plus mos_tt/27 C at 3.0 V and 3.6 V; 6 trim codes (2.5-80 uA) x UP/DN/both; Icp at VOUT = VDD/2; batch fleet, klt 0.9.2.dev661, runner 0.9.0, ngspice-46
+- **Method**: klt sim DC sweep of VOUT, one 18-instance deck per PVT point; scalar Icp at VDD/2 per (code, state)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-006-icp-trim-rerun-historical-cp.md` (sha256 `da77eaa485d21f6c8a06a07256a588df86d1b03862d3b25c763a966d79cdee3d`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim/records/RECORD-007-cascode-bias-rerun-historical-cp.md` (sha256 `1bae6d37c65a922f4eb0a2046926c5f91b6bd8679b16896fa693dfa612cefde4`)
+- **Table `rerun001`**: `sim/sg13cmos5l-cp-icp-trim/corners/rerun-record-001-results.csv` (sha256 `716fbe0d73dd31bdb8e368ed8b4c79e9232985f62962893f5bdd494a045d0879`)
+- **Table `rerun002`**: `sim/sg13cmos5l-cp-icp-trim/corners/rerun-record-002-results.csv` (sha256 `04525323480d6ec93d26c676045de0c846585eaf59aa68df34f530edacc676da`)
+- **Note**: Reruns of the historical cps for the superseded RECORD-001/002 evidence claims (addenda 001/002). Compliance curves are in rerun-record-00N-compliance.csv and are not summarised here. The cmos5l PDK revision citation is pin-based; see the limitation in RECORD-006.
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Icp UP/DN/both at VDD/2, pre-DR-006 cp (RECORD-001 rerun) (`icp_a`) | A | `rerun001` | - | 306 | 0 | -8.10508e-05 | 8.01272e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
+| Icp UP/DN/both at VDD/2, DR-006 cp (RECORD-002 rerun) (`icp_a`) | A | `rerun002` | - | 306 | 0 | -8.09425e-05 | 8.0244e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u; `state`: both, dn, up |
+
+### lock-detector-schmitt-crowbar-grid-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: schmitt_hv cell of lock_detector_hystfix.spice (RECORD-003 snapshot, unchanged since a595772) with the six channel lengths l=0.5u -> as-drawn/2u/4u/8u, as in RECORD-004's run_schmitt_crowbar.sh (producing commit 36e4bae)
+- **Context**: schematic, pre-layout (schmitt_hv alone, quasi-static input ramp)
+- **Conditions**: 5 MOS corners x -40/27/125 C x 2.97/3.3/3.63 V x 4 variants = 180 points, all pass; klt 0.9.0 runner on the Spot batch fleet, ngspice-46; PDK trees at the pinned revisions (ihp-sg13cmos5l 607e18d4, ihp-sg13g2 5cccb161) staged from a throwaway root
+- **Method**: four klt sim batch requests (testbench/gen_rerun331_requests.py) reproducing RECORD-004's run_schmitt_crowbar.sh grid with .meas measurements
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-008-crowbar-grid-rerun-batch.md` (sha256 `8ccfef1ebf094503ae76811691b38c0a08130cfbfb0ed87355a6d79dca09ca7f`)
+- **Table `crowbar`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_crowbar_variants_rerun331.csv` (sha256 `f735b0501be8d28e04b2577458bf2b213ab499b91f7081363a750318d2b1c4ba`)
+- **Note**: Rerun evidence for RECORD-004's crowbar-grid claim (issue #331): worst-case peak current 640.6/195.4/97.6/49.9 uA reproduces RECORD-004's table exactly; trip points within 0.32 %.
+- **Note**: Covers only the run_schmitt_crowbar.sh grid; RECORD-004's closed-loop/ladder evidence is not rerun. i_midband is not reproduced (i_vdd2 substituted); fall-peak estimator differs up to 7.9 % (does not affect the worst-case figure).
+- **Note**: An earlier unpinned run on the host's current PDK tree (f7bca326) is retained, uncited, under corners/rerun331-hostpdk-f7bca326/.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv hysteresis (rising minus falling trip point) (`hysteresis_v`) | V | `crowbar` | - | 180 | 0 | 0.805069 | 1.39211 | `variant`: asdrawn, long2u, long4u, long8u; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.970000e+00, 3.300000e+00, 3.630000e+00 |
+| worst-case in-band peak crowbar supply current (`i_worst_a`) | A | `crowbar` | - | 180 | 0 | 1.33252e-05 | 0.000640609 | `variant`: asdrawn, long2u, long4u, long8u; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.970000e+00, 3.300000e+00, 3.630000e+00 |
+
+### divider-nrange-retiming-rerun232
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pre-repair divider_chain (as-drawn and fbfix variants; snapshot byte-identical at 1d824d3); NOT the repaired divider
+- **Context**: schematic, not extracted
+- **Conditions**: hold: 9 PVT points x 2 variants; setup: 3 bundles x 6 TSU x 2 variants; klt sim batch fleet, runner klt 0.9.0, ngspice-46; cmos5l tree is the unified install pin (not the legacy PDK-PIN), see the record
+- **Method**: transient: DFF static hold and setup capture at 1562.0 MHz (rerun of RECORD-001 Findings 2 and 3)
+- **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-005-nrange-retiming-margin-rerun-pinned.md` (sha256 `f78681ae62fa627aa5e5571011f179d52fd549741c5bfb12ee669e30a8260207`)
+- **Table `hold`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-hold.csv` (sha256 `7e3a2f75ca4f7dda6756f10251918363e7d98d45d16d90c7fab6d5d6585ea284`)
+- **Table `setup`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-setup.csv` (sha256 `fff4939f49a311968318cf5d5e9e9db77597db9d13fce882cd18c6674e4e4301`)
+- **Note**: FAILURE RETAINED: as-drawn hold settles to a mid-rail 1.38-1.69 V in 9/9 corners; fbfix fails to capture a 1 at every tested TSU up to 300 ps at all 3 bundles. Baseline and retime were rerun at the nominal corner only (see the record); the as-drawn opconv non-convergence of RECORD-001 was not reproduced.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DFF Q at the end of the static-hold window (`q_end_v`) | V | `hold` | - | 18 | 0 | 1.37766 | 3.63 | `variant`: asdrawn, fbfix; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63 |
+| DFF Q sampled a quarter period after capture (`q_sample_v`) | V | `setup` | - | 36 | 0 | -0.0307704 | 3.09104 | `variant`: asdrawn, fbfix; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `tsu_s`: 0, 4e-11, 8e-11, 1.3e-10, 2e-10, 3e-10 |
+
+### divider-opconv-rerun232
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pre-repair divider_chain (as-drawn and fbfix variants); NOT the repaired divider
+- **Context**: schematic, not extracted
+- **Conditions**: nominal point (mos_tt, 27 C, 3.3 V), 4 bare .op runs; klt sim batch fleet, ngspice-46
+- **Method**: operating point: whole-chain DC convergence with and without the .ic symmetry break
+- **Record**: `sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-006-pdk-root-token-fix-rerun-pinned.md` (sha256 `db611b5aaecb766deda045c2d56a8dc3fb640b34e410c6aac8f63bffe9a951b8`)
+- **Table `opconv`**: `sim/sg13cmos5l-divider-nrange-retiming/corners/rerun232-opconv.csv` (sha256 `a725a69a96d8b5f1229cc480e35815e0373bf31998647ea67234b75410234576`)
+- **Note**: As-drawn converges to a mid-rail 1.847 V after an ngspice 'Dynamic gmin stepping failed' warning; the original records of non-convergence within 150 s were not reproduced.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DIVOUT operating-point voltage (`divout_v`) | V | `opconv` | - | 4 | 0 | 1.84696 | 3.3 | `variant`: asdrawn, fbfix; `ic`: applied, none |
 
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
