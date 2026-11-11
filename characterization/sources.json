@@ -899,7 +899,7 @@
    "id": "divider-repair-reverification",
    "section": "sg13cmos5l-schematic-pvt",
    "pdk": "SG13CMOS5L",
-   "status": "current",
+   "status": "superseded",
    "dut_revision": "divider_chain as repaired by issue #112 (netlist-snapshots/divider_chain_repaired.spice)",
    "context": "schematic, not extracted",
    "conditions": "mos_corner x temp x VDD per coverage; ngspice-46",
@@ -977,7 +977,8 @@
     }
    ],
    "notes": [
-    "Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed)."
+    "Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed).",
+    "Superseded as the provenance claim by RECORD-004 (issue #233: ADDENDUM-001 -> RECORD-004-divider-repair-reverification-rerun-pinned.md, full rerun of all five stages on the batch fleet at the pinned PDK; same logic outcomes, analog values equal to the last printed digit). Retained as history; its figures are unreplaced, so no consumer was re-pointed."
    ],
    "gap_ids": [
     "no-ratified-spec",
@@ -985,6 +986,98 @@
     "divider-speed"
    ],
    "record_sha256": "5812315e4dfd1f466bf4774cced691aa8f8d9b5dc23cf8c5fc2ed7072c9458a4"
+  },
+  {
+   "id": "divider-repair-reverification-rerun-pinned",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "divider_chain as repaired by issue #112 (netlist-snapshots/divider_chain_repaired.spice), byte-identical to the producing revision a95a887 (RECORD-004)",
+   "context": "schematic, not extracted",
+   "conditions": "mos_corner x temp x VDD per coverage (RECORD-003's reduced matrices, not widened); ngspice-46 on the klt batch fleet; klt runner 0.9.0; PDK files sha256-identical to the pinned ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161 trees (worker exposes no git revision)",
+   "method": "rerun of RECORD-003's five stages as pre-composed decks (testbench/gen_rerun233_requests.py) submitted with klt sim --backend batch",
+   "record": "sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-004-divider-repair-reverification-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "hold",
+     "path": "sim/sg13cmos5l-divider-nrange-retiming/corners/rerun-hold.csv",
+     "sha256": "66a896e35b1229b838ffdaa984874e85dbb8ea216530f8e654514717747a2d82"
+    },
+    {
+     "id": "func",
+     "path": "sim/sg13cmos5l-divider-nrange-retiming/corners/rerun-func.csv",
+     "sha256": "4db634b281922e82268dd18d373b1d0f73444389094d4a80055d2a0789bda56f"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "hold",
+     "column": "t_decay_s",
+     "units": "s",
+     "quantity": "DFF hold decay time (NA as recorded in the CSV)",
+     "coverage_columns": [
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_a",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "tdiv_b_s",
+     "units": "s",
+     "quantity": "divider output period tdiv_b",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    },
+    {
+     "table": "func",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider supply current",
+     "coverage_columns": [
+      "tag",
+      "variant",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "fin_hz",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Evidence is at a fixed input frequency per row (see fin_hz coverage). Maximum-speed evidence is a separate gap (divider-speed).",
+    "Rerun of RECORD-003 (issue #233); same matrices, no coverage added. The two reltol=5e-3 arms fail as RECORD-003 Finding 2 records."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "30148aabfce4da67f252f34b993d8fcedaf5c0cf8f6d845ae10a0e9da17d5b9e"
   },
   {
    "id": "closed-loop-static-phase-error",
