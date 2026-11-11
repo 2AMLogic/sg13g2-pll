@@ -1,0 +1,31 @@
+klt: klt 0.3.0+unknown
+layout record: 20261111-201126-ff8b653
+device_map additions: (none)
+lvs pfd ...
+  pfd: klt exit 0
+device_map additions: (none)
+lvs cp ...
+  cp: klt exit 0
+device_map additions: cap_cmomi
+lvs loop_filter ...
+  loop_filter: klt exit 3
+device_map additions: cap_cmomi
+lvs vco ...
+  vco: klt exit 3
+device_map additions: (none)
+lvs divider_chain ...
+  divider_chain: klt exit 0
+device_map additions: cap_cmomi
+lvs lock_detector ...
+  lock_detector: klt exit 1
+  pfd            match      devices 66/66 matched, 1 mismatch(es)
+  cp             match      devices 20/20 matched, 1 mismatch(es)
+  loop_filter    mismatch   devices 0/3 matched, 12 mismatch(es)
+  vco            mismatch   devices 38/45 matched, 12 mismatch(es)
+  divider_chain  match      devices 316/316 matched, 1 mismatch(es)
+  lock_detector  NOT COMPARED: could not convert subckt-call reference netlist '/tmp/tmp.OqLJ51F4sm/lock_detector.referen
+wrote /tmp/r324/wt/sim/sg13cmos5l-postlayout-pex-pvt/lvs-recheck/summary.json
+
+real	0m2.208s
+user	0m1.984s
+sys	0m0.225s

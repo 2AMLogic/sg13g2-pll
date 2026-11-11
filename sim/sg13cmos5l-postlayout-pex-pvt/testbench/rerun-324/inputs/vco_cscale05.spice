@@ -1,0 +1,959 @@
+* extracted by klt extract --deck sg13cmos5l
+* parasitic model (--parasitics):
+* - capacitance: net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net
+* - coupling: vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled
+* - resistance: single lumped series resistance per net, distributed as a star across that net's device terminals (issue #592) -- not a per-segment, distributed RC ladder, *unless* `--distributed-rc` names this net via `--critical-net` (issue #977, Epic #709 Phase 2b): then the net's terminals are ordered along their approximate physical spread and its total R/C is broken into a chain of per-segment resistors (segment length proportional to inter-terminal distance) with a ground capacitor at each terminal node (proportional to its adjacent segment length/2), instead of one star hub -- still an approximation (terminal position is a device-placement proxy, not true per-segment routing geometry), but a strictly finer-grained one than the single-hub star
+* - frequency: quasi-static -- one frequency-independent R and C per net; no skin effect, no distributed transmission-line behavior
+.GLOBAL vsubs
+
+* cell pll_vco
+* pin B0
+* pin B1
+* pin CLK
+* pin GND_VCO
+* pin VBN
+* pin VBP
+* pin VCTRL
+* pin VDD_VCO
+* pin XBIAS.VFIX
+* pin XBIAS.dega
+* pin XBIAS.degb
+* pin XBIAS.n2s
+* pin XBIAS.nb0
+* pin XBIAS.nb1
+* pin XBIAS.vb1
+* pin XBIAS.vb2
+* pin XBIAS.vfixmid
+* pin XS1.nh
+* pin XS1.nt
+* pin XS2.nh
+* pin XS2.nt
+* pin XS3.nh
+* pin XS3.nt
+* pin XS4.nh
+* pin XS4.nt
+* pin XS5.nh
+* pin XS5.nt
+* pin bufmid
+* pin ring1
+* pin ring2
+* pin ring3
+* pin ring4
+* pin ring5
+.SUBCKT pll_vco B0 B1 CLK GND_VCO VBN VBP VCTRL VDD_VCO XBIAS_VFIX XBIAS_dega
++ XBIAS_degb XBIAS_n2s XBIAS_nb0 XBIAS_nb1 XBIAS_vb1 XBIAS_vb2 XBIAS_vfixmid
++ XS1_nh XS1_nt XS2_nh XS2_nt XS3_nh XS3_nt XS4_nh XS4_nt XS5_nh XS5_nt bufmid
++ ring1 ring2 ring3 ring4 ring5
+* device instance $1 r0 *1 3.3,3.11 nfet
+X$1 XS1_nt__t0 VBN__t0 GND_VCO__t2 GND_VCO__t21 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $2 r0 *1 9.26,3.11 nfet
+X$2 XS2_nt__t1 VBN__t7 GND_VCO__t11 GND_VCO__t22 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $3 r0 *1 15.22,3.11 nfet
+X$3 XS3_nt__t0 VBN__t6 GND_VCO__t10 GND_VCO__t23 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $4 r0 *1 21.18,3.11 nfet
+X$4 XS4_nt__t0 VBN__t5 GND_VCO__t9 GND_VCO__t24 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $5 r0 *1 27.14,3.11 nfet
+X$5 XS5_nt__t0 VBN__t4 GND_VCO__t8 GND_VCO__t25 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $6 r0 *1 33.1,3.11 nfet
+X$6 bufmid__t2 ring1__t5 GND_VCO__t7 GND_VCO__t26 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $7 r0 *1 39.06,3.11 nfet
+X$7 CLK__t1 bufmid__t3 GND_VCO__t6 GND_VCO__t27 sg13_hv_nmos L=0.5U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $8 r0 *1 50.66,3 nfet
+X$8 ring2__t0 ring1__t0 XS2_nt__t0 GND_VCO__t28 sg13_hv_nmos L=0.28U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $9 r0 *1 54.62,3 nfet
+X$9 ring3__t2 ring2__t3 XS3_nt__t1 GND_VCO__t29 sg13_hv_nmos L=0.28U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $10 r0 *1 58.58,3 nfet
+X$10 ring4__t2 ring3__t3 XS4_nt__t1 GND_VCO__t30 sg13_hv_nmos L=0.28U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $11 r0 *1 62.54,3 nfet
+X$11 ring5__t2 ring4__t3 XS5_nt__t1 GND_VCO__t31 sg13_hv_nmos L=0.28U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $12 r0 *1 66.5,3 nfet
+X$12 ring1__t4 ring5__t3 XS1_nt__t1 GND_VCO__t32 sg13_hv_nmos L=0.28U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $13 r0 *1 240.46,3.36 nfet
+X$13 VBN__t2 VBN__t1 GND_VCO__t3 GND_VCO__t33 sg13_hv_nmos L=1U W=4U AS=1.6P
++ AD=1.6P PS=8.8U PD=8.8U
+* device instance $14 r0 *1 246.42,3.36 nfet
+X$14 VBP__t2 VCTRL__t0 XBIAS_degb__t2 GND_VCO__t34 sg13_hv_nmos L=1U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $15 r0 *1 252.38,3.36 nfet
+X$15 VBP__t3 XBIAS_VFIX__t1 XBIAS_dega__t1 GND_VCO__t35 sg13_hv_nmos L=1U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $16 r0 *1 275.58,3.36 nfet
+X$16 XBIAS_VFIX__t3 XBIAS_VFIX__t2 XBIAS_vfixmid__t0 GND_VCO__t36 sg13_hv_nmos
++ L=1U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $17 r0 *1 279.54,3.36 nfet
+X$17 XBIAS_vfixmid__t1 XBIAS_vfixmid__t2 GND_VCO__t5 GND_VCO__t37 sg13_hv_nmos
++ L=1U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $18 r0 *1 283.5,3.36 nfet
+X$18 XBIAS_vb1__t4 XBIAS_vb2__t4 GND_VCO__t4 GND_VCO__t38 sg13_hv_nmos L=1U
++ W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $19 r0 *1 334.66,3.36 nfet
+X$19 XBIAS_vb2__t1 XBIAS_vb2__t2 XBIAS_n2s__t1 GND_VCO__t39 sg13_hv_nmos L=1U
++ W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $20 r0 *1 386.86,3.01 nfet
+X$20 XBIAS_degb__t1 B1__t0 XBIAS_nb1__t0 GND_VCO__t40 sg13_hv_nmos L=0.3U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $21 r0 *1 392.82,3.01 nfet
+X$21 XBIAS_degb__t0 B0__t0 XBIAS_nb0__t0 GND_VCO__t41 sg13_hv_nmos L=0.3U W=4U
++ AS=1.6P AD=1.6P PS=8.8U PD=8.8U
+* device instance $22 r0 *1 78.6,3 pfet
+X$22 ring2__t1 ring1__t1 XS2_nh__t0 VDD_VCO__t1 sg13_hv_pmos L=0.28U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $23 r0 *1 85.56,3 pfet
+X$23 ring3__t0 ring2__t2 XS3_nh__t1 VDD_VCO__t28 sg13_hv_pmos L=0.28U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $24 r0 *1 92.52,3 pfet
+X$24 ring4__t0 ring3__t1 XS4_nh__t1 VDD_VCO__t26 sg13_hv_pmos L=0.28U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $25 r0 *1 99.48,3 pfet
+X$25 ring5__t0 ring4__t1 XS5_nh__t1 VDD_VCO__t27 sg13_hv_pmos L=0.28U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $26 r0 *1 106.44,3 pfet
+X$26 ring1__t3 ring5__t1 XS1_nh__t1 VDD_VCO__t29 sg13_hv_pmos L=0.28U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $27 r0 *1 122.54,3.11 pfet
+X$27 bufmid__t0 ring1__t2 VDD_VCO__t3 VDD_VCO__t2 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $28 r0 *1 134.5,3.11 pfet
+X$28 CLK__t0 bufmid__t1 VDD_VCO__t19 VDD_VCO__t25 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $29 r0 *1 146.46,3.11 pfet
+X$29 XS3_nh__t0 VBP__t9 VDD_VCO__t18 VDD_VCO__t24 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $30 r0 *1 158.42,3.11 pfet
+X$30 XS4_nh__t0 VBP__t8 VDD_VCO__t17 VDD_VCO__t23 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $31 r0 *1 170.38,3.11 pfet
+X$31 XS5_nh__t0 VBP__t7 VDD_VCO__t16 VDD_VCO__t22 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $32 r0 *1 182.34,3.11 pfet
+X$32 XS1_nh__t0 VBP__t6 VDD_VCO__t15 VDD_VCO__t21 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $33 r0 *1 194.3,3.11 pfet
+X$33 XS2_nh__t1 VBP__t5 VDD_VCO__t14 VDD_VCO__t20 sg13_hv_pmos L=0.5U W=10U
++ AS=4P AD=4P PS=20.8U PD=20.8U
+* device instance $34 r0 *1 212.9,3.36 pfet
+X$34 VBP__t0 VBP__t1 VDD_VCO__t5 VDD_VCO__t4 sg13_hv_pmos L=1U W=10U AS=4P
++ AD=4P PS=20.8U PD=20.8U
+* device instance $35 r0 *1 224.86,3.36 pfet
+X$35 VBN__t3 VBP__t4 VDD_VCO__t12 VDD_VCO__t13 sg13_hv_pmos L=1U W=10U AS=4P
++ AD=4P PS=20.8U PD=20.8U
+* device instance $36 r0 *1 264.48,3.36 pfet
+X$36 XBIAS_VFIX__t0 XBIAS_vb1__t0 VDD_VCO__t7 VDD_VCO__t6 sg13_hv_pmos L=1U
++ W=3U AS=1.2P AD=1.2P PS=6.8U PD=6.8U
+* device instance $37 r0 *1 296.1,3.36 pfet
+X$37 XBIAS_vb1__t1 XBIAS_vb1__t2 VDD_VCO__t9 VDD_VCO__t8 sg13_hv_pmos L=1U W=6U
++ AS=2.4P AD=2.4P PS=12.8U PD=12.8U
+* device instance $38 r0 *1 304.06,3.36 pfet
+X$38 XBIAS_vb2__t3 XBIAS_vb1__t3 VDD_VCO__t10 VDD_VCO__t11 sg13_hv_pmos L=1U
++ W=6U AS=2.4P AD=2.4P PS=12.8U PD=12.8U
+* device instance $39 r0 *1 361.46,0.7 rppd
+X$39 XBIAS_n2s__t0 GND_VCO__t0 GND_VCO__t15 rppd w=1u l=30u m=1 b=0
+* device instance $40 r0 *1 432.62,0.7 rppd
+X$40 XBIAS_dega__t0 GND_VCO__t1 GND_VCO__t17 rppd w=1u l=60u m=1 b=0
+* device instance $41 r0 *1 362.06,2.7 rppd
+X$41 XBIAS_nb1__t1 GND_VCO__t14 GND_VCO__t16 rppd w=1u l=30u m=1 b=0
+* device instance $42 r0 *1 433.22,2.7 rppd
+X$42 XBIAS_degb__t3 GND_VCO__t13 GND_VCO__t18 rppd w=1u l=60u m=1 b=0
+* device instance $43 r0 *1 433.82,4.7 rppd
+X$43 XBIAS_nb0__t1 GND_VCO__t12 GND_VCO__t19 rppd w=1u l=60u m=1 b=0
+* device instance $44 r0 *1 318.86,0.45 rhigh
+X$44 VDD_VCO__t0 XBIAS_vb2__t0 GND_VCO__t20 rhigh w=0.5u l=8u m=1 b=0
+* device instance B0_t0 r0 *1 0,0 
+RB0_t0 B0__t0 B0 6.8537
+* device instance B0 r0 *1 0,0 
+CB0 B0 vsubs 9.298115e-17
+* device instance B1_t0 r0 *1 0,0 
+RB1_t0 B1__t0 B1 7.0297
+* device instance B1 r0 *1 0,0 
+CB1 B1 vsubs 9.519535e-17
+* device instance CLK_t0 r0 *1 0,0 
+RCLK_t0 CLK__t0 CLK 20.5999
+* device instance CLK_t1 r0 *1 0,0 
+RCLK_t1 CLK__t1 CLK 20.5999
+* device instance CLK r0 *1 0,0 
+CCLK CLK vsubs 4.664037e-16
+* device instance GND_VCO_t0 r0 *1 0,0 
+RGND_VCO_t0 GND_VCO__t0 GND_VCO 5.36655790794
+* device instance GND_VCO_t1 r0 *1 0,0 
+RGND_VCO_t1 GND_VCO__t1 GND_VCO 7.74906977014
+* device instance GND_VCO_t2 r0 *1 0,0 
+RGND_VCO_t2 GND_VCO__t2 GND_VCO 6.62630330899
+* device instance GND_VCO_t3 r0 *1 0,0 
+RGND_VCO_t3 GND_VCO__t3 GND_VCO 1.31467552645
+* device instance GND_VCO_t4 r0 *1 0,0 
+RGND_VCO_t4 GND_VCO__t4 GND_VCO 2.75574564821
+* device instance GND_VCO_t5 r0 *1 0,0 
+RGND_VCO_t5 GND_VCO__t5 GND_VCO 2.62315427438
+* device instance GND_VCO_t6 r0 *1 0,0 
+RGND_VCO_t6 GND_VCO__t6 GND_VCO 5.42894384701
+* device instance GND_VCO_t7 r0 *1 0,0 
+RGND_VCO_t7 GND_VCO__t7 GND_VCO 5.62850373197
+* device instance GND_VCO_t8 r0 *1 0,0 
+RGND_VCO_t8 GND_VCO__t8 GND_VCO 5.82806362847
+* device instance GND_VCO_t9 r0 *1 0,0 
+RGND_VCO_t9 GND_VCO__t9 GND_VCO 6.02762353536
+* device instance GND_VCO_t10 r0 *1 0,0 
+RGND_VCO_t10 GND_VCO__t10 GND_VCO 6.22718345164
+* device instance GND_VCO_t11 r0 *1 0,0 
+RGND_VCO_t11 GND_VCO__t11 GND_VCO 6.42674337644
+* device instance GND_VCO_t12 r0 *1 0,0 
+RGND_VCO_t12 GND_VCO__t12 GND_VCO 7.78913530559
+* device instance GND_VCO_t13 r0 *1 0,0 
+RGND_VCO_t13 GND_VCO__t13 GND_VCO 7.76881377323
+* device instance GND_VCO_t14 r0 *1 0,0 
+RGND_VCO_t14 GND_VCO__t14 GND_VCO 5.3861483146
+* device instance GND_VCO_t15 r0 *1 0,0 
+RGND_VCO_t15 GND_VCO__t15 GND_VCO 5.36655790794
+* device instance GND_VCO_t16 r0 *1 0,0 
+RGND_VCO_t16 GND_VCO__t16 GND_VCO 5.3861483146
+* device instance GND_VCO_t17 r0 *1 0,0 
+RGND_VCO_t17 GND_VCO__t17 GND_VCO 7.74906977014
+* device instance GND_VCO_t18 r0 *1 0,0 
+RGND_VCO_t18 GND_VCO__t18 GND_VCO 7.76881377323
+* device instance GND_VCO_t19 r0 *1 0,0 
+RGND_VCO_t19 GND_VCO__t19 GND_VCO 7.78913530559
+* device instance GND_VCO_t20 r0 *1 0,0 
+RGND_VCO_t20 GND_VCO__t20 GND_VCO 3.94051961696
+* device instance GND_VCO_t21 r0 *1 0,0 
+RGND_VCO_t21 GND_VCO__t21 GND_VCO 6.62630330899
+* device instance GND_VCO_t22 r0 *1 0,0 
+RGND_VCO_t22 GND_VCO__t22 GND_VCO 6.42674337644
+* device instance GND_VCO_t23 r0 *1 0,0 
+RGND_VCO_t23 GND_VCO__t23 GND_VCO 6.22718345164
+* device instance GND_VCO_t24 r0 *1 0,0 
+RGND_VCO_t24 GND_VCO__t24 GND_VCO 6.02762353536
+* device instance GND_VCO_t25 r0 *1 0,0 
+RGND_VCO_t25 GND_VCO__t25 GND_VCO 5.82806362847
+* device instance GND_VCO_t26 r0 *1 0,0 
+RGND_VCO_t26 GND_VCO__t26 GND_VCO 5.62850373197
+* device instance GND_VCO_t27 r0 *1 0,0 
+RGND_VCO_t27 GND_VCO__t27 GND_VCO 5.42894384701
+* device instance GND_VCO_t28 r0 *1 0,0 
+RGND_VCO_t28 GND_VCO__t28 GND_VCO 5.04053483705
+* device instance GND_VCO_t29 r0 *1 0,0 
+RGND_VCO_t29 GND_VCO__t29 GND_VCO 4.90794127733
+* device instance GND_VCO_t30 r0 *1 0,0 
+RGND_VCO_t30 GND_VCO__t30 GND_VCO 4.77534771942
+* device instance GND_VCO_t31 r0 *1 0,0 
+RGND_VCO_t31 GND_VCO__t31 GND_VCO 4.6427541635
+* device instance GND_VCO_t32 r0 *1 0,0 
+RGND_VCO_t32 GND_VCO__t32 GND_VCO 4.51016060972
+* device instance GND_VCO_t33 r0 *1 0,0 
+RGND_VCO_t33 GND_VCO__t33 GND_VCO 1.31467552645
+* device instance GND_VCO_t34 r0 *1 0,0 
+RGND_VCO_t34 GND_VCO__t34 GND_VCO 1.51422345384
+* device instance GND_VCO_t35 r0 *1 0,0 
+RGND_VCO_t35 GND_VCO__t35 GND_VCO 1.71377420518
+* device instance GND_VCO_t36 r0 *1 0,0 
+RGND_VCO_t36 GND_VCO__t36 GND_VCO 2.4905631368
+* device instance GND_VCO_t37 r0 *1 0,0 
+RGND_VCO_t37 GND_VCO__t37 GND_VCO 2.62315427438
+* device instance GND_VCO_t38 r0 *1 0,0 
+RGND_VCO_t38 GND_VCO__t38 GND_VCO 2.75574564821
+* device instance GND_VCO_t39 r0 *1 0,0 
+RGND_VCO_t39 GND_VCO__t39 GND_VCO 4.46873089177
+* device instance GND_VCO_t40 r0 *1 0,0 
+RGND_VCO_t40 GND_VCO__t40 GND_VCO 6.21652963546
+* device instance GND_VCO_t41 r0 *1 0,0 
+RGND_VCO_t41 GND_VCO__t41 GND_VCO 6.41608965211
+* device instance GND_VCO r0 *1 0,0 
+CGND_VCO GND_VCO vsubs 2.7101397500000003e-15
+* device instance VBN_t0 r0 *1 0,0 
+RVBN_t0 VBN__t0 VBN 10.8017531949
+* device instance VBN_t1 r0 *1 0,0 
+RVBN_t1 VBN__t1 VBN 16.3253072367
+* device instance VBN_t2 r0 *1 0,0 
+RVBN_t2 VBN__t2 VBN 16.3253072367
+* device instance VBN_t3 r0 *1 0,0 
+RVBN_t3 VBN__t3 VBN 14.5409354102
+* device instance VBN_t4 r0 *1 0,0 
+RVBN_t4 VBN__t4 VBN 8.07486698191
+* device instance VBN_t5 r0 *1 0,0 
+RVBN_t5 VBN__t5 VBN 8.7565884302
+* device instance VBN_t6 r0 *1 0,0 
+RVBN_t6 VBN__t6 VBN 9.43830995857
+* device instance VBN_t7 r0 *1 0,0 
+RVBN_t7 VBN__t7 VBN 10.1200315508
+* device instance VBN r0 *1 0,0 
+CVBN VBN vsubs 1.05214825e-15
+* device instance VBP_t0 r0 *1 0,0 
+RVBP_t0 VBP__t0 VBP 2.62081779447
+* device instance VBP_t1 r0 *1 0,0 
+RVBP_t1 VBP__t1 VBP 2.62081779447
+* device instance VBP_t2 r0 *1 0,0 
+RVBP_t2 VBP__t2 VBP 9.50302074394
+* device instance VBP_t3 r0 *1 0,0 
+RVBP_t3 VBP__t3 VBP 10.7267182223
+* device instance VBP_t4 r0 *1 0,0 
+RVBP_t4 VBP__t4 VBP 5.07637263062
+* device instance VBP_t5 r0 *1 0,0 
+RVBP_t5 VBP__t5 VBP 1.19851669571
+* device instance VBP_t6 r0 *1 0,0 
+RVBP_t6 VBP__t6 VBP 3.65394763195
+* device instance VBP_t7 r0 *1 0,0 
+RVBP_t7 VBP__t7 VBP 6.1095270294
+* device instance VBP_t8 r0 *1 0,0 
+RVBP_t8 VBP__t8 VBP 8.56512719974
+* device instance VBP_t9 r0 *1 0,0 
+RVBP_t9 VBP__t9 VBP 11.0207342574
+* device instance VBP r0 *1 0,0 
+CVBP VBP vsubs 6.8254615e-16
+* device instance VCTRL_t0 r0 *1 0,0 
+RVCTRL_t0 VCTRL__t0 VCTRL 7.1031
+* device instance VCTRL r0 *1 0,0 
+CVCTRL VCTRL vsubs 9.623385000000001e-17
+* device instance VDD_VCO_t0 r0 *1 0,0 
+RVDD_VCO_t0 VDD_VCO__t0 VDD_VCO 13.6314697466
+* device instance VDD_VCO_t1 r0 *1 0,0 
+RVDD_VCO_t1 VDD_VCO__t1 VDD_VCO 11.1672526034
+* device instance VDD_VCO_t2 r0 *1 0,0 
+RVDD_VCO_t2 VDD_VCO__t2 VDD_VCO 6.63242731096
+* device instance VDD_VCO_t3 r0 *1 0,0 
+RVDD_VCO_t3 VDD_VCO__t3 VDD_VCO 6.63242731096
+* device instance VDD_VCO_t4 r0 *1 0,0 
+RVDD_VCO_t4 VDD_VCO__t4 VDD_VCO 2.69331369756
+* device instance VDD_VCO_t5 r0 *1 0,0 
+RVDD_VCO_t5 VDD_VCO__t5 VDD_VCO 2.69331369756
+* device instance VDD_VCO_t6 r0 *1 0,0 
+RVDD_VCO_t6 VDD_VCO__t6 VDD_VCO 8.01652278633
+* device instance VDD_VCO_t7 r0 *1 0,0 
+RVDD_VCO_t7 VDD_VCO__t7 VDD_VCO 8.01652278633
+* device instance VDD_VCO_t8 r0 *1 0,0 
+RVDD_VCO_t8 VDD_VCO__t8 VDD_VCO 11.2798465253
+* device instance VDD_VCO_t9 r0 *1 0,0 
+RVDD_VCO_t9 VDD_VCO__t9 VDD_VCO 11.2798465253
+* device instance VDD_VCO_t10 r0 *1 0,0 
+RVDD_VCO_t10 VDD_VCO__t10 VDD_VCO 12.1013549263
+* device instance VDD_VCO_t11 r0 *1 0,0 
+RVDD_VCO_t11 VDD_VCO__t11 VDD_VCO 12.1013549263
+* device instance VDD_VCO_t12 r0 *1 0,0 
+RVDD_VCO_t12 VDD_VCO__t12 VDD_VCO 3.92759745558
+* device instance VDD_VCO_t13 r0 *1 0,0 
+RVDD_VCO_t13 VDD_VCO__t13 VDD_VCO 3.92759745558
+* device instance VDD_VCO_t14 r0 *1 0,0 
+RVDD_VCO_t14 VDD_VCO__t14 VDD_VCO 0.773558792499
+* device instance VDD_VCO_t15 r0 *1 0,0 
+RVDD_VCO_t15 VDD_VCO__t15 VDD_VCO 0.460781836929
+* device instance VDD_VCO_t16 r0 *1 0,0 
+RVDD_VCO_t16 VDD_VCO__t16 VDD_VCO 1.69510742256
+* device instance VDD_VCO_t17 r0 *1 0,0 
+RVDD_VCO_t17 VDD_VCO__t17 VDD_VCO 2.92943698069
+* device instance VDD_VCO_t18 r0 *1 0,0 
+RVDD_VCO_t18 VDD_VCO__t18 VDD_VCO 4.16376697842
+* device instance VDD_VCO_t19 r0 *1 0,0 
+RVDD_VCO_t19 VDD_VCO__t19 VDD_VCO 5.3980971142
+* device instance VDD_VCO_t20 r0 *1 0,0 
+RVDD_VCO_t20 VDD_VCO__t20 VDD_VCO 0.773558792499
+* device instance VDD_VCO_t21 r0 *1 0,0 
+RVDD_VCO_t21 VDD_VCO__t21 VDD_VCO 0.460781836929
+* device instance VDD_VCO_t22 r0 *1 0,0 
+RVDD_VCO_t22 VDD_VCO__t22 VDD_VCO 1.69510742256
+* device instance VDD_VCO_t23 r0 *1 0,0 
+RVDD_VCO_t23 VDD_VCO__t23 VDD_VCO 2.92943698069
+* device instance VDD_VCO_t24 r0 *1 0,0 
+RVDD_VCO_t24 VDD_VCO__t24 VDD_VCO 4.16376697842
+* device instance VDD_VCO_t25 r0 *1 0,0 
+RVDD_VCO_t25 VDD_VCO__t25 VDD_VCO 5.3980971142
+* device instance VDD_VCO_t26 r0 *1 0,0 
+RVDD_VCO_t26 VDD_VCO__t26 VDD_VCO 9.73064127445
+* device instance VDD_VCO_t27 r0 *1 0,0 
+RVDD_VCO_t27 VDD_VCO__t27 VDD_VCO 9.01233567272
+* device instance VDD_VCO_t28 r0 *1 0,0 
+RVDD_VCO_t28 VDD_VCO__t28 VDD_VCO 10.4489469209
+* device instance VDD_VCO_t29 r0 *1 0,0 
+RVDD_VCO_t29 VDD_VCO__t29 VDD_VCO 8.29403012731
+* device instance VDD_VCO r0 *1 0,0 
+CVDD_VCO VDD_VCO vsubs 2.477608e-15
+* device instance XBIAS_VFIX_t0 r0 *1 0,0 
+RXBIAS_VFIX_t0 XBIAS_VFIX__t0 XBIAS_VFIX 1.54209037901
+* device instance XBIAS_VFIX_t1 r0 *1 0,0 
+RXBIAS_VFIX_t1 XBIAS_VFIX__t1 XBIAS_VFIX 8.93190962099
+* device instance XBIAS_VFIX_t2 r0 *1 0,0 
+RXBIAS_VFIX_t2 XBIAS_VFIX__t2 XBIAS_VFIX 5.237
+* device instance XBIAS_VFIX_t3 r0 *1 0,0 
+RXBIAS_VFIX_t3 XBIAS_VFIX__t3 XBIAS_VFIX 5.237
+* device instance XBIAS_VFIX r0 *1 0,0 
+CXBIAS_VFIX XBIAS_VFIX vsubs 2.439213e-16
+* device instance XBIAS_dega_t0 r0 *1 0,0 
+RXBIAS_dega_t0 XBIAS_dega__t0 XBIAS_dega 28.02975
+* device instance XBIAS_dega_t1 r0 *1 0,0 
+RXBIAS_dega_t1 XBIAS_dega__t1 XBIAS_dega 28.02975
+* device instance XBIAS_dega r0 *1 0,0 
+CXBIAS_dega XBIAS_dega vsubs 6.410642e-16
+* device instance XBIAS_degb_t0 r0 *1 0,0 
+RXBIAS_degb_t0 XBIAS_degb__t0 XBIAS_degb 7.57400846802
+* device instance XBIAS_degb_t1 r0 *1 0,0 
+RXBIAS_degb_t1 XBIAS_degb__t1 XBIAS_degb 5.96125091432
+* device instance XBIAS_degb_t2 r0 *1 0,0 
+RXBIAS_degb_t2 XBIAS_degb__t2 XBIAS_degb 32.0415142046
+* device instance XBIAS_degb_t3 r0 *1 0,0 
+RXBIAS_degb_t3 XBIAS_degb__t3 XBIAS_degb 18.506326413
+* device instance XBIAS_degb r0 *1 0,0 
+CXBIAS_degb XBIAS_degb vsubs 7.263386e-16
+* device instance XBIAS_n2s_t0 r0 *1 0,0 
+RXBIAS_n2s_t0 XBIAS_n2s__t0 XBIAS_n2s 9.0403
+* device instance XBIAS_n2s_t1 r0 *1 0,0 
+RXBIAS_n2s_t1 XBIAS_n2s__t1 XBIAS_n2s 9.0403
+* device instance XBIAS_n2s r0 *1 0,0 
+CXBIAS_n2s XBIAS_n2s vsubs 2.2081900000000001e-16
+* device instance XBIAS_nb0_t0 r0 *1 0,0 
+RXBIAS_nb0_t0 XBIAS_nb0__t0 XBIAS_nb0 7.3733
+* device instance XBIAS_nb0_t1 r0 *1 0,0 
+RXBIAS_nb0_t1 XBIAS_nb0__t1 XBIAS_nb0 7.3733
+* device instance XBIAS_nb0 r0 *1 0,0 
+CXBIAS_nb0 XBIAS_nb0 vsubs 1.83646e-16
+* device instance XBIAS_nb1_t0 r0 *1 0,0 
+RXBIAS_nb1_t0 XBIAS_nb1__t0 XBIAS_nb1 11.68515
+* device instance XBIAS_nb1_t1 r0 *1 0,0 
+RXBIAS_nb1_t1 XBIAS_nb1__t1 XBIAS_nb1 11.68515
+* device instance XBIAS_nb1 r0 *1 0,0 
+CXBIAS_nb1 XBIAS_nb1 vsubs 2.807088e-16
+* device instance XBIAS_vb1_t0 r0 *1 0,0 
+RXBIAS_vb1_t0 XBIAS_vb1__t0 XBIAS_vb1 11.1504346749
+* device instance XBIAS_vb1_t1 r0 *1 0,0 
+RXBIAS_vb1_t1 XBIAS_vb1__t1 XBIAS_vb1 3.31840743034
+* device instance XBIAS_vb1_t2 r0 *1 0,0 
+RXBIAS_vb1_t2 XBIAS_vb1__t2 XBIAS_vb1 3.31840743034
+* device instance XBIAS_vb1_t3 r0 *1 0,0 
+RXBIAS_vb1_t3 XBIAS_vb1__t3 XBIAS_vb1 6.96078513932
+* device instance XBIAS_vb1_t4 r0 *1 0,0 
+RXBIAS_vb1_t4 XBIAS_vb1__t4 XBIAS_vb1 2.44716532508
+* device instance XBIAS_vb1 r0 *1 0,0 
+CXBIAS_vb1 XBIAS_vb1 vsubs 3.1149780000000003e-16
+* device instance XBIAS_vb2_t0 r0 *1 0,0 
+RXBIAS_vb2_t0 XBIAS_vb2__t0 XBIAS_vb2 1.77188730777
+* device instance XBIAS_vb2_t1 r0 *1 0,0 
+RXBIAS_vb2_t1 XBIAS_vb2__t1 XBIAS_vb2 7.89399829532
+* device instance XBIAS_vb2_t2 r0 *1 0,0 
+RXBIAS_vb2_t2 XBIAS_vb2__t2 XBIAS_vb2 7.89399829532
+* device instance XBIAS_vb2_t3 r0 *1 0,0 
+RXBIAS_vb2_t3 XBIAS_vb2__t3 XBIAS_vb2 4.49006668941
+* device instance XBIAS_vb2_t4 r0 *1 0,0 
+RXBIAS_vb2_t4 XBIAS_vb2__t4 XBIAS_vb2 12.8003494122
+* device instance XBIAS_vb2 r0 *1 0,0 
+CXBIAS_vb2 XBIAS_vb2 vsubs 4.004564e-16
+* device instance XBIAS_vfixmid_t0 r0 *1 0,0 
+RXBIAS_vfixmid_t0 XBIAS_vfixmid__t0 XBIAS_vfixmid 7.6818
+* device instance XBIAS_vfixmid_t1 r0 *1 0,0 
+RXBIAS_vfixmid_t1 XBIAS_vfixmid__t1 XBIAS_vfixmid 3.8409
+* device instance XBIAS_vfixmid_t2 r0 *1 0,0 
+RXBIAS_vfixmid_t2 XBIAS_vfixmid__t2 XBIAS_vfixmid 3.8409
+* device instance XBIAS_vfixmid r0 *1 0,0 
+CXBIAS_vfixmid XBIAS_vfixmid vsubs 1.8798595e-16
+* device instance XS1_nh_t0 r0 *1 0,0 
+RXS1_nh_t0 XS1_nh__t0 XS1_nh 19.1389
+* device instance XS1_nh_t1 r0 *1 0,0 
+RXS1_nh_t1 XS1_nh__t1 XS1_nh 19.1389
+* device instance XS1_nh r0 *1 0,0 
+CXS1_nh XS1_nh vsubs 4.3809664999999997e-16
+* device instance XS1_nt_t0 r0 *1 0,0 
+RXS1_nt_t0 XS1_nt__t0 XS1_nt 15.89015
+* device instance XS1_nt_t1 r0 *1 0,0 
+RXS1_nt_t1 XS1_nt__t1 XS1_nt 15.89015
+* device instance XS1_nt r0 *1 0,0 
+CXS1_nt XS1_nt vsubs 3.6894675e-16
+* device instance XS2_nh_t0 r0 *1 0,0 
+RXS2_nh_t0 XS2_nh__t0 XS2_nh 25.32815
+* device instance XS2_nh_t1 r0 *1 0,0 
+RXS2_nh_t1 XS2_nh__t1 XS2_nh 25.32815
+* device instance XS2_nh r0 *1 0,0 
+CXS2_nh XS2_nh vsubs 5.7596685e-16
+* device instance XS2_nt_t0 r0 *1 0,0 
+RXS2_nt_t0 XS2_nt__t0 XS2_nt 13.04475
+* device instance XS2_nt_t1 r0 *1 0,0 
+RXS2_nt_t1 XS2_nt__t1 XS2_nt 13.04475
+* device instance XS2_nt r0 *1 0,0 
+CXS2_nt XS2_nt vsubs 3.0781e-16
+* device instance XS3_nh_t0 r0 *1 0,0 
+RXS3_nh_t0 XS3_nh__t0 XS3_nh 17.64275
+* device instance XS3_nh_t1 r0 *1 0,0 
+RXS3_nh_t1 XS3_nh__t1 XS3_nh 17.64275
+* device instance XS3_nh r0 *1 0,0 
+CXS3_nh XS3_nh vsubs 4.073438e-16
+* device instance XS3_nt_t0 r0 *1 0,0 
+RXS3_nt_t0 XS3_nt__t0 XS3_nt 13.10335
+* device instance XS3_nt_t1 r0 *1 0,0 
+RXS3_nt_t1 XS3_nt__t1 XS3_nt 13.10335
+* device instance XS3_nt r0 *1 0,0 
+CXS3_nt XS3_nt vsubs 3.103932e-16
+* device instance XS4_nh_t0 r0 *1 0,0 
+RXS4_nh_t0 XS4_nh__t0 XS4_nh 18.728
+* device instance XS4_nh_t1 r0 *1 0,0 
+RXS4_nh_t1 XS4_nh__t1 XS4_nh 18.728
+* device instance XS4_nh r0 *1 0,0 
+CXS4_nh XS4_nh vsubs 4.328099e-16
+* device instance XS4_nt_t0 r0 *1 0,0 
+RXS4_nt_t0 XS4_nt__t0 XS4_nt 13.16195
+* device instance XS4_nt_t1 r0 *1 0,0 
+RXS4_nt_t1 XS4_nt__t1 XS4_nt 13.16195
+* device instance XS4_nt r0 *1 0,0 
+CXS4_nt XS4_nt vsubs 3.129764e-16
+* device instance XS5_nh_t0 r0 *1 0,0 
+RXS5_nh_t0 XS5_nh__t0 XS5_nh 19.8133
+* device instance XS5_nh_t1 r0 *1 0,0 
+RXS5_nh_t1 XS5_nh__t1 XS5_nh 19.8133
+* device instance XS5_nh r0 *1 0,0 
+CXS5_nh XS5_nh vsubs 4.582760000000001e-16
+* device instance XS5_nt_t0 r0 *1 0,0 
+RXS5_nt_t0 XS5_nt__t0 XS5_nt 13.22055
+* device instance XS5_nt_t1 r0 *1 0,0 
+RXS5_nt_t1 XS5_nt__t1 XS5_nt 13.22055
+* device instance XS5_nt r0 *1 0,0 
+CXS5_nt XS5_nt vsubs 3.1555965e-16
+* device instance bufmid_t0 r0 *1 0,0 
+Rbufmid_t0 bufmid__t0 bufmid 10.3318724794
+* device instance bufmid_t1 r0 *1 0,0 
+Rbufmid_t1 bufmid__t1 bufmid 13.4026775206
+* device instance bufmid_t2 r0 *1 0,0 
+Rbufmid_t2 bufmid__t2 bufmid 12.6324086975
+* device instance bufmid_t3 r0 *1 0,0 
+Rbufmid_t3 bufmid__t3 bufmid 11.1021413025
+* device instance bufmid r0 *1 0,0 
+Cbufmid bufmid vsubs 5.375334000000001e-16
+* device instance ring1_t0 r0 *1 0,0 
+Rring1_t0 ring1__t0 ring1 7.08380722027
+* device instance ring1_t1 r0 *1 0,0 
+Rring1_t1 ring1__t1 ring1 0.633516671203
+* device instance ring1_t2 r0 *1 0,0 
+Rring1_t2 ring1__t2 ring1 12.7700064112
+* device instance ring1_t3 r0 *1 0,0 
+Rring1_t3 ring1__t3 ring1 8.32305682779
+* device instance ring1_t4 r0 *1 0,0 
+Rring1_t4 ring1__t4 ring1 2.70869316552
+* device instance ring1_t5 r0 *1 0,0 
+Rring1_t5 ring1__t5 ring1 11.9340197041
+* device instance ring1 r0 *1 0,0 
+Cring1 ring1 vsubs 4.9145125e-16
+* device instance ring2_t0 r0 *1 0,0 
+Rring2_t0 ring2__t0 ring2 7.47503685462
+* device instance ring2_t1 r0 *1 0,0 
+Rring2_t1 ring2__t1 ring2 5.03110264946
+* device instance ring2_t2 r0 *1 0,0 
+Rring2_t2 ring2__t2 ring2 8.14644735054
+* device instance ring2_t3 r0 *1 0,0 
+Rring2_t3 ring2__t3 ring2 5.70251314538
+* device instance ring2 r0 *1 0,0 
+Cring2 ring2 vsubs 3.078232e-16
+* device instance ring3_t0 r0 *1 0,0 
+Rring3_t0 ring3__t0 ring3 5.48609377312
+* device instance ring3_t1 r0 *1 0,0 
+Rring3_t1 ring3__t1 ring3 8.48320622688
+* device instance ring3_t2 r0 *1 0,0 
+Rring3_t2 ring3__t2 ring3 7.83727681874
+* device instance ring3_t3 r0 *1 0,0 
+Rring3_t3 ring3__t3 ring3 6.13202318126
+* device instance ring3 r0 *1 0,0 
+Cring3 ring3 vsubs 3.2668845e-16
+* device instance ring4_t0 r0 *1 0,0 
+Rring4_t0 ring4__t0 ring4 5.931096614
+* device instance ring4_t1 r0 *1 0,0 
+Rring4_t1 ring4__t1 ring4 8.830003386
+* device instance ring4_t2 r0 *1 0,0 
+Rring4_t2 ring4__t2 ring4 8.20523899549
+* device instance ring4_t3 r0 *1 0,0 
+Rring4_t3 ring4__t3 ring4 6.55586100451
+* device instance ring4 r0 *1 0,0 
+Cring4 ring4 vsubs 3.4555365e-16
+* device instance ring5_t0 r0 *1 0,0 
+Rring5_t0 ring5__t0 ring5 6.3684146462
+* device instance ring5_t1 r0 *1 0,0 
+Rring5_t1 ring5__t1 ring5 9.1844353538
+* device instance ring5_t2 r0 *1 0,0 
+Rring5_t2 ring5__t2 ring5 8.57753433923
+* device instance ring5_t3 r0 *1 0,0 
+Rring5_t3 ring5__t3 ring5 6.97531566077
+* device instance ring5 r0 *1 0,0 
+Cring5 ring5 vsubs 3.644189e-16
+* device instance cc_B0_GND_VCO r0 *1 0,0 
+Ccc_B0_GND_VCO B0 GND_VCO 3.0250000000000003e-19
+* device instance cc_B0_XBIAS_dega r0 *1 0,0 
+Ccc_B0_XBIAS_dega B0 XBIAS_dega 3.0250000000000003e-19
+* device instance cc_B0_XBIAS_degb r0 *1 0,0 
+Ccc_B0_XBIAS_degb B0 XBIAS_degb 3.0250000000000003e-19
+* device instance cc_B1_GND_VCO r0 *1 0,0 
+Ccc_B1_GND_VCO B1 GND_VCO 3.0250000000000003e-19
+* device instance cc_B1_XBIAS_dega r0 *1 0,0 
+Ccc_B1_XBIAS_dega B1 XBIAS_dega 3.0250000000000003e-19
+* device instance cc_B1_XBIAS_degb r0 *1 0,0 
+Ccc_B1_XBIAS_degb B1 XBIAS_degb 3.0250000000000003e-19
+* device instance cc_B1_XBIAS_nb1 r0 *1 0,0 
+Ccc_B1_XBIAS_nb1 B1 XBIAS_nb1 3.0250000000000003e-19
+* device instance cc_CLK_GND_VCO r0 *1 0,0 
+Ccc_CLK_GND_VCO CLK GND_VCO 8.672e-19
+* device instance cc_CLK_VBN r0 *1 0,0 
+Ccc_CLK_VBN CLK VBN 6.050000000000001e-19
+* device instance cc_CLK_VDD_VCO r0 *1 0,0 
+Ccc_CLK_VDD_VCO CLK VDD_VCO 5.647000000000001e-19
+* device instance cc_CLK_XS1_nh r0 *1 0,0 
+Ccc_CLK_XS1_nh CLK XS1_nh 3.0250000000000003e-19
+* device instance cc_CLK_XS1_nt r0 *1 0,0 
+Ccc_CLK_XS1_nt CLK XS1_nt 3.0250000000000003e-19
+* device instance cc_CLK_XS2_nh r0 *1 0,0 
+Ccc_CLK_XS2_nh CLK XS2_nh 3.0250000000000003e-19
+* device instance cc_CLK_XS2_nt r0 *1 0,0 
+Ccc_CLK_XS2_nt CLK XS2_nt 3.0250000000000003e-19
+* device instance cc_CLK_XS3_nh r0 *1 0,0 
+Ccc_CLK_XS3_nh CLK XS3_nh 3.0250000000000003e-19
+* device instance cc_CLK_XS3_nt r0 *1 0,0 
+Ccc_CLK_XS3_nt CLK XS3_nt 3.0250000000000003e-19
+* device instance cc_CLK_XS4_nh r0 *1 0,0 
+Ccc_CLK_XS4_nh CLK XS4_nh 3.0250000000000003e-19
+* device instance cc_CLK_XS4_nt r0 *1 0,0 
+Ccc_CLK_XS4_nt CLK XS4_nt 3.0250000000000003e-19
+* device instance cc_CLK_XS5_nh r0 *1 0,0 
+Ccc_CLK_XS5_nh CLK XS5_nh 3.0250000000000003e-19
+* device instance cc_CLK_XS5_nt r0 *1 0,0 
+Ccc_CLK_XS5_nt CLK XS5_nt 3.0250000000000003e-19
+* device instance cc_CLK_bufmid r0 *1 0,0 
+Ccc_CLK_bufmid CLK bufmid 3.0250000000000003e-19
+* device instance cc_CLK_ring1 r0 *1 0,0 
+Ccc_CLK_ring1 CLK ring1 3.0250000000000003e-19
+* device instance cc_GND_VCO_VBN r0 *1 0,0 
+Ccc_GND_VCO_VBN GND_VCO VBN 2.6823e-18
+* device instance cc_GND_VCO_VBP r0 *1 0,0 
+Ccc_GND_VCO_VBP GND_VCO VBP 3.0250999999999998e-18
+* device instance cc_GND_VCO_VCTRL r0 *1 0,0 
+Ccc_GND_VCO_VCTRL GND_VCO VCTRL 3.0250000000000003e-19
+* device instance cc_GND_VCO_VDD_VCO r0 *1 0,0 
+Ccc_GND_VCO_VDD_VCO GND_VCO VDD_VCO 5.44525e-18
+* device instance cc_GND_VCO_XBIAS_VFIX r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_VFIX GND_VCO XBIAS_VFIX 1.21005e-18
+* device instance cc_GND_VCO_XBIAS_dega r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_dega GND_VCO XBIAS_dega 6.050000000000001e-19
+* device instance cc_GND_VCO_XBIAS_degb r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_degb GND_VCO XBIAS_degb 1.21005e-18
+* device instance cc_GND_VCO_XBIAS_n2s r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_n2s GND_VCO XBIAS_n2s 6.050000000000001e-19
+* device instance cc_GND_VCO_XBIAS_nb0 r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_nb0 GND_VCO XBIAS_nb0 6.050000000000001e-19
+* device instance cc_GND_VCO_XBIAS_nb1 r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_nb1 GND_VCO XBIAS_nb1 6.050000000000001e-19
+* device instance cc_GND_VCO_XBIAS_vb1 r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_vb1 GND_VCO XBIAS_vb1 1.77475e-18
+* device instance cc_GND_VCO_XBIAS_vb2 r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_vb2 GND_VCO XBIAS_vb2 1.5125499999999999e-18
+* device instance cc_GND_VCO_XBIAS_vfixmid r0 *1 0,0 
+Ccc_GND_VCO_XBIAS_vfixmid GND_VCO XBIAS_vfixmid 1.1697e-18
+* device instance cc_GND_VCO_XS1_nh r0 *1 0,0 
+Ccc_GND_VCO_XS1_nh GND_VCO XS1_nh 6.050000000000001e-19
+* device instance cc_GND_VCO_XS1_nt r0 *1 0,0 
+Ccc_GND_VCO_XS1_nt GND_VCO XS1_nt 8.672e-19
+* device instance cc_GND_VCO_XS2_nh r0 *1 0,0 
+Ccc_GND_VCO_XS2_nh GND_VCO XS2_nh 6.050000000000001e-19
+* device instance cc_GND_VCO_XS2_nt r0 *1 0,0 
+Ccc_GND_VCO_XS2_nt GND_VCO XS2_nt 8.672e-19
+* device instance cc_GND_VCO_XS3_nh r0 *1 0,0 
+Ccc_GND_VCO_XS3_nh GND_VCO XS3_nh 6.050000000000001e-19
+* device instance cc_GND_VCO_XS3_nt r0 *1 0,0 
+Ccc_GND_VCO_XS3_nt GND_VCO XS3_nt 8.672e-19
+* device instance cc_GND_VCO_XS4_nh r0 *1 0,0 
+Ccc_GND_VCO_XS4_nh GND_VCO XS4_nh 6.050000000000001e-19
+* device instance cc_GND_VCO_XS4_nt r0 *1 0,0 
+Ccc_GND_VCO_XS4_nt GND_VCO XS4_nt 8.672e-19
+* device instance cc_GND_VCO_XS5_nh r0 *1 0,0 
+Ccc_GND_VCO_XS5_nh GND_VCO XS5_nh 6.050000000000001e-19
+* device instance cc_GND_VCO_XS5_nt r0 *1 0,0 
+Ccc_GND_VCO_XS5_nt GND_VCO XS5_nt 8.672e-19
+* device instance cc_GND_VCO_bufmid r0 *1 0,0 
+Ccc_GND_VCO_bufmid GND_VCO bufmid 1.47225e-18
+* device instance cc_GND_VCO_ring1 r0 *1 0,0 
+Ccc_GND_VCO_ring1 GND_VCO ring1 1.8151e-18
+* device instance cc_GND_VCO_ring2 r0 *1 0,0 
+Ccc_GND_VCO_ring2 GND_VCO ring2 1.21005e-18
+* device instance cc_GND_VCO_ring3 r0 *1 0,0 
+Ccc_GND_VCO_ring3 GND_VCO ring3 1.21005e-18
+* device instance cc_GND_VCO_ring4 r0 *1 0,0 
+Ccc_GND_VCO_ring4 GND_VCO ring4 1.21005e-18
+* device instance cc_GND_VCO_ring5 r0 *1 0,0 
+Ccc_GND_VCO_ring5 GND_VCO ring5 1.21005e-18
+* device instance cc_VBN_VBP r0 *1 0,0 
+Ccc_VBN_VBP VBN VBP 9.0755e-19
+* device instance cc_VBN_VDD_VCO r0 *1 0,0 
+Ccc_VBN_VDD_VCO VBN VDD_VCO 1.1697e-18
+* device instance cc_VBN_XS1_nh r0 *1 0,0 
+Ccc_VBN_XS1_nh VBN XS1_nh 6.050000000000001e-19
+* device instance cc_VBN_XS1_nt r0 *1 0,0 
+Ccc_VBN_XS1_nt VBN XS1_nt 6.050000000000001e-19
+* device instance cc_VBN_XS2_nh r0 *1 0,0 
+Ccc_VBN_XS2_nh VBN XS2_nh 6.050000000000001e-19
+* device instance cc_VBN_XS2_nt r0 *1 0,0 
+Ccc_VBN_XS2_nt VBN XS2_nt 6.050000000000001e-19
+* device instance cc_VBN_XS3_nh r0 *1 0,0 
+Ccc_VBN_XS3_nh VBN XS3_nh 6.050000000000001e-19
+* device instance cc_VBN_XS3_nt r0 *1 0,0 
+Ccc_VBN_XS3_nt VBN XS3_nt 6.050000000000001e-19
+* device instance cc_VBN_XS4_nh r0 *1 0,0 
+Ccc_VBN_XS4_nh VBN XS4_nh 6.050000000000001e-19
+* device instance cc_VBN_XS4_nt r0 *1 0,0 
+Ccc_VBN_XS4_nt VBN XS4_nt 6.050000000000001e-19
+* device instance cc_VBN_XS5_nh r0 *1 0,0 
+Ccc_VBN_XS5_nh VBN XS5_nh 6.050000000000001e-19
+* device instance cc_VBN_XS5_nt r0 *1 0,0 
+Ccc_VBN_XS5_nt VBN XS5_nt 6.050000000000001e-19
+* device instance cc_VBN_bufmid r0 *1 0,0 
+Ccc_VBN_bufmid VBN bufmid 1.21005e-18
+* device instance cc_VBN_ring1 r0 *1 0,0 
+Ccc_VBN_ring1 VBN ring1 1.8151e-18
+* device instance cc_VBN_ring2 r0 *1 0,0 
+Ccc_VBN_ring2 VBN ring2 1.21005e-18
+* device instance cc_VBN_ring3 r0 *1 0,0 
+Ccc_VBN_ring3 VBN ring3 1.21005e-18
+* device instance cc_VBN_ring4 r0 *1 0,0 
+Ccc_VBN_ring4 VBN ring4 1.21005e-18
+* device instance cc_VBN_ring5 r0 *1 0,0 
+Ccc_VBN_ring5 VBN ring5 1.21005e-18
+* device instance cc_VBP_VCTRL r0 *1 0,0 
+Ccc_VBP_VCTRL VBP VCTRL 3.0250000000000003e-19
+* device instance cc_VBP_VDD_VCO r0 *1 0,0 
+Ccc_VBP_VDD_VCO VBP VDD_VCO 3.2873000000000002e-18
+* device instance cc_VBP_XBIAS_VFIX r0 *1 0,0 
+Ccc_VBP_XBIAS_VFIX VBP XBIAS_VFIX 3.0250000000000003e-19
+* device instance cc_VBP_XBIAS_dega r0 *1 0,0 
+Ccc_VBP_XBIAS_dega VBP XBIAS_dega 5.647000000000001e-19
+* device instance cc_VBP_XBIAS_degb r0 *1 0,0 
+Ccc_VBP_XBIAS_degb VBP XBIAS_degb 5.647000000000001e-19
+* device instance cc_VBP_XS1_nh r0 *1 0,0 
+Ccc_VBP_XS1_nh VBP XS1_nh 3.0250000000000003e-19
+* device instance cc_VBP_XS2_nh r0 *1 0,0 
+Ccc_VBP_XS2_nh VBP XS2_nh 3.0250000000000003e-19
+* device instance cc_VBP_XS3_nh r0 *1 0,0 
+Ccc_VBP_XS3_nh VBP XS3_nh 3.0250000000000003e-19
+* device instance cc_VBP_XS4_nh r0 *1 0,0 
+Ccc_VBP_XS4_nh VBP XS4_nh 3.0250000000000003e-19
+* device instance cc_VBP_XS5_nh r0 *1 0,0 
+Ccc_VBP_XS5_nh VBP XS5_nh 3.0250000000000003e-19
+* device instance cc_VCTRL_VDD_VCO r0 *1 0,0 
+Ccc_VCTRL_VDD_VCO VCTRL VDD_VCO 3.0250000000000003e-19
+* device instance cc_VDD_VCO_XBIAS_VFIX r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_VFIX VDD_VCO XBIAS_VFIX 1.47225e-18
+* device instance cc_VDD_VCO_XBIAS_dega r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_dega VDD_VCO XBIAS_dega 3.0250000000000003e-19
+* device instance cc_VDD_VCO_XBIAS_degb r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_degb VDD_VCO XBIAS_degb 3.0250000000000003e-19
+* device instance cc_VDD_VCO_XBIAS_vb1 r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_vb1 VDD_VCO XBIAS_vb1 1.77475e-18
+* device instance cc_VDD_VCO_XBIAS_vb2 r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_vb2 VDD_VCO XBIAS_vb2 8.672e-19
+* device instance cc_VDD_VCO_XBIAS_vfixmid r0 *1 0,0 
+Ccc_VDD_VCO_XBIAS_vfixmid VDD_VCO XBIAS_vfixmid 9.0755e-19
+* device instance cc_VDD_VCO_XS1_nh r0 *1 0,0 
+Ccc_VDD_VCO_XS1_nh VDD_VCO XS1_nh 8.672e-19
+* device instance cc_VDD_VCO_XS2_nh r0 *1 0,0 
+Ccc_VDD_VCO_XS2_nh VDD_VCO XS2_nh 8.672e-19
+* device instance cc_VDD_VCO_XS3_nh r0 *1 0,0 
+Ccc_VDD_VCO_XS3_nh VDD_VCO XS3_nh 8.672e-19
+* device instance cc_VDD_VCO_XS4_nh r0 *1 0,0 
+Ccc_VDD_VCO_XS4_nh VDD_VCO XS4_nh 8.672e-19
+* device instance cc_VDD_VCO_XS5_nh r0 *1 0,0 
+Ccc_VDD_VCO_XS5_nh VDD_VCO XS5_nh 8.672e-19
+* device instance cc_VDD_VCO_bufmid r0 *1 0,0 
+Ccc_VDD_VCO_bufmid VDD_VCO bufmid 8.672e-19
+* device instance cc_VDD_VCO_ring1 r0 *1 0,0 
+Ccc_VDD_VCO_ring1 VDD_VCO ring1 9.0755e-19
+* device instance cc_VDD_VCO_ring2 r0 *1 0,0 
+Ccc_VDD_VCO_ring2 VDD_VCO ring2 6.050000000000001e-19
+* device instance cc_VDD_VCO_ring3 r0 *1 0,0 
+Ccc_VDD_VCO_ring3 VDD_VCO ring3 6.050000000000001e-19
+* device instance cc_VDD_VCO_ring4 r0 *1 0,0 
+Ccc_VDD_VCO_ring4 VDD_VCO ring4 6.050000000000001e-19
+* device instance cc_VDD_VCO_ring5 r0 *1 0,0 
+Ccc_VDD_VCO_ring5 VDD_VCO ring5 6.050000000000001e-19
+* device instance cc_XBIAS_VFIX_XBIAS_dega r0 *1 0,0 
+Ccc_XBIAS_VFIX_XBIAS_dega XBIAS_VFIX XBIAS_dega 3.0250000000000003e-19
+* device instance cc_XBIAS_VFIX_XBIAS_vb1 r0 *1 0,0 
+Ccc_XBIAS_VFIX_XBIAS_vb1 XBIAS_VFIX XBIAS_vb1 9.0755e-19
+* device instance cc_XBIAS_VFIX_XBIAS_vfixmid r0 *1 0,0 
+Ccc_XBIAS_VFIX_XBIAS_vfixmid XBIAS_VFIX XBIAS_vfixmid 5.647000000000001e-19
+* device instance cc_XBIAS_dega_XBIAS_degb r0 *1 0,0 
+Ccc_XBIAS_dega_XBIAS_degb XBIAS_dega XBIAS_degb 6.050000000000001e-19
+* device instance cc_XBIAS_dega_XBIAS_n2s r0 *1 0,0 
+Ccc_XBIAS_dega_XBIAS_n2s XBIAS_dega XBIAS_n2s 6.050000000000001e-19
+* device instance cc_XBIAS_dega_XBIAS_nb0 r0 *1 0,0 
+Ccc_XBIAS_dega_XBIAS_nb0 XBIAS_dega XBIAS_nb0 3.0250000000000003e-19
+* device instance cc_XBIAS_dega_XBIAS_nb1 r0 *1 0,0 
+Ccc_XBIAS_dega_XBIAS_nb1 XBIAS_dega XBIAS_nb1 6.050000000000001e-19
+* device instance cc_XBIAS_degb_XBIAS_n2s r0 *1 0,0 
+Ccc_XBIAS_degb_XBIAS_n2s XBIAS_degb XBIAS_n2s 6.050000000000001e-19
+* device instance cc_XBIAS_degb_XBIAS_nb0 r0 *1 0,0 
+Ccc_XBIAS_degb_XBIAS_nb0 XBIAS_degb XBIAS_nb0 5.647000000000001e-19
+* device instance cc_XBIAS_degb_XBIAS_nb1 r0 *1 0,0 
+Ccc_XBIAS_degb_XBIAS_nb1 XBIAS_degb XBIAS_nb1 8.672e-19
+* device instance cc_XBIAS_degb_XBIAS_vfixmid r0 *1 0,0 
+Ccc_XBIAS_degb_XBIAS_vfixmid XBIAS_degb XBIAS_vfixmid 9.0755e-19
+* device instance cc_XBIAS_n2s_XBIAS_vb2 r0 *1 0,0 
+Ccc_XBIAS_n2s_XBIAS_vb2 XBIAS_n2s XBIAS_vb2 5.647000000000001e-19
+* device instance cc_XBIAS_vb1_XBIAS_vb2 r0 *1 0,0 
+Ccc_XBIAS_vb1_XBIAS_vb2 XBIAS_vb1 XBIAS_vb2 3.0250000000000003e-19
+* device instance cc_XBIAS_vb1_XBIAS_vfixmid r0 *1 0,0 
+Ccc_XBIAS_vb1_XBIAS_vfixmid XBIAS_vb1 XBIAS_vfixmid 9.0755e-19
+* device instance cc_XS1_nh_XS3_nh r0 *1 0,0 
+Ccc_XS1_nh_XS3_nh XS1_nh XS3_nh 3.0250000000000003e-19
+* device instance cc_XS1_nh_XS4_nh r0 *1 0,0 
+Ccc_XS1_nh_XS4_nh XS1_nh XS4_nh 3.0250000000000003e-19
+* device instance cc_XS1_nh_XS5_nh r0 *1 0,0 
+Ccc_XS1_nh_XS5_nh XS1_nh XS5_nh 3.0250000000000003e-19
+* device instance cc_XS1_nh_bufmid r0 *1 0,0 
+Ccc_XS1_nh_bufmid XS1_nh bufmid 3.0250000000000003e-19
+* device instance cc_XS1_nh_ring1 r0 *1 0,0 
+Ccc_XS1_nh_ring1 XS1_nh ring1 5.647000000000001e-19
+* device instance cc_XS1_nt_XS2_nt r0 *1 0,0 
+Ccc_XS1_nt_XS2_nt XS1_nt XS2_nt 6.050000000000001e-19
+* device instance cc_XS1_nt_XS3_nt r0 *1 0,0 
+Ccc_XS1_nt_XS3_nt XS1_nt XS3_nt 6.050000000000001e-19
+* device instance cc_XS1_nt_XS4_nt r0 *1 0,0 
+Ccc_XS1_nt_XS4_nt XS1_nt XS4_nt 6.050000000000001e-19
+* device instance cc_XS1_nt_XS5_nt r0 *1 0,0 
+Ccc_XS1_nt_XS5_nt XS1_nt XS5_nt 6.050000000000001e-19
+* device instance cc_XS1_nt_bufmid r0 *1 0,0 
+Ccc_XS1_nt_bufmid XS1_nt bufmid 3.0250000000000003e-19
+* device instance cc_XS1_nt_ring1 r0 *1 0,0 
+Ccc_XS1_nt_ring1 XS1_nt ring1 5.647000000000001e-19
+* device instance cc_XS1_nt_ring2 r0 *1 0,0 
+Ccc_XS1_nt_ring2 XS1_nt ring2 3.0250000000000003e-19
+* device instance cc_XS1_nt_ring3 r0 *1 0,0 
+Ccc_XS1_nt_ring3 XS1_nt ring3 3.0250000000000003e-19
+* device instance cc_XS1_nt_ring4 r0 *1 0,0 
+Ccc_XS1_nt_ring4 XS1_nt ring4 3.0250000000000003e-19
+* device instance cc_XS1_nt_ring5 r0 *1 0,0 
+Ccc_XS1_nt_ring5 XS1_nt ring5 3.0250000000000003e-19
+* device instance cc_XS2_nh_XS3_nh r0 *1 0,0 
+Ccc_XS2_nh_XS3_nh XS2_nh XS3_nh 6.050000000000001e-19
+* device instance cc_XS2_nh_XS4_nh r0 *1 0,0 
+Ccc_XS2_nh_XS4_nh XS2_nh XS4_nh 6.050000000000001e-19
+* device instance cc_XS2_nh_XS5_nh r0 *1 0,0 
+Ccc_XS2_nh_XS5_nh XS2_nh XS5_nh 6.050000000000001e-19
+* device instance cc_XS2_nh_bufmid r0 *1 0,0 
+Ccc_XS2_nh_bufmid XS2_nh bufmid 3.0250000000000003e-19
+* device instance cc_XS2_nh_ring1 r0 *1 0,0 
+Ccc_XS2_nh_ring1 XS2_nh ring1 3.0250000000000003e-19
+* device instance cc_XS2_nh_ring2 r0 *1 0,0 
+Ccc_XS2_nh_ring2 XS2_nh ring2 5.647000000000001e-19
+* device instance cc_XS2_nh_ring3 r0 *1 0,0 
+Ccc_XS2_nh_ring3 XS2_nh ring3 3.0250000000000003e-19
+* device instance cc_XS2_nh_ring4 r0 *1 0,0 
+Ccc_XS2_nh_ring4 XS2_nh ring4 3.0250000000000003e-19
+* device instance cc_XS2_nh_ring5 r0 *1 0,0 
+Ccc_XS2_nh_ring5 XS2_nh ring5 3.0250000000000003e-19
+* device instance cc_XS2_nt_XS3_nt r0 *1 0,0 
+Ccc_XS2_nt_XS3_nt XS2_nt XS3_nt 3.0250000000000003e-19
+* device instance cc_XS2_nt_XS4_nt r0 *1 0,0 
+Ccc_XS2_nt_XS4_nt XS2_nt XS4_nt 3.0250000000000003e-19
+* device instance cc_XS2_nt_XS5_nt r0 *1 0,0 
+Ccc_XS2_nt_XS5_nt XS2_nt XS5_nt 3.0250000000000003e-19
+* device instance cc_XS2_nt_bufmid r0 *1 0,0 
+Ccc_XS2_nt_bufmid XS2_nt bufmid 3.0250000000000003e-19
+* device instance cc_XS2_nt_ring1 r0 *1 0,0 
+Ccc_XS2_nt_ring1 XS2_nt ring1 3.0250000000000003e-19
+* device instance cc_XS2_nt_ring2 r0 *1 0,0 
+Ccc_XS2_nt_ring2 XS2_nt ring2 2.6220000000000004e-19
+* device instance cc_XS3_nh_XS4_nh r0 *1 0,0 
+Ccc_XS3_nh_XS4_nh XS3_nh XS4_nh 3.0250000000000003e-19
+* device instance cc_XS3_nh_XS5_nh r0 *1 0,0 
+Ccc_XS3_nh_XS5_nh XS3_nh XS5_nh 3.0250000000000003e-19
+* device instance cc_XS3_nh_bufmid r0 *1 0,0 
+Ccc_XS3_nh_bufmid XS3_nh bufmid 3.0250000000000003e-19
+* device instance cc_XS3_nh_ring1 r0 *1 0,0 
+Ccc_XS3_nh_ring1 XS3_nh ring1 3.0250000000000003e-19
+* device instance cc_XS3_nh_ring3 r0 *1 0,0 
+Ccc_XS3_nh_ring3 XS3_nh ring3 5.647000000000001e-19
+* device instance cc_XS3_nh_ring4 r0 *1 0,0 
+Ccc_XS3_nh_ring4 XS3_nh ring4 3.0250000000000003e-19
+* device instance cc_XS3_nh_ring5 r0 *1 0,0 
+Ccc_XS3_nh_ring5 XS3_nh ring5 3.0250000000000003e-19
+* device instance cc_XS3_nt_XS4_nt r0 *1 0,0 
+Ccc_XS3_nt_XS4_nt XS3_nt XS4_nt 3.0250000000000003e-19
+* device instance cc_XS3_nt_XS5_nt r0 *1 0,0 
+Ccc_XS3_nt_XS5_nt XS3_nt XS5_nt 3.0250000000000003e-19
+* device instance cc_XS3_nt_bufmid r0 *1 0,0 
+Ccc_XS3_nt_bufmid XS3_nt bufmid 3.0250000000000003e-19
+* device instance cc_XS3_nt_ring1 r0 *1 0,0 
+Ccc_XS3_nt_ring1 XS3_nt ring1 3.0250000000000003e-19
+* device instance cc_XS3_nt_ring2 r0 *1 0,0 
+Ccc_XS3_nt_ring2 XS3_nt ring2 3.0250000000000003e-19
+* device instance cc_XS3_nt_ring3 r0 *1 0,0 
+Ccc_XS3_nt_ring3 XS3_nt ring3 2.6220000000000004e-19
+* device instance cc_XS4_nh_XS5_nh r0 *1 0,0 
+Ccc_XS4_nh_XS5_nh XS4_nh XS5_nh 3.0250000000000003e-19
+* device instance cc_XS4_nh_bufmid r0 *1 0,0 
+Ccc_XS4_nh_bufmid XS4_nh bufmid 3.0250000000000003e-19
+* device instance cc_XS4_nh_ring1 r0 *1 0,0 
+Ccc_XS4_nh_ring1 XS4_nh ring1 3.0250000000000003e-19
+* device instance cc_XS4_nh_ring4 r0 *1 0,0 
+Ccc_XS4_nh_ring4 XS4_nh ring4 5.647000000000001e-19
+* device instance cc_XS4_nh_ring5 r0 *1 0,0 
+Ccc_XS4_nh_ring5 XS4_nh ring5 3.0250000000000003e-19
+* device instance cc_XS4_nt_XS5_nt r0 *1 0,0 
+Ccc_XS4_nt_XS5_nt XS4_nt XS5_nt 3.0250000000000003e-19
+* device instance cc_XS4_nt_bufmid r0 *1 0,0 
+Ccc_XS4_nt_bufmid XS4_nt bufmid 3.0250000000000003e-19
+* device instance cc_XS4_nt_ring1 r0 *1 0,0 
+Ccc_XS4_nt_ring1 XS4_nt ring1 3.0250000000000003e-19
+* device instance cc_XS4_nt_ring2 r0 *1 0,0 
+Ccc_XS4_nt_ring2 XS4_nt ring2 3.0250000000000003e-19
+* device instance cc_XS4_nt_ring3 r0 *1 0,0 
+Ccc_XS4_nt_ring3 XS4_nt ring3 3.0250000000000003e-19
+* device instance cc_XS4_nt_ring4 r0 *1 0,0 
+Ccc_XS4_nt_ring4 XS4_nt ring4 2.6220000000000004e-19
+* device instance cc_XS5_nh_bufmid r0 *1 0,0 
+Ccc_XS5_nh_bufmid XS5_nh bufmid 3.0250000000000003e-19
+* device instance cc_XS5_nh_ring1 r0 *1 0,0 
+Ccc_XS5_nh_ring1 XS5_nh ring1 3.0250000000000003e-19
+* device instance cc_XS5_nh_ring5 r0 *1 0,0 
+Ccc_XS5_nh_ring5 XS5_nh ring5 5.647000000000001e-19
+* device instance cc_XS5_nt_bufmid r0 *1 0,0 
+Ccc_XS5_nt_bufmid XS5_nt bufmid 3.0250000000000003e-19
+* device instance cc_XS5_nt_ring1 r0 *1 0,0 
+Ccc_XS5_nt_ring1 XS5_nt ring1 3.0250000000000003e-19
+* device instance cc_XS5_nt_ring2 r0 *1 0,0 
+Ccc_XS5_nt_ring2 XS5_nt ring2 3.0250000000000003e-19
+* device instance cc_XS5_nt_ring3 r0 *1 0,0 
+Ccc_XS5_nt_ring3 XS5_nt ring3 3.0250000000000003e-19
+* device instance cc_XS5_nt_ring4 r0 *1 0,0 
+Ccc_XS5_nt_ring4 XS5_nt ring4 3.0250000000000003e-19
+* device instance cc_XS5_nt_ring5 r0 *1 0,0 
+Ccc_XS5_nt_ring5 XS5_nt ring5 2.6220000000000004e-19
+* device instance cc_bufmid_ring1 r0 *1 0,0 
+Ccc_bufmid_ring1 bufmid ring1 6.050000000000001e-19
+* device instance cc_bufmid_ring2 r0 *1 0,0 
+Ccc_bufmid_ring2 bufmid ring2 1.21005e-18
+* device instance cc_bufmid_ring3 r0 *1 0,0 
+Ccc_bufmid_ring3 bufmid ring3 1.21005e-18
+* device instance cc_bufmid_ring4 r0 *1 0,0 
+Ccc_bufmid_ring4 bufmid ring4 1.21005e-18
+* device instance cc_bufmid_ring5 r0 *1 0,0 
+Ccc_bufmid_ring5 bufmid ring5 1.21005e-18
+* device instance cc_ring1_ring2 r0 *1 0,0 
+Ccc_ring1_ring2 ring1 ring2 1.21005e-18
+* device instance cc_ring1_ring3 r0 *1 0,0 
+Ccc_ring1_ring3 ring1 ring3 1.21005e-18
+* device instance cc_ring1_ring4 r0 *1 0,0 
+Ccc_ring1_ring4 ring1 ring4 1.21005e-18
+* device instance cc_ring1_ring5 r0 *1 0,0 
+Ccc_ring1_ring5 ring1 ring5 1.21005e-18
+* device instance cc_ring2_ring3 r0 *1 0,0 
+Ccc_ring2_ring3 ring2 ring3 6.050000000000001e-19
+* device instance cc_ring2_ring4 r0 *1 0,0 
+Ccc_ring2_ring4 ring2 ring4 6.050000000000001e-19
+* device instance cc_ring2_ring5 r0 *1 0,0 
+Ccc_ring2_ring5 ring2 ring5 6.050000000000001e-19
+* device instance cc_ring3_ring4 r0 *1 0,0 
+Ccc_ring3_ring4 ring3 ring4 6.050000000000001e-19
+* device instance cc_ring3_ring5 r0 *1 0,0 
+Ccc_ring3_ring5 ring3 ring5 6.050000000000001e-19
+* device instance cc_ring4_ring5 r0 *1 0,0 
+Ccc_ring4_ring5 ring4 ring5 6.050000000000001e-19
+* device instance vsubs_dctie r0 *1 0,0 
+Rvsubs_dctie vsubs 0 1e+12
+.ENDS pll_vco

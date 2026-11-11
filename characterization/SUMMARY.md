@@ -106,6 +106,23 @@ the min/max.
 | vco open-loop frequency, postlayout arm (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 3.47552e+08 | 1.18279e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | vco postlayout-vs-schematic frequency deviation (`delta_pct`) | % | `deviation` | - | 60 | 0 | -26.062 | -21.077 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 
+### postlayout-pex-vco-rerun324
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: pll_vco extracted from routed GDS layout record 20260921-155747-c44fa68 (floorplan-aware route, RECORD-002 flow rerun at ff8b653; klt 729ee531e176), rerun on the pinned dual-tree PDK
+- **Context**: extracted (postlayout arm); same bench as RECORD-002 rerun on the batch fleet
+- **Conditions**: 3 PVT bundles (typ/slow/fast = mos_tt+res_typ+27C / mos_ss+res_wcs+125C / mos_ff+res_bcs-40C) x 4 band codes x 5 VCTRL; 3.3 V only; 30 ns tran; ngspice-46; 330 batch units across the Matrix A and RC-attribution grids
+- **Method**: open-loop transient, period measured per run (as RECORD-002)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-007-floorplan-aware-vco-route-rerun-pinned.md` (sha256 `1e5e5dc7c56295474a88761c8ca68dc8e862d0b4d27a9414899cc6423f6e6981`)
+- **Table `results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/rerun-324/results.csv` (sha256 `d0c75f8799590176a7dd7c1580b0d1ab7f71af6865f024a52f4057209c8b37e5`)
+- **Note**: Reproduces RECORD-002's Matrix A to printing precision (ADDENDUM-003); no figure in RECORD-002 or its consumers is replaced. Item 9 stays unmet.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco open-loop frequency, postlayout arm (rerun) (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 3.47552e+08 | 1.18279e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
 ### postlayout-pex-cp
 
 - **PDK**: SG13CMOS5L
