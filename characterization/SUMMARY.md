@@ -528,6 +528,23 @@ the min/max.
 | VCO average supply current (`idd_avg_a`) | A | `results` | - | 300 | 0 | 0.000926557 | 0.00271161 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 | VCO output duty cycle at 20p/5p timestep (`duty_pct`) | % | `tstep` | - | 8 | 0 | 46.748 | 49.9235 | `mos_corner`: mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_typ, res_wcs; `temp_c`: 27, 125; `band_code`: 00, 11; `vctrl_v`: 0.9, 1.5, 2.7; `tstep`: 20p, 5p |
 
+### resized-window-rerun-batch
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: lock_detector_resized.spice, byte-identical to the 07e1866 snapshot (not today's design) (RECORD-010)
+- **Context**: schematic, pre-layout
+- **Conditions**: schmitt_hv readout, 5 MOS corners x 3 temperatures x 3 supplies; ngspice-46 on the klt batch fleet, runner klt 0.9.0; PDK revisions are the repo pins, runner PDK stamp unreadable (not independently verified)
+- **Method**: RECORD-002 campaign rerun as klt sim batch deck-list requests (testbench/batch_grid_rerun328.py); Schmitt thresholds identical to the original CSV, R shifted -4.5..-8.7 %, 1 of 18 ladder corners unconverged (RECORD-010)
+- **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (sha256 `2d3edf7760bb5a03276103077a9cd012386e5ec3036f94814e879a4b8482e5ce`)
+- **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_rerun328.csv` (sha256 `5cf143bbff5985225085aedb45c2e58eaa3817a5ca7681c87dc21376064c9585`)
+- **Note**: Historical provenance rerun (issue #328: ADDENDUM-005 -> RECORD-010). No consumer figure was replaced; RECORD-002 stays the cited source.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| schmitt_hv input-referred hysteresis (RECORD-002 rerun) (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.00088 | 0.00158 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
@@ -856,6 +873,27 @@ the min/max.
 - **Table `schmitt`**: `sim/sg13g2-lock-detector-window/corners/schmitt_resized.csv` (sha256 `654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24`)
 - **Table `ladder`**: `sim/sg13g2-lock-detector-window/corners/ladder_resized.csv` (sha256 `49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d`)
 - **Note**: Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| window width (rising) (`twin_r_s`) | s | `window` | - | 37 | 0 | 3.73196e-09 | 1.02487e-08 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `cap_corner`: cap_bcs, cap_typ, cap_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63; `fref_hz`: 3.5e6, 12e6, 24.4e6 |
+| schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 45 | 0 | 0.83314 | 1.03465 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
+| hysteresis as % of window (`hysteresis_pct_of_window`) | % of window | `ladder` | - | 21 | 0 | 25 | 800 | `corner_tag`: 21 distinct (mos_ff_res_typ_cap_typ_27c_3.3v_3p5MHz .. mos_tt_res_wcs_cap_typ_27c_3.3v_3p5MHz) |
+
+### g2-lock-detector-window-rerun
+
+- **PDK**: SG13G2
+- **Status**: current
+- **DUT revision**: design/netlist/lock_detector.spice as of issue #82 (netlist-snapshots/lock_detector_resized.spice, unchanged; RECORD-002)
+- **Context**: schematic
+- **Conditions**: corner lists per coverage; ngspice-46 on the batch fleet; ihp-sg13g2 repo pin (fleet-side revision not observed)
+- **Method**: transient window width, ladder discharge and Schmitt threshold extraction via klt sim deck-list requests on the batch fleet (rerun of RECORD-001)
+- **Record**: `sim/sg13g2-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter-batch-rerun.md` (sha256 `f159402fa4686f56823ae2d0f91f2e7241362c1270dac0bc21446f9b9ed0a1fe`)
+- **Table `window`**: `sim/sg13g2-lock-detector-window/corners/window_resized_rerun236.csv` (sha256 `c8c9e510d7d38d055d5acf39e7cbecdb782f892f8e31848def8501812eea8560`)
+- **Table `schmitt`**: `sim/sg13g2-lock-detector-window/corners/schmitt_resized_rerun236.csv` (sha256 `654dcdde8fc4e1c68b9272f75aeadb3bb7ac77b5976fb74f721fded3b3026a24`)
+- **Table `ladder`**: `sim/sg13g2-lock-detector-window/corners/ladder_resized_rerun236.csv` (sha256 `49ec65766bbf874d8cd84c56d944a63a27ed8cbab646592f74df05a421dcd71d`)
+- **Note**: Rerun of RECORD-001 (#236) on the batch fleet; the three tables are byte-identical to RECORD-001's resized tables (same sha256). The four sizing sweeps (rc_sizing, rc_pairing, window_sizing, xmpd_sizing) were not rerun and remain RECORD-001 evidence. Chatter outcomes are in the record; the ladder `chatter` column is not summarised numerically.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
