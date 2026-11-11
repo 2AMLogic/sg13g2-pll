@@ -2,6 +2,11 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+### 2026-11-11
+
+- **PR #336**: sim: add klt sim batch deck-list driver for the lock_detector grid
+- **Issue #322** (closed): sim: batch-request driver for the sg13cmos5l lock_detector full grid (klt sim route)
+
 ### 2026-11-10
 
 - **PR #313**: docs(spec): state row 14 output swing as single-ended per node, add DR-011
