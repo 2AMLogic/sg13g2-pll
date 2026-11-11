@@ -124,6 +124,59 @@ the min/max.
 | cp postlayout delivered current, UP state (`icp_a`) | A | `cp_results` | arm=postlayout, state=up | 102 | 0 | 2.50182e-06 | 8.0628e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
 | cp postlayout delivered current, DN state (`icp_a`) | A | `cp_results` | arm=postlayout, state=dn | 102 | 0 | -8.10685e-05 | -2.50792e-06 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
 
+### postlayout-pex-vco-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet
+- **Conditions**: 3 PVT bundles x 4 band codes x 5 VCTRL x 2 arms (120 units); ngspice-46; PDK revisions and their verification limits in the record
+- **Method**: transient, one-period measurement of the divided-clock output
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/results-rerun323.csv` (sha256 `02ced3d94b3730770c693317ccdd1d79bf0f86ff8403aa0fe325d8d5dd1ade5a`)
+- **Note**: Supersedes the evidence claim of RECORD-001 (ADDENDUM-001); base corners/results.csv was later overwritten by #106 and is a different layout.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco postlayout frequency (rerun, historical layout) (`freq_hz`) | Hz | `results` | arm=postlayout | 60 | 0 | 2.17174e+08 | 7.95558e+08 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+| vco schematic-control frequency (rerun) (`freq_hz`) | Hz | `results` | arm=schematic | 60 | 0 | 4.31552e+08 | 1.57559e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
+### postlayout-pex-cp-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted (postlayout arm) vs frozen schematic control, rerun on the batch fleet
+- **Conditions**: 17 PVT points x 6 trim currents x 3 switch states x 2 arms (612 units); operating point at Vout=VDD/2; ngspice-46
+- **Method**: operating point at VDD/2 (replaces the original DC sweep + nearest-VDD/2 selection)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `cp_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/cp_results-rerun323.csv` (sha256 `e18371efabefbd87e9c5a1a48d8dbd3e80da1fa8322cc060cee1ada236c70be2`)
+- **Note**: Both-state rows (UP and DN asserted) are near-null differences and 43/102 post-layout rows differ >5% from the original; they are not summarised.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cp postlayout delivered current, UP state (rerun) (`icp_a`) | A | `cp_results` | arm=postlayout, state=up | 102 | 0 | 2.50184e-06 | 8.0633e-05 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| cp postlayout delivered current, DN state (rerun) (`icp_a`) | A | `cp_results` | arm=postlayout, state=dn | 102 | 0 | -8.10647e-05 | -2.50791e-06 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6; `iref_a`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+
+### postlayout-pex-rc-attribution-rerun323
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: historical layout record 20260830-204105-457cf5b at commit d5355e1 (NOT today's design, NOT the #106 locality-routed vco); re-extracted with klt 0.9.2
+- **Context**: extracted pll_vco RC-attribution variants, rerun on the batch fleet
+- **Conditions**: 7 netlist variants x 3 PVT bundles x band codes 00/11 x 5 VCTRL (210 units); ngspice-46
+- **Method**: transient, one-period measurement; parasitic R shorted / C removed / C scaled
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-005-postlayout-pex-pvt-vco-and-cp-rerun.md` (sha256 `4c3b2ca87632b491496ac75d849d8df3ce6edce6d54dbb18479bb710e3c7c367`)
+- **Table `rc`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/rc_attribution-rerun323.csv` (sha256 `d9a4b5bb4f1a1c90b37a90f10b615aba3ea52583600bbfeaf78088dcdcaf05f4`)
+- **Note**: Diagnostic, not a design measurement; cscale variants are parametric sensitivities, not predictions.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco frequency, full extracted netlist (rerun) (`freq_hz`) | Hz | `rc` | variant=full | 30 | 0 | 2.17174e+08 | 7.95558e+08 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
 ### postlayout-pex-pfd
 
 - **PDK**: SG13CMOS5L
