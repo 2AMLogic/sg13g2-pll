@@ -315,7 +315,7 @@ the min/max.
 - **Context**: extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised
 - **Conditions**: 18 AC units (2 arms x 3 res corners x 3 temps) expanded to the 27-point corner x MoM-cap fraction matrix; ngspice-46; klt batch job klt-sim-bf8d98d51465
 - **Method**: AC response; zero/pole frequencies and total capacitance extracted (as RECORD-004)
-- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `5422c34553998eb879e963b754f733bccac633bba566f11f33b0b770096a2662`)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e`)
 - **Table `lf_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/lf_results-rerun326.csv` (sha256 `fef092003b311571bf28b7da062ae52b846de448423b7486deda6ef74a5a55eb`)
 - **Note**: Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); capacitances reproduce, absolute R1 (hence fz/fp) shifts -3.6% to +6.0% by resistor corner, reproduced exactly on the pinned tree for one deck (record section 3).
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
@@ -334,7 +334,7 @@ the min/max.
 - **Context**: extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised
 - **Conditions**: 36 transient units (14 postlayout, 22 schematic) at mos_corner x temp x VDD, programming words per coverage; ngspice-46; 9 klt batch jobs of 4 decks
 - **Method**: transient; division period and supply current (as RECORD-004)
-- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `5422c34553998eb879e963b754f733bccac633bba566f11f33b0b770096a2662`)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e`)
 - **Table `div_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/div_results-rerun326.csv` (sha256 `2cf822c7355caf538067367a71efd2619b0a421c643ab1c4d160d4b31af6b301`)
 - **Note**: Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); division ratio N identical on all 36 rows; tdiv_a differs on two ff/-40C rows by a shifted measurement edge, N unchanged.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)

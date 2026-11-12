@@ -151,7 +151,7 @@ bash rerun326/tools/ctl.sh                 # section 3 local control (single dec
 "pass" is `klt`'s own meaning: the engine exited 0. It says nothing about the
 electrical result. The two divider failures are retained here, not hidden; the
 fleet's whole-job ceiling (3600 s) against the 36-deck runtime is a tool gap
-filed upstream (section 6).
+filed upstream as 2AMLogic/klayout-tools#5377 (section 6).
 
 ## 3. Attribution control (local, one deck, the pinned git checkout)
 
@@ -262,5 +262,5 @@ Division ratio `N = (tdiv_b - tdiv_a) / (tck_b - tck_a)`, per row, original
   #3070 (null `provenance.pdk.version`) are existing issues; this run adds one
   new tool gap (`--max-units-per-job` ignores `decks` requests, and a 36-deck
   job exceeds the fleet's 3600 s ceiling with nothing collected), filed as
-  described in the PR. The pinned-revision worker image is a worker/fleet-spec
+  2AMLogic/klayout-tools#5377. The pinned-revision worker image is a worker/fleet-spec
   change, not this repo's.
