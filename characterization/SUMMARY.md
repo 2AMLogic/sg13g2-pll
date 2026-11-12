@@ -650,6 +650,25 @@ the min/max.
 | t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets_pvt9` | - | 36 | 0 | 500 | 600 | `variant`: cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f2-0p5-0p5-1, cb_fb; `corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt, mos_tt@2.97V, mos_tt@3.63V |
 | t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets_pvt9` | - | 36 | 0 | 600 | 700 | `variant`: cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f2-0p5-0p5-1, cb_fb; `corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt, mos_tt@2.97V, mos_tt@3.63V |
 
+### divider-retiming-capture-edge-waveform
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: base dff_tg_hv in the row-3 repaired divider chain (frozen divider_chain_repaired.spice), N=64
+- **Context**: schematic, pre-layout, issue #362 (RECORD-003)
+- **Conditions**: 1562.0 MHz, tt/27 C and tt/-40 C at 3.3 V only; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-003)
+- **Method**: klt sim batch retime deck with XFRT D/CK/Q and internal nodes saved (gen_sizing_requests.py --waves); 50% crossings read from wrdata output (testbench/analyze_waves.py --csv)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-003-capture-edge-waveform.md` (sha256 `b1bbcf1bd5a9bbfa0827ac2498159bb0c92d42211c29056ae059f129e34aed8d`)
+- **Table `capture_edges`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/capture-edge-waveform.csv` (sha256 `d00bace5948db9ee8b52e21916cf264ae27842a59d45f771fc96299d484b5f93`)
+- **Note**: TWO CORNERS ONLY: tt/27 C and tt/-40 C at 3.3 V; no other PVT point was run with waveforms.
+- **Note**: RISE k+1, FALL k+2: the rising DIVOUT edge is captured at the next CK edge (clk->Q 387 to 451 ps), the falling edge one period later; the isolated setup deck scores Q only within T/4 (RECORD-003 Finding 2).
+- **Note**: PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| XFRT clk->Q: FB 50% crossing minus the capturing CK rising edge (`clkq_ps`) | ps | `capture_edges` | - | 8 | 0 | 383.8 | 488.2 | `corner`: tt/-40C, tt/27C; `edge`: fall, rise |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

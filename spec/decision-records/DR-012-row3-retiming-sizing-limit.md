@@ -3,8 +3,8 @@
 - **Status**: proposed
 - **Date**: 2026-11-11
 - **Decided by**: Builder agent, issue #189
-- **Related**: #189, spec row 3, R-3, DR-001 (T1 items 8 and 9)
-- **Evidence**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-001-xfrt-latch-sizing-sweep.md`, `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-002-retime-and-structural.md`
+- **Related**: #189, #362, spec row 3, R-3, DR-001 (T1 items 8 and 9)
+- **Evidence**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-001-xfrt-latch-sizing-sweep.md`, `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-002-retime-and-structural.md`, `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-003-capture-edge-waveform.md`
 
 ## Context
 
@@ -46,3 +46,21 @@ Still proposed; spec unchanged. RECORD-002 retimed the feedback-weakened variant
 
 Consequence: ratifiers should not choose a lower top-of-band from the 825 to 1277 MHz figures until a
 waveform-level check of the in-situ capture edge is done. Layout and spec untouched.
+
+## Update (RECORD-003, issue #362: the Finding 4 waveform check)
+
+Still proposed; spec unchanged. RECORD-003 saved the `XFRT` D, CK, Q and internal nodes for the base chain at
+1562 MHz, N=64, tt/27 C and tt/-40 C only (batch `wrdata`). Result:
+
+- The rising `DIVOUT` edge is captured at the next CK edge (k+1) with a stretched clk->Q of 451 ps (tt/27 C)
+  and 387 ps (tt/-40 C); the k+2 reading of nrange RECORD-003 Finding 4 is excluded for the rising edge.
+- The falling `DIVOUT` edge is captured one period later (k+2): the first CK edge gives a marginal master
+  capture that recovers; the retimed `FB` falls 1251 ps (tt/27 C) / 1122 ps (tt/-40 C) after `DIVOUT`,
+  about one `T_vco` more than the rising delay, so the retimed output is duty-distorted at 1562 MHz.
+- The isolated setup deck disagrees because it scores a capture only when `Q` is correct within T/4 (160 ps);
+  the in-situ captures resolve in 387 to 488 ps. The 500 to 600 ps bracket bounds fast clk->Q, not logical
+  correctness. Not reproduced in an isolated deck.
+
+Consequence: the 825 to 1277 MHz deck-arithmetic figures are not a logical-failure bound and should not be
+used alone to pick a lower top-of-band; whether duty-distorted, k+1/k+2 retiming at 1562.0 MHz is acceptable is
+a ratification question, with the other seven corners' waveforms still missing. R-3 is unchanged.

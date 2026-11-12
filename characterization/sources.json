@@ -3749,6 +3749,47 @@
     "divider-speed"
    ],
    "record_sha256": "f18b78ab5d69cec057429359ef9bf65cf6abba54b97dd55f585662556b844215"
+  },
+  {
+   "id": "divider-retiming-capture-edge-waveform",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "base dff_tg_hv in the row-3 repaired divider chain (frozen divider_chain_repaired.spice), N=64",
+   "context": "schematic, pre-layout, issue #362 (RECORD-003)",
+   "conditions": "1562.0 MHz, tt/27 C and tt/-40 C at 3.3 V only; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-003)",
+   "method": "klt sim batch retime deck with XFRT D/CK/Q and internal nodes saved (gen_sizing_requests.py --waves); 50% crossings read from wrdata output (testbench/analyze_waves.py --csv)",
+   "record": "sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-003-capture-edge-waveform.md",
+   "tables": [
+    {
+     "id": "capture_edges",
+     "path": "sim/sg13cmos5l-divider-retiming-sizing/corners/capture-edge-waveform.csv",
+     "sha256": "d00bace5948db9ee8b52e21916cf264ae27842a59d45f771fc96299d484b5f93"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "capture_edges",
+     "column": "clkq_ps",
+     "units": "ps",
+     "quantity": "XFRT clk->Q: FB 50% crossing minus the capturing CK rising edge",
+     "coverage_columns": [
+      "corner",
+      "edge"
+     ]
+    }
+   ],
+   "notes": [
+    "TWO CORNERS ONLY: tt/27 C and tt/-40 C at 3.3 V; no other PVT point was run with waveforms.",
+    "RISE k+1, FALL k+2: the rising DIVOUT edge is captured at the next CK edge (clk->Q 387 to 451 ps), the falling edge one period later; the isolated setup deck scores Q only within T/4 (RECORD-003 Finding 2).",
+    "PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "b1bbcf1bd5a9bbfa0827ac2498159bb0c92d42211c29056ae059f129e34aed8d"
   }
  ]
 }
