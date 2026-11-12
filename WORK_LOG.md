@@ -9,44 +9,44 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-11
 
-- **PR #353**: sim: add SG13CMOS5L vco output-levels bench for spec row 14
 - **PR #359**: sim: add 3.0/3.3/3.6 V supply-range sweep for vco, lock_detector, divider_chain
-- **PR #357**: sim: dff_tg_hv sizing sweep vs row-3 retiming closure (partial)
 - **PR #358**: docs: reword bodyfix-pvt gap to point at RECORD-011 full-grid evidence
+- **PR #357**: sim: dff_tg_hv sizing sweep vs row-3 retiming closure (partial)
+- **PR #353**: sim: add SG13CMOS5L vco output-levels bench for spec row 14
 - **PR #352**: sim: full-grid batch rerun of XRPU-bulk-on-VSS lock detector vs RECORD-004 (RECORD-009)
 - **PR #351**: sim: batch-fleet rerun of SG13G2 lock-detector RECORD-001 with superseded addendum
-- **PR #348**: sim: rerun RECORD-002 resized lock-detector grid on batch fleet at 07e1866; superseded addendum
 - **PR #349**: sim: rerun RECORD-001 92-point lock_detector grid via klt sim batch on db36732 files
-- **PR #345**: sim: fleet rerun of vco-duty-cycle RECORD-001 grid; superseded addendum
-- **PR #333**: sim: rerun sg13g2 VCO Kvco table on batch fleet, supersede RECORD-001
-- **PR #338**: sim: re-measure SG13G2 divider repair opconv/hold/func on batch fleet; superseded addendum
-- **PR #346**: sim: rerun postlayout-pex-pvt RECORD-002 on pinned dual-tree PDK; superseded addendum
+- **PR #348**: sim: rerun RECORD-002 resized lock-detector grid on batch fleet at 07e1866; superseded addendum
 - **PR #347**: sim: rerun RECORD-003 pfd and lock-detector arms on the batch fleet; superseded addendum
+- **PR #346**: sim: rerun postlayout-pex-pvt RECORD-002 on pinned dual-tree PDK; superseded addendum
+- **PR #345**: sim: fleet rerun of vco-duty-cycle RECORD-001 grid; superseded addendum
 - **PR #344**: sim: rerun pre-repair divider RECORD-001/002 on batch fleet, superseded addenda
-- **PR #342**: sim: rerun RECORD-004 crowbar grid on the batch fleet at the pinned PDK revisions; superseded addendum
 - **PR #343**: sim: rerun RECORD-001 post-layout PEX PVT matrices on batch fleet; superseded addendum
+- **PR #342**: sim: rerun RECORD-004 crowbar grid on the batch fleet at the pinned PDK revisions; superseded addendum
 - **PR #341**: sim: rerun historical cp Icp-trim grids on batch fleet and supersede RECORD-001/002
 - **PR #340**: sim: rerun RECORD-003 divider repair re-verification on the batch fleet; superseded addendum
+- **PR #338**: sim: re-measure SG13G2 divider repair opconv/hold/func on batch fleet; superseded addendum
 - **PR #337**: sim: rerun RECORD-003 schmitt_rewire grid on batch fleet with pinned provenance
-- **Issue #190** (closed): sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5)
-- **Issue #187** (closed): sim: supply-range 3.0/3.3/3.6 V sweep beyond cp for spec row 18 (T1 item 5)
+- **PR #333**: sim: rerun sg13g2 VCO Kvco table on batch fleet, supersede RECORD-001
 - **Issue #355** (closed): Follow-on from PR #352: refresh stale text in RECORD-011 and sources.json bodyfix-pvt gap
-- **Issue #257** (closed): Item 9 (#213 child): supersede lock-detector-window RECORD-001..004 (historical grids; needs batch route)
-- **Issue #139** (closed): sim: run the owed full-PVT lock_detector grid for the #136 bodyfix DUT (RECORD-005 is nominal-only)
-- **Issue #236** (closed): Item 9: supersede SG13G2 lock detector RECORD-001
+- **Issue #331** (closed): sim: rerun lock-detector-window RECORD-004-crowbar-current-mitigation on batch fleet (provenance migration)
+- **Issue #329** (closed): sim: rerun lock-detector-window RECORD-003-hysteresis-fix on batch fleet (provenance migration)
 - **Issue #328** (closed): sim: rerun lock-detector-window RECORD-002-resized-window-hysteresis-chatter on batch fleet (provenance migration)
 - **Issue #327** (closed): sim: rerun lock-detector-window RECORD-001-window-hysteresis-chatter on batch fleet (provenance migration)
-- **Issue #317** (closed): Item 9: supersede sg13cmos5l-vco-duty-cycle provenance (child of #216)
-- **Issue #237** (closed): Item 9: supersede SG13G2 VCO Kvco RECORD-001
-- **Issue #235** (closed): Item 9: supersede SG13G2 divider repair RECORD-001
-- **Issue #324** (closed): Item 9 campaign (#215 part 2/4): supersede postlayout-pex-pvt RECORD-002 (floorplan-aware VCO route)
 - **Issue #325** (closed): Item 9 campaign (#215 part 3/4): supersede postlayout-pex-pvt RECORD-003 (PFD + lock detector)
-- **Issue #232** (closed): Item 9 campaign (#212 part 3/4): supersede divider-nrange-retiming RECORD-001/002 (pre-repair divider)
-- **Issue #331** (closed): sim: rerun lock-detector-window RECORD-004-crowbar-current-mitigation on batch fleet (provenance migration)
+- **Issue #324** (closed): Item 9 campaign (#215 part 2/4): supersede postlayout-pex-pvt RECORD-002 (floorplan-aware VCO route)
 - **Issue #323** (closed): Item 9 campaign (#215 part 1/4): supersede postlayout-pex-pvt RECORD-001 (VCO + CP)
-- **Issue #230** (closed): Item 9 campaign (#212 part 1/4): supersede cp-icp-trim RECORD-001/002 (historical Icp-trim grids)
+- **Issue #317** (closed): Item 9: supersede sg13cmos5l-vco-duty-cycle provenance (child of #216)
+- **Issue #257** (closed): Item 9 (#213 child): supersede lock-detector-window RECORD-001..004 (historical grids; needs batch route)
+- **Issue #237** (closed): Item 9: supersede SG13G2 VCO Kvco RECORD-001
+- **Issue #236** (closed): Item 9: supersede SG13G2 lock detector RECORD-001
+- **Issue #235** (closed): Item 9: supersede SG13G2 divider repair RECORD-001
 - **Issue #233** (closed): Item 9 campaign (#212 part 4/4): supersede divider-nrange-retiming RECORD-003 (repaired divider re-verification)
-- **Issue #329** (closed): sim: rerun lock-detector-window RECORD-003-hysteresis-fix on batch fleet (provenance migration)
+- **Issue #232** (closed): Item 9 campaign (#212 part 3/4): supersede divider-nrange-retiming RECORD-001/002 (pre-repair divider)
+- **Issue #230** (closed): Item 9 campaign (#212 part 1/4): supersede cp-icp-trim RECORD-001/002 (historical Icp-trim grids)
+- **Issue #190** (closed): sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5)
+- **Issue #187** (closed): sim: supply-range 3.0/3.3/3.6 V sweep beyond cp for spec row 18 (T1 item 5)
+- **Issue #139** (closed): sim: run the owed full-PVT lock_detector grid for the #136 bodyfix DUT (RECORD-005 is nominal-only)
 - **PR #336**: sim: add klt sim batch deck-list driver for the lock_detector grid
 - **Issue #322** (closed): sim: batch-request driver for the sg13cmos5l lock_detector full grid (klt sim route)
 
