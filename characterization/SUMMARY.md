@@ -307,6 +307,44 @@ the min/max.
 | lock_detector window width (falling), postlayout arm (rerun) (`twin_f_s`) | s | `ld_window` | arm=postlayout | 29 | 0 | 3.46495e-10 | 6.1242e-10 | `deck`: wholecell; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 | lock_detector whole-cell postlayout-vs-schematic twin_r deviation (rerun) (`twin_r_delta_pct`) | % | `ld_deviation` | - | 29 | 0 | 62.887 | 68.9657 | `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `vsup_v`: 2.97, 3.3, 3.63 |
 
+### postlayout-pex-loop-filter-rerun326
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit bd62f15 (layout record 20260923-020931-a95a887-dirty), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised
+- **Conditions**: 18 AC units (2 arms x 3 res corners x 3 temps) expanded to the 27-point corner x MoM-cap fraction matrix; ngspice-46; klt batch job klt-sim-bf8d98d51465
+- **Method**: AC response; zero/pole frequencies and total capacitance extracted (as RECORD-004)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e`)
+- **Table `lf_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/lf_results-rerun326.csv` (sha256 `fef092003b311571bf28b7da062ae52b846de448423b7486deda6ef74a5a55eb`)
+- **Note**: Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); capacitances reproduce, absolute R1 (hence fz/fp) shifts -3.6% to +6.0% by resistor corner, reproduced exactly on the pinned tree for one deck (record section 3).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| loop_filter zero frequency, postlayout arm (rerun) (`fz_hz`) | Hz | `lf_results` | arm=postlayout | 27 | 0 | 167894 | 345917 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop_filter pole frequency, postlayout arm (rerun) (`fp_hz`) | Hz | `lf_results` | arm=postlayout | 27 | 0 | 1.79397e+06 | 3.6899e+06 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop_filter total capacitance, postlayout arm (rerun) (`ctot_f`) | F | `lf_results` | arm=postlayout | 27 | 0 | 2.50091e-12 | 2.50091e-12 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+
+### postlayout-pex-divider-chain-rerun326
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: historical extractions at commit bd62f15 (layout record 20260923-020931-a95a887-dirty), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout
+- **Context**: extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised
+- **Conditions**: 36 transient units (14 postlayout, 22 schematic) at mos_corner x temp x VDD, programming words per coverage; ngspice-46; 9 klt batch jobs of 4 decks
+- **Method**: transient; division period and supply current (as RECORD-004)
+- **Record**: `sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md` (sha256 `b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e`)
+- **Table `div_results`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/div_results-rerun326.csv` (sha256 `2cf822c7355caf538067367a71efd2619b0a421c643ab1c4d160d4b31af6b301`)
+- **Note**: Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); division ratio N identical on all 36 rows; tdiv_a differs on two ff/-40C rows by a shifted measurement edge, N unchanged.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| divider_chain output period (tdiv_a), postlayout arm (rerun) (`tdiv_a_s`) | s | `div_results` | arm=postlayout | 14 | 0 | 6.60115e-07 | 1.2986e-06 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
+| divider_chain output period (tdiv_b), postlayout arm (rerun) (`tdiv_b_s`) | s | `div_results` | arm=postlayout | 14 | 0 | 1.30012e-06 | 2.5686e-06 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
+| divider_chain supply current, postlayout arm (rerun) (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `div_results` | arm=postlayout | 14 | 0 | -0.000860848 | -0.000809456 | `tag`: baseline, code, edge; `mos_corner`: mos_ff, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.3; `p_word`: 10 distinct (000000 .. 111111) |
+
 ## SG13CMOS5L: schematic-level campaigns (current)
 
 ### loop-bw-pm-finetrim

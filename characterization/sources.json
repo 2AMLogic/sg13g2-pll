@@ -3790,6 +3790,153 @@
     "divider-speed"
    ],
    "record_sha256": "83d63f69a7ec74ea94b0c27f5a6c9762de697ef73d1d81ad5b0d390d3cb9335b"
+  },
+  {
+   "id": "postlayout-pex-loop-filter-rerun326",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "historical extractions at commit bd62f15 (layout record 20260923-020931-a95a887-dirty), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout",
+   "context": "extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised",
+   "conditions": "18 AC units (2 arms x 3 res corners x 3 temps) expanded to the 27-point corner x MoM-cap fraction matrix; ngspice-46; klt batch job klt-sim-bf8d98d51465",
+   "method": "AC response; zero/pole frequencies and total capacitance extracted (as RECORD-004)",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md",
+   "tables": [
+    {
+     "id": "lf_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/lf_results-rerun326.csv",
+     "sha256": "fef092003b311571bf28b7da062ae52b846de448423b7486deda6ef74a5a55eb"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "lf_results",
+     "column": "fz_hz",
+     "units": "Hz",
+     "quantity": "loop_filter zero frequency, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "lf_results",
+     "column": "fp_hz",
+     "units": "Hz",
+     "quantity": "loop_filter pole frequency, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "lf_results",
+     "column": "ctot_f",
+     "units": "F",
+     "quantity": "loop_filter total capacitance, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    }
+   ],
+   "notes": [
+    "Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); capacitances reproduce, absolute R1 (hence fz/fp) shifts -3.6% to +6.0% by resistor corner, reproduced exactly on the pinned tree for one deck (record section 3)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e"
+  },
+  {
+   "id": "postlayout-pex-divider-chain-rerun326",
+   "section": "sg13cmos5l-postlayout-pex-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "historical extractions at commit bd62f15 (layout record 20260923-020931-a95a887-dirty), NOT today's design; run on the batch fleet image whose ihp-sg13cmos5l tree is not the pinned checkout",
+   "context": "extracted (postlayout arm) vs frozen schematic, rerun on the batch fleet; only postlayout-arm rows summarised",
+   "conditions": "36 transient units (14 postlayout, 22 schematic) at mos_corner x temp x VDD, programming words per coverage; ngspice-46; 9 klt batch jobs of 4 decks",
+   "method": "transient; division period and supply current (as RECORD-004)",
+   "record": "sim/sg13cmos5l-postlayout-pex-pvt/records/RECORD-008-postlayout-pex-pvt-loop-filter-and-divider-chain-rerun.md",
+   "tables": [
+    {
+     "id": "div_results",
+     "path": "sim/sg13cmos5l-postlayout-pex-pvt/corners/div_results-rerun326.csv",
+     "sha256": "2cf822c7355caf538067367a71efd2619b0a421c643ab1c4d160d4b31af6b301"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "div_results",
+     "column": "tdiv_a_s",
+     "units": "s",
+     "quantity": "divider_chain output period (tdiv_a), postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    },
+    {
+     "table": "div_results",
+     "column": "tdiv_b_s",
+     "units": "s",
+     "quantity": "divider_chain output period (tdiv_b), postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    },
+    {
+     "table": "div_results",
+     "column": "idd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider_chain supply current, postlayout arm (rerun)",
+     "where": {
+      "arm": "postlayout"
+     },
+     "coverage_columns": [
+      "tag",
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "p_word"
+     ]
+    }
+   ],
+   "notes": [
+    "Supersedes the evidence claim of RECORD-004 (ADDENDUM-004); division ratio N identical on all 36 rows; tdiv_a differs on two ff/-40C rows by a shifted measurement edge, N unchanged."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e"
   }
  ]
 }
