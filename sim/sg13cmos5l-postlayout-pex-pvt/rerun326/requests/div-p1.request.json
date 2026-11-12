@@ -1,0 +1,44 @@
+{
+ "backend": "batch",
+ "engine": "ngspice",
+ "models": {
+  "pdk": "ihp-sg13cmos5l"
+ },
+ "decks": [
+  {
+   "id": "0f5410f367d0d5fa00c0",
+   "deck": "rendered/0f5410f367d0d5fa00c0/deck.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 7200
+  },
+  {
+   "id": "b4a59e7f0ad3469339dc",
+   "deck": "rendered/b4a59e7f0ad3469339dc/deck.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 7200
+  },
+  {
+   "id": "1f88242b0654b17b5ebf",
+   "deck": "rendered/1f88242b0654b17b5ebf/deck.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 7200
+  },
+  {
+   "id": "d984854594581b962485",
+   "deck": "rendered/d984854594581b962485/deck.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 7200
+  }
+ ],
+ "options": {
+  "timeout_s": 7200,
+  "max_workers": 8
+ },
+ "batch": {
+  "capacity_wait_s": 600
+ }
+}

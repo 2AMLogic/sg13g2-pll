@@ -1,0 +1,23 @@
+{
+ "backend": "batch",
+ "engine": "ngspice",
+ "models": {
+  "pdk": "ihp-sg13cmos5l"
+ },
+ "decks": [
+  {
+   "id": "00e12690324d50c1a7c7",
+   "deck": "rendered/00e12690324d50c1a7c7/deck.sp",
+   "inputs": [],
+   "outputs": [],
+   "timeout_s": 7200
+  }
+ ],
+ "options": {
+  "timeout_s": 7200,
+  "max_workers": 8
+ },
+ "batch": {
+  "capacity_wait_s": 600
+ }
+}
