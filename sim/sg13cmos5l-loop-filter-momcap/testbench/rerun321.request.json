@@ -1,0 +1,135 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "decks": [
+    {
+      "id": "r_asdrawn_res_typ_m40",
+      "deck": "rerun321/decks/r_asdrawn_res_typ_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_typ_27",
+      "deck": "rerun321/decks/r_asdrawn_res_typ_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_typ_125",
+      "deck": "rerun321/decks/r_asdrawn_res_typ_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_bcs_m40",
+      "deck": "rerun321/decks/r_asdrawn_res_bcs_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_bcs_27",
+      "deck": "rerun321/decks/r_asdrawn_res_bcs_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_bcs_125",
+      "deck": "rerun321/decks/r_asdrawn_res_bcs_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_wcs_m40",
+      "deck": "rerun321/decks/r_asdrawn_res_wcs_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_wcs_27",
+      "deck": "rerun321/decks/r_asdrawn_res_wcs_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_asdrawn_res_wcs_125",
+      "deck": "rerun321/decks/r_asdrawn_res_wcs_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_typ_m40",
+      "deck": "rerun321/decks/r_resized_res_typ_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_typ_27",
+      "deck": "rerun321/decks/r_resized_res_typ_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_typ_125",
+      "deck": "rerun321/decks/r_resized_res_typ_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_bcs_m40",
+      "deck": "rerun321/decks/r_resized_res_bcs_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_bcs_27",
+      "deck": "rerun321/decks/r_resized_res_bcs_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_bcs_125",
+      "deck": "rerun321/decks/r_resized_res_bcs_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_wcs_m40",
+      "deck": "rerun321/decks/r_resized_res_wcs_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_wcs_27",
+      "deck": "rerun321/decks/r_resized_res_wcs_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "r_resized_res_wcs_125",
+      "deck": "rerun321/decks/r_resized_res_wcs_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c1_m40",
+      "deck": "rerun321/decks/c_c1_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c1_27",
+      "deck": "rerun321/decks/c_c1_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c1_125",
+      "deck": "rerun321/decks/c_c1_125.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c2_m40",
+      "deck": "rerun321/decks/c_c2_m40.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c2_27",
+      "deck": "rerun321/decks/c_c2_27.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "c_c2_125",
+      "deck": "rerun321/decks/c_c2_125.sp",
+      "timeout_s": 1800
+    }
+  ],
+  "options": {
+    "timeout_s": 1800
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}
