@@ -4,6 +4,13 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-12
 
+- **PR #367**: sim: rerun RECORD-004 loop-filter and divider-chain arms on the batch fleet
+- **PR #366**: sim: run retry2 tier in run_rerun328.sh and tolerate all-tier failure
+- **PR #363**: sim: waveform check of retimed XFRT capture edge at 1562 MHz (RECORD-003)
+- **Issue #362** (closed): divider_chain: waveform-level check of retimed capture edge at 1562 MHz (RECORD-002 Finding 4)
+- **Issue #350** (closed): run_rerun328.sh does not invoke the retry2 tier its record relies on
+- **Issue #326** (closed): Item 9 campaign (#215 part 4/4): supersede postlayout-pex-pvt RECORD-004 (loop filter + divider chain)
+- **Issue #213** (closed): Item 9 campaign: PEX-signoff and lock-detector provenance
 - **PR #361**: sim: 9-corner retime and opposite-edge retiming evidence for row-3 closure (RECORD-002)
 - **Issue #189** (closed): divider_chain: size to close row 3 retiming at 1562 MHz (R-3, T1 item 5)
 
