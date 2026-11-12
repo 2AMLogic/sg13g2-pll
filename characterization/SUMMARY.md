@@ -707,6 +707,44 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | XFRT clk->Q: FB 50% crossing minus the capturing CK rising edge (`clkq_ps`) | ps | `capture_edges` | - | 8 | 0 | 383.8 | 488.2 | `corner`: tt/-40C, tt/27C; `edge`: fall, rise |
 
+### loop-filter-momcap-rerun321
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: loop_filter as drawn (XR1 rppd w=4u l=120u; XC1 cap_cmomi 40u/40u; XC2 10u/10u), frozen snapshot of fac4e4a
+- **Context**: schematic, pre-layout (single-device R1/C1/C2 extraction, closed-form fz/fp)
+- **Conditions**: 3 res corners x -40/27/125 C x 3 uniform MOM-cap fractions (-20/0/+20 %, an engineering placeholder band) = 27 rows; ngspice-46 on the klt batch fleet (probe klt-sim-ace9d0bf810c, grid klt-sim-c165c43bf163), runner klt 0.9.0; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin; not byte-identical to the original
+- **Method**: 24 klt sim batch decks (testbench/gen_rerun321.py) rendering the original extraction templates; collect_rerun321.py applies run.sh's arithmetic
+- **Record**: `sim/sg13cmos5l-loop-filter-momcap/records/RECORD-003-rc-corner-momcap-rerun-batch.md` (sha256 `75b585175a4d64d1bcceb81be38d512634dbe14ccdba1655ab16fee4a279f061`)
+- **Table `grid`**: `sim/sg13cmos5l-loop-filter-momcap/corners/results_rerun321.csv` (sha256 `6c089f496f1f5d5daed9dc5930c0ca76f25e174038dcfff9bafcee6f43751383`)
+- **Note**: Rerun of RECORD-001 (#321); R1 differs 0.15-0.90 % per row from the original on current PDK content; composite AC cross-check not rerun; MOM band is a placeholder, not a PDK number.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 (rppd) resistance (`r1_ohm`) | ohm | `grid` | - | 27 | 0 | 6909.24 | 8824.63 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop-filter zero fz = 1/(2 pi R1 C1) (`fz_hz`) | Hz | `grid` | - | 27 | 0 | 8.88686e+06 | 1.70257e+07 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop-filter pole fp (`fp_hz`) | Hz | `grid` | - | 27 | 0 | 1.58952e+08 | 3.04524e+08 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+
+### loop-filter-momcap-resized-rerun321
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: loop_filter with resized XR1 (rppd w=0.6u l=810u), frozen snapshot of ffec56a
+- **Context**: schematic, pre-layout (single-device R1/C1/C2 extraction, closed-form fz/fp)
+- **Conditions**: 3 res corners x -40/27/125 C x 3 uniform MOM-cap fractions (-20/0/+20 %, an engineering placeholder band) = 27 rows; ngspice-46 on the klt batch fleet (probe klt-sim-ace9d0bf810c, grid klt-sim-c165c43bf163), runner klt 0.9.0; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin; not byte-identical to the original
+- **Method**: 24 klt sim batch decks (testbench/gen_rerun321.py) rendering the original extraction templates; collect_rerun321.py applies run.sh's arithmetic
+- **Record**: `sim/sg13cmos5l-loop-filter-momcap/records/RECORD-004-r1-resize-momcap-rerun-batch.md` (sha256 `2bc724204bff570d34d7f49ed430d72f54c7d7d0734ed7c0ffbf18a582ff2ce7`)
+- **Table `grid`**: `sim/sg13cmos5l-loop-filter-momcap/corners/results_resized_rerun321.csv` (sha256 `0688dcc7e27108a4b03bcd40e01ec0746636bdc1437e7896391b9e25c76535d5`)
+- **Note**: Rerun of RECORD-002 (#321); R1 differs 0.99-6.25 % per row from the original and the resized/as-drawn R1 ratio is 42.7-46.5x (not the original's 44.15-44.18x); fz process+temp spread widens to x1.39.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 (rppd) resistance (`r1_ohm`) | ohm | `grid` | - | 27 | 0 | 295284 | 410538 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop-filter zero fz = 1/(2 pi R1 C1) (`fz_hz`) | Hz | `grid` | - | 27 | 0 | 191025 | 398380 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+| loop-filter pole fp (`fp_hz`) | Hz | `grid` | - | 27 | 0 | 3.41671e+06 | 7.12547e+06 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

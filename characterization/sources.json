@@ -3937,6 +3937,126 @@
     "divider-speed"
    ],
    "record_sha256": "b82114ca25069a40dc43c2ae0d3fbc13f039c933305a52db17c4870464348a2e"
+  },
+  {
+   "id": "loop-filter-momcap-rerun321",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "loop_filter as drawn (XR1 rppd w=4u l=120u; XC1 cap_cmomi 40u/40u; XC2 10u/10u), frozen snapshot of fac4e4a",
+   "context": "schematic, pre-layout (single-device R1/C1/C2 extraction, closed-form fz/fp)",
+   "conditions": "3 res corners x -40/27/125 C x 3 uniform MOM-cap fractions (-20/0/+20 %, an engineering placeholder band) = 27 rows; ngspice-46 on the klt batch fleet (probe klt-sim-ace9d0bf810c, grid klt-sim-c165c43bf163), runner klt 0.9.0; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin; not byte-identical to the original",
+   "method": "24 klt sim batch decks (testbench/gen_rerun321.py) rendering the original extraction templates; collect_rerun321.py applies run.sh's arithmetic",
+   "record": "sim/sg13cmos5l-loop-filter-momcap/records/RECORD-003-rc-corner-momcap-rerun-batch.md",
+   "tables": [
+    {
+     "id": "grid",
+     "path": "sim/sg13cmos5l-loop-filter-momcap/corners/results_rerun321.csv",
+     "sha256": "6c089f496f1f5d5daed9dc5930c0ca76f25e174038dcfff9bafcee6f43751383"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "grid",
+     "column": "r1_ohm",
+     "units": "ohm",
+     "quantity": "R1 (rppd) resistance",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "grid",
+     "column": "fz_hz",
+     "units": "Hz",
+     "quantity": "loop-filter zero fz = 1/(2 pi R1 C1)",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "grid",
+     "column": "fp_hz",
+     "units": "Hz",
+     "quantity": "loop-filter pole fp",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-001 (#321); R1 differs 0.15-0.90 % per row from the original on current PDK content; composite AC cross-check not rerun; MOM band is a placeholder, not a PDK number."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "75b585175a4d64d1bcceb81be38d512634dbe14ccdba1655ab16fee4a279f061"
+  },
+  {
+   "id": "loop-filter-momcap-resized-rerun321",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "loop_filter with resized XR1 (rppd w=0.6u l=810u), frozen snapshot of ffec56a",
+   "context": "schematic, pre-layout (single-device R1/C1/C2 extraction, closed-form fz/fp)",
+   "conditions": "3 res corners x -40/27/125 C x 3 uniform MOM-cap fractions (-20/0/+20 %, an engineering placeholder band) = 27 rows; ngspice-46 on the klt batch fleet (probe klt-sim-ace9d0bf810c, grid klt-sim-c165c43bf163), runner klt 0.9.0; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin; not byte-identical to the original",
+   "method": "24 klt sim batch decks (testbench/gen_rerun321.py) rendering the original extraction templates; collect_rerun321.py applies run.sh's arithmetic",
+   "record": "sim/sg13cmos5l-loop-filter-momcap/records/RECORD-004-r1-resize-momcap-rerun-batch.md",
+   "tables": [
+    {
+     "id": "grid",
+     "path": "sim/sg13cmos5l-loop-filter-momcap/corners/results_resized_rerun321.csv",
+     "sha256": "0688dcc7e27108a4b03bcd40e01ec0746636bdc1437e7896391b9e25c76535d5"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "grid",
+     "column": "r1_ohm",
+     "units": "ohm",
+     "quantity": "R1 (rppd) resistance",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "grid",
+     "column": "fz_hz",
+     "units": "Hz",
+     "quantity": "loop-filter zero fz = 1/(2 pi R1 C1)",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    },
+    {
+     "table": "grid",
+     "column": "fp_hz",
+     "units": "Hz",
+     "quantity": "loop-filter pole fp",
+     "coverage_columns": [
+      "res_corner",
+      "temp_c",
+      "mom_frac"
+     ]
+    }
+   ],
+   "notes": [
+    "Rerun of RECORD-002 (#321); R1 differs 0.99-6.25 % per row from the original and the resized/as-drawn R1 ratio is 42.7-46.5x (not the original's 44.15-44.18x); fz process+temp spread widens to x1.39."
+   ],
+   "gap_ids": [
+    "no-ratified-spec"
+   ],
+   "record_sha256": "2bc724204bff570d34d7f49ed430d72f54c7d7d0734ed7c0ffbf18a582ff2ce7"
   }
  ]
 }
