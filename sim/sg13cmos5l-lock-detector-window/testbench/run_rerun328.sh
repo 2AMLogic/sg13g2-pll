@@ -13,6 +13,7 @@
 #   ./run_rerun328.sh                       # RECORD-002's full grid -> corners/*_rerun328.*
 #
 # Writes only the `rerun328` suffix; run.sh's outputs, RECORD-001..007's files and the snapshots are never touched.
+# Errored units get a trtol=1 retry, then a retry2 (trtol=1 itl4=5000 gmin=1e-11); a unit failing both is warned about and becomes an NA row in reduce.
 #
 # WORKDIR (default: a fresh mktemp -d, kept) holds the generated requests,
 # decks, reports and raw stdout.  Phases are resumable: set WORKDIR to a prior
@@ -56,17 +57,26 @@ submit() {  # submit <request dir>  -> runs one klt sim, never falls back to loc
   grep -o '"job_id": *"[^"]*"' "$d/report.json" | head -1 | sed 's/^/[batch] /' >&2 || true
 }
 
-phase() {  # phase <name>: gen, submit, one trtol=1 retry for errored units
+passed() {  # passed <report.json>: status == pass
+  python3 -c "import json,sys;sys.exit(0 if json.load(open(sys.argv[1]))['status']=='pass' else 1)" "$1"
+}
+
+phase() {  # phase <name>: gen, submit, trtol=1 retry, then itl4/gmin retry2 for errored units
   gen "$1"
   submit "$WORKDIR/$1"
   if [ "$DRY" = 1 ]; then return 0; fi
   python3 -I "$HERE/batch_grid_rerun328.py" retry "$WORKDIR" "$1"
   if [ -s "$WORKDIR/$1_retry/request.json" ]; then
     submit "$WORKDIR/$1_retry"
-    if ! python3 -c "import json,sys;sys.exit(0 if json.load(open(sys.argv[1]))['status']=='pass' else 1)" \
-         "$WORKDIR/$1_retry/report.json"; then
-      echo "ERROR: unit(s) failed even with trtol=1 in $1 -- see $WORKDIR/$1_retry/report.json" >&2
-      exit 1
+    if ! passed "$WORKDIR/$1_retry/report.json"; then
+      # Only reached when a unit still failed at trtol=1, so retry2 always has >=1 unit.
+      python3 -I "$HERE/batch_grid_rerun328.py" retry2 "$WORKDIR" "$1"
+      submit "$WORKDIR/$1_retry2"
+      if ! passed "$WORKDIR/$1_retry2/report.json"; then
+        # Not fatal: a unit failing every tier becomes an NA row in `reduce`
+        # (batch_grid_rerun328.py _ladder_params).  A failed submit still exits above.
+        echo "WARN: unit(s) failed every solver tier in $1 -- see $WORKDIR/$1_retry2/report.json; reduce emits NA row(s)" >&2
+      fi
     fi
   fi
 }
