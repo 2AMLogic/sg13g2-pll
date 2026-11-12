@@ -637,7 +637,7 @@ the min/max.
 - **Context**: schematic, pre-layout, issue #189 remaining increment (RECORD-002)
 - **Conditions**: isolated-flop setup brackets at 9 PVT points (5 MOS corners at 27 C/3.3 V, tt at -40 and 125 C, tt at 2.97 and 3.63 V); ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-002)
 - **Method**: klt sim batch setup sweeps over width variants x 16 TSU points; t_setup bracket per variant and corner (testbench/analyze.py); closing bound F_close = 1/(t_arr + t_setup)
-- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-002-retime-and-structural.md` (sha256 `8dac7bdd0f67312ad4f84841eb8e6c9aac74686a9849d04b424fd1b3b8053ccb`)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-002-retime-and-structural.md` (sha256 `f18b78ab5d69cec057429359ef9bf65cf6abba54b97dd55f585662556b844215`)
 - **Table `setup_brackets_pvt9`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/setup-pvt9.csv` (sha256 `01bc541dc9b6775d2fa13d45b2fba4d4df34bd3aca8aab49437802cf82822245`)
 - **Note**: NOT MET: the closing bound of 1562.0 MHz at 9 corners was not reached by any variant (best deck-arithmetic bound 1301 MHz at tt/-40 C with opposite-edge retiming); ss/27 C and tt/125 C do not divide at 1562 MHz in any variant.
 - **Note**: TABLE IS A TRANSCRIPTION: setup-pvt9.csv is a 1:1 mechanical transcription of the 'setup' lines of corners/analysis-record002.txt into columns; no value was recomputed. Retime results are in the record and corners/analysis-record002.txt. Raw outputs: corners/raw-*.tar.gz.

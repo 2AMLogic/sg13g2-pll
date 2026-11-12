@@ -14,9 +14,10 @@
   `klt-sim-ea17b065013d` (576); slow-corner sweep `klt-sim-899cc848fb07` (14). No local `ngspice`
   was run. `klt sim --batch-set` crashes on `decks[]` requests (upstream 2AMLogic/klayout-tools#5317,
   #5337), so the requests were submitted as four separate `klt sim` invocations.
-- **PDK revision**: **not stamped** (the batch reports carry no PDK identity), so the ran-on revision is
-  inferred exactly as in RECORD-001 (`f7bca326...`, not the `sim/README.md` pin) and carries the same
-  PDK-confound caveat. Not re-established here.
+- **PDK revision**: `sim/README.md` pins `ihp-sg13cmos5l` `607e18d4bd9214a52575c194b4181ef449f9252f`. The
+  batch reports carry no PDK identity, so the ran-on revision is **inferred, not measured**, exactly as in
+  RECORD-001: `f7bca32694fe3d58be0cc7d9df4b9f5db7161a14` (the `.pdk-store.json` version), which is NOT the
+  README pin. The same PDK-confound caveat applies. Not re-established here.
 - **Reproduce**: `testbench/gen_sizing_requests.py` (`retime|setup <c:f>... [--corners tt|pvt9|slow2]
   [--n 127] [--freqs MHz,...]`; an `@neg` suffix on `f` clocks `XFRT` from an inverter on `CKIN_VCO`)
   writes decks, `manifest.json` and a request; `testbench/analyze.py corners/raw-*.tar.gz` reproduces
