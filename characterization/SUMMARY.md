@@ -586,6 +586,27 @@ the min/max.
 | t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets` | - | 24 | 0 | 500 | 1000 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
 | t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets` | - | 24 | 0 | 600 | 1500 | `variant`: cb_f1-0p5-0p5-1, cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f1-1-0p5-2, cb_f2-0p5-0p5-1, cb_f2-1-0p25-1, cb_f2-1-0p5-1, cb_fb; `corner`: mos_ff, mos_ss, mos_tt |
 
+### divider-retiming-sizing-setup-pvt9
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: dff_tg_hv variants (base; kf=.5; kf=.25; 2/.5/.5/1 on XFRT) in the row-3 repaired divider chain; baseline is the frozen divider_chain_repaired.spice
+- **Context**: schematic, pre-layout, issue #189 remaining increment (RECORD-002)
+- **Conditions**: isolated-flop setup brackets at 9 PVT points (5 MOS corners at 27 C/3.3 V, tt at -40 and 125 C, tt at 2.97 and 3.63 V); ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-002)
+- **Method**: klt sim batch setup sweeps over width variants x 16 TSU points; t_setup bracket per variant and corner (testbench/analyze.py); closing bound F_close = 1/(t_arr + t_setup)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-002-retime-and-structural.md` (sha256 `8dac7bdd0f67312ad4f84841eb8e6c9aac74686a9849d04b424fd1b3b8053ccb`)
+- **Table `setup_brackets_pvt9`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/setup-pvt9.csv` (sha256 `01bc541dc9b6775d2fa13d45b2fba4d4df34bd3aca8aab49437802cf82822245`)
+- **Note**: NOT MET: the closing bound of 1562.0 MHz at 9 corners was not reached by any variant (best deck-arithmetic bound 1301 MHz at tt/-40 C with opposite-edge retiming); ss/27 C and tt/125 C do not divide at 1562 MHz in any variant.
+- **Note**: TABLE IS A TRANSCRIPTION: setup-pvt9.csv is a 1:1 mechanical transcription of the 'setup' lines of corners/analysis-record002.txt into columns; no value was recomputed. Retime results are in the record and corners/analysis-record002.txt. Raw outputs: corners/raw-*.tar.gz.
+- **Note**: PDK-CONFOUNDED: the ran-on PDK revision is inferred, not stamped, and is not the README pin.
+- **Note**: UNRESOLVED: in-situ tfb-tdiv is consistent with next-edge capture, in conflict with these isolated-flop brackets (RECORD-002 Finding 4).
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| t_setup bracket lower bound (captures fail at or below this TSU) (`t_setup_lo_ps`) | ps | `setup_brackets_pvt9` | - | 36 | 0 | 500 | 600 | `variant`: cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f2-0p5-0p5-1, cb_fb; `corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt, mos_tt@2.97V, mos_tt@3.63V |
+| t_setup bracket upper bound (every tested TSU at or above this captures) (`t_setup_hi_ps`) | ps | `setup_brackets_pvt9` | - | 36 | 0 | 600 | 700 | `variant`: cb_f1-1-0p25-1, cb_f1-1-0p5-1, cb_f2-0p5-0p5-1, cb_fb; `corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt, mos_tt@2.97V, mos_tt@3.63V |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

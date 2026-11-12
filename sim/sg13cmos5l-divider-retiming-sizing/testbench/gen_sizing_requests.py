@@ -9,8 +9,15 @@ Scale 1 reuses the original subckt names (byte-identical to the frozen
 repaired snapshot). Stimuli, matrices and time arithmetic are those of
 ../../sg13cmos5l-divider-nrange-retiming/testbench/gen_rerun233_requests.py.
 
-Usage: gen_sizing_requests.py <stage> <c:f> [<c:f> ...] [--corners all|tt]
-  c, f: "b" (base) or kt/ki/kf/ko width scales (fwd-TG, storage-inv, feedback, out-buf)
+Usage: gen_sizing_requests.py <stage> <c:f> [<c:f> ...] [--corners all|tt|pvt9|slow2]
+                              [--n 64|127] [--freqs MHz,MHz,...]
+  c, f: "b" (base) or kt/ki/kf/ko width scales (fwd-TG, storage-inv, feedback, out-buf).
+        f may carry a "@neg" suffix: XFRT is then clocked from an inverter on CKIN_VCO
+        (opposite-edge retiming; structural variant, RECORD-002).
+  --corners slow2: retime stage at mos_ss/27 C and mos_tt/125 C only (corners that do not divide at 1562)
+  --corners pvt9: setup stage over the 9-point retime PVT list (default: 3-corner setup list)
+  --n 127: retime stage with P0..P5 = VDD (N=127) instead of N=64
+  --freqs: retime stage at these VCO frequencies (MHz) instead of 1562.0 (top of band)
   stage: setup | retime       writes <stage>_<tag>.request.json + decks/
 """
 import json, re, sys
@@ -96,8 +103,8 @@ def dff_variant(k):
     return "\n".join(out + [dff]) + "\n", f"dff_tg_hv_{tg}"
 
 
-def dut(kc, kf):
-    name = f"divider_chain_c{ktag(kc)}_f{ktag(kf)}.spice"
+def dut(kc, kf, neg=False):
+    name = f"divider_chain_c{ktag(kc)}_f{ktag(kf)}{'_neg' if neg else ''}.spice"
     extra_c, dffc = dff_variant(kc)
     extra_f, dfff = dff_variant(kf)
     text = SNAP
@@ -110,6 +117,9 @@ def dut(kc, kf):
     if kf is not None and kf != kc:
         text += "\n" + extra_f
     text = re.sub(r"^(XFRT .* )dff_tg_hv$", rf"\1{dfff}", text, flags=re.M)
+    if neg:  # opposite-edge retiming: XFRT captures on the falling VCO edge via a clock inverter
+        text = re.sub(r"^XFRT DIVOUT CKIN_VCO ", "XICKFRT CKIN_VCO CKFRTN VDD_DIV VSS inv_hv\n"
+                      "XFRT DIVOUT CKFRTN ", text, flags=re.M)
     DECKS.mkdir(exist_ok=True)
     (DECKS / name).write_text(text)
     return name, dfff
@@ -127,16 +137,24 @@ def subst(tmpl, **kw):
 def main():
     stage = sys.argv[1]
     args = [a for a in sys.argv[2:] if not a.startswith("--")]
-    tt_only = "--corners" in sys.argv and sys.argv[sys.argv.index("--corners") + 1] == "tt"
+    def opt(k, d):
+        return sys.argv[sys.argv.index(k) + 1] if k in sys.argv else d
+    cmode = opt("--corners", "all")
+    tt_only = cmode == "tt"
+    nn = int(opt("--n", "64"))
+    assert nn in (64, 127)
+    freqs = [float(x) for x in opt("--freqs", "1562.0").split(",")]
     args = [a for a in args if ":" in a]
     decks, man = [], {}
     for a in args:
-        sc, sf = (parse_k(x) for x in a.split(":"))
-        net, dfff = dut(sc, sf)
-        vt = f"c{ktag(sc)}_f{ktag(sf)}"
+        ac, af = a.split(":")
+        neg = af.endswith("@neg")
+        sc, sf = parse_k(ac), parse_k(af.removesuffix("@neg"))
+        net, dfff = dut(sc, sf, neg)
+        vt = f"c{ktag(sc)}_f{ktag(sf)}{'_neg' if neg else ''}"
         if stage == "setup":
             tcap = g(30e-12 + 8 * TPER_TOB); tsamp = g(30e-12 + 8.25 * TPER_TOB)
-            for mos, temp, vdd in (PVT_SETUP[:1] if tt_only else PVT_SETUP):
+            for mos, temp, vdd in (PVT_SETUP[:1] if tt_only else PVT if cmode == "pvt9" else PVT_SETUP):
                 for tsu in TSU_LIST:
                     t = subst("tb_dff_setup.sp.tmpl", CORNER_MOS=mos, TEMP=temp, VDD=vdd,
                               TPER=g(TPER_TOB), TON=g(0.5 * TPER_TOB), TCAP=tcap, TSU=tsu,
@@ -145,19 +163,27 @@ def main():
                     uid = f"setup_{vt}_{tag(mos, temp, vdd)}_{tsu}"
                     (DECKS / f"{uid}.sp").write_text(t)
                     decks.append({"id": uid, "deck": f"decks/{uid}.sp", "timeout_s": 1800})
-                    man[uid] = dict(stage=stage, vt=vt, mos=mos, temp=temp, vdd=vdd, tsu=tsu)
+                    man[uid] = dict(stage=stage, vt=vt, mos=mos, temp=temp, vdd=vdd, tsu=tsu, neg=neg)
         else:
-            for mos, temp, vdd in (PVT[:1] if tt_only else PVT):
-                t = subst("tb_div_retime.sp.tmpl", CORNER_MOS=mos, TEMP=temp, VDD=vdd,
-                          VDD50=repr(0.5 * vdd), TPER=format(TPER_TOB, ".8e"),
-                          TON=g(0.44 * TPER_TOB), TSTEP=g(0.02 * TPER_TOB),
-                          TSTOP=g(4.0 * 64 * TPER_TOB), TMEAS=g(1.05 * 64 * TPER_TOB),
-                          RELTOL="0.001", P0=0, P1=0, P2=0, P3=0, P4=0, P5=0, NETLIST=net)
-                uid = f"retime_{vt}_{tag(mos, temp, vdd)}"
-                (DECKS / f"{uid}.sp").write_text(t)
-                decks.append({"id": uid, "deck": f"decks/{uid}.sp", "timeout_s": 7200})
-                man[uid] = dict(stage=stage, vt=vt, mos=mos, temp=temp, vdd=vdd)
-    name = f"{stage}_" + "_".join(a.replace(":", "-").replace("/", "-").replace(".", "p") for a in args)
+            pv = 0 if nn == 64 else 1
+            for fmhz in freqs:
+                tper = 1e-6 / fmhz
+                for mos, temp, vdd in (PVT[:1] if tt_only else [PVT[1], PVT[6]] if cmode == "slow2" else PVT):
+                    t = subst("tb_div_retime.sp.tmpl", CORNER_MOS=mos, TEMP=temp, VDD=vdd,
+                              VDD50=repr(0.5 * vdd), TPER=format(tper, ".8e"),
+                              TON=g(0.44 * tper), TSTEP=g(0.02 * tper),
+                              TSTOP=g(4.0 * nn * tper), TMEAS=g(1.05 * nn * tper),
+                              RELTOL="0.001", P0=pv * vdd, P1=pv * vdd, P2=pv * vdd,
+                              P3=pv * vdd, P4=pv * vdd, P5=pv * vdd, NETLIST=net)
+                    suffix = f"_n{nn}" + ("" if fmhz == 1562.0 else f"_f{fmhz:g}")
+                    uid = f"retime_{vt}_{tag(mos, temp, vdd)}{suffix}"
+                    (DECKS / f"{uid}.sp").write_text(t)
+                    decks.append({"id": uid, "deck": f"decks/{uid}.sp", "timeout_s": 7200})
+                    man[uid] = dict(stage=stage, vt=vt, mos=mos, temp=temp, vdd=vdd, n=nn,
+                                    fmhz=fmhz, neg=neg)
+    name = f"{stage}_" + "_".join(a.replace(":", "-").replace("/", "-").replace(".", "p").replace("@", "") for a in args)
+    name += (f"_n{nn}" if stage == "retime" and nn != 64 else "") + ("_fsweep" if freqs != [1562.0] else "") \
+        + ("_pvt9" if cmode == "pvt9" and stage == "setup" else "") + ("_tt" if tt_only else "") + ("_slow2" if cmode == "slow2" else "")
     if len(name) > 100:
         import hashlib
         name = f"{stage}_set-" + hashlib.sha256(name.encode()).hexdigest()[:10]
