@@ -14,10 +14,14 @@ Usage: gen_sizing_requests.py <stage> <c:f> [<c:f> ...] [--corners all|tt|pvt9|s
   c, f: "b" (base) or kt/ki/kf/ko width scales (fwd-TG, storage-inv, feedback, out-buf).
         f may carry a "@neg" suffix: XFRT is then clocked from an inverter on CKIN_VCO
         (opposite-edge retiming; structural variant, RECORD-002).
+  --corners tt2: retime stage at mos_tt/27 C and mos_tt/-40 C only (the RECORD-003 waveform corners)
   --corners slow2: retime stage at mos_ss/27 C and mos_tt/125 C only (corners that do not divide at 1562)
   --corners pvt9: setup stage over the 9-point retime PVT list (default: 3-corner setup list)
   --n 127: retime stage with P0..P5 = VDD (N=127) instead of N=64
   --freqs: retime stage at these VCO frequencies (MHz) instead of 1562.0 (top of band)
+  --waves: retime stage only; the rendered deck copy also saves XFRT D/CK/Q (DIVOUT, CKIN_VCO, FB) and
+        its internal CLKB/M/S/SB nodes, adds `meas` of the capture edge and clk->Q, and writes the
+        saved nodes with `wrdata` (RECORD-003). The shared nrange-retiming template is not edited.
   stage: setup | retime       writes <stage>_<tag>.request.json + decks/
 """
 import json, re, sys
@@ -134,6 +138,23 @@ def subst(tmpl, **kw):
     return text.replace(".control\n", f".control\n{osdi}\n", 1)
 
 
+WAVE_SAVE = ".save v(ck) v(divout) v(fb) i(vdd) v(xdiv.xfrt.clkb) v(xdiv.xfrt.m) v(xdiv.xfrt.s) v(xdiv.xfrt.sb)"
+# nth rise/fall 50% crossings of CK (CKIN_VCO), DIVOUT (XFRT D) and FB (XFRT Q); n=2..5 covers the
+# window the RECORD-002 tdiv/tfb meas pair used (2nd rise) and the following edges.
+WAVE_MEAS = "\n".join(
+    [f"meas tran t_{sig}_r{n} when v({node})=@VDD50@ rise={n}" for sig, node in
+     (("ck", "ck"), ("div", "divout"), ("fb", "fb")) for n in range(2, 6)]
+    + [f"meas tran t_{sig}_f{n} when v({node})=@VDD50@ fall={n}" for sig, node in
+       (("ck", "ck"), ("div", "divout"), ("fb", "fb")) for n in range(2, 6)]
+    + ["wrdata waves.dat v(ck) v(divout) v(fb) v(xdiv.xfrt.clkb) v(xdiv.xfrt.m) v(xdiv.xfrt.s) v(xdiv.xfrt.sb)"])
+
+
+def add_waves(text):
+    assert ".save v(ck) v(divout) v(fb) i(vdd)" in text and "print tdiv tfb" in text
+    text = text.replace(".save v(ck) v(divout) v(fb) i(vdd)", WAVE_SAVE, 1)
+    return text.replace("print tdiv tfb", WAVE_MEAS + "\nprint tdiv tfb", 1)
+
+
 def main():
     stage = sys.argv[1]
     args = [a for a in sys.argv[2:] if not a.startswith("--")]
@@ -143,6 +164,8 @@ def main():
     tt_only = cmode == "tt"
     nn = int(opt("--n", "64"))
     assert nn in (64, 127)
+    waves = "--waves" in sys.argv
+    assert not waves or stage == "retime", "--waves applies to the retime stage"
     freqs = [float(x) for x in opt("--freqs", "1562.0").split(",")]
     args = [a for a in args if ":" in a]
     decks, man = [], {}
@@ -168,22 +191,25 @@ def main():
             pv = 0 if nn == 64 else 1
             for fmhz in freqs:
                 tper = 1e-6 / fmhz
-                for mos, temp, vdd in (PVT[:1] if tt_only else [PVT[1], PVT[6]] if cmode == "slow2" else PVT):
+                for mos, temp, vdd in (PVT[:1] if tt_only else [PVT[1], PVT[6]] if cmode == "slow2"
+                                       else [PVT[0], PVT[5]] if cmode == "tt2" else PVT):
                     t = subst("tb_div_retime.sp.tmpl", CORNER_MOS=mos, TEMP=temp, VDD=vdd,
                               VDD50=repr(0.5 * vdd), TPER=format(tper, ".8e"),
                               TON=g(0.44 * tper), TSTEP=g(0.02 * tper),
                               TSTOP=g(4.0 * nn * tper), TMEAS=g(1.05 * nn * tper),
                               RELTOL="0.001", P0=pv * vdd, P1=pv * vdd, P2=pv * vdd,
                               P3=pv * vdd, P4=pv * vdd, P5=pv * vdd, NETLIST=net)
+                    if waves:
+                        t = add_waves(t)
                     suffix = f"_n{nn}" + ("" if fmhz == 1562.0 else f"_f{fmhz:g}")
-                    uid = f"retime_{vt}_{tag(mos, temp, vdd)}{suffix}"
+                    uid = f"retime_{vt}_{tag(mos, temp, vdd)}{suffix}{'_waves' if waves else ''}"
                     (DECKS / f"{uid}.sp").write_text(t)
                     decks.append({"id": uid, "deck": f"decks/{uid}.sp", "timeout_s": 7200})
                     man[uid] = dict(stage=stage, vt=vt, mos=mos, temp=temp, vdd=vdd, n=nn,
-                                    fmhz=fmhz, neg=neg)
+                                    fmhz=fmhz, neg=neg, **({'waves': True} if waves else {}))
     name = f"{stage}_" + "_".join(a.replace(":", "-").replace("/", "-").replace(".", "p").replace("@", "") for a in args)
     name += (f"_n{nn}" if stage == "retime" and nn != 64 else "") + ("_fsweep" if freqs != [1562.0] else "") \
-        + ("_pvt9" if cmode == "pvt9" and stage == "setup" else "") + ("_tt" if tt_only else "") + ("_slow2" if cmode == "slow2" else "")
+        + ("_pvt9" if cmode == "pvt9" and stage == "setup" else "") + ("_tt" if tt_only else "") + ("_slow2" if cmode == "slow2" else "") + ("_tt2" if cmode == "tt2" else "") + ("_waves" if waves else "")
     if len(name) > 100:
         import hashlib
         name = f"{stage}_set-" + hashlib.sha256(name.encode()).hexdigest()[:10]
