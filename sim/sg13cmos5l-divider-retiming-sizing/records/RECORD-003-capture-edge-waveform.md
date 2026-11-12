@@ -10,8 +10,10 @@
   59 s), both Spot fleet, both `pass`, no local `ngspice`. The probe and the full request's tt/27 C unit give
   identical edge tables. The batch backend **does** return a `wrdata` output file (`waves.dat`), so no
   in-deck-`meas` fallback was needed for the conclusion.
-- **PDK revision**: as RECORD-001/002, the ran-on revision is **inferred, not measured** (batch reports carry no
-  PDK identity): `f7bca32694fe3d58be0cc7d9df4b9f5db7161a14`, NOT the `sim/README.md` pin. Not re-established.
+- **PDK revision**: `sim/README.md` pins `ihp-sg13cmos5l` `607e18d4bd9214a52575c194b4181ef449f9252f`. The
+  batch reports carry no PDK identity, so the ran-on revision is **inferred, not measured**, exactly as in
+  RECORD-001/002: `f7bca32694fe3d58be0cc7d9df4b9f5db7161a14` (the `.pdk-store.json` version), which is NOT the
+  README pin. The same PDK-confound caveat applies. Not re-established here.
 - **Reproduce**: `python3 -I testbench/gen_sizing_requests.py retime b:b --corners tt2 --waves` then
   `klt sim testbench/retime_b-b_tt2_waves.request.json --backend batch --wait-for-capacity 600 -o <dir>`;
   `python3 -I testbench/analyze_waves.py <dir>/<unit>/waves.dat 3.3` reproduces the table

@@ -658,7 +658,7 @@ the min/max.
 - **Context**: schematic, pre-layout, issue #362 (RECORD-003)
 - **Conditions**: 1562.0 MHz, tt/27 C and tt/-40 C at 3.3 V only; ngspice-46 on the klt batch fleet; ran-on PDK revision inferred (f7bca326), NOT the README pin (RECORD-003)
 - **Method**: klt sim batch retime deck with XFRT D/CK/Q and internal nodes saved (gen_sizing_requests.py --waves); 50% crossings read from wrdata output (testbench/analyze_waves.py --csv)
-- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-003-capture-edge-waveform.md` (sha256 `b1bbcf1bd5a9bbfa0827ac2498159bb0c92d42211c29056ae059f129e34aed8d`)
+- **Record**: `sim/sg13cmos5l-divider-retiming-sizing/records/RECORD-003-capture-edge-waveform.md` (sha256 `83d63f69a7ec74ea94b0c27f5a6c9762de697ef73d1d81ad5b0d390d3cb9335b`)
 - **Table `capture_edges`**: `sim/sg13cmos5l-divider-retiming-sizing/corners/capture-edge-waveform.csv` (sha256 `d00bace5948db9ee8b52e21916cf264ae27842a59d45f771fc96299d484b5f93`)
 - **Note**: TWO CORNERS ONLY: tt/27 C and tt/-40 C at 3.3 V; no other PVT point was run with waveforms.
 - **Note**: RISE k+1, FALL k+2: the rising DIVOUT edge is captured at the next CK edge (clk->Q 387 to 451 ps), the falling edge one period later; the isolated setup deck scores Q only within T/4 (RECORD-003 Finding 2).
