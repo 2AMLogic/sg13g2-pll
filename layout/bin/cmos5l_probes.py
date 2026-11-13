@@ -17,8 +17,10 @@ rather than on a remembered measurement.
   one), where `gen-compose` routes a minority of the declared nets and
   rejects the rest with ``crosses already-routed net`` (klayout-tools#1467),
   both on one routing plane and with a second one requested
-  (:data:`ROUTER_PROBE_CROSS_LAYER_ROLE`). This is the probe the local
-  router's continued existence actually rests on; the counts it reports are
+  (:data:`ROUTER_PROBE_CROSS_LAYER_ROLE`), with each attempt's composed GDS
+  tallied per drawing layer so the record says which metals the router
+  actually drew on (klayout-tools#1474, issue #383). This is the probe
+  the local router's continued existence actually rests on; the counts it reports are
   whatever this run's own plan and composition produce, not a quoted
   figure.
 * :func:`probe_generator_footprints` -- `klt gen mos_array`/`res_array` run
@@ -52,6 +54,8 @@ import json
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
+
+import klayout.db as kdb
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -156,6 +160,23 @@ ROUTER_PROBE_BLOCK = "cp"
 #: such a role at all.
 ROUTER_PROBE_CROSS_LAYER_ROLE = "metal2"
 
+#: Drawing layers every block-routing attempt reads its own composed output
+#: back on (issue #383). `metal1` (8/0) is the plane
+#: `routing.layer_role: "metal"` resolves to, and is also where every block's
+#: own terminal pads already sit; `metal2` (10/0) and `via1` (19/0) are what a
+#: *second* routing plane has to draw if it draws anything at all. Naming a
+#: `cross_block_layer_role` being accepted says only that the role name
+#: resolves -- a non-zero `metal2`/`via1` tally in the composed top cell is
+#: the only thing in this record that distinguishes "the second plane is
+#: really drawn, with vias down to the pads" from "the request is accepted and
+#: everything still lands on Metal1" (klayout-tools#1474). Layer numbers come
+#: from `cmos5l_devices`' own read-off table, not re-quoted here.
+ROUTER_PROBE_TALLY_LAYERS: tuple[tuple[str, tuple[int, int]], ...] = (
+    ("metal1", dev.L_METAL1),
+    ("via1", dev.L_VIA1),
+    ("metal2", dev.L_METAL2),
+)
+
 #: The `mos_array` `voltage_flavor` this design's MOS devices would need.
 #: DR-002 Decision 0 ratifies the **thick-gate-oxide (HV)** flavour, and the
 #: committed netlists instantiate `sg13_hv_nmos`/`sg13_hv_pmos`, so a
@@ -201,6 +222,50 @@ def _extracted_models(out_dir: Path, cell_name: str) -> list[str]:
             if token.startswith("sg13_") and token not in models:
                 models.append(token)
     return sorted(models)
+
+
+def _top_cell_layer_shapes(gds_path: Path, cell_name: str) -> dict[str, Any]:
+    """Shapes `cell_name` draws **in its own cell** on
+    :data:`ROUTER_PROBE_TALLY_LAYERS`.
+
+    Deliberately *not* a flattened tally. Every block this probe composes is
+    instantiated as an opaque child cell that already draws its own Metal1
+    terminal pads, contacts and markers, so a flattened count on 8/0 is
+    dominated by geometry `gen-compose` never touched. What the probe is
+    measuring is what the **router** added, and the router draws into the
+    composed top cell -- so counting that cell's own shapes, and nothing
+    reached through an instance, is what separates the two.
+
+    Returns a reason rather than raising when there is nothing to count: an
+    attempt that `gen-compose` rejected outright may leave no GDS at all, and
+    a probe whose job is to record what the tool did must record that case
+    too instead of failing the run that was measuring it.
+    """
+    summary: dict[str, Any] = {
+        "gds": gds_path.name,
+        "cell": cell_name,
+        "counted": False,
+        "reason": None,
+        "shapes": None,
+    }
+    if not gds_path.exists():
+        summary["reason"] = "no GDS written"
+        return summary
+    layout = kdb.Layout()
+    layout.read(str(gds_path))
+    cell = layout.cell(cell_name)
+    if cell is None:
+        summary["reason"] = f"no cell {cell_name!r} in the written GDS"
+        return summary
+    shapes: dict[str, int] = {}
+    for role, pair in ROUTER_PROBE_TALLY_LAYERS:
+        # `find_layer` returns None for a layer the file never declares, which
+        # is itself the answer ("nothing was drawn there"), not an error.
+        index = layout.find_layer(*pair)
+        shapes[role] = 0 if index is None else cell.shapes(index).size()
+    summary["counted"] = True
+    summary["shapes"] = shapes
+    return summary
 
 
 def probe_generator_footprints(
@@ -344,7 +409,16 @@ def probe_gen_compose_block_routing(
     2. **routed** (`routing.layer_role: "metal"`): the measurement itself;
     3. **routed with a second plane** (`routing.cross_block_layer_role`):
        records whether this PDK family even *has* a second routing metal role
-       for the router to fall back onto.
+       for the router to fall back onto -- and, since issue #383, whether
+       anything is actually drawn on it.
+
+    Every attempt's composed GDS is tallied in place (`top_cell_shapes`,
+    :func:`_top_cell_layer_shapes`) for the shapes the top cell itself draws
+    on Metal1, Via1 and Metal2. Exit code and routed-net count alone cannot
+    tell "the second-plane role resolves and the router really draws there"
+    from "the role resolves and everything still lands on Metal1" -- the
+    response carries no per-leg layer -- and that distinction is the whole of
+    klayout-tools#1474's remaining question.
 
     Single-pin nets are excluded because `gen-compose` rejects the whole
     request on one (`pins must be an array of at least 2 entries`); they are
@@ -462,8 +536,20 @@ def probe_gen_compose_block_routing(
     ):
         request_name = f"gen-compose.probe.{name}.request.json"
         (out_dir / request_name).write_text(json.dumps(request, indent=2) + "\n")
+        # All three attempts name the same `options.output`, so the file left
+        # behind at the end of the loop is only ever the last one's. Unlink it
+        # first and tally it immediately after, inside the loop: that is the
+        # only point at which the GDS on disk is unambiguously *this*
+        # attempt's, and it means an attempt that writes nothing is recorded
+        # as having written nothing rather than silently inheriting the
+        # previous attempt's geometry (issue #383).
+        probe_gds = out_dir / request["options"]["output"]
+        probe_gds.unlink(missing_ok=True)
         result = verifier.gen_compose(
             request_name, f"gen-compose.probe.{name}.json"
+        )
+        top_cell_shapes = _top_cell_layer_shapes(
+            probe_gds, request["options"]["cell_name"]
         )
         response = result["response"]
         nets = response.get("nets") or []
@@ -493,5 +579,6 @@ def probe_gen_compose_block_routing(
             "leg_rejection_reasons": dict(
                 sorted(reason_counts.items(), key=lambda kv: -kv[1])
             ),
+            "top_cell_shapes": top_cell_shapes,
         }
     return summary

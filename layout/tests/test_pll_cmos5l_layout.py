@@ -946,3 +946,110 @@ def test_route_rejects_a_track_order_that_disagrees_with_the_terminals():
         )
     with pytest.raises(route.RouteError):
         route.route(builder, cell, list(terminals), 10.0, track_order=["A"])
+
+
+# --- gen-compose block-routing layer tally (issue #383) ---------------------
+#
+# The `cross_block_layer_role` half of `probe_gen_compose_block_routing` rests
+# entirely on `_top_cell_layer_shapes`: the `gen-compose` response reports
+# per-leg `routed`/`route_length_um` but no per-leg *layer*, so whether the
+# second routing plane is genuinely drawn or merely accepted is read back off
+# the composed GDS. The probe itself runs `klt` and is recorded as evidence,
+# not simulated here -- what is unit-testable is that the reducer counts the
+# composed top cell's own geometry and nothing an instance brings with it.
+
+
+def _write_tally_fixture(path, *, with_router_geometry=True):
+    """A composed cell over one child, shaped like `gen-compose`'s output.
+
+    The child draws Metal1 terminal pads the way every block cell this probe
+    composes already does; the top cell draws what a two-layer router would
+    add on top of them.
+    """
+    builder = dev.Builder()
+    child = builder.open_cell("tally_child")
+    builder.box(dev.L_METAL1, 0.0, 0.0, 1.0, 0.3)
+    builder.box(dev.L_METAL1, 2.0, 0.0, 3.0, 0.3)
+    builder.box(dev.L_METAL1, 4.0, 0.0, 5.0, 0.3)
+    top = builder.open_cell("tally_top")
+    builder.instantiate(top, child, 0.0, 0.0)
+    if with_router_geometry:
+        builder.box(dev.L_METAL1, 0.0, 1.0, 5.0, 1.3)
+        builder.box(dev.L_METAL2, 0.0, 2.0, 5.0, 2.3)
+        builder.box(dev.L_METAL2, 0.0, 3.0, 5.0, 3.3)
+        builder.box(dev.L_VIA1, 0.2, 2.0, 0.4, 2.2)
+    dev.write_cell(builder, "tally_top", path)
+
+
+def test_layer_tally_counts_the_top_cells_own_shapes_not_its_children(tmp_path):
+    """The router's geometry is what the top cell itself draws.
+
+    The composed cell instantiates block cells that already carry their own
+    Metal1 pads -- three of them here. A flattened tally would report 4 on
+    Metal1 and credit the router with the blocks' own pads; the probe must
+    report the 1 shape `gen-compose` added.
+    """
+    gds = tmp_path / "tally_top.gds"
+    _write_tally_fixture(gds)
+    tally = probes._top_cell_layer_shapes(gds, "tally_top")
+    assert tally["counted"] is True
+    assert tally["reason"] is None
+    assert tally["shapes"] == {"metal1": 1, "via1": 1, "metal2": 2}
+
+
+def test_layer_tally_reports_zero_for_a_plane_nothing_was_drawn_on(tmp_path):
+    """A single-plane route is `metal2`/`via1` of 0, not a missing key.
+
+    This is the measurement that decides klayout-tools#1474: a second plane
+    that resolves but draws nothing has to come back as an explicit zero, or
+    the record cannot tell it from a plane that was never tallied.
+    """
+    gds = tmp_path / "flat.gds"
+    _write_tally_fixture(gds, with_router_geometry=False)
+    tally = probes._top_cell_layer_shapes(gds, "tally_top")
+    assert tally["counted"] is True
+    assert tally["shapes"] == {"metal1": 0, "via1": 0, "metal2": 0}
+
+
+def test_layer_tally_records_an_attempt_that_wrote_no_gds(tmp_path):
+    """A rejected attempt leaves no output; the probe records that, not a
+    traceback -- the run it is measuring must still finish and be committed."""
+    tally = probes._top_cell_layer_shapes(tmp_path / "absent.gds", "tally_top")
+    assert tally["counted"] is False
+    assert tally["shapes"] is None
+    assert tally["reason"] == "no GDS written"
+    assert tally["gds"] == "absent.gds"
+
+
+def test_layer_tally_records_a_gds_without_the_composed_cell(tmp_path):
+    """Same for output whose top cell is not the one that was asked for."""
+    gds = tmp_path / "tally_top.gds"
+    _write_tally_fixture(gds)
+    tally = probes._top_cell_layer_shapes(gds, "gencompose_other_probe")
+    assert tally["counted"] is False
+    assert tally["shapes"] is None
+    assert "gencompose_other_probe" in tally["reason"]
+
+
+def test_layer_tally_matches_klt_layers_on_the_committed_probe_record():
+    """The reducer agrees with `klt layers` on the record this repo ships.
+
+    `layout/sg13cmos5l-pll/reports/<record>/gencompose_cp_probe.gds` is the
+    two-layer attempt's own output, and the README's #1474 row is written from
+    it. Pinning the agreement here means the figure the prose cites and the
+    figure a future run reports cannot drift apart silently.
+    """
+    record = (
+        REPO_ROOT
+        / "layout"
+        / "sg13cmos5l-pll"
+        / "reports"
+        / "20261027-175228-74cf8d0-dirty"
+        / "gencompose_cp_probe.gds"
+    )
+    if not record.exists():  # pragma: no cover - record is committed
+        pytest.skip(f"no committed probe record at {record}")
+    tally = probes._top_cell_layer_shapes(record, "gencompose_cp_probe")
+    # `klt layers --top gencompose_cp_probe --flattened --format json` on this
+    # file reports the top cell as the sole contributor on 10/0 and 19/0.
+    assert tally["shapes"] == {"metal1": 76, "via1": 50, "metal2": 75}

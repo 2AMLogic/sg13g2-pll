@@ -331,15 +331,21 @@ custom-device-class `X … PARAMS:` card still cannot pass through
 device_map — **closed and retired** by #114's run, whose references pass
 no `device_map`),
 [#1467](https://github.com/2AMLogic/klayout-tools/issues/1467)
-(`gen-compose` leaves most nets on a block this size unrouted — open,
-re-probed every run; the current record's own probe measures **2 of 22**
-multi-pin nets routed on `cp` at this repo's pin, 6 of 22 with a second
-routing plane requested),
+(`gen-compose` leaves most nets on a block this size unrouted — **closed
+upstream 2026-09-15**, and its channel-track fix is present at this repo's
+pin; re-probed every run, the current record measures **2 of 22** multi-pin
+nets routed on `cp`, 6 of 22 with a second routing plane, *with* that fix
+in),
 [#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (filed
 because the IHP families exposed exactly one routing-metal role, so
-`gen-compose`'s escape hatch could not be named; **that rejection no longer
-reproduces** at this repo's pin — the record's two-layer attempt is
-accepted — open upstream), the pre-existing
+`gen-compose`'s escape hatch could not be named — **closed upstream
+2026-08-30 and fixed at this repo's pin**: the record's two-layer attempt is
+accepted *and* draws 75 `Metal2` + 50 `Via1` shapes in the composed top
+cell, measured by #383),
+[#1962](https://github.com/2AMLogic/klayout-tools/issues/1962) (the live
+successor to both: no layer/track assignment across many mutually-crossing
+nets in one composition, which is what still leaves 16 of those 22 nets
+unrouted and what keeps `cmos5l_route.py` alive — open), the pre-existing
 [#1440](https://github.com/2AMLogic/klayout-tools/issues/1440)
 (`klt extract --parasitics` rejected the deck — **closed via #2012**),
 [#2113](https://github.com/2AMLogic/klayout-tools/issues/2113)
