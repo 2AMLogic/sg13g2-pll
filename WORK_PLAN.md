@@ -33,6 +33,8 @@ Issues currently being built (`loom:building`).
 
 - **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
+- **#318**: Item 9: supersede sg13cmos5l-vco-kvco-table provenance (child of #216)
+- **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 
 ## PRs Awaiting Review
@@ -68,7 +70,7 @@ Issues carrying `loom:curated`.
 
 ## Proposed (Architect / Hermit)
 
-- **#360**: Migrate three pre-#261 layout records into the objects dedupe store (~100 MB) *(hermit)*
+- **#372**: Split the klt-gen capability probes out of pll_cmos5l_layout.py into a sibling module *(hermit)*
 
 ## Epics
 
@@ -86,7 +88,7 @@ Issues carrying `loom:curated`.
 | Very important | 0 |
 | Important | 1 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 3 |
+| In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
 | Curated | 14 |
