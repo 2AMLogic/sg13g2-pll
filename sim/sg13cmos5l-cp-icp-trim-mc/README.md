@@ -100,6 +100,11 @@ Full numbers, per-corner breakdown and every caveat:
 | `klt yield` sample-size verdict | **`insufficient`** — N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp |
 | `klt signoff` T1 item 6 | analog **`unmet` / `undersized_sample`** (was `no_evidence`); digital unchanged `unmet` / `no_evidence` |
 
+Since issue #385 the `+/-3.5 %` row of that table is a **historical**
+grading value, not a live bound — see "Limit (still needs a ruling)" below.
+Item 6 still grades `unmet` / `undersized_sample` against the committed
+`reports/yield.mc.json`; the manifest is not re-pointed at the re-grade.
+
 The dominant axis is **temperature, not process corner**: sigma is lower at
 125 C than at -40 C in all five process sections (-40 C: 3.963-4.765 %;
 125 C: 3.078-3.448 %), falling monotonically with temperature in four of
@@ -114,7 +119,7 @@ verdict is reported rather than engineered away: `klt yield`'s default
 is itself unratified, so its uncertainty dominates +/-2.47 pp of sampling
 noise. A ratified limit should land before a bigger campaign.
 
-## Limit (still needs a ruling)
+## Limit (still needs a ruling) — and `+/-3.5 %` is now RETIRED
 
 `spec/target-spec.md` row 7 (lock time) proposes **no number**, and no row
 carries a `cp` mismatch limit. The only quantitative statement in the repo
@@ -130,9 +135,47 @@ ratified spec number and the spec was not edited to add one. No
 `target_yield` is declared, so the `klt yield` envelope reports an estimate
 rather than a pass/fail against a number nobody ratified.
 
+**That derivation has since been measured and does not hold.** Issue #385
+re-measured the mismatch-to-static-phase-error gain on the committed DR-010
+`cp` (`../sg13cmos5l-closed-loop-lock/records/RECORD-014-cp-mismatch-phase-error-gain.md`,
+six injected mismatch points spanning -11.998 to +12.009 % at -40 / 27 /
+125 C): the slope is **-0.0394 to -0.0484 pp/pp**, about **30x smaller**
+than the 1.4293 pp/pp the `+/-3.5 %` value was divided out of and of the
+**opposite sign**, with a +0.754 to +0.842 pp intercept, and a
+linear-through-origin model is rejected (forcing the intercept to zero
+multiplies the fit residual by 22x to 90x). Across the whole measured span
+the worst static phase error is 1.3265 % against the 5 % criterion.
+`spec/decision-records/DR-013-cp-mismatch-limit.md` (proposed) therefore
+**retires `+/-3.5 %` as a row-7-derived bound** and proposes no replacement
+and no `target_yield`; `spec/target-spec.md` R-12 carries the ruling.
+
+`testbench/mc.request.json` is **not edited** — the committed request is
+what produced the committed samples, and editing it would invalidate
+`reports/sim.mc.json`'s provenance. Its `min -3.5 / max 3.5` is history, not
+a live bound.
+
 `corners/mc-samples.csv` carries every sample, so the yield can be
 recomputed against any later ratified limit without re-simulating — see
 `records/RECORD-002`, "Recomputing this against a different limit".
+`records/RECORD-003-regrade-proposed-limit.md` is the first such re-grade:
+`klt yield --limits testbench/yield.proposed-limit.limits.json` on the
+committed `reports/sim.mc.json`, against DR-013's **evidence-coverage**
+bound of `+/-11.92 %` (how far RECORD-014's evidence reaches, *not* a spec
+limit), writing `reports/yield.mc.proposed-limit.json` beside — never over —
+`reports/yield.mc.json`:
+
+| | `RECORD-002` (+/-3.5 %) | `RECORD-003` (+/-11.92 %) |
+|---|---|---|
+| empirical yield | 63.47 %, CI [60.97 %, 65.91 %] | **99.60 %, CI [99.13 %, 99.85 %]** |
+| Cpk / sigma-to-spec | 0.2734 / 0.820 | 0.9973 / 2.992 |
+| `sample_size.required_n` | 8907 | **154** |
+| `sample_size.verdict` | `insufficient` | **`sufficient`** |
+
+So no resize is indicated on sample-size grounds at that bound; a later
+ratified limit near the distribution's body would reopen the question, and
+`mc-samples.csv` makes answering it a re-grade rather than a re-run. The
+`negative_control` warning both envelopes carry is **not** cleared by the
+re-grade — see `records/RECORD-003`, "The `negative_control` warning".
 
 ## Cold start
 

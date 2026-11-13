@@ -1,0 +1,121 @@
+{
+ "baseline": [
+  {
+   "mismatch_pct": -0.339594853302,
+   "phase_mean_pct": 0.8390560537807534,
+   "temp_c": -40
+  },
+  {
+   "mismatch_pct": -0.298465212079,
+   "phase_mean_pct": 0.7661679379390882,
+   "temp_c": 27
+  },
+  {
+   "mismatch_pct": -0.260251322593,
+   "phase_mean_pct": -36.665908735828516,
+   "temp_c": 125
+  }
+ ],
+ "fref_hz": 20000000.0,
+ "issue": 385,
+ "n_final_cycles": 20,
+ "not_collected": [
+  {
+   "codes": [
+    "batch_poll_timeout"
+   ],
+   "corner_status": "error",
+   "reason": "report carries no crossing series for v(ref)/v(fb)",
+   "tag": "mm_n4",
+   "temp_c": -40
+  },
+  {
+   "codes": [
+    "batch_poll_timeout"
+   ],
+   "corner_status": "error",
+   "reason": "report carries no crossing series for v(ref)/v(fb)",
+   "tag": "mm_n4",
+   "temp_c": 27
+  },
+  {
+   "codes": [
+    "batch_poll_timeout"
+   ],
+   "corner_status": "error",
+   "reason": "report carries no crossing series for v(ref)/v(fb)",
+   "tag": "mm_n4",
+   "temp_c": 125
+  }
+ ],
+ "per_temperature": {
+  "-40": {
+   "free": {
+    "intercept": 0.8419869319641574,
+    "n": 6,
+    "r_squared": 0.9992070775005454,
+    "resid_max": 0.016312335234599296,
+    "resid_rms": 0.009364486838349177,
+    "slope": -0.03940418095587352
+   },
+   "n_excluded_unlocked": 0,
+   "n_points": 6,
+   "through_origin": {
+    "n": 6,
+    "resid_max": 0.9304389042259213,
+    "resid_rms": 0.840087544353559,
+    "slope": -0.03262858550721291
+   }
+  },
+  "125": {
+   "free": null,
+   "n_excluded_unlocked": 6,
+   "n_points": 0,
+   "through_origin": null
+  },
+  "27": {
+   "free": {
+    "intercept": 0.7540130265891204,
+    "n": 6,
+    "r_squared": 0.9927808502016585,
+    "resid_max": 0.058493963111495545,
+    "resid_rms": 0.034846863478938894,
+    "slope": -0.048423469183657857
+   },
+   "n_excluded_unlocked": 0,
+   "n_points": 6,
+   "through_origin": {
+    "n": 6,
+    "resid_max": 0.8249714941298524,
+    "resid_rms": 0.7528162220337993,
+    "slope": -0.04193130088211041
+   }
+  }
+ },
+ "pooled": {
+  "free": {
+   "intercept": 0.7979162555043892,
+   "n": 12,
+   "r_squared": 0.969806396576738,
+   "resid_max": 0.1561933008130527,
+   "resid_rms": 0.0654014666294003,
+   "slope": -0.04392871291054061
+  },
+  "n_excluded_unlocked": 6,
+  "n_points": 12,
+  "through_origin": {
+   "n": 12,
+   "resid_max": 0.8805728509729155,
+   "resid_rms": 0.798616092903003,
+   "slope": -0.03728299839752865
+  }
+ },
+ "screening_limit_model": {
+  "note": "the +/-3.5 % screening limit assumes this gain, through the origin",
+  "slope_pp_per_pp": 1.4292834890965733,
+  "source": "sim/sg13cmos5l-cp-icp-trim-mc/README.md 'Limit (still needs a ruling)'"
+ },
+ "slug": "sg13cmos5l-closed-loop-lock",
+ "x": "measured DC mismatch_pct of the perturbed cp snapshot",
+ "y": "final-20-cycle mean static phase error, % of T_ref"
+}
