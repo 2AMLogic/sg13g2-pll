@@ -61,3 +61,23 @@ cross-check at one point inside the amended range -> `crosscheck_resized.txt`
   linearisation; the `f_c < f_ref/10` criterion is exactly the guard-band
   that makes that approximation admissible, and it is *evaluated*, never
   assumed satisfied.
+
+## Batch rerun (issue #319, provenance migration)
+
+Every CSV and cross-check named above is retained unedited as history. Their
+evidence claims are superseded by same-bench reruns of the same matrices,
+driven by each original's own `run.sh` (extracted from git at its producing
+commit, with only the ngspice call replaced) on the `klt sim` batch fleet —
+see `../testbench/gen_rerun319.py`:
+
+| Original (commit) | Rerun output | Rerun record |
+|---|---|---|
+| `results.csv`, `mom_band.csv`, `proposal.csv`, `crosscheck.txt` (`b37918d`) | `results_rerun319.csv`, `mom_band_rerun319.csv`, `proposal_rerun319.csv`, `crosscheck_rerun319.txt` | `../records/RECORD-006-loop-bandwidth-pm-rerun-batch.md` |
+| the same four after the DR-006 `Icp` refresh (`f54b9ef`) | `results_icp_refresh_rerun319.csv`, `mom_band_icp_refresh_rerun319.csv`, `proposal_icp_refresh_rerun319.csv`, `crosscheck_icp_refresh_rerun319.txt` | `../records/RECORD-007-icp-input-refresh-rerun-batch.md` |
+| `results_resized.csv`, `crosscheck_resized.txt` (`ffec56a`) | `results_resized_rerun319.csv`, `crosscheck_resized_rerun319.txt`, plus the control arm `results_resized_origicp_rerun319.csv` / `crosscheck_resized_origicp_rerun319.txt` | `../records/RECORD-008-r1-resize-full-fref-range-rerun-batch.md` |
+
+Parts A - C reproduce the originals' verdicts exactly (0 of 90 rows meet
+PM >= 45 deg; the 162 lumped-element rows per snapshot are byte-identical).
+**Part D does not**: 14 of 426 verdicts flip and the full-3-bundle-coverage
+pass count is 14 of 17 rather than 16 of 17, isolated to PDK content —
+read `RECORD-008` before using `results_resized.csv`.

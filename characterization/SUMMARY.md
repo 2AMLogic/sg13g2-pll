@@ -764,6 +764,65 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | vco open-loop frequency (`freq_hz`) | Hz | `results` | - | 60 | 0 | 4.4526e+08 | 1.56197e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
 
+### loop-bw-pm-asdrawn-rerun319
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: as-drawn loop_filter (XR1 rppd w=4u l=120u; XC1 cap_cmomi 40u/40u; XC2 10u/10u), frozen snapshot of b37918d, with that commit's own Kvco / R-C / Icp input tables
+- **Context**: schematic, pre-layout (linearised open-loop AC around the real loop_filter subckt)
+- **Conditions**: 3 PVT bundles x 2 band codes x 2 Kvco intervals (mid/top) x the f_ref/N scenarios admissible at 25 and 10 MHz x 6 Icp trim codes = 90 real-subckt rows; ngspice-47 on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-2d7f64aa6964), runner klt 0.9.0, client klt 0.9.2.dev915; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin (#250); the originals state ngspice-46 and no host, so neither is reproduced
+- **Method**: 254 klt sim batch decks (testbench/gen_rerun319.py) re-driving b37918d's own run.sh Python with only the ngspice call replaced
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-006-loop-bandwidth-pm-rerun-batch.md` (sha256 `ccb81074f413721a7b252178a7b14adc52f33772968f7a1f5bfa3531b0f1b283`)
+- **Table `results`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_rerun319.csv` (sha256 `8c9e63dbe940160c87419371e5d75ddd525fd0ca6320415c51b1bb3aad0dea99`)
+- **Note**: Rerun of RECORD-001 (#319). Both headline verdicts reproduced: 0 of 90 rows meet PM >= 45 deg and 0 meet both criteria. Real-subckt f_c within 0.067 % and PM within 0.177 deg per row; the 162 lumped-element rows (mom_band_rerun319.csv, proposal_rerun319.csv, not selected here) are byte-identical to the originals, which places the drift on PDK content rather than the engine or harness.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| loop crossover frequency (`fc_hz`) | Hz | `results` | - | 90 | 0 | 331774 | 4.63711e+06 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: mid, top; `fref_hz`: 1.000000e+07, 2.500000e+07; `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| phase margin (all rows, including rows that fail the record's own PM threshold) (`pm_deg`) | deg | `results` | - | 90 | 0 | 1.552 | 20.508 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: mid, top; `fref_hz`: 1.000000e+07, 2.500000e+07; `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+
+### loop-bw-pm-icp-refresh-rerun319
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: as-drawn loop_filter, frozen snapshot of f54b9ef — identical to the b37918d arm except for the post-DR-006 Icp input table that commit introduced
+- **Context**: schematic, pre-layout (linearised open-loop AC around the real loop_filter subckt)
+- **Conditions**: 3 PVT bundles x 2 band codes x 2 Kvco intervals (mid/top) x the f_ref/N scenarios admissible at 25 and 10 MHz x 6 Icp trim codes = 90 real-subckt rows; ngspice-47 on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-f17f617026e2), runner klt 0.9.0, client klt 0.9.2.dev915; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin (#250); the originals state ngspice-46 and no host, so neither is reproduced
+- **Method**: 254 klt sim batch decks (testbench/gen_rerun319.py) re-driving f54b9ef's own run.sh Python with only the ngspice call replaced
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-007-icp-input-refresh-rerun-batch.md` (sha256 `eb6a8680a9327a9d9bc2a48963e91598b9d3d1c91f3a351956ccc86640a3383c`)
+- **Table `results`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_icp_refresh_rerun319.csv` (sha256 `74ce9d38ac588cd4723ba1f5f9d2a6ce901284731a26e86afaba3f7ff0e8f02e`)
+- **Note**: Rerun of RECORD-002 (#319). 0 of 90 rows meet PM >= 45 deg, 0 verdict flips, f_c within 0.068 % and PM within 0.178 deg of the original. Running this arm against the b37918d arm on one fleet, engine and PDK re-tests the original's own differential claim and reproduces it: max 0.782 % on icp_a, 0.392 % on fc_hz, 0.431 % on pm_deg, no verdict flips.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| loop crossover frequency (`fc_hz`) | Hz | `results` | - | 90 | 0 | 330678 | 4.63408e+06 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: mid, top; `fref_hz`: 1.000000e+07, 2.500000e+07; `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| phase margin (all rows, including rows that fail the record's own PM threshold) (`pm_deg`) | deg | `results` | - | 90 | 0 | 1.547 | 20.523 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: mid, top; `fref_hz`: 1.000000e+07, 2.500000e+07; `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+
+### loop-bw-pm-resized-rerun319
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: resized loop_filter (XR1 rppd w=0.6u l=810u, ~x44.2), frozen snapshot of ffec56a, with that commit's own input tables
+- **Context**: schematic, pre-layout (linearised open-loop AC around the real resized loop_filter subckt)
+- **Conditions**: 3 PVT bundles x 2 band codes x 3 Kvco intervals (low/mid/top) x the 12-point DR-005 amended f_ref grid where N lands in [64,127] x 6 Icp trim codes = 426 real-subckt rows; ngspice-47 on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-d87790059a38), runner klt 0.9.0, client klt 0.9.2.dev915; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin (#250); the originals state ngspice-46 and no host, so neither is reproduced; plus a 682-deck control arm (klt-sim-8b5077b2aa9f) on the Icp table the original actually consumed
+- **Method**: 682 klt sim batch decks per arm (testbench/gen_rerun319.py) re-driving ffec56a's own run.sh Python with only the ngspice call replaced; two arms differing only in the Icp input table
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-008-r1-resize-full-fref-range-rerun-batch.md` (sha256 `0269439c9892172611c70ef12e608204f2d95cf27de15251c0c8df6f845a9e6e`)
+- **Table `results_resized`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_rerun319.csv` (sha256 `33bbf5ed70784a0c72c5b57b60e49fd93c81ae6679daf8f9bd89a3fc63b7c4e0`)
+- **Table `results_resized_origicp`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_origicp_rerun319.csv` (sha256 `007fb8e832b704386f03d238f1125a899f6e15408ee6f92a9b78bd5cfe996e35`)
+- **Note**: Rerun of RECORD-002 (r1-resize) (#319). This rerun does NOT reproduce the original's headline count: 14 of 17 full-3-bundle-coverage (band, Kvco interval, f_ref) regions meet both criteria, not 16 of 17, with 14 verdict flips of 426 rows and PM differing by up to 1.997 deg. The two arms isolate the cause as PDK content (cornerRES.lib, amplified by the x44.2 R1 resize): the Icp input refresh alone flips 0 verdicts, the environment alone flips all 14.
+- **Note**: The original's committed results_resized.csv carries the pre-#72 Icp values its own tree had already superseded, so it is not what that commit's run.sh reproduces. Recorded, not corrected.
+- **Note**: Consequences for DR-007 (#83 gap absent on the current PDK) and DR-008 (#79 shortfall grows from 0.87 to 2.21 deg) are flagged in the record and deliberately NOT repointed here; see also #320 for the RECORD-003/004 arm.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| loop crossover frequency (`fc_hz`) | Hz | `results_resized` | - | 426 | 0 | 146998 | 1.03491e+07 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: low, mid, top; `fref_hz`: 10 distinct (4.500000e+06 .. 2.200000e+07); `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| phase margin (all rows, including rows that fail the record's own PM threshold) (`pm_deg`) | deg | `results_resized` | - | 426 | 0 | 17.443 | 59.199 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: low, mid, top; `fref_hz`: 10 distinct (4.500000e+06 .. 2.200000e+07); `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| loop crossover frequency (`fc_hz`) | Hz | `results_resized_origicp` | - | 426 | 0 | 147634 | 1.0356e+07 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: low, mid, top; `fref_hz`: 10 distinct (4.500000e+06 .. 2.200000e+07); `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+| phase margin (all rows, including rows that fail the record's own PM threshold) (`pm_deg`) | deg | `results_resized_origicp` | - | 426 | 0 | 17.441 | 59.199 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 11; `kvco_interval`: low, mid, top; `fref_hz`: 10 distinct (4.500000e+06 .. 2.200000e+07); `trim_code`: 10u, 2.5u, 20u, 40u, 5u, 80u |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error

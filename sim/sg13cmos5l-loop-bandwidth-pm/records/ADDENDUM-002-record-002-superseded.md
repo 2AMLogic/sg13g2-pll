@@ -1,0 +1,9 @@
+# ADDENDUM-002: RECORD-002 evidence claim superseded by a same-bench rerun
+
+Append-only provenance addendum (issue #319, Part of #214 / #199). It does not edit `RECORD-002-icp-input-refresh.md`. Contract: `sim/README.md` "Provenance addenda". It asserts nothing about the original run's host, ngspice build or PDK revision (the original states only "ngspice-46, installed `~/share/pdk/ihp-sg13cmos5l`, x86-64 Linux" and cites no revision); it only replaces the evidence claim with the measurement in `RECORD-007-icp-input-refresh-rerun-batch.md`, which carries the batch job ids, tool, command and PDK citation (cmos5l revision inferred `f7bca326`, not the README pin; limitation stated there). The rerun is not byte-identical in the real-subckt part: `f_c` within 0.068 %, PM within 0.178 deg per row, 0 verdict flips of 90, and the original's own claim — that refreshing the `Icp` input moves every output by well under 1 % and flips no verdict — is itself reproduced. The two lumped-element parts (`mom_band.csv`, `proposal.csv`) reproduce **byte-identically**.
+
+ADDENDUM-FOR: sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-icp-input-refresh.md
+ADDENDUM-KIND: superseded
+ADDENDUM-SHA256: 449062e1905ea888d23c4f2eb36713ee51a78f70e66f389b2295e3f2be71592d
+ADDENDUM-RERUN: sg13cmos5l-loop-bandwidth-pm/records/RECORD-007-icp-input-refresh-rerun-batch.md
+ADDENDUM-EVIDENCE: historical DUT rebuilt from git at the original's producing commit f54b9ef (frozen `loop_filter.spice` snapshot, the commit's own templates, matrix and refreshed Icp table), full 254-deck rerun on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-f17f617026e2, runner ngspice-47); real-subckt `f_c` within 0.068 % and PM within 0.178 deg per row, 0 verdict flips of 90; the 162 lumped-element rows reproduce byte-identically.
