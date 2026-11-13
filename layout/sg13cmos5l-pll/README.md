@@ -315,7 +315,10 @@ the first, and issue #35 re-measured the second:
    accepts both placement-only and a `routing` block. So this reason no
    longer holds today — see the friction log's #1462 row.
 2. **Past that fix it still leaves most of a block this design's size
-   unrouted** (klayout-tools#1467). First measured at `b10fa3c`, on a
+   unrouted.** Filed as klayout-tools#1467 and now tracked upstream as
+   klayout-tools#1962 — #1467's own fix shipped and is at this pin, and the
+   shortfall below was measured with it in (see the end of this item). First
+   measured at `b10fa3c`, on a
    smaller `cp` than today's (8 groups, 14 devices, 13 multi-pin nets, of
    which 1 routed — a *past* measurement of an earlier block, kept here only
    as the origin of #1467). Since issue #35 it is no longer a remembered
@@ -336,21 +339,42 @@ the first, and issue #35 re-measured the second:
    | --- | --- |
    | declare-only (no `routing`) | exit 3, all 22 nets accepted, 0 routed — every leg `routing not requested`, so the request itself is well-formed |
    | with `routing` (`layer_role: "metal"`) | exit 3, **2 of 22 nets routed**; 48 legs `crosses already-routed net 'DN'`, 7 `…'IBP'`, 1 `…'VDUMP'`, the rest geometry overlaps against the blocks' own drawn metal |
-   | with `routing.cross_block_layer_role: "metal2"` | exit 3, `error: null`, **6 of 22 nets routed** — the second plane *is* accepted at this pin, and the response's `drc_hints.notes` show it attempting "bounded same-block cross-layer detour"s; 66 legs still fail `crosses already-routed net 'DN'`, 37 `…'DNB'`, 19 `…'UP'` |
+   | with `routing.cross_block_layer_role: "metal2"` | exit 3, `error: null`, **6 of 22 nets routed** — the second plane is accepted at this pin *and drawn on*: the composed top cell itself carries 75 `Metal2` (10/0) and 50 `Via1` (19/0) shapes against 76 on `Metal1` (`attempts.block-routing-two-layer.top_cell_shapes`), and the response's `drc_hints.notes` show it attempting "bounded same-block cross-layer detour"s; 66 legs still fail `crosses already-routed net 'DN'`, 37 `…'DNB'`, 19 `…'UP'` |
 
    The third row changed under us and is the reason this passage is now
    cited to the record: when #35 measured it, naming a second metal role was
    rejected outright (`'metal2' is not a known layer role for PDK family
    'sg13cmos5l'`, exit 1), which is what **klayout-tools#1474** was filed
-   for. At this pin the role is accepted and the cross-layer detour is
-   attempted, and it triples the routed-net count — from 2 to 6 of 22 — but
-   does not come close to routing the block, because #1467's underlying gap
-   (no track assignment between nets, so an early net's backbone rejects the
-   rest) is untouched by it. Not established by the record: whether the six
-   routed nets actually drew any geometry on a second metal — the probe
-   response reports per-leg routing but not the layer each leg landed on, so
-   whether #1474 is fully fixed at this pin needs its own measurement. The
-   re-measurement itself is recorded on **klayout-tools#1467**.
+   for. At this pin the role is accepted, and the second plane is **really
+   drawn**. Read off the same record's committed
+   `gencompose_cp_probe.gds` — the two-layer attempt's own output — with
+   `klt layers --top gencompose_cp_probe --flattened --format json`, the
+   composed top cell draws **75 shapes on `Metal2` (10/0), 50 on `Via1`
+   (19/0) and 76 on `Metal1` (8/0)**, and it is the *only* contributor on
+   10/0 and 19/0: no instantiated device cell draws there, so every shape on
+   the second plane and every via down to the pads is the router's. That
+   settles #1474's remaining question — this is a substantive fix, not a role
+   name that merely resolves — and **#1474 closed upstream as completed on
+   2026-08-30**. Since issue #383 the same tally is taken on **every**
+   attempt, in-flow, as `attempts.<name>.top_cell_shapes` in `build.json`, so
+   the next run re-measures it instead of citing this paragraph.
+
+   **What is still short at this pin, and why `cmos5l_route.py` stays.** The
+   second plane lifts the routed-net count from **2 of 22 to 6 of 22** — and
+   that is the whole of it: 16 of 22 nets remain unrouted. Both figures were
+   measured with `klt` 0.8.0, which contains the fixes for *both* upstream
+   issues — #1474's role table (PR #1478) and **klayout-tools#1467**'s
+   per-net channel-track assignment (PR #1840); #1467 **closed upstream as
+   completed on 2026-09-15**, and `gh api
+   repos/2AMLogic/klayout-tools/compare/<each merge commit>...v0.8.0` returns
+   `behind_by: 0` for both. So the shortfall is not an unpicked-up fix
+   waiting on a pin bump: it is what the current tool does on a block of this
+   shape with both fixes present. That — not #1474, and no longer #1467 as
+   filed — is the live reason this flow keeps drawing its own interconnect.
+   The residual gap is reported upstream as a data point on the open
+   **[klayout-tools#1962](https://github.com/2AMLogic/klayout-tools/issues/1962)**
+   (no layer/track assignment across many mutually-crossing nets in one
+   composition), and the 0.8.0 figures are recorded on #1467 itself.
 
 ## Generator-vs-local footprints: measured, and kept local (#35)
 
@@ -721,8 +745,9 @@ first and filed there — generic tool-gap description only, no design content.
 | Gap | Filed | Status | Effect here |
 | --- | --- | --- | --- |
 | `klt erc` exits 1 ("no net ... has any geometry on the declared gate role") on a cell with **no transistor gate**, so a passive cell's supply nets and ties cannot be checked in the normal `active_layer` + `--deck` form. The message also points the user at layer numbers instead of the real cause. | [klayout-tools#2896](https://github.com/2AMLogic/klayout-tools/issues/2896) (filed by #147) | open | `loop_filter`'s item-11 ERC report uses a spec with no `active_layer`, run without `--deck`, so the rppd body becomes a fake "gate" in that run. The refused form's error envelope is committed in `reports/20261008-230856-cd95c87/`. |
-| `klt gen-compose`'s router has **no track assignment between nets**: nets routed early reject the rest with `crosses already-routed net`. First measured at `klt` `b10fa3c` on the `cp` of that day (8 groups, 14 devices, 13 multi-pin nets, ~180 µm × 16 µm): **1 of 13 nets routed**, independent of placement spacing. Re-taken on every run since (`gen-compose.probe.block-*.json`); in the record `reports/LATEST` names, `20261027-175228-74cf8d0-dirty`, `cp` has grown to 13 groups / 28 devices / 97 ports / 22 multi-pin nets and the single-layer attempt routes **2 of 22**, 48 legs rejected `crosses already-routed net 'DN'`. The gap reproduces; the numbers are the run's, not this row's. | [klayout-tools#1467](https://github.com/2AMLogic/klayout-tools/issues/1467) (filed by #29's pass; re-measurement recorded on it by #35) | open | This flow draws its own interconnect (`cmos5l_route.py`). This is the reason a pin bump past #1462 does *not* retire it. |
-| When filed (#35's pass), `gen.py`'s `_PDK_ROLE_LAYERS` gave both IHP families **exactly one routing metal role** (`metal` = `Metal1`, the device-pad layer), where sky130 and gf180mcu each get `metal`/`metal2`/`metal3` + `via1`/`via2`, so `gen-compose`'s `routing.cross_block_layer_role` could not be named at all: *"'metal2' is not a known layer role for PDK family 'sg13cmos5l'"*, exit 1. **That rejection no longer reproduces.** In the record `reports/LATEST` names, `20261027-175228-74cf8d0-dirty` (`klt` 0.8.0), the same request is accepted — exit 3 with `error: null`, 6 of 22 nets routed against 2 of 22 on one plane, and `drc_hints.notes` showing bounded same-block cross-layer detours being tried. | [klayout-tools#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (filed by #35's pass; the IHP sibling of the closed sky130/gf180mcu #433/#1058) | open upstream; **the filed symptom no longer reproduces at this pin** | Still compounds #1467 in effect: naming the second plane is accepted and does lift the routed-net count, but 16 of 22 nets remain unrouted because #1467's missing per-net track assignment is untouched. Not yet measured here: whether the routed nets actually draw on a second metal (the probe response does not report per-leg layers), so whether #1474 is substantively fixed or only no longer rejected needs its own probe before the row is closed. |
+| `klt gen-compose`'s router has **no track assignment between nets**: nets routed early reject the rest with `crosses already-routed net`. First measured at `klt` `b10fa3c` on the `cp` of that day (8 groups, 14 devices, 13 multi-pin nets, ~180 µm × 16 µm): **1 of 13 nets routed**, independent of placement spacing. Re-taken on every run since (`gen-compose.probe.block-*.json`); in the record `reports/LATEST` names, `20261027-175228-74cf8d0-dirty`, `cp` has grown to 13 groups / 28 devices / 97 ports / 22 multi-pin nets and the single-layer attempt routes **2 of 22**, 48 legs rejected `crosses already-routed net 'DN'`. The gap reproduces; the numbers are the run's, not this row's. | [klayout-tools#1467](https://github.com/2AMLogic/klayout-tools/issues/1467) (filed by #29's pass; re-measurement recorded on it by #35, and the 0.8.0 figures by #383) | **closed upstream as completed 2026-09-15** — its channel-track-assignment fix (PR #1840) is present at this repo's pin, so the 2-of-22 / 6-of-22 figures above were measured *with* it | This flow draws its own interconnect (`cmos5l_route.py`) — but the reason is now the #1962 row below, not this one. #1467 as filed is fixed; what a block of this shape still runs into is the unsolved layer/track assignment across many mutually-crossing nets. |
+| When filed (#35's pass), `gen.py`'s `_PDK_ROLE_LAYERS` gave both IHP families **exactly one routing metal role** (`metal` = `Metal1`, the device-pad layer), where sky130 and gf180mcu each get `metal`/`metal2`/`metal3` + `via1`/`via2`, so `gen-compose`'s `routing.cross_block_layer_role` could not be named at all: *"'metal2' is not a known layer role for PDK family 'sg13cmos5l'"*, exit 1. **That rejection no longer reproduces, and the fix is substantive.** In the record `reports/LATEST` names, `20261027-175228-74cf8d0-dirty` (`klt` 0.8.0), the same request is accepted — exit 3 with `error: null`, 6 of 22 nets routed against 2 of 22 on one plane — and the composed `gencompose_cp_probe.gds` carries real geometry on the second plane: by `klt layers --top gencompose_cp_probe --flattened --format json`, the top cell itself draws 75 shapes on `Metal2` (10/0), 50 on `Via1` (19/0) and 76 on `Metal1` (8/0), and is the only contributor on 10/0 and 19/0. | [klayout-tools#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (filed by #35's pass; the IHP sibling of the closed sky130/gf180mcu #433/#1058) | **closed upstream as completed 2026-08-30, and the fix (PR #1478) is present at this repo's pin** — re-measured by #383, which also made the per-attempt layer tally part of every run (`attempts.*.top_cell_shapes`) | **Retired as a gap.** The role is nameable, the router draws on the second metal and vias down to the pads. What it does *not* do is route the block: 16 of 22 nets still fail, which is the separate live gap in the #1962 row below — not this one, and not #1467 as filed. |
+| With both of the above fixed, `gen-compose` still leaves most of a dense multi-block composition unrouted: there is no layer/track assignment **across** nets, so the caller must pin every net's plane and waypoints by hand and discovers each conflict one invocation at a time. Measured at `klt` 0.8.0 on a 13-group / 28-device / 97-port block of 22 multi-pin nets: **2 of 22** routed on one plane, **6 of 22** with a second plane requested and genuinely drawn on — with the #1474 *and* #1467 fixes both present in that pin. | the already-open [klayout-tools#1962](https://github.com/2AMLogic/klayout-tools/issues/1962) (*"no help assigning layers/tracks across many mutually-crossing nets in one composition"*) — #383's pass recorded the SG13CMOS5L data point on it rather than opening a duplicate of a gap another port had already filed | open | **This is the live reason `cmos5l_route.py` exists**, and the one the two rows above hand off to. Re-measured on every run by `cmos5l_probes.probe_gen_compose_block_routing`; the day 22 of 22 route, the local router can go. |
 | Every `klt gen` generator (`mos_array`, `res_array`, `diff_pair`, `cap_array`) rejected the `ihp-sg13cmos5l` PDK family outright, so a technology `klt` could *verify* it could not *draw*. `gen.py`'s `_PDK_ROLE_LAYERS` had no `sg13cmos5l` entry. | [klayout-tools#1462](https://github.com/2AMLogic/klayout-tools/issues/1462) (filed by #24's pass) | **closed 2026-08-30T04:31Z, and now present at this repo's pin** (issue #31's own re-bump — `layout/requirements.txt` pins past its merge commit `b10fa3c6e`) | `klt gen mos_array`/`res_array` do now draw here, DRC-clean. **#35 re-evaluated the local footprints against that output and kept them** — see "Generator-vs-local footprints" above for the three measurements and the two upstream issues (#1472/#1473) that would have to land first. The `res_array` half already clears the bar and is the place a future swap starts. |
 | `mos_array`'s `voltage_flavor` param resolves to **no marker layer on either IHP family** (`_PDK_VOLTAGE_FLAVOR_LAYERS` has entries for gf180mcu and sky130 only), so a generated unit device carries no `ThickGateOx` (44/0) and extracts as the *thin*-oxide `sg13_lv_*` class. Reported honestly in `drc_hints.notes[]`, but with no params-level override to recover from. | [klayout-tools#1472](https://github.com/2AMLogic/klayout-tools/issues/1472) (new, filed by #35's pass; the family-coverage tail of the closed #1054) | open | One of the two reasons `cmos5l_devices.py` still draws the MOS footprints: this design's devices are the ratified HV flavour (DR-002 Decision 0), and generator output would extract as the wrong device class against every reference netlist. |
 | `klt gen mos_array --flavor pfet` draws the shared `NWell` but **no well tap and no `NWell.pin`**, and declares no body port, so every generated PMOS body extracts onto an anonymous net — `klt extract` reports it in `unbiased_pmos_body_nets[]`. Distinct from the closed deck-side #1414: the deck's tie derivation works fine, the generator just draws nothing for it to recognise. | [klayout-tools#1473](https://github.com/2AMLogic/klayout-tools/issues/1473) (new, filed by #35's pass) | open | The other reason the MOS footprints stay local: `draw_pfet_array_well` draws the tap and names the well with the *schematic's* own body net, which is what keeps `unbiased_pmos_body_nets[]` empty and gives LVS a body net to match. |
@@ -788,7 +813,12 @@ layout/sg13cmos5l-pll/
       gen-compose.probe.block-*.json  # the same probe against a REAL block
                                    #   (`cp`) — declare-only, routed, and
                                    #   routed-with-a-second-plane: the
-                                   #   klayout-tools#1467 re-measurement
+                                   #   klayout-tools#1962 re-measurement
+      gencompose_cp_probe.gds      # ...the composed cell the LAST of those
+                                   #   three attempts wrote (all three name
+                                   #   the same output), the file the
+                                   #   per-attempt `top_cell_shapes` layer
+                                   #   tally in build.json is taken from
       gen.probe.<probe>.json       # `klt gen mos_array`/`res_array` run on
                                    #   this design's own group params
       genprobe_<probe>.gds         # ...the cell each of those drew
