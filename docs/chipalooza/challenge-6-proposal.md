@@ -331,12 +331,15 @@ custom-device-class `X … PARAMS:` card still cannot pass through
 device_map — **closed and retired** by #114's run, whose references pass
 no `device_map`),
 [#1467](https://github.com/2AMLogic/klayout-tools/issues/1467)
-(`gen-compose` routes 1 of 13 nets on a block this size — open, re-probed
-every run; the current record's own probe measures **2 of 18** multi-pin
-nets on `cp` at this repo's pin),
-[#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (the IHP
-families expose exactly one routing-metal role, so `gen-compose`'s escape
-hatch cannot be named — open), the pre-existing
+(`gen-compose` leaves most nets on a block this size unrouted — open,
+re-probed every run; the current record's own probe measures **2 of 22**
+multi-pin nets routed on `cp` at this repo's pin, 6 of 22 with a second
+routing plane requested),
+[#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (filed
+because the IHP families exposed exactly one routing-metal role, so
+`gen-compose`'s escape hatch could not be named; **that rejection no longer
+reproduces** at this repo's pin — the record's two-layer attempt is
+accepted — open upstream), the pre-existing
 [#1440](https://github.com/2AMLogic/klayout-tools/issues/1440)
 (`klt extract --parasitics` rejected the deck — **closed via #2012**),
 [#2113](https://github.com/2AMLogic/klayout-tools/issues/2113)

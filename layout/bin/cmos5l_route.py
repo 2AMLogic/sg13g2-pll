@@ -22,24 +22,27 @@ placement. Two separate, both-measured reasons it is not used here:
 2. **Past that fix it still cannot route a block this size** -- which is why
    the pin moving does not retire this module. Measured directly against
    `klt`, with this flow's own placed groups, declared ports and
-   schematic-derived `connectivity[]`: on `cp`, the *smallest* block here (8
-   groups, 14 devices, 13 multi-pin nets), `klt gen-compose` routes **1 of 13
-   nets** and rejects the other twelve, essentially all with
-   ``crosses already-routed net 'DN'``. Its router has no track or layer
-   assignment between nets, so the first net accepted rejects the rest
-   regardless of how much empty space the composition has. Filed upstream as
-   **klayout-tools#1467**.
+   schematic-derived `connectivity[]`: on `cp`, the *smallest* block here,
+   `klt gen-compose` routes only a small minority of the declared nets and
+   rejects the rest, overwhelmingly with ``crosses already-routed net``. Its
+   router has no track assignment between nets, so a net it accepts early
+   rejects the rest regardless of how much empty space the composition has.
+   Filed upstream as **klayout-tools#1467**.
 
    First measured at `b10fa3c` (#1462's own merge commit) and, since issue
    #35, **re-measured on every run** rather than remembered:
    :func:`cmos5l_probes.probe_gen_compose_block_routing` rebuilds exactly
    that request from this run's own drawn groups and commits the raw
-   responses as `gen-compose.probe.block-*.json`. It reproduces unchanged at
-   the current pin. The same probe also asks for
-   ``routing.cross_block_layer_role`` -- the one mechanism `gen-compose` has
-   for moving a rejected net onto a different metal -- and this PDK family
-   has no second routing metal role to name (the role table exposes exactly
-   one, ``metal``), so that escape is unavailable here too.
+   responses as `gen-compose.probe.block-*.json`. The same probe also asks
+   for ``routing.cross_block_layer_role`` -- the one mechanism `gen-compose`
+   has for moving a rejected net onto a different metal -- as a third
+   attempt. **Do not quote any of those figures here**: how many nets each
+   attempt routed, and whether the second-plane attempt is accepted at the
+   current pin, are fields of the run's own record
+   (`build.json` -> `gen_compose_block_probe` -> `attempts`), and both have
+   already changed once under prose that claimed otherwise (issue #379).
+   `layout/sg13cmos5l-pll/README.md`'s "Past that fix..." passage carries
+   the current figures, cited to the record directory they came from.
 
 So this module draws the interconnect the same way `cmos5l_devices.py` draws
 the devices -- locally, with `klayout.db` -- and leaves the whole verification
