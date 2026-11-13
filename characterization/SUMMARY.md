@@ -772,7 +772,7 @@ the min/max.
 - **Context**: schematic, not extracted; ideal reference currents; UP/DN switches held static (DC)
 - **Conditions**: 5 mismatch-enabled MOS sections (mos_{tt,ss,ff,sf,fs}_mismatch) x -40/27/125 C x N = 100 = 1500 samples, monte_carlo seed 178, vary=mismatch; VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; batch fleet, 13 shards, client klt 0.9.2.dev930, runner klt 0.9.0, ngspice-47; pinned PDK model bytes staged with the job (ihp-sg13cmos5l 607e18d4..., resolving into ihp-sg13g2 5cccb161...)
 - **Method**: klt sim Monte Carlo over the process/temperature corner axes; one DC sweep of Vup over {0, VDD} per sample so both legs come from the same draw; klt yield (0.9.1) envelope over mismatch_pct
-- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md` (sha256 `bda958acad8ee02865f16bf731dd8f8f8ee111c133b6b846bd0109050118a857`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md` (sha256 `b2c468d8d76779806ff6432e30b74f80d9d60d095d89713ea1f91ef74ad63ea0`)
 - **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md` (sha256 `955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba`)
 - **Table `mc_samples`**: `sim/sg13cmos5l-cp-icp-trim-mc/corners/mc-samples.csv` (sha256 `050a211d68445e9e052ae46807008a4461b20aea8d50a1aee52ec8ee403abde2`)
 - **Note**: Yield estimate and confidence interval are in reports/yield.mc.json and RECORD-002, not here: this table is the raw sample set, so the yield stays recomputable against any later ratified limit without re-simulating.

@@ -100,11 +100,13 @@ Full numbers, per-corner breakdown and every caveat:
 | `klt yield` sample-size verdict | **`insufficient`** — N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp |
 | `klt signoff` T1 item 6 | analog **`unmet` / `undersized_sample`** (was `no_evidence`); digital unchanged `unmet` / `no_evidence` |
 
-The dominant axis is **temperature, not process corner**: sigma falls
-monotonically with temperature in all five process sections (-40 C:
-3.96-4.77 %; 125 C: 3.08-3.45 %), while the means stay within +/-1.02 %
-everywhere. The shortfall against the screening limit is distribution width,
-not offset.
+The dominant axis is **temperature, not process corner**: sigma is lower at
+125 C than at -40 C in all five process sections (-40 C: 3.963-4.765 %;
+125 C: 3.078-3.448 %), falling monotonically with temperature in four of
+them -- `mos_tt_mismatch` is flat between -40 C and 27 C (3.963 % ->
+3.973 %) before dropping to 3.121 % at 125 C -- while the means stay within
++/-1.02 % everywhere. The shortfall against the screening limit is
+distribution width, not offset.
 
 The campaign was run at the N the issue specifies, and the `insufficient`
 verdict is reported rather than engineered away: `klt yield`'s default

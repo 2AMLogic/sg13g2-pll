@@ -119,12 +119,18 @@ sigma and quantiles `klt sim` itself reported are in
   both 47/100 within the limit. `mos_sf_mismatch` / -40 C also carries the
   largest sigma, 4.765 %.
 - **Best corner**: `mos_tt_mismatch` / 125 C, 74/100, sigma 3.121 %.
-- **The dominant axis is temperature, not process corner.** Sigma falls
-  monotonically with temperature in every one of the five process sections
-  (-40 C: 3.96-4.77 %; 27 C: 3.20-4.31 %; 125 C: 3.08-3.45 %), while the
-  five process sections at a fixed temperature spread much less. The mean
-  stays within +/-1.02 % everywhere, so this is a spread effect, not an
-  offset effect.
+- **The dominant axis is temperature, not process corner.** Sigma is lower at
+  125 C than at -40 C in all five process sections (-40 C: 3.963-4.765 %;
+  27 C: 3.195-4.310 %; 125 C: 3.078-3.448 %), and falls monotonically with
+  temperature in four of the five. `mos_tt_mismatch` is the exception: it is
+  flat between -40 C and 27 C (3.963 % -> 3.973 %, a slight rise rather than a
+  fall) before dropping to 3.121 % at 125 C. At N = 100 a per-corner sigma
+  carries a few percent of relative sampling uncertainty, so the -40 C to 27 C
+  step is not resolved in every section; what the data does support is that
+  the 125 C sigma is below the -40 C sigma in all five. Either way the five
+  process sections at a fixed temperature spread much less than the
+  temperature axis does. The mean stays within +/-1.02 % everywhere, so this
+  is a spread effect, not an offset effect.
 - No corner's mean is anywhere near the limit; the shortfall is entirely
   distribution width. Cpk 0.273 and sigma-to-spec 0.820 say the same thing:
   the limit sits well under one sigma from the mean.
@@ -271,7 +277,7 @@ is the independent cross-check that this is the pinned closure.
   relative `sim.mc.json` the manifest citation hashes).
 - **Fleet**: `aws-batch-fleet`, `us-east-1`, all spot, AMI
   `ami-0f6bb304291339ed0`, instance types `m7i.4xlarge`, `m6i.4xlarge`,
-  `c7i.4xlarge`, `c6i.8xlarge`, `c7i.8xlarge` across AZs `us-east-1a/b/c/f`.
+  `c7i.4xlarge`, `c6i.8xlarge`, `c7i.8xlarge` across AZs `us-east-1a/b/c/d`.
   Submitted with `--wait-for-capacity 600`; several shards were refused
   `batch_no_capacity` first and re-launched with backoff, as intended. No
   grid was ever run locally.
