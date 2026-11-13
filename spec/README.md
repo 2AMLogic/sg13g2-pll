@@ -37,6 +37,15 @@
     output swing is single-ended, per node, rail-referenced into <= 50 fF;
     a downstream 5.0 GHz TX-mux clock requirement is recorded as not
     assessed. Proposed; no bound changed.
+  - [`DR-013-cp-mismatch-limit.md`](decision-records/DR-013-cp-mismatch-limit.md)
+    — retires the `+/-3.5 %` `cp` up/dn mismatch screening limit
+    `sim/sg13cmos5l-cp-icp-trim-mc` grades against (issue #385): the
+    mismatch-to-static-phase-error gain it was derived from was re-measured
+    on the DR-010 `cp` and is ~30x smaller, of the opposite sign, and not
+    through the origin. Proposes **no** replacement bound and no
+    `target_yield`, because spec row 7 does not constrain `cp` mismatch at
+    the measured sensitivity, and names which rows could set a limit
+    instead. Proposed; see target-spec R-12.
 
 - [`target-spec.md`](target-spec.md) — the **DRAFT** target spec (issue
   #148): one row per `porting-plan.md` §1.2 row, each marked measured /

@@ -1,0 +1,4902 @@
+{
+ "kind": "dc",
+ "requests": [
+  {
+   "job_id": "klt-sim-923c2bfbdbb9",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 8.898263540393e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -11.9984089992
+       }
+      ],
+      "monte_carlo": null,
+      "peak_rss_bytes": 50094080,
+      "process": "mos_tt",
+      "runtime_s": 0.217,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 8.897929561109e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741426e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -11.9616477257
+       }
+      ],
+      "monte_carlo": null,
+      "peak_rss_bytes": 50094080,
+      "process": "mos_tt",
+      "runtime_s": 0.217,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 8.897915085721e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -11.9267550727
+       }
+      ],
+      "monte_carlo": null,
+      "peak_rss_bytes": 50094080,
+      "process": "mos_tt",
+      "runtime_s": 0.216,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "e77a06bef7fa217aec7f54b7910ed6ec25cae1f430bea4f9b6f84838dae67e7d"
+      }
+     ],
+     "netlist_identity": "sha256:d4519f352cb0936c845105dc5a330ddb75a94bd7b4efc7a8bf2ce7456d906d43",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1a",
+      "client_collected_at": "2026-11-13T17:23:02.625482Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:22:30.628218Z",
+      "client_status_terminal_at": "2026-11-13T17:23:01.928944Z",
+      "client_submitted_at": "2026-11-13T17:20:11.418743Z",
+      "concurrency": "2",
+      "elapsed_seconds": 12,
+      "exit_code": "0",
+      "instance_id": "i-0be159ef502e2a1bd",
+      "instance_type": "c7i.8xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-923c2bfbdbb9",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "16",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 8.898263540393e-06
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 8.897915085721e-06
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 8.898263540393e-06
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -11.9267550727
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -11.9984089992
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -11.9984089992
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_n12/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-3cfb4e50692b",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.637796343276e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -4.02865567391
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.267,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.63772578446e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741426e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -3.98875678954
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.266,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.637932601135e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -3.95144538367
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.217,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "7361d917c093320537737ded30fc96f30d19f51aedb13647b4279e617ed4b8ff"
+      }
+     ],
+     "netlist_identity": "sha256:dfa978ecc22f6bec58c1627d62f34b86796e7726340f25fd6f15a6c90523800d",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1d",
+      "client_collected_at": "2026-11-13T17:25:22.170021Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:24:49.676047Z",
+      "client_status_terminal_at": "2026-11-13T17:25:21.367610Z",
+      "client_submitted_at": "2026-11-13T17:20:11.410291Z",
+      "concurrency": "2",
+      "elapsed_seconds": 7,
+      "exit_code": "0",
+      "instance_id": "i-0c23ccc137f365c40",
+      "instance_type": "c6i.8xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-3cfb4e50692b",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "16",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 9.637932601135e-06
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/27C",
+       "value": 9.63772578446e-06
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 9.637796343276e-06
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -3.95144538367
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -4.02865567391
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -4.02865567391
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_n4/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-b140388fd963",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.260892330258e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -8.0141151986
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.267,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.260691197152e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741425e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -7.97570153074
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.266,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 9.260789498047e-06
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -7.9395171953
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.217,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a7209748f808fafc86c5a351685bfb2033f628edaa5dee9dccb2b48880989f55"
+      }
+     ],
+     "netlist_identity": "sha256:71ef0f8311450bf3ad94d7a3604b5eaf09ba587c742479e41a51a96a5da1bca6",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1d",
+      "client_collected_at": "2026-11-13T17:25:23.543463Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:24:51.049895Z",
+      "client_status_terminal_at": "2026-11-13T17:25:22.755637Z",
+      "client_submitted_at": "2026-11-13T17:20:11.417518Z",
+      "concurrency": "1",
+      "elapsed_seconds": 9,
+      "exit_code": "0",
+      "instance_id": "i-045d96f47cbde41f6",
+      "instance_type": "m6i.4xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-b140388fd963",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "8",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 9.260892330258e-06
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/27C",
+       "value": 9.260691197152e-06
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 9.260892330258e-06
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -7.9395171953
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -8.0141151986
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -8.0141151986
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_n8/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-15f71a66abe5",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.000003449455e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -0.339594853302
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.268,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.00000827666e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741425e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -0.298465212079
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.268,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.000038614721e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": -0.260251322593
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.216,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+     ],
+     "netlist_identity": "sha256:60a778d5cee046f88e0ea7dedb6f1ee57c7d5d556f3430fbbdb0b09aa2aae4a0",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1d",
+      "client_collected_at": "2026-11-13T17:22:22.212845Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:21:50.215566Z",
+      "client_status_terminal_at": "2026-11-13T17:22:21.494037Z",
+      "client_submitted_at": "2026-11-13T17:20:11.415415Z",
+      "concurrency": "1",
+      "elapsed_seconds": 10,
+      "exit_code": "0",
+      "instance_id": "i-0e00f446af83a148d",
+      "instance_type": "m6i.4xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-15f71a66abe5",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "8",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 1.000038614721e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 1.000003449455e-05
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 1.000003449455e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -0.260251322593
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -0.339594853302
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -0.339594853302
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_nom/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-3eae08510ab2",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.130640751499e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 11.92435116033
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.266,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.13068369357e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741425e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 11.9686375673
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.266,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.130743354505e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 12.00894882189
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.268,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "8cc3d99a48cf5af06af3aae59cba85b42aaa124b210ffbf8efa1c061c85a1a23"
+      }
+     ],
+     "netlist_identity": "sha256:f4ab427b1317f84127018f535d39de3fb52cdd7bd3ce769f691d4ce02a5e3e4e",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1d",
+      "client_collected_at": "2026-11-13T17:26:24.084501Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:25:51.966592Z",
+      "client_status_terminal_at": "2026-11-13T17:26:23.354003Z",
+      "client_submitted_at": "2026-11-13T17:22:22.238464Z",
+      "concurrency": "1",
+      "elapsed_seconds": 8,
+      "exit_code": "0",
+      "instance_id": "i-06172652f9ce9ff07",
+      "instance_type": "m6i.4xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-3eae08510ab2",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "8",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 1.130743354505e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 1.130640751499e-05
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 1.130640751499e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 12.00894882189
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 11.92435116033
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 11.92435116033
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_p12/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-342bb0c16e22",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.043792969954e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 3.945664378276
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.218,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.043811357571e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741425e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 3.988056322457
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.216,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.04385243517e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 4.027156115714
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.166,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "30d0c0def9c84db59411fdb63a635dee5fdd7941ad2d8e4694f098bf1e5428c6"
+      }
+     ],
+     "netlist_identity": "sha256:ae4f4612880df057e5f8f6cf86dc267a0d756a750c1349c8697fb4ea2da41dca",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1a",
+      "client_collected_at": "2026-11-13T17:25:26.009961Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:24:22.560010Z",
+      "client_status_terminal_at": "2026-11-13T17:25:25.083020Z",
+      "client_submitted_at": "2026-11-13T17:23:02.649155Z",
+      "concurrency": "1",
+      "elapsed_seconds": 43,
+      "exit_code": "0",
+      "instance_id": "i-0c90c8598111a95a0",
+      "instance_type": "m7i.4xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-342bb0c16e22",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "8",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 1.04385243517e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 1.043792969954e-05
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 1.043792969954e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 4.027156115714
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 3.945664378276
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 3.945664378276
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_p4/request.json",
+   "status": "pass"
+  },
+  {
+   "job_id": "klt-sim-e194cca7b641",
+   "report": {
+    "corner_count": 3,
+    "corners": [
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/-40C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.086309075505e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00340518576e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 7.934471356504
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.268,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": -40
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/27C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.086339851573e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00299741425e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 7.97788262197
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.216,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 27
+     },
+     {
+      "artifacts": {
+       "deck": null,
+       "log": null,
+       "raw": null,
+       "waveform": null
+      },
+      "corner_id": "mos_tt/novdd/125C",
+      "diagnostics": [],
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+       {
+        "margin": null,
+        "name": "iup_a",
+        "status": "pass",
+        "unit": "A",
+        "value": 1.086390453757e-05
+       },
+       {
+        "margin": null,
+        "name": "idn_a",
+        "status": "pass",
+        "unit": "A",
+        "value": -1.00264461952e-05
+       },
+       {
+        "margin": null,
+        "name": "mismatch_pct",
+        "status": "pass",
+        "unit": "%",
+        "value": 8.017657080756
+       }
+      ],
+      "monte_carlo": null,
+      "process": "mos_tt",
+      "runtime_s": 0.217,
+      "status": "pass",
+      "supply_v": {},
+      "temperature_c": 125
+     }
+    ],
+    "coverage": {
+     "checked": [
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/observation",
+      "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/observation"
+     ],
+     "corners_simulated": 3,
+     "inapplicable": [
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[0,\"mos_tt/novdd/-40C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[1,\"mos_tt/novdd/27C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"idn_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"iup_a\"]/limits",
+       "reason": "characterization_without_limits"
+      },
+      {
+       "id": "measurement:[2,\"mos_tt/novdd/125C\",\"mismatch_pct\"]/limits",
+       "reason": "characterization_without_limits"
+      }
+     ],
+     "known": true,
+     "measurements_declared": 3,
+     "measurements_with_limits": 0,
+     "nothing_checked": false,
+     "nothing_checked_reasons": [],
+     "schema_version": 1,
+     "skipped": [],
+     "unknown": [],
+     "unrecognized_limit_keys": []
+    },
+    "diagnostic_counts": {
+     "by_code": {},
+     "by_severity": {},
+     "corners_with_diagnostics": 0
+    },
+    "environment": {
+     "backend": {
+      "requested": "batch",
+      "resolved": "batch",
+      "source": "flag"
+     },
+     "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+     "engine": "ngspice",
+     "engine_build": {
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null,
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******"
+     },
+     "engine_host": "worker",
+     "engine_version": "47",
+     "models_lib": {
+      "path": null,
+      "scope": "external"
+     },
+     "models_lib_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+     "models_lib_sha256_scope": "client",
+     "netlist_closure": [
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b"
+      },
+      {
+       "path": null,
+       "scope": "external",
+       "sha256": "7f9f786d1163ee32c99ba0f6a488b622ceba00c5dc9fc50d56163aaffb66013d"
+      }
+     ],
+     "netlist_identity": "sha256:f15aca216240e563665a678b146514e9d4a2508efdbd6264e7c7d3c125e2679b",
+     "netlist_sha256": "a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+     "ngspice_binary": "/usr/local/bin/ngspice",
+     "osdi_preload": [
+      {
+       "name": "psp103.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "name": "psp103_nqs.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "name": "mosvar.osdi",
+       "path": null,
+       "scope": "external",
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+     ],
+     "remote": {
+      "ami_id": "ami-0f6bb304291339ed0",
+      "availability_zone": "us-east-1f",
+      "client_collected_at": "2026-11-13T17:26:28.304979Z",
+      "client_klt_version": "0.9.2.dev964+g02db14ecf46b",
+      "client_launched_at": "2026-11-13T17:25:56.235872Z",
+      "client_status_terminal_at": "2026-11-13T17:26:27.601616Z",
+      "client_submitted_at": "2026-11-13T17:25:22.203898Z",
+      "concurrency": "2",
+      "elapsed_seconds": 9,
+      "exit_code": "0",
+      "instance_id": "i-0e680e5337b6ee2dc",
+      "instance_type": "c7i.8xlarge",
+      "job_ceiling": {
+       "basis": "conservative_serial_bound",
+       "check": "split",
+       "effective_hosts": 1,
+       "exceeds_ceiling": false,
+       "job_bound_s": 300.0,
+       "max_job_seconds": 3600.0,
+       "max_job_seconds_source": "fleet_config",
+       "max_units_per_job": 58,
+       "overhead_s": 120.0,
+       "per_unit_timeout_s": 60,
+       "recommended_hosts": 1,
+       "split": false,
+       "unit_count": 3
+      },
+      "job_id": "klt-sim-e194cca7b641",
+      "lifecycle": "spot",
+      "models_lib_comparison": {
+       "reason": "models_staged",
+       "status": "not_comparable"
+      },
+      "physical_cores": "16",
+      "provider": "aws-batch-fleet",
+      "region": "us-east-1",
+      "runner_compatibility": "match",
+      "runner_klt_version": "0.9.0",
+      "runner_model_inputs": [
+       {
+        "name": "corner_mm.lib",
+        "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+       },
+       {
+        "name": "psp103.osdi",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+       },
+       {
+        "name": "psp103_nqs.osdi",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+       },
+       {
+        "name": "mosvar.osdi",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+       },
+       {
+        "name": "cornerMOShv.lib",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+       },
+       {
+        "name": "cornerRES.lib",
+        "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+       },
+       {
+        "name": "sg13g2_moshv_mod.lib",
+        "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+       },
+       {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+       },
+       {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+       },
+       {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+       },
+       {
+        "name": "sg13g2_moshv_stat.lib",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+       },
+       {
+        "name": "resistors_mod.lib",
+        "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+       },
+       {
+        "name": "resistors_mod_mismatch.lib",
+        "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+       },
+       {
+        "name": "resistors_stat.lib",
+        "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+       },
+       {
+        "name": "sg13g2_moshv_parm.lib",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+       }
+      ],
+      "runner_models_lib_sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+      "runner_request_features": {
+       "missing": [],
+       "required": [
+        "measurements[].expr",
+        "options.ngspice_init",
+        "options.osdi_preload",
+        "options.stage_model_inputs"
+       ],
+       "status": "supported"
+      },
+      "spot": true,
+      "state": "done",
+      "worker_environment": {
+       "capture": "ok",
+       "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+       "diagnostics": [],
+       "engine_build_comparison": {
+        "status": "match"
+       },
+       "image_manifest": null,
+       "model_inputs": [
+        {
+         "name": "corner_mm.lib",
+         "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a"
+        },
+        {
+         "name": "psp103.osdi",
+         "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+        },
+        {
+         "name": "psp103_nqs.osdi",
+         "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+        },
+        {
+         "name": "mosvar.osdi",
+         "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+        },
+        {
+         "name": "cornerMOShv.lib",
+         "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+         "name": "cornerRES.lib",
+         "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61"
+        },
+        {
+         "name": "sg13g2_moshv_mod.lib",
+         "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod.lib",
+         "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+        },
+        {
+         "name": "sg13g2_moshv_mismatch.lib",
+         "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+         "name": "sg13g2_moshv_mod_mismatch.lib",
+         "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e"
+        },
+        {
+         "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+         "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+        },
+        {
+         "name": "sg13g2_moshv_stat.lib",
+         "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+         "name": "resistors_mod.lib",
+         "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+        },
+        {
+         "name": "resistors_mod_mismatch.lib",
+         "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+        },
+        {
+         "name": "resistors_stat.lib",
+         "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+        },
+        {
+         "name": "sg13g2_moshv_parm.lib",
+         "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+       ],
+       "omp_num_threads": null,
+       "pdk": {
+        "models_staged": true,
+        "root": "/opt/pdk",
+        "stamp_scheme": null,
+        "stamp_scope": "image",
+        "stamp_sha256": null,
+        "stamp_text": null,
+        "variant": null
+       },
+       "pdk_stamp_comparison": {
+        "basis": "staged_model_inputs",
+        "status": "match"
+       },
+       "simulator": {
+        "binary_source": "PATH",
+        "requested_binary": "ngspice",
+        "selected_path": "/usr/local/bin/ngspice",
+        "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******\n",
+        "version_probe": "ok"
+       }
+      }
+     },
+     "staged_model_inputs": [
+      {
+       "field": "models.lib",
+       "kind": "library",
+       "name": "corner_mm.lib",
+       "rewritten": true,
+       "sha256": "c7bdd3a5ad5fc602905e672700644c1f9e9c376fc4eb6f029b869d9d0b86cd5a",
+       "source_sha256": "8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "options.osdi_preload[0]",
+       "kind": "osdi",
+       "name": "psp103.osdi",
+       "rewritten": false,
+       "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796",
+       "source_sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+       "field": "options.osdi_preload[1]",
+       "kind": "osdi",
+       "name": "psp103_nqs.osdi",
+       "rewritten": false,
+       "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d",
+       "source_sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+       "field": "options.osdi_preload[2]",
+       "kind": "osdi",
+       "name": "mosvar.osdi",
+       "rewritten": false,
+       "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41",
+       "source_sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerMOShv.lib",
+       "rewritten": true,
+       "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+       "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "cornerRES.lib",
+       "rewritten": true,
+       "sha256": "8c27e705a59d4221a5107b8fe95d388f3e166414d0fe214acfd2f07dcbb22b61",
+       "source_sha256": "2c18502104146804444a567abfe7d00520752bf75426809f9d79f40198fe9c1e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod.lib",
+       "rewritten": true,
+       "sha256": "a2800206343e9adfb4758e9cca40d50dae05fb42a33da3cde4fca8e0780e1bf9",
+       "source_sha256": "d4b348b494998d7057bdde6fb111c60153d8b86175fafcfc6de461737e7a644b",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod.lib",
+       "rewritten": false,
+       "sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a",
+       "source_sha256": "1462f67e80da7f5fa6f6b51efb0eb0e4dc7ef2da28d8bfde95a19ce2a780580a"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mismatch.lib",
+       "rewritten": false,
+       "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+       "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_mod_mismatch.lib",
+       "rewritten": true,
+       "sha256": "52d45aec4c933d78bf9309a8d6ab53d16fd3ef97251a9a293f2c9764e586e54e",
+       "source_sha256": "be170c9619bed19215f7f7b55141e0869344874e3fcf7f30b2d2aa37659b1a0e",
+       "transform": "include-path-rewrite"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50",
+       "source_sha256": "16da7669ee7e963645a604f64770d2f8d871fa8483c34e3dddaa9fcf01c51f50"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_stat.lib",
+       "rewritten": false,
+       "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+       "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod.lib",
+       "rewritten": false,
+       "sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f",
+       "source_sha256": "c2329110bcb66894936e942d4cb73fc5eb9188c5230e1bebf18f60d9b00c5c7f"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_mod_mismatch.lib",
+       "rewritten": false,
+       "sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15",
+       "source_sha256": "f0aa7d90b6489112ed256aaf4cb0a11b9ab17ebe0c3ce092f4f8c5ecb1fd1e15"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "resistors_stat.lib",
+       "rewritten": false,
+       "sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40",
+       "source_sha256": "183eb9192bf711db991b8df87e031bab2ca5e559c73393edc756fa02a2720d40"
+      },
+      {
+       "field": "models.lib",
+       "kind": "dependency",
+       "name": "sg13g2_moshv_parm.lib",
+       "rewritten": false,
+       "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+       "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+     ]
+    },
+    "errored": 0,
+    "failed": 0,
+    "inconclusive": 0,
+    "measurements": [
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 1.086390453757e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 1.086309075505e-05
+      },
+      "name": "iup_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 1.086309075505e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": -1.00264461952e-05
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": -1.00340518576e-05
+      },
+      "name": "idn_a",
+      "status": "pass",
+      "unit": "A",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": -1.00340518576e-05
+      }
+     },
+     {
+      "limits": null,
+      "max": {
+       "corner_id": "mos_tt/novdd/125C",
+       "value": 8.017657080756
+      },
+      "min": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "value": 7.934471356504
+      },
+      "name": "mismatch_pct",
+      "status": "pass",
+      "unit": "%",
+      "worst_case": {
+       "corner_id": "mos_tt/novdd/-40C",
+       "margin": null,
+       "value": 7.934471356504
+      }
+     }
+    ],
+    "metrics": {
+     "sim__corner__count": 3,
+     "sim__corner__errored_count": 0,
+     "sim__corner__failed_count": 0,
+     "sim__corner__inconclusive_count": 0,
+     "sim__corner__passed_count": 3
+    },
+    "netlist": {
+     "path": null,
+     "scope": "external"
+    },
+    "passed": 3,
+    "provenance": {
+     "deck": {
+      "content_hash": "sha256:8a13aead954fc9aff082b1bcaf94365c0044510df0569c2ce66b3a132f94ec2e",
+      "name": "corner_mm.lib",
+      "released": false
+     },
+     "input": {
+      "content_hash": "sha256:a88de8d10b8670554a51e2ca38418d0491897d0c905406c8814ee3e3f702006b",
+      "role": "netlist"
+     },
+     "klayout_version": "0.30.13",
+     "klt_git_commit": "02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@02db14ecf46b038bf97cfd4b2a6170cbcfd7bf35",
+     "klt_version": "0.9.2.dev964+g02db14ecf46b",
+     "pdk": null
+    },
+    "schema_version": 3,
+    "status": "pass"
+   },
+   "request": "dc/mm_p8/request.json",
+   "status": "pass"
+  }
+ ],
+ "schema_version": 1
+}

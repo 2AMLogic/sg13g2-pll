@@ -57,3 +57,31 @@ constraint, not a shortcut.
   approximations without adding real information.
 - **Icp trim code** — fixed at 10 µA (see above), not swept; that axis is
   already closed by `sg13cmos5l-cp-icp-trim` and `sg13cmos5l-loop-bandwidth-pm`.
+
+## The RECORD-014 mismatch-gain grid (issue #385) — a THREE-temperature subset
+
+`../records/RECORD-014-cp-mismatch-phase-error-gain.md` is the first record
+in this slug that leaves 27 C. It sweeps a different axis from the two decks
+above (injected `cp` DC up/dn mismatch) and declares its own matrix here.
+
+| Axis | Swept | Reason |
+|---|---|---|
+| **Mismatch (the axis under test)** | 6 points, `mismatch_pct` -11.998 to +12.009 % (+/-3.1 sigma of `../../sg13cmos5l-cp-icp-trim-mc`'s measured 3.8769 % sigma), plus a 7th that was lost to a `batch_poll_timeout` (`mm_n4`, about -4 %, **not collected**, not failed) | injected by scaling the two cascode mirror devices of `.subckt cp_leg_p` by one factor `k`; `k` = 1 is the committed snapshot byte for byte |
+| **Temperature** | **-40 / 27 / 125 C** | `../../sg13cmos5l-cp-icp-trim-mc/records/RECORD-002` reports that **temperature**, not process, dominates the mismatch spread (sigma 3.08-3.45 % at 125 C against 3.96-4.77 % at -40 C), so it is the axis this gain is most likely to move along |
+| **Process** | `mos_tt` only | The quantity is a *gain*, not a worst-case bound, and the mismatch here is deliberate rather than drawn, so a process-section sweep would measure the deck's own corner spread rather than the sensitivity under test. Not run. |
+| **Resistor corner** | `res_typ` only | follows the process decision; `loop_filter`'s `R1` is the only resistor and is already a x20 proposal-deck substitution |
+| **Supply** | 3.3 V only | as every deck in this slug; row 18's +/-10 % axis is exercised on `cp` alone by `../../sg13cmos5l-cp-icp-trim`. Not run. |
+| **`f_ref` / `N` / band / `VC0` / Icp trim** | fixed at the operating point above | unchanged from the two decks above, so RECORD-014's numbers are directly comparable with RECORD-007's |
+
+Running the grid was affordable only because it went to the **Spot batch
+fleet** as `klt sim` requests (one per mismatch point, three temperature
+units each) rather than onto this host: 21 closed-loop transients at the
+~8 min each the section above measures would be about 2.8 hours serial here,
+against 10 to 17 min wall per fleet job with four in flight.
+
+**125 C did not acquire lock at any mismatch point, including the
+unperturbed one** (`vctrl` rails at 3.289 V). Those points are reported in
+RECORD-014 and in `mismatch_gain.csv` with `dual_lock=0` and are excluded
+from every fit, so the gain is established at **two** of the three
+temperatures run. That is a property of this proposal deck, not of the
+committed `cp`, and it is filed as issue #389.

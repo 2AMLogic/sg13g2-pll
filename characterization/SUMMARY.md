@@ -774,11 +774,14 @@ the min/max.
 - **Method**: klt sim Monte Carlo over the process/temperature corner axes; one DC sweep of Vup over {0, VDD} per sample so both legs come from the same draw; klt yield (0.9.1) envelope over mismatch_pct
 - **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md` (sha256 `b2c468d8d76779806ff6432e30b74f80d9d60d095d89713ea1f91ef74ad63ea0`)
 - **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md` (sha256 `955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-003-regrade-proposed-limit.md` (sha256 `fd399096307c12e9d698f62bf9e77b3364cbd4c1896fd8b7aa442a02a8783d51`)
 - **Table `mc_samples`**: `sim/sg13cmos5l-cp-icp-trim-mc/corners/mc-samples.csv` (sha256 `050a211d68445e9e052ae46807008a4461b20aea8d50a1aee52ec8ee403abde2`)
 - **Note**: Yield estimate and confidence interval are in reports/yield.mc.json and RECORD-002, not here: this table is the raw sample set, so the yield stays recomputable against any later ratified limit without re-simulating.
-- **Note**: The +/-3.5 % the samples were graded against is the bench's own evidence-derived screening limit, NOT a ratified spec number, and no target_yield was declared.
+- **Note**: The +/-3.5 % the samples were graded against was the bench's own evidence-derived screening limit, NOT a ratified spec number, and no target_yield was declared. It is now RETIRED by spec/decision-records/DR-013-cp-mismatch-limit.md (issue #385): the gain it was derived from was re-measured on the DR-010 cp and is ~30x smaller, of the opposite sign, and not through the origin (see dataset cp-mismatch-phase-error-gain). testbench/mc.request.json is unedited, so its min/max is history rather than a live bound.
 - **Note**: klt yield's sample-size verdict is `insufficient` (N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp), so T1 item 6 analog grades unmet / undersized_sample.
 - **Note**: Mismatch is only live on the PDK pin: the newer ihp-sg13cmos5l install defaults sg13_hv_[np]mos to mm_ok=0 and this repo's netlists carry no mm_ok=, which silently yields sigma 0. See RECORD-002 and 2AMLogic/klayout-tools#5486.
+- **Note**: RECORD-003 re-grades these same 1500 draws with klt yield --limits against DR-013's evidence-coverage bound of +/-11.92 % (how far RECORD-014's evidence reaches, NOT a spec limit): 99.60 % (95 % CI [99.13 %, 99.85 %]), Cpk 0.9973, required_n 154, and klt yield's sample-size verdict turns `sufficient`. Still no target_yield; the manifest is not re-pointed and T1 item 6 analog still grades unmet / undersized_sample against reports/yield.mc.json.
+- **Note**: The negative_control warning survives both envelopes: no seeded known-bad variant has shown these statistics can detect a degraded design. The bench's zero-spread control is the opposite kind of control and does not qualify; see RECORD-003 for the disposition.
 - **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI (#178), cp tracking dump buffer (DR-010) nominal-only (#178)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
@@ -1034,6 +1037,31 @@ the min/max.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | per-cycle frequency error (whole trace, includes startup transient) (`delta_f_frac`) | fraction of f_ref | `trace` | - | 49 | 0 | -0.229352 | 0.00836313 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
 | per-cycle phase error (whole trace, includes startup transient) (`phase_err_frac`) | fraction of T_ref | `trace` | - | 49 | 0 | -0.564611 | 0.573715 | `t_s`: 49 distinct (5.004999999999987e-08 .. 2.4500500000004544e-06) |
+
+### cp-mismatch-phase-error-gain
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: DR-010 cp: netlist-snapshots/cp_otabuf.spice (sha256 c8a55d8d...), perturbed ONLY by scaling the two cascode mirror devices of the UP leg (.subckt cp_leg_p XM1/XM2) by one factor k; k=1 is the committed snapshot byte for byte. design/sg13cmos5l/cp.sch is not edited. The other four blocks are RECORD-006's frozen proposal-deck snapshots
+- **Context**: schematic, pre-layout, closed loop on the RECORD-005/006/007 PROPOSAL deck (behavioural XSPICE divide-by-64, R1 resized 120u->2400u, ideal MOM caps, XCDECAP stripped, ideal IREF). NOT committed-PLL performance and NOT sign-off evidence
+- **Conditions**: 6 injected DC mismatch points (-11.998 to +12.009 %, i.e. +/-3.1 sigma of the campaign's 3.8769 % sigma) x mos_tt/res_typ x -40/27/125 C x 3.3 V, 20 MHz REF, Iref 10 uA, 2.5 us transient, final 20 of 49 reference cycles; Spot batch fleet, ngspice-47 on the workers, client klt 0.9.2.dev964, pinned PDK model bytes staged with each job (ihp-sg13cmos5l 607e18d4...); a 7th point (mm_n4) was lost to a batch_poll_timeout and is absent, not failed
+- **Method**: klt sim --batch-set: one DC request per perturbed snapshot measures its own mismatch_pct with the Monte Carlo bench's definition (the x-axis is measured, never the requested value), one closed-loop transient request per point returns the 1.65 V rising-crossing series of v(ref) and v(fb) as measurements[].crossings; mismatch_gain_post.py feeds those to mismatch_gain_metrics.lock_trace_from_edges, which test_mismatch_gain_metrics.py pins to be the same function cpdiag_metrics.lock_trace computes from a sampled trace
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-014-cp-mismatch-phase-error-gain.md` (sha256 `49ec22afef33617d9aa8513d9f5751c82106fdb05a8f8bc3bf2a81d140462b66`)
+- **Table `mismatch_gain`**: `sim/sg13cmos5l-closed-loop-lock/corners/mismatch_gain.csv` (sha256 `e871fd4012a60daefb977a249c221e54e1b9c156fbf7d9091372938272680f07`)
+- **Note**: HEADLINE: the fitted gain is -0.03940 pp/pp at -40 C and -0.04842 pp/pp at 27 C, with intercepts +0.84199 and +0.75401 pp -- about 30x SMALLER than the +1.4293 pp/pp the sim/sg13cmos5l-cp-icp-trim-mc +/-3.5 % screening limit assumed, and of the OPPOSITE sign.
+- **Note**: A linear-through-origin model is rejected: forcing the intercept to zero multiplies the fit residual RMS by 90x at -40 C (0.0094 -> 0.8401 pp) and 22x at 27 C (0.0348 -> 0.7528 pp). The intercept is the DR-010 cp's own zero-mismatch residual, which RECORD-007 measured independently at 0.779 %.
+- **Note**: Across the whole measured span the worst static phase error is 1.3265 % (worst single cycle +1.447 %) against spec row 7's 5 % criterion -- at least 3.55 pp of margin at every point that locks. Inverting the fit puts the 5 % crossing 7x-9x outside the measured span (about 23 sigma), so no bound is extrapolated from it; see spec/decision-records/DR-013-cp-mismatch-limit.md, which retires +/-3.5 % and proposes no replacement.
+- **Note**: RESULT RETAINED (failure kept, not dropped): at 125 C the proposal deck does not acquire lock at ANY mismatch point, including the unperturbed one (vctrl rails at 3.289 V, df/f_ref -0.60 %, longest dual-lock run 0). That is a deck limitation newly visible because every earlier closed-loop record in this slug ran at 27 C only, and it bounds the gain to two of three temperatures.
+- **Note**: Baseline reproduction: the unperturbed point reads 0.7662 % here against RECORD-007's 0.779 %. The committed run_closed_loop_otabuf.sh re-run on this host under ngspice-47 reads 0.7780 % with i_cp and vc_avg equal to this run's to every printed digit, so the 0.012 pp (= 6 ps) difference is the edge-extraction path (klt sim crossings on the simulator's own grid vs cpdiag_post.py on the deck's linearized 100 ps grid), not the simulation.
+- **Note**: The mismatch is INJECTED on one mirror leg, not drawn. A real Monte Carlo sample perturbs every device, so this measures sensitivity to the up/dn current ratio -- the quantity sg13cmos5l-cp-icp-trim-mc grades -- not sensitivity to 'all mismatch'.
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| measured DC up/dn mismatch of each perturbed cp snapshot (the sweep's x-axis) (`mismatch_pct`) | % | `mismatch_gain` | - | 18 | 0 | -11.9984 | 12.0089 | `temp_c`: -40, 27, 125; `tag`: mm_n12, mm_n8, mm_nom, mm_p12, mm_p4, mm_p8 |
+| closed-loop static phase error, final-20-cycle mean, at points that HELD dual lock (the measured quantity) (`phase_mean_pct`) | % of T_ref | `mismatch_gain` | dual_lock=1 | 12 | 0 | 0.115956 | 1.32654 | `temp_c`: -40, 27 |
+| same statistic at points that did NOT hold dual lock -- 125 C only, where the proposal deck rails vctrl at 3.289 V; NOT a static phase error and excluded from every fit (`phase_mean_pct`) | % of T_ref | `mismatch_gain` | dual_lock=0 | 6 | 0 | -39.7046 | -33.5256 | `temp_c`: 125 |
+| control-voltage average over 2.0-2.5 us (3.289 V at 125 C is the rail, i.e. the non-acquisition) (`vc_avg_v`) | V | `mismatch_gain` | - | 18 | 0 | 2.22491 | 3.29065 | `temp_c`: -40, 27, 125 |
 
 ### lock-detector-bodyfix-nominal
 

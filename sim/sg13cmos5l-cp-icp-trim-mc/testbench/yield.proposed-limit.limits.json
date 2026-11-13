@@ -1,0 +1,31 @@
+{
+  "_comment": [
+    "sg13g2-pll :: sim/sg13cmos5l-cp-icp-trim-mc/testbench/yield.proposed-limit.limits.json",
+    "issue #385. `klt yield --limits` file for re-grading the committed 1500-sample",
+    "campaign (reports/sim.mc.json) against the EVIDENCE-COVERAGE bound DR-013",
+    "records, NOT against a ratified spec limit and NOT against the retired",
+    "+/-3.5 % screening value.",
+    "",
+    "+/-11.92 % is the narrower end of the DC up/dn mismatch span over which",
+    "sim/sg13cmos5l-closed-loop-lock/records/RECORD-014 actually demonstrated that",
+    "the DR-010 cp meets spec row 7's 5 %-of-T_ref static-phase criterion: the",
+    "measured points reach -11.9984/+11.9244 % at -40 C and -11.9616/+11.9686 % at",
+    "27 C, and this file takes the inner bound of the two on each side. It is a",
+    "statement about how far the evidence reaches, not a bound anyone has ratified",
+    "or derived as a requirement -- see DR-013 and RECORD-003 of this bench.",
+    "",
+    "No target_yield is declared, for the same reason RECORD-002 declares none:",
+    "a yield claim needs a ratified limit, and spec/target-spec.md proposes no cp",
+    "mismatch number. The envelope therefore reports an estimate, never a",
+    "pass/fail."
+  ],
+  "confidence": 0.95,
+  "target_ci_halfwidth": 0.01,
+  "measurements": {
+    "mismatch_pct": {
+      "min": -11.92,
+      "max": 11.92,
+      "spec_row": "none ratified; evidence-coverage bound from DR-013 / closed-loop-lock RECORD-014"
+    }
+  }
+}
