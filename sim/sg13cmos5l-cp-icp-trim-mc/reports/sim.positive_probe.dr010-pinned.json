@@ -1,0 +1,476 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+    "scope": "repo"
+  },
+  "status": "fail",
+  "corner_count": 3,
+  "passed": 1,
+  "failed": 2,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 3,
+    "sim__corner__passed_count": 1,
+    "sim__corner__failed_count": 2,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "47",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Nov 12 22:47:40 UTC 2026\n******",
+      "binary_sha256": "20b24e16d6550f40d31c0690adbac8c64f3078205bd9aaa60b50274d3eebcf62",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "models_lib_sha256_scope": "local",
+    "netlist_sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+        "scope": "repo",
+        "sha256": "7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871"
+      },
+      {
+        "path": "sim/sg13cmos5l-cp-icp-trim-mc/netlist-snapshots/cp.spice",
+        "scope": "repo",
+        "sha256": "063450257a9b3ab22e73dd3ec812d589d5d86d7ea8ba4b74e6487db4ee63288d"
+      }
+    ],
+    "netlist_identity": "sha256:60a778d5cee046f88e0ea7dedb6f1ee57c7d5d556f3430fbbdb0b09aa2aae4a0",
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "2e4299c4683997e26469410dc1ab36b02ced924b1ac0972d6c4eae360e1fc796"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "839b164483205601c09032951f6c41d3580f15e506dc40a7202950d3afbdfc7d"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "25e64a374ab523dbfeb7ffed75dcb8b086ee10f06120a9074bd68b92d7b0fb41"
+      }
+    ],
+    "engine_host": "local",
+    "backend": {
+      "resolved": "local",
+      "source": "flag",
+      "requested": "local"
+    },
+    "monte_carlo": {
+      "n": 3,
+      "seed": 178,
+      "vary": "mismatch",
+      "family_mismatch": [
+        {
+          "family": "other",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'other' family could not be verified; treat any sampled spread for it as unconfirmed."
+        },
+        {
+          "family": "mosfet",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'mosfet' family could not be verified; treat any sampled spread for it as unconfirmed."
+        }
+      ],
+      "family_mismatch_scan": {
+        "scanned": [
+          "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+          "sim/sg13cmos5l-cp-icp-trim-mc/netlist-snapshots/cp.spice"
+        ],
+        "not_scanned": []
+      }
+    }
+  },
+  "coverage": {
+    "corners_simulated": 3,
+    "measurements_declared": 3,
+    "measurements_with_limits": 1,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "limit:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"mismatch_pct\",\"max\"]",
+      "limit:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"mismatch_pct\",\"min\"]",
+      "limit:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"mismatch_pct\",\"max\"]",
+      "limit:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"mismatch_pct\",\"min\"]",
+      "limit:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"mismatch_pct\",\"max\"]",
+      "limit:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"mismatch_pct\",\"min\"]",
+      "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"idn_a\"]/observation",
+      "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"iup_a\"]/observation",
+      "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"idn_a\"]/observation",
+      "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"iup_a\"]/observation",
+      "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"idn_a\"]/observation",
+      "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"iup_a\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"mos_tt_mismatch/novdd/27C/mc0\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"mos_tt_mismatch/novdd/27C/mc1\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"idn_a\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[2,\"mos_tt_mismatch/novdd/27C/mc2\",\"iup_a\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev930+g37dbc2458b5a",
+    "klt_git_commit": "37dbc2458b5ad83bcadd85f77997c4e30800e791",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@37dbc2458b5ad83bcadd85f77997c4e30800e791",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "iup_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": 9.98012671332e-06,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": 9.98012671332e-06
+      },
+      "max": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc1",
+        "value": 1.027488766265e-05
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": 1.0138848077723333e-05,
+        "stddev": 1.4868373028899931e-07,
+        "min": 9.98012671332e-06,
+        "max": 1.027488766265e-05,
+        "quantiles": {
+          "p5": 9.998267027708001e-06,
+          "p50": 1.01615298572e-05,
+          "p95": 1.0263551882105e-05
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": 1.0138848077723333e-05,
+            "stddev": 1.4868373028899931e-07,
+            "min": 9.98012671332e-06,
+            "max": 1.027488766265e-05,
+            "quantiles": {
+              "p5": 9.998267027708001e-06,
+              "p50": 1.01615298572e-05,
+              "p95": 1.0263551882105e-05
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "idn_a",
+      "unit": "A",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": -1.02779661152e-05,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": -1.02779661152e-05
+      },
+      "max": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc2",
+        "value": -9.6897959244e-06
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": -9.88665052228e-06,
+        "stddev": 3.3889135763602395e-07,
+        "min": -1.02779661152e-05,
+        "max": -9.6897959244e-06,
+        "quantiles": {
+          "p5": -1.0219388456404001e-05,
+          "p50": -9.69218952724e-06,
+          "p95": -9.690035284683999e-06
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": -9.88665052228e-06,
+            "stddev": 3.3889135763602395e-07,
+            "min": -1.02779661152e-05,
+            "max": -9.6897959244e-06,
+            "quantiles": {
+              "p5": -1.0219388456404001e-05,
+              "p50": -9.69218952724e-06,
+              "p95": -9.690035284683999e-06
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "mismatch_pct",
+      "unit": "%",
+      "limits": {
+        "min": -3.5,
+        "max": 3.5
+      },
+      "status": "fail",
+      "worst_case": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc1",
+        "value": 5.836589199992,
+        "margin": -2.336589199992
+      },
+      "min": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+        "value": -2.94044858383
+      },
+      "max": {
+        "corner_id": "mos_tt_mismatch/novdd/27C/mc1",
+        "value": 5.836589199992
+      },
+      "monte_carlo": {
+        "n": 3,
+        "errored": 0,
+        "inconclusive": 0,
+        "mean": 2.5496033046243336,
+        "stddev": 4.7853132491072055,
+        "min": -2.94044858383,
+        "max": 5.836589199992,
+        "quantiles": {
+          "p5": -2.1711367956759,
+          "p50": 4.752669297711,
+          "p95": 5.7281972097639
+        },
+        "sigma_window": null,
+        "by_corner": [
+          {
+            "corner_id": "mos_tt_mismatch/novdd/27C",
+            "n": 3,
+            "errored": 0,
+            "inconclusive": 0,
+            "mean": 2.5496033046243336,
+            "stddev": 4.7853132491072055,
+            "min": -2.94044858383,
+            "max": 5.836589199992,
+            "quantiles": {
+              "p5": -2.1711367956759,
+              "p50": 4.752669297711,
+              "p95": 5.7281972097639
+            },
+            "sigma_window": null
+          }
+        ]
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc0",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "pass",
+      "runtime_s": 0.167,
+      "peak_rss_bytes": 115302400,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 9.98012671332e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -1.02779661152e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": -2.94044858383,
+          "unit": "%",
+          "status": "pass",
+          "margin": 0.5595514161700001
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 0,
+        "seed": 930596641,
+        "process_seed": 580724698,
+        "mismatch_seed": 386875718
+      }
+    },
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc1",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "fail",
+      "runtime_s": 0.167,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.027488766265e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -9.69218952724e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": 5.836589199992,
+          "unit": "%",
+          "status": "fail",
+          "margin": -2.336589199992
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 1,
+        "seed": 806092852,
+        "process_seed": 580724698,
+        "mismatch_seed": 1245634589
+      }
+    },
+    {
+      "corner_id": "mos_tt_mismatch/novdd/27C/mc2",
+      "process": "mos_tt_mismatch",
+      "supply_v": {},
+      "temperature_c": 27,
+      "status": "fail",
+      "runtime_s": 0.167,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "iup_a",
+          "value": 1.01615298572e-05,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "idn_a",
+          "value": -9.6897959244e-06,
+          "unit": "A",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "mismatch_pct",
+          "value": 4.752669297711,
+          "unit": "%",
+          "status": "fail",
+          "margin": -1.2526692977109999
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": {
+        "sample_index": 2,
+        "seed": 898105191,
+        "process_seed": 580724698,
+        "mismatch_seed": 1752344463
+      }
+    }
+  ]
+}

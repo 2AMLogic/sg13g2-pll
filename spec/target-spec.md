@@ -59,11 +59,14 @@ benches swept. See R-9.
 - **Det** — deterministic: the bound is a worst case over a declared
   corner set, checked by a corner sweep.
 - **Stat** — statistical: the bound is a distribution quantity (noise,
-  mismatch). No Monte Carlo record exists anywhere under `sim/`
-  (`grep -ril monte sim` hits only `sg13cmos5l-klt-pex-signoff`, a tool
-  option), so no Stat row below is measured as a statistic. Where a Stat row
-  has a corner-sweep number, that number is evidence of the deterministic
-  part only.
+  mismatch). One Monte Carlo record now exists under `sim/` (issue #178):
+  `sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md`, a
+  1500-sample `cp` up/dn mirror-mismatch campaign with a `klt yield`
+  envelope. It grades `cp` mismatch against that bench's own
+  evidence-derived screening limit, which is **not** a row of this table and
+  is not ratified, so no Stat row below is measured as a statistic. Where a
+  Stat row has a corner-sweep number, that number is evidence of the
+  deterministic part only.
 
 **Partition** (the manifest grades two; `manifests/README.md`): **Analog** =
 `pfd`, `cp`, `loop_filter`, `vco`, `lock_detector`. **Digital** =
