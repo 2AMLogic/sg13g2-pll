@@ -745,6 +745,25 @@ the min/max.
 | loop-filter zero fz = 1/(2 pi R1 C1) (`fz_hz`) | Hz | `grid` | - | 27 | 0 | 191025 | 398380 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
 | loop-filter pole fp (`fp_hz`) | Hz | `grid` | - | 27 | 0 | 3.41671e+06 | 7.12547e+06 | `res_corner`: res_bcs, res_typ, res_wcs; `temp_c`: -40, 27, 125; `mom_frac`: -0.20, 0.00, 0.20 |
 
+### vco-kvco-table-rerun-pinned
+
+- **PDK**: SG13CMOS5L
+- **Status**: historical
+- **DUT revision**: original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 2d4433ce...b68b, frozen at commit 6250ba8), XCDECAP stripped as run.sh does; NOT today's design
+- **Context**: schematic, not extracted; open loop, no external load
+- **Conditions**: 3 PVT bundles (typ/slow/fast) x 4 band codes x 5 VCTRL points = 60 transient runs; 3.3 V; ngspice-47 on the klt batch fleet (job klt-sim-9c012bb4ecf5), runner klt 0.9.0; run on the PINNED PDK bytes (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), staged per deck from a clean pinned checkout rather than read from the fleet image, host_resolved empty on all 60 units
+- **Method**: unmodified rerun of RECORD-001's grid as a 60-deck klt sim deck-list request (testbench/gen_rerun318.py); open-loop transient, CLK period measured by ngspice .meas between two later rising edges; byte-identical to RECORD-001 at all 60 points
+- **Record**: `sim/sg13cmos5l-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun-pinned.md` (sha256 `3807c3953100855ff6d739087da8f66f4a4d2e83d1935a453cf026c27cd7d959`)
+- **Table `results`**: `sim/sg13cmos5l-vco-kvco-table/corners/results_rerun318.csv` (sha256 `88edf49fa4fb8862ccbbb8cc306ebf37d63d741858271703602b8edae5fe3ad7`)
+- **Note**: Provenance rerun (issue #318: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.
+- **Note**: All 60 period_s values are byte-identical to RECORD-001's corners/results.csv, so its table, band floor (445.26 MHz) and top-of-band (1562.0 MHz, fast/band 11/2.7 V) are reproduced rather than replaced. Coverage is RECORD-001's own: a 3-bundle PVT subset, not a full cross-product.
+- **Note**: Device coverage is not identical to the original run: the two cap_cmom* OSDI objects that failed to load on RECORD-001's arm64 host do load here (probe klt-sim-a8b56f40dc7e, 5.315078 pF for the snapshot's own XCDECAP device), while this rerun still keeps XCDECAP stripped exactly as run.sh does, so neither run simulates a cap_cmom device.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vco open-loop frequency (`freq_hz`) | Hz | `results` | - | 60 | 0 | 4.4526e+08 | 1.56197e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
