@@ -1,0 +1,9 @@
+# ADDENDUM-001: RECORD-001 evidence claim superseded by a same-bench rerun
+
+Append-only provenance addendum (issue #319, Part of #214 / #199). It does not edit `RECORD-001-loop-bandwidth-phase-margin.md`. Contract: `sim/README.md` "Provenance addenda". It asserts nothing about the original run's host, ngspice build or PDK revision (the original states only "ngspice-46, installed `~/share/pdk/ihp-sg13cmos5l`, x86-64 Linux" and cites no revision); it only replaces the evidence claim with the measurement in `RECORD-006-loop-bandwidth-pm-rerun-batch.md`, which carries the batch job ids, tool, command and PDK citation (cmos5l revision inferred `f7bca326`, not the README pin; limitation stated there). The rerun is not byte-identical in the real-subckt part: `f_c` within 0.067 %, PM within 0.177 deg per row, with both headline verdicts reproduced (0 of 90 rows meet PM >= 45 deg; 0 meet both criteria). The two lumped-element parts (`mom_band.csv` 54 rows, `proposal.csv` 108 rows) reproduce **byte-identically**, including the identical 18-row `meets_both` set that carries the `R1` x20 / 10 uA proposal.
+
+ADDENDUM-FOR: sg13cmos5l-loop-bandwidth-pm/records/RECORD-001-loop-bandwidth-phase-margin.md
+ADDENDUM-KIND: superseded
+ADDENDUM-SHA256: d43a3f8db2d1e320a8e409a86d112ab627c68f549d50098e9d4cc6455996ad04
+ADDENDUM-RERUN: sg13cmos5l-loop-bandwidth-pm/records/RECORD-006-loop-bandwidth-pm-rerun-batch.md
+ADDENDUM-EVIDENCE: historical DUT rebuilt from git at the original's producing commit b37918d (frozen `loop_filter.spice` snapshot, the commit's own templates, matrix and input tables), full 254-deck rerun on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-2d7f64aa6964, runner ngspice-47); real-subckt `f_c` within 0.067 % and PM within 0.177 deg per row, 0 verdict flips of 90; the 162 lumped-element rows reproduce byte-identically.

@@ -9,6 +9,16 @@ __pycache__/
 # (append-only record trail), so they escape the *.log rule.
 !sim/*/corners/**/*.log
 sim/build/
+
+# sim/sg13cmos5l-loop-bandwidth-pm: the issue-#319 provenance rerun renders
+# 1872 decks (7.7 MB) and four large klt sim requests. They are a pure
+# function of git history -- gen_rerun319.py extracts each original's own
+# run.sh and templates from its producing commit -- and re-rendering is
+# byte-identical, so the generator is the committed artifact, not its output.
+#   python3 -I sim/sg13cmos5l-loop-bandwidth-pm/testbench/gen_rerun319.py render
+sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319/
+sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319_*.request.json
+sim/sg13cmos5l-loop-bandwidth-pm/testbench/probe319.request.json
 # synthesis / P&R scratch
 flow/build/
 # local klt install, created by the setup script
