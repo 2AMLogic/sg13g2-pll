@@ -317,7 +317,7 @@ the first, and issue #35 re-measured the second:
 2. **Past that fix it still routes 1 of 13 nets on a block this design's
    size** (klayout-tools#1467). First measured at `b10fa3c`; **re-measured at
    the current pin by issue #35, and unchanged**. Since #35 that measurement
-   is no longer a remembered fact: `pll_cmos5l_layout.probe_gen_compose_block_routing`
+   is no longer a remembered fact: `cmos5l_probes.probe_gen_compose_block_routing`
    rebuilds `cp` — this design's smallest composed block, 8 groups, 14
    devices, 50 declared ports, 13 multi-pin nets — as a real `gen-compose`
    request from the run's own drawn group cells and schematic-derived
@@ -356,7 +356,7 @@ draw — it does, and cleanly — but because on all three axes this flow's
 verified result actually depends on, generator output would *regress* a
 result that is passing today. Measured on this design's own group parameters
 (never a synthetic device), re-taken on **every** run by
-`pll_cmos5l_layout.probe_generator_footprints`, raw responses committed as
+`cmos5l_probes.probe_generator_footprints`, raw responses committed as
 `gen.probe.*.json` / `drc.genprobe_*.json` / `extract.genprobe_*.json`:
 
 | What a swapped-in footprint must clear | `klt gen mos_array` at this pin | Local footprint |
