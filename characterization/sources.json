@@ -4059,6 +4059,47 @@
    "record_sha256": "2bc724204bff570d34d7f49ed430d72f54c7d7d0734ed7c0ffbf18a582ff2ce7"
   },
   {
+   "id": "vco-kvco-table-rerun-pinned",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "historical",
+   "dut_revision": "original vco.spice snapshot (netlist-snapshots/vco.spice, sha256 2d4433ce...b68b, frozen at commit 6250ba8), XCDECAP stripped as run.sh does; NOT today's design",
+   "context": "schematic, not extracted; open loop, no external load",
+   "conditions": "3 PVT bundles (typ/slow/fast) x 4 band codes x 5 VCTRL points = 60 transient runs; 3.3 V; ngspice-47 on the klt batch fleet (job klt-sim-9c012bb4ecf5), runner klt 0.9.0; run on the PINNED PDK bytes (ihp-sg13cmos5l 607e18d4 / ihp-sg13g2 5cccb161), staged per deck from a clean pinned checkout rather than read from the fleet image, host_resolved empty on all 60 units",
+   "method": "unmodified rerun of RECORD-001's grid as a 60-deck klt sim deck-list request (testbench/gen_rerun318.py); open-loop transient, CLK period measured by ngspice .meas between two later rising edges; byte-identical to RECORD-001 at all 60 points",
+   "record": "sim/sg13cmos5l-vco-kvco-table/records/RECORD-002-kvco-band-code-table-rerun-pinned.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-vco-kvco-table/corners/results_rerun318.csv",
+     "sha256": "88edf49fa4fb8862ccbbb8cc306ebf37d63d741858271703602b8edae5fe3ad7"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "freq_hz",
+     "units": "Hz",
+     "quantity": "vco open-loop frequency",
+     "coverage_columns": [
+      "pvt_bundle",
+      "band_code",
+      "vctrl_v"
+     ]
+    }
+   ],
+   "notes": [
+    "Provenance rerun (issue #318: ADDENDUM-001 -> RECORD-002). Supersedes RECORD-001 as the evidence claim; RECORD-001 stays the cited source of the spec figures and no consumer was re-pointed. RECORD-001 itself is grandfathered in records_baseline.json and is not listed here.",
+    "All 60 period_s values are byte-identical to RECORD-001's corners/results.csv, so its table, band floor (445.26 MHz) and top-of-band (1562.0 MHz, fast/band 11/2.7 V) are reproduced rather than replaced. Coverage is RECORD-001's own: a 3-bundle PVT subset, not a full cross-product.",
+    "Device coverage is not identical to the original run: the two cap_cmom* OSDI objects that failed to load on RECORD-001's arm64 host do load here (probe klt-sim-a8b56f40dc7e, 5.315078 pF for the snapshot's own XCDECAP device), while this rerun still keeps XCDECAP stripped exactly as run.sh does, so neither run simulates a cap_cmom device."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial"
+   ],
+   "record_sha256": "3807c3953100855ff6d739087da8f66f4a4d2e83d1935a453cf026c27cd7d959"
+  },
+  {
    "id": "loop-bw-pm-asdrawn-rerun319",
    "section": "sg13cmos5l-schematic-pvt",
    "pdk": "SG13CMOS5L",
@@ -4116,7 +4157,7 @@
    "section": "sg13cmos5l-schematic-pvt",
    "pdk": "SG13CMOS5L",
    "status": "current",
-   "dut_revision": "as-drawn loop_filter, frozen snapshot of f54b9ef — identical to the b37918d arm except for the post-DR-006 Icp input table that commit introduced",
+   "dut_revision": "as-drawn loop_filter, frozen snapshot of f54b9ef \u2014 identical to the b37918d arm except for the post-DR-006 Icp input table that commit introduced",
    "context": "schematic, pre-layout (linearised open-loop AC around the real loop_filter subckt)",
    "conditions": "3 PVT bundles x 2 band codes x 2 Kvco intervals (mid/top) x the f_ref/N scenarios admissible at 25 and 10 MHz x 6 Icp trim codes = 90 real-subckt rows; ngspice-47 on the klt batch fleet (probe klt-sim-db5a6d5ee4ae, grid klt-sim-f17f617026e2), runner klt 0.9.0, client klt 0.9.2.dev915; ran-on cmos5l tree inferred as store version f7bca326, NOT the legacy README pin (#250); the originals state ngspice-46 and no host, so neither is reproduced",
    "method": "254 klt sim batch decks (testbench/gen_rerun319.py) re-driving f54b9ef's own run.sh Python with only the ngspice call replaced",

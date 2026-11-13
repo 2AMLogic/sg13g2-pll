@@ -2,6 +2,14 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+## Archives
+
+- [2026-09](work_log/WORK_LOG_2026-09.md)
+
+### 2026-11-13
+
+- **Issue #360** (closed): Migrate three pre-#261 layout records into the objects dedupe store (~100 MB)
+
 ### 2026-11-12
 
 - **PR #370**: sim: rerun loop_filter momcap records on batch fleet, add superseded addenda
@@ -267,7 +275,3 @@ Chronological record of recently merged pull requests and closed issues. This fi
 - **PR #99**: [Part of #16] Post-layout PEX + PVT re-simulation for the SG13CMOS5L PLL port
 - **Issue #30** (closed): [Part of #16] Post-layout PEX + PVT re-simulation for the SG13CMOS5L PLL port
 
-### 2026-09-09
-
-- **PR #98**: sim: stand up sg13g2-vco-kvco-table (SG13G2 twin of sg13cmos5l-vco-kvco-table)
-- **Issue #97** (closed): sim: stand up `sim/sg13g2-vco-kvco-table/` — open-loop VCO band / Kvco-vs-band-code table for the SG13G2 design across its PVT grid (rows 1/4/5; the SG13G2 twin of `sg13cmos5l-vco-kvco-table`)

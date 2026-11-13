@@ -187,7 +187,7 @@ Legend:
 | 31 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` | `bd62f15` 2026-09-23 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (8-core) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded (rerun landed, #326: ADDENDUM-004 -> RECORD-008, loop-filter and divider-chain runners on the batch fleet; divider N reproduces, loop-filter absolute R1 does not, PDK-tree attributed) | #215 |
 | 32 | `sg13cmos5l-vco-decap-momcap/records/RECORD-001-decap-momcap-sensitivity.md` | `fac4e4a` 2026-08-30 | G | cmos5l + g2 (symlinked) (`r3_cmc.osdi`) | not stated; `~/share/pdk` | base, design/README.md, prop, sim/sg13cmos5l-vco-decap-momcap/corners/matrix.md, spec | superseded | #216 |
 | 33 | `sg13cmos5l-vco-duty-cycle/records/RECORD-001-duty-cycle-and-vco-current.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, manifests/test_check_spec_citations.py, spec | superseded (rerun landed, #317: ADDENDUM-001 -> RECORD-002; not byte-identical, 31/300 below 45 %) | #216 |
-| 34 | `sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `db5ec6a` 2026-08-29 | G | cmos5l + g2 (symlinked) | arm64 build host (cap_cmom* failed to load); x86-64 also named | sum, src, prop, sim/sg13cmos5l-divider-nrange-retiming/testbench/tb_div_retime.sp.tmpl, DR-005, spec | superseded | #216 |
+| 34 | `sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `db5ec6a` 2026-08-29 | G | cmos5l + g2 (symlinked) | arm64 build host (cap_cmom* failed to load); x86-64 also named | sum, src, prop, sim/sg13cmos5l-divider-nrange-retiming/testbench/tb_div_retime.sp.tmpl, DR-005, spec | superseded (rerun landed, #318: ADDENDUM-001 -> RECORD-002, full 60-point grid on the batch fleet but on the **pinned** tree, staged per deck; byte-identical, no consumer re-pointed) | #216 |
 | 35 | `sg13g2-divider-repair-reverification/records/RECORD-001-divider-repair-reverification.md` | `e643c39` 2026-09-23 | G (partial; rest transferred) | g2 (fresh runs) + **cmos5l-tree results transferred** from `sg13cmos5l-divider-nrange-retiming/RECORD-003` | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, spec | superseded superseded (rerun landed, #235: ADDENDUM-001 -> RECORD-002, opconv/hold/func on the batch fleet; transferred CMOS5L setup/retime evidence excluded, owed to #233) | #217 |
 | 36 | `sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md` | `40b020e` 2026-08-31 | G | g2 | x86-64 Linux, 8 cores, `~/share/pdk/ihp-sg13g2`; worker not named | sum, src, design/README.md, sim/README, sim/sg13g2-lock-detector-window/README.md, sim/sg13g2-lock-detector-window/corners/matrix.md, spec | superseded (rerun landed, #236: ADDENDUM-001 -> RECORD-002, full reported matrix on the batch fleet, byte-identical; sizing sweeps not rerun) | #217 |
 | 37 | `sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `b3031f6` 2026-09-09 | G | g2 | arm64 macOS (host/tree unknown) | sum, src, manifests/test_check_spec_citations.py, spec | superseded | #217 |
@@ -307,6 +307,35 @@ Totals:
   threshold shifts a step. Runner PDK revision unverified. No consumer was
   changed.
 
+- **Row 34, `sg13cmos5l-vco-kvco-table/RECORD-001`: resolved by a fleet
+  rerun on the pinned tree (#318).** `ADDENDUM-001-record-001-superseded.md`
+  -> `RECORD-002-kvco-band-code-table-rerun-pinned.md` (`superseded`; no
+  recovery of the original environment). The full 60-point grid ran as one
+  `klt sim` deck-list request on the batch fleet (job `klt-sim-9c012bb4ecf5`,
+  ngspice-47 on the worker, runner klt 0.9.0; single-unit pre-probe
+  `klt-sim-58490b6bd691`), and **all 60 `period_s` values are byte-identical**
+  to the committed `corners/results.csv`, so RECORD-001's table, its
+  band-selection and Kvco-nonconstancy findings and its 1562.0 MHz
+  top-of-band figure stand and no consumer was re-pointed.
+  Unlike the other fleet reruns in this campaign, the cited revisions here are
+  **the bytes that ran, not a repo pin taken on trust for a worker whose tree
+  `klt` reports as unstamped**: the fleet image's CMOS5L tree
+  is the unpinned `f7bca326`, so the pinned `607e18d4` checkout's corner-library
+  closure and OSDI objects were staged per deck through `klt sim`'s deck-list
+  preservation contract (relative `.lib`/`.include`/`pre_osdi` targets ship
+  from the submitting host). Every unit's `host_resolved` list is empty and
+  all 60 share one staged-include hash set; all 12 staged libraries resolve
+  into the `ihp-sg13g2` `5cccb161` tree through the CMOS5L checkout's own
+  symlinks. This is the route the sibling attempt under #320 lacked, and it
+  does **not** substitute for the pinned-vs-`f7bca326` comparison owed to
+  #250/#218. 14 of 60 units needed dynamic gmin stepping (disclosed, all
+  exit 0, all byte-identical). Device coverage is explicitly **not** claimed
+  identical to the original: a separate probe (`klt-sim-a8b56f40dc7e`) shows
+  both pinned `cap_cmom*` OSDI objects load on the x86-64 worker and the
+  snapshot's own `XCDECAP` device simulates at 5.315078 pF, where the
+  original's arm64 host could load neither, while the rerun still keeps
+  `XCDECAP` stripped exactly as `run.sh` does.
+
 - **Row 33, `sg13cmos5l-vco-duty-cycle/RECORD-001`: resolved by fleet rerun
   (#317).** `ADDENDUM-001-record-001-superseded.md` ->
   `RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md` (`superseded`; no
@@ -369,7 +398,7 @@ Totals:
 | #213 PEX sign-off + lock detector | 15–20 | 0 | 6 (2 N / 4 G) | **Decompose.** #15 (`klt pex`, 5 single-corner blocks) and #20 (nominal) can run locally. #16–#19 are grids, blocked on klayout-tools#2727. #18 needs both `schmitt_rewire` arms. Coordinate #139 (RECORD-005's owed full grid). Blocked on #221. |
 | #214 loop bandwidth + loop filter | 21–27 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids (klayout-tools#2727). Exceeds 8 files. Coordinate #203 and DR-007/DR-008, which cite #23/#24. Blocked on #221. |
 | #215 post-layout PEX/PVT | 28–31 | 0 | 4 (0 N / 4 G) | **Blocked + decompose.** PEX grids (klayout-tools#2727). 4 × (record + addendum + CSVs) exceeds 8 files. Recovered or superseded provenance does not make stale layout evidence current. Blocked on #221. |
-| #216 SG13CMOS5L VCO family | 32–34 | 0 | 3 (0 N / 3 G) | **Blocked; borderline size** (about 9 files). Grids (klayout-tools#2727). #34 originally ran on arm64 with `cap_cmom*` unavailable, so its rerun differs in device set as well as host. Blocked on #221. |
+| #216 SG13CMOS5L VCO family | 32–34 | 0 | 3 (0 N / 3 G) | **Split one issue per bench; 2 of 3 landed.** #33 via #317 (not byte-identical) and #34 via #318 (byte-identical, run on the pinned tree by per-deck staging). #32 is the remaining grid. #221 and klayout-tools#2727 are closed. #34's wider device set versus its arm64 original is recorded in its rerun, not assumed away. |
 | #217 SG13G2 divider, lock detector, VCO | 35–37 | 0 | 3 (0 N / 3 G) | **Blocked; borderline size** (about 9 files). The batch fleet cannot run PSP/OSDI MOS grids for `ihp-sg13g2` today: the runner has no OSDI objects (see `sg13g2-hbt-characterization/RECORD-001` "Batch failures", `2AMLogic/klayout-tools#2570`, #2901). #35's transferred CMOS5L-tree stages must be re-measured or explicitly scoped out. Not blocked on #221 (single tree). |
 
 No batch can finish its grid reruns until a fleet route exists for these
