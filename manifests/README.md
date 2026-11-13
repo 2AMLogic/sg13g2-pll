@@ -474,10 +474,62 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 | 9 (both rows) | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`) — and item 9 does bind to a verb (`klt signoff --attest 9`), so it is **not** "unbindable". It stays uncited because the `check_testbench_coverage.py` gate still carries 37 grandfathered pre-gate records (#182, #198) and an item-9 attestation is owned by the #199 campaign. Citing an unrelated passing envelope to turn it green is the dishonesty this file exists to prevent. |
 | 10 | — | **No longer `unmet`: both rows `met`** (see "Item 10" below). |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
-| 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
+| 6 (analog) | `undersized_sample` | A real Monte Carlo campaign is cited (1500 samples, #178) and `klt yield`'s own sample-size verdict is `insufficient`, which the grader treats as disqualifying. See "Item 6" below. |
+| 6 (digital) | `no_evidence` | Deliberate. `divider_chain` has **no statistical spec row**, and nothing here fabricates one; see "Item 6" below for why the `not_applicable` outcome is not claimed either. |
 | 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
 | 8 | `no_evidence` | `characterization/SUMMARY.md` now exists (generated and CI-checked, #171), but it is **deliberately not cited**. See "Item 8 decision (#171)" below. |
 | 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
+
+## Item 6 — statistical claims: `6.analog` cited and `unmet`, `6.digital` uncited (#178)
+
+| Row | Cites | Grade |
+| --- | --- | --- |
+| `6.analog` | [`sim/sg13cmos5l-cp-icp-trim-mc/reports/yield.mc.json`](../sim/sg13cmos5l-cp-icp-trim-mc/reports/yield.mc.json), pinned to the campaign report `sim.mc.json` it was computed from (`dc958111…11e8c`) | `unmet`, `undersized_sample` |
+| `6.digital` | nothing | `unmet`, `no_evidence` |
+
+**The analog row is cited even though it does not grade `met`, on purpose.**
+`klt signoff` reads the campaign's own self-report as a grading input: a
+cited `klt yield` envelope whose `sample_size.verdict` is `insufficient`
+renders `unmet` with `reason: "undersized_sample"` (klayout-tools#2467). The
+campaign behind it is real — 1500 samples (5 mismatch-enabled MOS sections ×
+{-40, 27, 125} C × N = 100), seed 178, a deterministic negative control
+whose every sigma is exactly 0, combined with (not instead of) the process
+corners, run on the batch fleet on the PDK pin's model bytes. What it does
+not have is resolution: N = 1500 pins the yield to ±2.47 pp at 95 %
+confidence and `klt yield`'s default target is ±1 pp, which needs 8907
+samples.
+
+So the honest state of this row is "somebody ran a campaign and it is too
+small", not "nobody ever checked" — and those are exactly the two states the
+`reason` enum exists to keep apart. Citing it is the opposite of the
+turn-a-row-green move this file is written to prevent: the citation *lowers*
+nothing and claims nothing, it just stops item 6 reading `no_evidence` when
+evidence exists. The numbers, the per-corner breakdown and the limitations
+are in
+[`RECORD-002`](../sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md).
+
+**What a `met` here would still need**, beyond more samples: the yield is
+graded against the bench's own `±3.5 %` **screening** limit, derived from
+closed-loop records measured on the pre-DR-010 `cp`, not against anything in
+`spec/target-spec.md` — which proposes no `cp` mismatch number at all. No
+`target_yield` is declared, because declaring one would be a pass/fail claim
+against an unratified number. Ratifying a limit is the prerequisite; a
+larger campaign on its own would buy a `met` row that still measures the
+wrong thing.
+
+**The digital row is uncited, and is not claimed `not_applicable` either.**
+`divider_chain` has no statistical spec row. `spec/target-spec.md` carries
+exactly one `Partition: Digital` row — row 3, multiplication ratio — and its
+`Kind` is `Det`: an integer-N divide ratio is functional and corner-bounded,
+not distributional. All three `Kind: Stat` rows in that table (8 period
+jitter, 9 integrated RMS jitter / phase noise, 10 reference spur) are
+Analog. The grader does offer a recorded
+`not_applicable` outcome for exactly that situation — but only for a
+**ratified** spec, and `spec/target-spec.md` is `Status: DRAFT`, awaiting the
+two-key ratification under `ratification/`. Claiming the outcome against a
+draft would be the waiver this file refuses to write, so the row stays
+`no_evidence` and this paragraph is the statement that the digital partition
+has no statistical row.
 
 ## Item 10 — repo hygiene: both rows `met`, from a `klt signoff --attest 10` envelope (#266)
 
@@ -556,9 +608,11 @@ hand):
 - divider speed evidence on the current design (no tracking issue filed; the
   #168 follow-on retained edge counts but they are not selected into the
   summary);
-- the charge-pump PVT and Monte Carlo evidence for the DR-010 dump buffer
-  (#178), the real-cp loop PM re-check across the fast/slow grid (#203), and a
-  closed loop that acquires (the nominal real-divider loop does not acquire).
+- the charge-pump PVT evidence for the DR-010 dump buffer (#178 —
+  the up/dn mismatch Monte Carlo now exists, see "Item 6", but the dump
+  buffer itself is still nominal-only), the real-cp loop PM re-check across
+  the fast/slow grid (#203), and a closed loop that acquires (the nominal
+  real-divider loop does not acquire).
 
 ## The tool that grades
 

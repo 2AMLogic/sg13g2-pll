@@ -66,10 +66,10 @@
   },
   {
    "id": "cp-mismatch-mc",
-   "title": "cp up/dn mismatch Monte Carlo not run",
+   "title": "cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI",
    "issue": "#178",
-   "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md",
-   "text": "The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists."
+   "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md",
+   "text": "The 1500-sample campaign has now run (sg13cmos5l-cp-icp-trim-mc RECORD-002): pooled yield 63.47 % (95 % CI 60.97-65.91 %) against the bench's own +/-3.5 % screening limit, sigma 3.877 %. Two things keep this a gap. (a) No ratified cp mismatch limit exists, so no target_yield is declared and nothing is a pass/fail claim; the +/-3.5 % screening value is derived from closed-loop records measured on the pre-DR-010 cp. (b) klt yield's sample-size verdict is `insufficient`: N = 1500 resolves the yield to +/-2.47 pp, and 8907 samples are needed for the default +/-1 pp, so klt signoff grades T1 item 6 analog unmet / undersized_sample. Resizing the campaign is secondary to ratifying a limit, whose uncertainty dominates. vco duty cycle (row 13) and lock_detector threshold offset (row 16) still have no Monte Carlo evidence at all."
   },
   {
    "id": "cp-dumpbuf-nominal-only",
@@ -4098,6 +4098,74 @@
     "pvt-axes-partial"
    ],
    "record_sha256": "3807c3953100855ff6d739087da8f66f4a4d2e83d1935a453cf026c27cd7d959"
+  },
+  {
+   "id": "cp-mismatch-mc",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "DR-010 cp: netlist-snapshots/cp.spice frozen from design/sg13cmos5l/netlist/cp.spice at commit 093ab2c (the pre-DR-010 snapshot RECORD-001 used is preserved as cp-f54b9ef.spice)",
+   "context": "schematic, not extracted; ideal reference currents; UP/DN switches held static (DC)",
+   "conditions": "5 mismatch-enabled MOS sections (mos_{tt,ss,ff,sf,fs}_mismatch) x -40/27/125 C x N = 100 = 1500 samples, monte_carlo seed 178, vary=mismatch; VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; batch fleet, 13 shards, client klt 0.9.2.dev930, runner klt 0.9.0, ngspice-47; pinned PDK model bytes staged with the job (ihp-sg13cmos5l 607e18d4..., resolving into ihp-sg13g2 5cccb161...)",
+   "method": "klt sim Monte Carlo over the process/temperature corner axes; one DC sweep of Vup over {0, VDD} per sample so both legs come from the same draw; klt yield (0.9.1) envelope over mismatch_pct",
+   "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md",
+   "extra_records": [
+    "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md"
+   ],
+   "tables": [
+    {
+     "id": "mc_samples",
+     "path": "sim/sg13cmos5l-cp-icp-trim-mc/corners/mc-samples.csv",
+     "sha256": "050a211d68445e9e052ae46807008a4461b20aea8d50a1aee52ec8ee403abde2"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "mc_samples",
+     "column": "mismatch_pct",
+     "units": "%",
+     "quantity": "cp up/dn mirror mismatch, per Monte Carlo sample",
+     "coverage_columns": [
+      "process",
+      "temperature_c"
+     ]
+    },
+    {
+     "table": "mc_samples",
+     "column": "iup_a",
+     "units": "A",
+     "quantity": "cp UP-leg current, per Monte Carlo sample",
+     "coverage_columns": [
+      "process",
+      "temperature_c"
+     ]
+    },
+    {
+     "table": "mc_samples",
+     "column": "idn_a",
+     "units": "A",
+     "quantity": "cp DN-leg current, per Monte Carlo sample",
+     "coverage_columns": [
+      "process",
+      "temperature_c"
+     ]
+    }
+   ],
+   "notes": [
+    "Yield estimate and confidence interval are in reports/yield.mc.json and RECORD-002, not here: this table is the raw sample set, so the yield stays recomputable against any later ratified limit without re-simulating.",
+    "The +/-3.5 % the samples were graded against is the bench's own evidence-derived screening limit, NOT a ratified spec number, and no target_yield was declared.",
+    "klt yield's sample-size verdict is `insufficient` (N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp), so T1 item 6 analog grades unmet / undersized_sample.",
+    "Mismatch is only live on the PDK pin: the newer ihp-sg13cmos5l install defaults sg13_hv_[np]mos to mm_ok=0 and this repo's netlists carry no mm_ok=, which silently yields sigma 0. See RECORD-002 and 2AMLogic/klayout-tools#5486."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "cp-mismatch-mc",
+    "cp-dumpbuf-nominal-only"
+   ],
+   "record_sha256": "bda958acad8ee02865f16bf731dd8f8f8ee111c133b6b846bd0109050118a857",
+   "extra_records_sha256": [
+    "955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba"
+   ]
   }
  ]
 }

@@ -22,7 +22,7 @@ the min/max.
 | lock_detector PVT gaps | #139 | The full-PVT lock_detector grid for the current DUT is owed. |
 | lock_detector post-layout/PEX gap | #157 | lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7. |
 | Divider speed evidence | none filed | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none. |
-| cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
+| cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI | #178 | The 1500-sample campaign has now run (sg13cmos5l-cp-icp-trim-mc RECORD-002): pooled yield 63.47 % (95 % CI 60.97-65.91 %) against the bench's own +/-3.5 % screening limit, sigma 3.877 %. Two things keep this a gap. (a) No ratified cp mismatch limit exists, so no target_yield is declared and nothing is a pass/fail claim; the +/-3.5 % screening value is derived from closed-loop records measured on the pre-DR-010 cp. (b) klt yield's sample-size verdict is `insufficient`: N = 1500 resolves the yield to +/-2.47 pp, and 8907 samples are needed for the default +/-1 pp, so klt signoff grades T1 item 6 analog unmet / undersized_sample. Resizing the campaign is secondary to ratifying a limit, whose uncertainty dominates. vco duty cycle (row 13) and lock_detector threshold offset (row 16) still have no Monte Carlo evidence at all. |
 | cp tracking dump buffer (DR-010) nominal-only | #178 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
 | Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
 
@@ -763,6 +763,29 @@ the min/max.
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | vco open-loop frequency (`freq_hz`) | Hz | `results` | - | 60 | 0 | 4.4526e+08 | 1.56197e+09 | `pvt_bundle`: fast, slow, typ; `band_code`: 00, 01, 10, 11; `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7 |
+
+### cp-mismatch-mc
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: DR-010 cp: netlist-snapshots/cp.spice frozen from design/sg13cmos5l/netlist/cp.spice at commit 093ab2c (the pre-DR-010 snapshot RECORD-001 used is preserved as cp-f54b9ef.spice)
+- **Context**: schematic, not extracted; ideal reference currents; UP/DN switches held static (DC)
+- **Conditions**: 5 mismatch-enabled MOS sections (mos_{tt,ss,ff,sf,fs}_mismatch) x -40/27/125 C x N = 100 = 1500 samples, monte_carlo seed 178, vary=mismatch; VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; batch fleet, 13 shards, client klt 0.9.2.dev930, runner klt 0.9.0, ngspice-47; pinned PDK model bytes staged with the job (ihp-sg13cmos5l 607e18d4..., resolving into ihp-sg13g2 5cccb161...)
+- **Method**: klt sim Monte Carlo over the process/temperature corner axes; one DC sweep of Vup over {0, VDD} per sample so both legs come from the same draw; klt yield (0.9.1) envelope over mismatch_pct
+- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md` (sha256 `bda958acad8ee02865f16bf731dd8f8f8ee111c133b6b846bd0109050118a857`)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-001-mismatch-model-confirmed-campaign-blocked.md` (sha256 `955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba`)
+- **Table `mc_samples`**: `sim/sg13cmos5l-cp-icp-trim-mc/corners/mc-samples.csv` (sha256 `050a211d68445e9e052ae46807008a4461b20aea8d50a1aee52ec8ee403abde2`)
+- **Note**: Yield estimate and confidence interval are in reports/yield.mc.json and RECORD-002, not here: this table is the raw sample set, so the yield stays recomputable against any later ratified limit without re-simulating.
+- **Note**: The +/-3.5 % the samples were graded against is the bench's own evidence-derived screening limit, NOT a ratified spec number, and no target_yield was declared.
+- **Note**: klt yield's sample-size verdict is `insufficient` (N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp), so T1 item 6 analog grades unmet / undersized_sample.
+- **Note**: Mismatch is only live on the PDK pin: the newer ihp-sg13cmos5l install defaults sg13_hv_[np]mos to mm_ok=0 and this repo's netlists carry no mm_ok=, which silently yields sigma 0. See RECORD-002 and 2AMLogic/klayout-tools#5486.
+- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI (#178), cp tracking dump buffer (DR-010) nominal-only (#178)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cp up/dn mirror mismatch, per Monte Carlo sample (`mismatch_pct`) | % | `mc_samples` | - | 1500 | 0 | -13.6157 | 14.0069 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
+| cp UP-leg current, per Monte Carlo sample (`iup_a`) | A | `mc_samples` | - | 1500 | 0 | 9.5424e-06 | 1.06827e-05 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
+| cp DN-leg current, per Monte Carlo sample (`idn_a`) | A | `mc_samples` | - | 1500 | 0 | -1.14617e-05 | -8.89743e-06 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
 
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 

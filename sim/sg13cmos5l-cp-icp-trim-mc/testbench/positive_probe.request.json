@@ -2,7 +2,7 @@
   "engine": "ngspice",
   "netlist": "tb_cp_mc.sp",
   "models": {
-    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153727Z/libs.tech/ngspice/models/cornerMOShv.lib"
   },
   "analysis": {
     "kind": "dc",
@@ -31,15 +31,16 @@
   ],
   "options": {
     "osdi_preload": [
-      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
-      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
-      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153727Z/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153727Z/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153727Z/libs.tech/ngspice/osdi/mosvar.osdi"
     ],
     "stage_model_inputs": true,
     "ngspice_init": [
-      "set numdgt=12"
+      "set numdgt=12",
+      "set num_threads=1"
     ],
-    "timeout_s": 600
+    "timeout_s": 30
   },
   "backend": "local",
   "corners": {

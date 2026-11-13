@@ -1,21 +1,24 @@
 # sg13cmos5l-cp-icp-trim-mc — Monte Carlo bench for the `cp` up/dn mirror mismatch
 
 Issue #178 (T1 item 6, "Statistical claims carry Monte Carlo evidence").
-Sibling of `../sg13cmos5l-cp-icp-trim/` (same DUT, same frozen netlist, same
-bias; that bench measures corners, this one measures spread).
+Sibling of `../sg13cmos5l-cp-icp-trim/` (same DUT, same bias; that bench
+measures corners, this one measures spread).
 
-**Status: bench and controls committed; the campaign itself has NOT run.**
-Two tool gaps block it on this fleet; see "Blockers". No yield estimate is
-claimed anywhere in this directory, and `manifests/` is untouched.
+**Status: the campaign has run.** 1500 samples (5 mismatch process sections
+x 3 temperatures x N = 100, seed 178) on the batch fleet, a `klt yield`
+envelope in `reports/yield.mc.json`, and the estimate with its confidence
+interval in `records/RECORD-002-cp-mismatch-mc-yield.md`. Both controls were
+re-run on the refreshed DUT. The #191 blockers are cleared; see "History"
+for what replaced them.
 
 ## What is measured
 
-One `cp` instance (`netlist-snapshots/cp.spice`, byte-identical to
-`../sg13cmos5l-cp-icp-trim/netlist-snapshots/cp.spice`), Iref = 10 uA trim
-code, VDD = 3.3 V, VOUT = 2.40 V (the closed loop's own operating point,
-`../sg13cmos5l-cp-icp-trim/records/RECORD-002`). One DC sweep of `Vup`
-over {0, 3.3 V} with DN = 3.3 V - UP gives the DN-leg current (point 0) and
-the UP-leg current (point 1) from the **same** random draw:
+One `cp` instance (`netlist-snapshots/cp.spice`, the **DR-010** `cp` frozen
+from `design/sg13cmos5l/netlist/cp.spice` at commit `093ab2c`), Iref = 10 uA
+trim code, VDD = 3.3 V, VOUT = 2.40 V (the closed loop's own operating
+point, `../sg13cmos5l-cp-icp-trim/records/RECORD-002`). One DC sweep of
+`Vup` over {0, 3.3 V} with DN = 3.3 V - UP gives the DN-leg current
+(point 0) and the UP-leg current (point 1) from the **same** random draw:
 
     mismatch_pct = (Iup + Idn) / ((Iup - Idn) / 2) * 100        (Idn < 0)
 
@@ -23,34 +26,93 @@ Supply is fixed at 3.3 V in the netlist (no `corners.supply_v` axis); the
 corner axes are 5 MOS mismatch sections x {-40, 27, 125} C. `cp` has no
 resistor, so no resistor corner applies (same statement as the sibling bench).
 
-## Mismatch model (confirmed, first step of the issue)
+## Mismatch is PDK-revision sensitive — read this before re-running
 
-`sg13_hv_nmos`/`sg13_hv_pmos` do carry per-instance mismatch under ngspice.
-`cornerMOShv.lib` has `mos_{tt,ss,ff,sf,fs}_mismatch` sections that include
-`sg13g2_moshv_mismatch.lib` (one-sigma Pelgrom-style parameters, e.g. nmos
-`delvto_mm` = 0.007, pmos 0.0045, `factuo_mm` 0.005 / 0.004, `dw_mm`/`dl_mm`
-3e-9) and `sg13g2_moshv_mod_mismatch.lib`, whose instance parameters are
-`agauss(...)` draws gated by `mm_ok`. `klt sim` seeds them through
-`.options seed=`. This contradicts the sibling `RECORD-002` statement "no
-per-instance mismatch model is available for `sg13_hv_nmos`/`sg13_hv_pmos`";
-that record is append-only and is not edited (see `records/RECORD-001`).
+`sg13_hv_nmos`/`sg13_hv_pmos` carry PDK-supplied per-instance mismatch under
+ngspice: the `mos_{tt,ss,ff,sf,fs}_mismatch` sections of `cornerMOShv.lib`
+pull in `sg13g2_moshv_mismatch.lib` (one-sigma Pelgrom-style parameters) and
+`sg13g2_moshv_mod_mismatch.lib`, whose instance parameters are `agauss(...)`
+draws of the form `agauss(w, sigma, (mm_ok != 1 ? 0 : 1))`. The gate is the
+**subcircuit instance parameter `mm_ok`**, and IHP moved its default between
+the two `ihp-sg13cmos5l` revisions `../README.md` names:
+
+| Tree | `.subckt sg13_hv_[np]mos … mm_ok=` | Enable lives in |
+|---|---|---|
+| `PDK-PIN` `607e18d4…` (the repo's reproducibility target) | `1` | the model file's own default |
+| install pin `f7bca326…` (what the fleet image and `$PDK_ROOT` carry today) | `0` | the xschem symbol, which now netlists `mm_ok=@mm_ok` per instance |
+
+`design/sg13cmos5l/netlist/cp.spice` was netlisted with the **older**
+symbols, so its MOS instance lines carry no `mm_ok=` at all. Run this bench
+against the newer tree and every `agauss` collapses to its nominal: the
+campaign returns **sigma exactly 0 on every measurement**, with no error, no
+warning and `status: pass`. A zero-spread run is indistinguishable from a
+perfectly matched circuit unless you already know to look.
+
+Two things guard against that:
+
+1. **`testbench/gen_requests.py` refuses to emit a request it cannot prove
+   will draw.** `--pinned-pdk` is required (no `$PDK_ROOT` fallback) and the
+   generator reads the resolved mismatch library's `.subckt` defaults,
+   aborting unless both HV MOS devices default to `mm_ok=1`.
+2. **The negative control and the positive probe are run on the same deck**
+   before the campaign; the probe is what fails loudly if the draw is dead.
+
+`klt sim`'s own per-family mismatch-activity report cannot help here: it
+reports `active: null` ("not independently verified for PDK family
+`sg13cmos5l`") whether or not mismatch is live. That tool gap is
+2AMLogic/klayout-tools#5486, which describes this exact `mm_ok` shape; the
+guard above is the local stand-in until it lands.
+
 No sigma value in this directory is invented; all are the PDK's.
 
 ## Seed, N, controls
 
 | Item | Value |
 |---|---|
-| Seed | 178 (`monte_carlo.seed`; per-sample seeds are SHA-256 derived, echoed per corner in the report) |
+| Seed | 178 (`monte_carlo.seed`; per-sample seeds are SHA-256 derived, echoed per sample in the report and in `corners/mc-samples.csv`) |
 | N | 100 per corner x 15 corners = 1500 samples (`mc.request.json`) |
 | `vary` | `mismatch` |
-| Negative control | `negative_control.request.json`: section `mos_tt` (no mismatch library), 20 samples. Every stddev is exactly 0. Committed: `reports/sim.negative_control.json` |
-| Positive probe | `positive_probe.request.json`: `mos_tt_mismatch`, 3 samples, mismatch 2.855 / 6.269 / 7.983 %. Committed: `reports/sim.positive_probe.json` |
+| Negative control | `negative_control.request.json`: section `mos_tt` (no mismatch library), 20 samples. Every stddev is exactly 0. Committed: `reports/sim.negative_control.dr010-pinned.json` |
+| Positive probe | `positive_probe.request.json`: `mos_tt_mismatch`, 3 samples. Non-zero spread; exits 3 on the screening limit. Committed: `reports/sim.positive_probe.dr010-pinned.json` |
 
-The negative control's single value, -0.2985 %, equals the sibling bench's
-nominal at VOUT = 2.40 V (`RECORD-002`: -0.298 %), so this deck reproduces
-the corner-bench number before any mismatch is added.
+The negative control's single value, **-0.298465 %**, equals the sibling
+bench's nominal at VOUT = 2.40 V (`RECORD-002`: -0.298 %), so this deck
+reproduces the corner-bench number on the DR-010 `cp` before any mismatch is
+added.
 
-## Limit (needs a ruling)
+The #191 reports (`reports/sim.negative_control.json`,
+`reports/sim.positive_probe.json`) are the pre-DR-010 runs and are **not**
+overwritten or edited; they belong to `records/RECORD-001`.
+
+## Result, in one table
+
+Full numbers, per-corner breakdown and every caveat:
+`records/RECORD-002-cp-mismatch-mc-yield.md`.
+
+| | |
+|---|---|
+| Samples | 1500 (15 corners x N = 100), 0 errored, 0 lost shards |
+| `mismatch_pct` mean / sigma | -0.3201 % / 3.8769 % |
+| Yield vs the `+/-3.5 %` screening limit | **63.47 %**, 95 % CI [60.97 %, 65.91 %] (Clopper-Pearson, pooled) |
+| Cpk / sigma-to-spec | 0.2734 / 0.820 |
+| Worst corners | `mos_fs_mismatch` / -40 C and `mos_sf_mismatch` / -40 C, 47/100 each |
+| Best corner | `mos_tt_mismatch` / 125 C, 74/100 |
+| `klt yield` sample-size verdict | **`insufficient`** — N = 1500 gives +/-2.47 pp; 8907 needed for the default +/-1 pp |
+| `klt signoff` T1 item 6 | analog **`unmet` / `undersized_sample`** (was `no_evidence`); digital unchanged `unmet` / `no_evidence` |
+
+The dominant axis is **temperature, not process corner**: sigma falls
+monotonically with temperature in all five process sections (-40 C:
+3.96-4.77 %; 125 C: 3.08-3.45 %), while the means stay within +/-1.02 %
+everywhere. The shortfall against the screening limit is distribution width,
+not offset.
+
+The campaign was run at the N the issue specifies, and the `insufficient`
+verdict is reported rather than engineered away: `klt yield`'s default
++/-1 pp target is not a repo requirement, and the limit being graded against
+is itself unratified, so its uncertainty dominates +/-2.47 pp of sampling
+noise. A ratified limit should land before a bigger campaign.
+
+## Limit (still needs a ruling)
 
 `spec/target-spec.md` row 7 (lock time) proposes **no number**, and no row
 carries a `cp` mismatch limit. The only quantitative statement in the repo
@@ -60,38 +122,66 @@ is the closed-loop dual-lock criterion, `|static phase error| < 5 %` of
 derived only from existing records: 5 % / (9.176 % phase error per 6.42 %
 mismatch at VOUT = 2.40 V, `RECORD-003` and the sibling `RECORD-002`) = 3.50 %.
 That is an empirical, single-point, linear-through-origin screening limit
-(`RECORD-004` states the analytic gain is not derived). It is not a ratified
-spec number and the spec was not edited. A ruling is needed on the real limit.
+(`RECORD-004` states the analytic gain is not derived), and its derivation
+used closed-loop records made on the **pre-DR-010** `cp`. It is not a
+ratified spec number and the spec was not edited to add one. No
+`target_yield` is declared, so the `klt yield` envelope reports an estimate
+rather than a pass/fail against a number nobody ratified.
+
+`corners/mc-samples.csv` carries every sample, so the yield can be
+recomputed against any later ratified limit without re-simulating — see
+`records/RECORD-002`, "Recomputing this against a different limit".
 
 ## Cold start
 
-    export PDK_ROOT=<parent of ihp-sg13cmos5l>     # default in the generator: ~/share/pdk
+The pinned tree is an `ihp-sg13cmos5l` git checkout at `../README.md`'s
+`PDK-PIN ihp-sg13cmos5l 607e18d4…`. On the fleet workers it is the
+`~/share/pdk/ihp-sg13cmos5l.bak-<timestamp>` directory the 2026-10-15 PDK
+sync renamed aside (`git rev-parse HEAD` must print the pin); elsewhere,
+clone that commit. `$PDK_ROOT` is deliberately **not** used — see "Mismatch
+is PDK-revision sensitive" above.
+
+    export PINNED_PDK=<ihp-sg13cmos5l checkout at 607e18d4...>
     cd sim/sg13cmos5l-cp-icp-trim-mc
-    python3 testbench/gen_requests.py              # rewrites the three *.request.json
-    klt sim testbench/negative_control.request.json --backend local --format json   # exit 0, stddev 0
-    klt sim testbench/positive_probe.request.json   --backend local --format json   # exit 3 (limits), stddev > 0
-    klt sim testbench/mc.request.json --format json > reports/sim.mc.json          # batch fleet; do NOT run locally
-    klt yield reports/sim.mc.json --measurement mismatch_pct --format json > reports/yield.mc.json
+    python3 -I testbench/gen_requests.py --pinned-pdk "$PINNED_PDK"   # rewrites the three *.request.json
 
-Then write `records/RECORD-002` with the yield estimate and its confidence
-interval from `reports/yield.mc.json`, and wire item 6 by adding a
-`6.analog` entry to `manifests/sg13g2-pll.json` pointing at
-`reports/yield.mc.json` and regenerating `manifests/sg13g2-pll.tier-report.json`
-with the pinned `klt signoff` command in `.github/workflows/signoff.yml`
-(never by hand). The digital partition (`divider_chain`) has no statistical
-row and must say so explicitly when item 6 is wired.
+    # controls, one corner each -- local is allowed for a single unit
+    klt sim testbench/negative_control.request.json --backend local --format json \
+        > reports/sim.negative_control.dr010-pinned.json     # exit 0, stddev 0
+    klt sim testbench/positive_probe.request.json   --backend local --format json \
+        > reports/sim.positive_probe.dr010-pinned.json       # exit 3 (limits), stddev > 0
 
-## Blockers (as of this commit)
+    # the campaign: batch fleet only, never a local grid (host rules)
+    klt sim testbench/mc.request.json --backend batch --wait-for-capacity 600 \
+        --format json --report-out reports/sim.mc.json -o reports/mc-batch-receipts
+    python3 -I testbench/collect_mc.py reports/sim.mc.json --outdir corners
 
-1. **Batch fleet cannot run this request.** Submitted with
-   `stage_model_inputs`, no `models.pdk` (the batch backend refuses
-   `ihp-sg13cmos5l`: 2AMLogic/klayout-tools#2727), and
-   `batch.runner_version_check: warn`: the fleet runner ran klt 0.5.0 against
-   client 0.7.0, silently ignored `options.osdi_preload`, and ngspice stopped
-   with `Unable to find definition of model ...sg13g2_hv_pmos_psp` (log
-   retrieved with `keep_artifacts`). With the default `enforce` the job exits
-   87 `batch_runner_version_mismatch`. Upstream: klayout-tools#2851, #2901.
-   Per host rules the grid was not run locally.
-2. **`klt yield` is unusable on this worker**: `klt_yield_native` is not
-   installed (also not via `uvx --from "klayout-tools[yield]"`), and host
-   tools may not be changed. The yield report therefore does not exist yet.
+    # the yield envelope, from the reports/ directory so `samples` stays
+    # relative (klt signoff hashes the file that field names)
+    cd reports && uvx --from "klayout-tools[yield]" klt yield sim.mc.json \
+        --measurement mismatch_pct --format json > yield.mc.json
+
+`klt yield` needs the `klt_yield_native` extension, which the host tool does
+not carry; the `uvx` form above resolves a build that does. Nothing is
+installed host-wide.
+
+Item 6 is wired by the `6.analog` entry in `manifests/sg13g2-pll.json`,
+whose `content_hash` is the sha256 of `reports/sim.mc.json` (the document
+`yield.mc.json`'s `samples` field names), with
+`manifests/sg13g2-pll.tier-report.json` regenerated by the pinned
+`klt signoff` in `.github/workflows/signoff.yml` — never by hand. The
+digital partition (`divider_chain`) has no statistical row and
+`manifests/README.md` says so; it gets no citation here.
+
+## History
+
+`records/RECORD-001` (PR #191) established the bench, the controls and the
+mismatch model on the pre-DR-010 `cp`, and recorded three blockers: the
+batch backend refusing `models.pdk: ihp-sg13cmos5l`
+(2AMLogic/klayout-tools#2727), a fleet runner too old for `osdi_preload`
+(#2851, #2901), and `klt yield` unusable on the worker. All three are
+closed or worked around: the campaign ran on the fleet with
+`options.stage_model_inputs` shipping the pinned model bytes (so
+`models.pdk` is not needed at all), the runner is now klt 0.9.0, and
+`klt yield` runs in a throwaway `uvx` environment. `records/RECORD-002`
+carries the campaign; `RECORD-001` is unedited.

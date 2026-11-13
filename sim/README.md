@@ -225,7 +225,7 @@ fleet rather than hand-launched ngspice loops.
 | `sg13cmos5l-closed-loop-lock` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-lock/testbench/run.sh` |
 | `sg13cmos5l-closed-loop-real-divider` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-closed-loop-real-divider/testbench/run.sh` |
 | `sg13cmos5l-cp-icp-trim` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-cp-icp-trim/testbench/run.sh` |
-| `sg13cmos5l-cp-icp-trim-mc` | `testbench/gen_requests.py` | `cd sim/sg13cmos5l-cp-icp-trim-mc && PDK_ROOT=$PDK_ROOT testbench/gen_requests.py && klt sim testbench/negative_control.request.json --backend local --format json` |
+| `sg13cmos5l-cp-icp-trim-mc` | `testbench/gen_requests.py` | `cd sim/sg13cmos5l-cp-icp-trim-mc && python3 -I testbench/gen_requests.py --pinned-pdk $PINNED_PDK && klt sim testbench/mc.request.json --backend batch --wait-for-capacity 600 --report-out reports/sim.mc.json` |
 | `sg13cmos5l-divider-nrange-retiming` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-divider-nrange-retiming/testbench/run.sh` |
 | `sg13cmos5l-divider-retiming-sizing` | `testbench/gen_sizing_requests.py` | `python3 -I sim/sg13cmos5l-divider-retiming-sizing/testbench/gen_sizing_requests.py setup b:b && klt sim <request> --backend batch --wait-for-capacity 600` |
 | `sg13cmos5l-klt-pex-signoff` | `run-klt-pex.sh` | `PDK_ROOT=$PDK_ROOT sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh <block>` |
@@ -244,6 +244,16 @@ fleet rather than hand-launched ngspice loops.
 | `sg13g2-hbt-characterization` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-hbt-characterization/testbench/run.sh` |
 | `sg13g2-lock-detector-window` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-lock-detector-window/testbench/run.sh` |
 | `sg13g2-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-vco-kvco-table/testbench/run.sh` |
+
+**`sg13cmos5l-cp-icp-trim-mc` takes `$PINNED_PDK`, not `$PDK_ROOT`.** It is
+the only bench whose result depends on *which* of the two `ihp-sg13cmos5l`
+revisions above it reads: the newer install defaults the HV MOS mismatch
+subcircuits to `mm_ok=0`, and this repo's netlists carry no `mm_ok=` on their
+instance lines, so the Monte Carlo campaign would return sigma exactly 0 on
+every measurement and still report `pass`. `$PINNED_PDK` must be an
+`ihp-sg13cmos5l` checkout at the `PDK-PIN` revision above; the bench's
+generator refuses to emit a request against a tree it cannot prove will draw.
+See `sg13cmos5l-cp-icp-trim-mc/README.md` and its `records/RECORD-002`.
 
 ## PDK scope — two independent campaigns, one convention
 
