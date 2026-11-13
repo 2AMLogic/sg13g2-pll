@@ -4,6 +4,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-12
 
+- **PR #370**: sim: rerun loop_filter momcap records on batch fleet, add superseded addenda
+- **Issue #321** (closed): Item 9 campaign (#214 part 3/3): supersede loop-filter-momcap RECORD-001/002
 - **Issue #215** (closed): Item 9 campaign: post-layout PEX/PVT provenance
 - **PR #367**: sim: rerun RECORD-004 loop-filter and divider-chain arms on the batch fleet
 - **PR #366**: sim: run retry2 tier in run_rerun328.sh and tolerate all-tier failure
