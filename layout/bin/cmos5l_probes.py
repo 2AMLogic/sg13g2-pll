@@ -14,11 +14,13 @@ rather than on a remembered measurement.
   upstream 2026-08-30, after this repo's pin).
 * :func:`probe_gen_compose_block_routing` -- the same request shape against a
   **real** block (:data:`ROUTER_PROBE_BLOCK`, this design's smallest composed
-  one), where `gen-compose` routes the first net and rejects the rest
-  (klayout-tools#1467) and offers no second routing plane on this family to
-  move them onto. This is the probe the local router's continued existence
-  actually rests on; the counts it reports are whatever this run's own plan
-  and composition produce, not a quoted figure.
+  one), where `gen-compose` routes a minority of the declared nets and
+  rejects the rest with ``crosses already-routed net`` (klayout-tools#1467),
+  both on one routing plane and with a second one requested
+  (:data:`ROUTER_PROBE_CROSS_LAYER_ROLE`). This is the probe the local
+  router's continued existence actually rests on; the counts it reports are
+  whatever this run's own plan and composition produce, not a quoted
+  figure.
 * :func:`probe_generator_footprints` -- `klt gen mos_array`/`res_array` run
   on this design's own group parameters, which shows `mos_array` output
   extracting as the *thin*-oxide `sg13_lv_*` devices, leaving every PMOS body
@@ -75,11 +77,13 @@ def probe_gen_compose_router(verifier: Verifier, out_dir: Path) -> dict[str, Any
 
     When the routing probe starts returning exit 0 the pin has moved past
     #1462 -- at which point the second, independent reason still stands
-    (klayout-tools#1467: 1 of 13 nets routed on this design's smallest
-    block). This cell is far too small to exercise that second reason, so
-    this probe is deliberately **not** the one that decides anything about
-    the router; :func:`probe_gen_compose_block_routing` re-measures #1467
-    against a real block on every run, and is what that decision rests on.
+    (klayout-tools#1467: most of the declared nets on this design's smallest
+    block go unrouted; the run's own figures are in `build.json` ->
+    `gen_compose_block_probe`). This cell is far too small to exercise that
+    second reason, so this probe is deliberately **not** the one that decides
+    anything about the router; :func:`probe_gen_compose_block_routing`
+    re-measures #1467 against a real block on every run, and is what that
+    decision rests on.
     """
     builder = dev.Builder()
     builder.open_cell("gencompose_probe")
@@ -135,10 +139,13 @@ def probe_gen_compose_router(verifier: Verifier, out_dir: Path) -> dict[str, Any
 
 
 #: Block the real-block `gen-compose` routing re-probe is taken against
-#: (issue #35). `cp` is this design's *smallest* composed block -- 8 groups,
-#: 14 devices, 13 multi-pin nets -- and is the same block klayout-tools#1467
-#: was originally measured on, so the two measurements are comparable rather
-#: than merely both "a real block".
+#: (issue #35). `cp` is this design's *smallest* composed block, and is the
+#: same block klayout-tools#1467 was originally measured on, so the two
+#: measurements are comparable rather than merely both "a real block". Its
+#: size -- group, device, port and declared-net counts -- is re-derived from
+#: this run's own plan and reported under `gen_compose_block_probe` in
+#: `build.json`; it is deliberately not quoted here, because it changes
+#: whenever the block does (issue #379).
 ROUTER_PROBE_BLOCK = "cp"
 
 #: The second routing plane a two-layer `gen-compose` route would need. Not a

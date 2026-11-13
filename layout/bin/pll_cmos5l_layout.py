@@ -23,10 +23,15 @@ same evidence shape, one structural difference:
   * :func:`cmos5l_probes.probe_gen_compose_router` -- the original two-pad
     probe, which now reports the family accepted;
   * :func:`cmos5l_probes.probe_gen_compose_block_routing` -- the same request
-    shape against a **real** block (`cp`: 8 groups, 14 devices, 13 multi-pin
-    nets), where `gen-compose` still routes 1 of 13 nets
-    (klayout-tools#1467) and offers no second routing plane on this family to
-    move the rest onto;
+    shape against a **real** block (`cp`, this design's smallest composed
+    one), where `gen-compose` still routes only a minority of the declared
+    nets and rejects the rest with ``crosses already-routed net``
+    (klayout-tools#1467), with and without a second routing plane
+    (``routing.cross_block_layer_role``). Every count this probe reports --
+    groups, devices, ports, declared nets, and how many nets each attempt
+    routed -- is whatever this run measures; read them from the record's
+    `build.json` -> `gen_compose_block_probe` rather than from any figure
+    quoted in prose;
   * :func:`cmos5l_probes.probe_generator_footprints` -- `klt gen
     mos_array`/`res_array` run on this design's own group parameters, which
     shows `mos_array` output extracting as the *thin*-oxide `sg13_lv_*`
