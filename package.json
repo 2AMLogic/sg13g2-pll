@@ -1,12 +1,9 @@
 {
   "name": "loom-workspace",
-  "description": "Loom-managed workspace with AI development orchestration",
+  "description": "Loom-managed workspace. `test` and `check:ci` run the repo's tool-free stdlib gates (no klt, ngspice or PDK); klt signoff, xschem netlisting and layout/tests stay in .github/workflows/.",
   "private": true,
   "scripts": {
-    "worktree:return": "./.loom/scripts/worktree-return.sh",
-    "check:ci": "echo 'No CI checks configured. Customize this script for your project.' && exit 0",
-    "check:all": "echo 'No checks configured. Customize this script for your project.' && exit 0",
-    "test": "echo 'No tests configured. Customize this script for your project.' && exit 0",
-    "lint": "echo 'No linter configured. Customize this script for your project.' && exit 0"
+    "test": "python3 characterization/test_check_records.py && python3 characterization/test_gen_summary.py && python3 design/test_check_pfd_reset_parity.py && python3 manifests/test_check_drc_coverage.py && python3 manifests/test_check_erc_coverage.py && python3 manifests/test_check_lvs_coverage.py && python3 manifests/test_check_netlist_stamp.py && python3 manifests/test_check_pex_coverage.py && python3 manifests/test_check_spec_citations.py && python3 manifests/test_check_testbench_coverage.py && python3 scripts/test_check_artifact_manifests.py",
+    "check:ci": "pnpm run test && python3 characterization/check_records.py && python3 characterization/gen_summary.py --check && python3 design/check_pfd_reset_parity.py && python3 manifests/check_drc_coverage.py && python3 manifests/check_erc_coverage.py && python3 manifests/check_lvs_coverage.py && python3 manifests/check_netlist_stamp.py && python3 manifests/check_pex_coverage.py && python3 manifests/check_spec_citations.py && python3 manifests/check_testbench_coverage.py && python3 scripts/check_artifact_manifests.py"
   }
 }
