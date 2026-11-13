@@ -35,6 +35,7 @@ kdb = pytest.importorskip("klayout.db", reason="needs the pinned klt install")
 
 import cmos5l_devices as dev  # noqa: E402
 import cmos5l_floorplan  # noqa: E402
+import cmos5l_probes as probes  # noqa: E402
 import cmos5l_route as route  # noqa: E402
 import pll_cmos5l_layout as flow  # noqa: E402
 
@@ -631,10 +632,11 @@ def test_single_row_pack_never_stacks_two_groups_in_y():
 
 # --- Generator-vs-local footprint probe helpers (issue #35) ----------------
 #
-# The probes themselves run `klt` and are recorded as evidence, not simulated
-# here (same split as everywhere else in this file). What *is* unit-testable
-# is the two pure reducers the probe's verdict is computed from -- if either
-# is wrong, the record would report a compatible footprint that is not one.
+# `cmos5l_probes.py` since issue #372. The probes themselves run `klt` and are
+# recorded as evidence, not simulated here (same split as everywhere else in
+# this file). What *is* unit-testable is the two pure reducers the probe's
+# verdict is computed from -- if either is wrong, the record would report a
+# compatible footprint that is not one.
 
 
 def test_port_column_pitch_finds_the_tightest_pair_not_the_average():
@@ -645,7 +647,7 @@ def test_port_column_pitch_finds_the_tightest_pair_not_the_average():
         {"name": "U0_D", "x_um": 1.13},
         {"name": "U1_S", "x_um": 10.0},
     ]
-    assert flow._port_column_pitch(ports) == pytest.approx(0.46)
+    assert probes._port_column_pitch(ports) == pytest.approx(0.46)
 
 
 def test_port_column_pitch_ignores_terminals_sharing_one_column():
@@ -657,8 +659,8 @@ def test_port_column_pitch_ignores_terminals_sharing_one_column():
         {"name": "R0_B", "x_um": 0.21},
         {"name": "R1_A", "x_um": 1.11},
     ]
-    assert flow._port_column_pitch(ports) == pytest.approx(0.90)
-    assert flow._port_column_pitch([{"name": "P", "x_um": 1.0}]) is None
+    assert probes._port_column_pitch(ports) == pytest.approx(0.90)
+    assert probes._port_column_pitch([{"name": "P", "x_um": 1.0}]) is None
 
 
 def test_extracted_models_reads_the_pdk_binding_not_the_deck_class(tmp_path):
@@ -672,8 +674,8 @@ def test_extracted_models_reads_the_pdk_binding_not_the_deck_class(tmp_path):
         "X$2 \\$5 \\$2 \\$6 vsubs sg13_hv_nmos L=0.5U W=2U\n"
         ".ENDS probe\n"
     )
-    assert flow._extracted_models(tmp_path, "probe") == ["sg13_hv_nmos"]
-    assert flow._extracted_models(tmp_path, "absent") == []
+    assert probes._extracted_models(tmp_path, "probe") == ["sg13_hv_nmos"]
+    assert probes._extracted_models(tmp_path, "absent") == []
 
 
 # --- Locality floorplan pass (issue #101) -----------------------------------

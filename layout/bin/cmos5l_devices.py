@@ -26,7 +26,7 @@ draw the footprints locally with `klayout.db`, then verify them with `klt drc
 carries it, so `klt gen mos_array`/`res_array` *do* now draw on
 `ihp-sg13cmos5l`. Drawing was never the whole bar, though, and the difference
 is re-measured on every run by
-:func:`pll_cmos5l_layout.probe_generator_footprints` (raw responses committed
+:func:`cmos5l_probes.probe_generator_footprints` (raw responses committed
 as `gen.probe.*.json`) rather than argued:
 
 * **Device flavour.** `mos_array` has no thick-oxide marker layer configured
@@ -96,6 +96,8 @@ them lives in `cmos5l_route.py`.
 """
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import klayout.db as kdb
 
@@ -389,6 +391,25 @@ class Builder:
         opts = kdb.SaveLayoutOptions()
         opts.gds2_write_timestamps = False
         self.layout.write(path, opts)
+
+
+def write_cell(builder: Builder, cell_name: str, path: Path) -> None:
+    """Write `cell_name` (and its subtree) out as its own GDS stream.
+
+    The counterpart to :meth:`Builder.write`, which writes the whole layout:
+    this flow draws every group and every composed block into one `Builder`
+    and then streams out one cell at a time, so each `klt drc`/`klt
+    extract`/`klt lvs` invocation gets a GDS whose top cell is the cell it was
+    asked about.
+    """
+    cell = builder.layout.cell(cell_name)
+    if cell is None:  # pragma: no cover - defensive
+        raise RuntimeError(f"no such cell: {cell_name}")
+    opts = kdb.SaveLayoutOptions()
+    opts.gds2_write_timestamps = False
+    opts.clear_cells()
+    opts.add_cell(cell.cell_index())
+    builder.layout.write(str(path), opts)
 
 
 def cont_row(b: Builder, x0: float, y0: float, x1: float, y1: float) -> int:

@@ -14,7 +14,7 @@ placement. Two separate, both-measured reasons it is not used here:
    ``PDK variant 'ihp-sg13cmos5l' is not supported by this generator``. That
    is the gap **klayout-tools#1462** tracked -- and it **closed upstream
    2026-08-30T04:31Z**, after this repo's pin. Both transcripts are re-taken
-   on every run (:func:`pll_cmos5l_layout.probe_gen_compose_router`) and
+   on every run (:func:`cmos5l_probes.probe_gen_compose_router`) and
    committed as `gen-compose.probe.*.json`, so the day the pin moves past
    #1462 the record says so by itself rather than by anyone remembering to
    re-check.
@@ -32,7 +32,7 @@ placement. Two separate, both-measured reasons it is not used here:
 
    First measured at `b10fa3c` (#1462's own merge commit) and, since issue
    #35, **re-measured on every run** rather than remembered:
-   :func:`pll_cmos5l_layout.probe_gen_compose_block_routing` rebuilds exactly
+   :func:`cmos5l_probes.probe_gen_compose_block_routing` rebuilds exactly
    that request from this run's own drawn groups and commits the raw
    responses as `gen-compose.probe.block-*.json`. It reproduces unchanged at
    the current pin. The same probe also asks for
