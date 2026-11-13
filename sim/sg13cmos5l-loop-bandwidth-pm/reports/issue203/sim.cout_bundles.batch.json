@@ -1,0 +1,4159 @@
+{
+  "schema_version": 3,
+  "netlist": {
+    "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_cp_cout_issue196.sp",
+    "scope": "repo"
+  },
+  "status": "pass",
+  "corner_count": 2,
+  "passed": 2,
+  "failed": 0,
+  "errored": 0,
+  "inconclusive": 0,
+  "diagnostic_counts": {
+    "by_code": {},
+    "by_severity": {},
+    "corners_with_diagnostics": 0
+  },
+  "metrics": {
+    "sim__corner__count": 2,
+    "sim__corner__passed_count": 2,
+    "sim__corner__failed_count": 0,
+    "sim__corner__errored_count": 0,
+    "sim__corner__inconclusive_count": 0
+  },
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "engine_build": {
+      "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******",
+      "binary_sha256": "dc859418bedd0478ff439a2d3e2e09f4386a7f4d5e3f17671953e101a000cc60",
+      "probe": "ok",
+      "reason": null
+    },
+    "models_lib": {
+      "path": null,
+      "scope": "external"
+    },
+    "models_lib_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+    "models_lib_sha256_scope": "client",
+    "netlist_sha256": "1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007",
+    "netlist_closure": [
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/testbench/tb_cp_cout_issue196.sp",
+        "scope": "repo",
+        "sha256": "1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007"
+      },
+      {
+        "path": "sim/sg13cmos5l-loop-bandwidth-pm/netlist-snapshots/cp_otabuf.spice",
+        "scope": "repo",
+        "sha256": "c8a55d8d2234c4686f85054830d92eb4b41a256bfaeb44e039b1089033294452"
+      }
+    ],
+    "netlist_identity": "sha256:324cbc4208b51090cf17a03749c69e623437018c5a17592de114a02035ff2132",
+    "osdi_preload": [
+      {
+        "name": "psp103.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "dba873bcef3f1978b30d66a4dcb661f79c6f6386c29da8841712d84399e13f1a"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "ad99ea641e0b88b29125a786e77f3dcb3b206b5e116e23c2a265783658e69754"
+      },
+      {
+        "name": "mosvar.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "cded61b14fbe50f74453e995a00f4876664328fd477badf672e5b2405cae5973"
+      },
+      {
+        "name": "cap_cmomi.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "path": null,
+        "scope": "external",
+        "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+      }
+    ],
+    "corner_section_libs": [
+      {
+        "name": "cornerRES.lib",
+        "path": null,
+        "scope": "external",
+        "sha256": "c6d749e72cfa2e06e4a14fac3f5662541bf6197b89265ecbedd632fd3503c425"
+      }
+    ],
+    "staged_model_inputs": [
+      {
+        "name": "cornerMOShv.lib",
+        "field": "models.lib",
+        "kind": "library",
+        "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62",
+        "rewritten": true,
+        "source_sha256": "5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a"
+      },
+      {
+        "name": "cornerRES.lib",
+        "field": "corners.process[0].sections[1].lib",
+        "kind": "library",
+        "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9",
+        "rewritten": true,
+        "source_sha256": "c6d749e72cfa2e06e4a14fac3f5662541bf6197b89265ecbedd632fd3503c425"
+      },
+      {
+        "name": "psp103.osdi",
+        "field": "options.osdi_preload[0]",
+        "kind": "osdi",
+        "sha256": "dba873bcef3f1978b30d66a4dcb661f79c6f6386c29da8841712d84399e13f1a",
+        "rewritten": false,
+        "source_sha256": "dba873bcef3f1978b30d66a4dcb661f79c6f6386c29da8841712d84399e13f1a"
+      },
+      {
+        "name": "psp103_nqs.osdi",
+        "field": "options.osdi_preload[1]",
+        "kind": "osdi",
+        "sha256": "ad99ea641e0b88b29125a786e77f3dcb3b206b5e116e23c2a265783658e69754",
+        "rewritten": false,
+        "source_sha256": "ad99ea641e0b88b29125a786e77f3dcb3b206b5e116e23c2a265783658e69754"
+      },
+      {
+        "name": "mosvar.osdi",
+        "field": "options.osdi_preload[2]",
+        "kind": "osdi",
+        "sha256": "cded61b14fbe50f74453e995a00f4876664328fd477badf672e5b2405cae5973",
+        "rewritten": false,
+        "source_sha256": "cded61b14fbe50f74453e995a00f4876664328fd477badf672e5b2405cae5973"
+      },
+      {
+        "name": "cap_cmomi.osdi",
+        "field": "options.osdi_preload[3]",
+        "kind": "osdi",
+        "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83",
+        "rewritten": false,
+        "source_sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+      },
+      {
+        "name": "cap_cmomf.osdi",
+        "field": "options.osdi_preload[4]",
+        "kind": "osdi",
+        "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18",
+        "rewritten": false,
+        "source_sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+      },
+      {
+        "name": "r3_cmc.osdi",
+        "field": "options.osdi_preload[5]",
+        "kind": "osdi",
+        "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3",
+        "rewritten": false,
+        "source_sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+      },
+      {
+        "name": "sg13g2_moshv_mod.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "bf75d51ba73ab6c40bdb76306c9df74f80229db42ee63e3f4cc30a1911645af2",
+        "rewritten": true,
+        "source_sha256": "58ce3084c253f2d3753c3b95386e8f4b81dcadfed4f4503dce56862a556c3328"
+      },
+      {
+        "name": "sg13g2_svaricaphv_mod.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "b6ae39c7334c75c222ecdee9d6b04c9be48657e91351429aebac47d1192a9abb",
+        "rewritten": false,
+        "source_sha256": "b6ae39c7334c75c222ecdee9d6b04c9be48657e91351429aebac47d1192a9abb"
+      },
+      {
+        "name": "sg13g2_moshv_mismatch.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09",
+        "rewritten": false,
+        "source_sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+      },
+      {
+        "name": "sg13g2_moshv_mod_mismatch.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "97eba3d2d47596488e0e128f950dc30742d1da80cdeec1f7385a9e13cb460936",
+        "rewritten": true,
+        "source_sha256": "75c30f6975aad4cfe95af7c80fcea142ab0df6c9d7667c09120c7d0c9b814801"
+      },
+      {
+        "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "064e1c751508149f2674914c1791c418195c55fff7d82236d20c2c79f49030fe",
+        "rewritten": false,
+        "source_sha256": "064e1c751508149f2674914c1791c418195c55fff7d82236d20c2c79f49030fe"
+      },
+      {
+        "name": "sg13g2_moshv_stat.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903",
+        "rewritten": false,
+        "source_sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+      },
+      {
+        "name": "resistors_mod.lib",
+        "field": "corners.process[0].sections[1].lib",
+        "kind": "dependency",
+        "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43",
+        "rewritten": false,
+        "source_sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+      },
+      {
+        "name": "resistors_mod_mismatch.lib",
+        "field": "corners.process[0].sections[1].lib",
+        "kind": "dependency",
+        "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29",
+        "rewritten": false,
+        "source_sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+      },
+      {
+        "name": "resistors_stat.lib",
+        "field": "corners.process[0].sections[1].lib",
+        "kind": "dependency",
+        "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6",
+        "rewritten": false,
+        "source_sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+      },
+      {
+        "name": "sg13g2_moshv_parm.lib",
+        "field": "models.lib",
+        "kind": "dependency",
+        "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35",
+        "rewritten": false,
+        "source_sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+      }
+    ],
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-305db5c52616",
+      "region": "us-east-1",
+      "instance_id": "i-0bdb52c797747d6e9",
+      "instance_type": "c7i.8xlarge",
+      "availability_zone": "us-east-1a",
+      "ami_id": "ami-095c25ae241a4d360",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "2",
+      "physical_cores": "16",
+      "elapsed_seconds": 15,
+      "client_submitted_at": null,
+      "client_launched_at": null,
+      "client_status_terminal_at": "2026-11-11T20:00:13.044909Z",
+      "client_collected_at": "2026-11-11T20:00:14.127036Z",
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev661+g1de5c0432aad",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "measurements[].expr",
+          "corners.process[].sections[]",
+          "options.ngspice_init",
+          "options.osdi_preload",
+          "options.stage_model_inputs"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": null,
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": true,
+          "stamp_scope": "image"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": [
+          {
+            "name": "cornerMOShv.lib",
+            "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+          },
+          {
+            "name": "cornerRES.lib",
+            "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9"
+          },
+          {
+            "name": "psp103.osdi",
+            "sha256": "dba873bcef3f1978b30d66a4dcb661f79c6f6386c29da8841712d84399e13f1a"
+          },
+          {
+            "name": "psp103_nqs.osdi",
+            "sha256": "ad99ea641e0b88b29125a786e77f3dcb3b206b5e116e23c2a265783658e69754"
+          },
+          {
+            "name": "mosvar.osdi",
+            "sha256": "cded61b14fbe50f74453e995a00f4876664328fd477badf672e5b2405cae5973"
+          },
+          {
+            "name": "cap_cmomi.osdi",
+            "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+          },
+          {
+            "name": "cap_cmomf.osdi",
+            "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+          },
+          {
+            "name": "r3_cmc.osdi",
+            "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+          },
+          {
+            "name": "sg13g2_moshv_mod.lib",
+            "sha256": "bf75d51ba73ab6c40bdb76306c9df74f80229db42ee63e3f4cc30a1911645af2"
+          },
+          {
+            "name": "sg13g2_svaricaphv_mod.lib",
+            "sha256": "b6ae39c7334c75c222ecdee9d6b04c9be48657e91351429aebac47d1192a9abb"
+          },
+          {
+            "name": "sg13g2_moshv_mismatch.lib",
+            "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+          },
+          {
+            "name": "sg13g2_moshv_mod_mismatch.lib",
+            "sha256": "97eba3d2d47596488e0e128f950dc30742d1da80cdeec1f7385a9e13cb460936"
+          },
+          {
+            "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+            "sha256": "064e1c751508149f2674914c1791c418195c55fff7d82236d20c2c79f49030fe"
+          },
+          {
+            "name": "sg13g2_moshv_stat.lib",
+            "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+          },
+          {
+            "name": "resistors_mod.lib",
+            "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+          },
+          {
+            "name": "resistors_mod_mismatch.lib",
+            "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+          },
+          {
+            "name": "resistors_stat.lib",
+            "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+          },
+          {
+            "name": "sg13g2_moshv_parm.lib",
+            "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+          }
+        ],
+        "diagnostics": [
+          "pdk root or variant unknown on worker"
+        ],
+        "pdk_stamp_comparison": {
+          "basis": "staged_model_inputs",
+          "status": "match"
+        },
+        "engine_build_comparison": {
+          "status": "match"
+        }
+      },
+      "runner_model_inputs": [
+        {
+          "name": "cornerMOShv.lib",
+          "sha256": "40c4140415a2a2e92d2f42fd64e026d1c04d800708b7a5b663ef083206ddfd62"
+        },
+        {
+          "name": "cornerRES.lib",
+          "sha256": "bd2fdd7cf19ec817c23c1539c7ab013612e959b8b0698e0a482a7af5ca91d0f9"
+        },
+        {
+          "name": "psp103.osdi",
+          "sha256": "dba873bcef3f1978b30d66a4dcb661f79c6f6386c29da8841712d84399e13f1a"
+        },
+        {
+          "name": "psp103_nqs.osdi",
+          "sha256": "ad99ea641e0b88b29125a786e77f3dcb3b206b5e116e23c2a265783658e69754"
+        },
+        {
+          "name": "mosvar.osdi",
+          "sha256": "cded61b14fbe50f74453e995a00f4876664328fd477badf672e5b2405cae5973"
+        },
+        {
+          "name": "cap_cmomi.osdi",
+          "sha256": "972ff31c1dd8658f7399f2ec9212d0220344c356a77570b5b3ee925155119a83"
+        },
+        {
+          "name": "cap_cmomf.osdi",
+          "sha256": "d44927b3dbcc9a0906125da35fbb9cb23d9abdf20f6dddda0394e81fb165ac18"
+        },
+        {
+          "name": "r3_cmc.osdi",
+          "sha256": "746f86fd1b89c309cbec7b23e661a66ee80b2d897ea229bc8e3fcc3757a673c3"
+        },
+        {
+          "name": "sg13g2_moshv_mod.lib",
+          "sha256": "bf75d51ba73ab6c40bdb76306c9df74f80229db42ee63e3f4cc30a1911645af2"
+        },
+        {
+          "name": "sg13g2_svaricaphv_mod.lib",
+          "sha256": "b6ae39c7334c75c222ecdee9d6b04c9be48657e91351429aebac47d1192a9abb"
+        },
+        {
+          "name": "sg13g2_moshv_mismatch.lib",
+          "sha256": "2e9612bdb8252c281f422511039dc9b3ea983892aec89f8ef3361592e68fed09"
+        },
+        {
+          "name": "sg13g2_moshv_mod_mismatch.lib",
+          "sha256": "97eba3d2d47596488e0e128f950dc30742d1da80cdeec1f7385a9e13cb460936"
+        },
+        {
+          "name": "sg13g2_svaricaphv_mod_mismatch.lib",
+          "sha256": "064e1c751508149f2674914c1791c418195c55fff7d82236d20c2c79f49030fe"
+        },
+        {
+          "name": "sg13g2_moshv_stat.lib",
+          "sha256": "cd30f22637e41fdbbaba506ebe0f17746b8438027e4651a7a87b241a39d68903"
+        },
+        {
+          "name": "resistors_mod.lib",
+          "sha256": "7c77da0c0419c8a332550da3f934f530262bd452734090db827b68ff88d09c43"
+        },
+        {
+          "name": "resistors_mod_mismatch.lib",
+          "sha256": "ce5ea8559df174fbdad8192e45e5d65772ae3af90af61ba295419b2cb5154b29"
+        },
+        {
+          "name": "resistors_stat.lib",
+          "sha256": "9e34411ed09a569323adec8181e4bdd6832af279c9e05b181f00cb2e5d696db6"
+        },
+        {
+          "name": "sg13g2_moshv_parm.lib",
+          "sha256": "eea5bbed39184cb1e2654ae29425a9ed6ee2f2341d6cb76c472591c75237bd35"
+        }
+      ]
+    },
+    "engine_host": "worker",
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "backend": {
+      "resolved": "batch",
+      "source": "flag",
+      "requested": "batch"
+    }
+  },
+  "coverage": {
+    "corners_simulated": 2,
+    "measurements_declared": 84,
+    "measurements_with_limits": 0,
+    "unrecognized_limit_keys": [],
+    "schema_version": 1,
+    "known": true,
+    "checked": [
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p9\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p1\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p3\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p5\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p7\"]/observation",
+      "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p9\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p1\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p3\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p5\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p7\"]/observation",
+      "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p9\"]/observation"
+    ],
+    "skipped": [],
+    "inapplicable": [
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout400k_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_b10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"cout_ff_c375_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[0,\"fast/novdd/-40C\",\"gout_ns_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout400k_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_b10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c10_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"cout_ff_c375_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_0p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_1p9\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p1\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p3\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p5\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p7\"]/limits",
+        "reason": "characterization_without_limits"
+      },
+      {
+        "id": "measurement:[1,\"slow/novdd/125C\",\"gout_ns_c11_2p9\"]/limits",
+        "reason": "characterization_without_limits"
+      }
+    ],
+    "unknown": [],
+    "nothing_checked": false,
+    "nothing_checked_reasons": []
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev661+g1de5c0432aad",
+    "klt_git_commit": "1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klayout_version": "0.30.13",
+    "pdk": null,
+    "deck": {
+      "name": "cornerMOShv.lib",
+      "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:1ee163a16f6603603094b17d9d78c7140b68054c04fdf3b32aee24014c03a007",
+      "role": "netlist"
+    }
+  },
+  "measurements": [
+    {
+      "name": "cout_ff_c375_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.17124823601,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.17124823601
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 11.7263959926
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.37504876289,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.37504876289
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.05430493862
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.40674485359,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.40674485359
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.09922786755
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.241907283747,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.241907283747
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.691817163635
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.40645709541,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.40645709541
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.11339147773
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.215052340519,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.215052340519
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.0784369028062
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.23719255218,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.23719255218
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.50387541685
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.28707230848,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.28707230848
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.68474687674
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.29414865936,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.29414865936
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.71114484098
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.152863221595,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.152863221595
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.576480840635
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.60331979977,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.60331979977
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.73959829246
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 1.694055961062,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 0.4670380887584
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 1.694055961062
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 12.41303155088,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 12.41303155088
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.53783851778
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.26097889239,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 13.25253048155
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.26097889239
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.32584496029,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 13.30657771175
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.32584496029
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.076106501811,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.076106501811
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.487312787848
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.3252790467,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 13.30561543279
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.3252790467
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.336949381591,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.400077592583
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.336949381591
+      }
+    },
+    {
+      "name": "cout_ff_c375_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.16290093619,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.16290093619
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.85719163703
+      }
+    },
+    {
+      "name": "cout_ff_c10_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.36057850673,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.36057850673
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.4151187914
+      }
+    },
+    {
+      "name": "cout_ff_c11_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.56135991445,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.56135991445
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.5514400241
+      }
+    },
+    {
+      "name": "cout_ff_b10_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.009740703842,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 6.009740703842
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.416618699416
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_0p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.56115889404,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 11.56115889404
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 12.55096110201
+      }
+    },
+    {
+      "name": "gout_ns_c11_0p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.278243133438,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.364922942558
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.278243133438
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.907880975535,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.907880975535
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.29944635087
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.05151435965,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.05151435965
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.84493039637
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.0822749896,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.0822749896
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.992401398
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.95289510844,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.95289510844
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.360429901674
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.08217181163,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 10.08217181163
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.9921578973
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p1",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.234879126565,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.315142759111
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.234879126565
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.78215595015,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.78215595015
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.14268096665
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.859554366584,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.859554366584
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.28883300721
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.869973977309,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.869973977309
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.32014863795
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.905107054491,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.905107054491
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.316650504608
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.869864841018,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.869864841018
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.31995065338
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.255530690357,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.317468541039
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.255530690357
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.68634488176,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.68634488176
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.03818429232
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.74941516339,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.74941516339
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.13012550516
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.757105654887,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.757105654887
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.143862068
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.866117254959,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.866117254959
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.284254875843
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.756996908526,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.756996908526
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.1436611506
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.259408685505,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.329829413781
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.259408685505
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.611879881496,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.611879881496
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.961154439567
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.668592869999,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.668592869999
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.03877082357
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.675330650322,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.675330650322
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.0490651934
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.835833553827,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.835833553827
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.262933276712
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.675223021227,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.675223021227
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.04886456556
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.26028854766,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.333269602887
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.26028854766
+      }
+    },
+    {
+      "name": "cout_ff_c375_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.555753546154,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.555753546154
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.906674652321
+      }
+    },
+    {
+      "name": "cout_ff_c10_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.609709296157,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.609709296157
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.980116900331
+      }
+    },
+    {
+      "name": "cout_ff_c11_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.616150515221,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.616150515221
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.989779379233
+      }
+    },
+    {
+      "name": "cout_ff_b10_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.81436285665,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.81436285665
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.252966279852
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_1p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.616043654787,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.616043654787
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.989578534042
+      }
+    },
+    {
+      "name": "gout_ns_c11_1p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.26090835395,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.335519299843
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.26090835395
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.51705548562,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.51705548562
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.874298830364
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.573136018648,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.573136018648
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.956606209853
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.580426465244,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.580426465244
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.96979388451
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.802078495288,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.802078495288
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.255248909423
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p1",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.580319557675,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.580319557675
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.96958995373
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p1",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.261995692502,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.338654403131
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.261995692502
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.499369007263,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.499369007263
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 9.873124458653
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.608554590082,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.608554590082
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.14814492093
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.638704266571,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.638704266571
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.25515994946
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.799725229706,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.799725229706
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.27145885292
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p3",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.638589745133,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.638589745133
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.25491270812
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p3",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.267172305113,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.354345480041
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.267172305113
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.847535008534,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 9.847535008534
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 10.30957626875
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.99476264456,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 13.98670828859
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 13.99476264456
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.39434015826,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 14.34538923688
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.39434015826
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.808588948221,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.808588948221
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.304433227907
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p5",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.39405049899,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 14.34491429947
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.39405049899
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p5",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.29106156374,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.352000685544
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.29106156374
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.01423981962,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 15.13859700162
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.01423981962
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.67418070456,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.47084248509
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.67418070456
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.72227566788,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.56221280791
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.72227566788
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.830792890344,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.830792890344
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.358946525823
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p7",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.72223028102,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.56173061786
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 16.72223028102
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p7",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.114226576114,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "slow/novdd/125C",
+        "value": -0.256756141844
+      },
+      "max": {
+        "corner_id": "fast/novdd/-40C",
+        "value": -0.114226576114
+      }
+    },
+    {
+      "name": "cout_ff_c375_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.56787820958,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.56787820958
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.02525106992
+      }
+    },
+    {
+      "name": "cout_ff_c10_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.60453327543,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.60453327543
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.18920988642
+      }
+    },
+    {
+      "name": "cout_ff_c11_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.61015449057,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.61015449057
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.20637298658
+      }
+    },
+    {
+      "name": "cout_ff_b10_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.869859112191,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 5.869859112191
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 6.443428299501
+      }
+    },
+    {
+      "name": "cout400k_ff_c11_2p9",
+      "unit": "fF",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.64741795296,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 14.64741795296
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 16.24591710957
+      }
+    },
+    {
+      "name": "gout_ns_c11_2p9",
+      "unit": "nS",
+      "limits": null,
+      "status": "pass",
+      "worst_case": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 0.3785808437573,
+        "margin": null
+      },
+      "min": {
+        "corner_id": "fast/novdd/-40C",
+        "value": 0.3785808437573
+      },
+      "max": {
+        "corner_id": "slow/novdd/125C",
+        "value": 0.855175579656
+      }
+    }
+  ],
+  "corners": [
+    {
+      "corner_id": "fast/novdd/-40C",
+      "process": "fast",
+      "supply_v": {},
+      "temperature_c": -40,
+      "status": "pass",
+      "runtime_s": 6.688,
+      "peak_rss_bytes": 287232000,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "cout_ff_c375_0p3",
+          "value": 11.17124823601,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p3",
+          "value": 11.37504876289,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p3",
+          "value": 11.40674485359,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p3",
+          "value": 6.241907283747,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p3",
+          "value": 11.40645709541,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p3",
+          "value": -0.215052340519,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p5",
+          "value": 11.23719255218,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p5",
+          "value": 11.28707230848,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p5",
+          "value": 11.29414865936,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p5",
+          "value": 6.152863221595,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p5",
+          "value": 11.60331979977,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p5",
+          "value": 1.694055961062,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p7",
+          "value": 12.41303155088,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p7",
+          "value": 13.26097889239,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p7",
+          "value": 13.32584496029,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p7",
+          "value": 6.076106501811,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p7",
+          "value": 13.3252790467,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p7",
+          "value": -0.336949381591,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p9",
+          "value": 10.16290093619,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p9",
+          "value": 11.36057850673,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p9",
+          "value": 11.56135991445,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p9",
+          "value": 6.009740703842,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p9",
+          "value": 11.56115889404,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p9",
+          "value": -0.278243133438,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p1",
+          "value": 9.907880975535,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p1",
+          "value": 10.05151435965,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p1",
+          "value": 10.0822749896,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p1",
+          "value": 5.95289510844,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p1",
+          "value": 10.08217181163,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p1",
+          "value": -0.234879126565,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p3",
+          "value": 9.78215595015,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p3",
+          "value": 9.859554366584,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p3",
+          "value": 9.869973977309,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p3",
+          "value": 5.905107054491,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p3",
+          "value": 9.869864841018,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p3",
+          "value": -0.255530690357,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p5",
+          "value": 9.68634488176,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p5",
+          "value": 9.74941516339,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p5",
+          "value": 9.757105654887,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p5",
+          "value": 5.866117254959,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p5",
+          "value": 9.756996908526,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p5",
+          "value": -0.259408685505,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p7",
+          "value": 9.611879881496,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p7",
+          "value": 9.668592869999,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p7",
+          "value": 9.675330650322,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p7",
+          "value": 5.835833553827,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p7",
+          "value": 9.675223021227,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p7",
+          "value": -0.26028854766,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p9",
+          "value": 9.555753546154,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p9",
+          "value": 9.609709296157,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p9",
+          "value": 9.616150515221,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p9",
+          "value": 5.81436285665,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p9",
+          "value": 9.616043654787,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p9",
+          "value": -0.26090835395,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p1",
+          "value": 9.51705548562,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p1",
+          "value": 9.573136018648,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p1",
+          "value": 9.580426465244,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p1",
+          "value": 5.802078495288,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p1",
+          "value": 9.580319557675,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p1",
+          "value": -0.261995692502,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p3",
+          "value": 9.499369007263,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p3",
+          "value": 9.608554590082,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p3",
+          "value": 9.638704266571,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p3",
+          "value": 5.799725229706,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p3",
+          "value": 9.638589745133,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p3",
+          "value": -0.267172305113,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p5",
+          "value": 9.847535008534,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p5",
+          "value": 13.99476264456,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p5",
+          "value": 14.39434015826,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p5",
+          "value": 5.808588948221,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p5",
+          "value": 14.39405049899,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p5",
+          "value": -0.29106156374,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p7",
+          "value": 16.01423981962,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p7",
+          "value": 16.67418070456,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p7",
+          "value": 16.72227566788,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p7",
+          "value": 5.830792890344,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p7",
+          "value": 16.72223028102,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p7",
+          "value": -0.114226576114,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p9",
+          "value": 14.56787820958,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p9",
+          "value": 14.60453327543,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p9",
+          "value": 14.61015449057,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p9",
+          "value": 5.869859112191,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p9",
+          "value": 14.64741795296,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p9",
+          "value": 0.3785808437573,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    },
+    {
+      "corner_id": "slow/novdd/125C",
+      "process": "slow",
+      "supply_v": {},
+      "temperature_c": 125,
+      "status": "pass",
+      "runtime_s": 5.633,
+      "peak_rss_bytes": 287232000,
+      "engine_exit_code": 0,
+      "engine_killed_by_signal": null,
+      "measurements": [
+        {
+          "name": "cout_ff_c375_0p3",
+          "value": 11.7263959926,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p3",
+          "value": 12.05430493862,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p3",
+          "value": 12.09922786755,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p3",
+          "value": 6.691817163635,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p3",
+          "value": 12.11339147773,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p3",
+          "value": -0.0784369028062,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p5",
+          "value": 12.50387541685,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p5",
+          "value": 12.68474687674,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p5",
+          "value": 12.71114484098,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p5",
+          "value": 6.576480840635,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p5",
+          "value": 12.73959829246,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p5",
+          "value": 0.4670380887584,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p7",
+          "value": 12.53783851778,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p7",
+          "value": 13.25253048155,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p7",
+          "value": 13.30657771175,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p7",
+          "value": 6.487312787848,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p7",
+          "value": 13.30561543279,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p7",
+          "value": -0.400077592583,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_0p9",
+          "value": 10.85719163703,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_0p9",
+          "value": 12.4151187914,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_0p9",
+          "value": 12.5514400241,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_0p9",
+          "value": 6.416618699416,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_0p9",
+          "value": 12.55096110201,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_0p9",
+          "value": -0.364922942558,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p1",
+          "value": 10.29944635087,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p1",
+          "value": 10.84493039637,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p1",
+          "value": 10.992401398,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p1",
+          "value": 6.360429901674,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p1",
+          "value": 10.9921578973,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p1",
+          "value": -0.315142759111,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p3",
+          "value": 10.14268096665,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p3",
+          "value": 10.28883300721,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p3",
+          "value": 10.32014863795,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p3",
+          "value": 6.316650504608,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p3",
+          "value": 10.31995065338,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p3",
+          "value": -0.317468541039,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p5",
+          "value": 10.03818429232,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p5",
+          "value": 10.13012550516,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p5",
+          "value": 10.143862068,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p5",
+          "value": 6.284254875843,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p5",
+          "value": 10.1436611506,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p5",
+          "value": -0.329829413781,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p7",
+          "value": 9.961154439567,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p7",
+          "value": 10.03877082357,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p7",
+          "value": 10.0490651934,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p7",
+          "value": 6.262933276712,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p7",
+          "value": 10.04886456556,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p7",
+          "value": -0.333269602887,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_1p9",
+          "value": 9.906674652321,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_1p9",
+          "value": 9.980116900331,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_1p9",
+          "value": 9.989779379233,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_1p9",
+          "value": 6.252966279852,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_1p9",
+          "value": 9.989578534042,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_1p9",
+          "value": -0.335519299843,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p1",
+          "value": 9.874298830364,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p1",
+          "value": 9.956606209853,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p1",
+          "value": 9.96979388451,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p1",
+          "value": 6.255248909423,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p1",
+          "value": 9.96958995373,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p1",
+          "value": -0.338654403131,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p3",
+          "value": 9.873124458653,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p3",
+          "value": 10.14814492093,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p3",
+          "value": 10.25515994946,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p3",
+          "value": 6.27145885292,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p3",
+          "value": 10.25491270812,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p3",
+          "value": -0.354345480041,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p5",
+          "value": 10.30957626875,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p5",
+          "value": 13.98670828859,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p5",
+          "value": 14.34538923688,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p5",
+          "value": 6.304433227907,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p5",
+          "value": 14.34491429947,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p5",
+          "value": -0.352000685544,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p7",
+          "value": 15.13859700162,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p7",
+          "value": 16.47084248509,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p7",
+          "value": 16.56221280791,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p7",
+          "value": 6.358946525823,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p7",
+          "value": 16.56173061786,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p7",
+          "value": -0.256756141844,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c375_2p9",
+          "value": 16.02525106992,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c10_2p9",
+          "value": 16.18920988642,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_c11_2p9",
+          "value": 16.20637298658,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout_ff_b10_2p9",
+          "value": 6.443428299501,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "cout400k_ff_c11_2p9",
+          "value": 16.24591710957,
+          "unit": "fF",
+          "status": "pass",
+          "margin": null
+        },
+        {
+          "name": "gout_ns_c11_2p9",
+          "value": 0.855175579656,
+          "unit": "nS",
+          "status": "pass",
+          "margin": null
+        }
+      ],
+      "diagnostics": [],
+      "artifacts": {
+        "log": null,
+        "raw": null,
+        "waveform": null,
+        "deck": null
+      },
+      "monte_carlo": null
+    }
+  ]
+}

@@ -25,6 +25,7 @@ the min/max.
 | cp up/dn mismatch Monte Carlo not run | #178 | The hv MOS mismatch model is confirmed live and the bench's controls pass (sg13cmos5l-cp-icp-trim-mc RECORD-001), but the Monte Carlo campaign is blocked on the batch fleet (klayout-tools#2727, #2851, #2901). No cp mismatch yield estimate exists. |
 | cp tracking dump buffer (DR-010) nominal-only | #178 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
 | Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
+| Real-cp PM on fast/slow bundles: DR-008 fast measured below 45 deg, C_cp=0 anchor does not reproduce | #330 | RECORD-006 measured the DR-007/DR-008 row 6/6a tuples with the real idle cp on VCTRL on the fast/slow bundles (batch fleet, schematic level): DR-008 fast gives 43.79 deg (own interval) / 43.65 deg (full range) against the 45 deg floor, a measured fail; DR-008 slow (min 53.92 deg, max f_c 449.43 kHz, within 0.6 % of the 450 kHz ceiling), DR-007 slow and DR-008 typ pass. The C_cp = 0 anchor, which RECORD-005 defines as a regression gate that must reproduce RECORD-003/004, does not reproduce at fast (44.345 vs 45.592 deg) or slow (54.953 vs 53.454 deg; DR-007 slow 51.751 vs 49.973 deg), so about 1.25 deg of the fast shortfall is not caused by the cp and its cause is not established; the absolute verdicts sit on an unexplained baseline. No closure decision record was written and DR-007, DR-008 and spec row 6a are unchanged. Layout parasitics of the cp (#195) are not included. The PDK revision is not recorded by the batch report (the reports carry only a client-scope model-library sha256). |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 
@@ -933,6 +934,31 @@ the min/max.
 | PM with the real idle cp, worst VCTRL over the tuple's own Kvco interval (measured tuples only; blocked tuples are NA in the csv) (`pm_deg_after_own_interval`) | deg | `pm` | status=ran | 1 | 0 | 48.39 | 48.39 | `tuple`: dr008_typ; `pvt_bundle`: typ |
 | PM with the real idle cp, worst VCTRL over 0.3-2.9 V (measured tuples only; blocked tuples are NA in the csv) (`pm_deg_after_full_range`) | deg | `pm` | status=ran | 1 | 0 | 48.231 | 48.231 | `tuple`: dr008_typ; `pvt_bundle`: typ |
 | max loop crossover with the real idle cp, 0.3-2.9 V (measured tuples only; blocked tuples are NA in the csv) (`fc_hz_max_full_range`) | Hz | `pm` | status=ran | 1 | 0 | 383449 | 383449 | `tuple`: dr008_typ; `pvt_bundle`: typ |
+
+### loop-bw-pm-real-cp-fast-slow-bundles
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: loop_filter_resized.spice (DR-006) with the real idle DR-010 cp (netlist-snapshots/cp_otabuf.spice) on VCTRL; tuple Icp/Kvco/n_div/f_ref from loop-bandwidth-pm RECORD-003/004; same unchanged requests as RECORD-005 with the fast/slow bundles
+- **Context**: schematic, not extracted (cp layout parasitics and the DR-010 redraw are not included, #195)
+- **Conditions**: fast (-40 C) and slow (125 C) bundles submitted unchanged to the batch fleet (klt-sim-eac8c7058128, klt-sim-305db5c52616; --backend batch), 2/2 corners pass in each job; typ rows are the committed RECORD-005 nominal reports; klt 0.9.2.dev661+g1de5c0432aad
+- **Method**: klt sim AC: idle cp VOUT capacitance probe over VOUT 0.3-2.9 V (1 MHz), and open-loop AC PM/f_c with the real idle cp on the loop-filter node, reduced by the unmodified testbench/summarize_issue196.py
+- **Record**: `sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-006-issue203-fast-slow-bundle-pm-with-real-cp.md` (sha256 `13bfb2c2e599ef55e8102e8d02a8fbecd487840c841aef0616cfc71a16f30fb0`)
+- **Table `cout`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/cout_issue203_bundles.csv` (sha256 `555ec0f0886f0a29901e43786bbed5813fe388fcb1a3b8b617770c2c62fb3511`)
+- **Table `pm`**: `sim/sg13cmos5l-loop-bandwidth-pm/corners/results_resized_issue203_ccp_bundles.csv` (sha256 `8173d13e65cb26102568de6eb8cdaca4d5cfa9d618d9b5225b1d9808eb4395cf`)
+- **Note**: SCHEMATIC ONLY. DR-008 fast is a measured fail of the 45 deg floor (43.79 / 43.65 deg) on this bench, but the C_cp = 0 anchor differs from the committed RECORD-003/004 PM by -1.247 deg (fast), +1.499 deg (slow) and +1.778 deg (DR-007 slow), cause not established, so the absolute verdicts are measured on an unexplained baseline. No claim is made that DR-008 fast truly fails.
+- **Note**: The csv verdict_* columns are the record's own comparisons against its 45 deg / f_ref/10 thresholds; they are not reproduced here (no pass/fail column). No closure decision record is written; DR-007, DR-008 and spec row 6a are unchanged.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Real-cp PM on fast/slow bundles: DR-008 fast measured below 45 deg, C_cp=0 anchor does not reproduce (#330)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| total idle cp capacitance on VOUT, 11 uA code (DR-008), one row per VOUT point (`cout_ff_11u`) | fF | `cout` | - | 42 | 0 | 9.58 | 16.722 | `pvt_bundle`: fast, slow, typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| total idle cp capacitance on VOUT, 3.75 uA code (DR-007), one row per VOUT point (`cout_ff_3p75u`) | fF | `cout` | - | 42 | 0 | 9.499 | 16.025 | `pvt_bundle`: fast, slow, typ; `vout_v`: 14 distinct (0.3 .. 2.9) |
+| PM before (ideal Gcp, RECORD-003/004), every tuple (`pm_deg_before`) | deg | `pm` | - | 4 | 0 | 45.592 | 53.454 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
+| PM re-measured with C_cp = 0 on this bench (the regression anchor; it should equal pm_deg_before and does not at fast/slow) (`pm_deg_anchor_nocp`) | deg | `pm` | - | 4 | 0 | 44.345 | 54.953 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
+| PM with the real idle cp, worst VCTRL over the tuple's own Kvco interval (`pm_deg_after_own_interval`) | deg | `pm` | - | 4 | 0 | 43.788 | 54.116 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
+| PM with the real idle cp, worst VCTRL over 0.3-2.9 V (`pm_deg_after_full_range`) | deg | `pm` | - | 4 | 0 | 43.648 | 53.916 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
+| max loop crossover with the real idle cp, 0.3-2.9 V (`fc_hz_max_full_range`) | Hz | `pm` | - | 4 | 0 | 361442 | 449434 | `tuple`: dr007_slow, dr008_fast, dr008_slow, dr008_typ; `pvt_bundle`: fast, slow, typ |
 
 ### closed-loop-real-divider
 
