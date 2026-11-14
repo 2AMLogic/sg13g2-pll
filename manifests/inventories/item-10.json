@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 10,
-  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, and the offline stdlib-only gates those workflows run (everything in signoff.yml except the base-ref append-only check, which needs a PR base).",
+  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, and the offline stdlib-only gates those workflows run -- every python3 gate signoff.yml invokes except the base-ref append-only check, which needs a PR base. That claim is enforced rather than maintained by hand: the signoff-inventory-parity check below fails when signoff.yml invokes a gate this list omits (#395).",
   "hygiene": [
     "README.md",
     "LICENSE",
@@ -139,6 +139,62 @@
         "python3",
         "-B",
         "manifests/test_check_spec_citations.py"
+      ]
+    },
+    {
+      "name": "netlist-stamp-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "manifests/test_check_netlist_stamp.py"
+      ]
+    },
+    {
+      "name": "pfd-reset-parity-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "design/test_check_pfd_reset_parity.py"
+      ]
+    },
+    {
+      "name": "pfd-reset-parity",
+      "argv": [
+        "python3",
+        "-B",
+        "design/check_pfd_reset_parity.py"
+      ]
+    },
+    {
+      "name": "cpdiag-metrics-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py"
+      ]
+    },
+    {
+      "name": "mismatch-gain-metrics-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py"
+      ]
+    },
+    {
+      "name": "signoff-inventory-parity",
+      "argv": [
+        "python3",
+        "-B",
+        "scripts/check_signoff_inventory_parity.py"
+      ]
+    },
+    {
+      "name": "signoff-inventory-parity-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "scripts/test_check_signoff_inventory_parity.py"
       ]
     }
   ]
