@@ -10,6 +10,12 @@ captured reason for every device this run did **not** draw.
 Every number below is read out of `build.json`, which is itself derived from
 `klt`'s own JSON responses -- nothing here is hand-asserted alongside the
 evidence.
+
+`render()` below is the whole document as a pure function of `plan.json` +
+`build.json` + the resolved PDK/deck identity -- no subprocess, no PDK and
+no file write -- so a committed record can be re-rendered and compared
+byte-for-byte in a unit test. `main()` keeps argv parsing, the file reads,
+the three `klt` calls and the write.
 """
 
 from __future__ import annotations
@@ -28,43 +34,16 @@ def _run_json(cmd: list[str]) -> dict:
         return {}
 
 
-def main(argv: list[str]) -> int:
-    if len(argv) < 5:
-        print(
-            "usage: render-pll-cmos5l-record.py <record-dir> <klt> <pdk> <deck> "
-            "[pdk-root]",
-            file=sys.stderr,
-        )
-        return 2
-    record_dir = Path(argv[1])
-    klt, pdk, deck = argv[2], argv[3], argv[4]
-    pdk_root = argv[5] if len(argv) > 5 and argv[5] else None
-
-    plan = json.loads((record_dir / "plan.json").read_text())
-    build_path = record_dir / "build.json"
-    build = json.loads(build_path.read_text()) if build_path.is_file() else None
-
-    pdk_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
-    if pdk_root:
-        pdk_cmd[3:3] = ["--pdk-root", pdk_root]
-    pdk_info = _run_json(pdk_cmd)
-    # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
-    # object `klt pdk find` returns -- unwrap the requested deck's entry.
-    deck_info = next(
-        (
-            entry
-            for entry in _run_json(
-                [klt, "deck", "info", "--deck", deck, "--format", "json"]
-            ).get("decks", [])
-            if entry.get("deck") == deck
-        ),
-        {},
-    )
-    klt_version = subprocess.run(
-        [klt, "--version"], capture_output=True, text=True
-    ).stdout.strip()
-
-    lines: list[str] = [f"# PLL SG13CMOS5L layout record — `{record_dir.name}`\n"]
+def _header_lines(
+    record_name: str,
+    klt_version: str,
+    pdk: str,
+    deck: str,
+    pdk_info: dict,
+    deck_info: dict,
+) -> list[str]:
+    """Title plus the klt / PDK / deck identity block."""
+    lines: list[str] = [f"# PLL SG13CMOS5L layout record — `{record_name}`\n"]
     lines.append(f"- **klt**: `{klt_version or 'unknown'}`")
     lines.append(f"- **PDK variant requested**: `{pdk}`")
     if pdk_info.get("root"):
@@ -83,17 +62,25 @@ def main(argv: list[str]) -> int:
     else:
         lines.append(f"- **Deck**: `{deck}`")
     lines.append("")
+    return lines
 
+
+def _plan_only_lines(plan: dict) -> list[str]:
+    """The whole body of a plan-only run: no `build.json` was written."""
     total_devices = sum(b["device_count"] for b in plan["blocks"])
-    if build is None:
-        lines.append("## Verdict: PLAN ONLY — nothing drawn this run\n")
-        lines.append(
-            f"`plan.json` derives **{total_devices}** device(s) across "
-            f"{len(plan['blocks'])} blocks."
-        )
-        (record_dir / "record.md").write_text("\n".join(lines) + "\n")
-        return 0
+    lines: list[str] = []
+    lines.append("## Verdict: PLAN ONLY — nothing drawn this run\n")
+    lines.append(
+        f"`plan.json` derives **{total_devices}** device(s) across "
+        f"{len(plan['blocks'])} blocks."
+    )
+    return lines
 
+
+def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
+    """The headline verdict and the `klt gen`/`gen-compose` family clause."""
+    total_devices = sum(b["device_count"] for b in plan["blocks"])
+    lines: list[str] = []
     drawn = sum(b["devices_drawn"] for b in build["blocks"])
     drc_clean = sum(b["devices_drc_clean"] for b in build["blocks"])
     matched = sum(b["devices_matched"] for b in build["blocks"])
@@ -172,7 +159,12 @@ def main(argv: list[str]) -> int:
         "`layout/sg13cmos5l-pll/README.md`'s friction log, never a silent "
         "drop.\n"
     )
+    return lines
 
+
+def _per_block_lines(build: dict) -> list[str]:
+    """### Per-block -- one row per block, every cell read out of `build.json`."""
+    lines: list[str] = []
     lines.append("### Per-block\n")
     lines.append(
         "| Block | Groups drawn | Devices drawn | Devices | Group DRC clean | "
@@ -209,7 +201,12 @@ def main(argv: list[str]) -> int:
             f"{lvs_cell} |"
         )
     lines.append("")
+    return lines
 
+
+def _floorplan_lines(build: dict) -> list[str]:
+    """### Floorplan -- only for blocks composed through the locality pass."""
+    lines: list[str] = []
     # Floorplan section (issue #101): named blocks are composed through the
     # locality pass; report the wire-length arithmetic from the compose JSON
     # rather than re-deriving it here.
@@ -236,8 +233,12 @@ def main(argv: list[str]) -> int:
                 f"`compose.{name}.json` -> `floorplan`."
             )
         lines.append("")
+    return lines
 
-    lines.append("### Routing\n")
+
+def _gen_compose_probe_lines(build: dict) -> list[str]:
+    """This run's two-pad `klt gen-compose` re-probe (klayout-tools#1462)."""
+    lines: list[str] = []
     probe = build.get("gen_compose_probe") or {}
     if probe:
         placement = probe.get("placement", {})
@@ -286,7 +287,13 @@ def main(argv: list[str]) -> int:
                 "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
                 "log.\n"
             )
+    return lines
 
+
+def _block_probe_lines(build: dict) -> list[str]:
+    """#### Re-measured against a real block (klayout-tools#1467)."""
+    lines: list[str] = []
+    block_probe = build.get("gen_compose_block_probe") or {}
     if block_probe.get("ran"):
         attempts = block_probe.get("attempts") or {}
         declare = attempts.get("block-declare") or {}
@@ -355,7 +362,12 @@ def main(argv: list[str]) -> int:
                 "longer required on the routing side; see "
                 "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"
             )
+    return lines
 
+
+def _generator_footprint_lines(build: dict) -> list[str]:
+    """#### Generator-drawn footprints, re-measured."""
+    lines: list[str] = []
     footprints = build.get("generator_footprint_probe") or []
     if footprints:
         lines.append("#### Generator-drawn footprints, re-measured\n")
@@ -421,7 +433,12 @@ def main(argv: list[str]) -> int:
             for note in sorted(set(notes)):
                 lines.append(f"- `{note}`")
             lines.append("")
+    return lines
 
+
+def _interconnect_lines(build: dict) -> list[str]:
+    """How `cmos5l_route.py` drew the interconnect, plus incomplete nets."""
+    lines: list[str] = []
     lines.append(
         "Interconnect is therefore drawn by `cmos5l_route.py`: one vertical "
         "`Metal2` riser per device terminal, one horizontal `Metal3` trunk per "
@@ -476,7 +493,23 @@ def main(argv: list[str]) -> int:
             lines.append(f"- {', '.join(entries)}")
             lines.append(f"  - reason: {reason}")
         lines.append("")
+    return lines
 
+
+def _routing_lines(build: dict) -> list[str]:
+    """### Routing -- the probes, the generator footprints and this flow's own."""
+    lines: list[str] = []
+    lines.append("### Routing\n")
+    lines += _gen_compose_probe_lines(build)
+    lines += _block_probe_lines(build)
+    lines += _generator_footprint_lines(build)
+    lines += _interconnect_lines(build)
+    return lines
+
+
+def _never_drawn_lines(build: dict) -> list[str]:
+    """### Devices recorded but never drawn -- the captured reason for each."""
+    lines: list[str] = []
     lines.append("### Devices recorded but never drawn\n")
     reasons: dict[str, list[str]] = {}
     for block in build["blocks"]:
@@ -490,7 +523,28 @@ def main(argv: list[str]) -> int:
     else:
         lines.append("- none: every planned device was drawn.")
     lines.append("")
+    return lines
 
+
+def _lvs_line(name: str, lvs: dict) -> str:
+    counts = lvs.get("counts") or {}
+    categories = lvs.get("category_counts") or {}
+    return (
+        f"{name} — **{lvs.get('status')}**, "
+        f"devices {counts.get('devices', {}).get('matched')}/"
+        f"{counts.get('devices', {}).get('reference')}, "
+        f"nets {counts.get('nets', {}).get('matched')}/"
+        f"{counts.get('nets', {}).get('reference')}, "
+        f"pins {counts.get('pins', {}).get('matched')}/"
+        f"{counts.get('pins', {}).get('reference')}; "
+        f"`mismatch_count` {lvs.get('mismatch_count')} "
+        f"({', '.join(f'{k}: {v}' for k, v in sorted(categories.items())) or 'none'})"
+    )
+
+
+def _lvs_lines(build: dict) -> list[str]:
+    """### LVS status -- per block, read out of `lvs.<block>.json`."""
+    lines: list[str] = []
     lines.append("### LVS status\n")
     lines.append(
         "`klt lvs` is run per composed block against that block's own "
@@ -499,21 +553,6 @@ def main(argv: list[str]) -> int:
         "`<block>.reference.spice`, so this evidence is self-contained). "
         "Per-block, read out of `lvs.<block>.json` rather than asserted:\n"
     )
-    def _lvs_line(name: str, lvs: dict) -> str:
-        counts = lvs.get("counts") or {}
-        categories = lvs.get("category_counts") or {}
-        return (
-            f"{name} — **{lvs.get('status')}**, "
-            f"devices {counts.get('devices', {}).get('matched')}/"
-            f"{counts.get('devices', {}).get('reference')}, "
-            f"nets {counts.get('nets', {}).get('matched')}/"
-            f"{counts.get('nets', {}).get('reference')}, "
-            f"pins {counts.get('pins', {}).get('matched')}/"
-            f"{counts.get('pins', {}).get('reference')}; "
-            f"`mismatch_count` {lvs.get('mismatch_count')} "
-            f"({', '.join(f'{k}: {v}' for k, v in sorted(categories.items())) or 'none'})"
-        )
-
     for block in build["blocks"]:
         lvs = block.get("block_lvs") or {}
         if not lvs.get("ran"):
@@ -539,7 +578,12 @@ def main(argv: list[str]) -> int:
         "friction log for the filed gap."
     )
     lines.append("")
+    return lines
 
+
+def _device_flavor_lines(plan: dict) -> list[str]:
+    """### Device flavor -- the plan's own prose, plus the closing pointer."""
+    lines: list[str] = []
     lines.append("### Device flavor\n")
     lines.append(plan["device_flavor"])
     lines.append("")
@@ -549,8 +593,86 @@ def main(argv: list[str]) -> int:
         "`extract.<cell>.json` / `lvs.<block>.json` for the raw `klt` "
         "responses each claim above was read out of."
     )
+    return lines
 
-    (record_dir / "record.md").write_text("\n".join(lines) + "\n")
+
+def render(
+    record_name: str,
+    plan: dict,
+    build: dict | None,
+    pdk: str,
+    deck: str,
+    pdk_info: dict,
+    deck_info: dict,
+    klt_version: str,
+) -> str:
+    """Return the full `record.md` text for one record.
+
+    Pure: no subprocess, no PDK, no filesystem. `build` is `None` for a
+    plan-only run. The returned text is exactly what `main()` writes.
+    """
+    lines = _header_lines(record_name, klt_version, pdk, deck, pdk_info, deck_info)
+    if build is None:
+        lines += _plan_only_lines(plan)
+        return "\n".join(lines) + "\n"
+    lines += _verdict_lines(plan, build, pdk, deck)
+    lines += _per_block_lines(build)
+    lines += _floorplan_lines(build)
+    lines += _routing_lines(build)
+    lines += _never_drawn_lines(build)
+    lines += _lvs_lines(build)
+    lines += _device_flavor_lines(plan)
+    return "\n".join(lines) + "\n"
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 5:
+        print(
+            "usage: render-pll-cmos5l-record.py <record-dir> <klt> <pdk> <deck> "
+            "[pdk-root]",
+            file=sys.stderr,
+        )
+        return 2
+    record_dir = Path(argv[1])
+    klt, pdk, deck = argv[2], argv[3], argv[4]
+    pdk_root = argv[5] if len(argv) > 5 and argv[5] else None
+
+    plan = json.loads((record_dir / "plan.json").read_text())
+    build_path = record_dir / "build.json"
+    build = json.loads(build_path.read_text()) if build_path.is_file() else None
+
+    pdk_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
+    if pdk_root:
+        pdk_cmd[3:3] = ["--pdk-root", pdk_root]
+    pdk_info = _run_json(pdk_cmd)
+    # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
+    # object `klt pdk find` returns -- unwrap the requested deck's entry.
+    deck_info = next(
+        (
+            entry
+            for entry in _run_json(
+                [klt, "deck", "info", "--deck", deck, "--format", "json"]
+            ).get("decks", [])
+            if entry.get("deck") == deck
+        ),
+        {},
+    )
+    klt_version = subprocess.run(
+        [klt, "--version"], capture_output=True, text=True
+    ).stdout.strip()
+
+    (record_dir / "record.md").write_text(
+        render(
+            record_dir.name,
+            plan,
+            build,
+            pdk,
+            deck,
+            pdk_info,
+            deck_info,
+            klt_version,
+        )
+    )
     return 0
 
 
