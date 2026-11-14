@@ -535,7 +535,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `9e36e959…261b9` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `aeaab88c…a0599` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -545,14 +545,31 @@ hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
 hashed: `README.md`, `LICENSE`, `spec/target-spec.md` and the three workflows
-`.github/workflows/{signoff,layout-tests,netlist}.yml`. Sixteen audit commands
-then each run, without a shell, from the repo root and must exit 0: the
-records checker and its unit tests, the summary generator's unit tests and
-`--check`, and the six `manifests/check_*` gates with their unit tests (the
-same offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
+`.github/workflows/{signoff,layout-tests,netlist}.yml`. Twenty-three audit
+commands then each run, without a shell, from the repo root and must exit 0:
+the records checker and its unit tests, the summary generator's unit tests and
+`--check`, the six `manifests/check_*` gates with their unit tests, the
+`manifests/check_netlist_stamp.py` and `design/check_pfd_reset_parity.py` unit
+tests plus the parity check itself, the two
+`sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction self-tests, and
+`scripts/check_signoff_inventory_parity.py` with its unit test (the same
+offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
 --attest 10 --inventory … --check …` re-attests and diffs against the
 committed envelope, so an edited or missing hygiene file, or a failing gate,
 fails the `grade` job.
+
+**The list is enforced, not maintained by hand (#395).** That claim — every
+`python3` gate `signoff.yml` runs except the base-ref one below — used to be
+upkeep, and it drifted: three gates ran in CI that no inventory attested.
+`scripts/check_signoff_inventory_parity.py` now compares the two directly and
+fails naming any gate `signoff.yml` invokes that the `checks` list omits. It is
+itself one of the twenty-three commands, so it cannot be dropped silently, and
+`signoff.yml` also runs it in the offline `records` job, so drift fails there
+rather than only through the re-attest. The comparison is one-directional:
+an inventory entry the workflow does not (yet) run is more verification, not
+drift, and does not fail. Its one exclusion carries a reason string and goes
+stale loudly — if nothing in `signoff.yml` matches it any more, that is an
+error, not a silent skip.
 
 **What it does not check.**
 
@@ -561,7 +578,17 @@ fails the `grade` job.
   simulator or network, and CI runs them itself. The workflows are attested
   as present and unchanged, not as green.
 - It does not run `check_records.py --base` (append-only enforcement), which
-  needs a PR base ref; `signoff.yml` still runs it on pull requests.
+  needs a PR base ref; `signoff.yml` still runs it on pull requests. This is
+  the **only** gate `signoff.yml` runs that the inventory omits, and the parity
+  check above is what keeps that true — it is the one entry in that script's
+  exclusion table.
+- It does not attest `.github/workflows/artifact-manifests.yml` or the two
+  gates that workflow runs (`scripts/check_artifact_manifests.py` and its unit
+  test): that workflow is absent from the `hygiene` list, so its bytes are
+  unattested and its gates are outside the parity check's `signoff.yml`-scoped
+  comparison. A `hygiene`-list gap, not a `checks`-list gap; widening the
+  attestation surface would change what item 10 claims, so it is left to its
+  own issue.
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's

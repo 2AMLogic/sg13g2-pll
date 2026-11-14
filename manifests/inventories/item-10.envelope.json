@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 22/22 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 22,
-    "passed_count": 22,
+    "check_count": 29,
+    "passed_count": 29,
     "checks": [
       {
         "check": "present",
@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:c7a3bfa92798c50c3a0c9de9ea33648f1380fd5918d450e282cad1e5929e47b8"
+        "content_hash": "sha256:61c2e5588f3f32486d4f9d9b9368455cbeb82abbd048e674d68e5ba2c7ad51a1"
       },
       {
         "check": "present",
@@ -262,6 +262,97 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netlist-stamp-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_netlist_stamp.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pfd-reset-parity-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "design/test_check_pfd_reset_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pfd-reset-parity",
+        "argv": [
+          "python3",
+          "-B",
+          "design/check_pfd_reset_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "cpdiag-metrics-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "mismatch-gain-metrics-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "signoff-inventory-parity",
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/check_signoff_inventory_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "signoff-inventory-parity-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/test_check_signoff_inventory_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -275,7 +366,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:9e36e9597fed02501d57bd5b31489f7b7208eb86f0a0685e9a9490424f7261b9"
+      "content_hash": "sha256:aeaab88c5e7de0b35642a8f5b23480d65bb06a248348274ec3753e5ed60a0599"
     }
   }
 }
