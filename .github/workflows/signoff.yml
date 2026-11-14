@@ -57,6 +57,18 @@ jobs:
       - name: Records checker unit tests
         run: python3 characterization/test_check_records.py
 
+      # The metric extraction behind the numbers *inside* those records
+      # (issue #391). Both are stdlib-only, sub-second and synthetic-data
+      # only -- no klt, ngspice or PDK -- and run from the repo root like
+      # every other step here. One step on purpose: sources.json names
+      # test_mismatch_gain_metrics.py as the pin keeping
+      # mismatch_gain_metrics.lock_trace_from_edges equivalent to
+      # cpdiag_metrics.lock_trace, so the pair is one gate.
+      - name: Testbench metric-extraction self-tests
+        run: |
+          python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py
+          python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py
+
       - name: Records format, numbering and sources.json coverage
         run: python3 characterization/check_records.py
 
