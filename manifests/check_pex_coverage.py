@@ -45,7 +45,6 @@ Stdlib only. Exit 0 = pass, 1 = fail.
 Usage: check_pex_coverage.py [--root DIR] [--manifest P]
 """
 import argparse
-import json
 import subprocess
 import sys
 import tempfile
