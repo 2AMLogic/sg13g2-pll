@@ -183,10 +183,8 @@ Exit **`3`** then means "the only unloadable objects were ones you declared
 soft", and their basenames are printed on **stdout**, one per line, so the
 caller branches on the shared classifier's answer rather than re-deriving it
 with a probe of its own. Anything *not* named by `--soft` keeps the hard
-abort, so a caller cannot accidentally soften the whole check; `--warn-only`
-(which downgrades a genuine failure to exit `0`) is unrelated and does not
-affect exit `3`. `--self-test` covers this end-to-end exit/stdout contract,
-not just the classifier.
+abort, so a caller cannot accidentally soften the whole check. `--self-test`
+covers this end-to-end exit/stdout contract, not just the classifier.
 
 A caller taking the exit-`3` branch owes the record two things: the substituted
 value must be independently validated (here, `cmomi_nominal.py`'s self-test
