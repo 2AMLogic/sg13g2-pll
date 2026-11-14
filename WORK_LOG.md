@@ -8,6 +8,10 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-13
 
+- **PR #378**: refactor: move the klt-gen capability probes into cmos5l_probes.py
+- **Issue #372** (closed): Split the klt-gen capability probes out of pll_cmos5l_layout.py into a sibling module
+- **PR #374**: sim: supersede vco-kvco-table RECORD-001 with a fleet rerun on the pinned PDK
+- **Issue #318** (closed): Item 9: supersede sg13cmos5l-vco-kvco-table provenance (child of #216)
 - **Issue #360** (closed): Migrate three pre-#261 layout records into the objects dedupe store (~100 MB)
 
 ### 2026-11-12
