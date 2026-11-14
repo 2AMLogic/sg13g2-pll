@@ -67,19 +67,18 @@
 # accidentally soften the whole check.
 #
 # USAGE
-#   check-osdi-arch.sh [--warn-only] [--quiet] [--soft <name>]... <osdi-file> [<osdi-file>...]
-#   check-osdi-arch.sh --osdi-dir <dir> [--warn-only] [--quiet] [--soft <name>]...
+#   check-osdi-arch.sh [--quiet] [--soft <name>]... <osdi-file> [<osdi-file>...]
+#   check-osdi-arch.sh --osdi-dir <dir> [--quiet] [--soft <name>]...
 #   check-osdi-arch.sh --self-test
 #
 # EXIT
-#   0  every object is loadable by this host (or --warn-only downgraded a
-#      hard failure)
+#   0  every object is loadable by this host
 #   1  at least one NON-soft object is built for a different
 #      architecture/format
 #   2  usage error, or a non-soft object does not exist
 #   3  every unloadable object was declared --soft; their basenames are on
 #      stdout, one per line, and the caller is expected to engage its own
-#      fallback.  Not a failure, so --warn-only does not affect it.
+#      fallback.  Not a failure.
 #
 # Deliberately does NOT shell out to file(1): its output wording differs
 # between GNU file and the macOS/BSD build, and the hosts that need this check
@@ -367,8 +366,6 @@ self_test() {
 
   # An x86-64 ELF object on an arm64-macOS host: the exact issue-#59 failure.
   _e2e 1 "" "hard failure, no --soft" "$dir/elf_x86_64.osdi"
-  _e2e 0 "" "hard failure downgraded by --warn-only" \
-       --warn-only "$dir/elf_x86_64.osdi"
   # Declared soft -> exit 3 and the basename on stdout, nothing else.
   _e2e 3 "elf_x86_64.osdi" "soft failure alone" \
        --soft elf_x86_64.osdi "$dir/elf_x86_64.osdi"
@@ -461,13 +458,12 @@ report_block() { # severity entry...
 }
 
 main() {
-  local warn_only=0 quiet=0 files=() osdi_dir=""
+  local quiet=0 files=() osdi_dir=""
   SOFT_NAMES=()
 
   while [ $# -gt 0 ]; do
     case "$1" in
       --self-test) self_test; exit $? ;;
-      --warn-only) warn_only=1; shift ;;
       --quiet)     quiet=1; shift ;;
       --soft)      [ -n "${2:-}" ] || usage; SOFT_NAMES+=("$2"); shift 2 ;;
       --osdi-dir)  osdi_dir="${2:-}"; [ -n "$osdi_dir" ] || usage; shift 2 ;;
@@ -518,7 +514,6 @@ main() {
     # decides the exit status.
     report_block fatal "${bad[@]}"
     [ "${#soft_bad[@]}" -eq 0 ] || report_block warning "${soft_bad[@]}"
-    [ "$warn_only" -eq 1 ] && return 0
     return 1
   fi
 
