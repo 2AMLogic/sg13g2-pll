@@ -74,6 +74,7 @@ No sigma value in this directory is invented; all are the PDK's.
 | `vary` | `mismatch` |
 | Negative control | `negative_control.request.json`: section `mos_tt` (no mismatch library), 20 samples. Every stddev is exactly 0. Committed: `reports/sim.negative_control.dr010-pinned.json` |
 | Positive probe | `positive_probe.request.json`: `mos_tt_mismatch`, 3 samples. Non-zero spread; exits 3 on the screening limit. Committed: `reports/sim.positive_probe.dr010-pinned.json` |
+| **Seeded known-bad control** (issue #389) | `mc.mm_p12.request.json`: `mos_tt_mismatch` / 27 C, N = 100, seed 178 (the campaign's own seed, so draw *i* pairs with the campaign's `mos_tt_mismatch`/27 C draw *i*), deck `tb_cp_mc_mm_p12.sp` on the deliberately degraded `../netlist-snapshots/cp-mm_p12.spice` (`k` = 1.131043, RECORD-014's `mm_p12`, a +12 % DC up/dn mismatch ≈ 3.1 sigma). Committed: `reports/sim.mc.mm_p12.json`; merged + re-graded per `records/RECORD-004-negative-control-mm-p12.md` into `reports/yield-samples.mc.json` and the two `*.with-control.json` envelopes |
 
 The negative control's single value, **-0.298465 %**, equals the sibling
 bench's nominal at VOUT = 2.40 V (`RECORD-002`: -0.298 %), so this deck
@@ -83,6 +84,18 @@ added.
 The #191 reports (`reports/sim.negative_control.json`,
 `reports/sim.positive_probe.json`) are the pre-DR-010 runs and are **not**
 overwritten or edited; they belong to `records/RECORD-001`.
+
+**Why there are two different "negative controls" here.** The
+`negative_control.request.json` row above is a *liveness* control: `mos_tt`
+with no mismatch library at all, every stddev exactly 0 — it proves the
+draw machinery is live, not that a bad design reads as bad. The **seeded
+known-bad control** (issue #389) is the opposite kind: a deliberately
+degraded `cp` whose draws centre about +12 % DC mismatch, graded *against
+the nominal limits* to demonstrate the campaign's statistics actually
+detect a degraded design. Only the second satisfies `klt yield`'s
+`negative_control` self-check; pointing the grader at the liveness control
+would be wrong rather than merely unhelpful (RECORD-003's disposition,
+resolved by `RECORD-004`).
 
 ## Result, in one table
 

@@ -84,4 +84,13 @@ unperturbed one** (`vctrl` rails at 3.289 V). Those points are reported in
 RECORD-014 and in `mismatch_gain.csv` with `dual_lock=0` and are excluded
 from every fit, so the gain is established at **two** of the three
 temperatures run. That is a property of this proposal deck, not of the
-committed `cp`, and it is filed as issue #389.
+committed `cp` — and its cause is now diagnosed, in
+`../records/RECORD-015-proposal-deck-125c-acquisition.md` (issue #389): the
+**VCO's own band-`11` tuning range at `mos_tt` / 125 C tops out at 1270.1
+MHz at the 3.3 V rail, 9.9 MHz short of the 1280 MHz an N = 64 loop at
+20 MHz needs**, so the loop saturates `vctrl` at the rail while still 0.6 %
+slow. That is a design finding (filed as #426), not a deck gap: no deck
+change downstream of the VCO can pull the loop to a frequency the VCO
+cannot produce, and the deck's divider, filter and start point were each
+measured or argued moot in RECORD-015. The 125 C rows of this slug's decks
+stay non-acquiring until the VCO range finding is resolved.
