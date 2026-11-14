@@ -29,3 +29,22 @@ Persisted extraction per run: [200 MHz](edges_divspeed_200MHz.txt),
 (each with a `.json` of the same name); ratios 64 / 64 / 96 clk edges per FB period.
 These were re-run once each under issue #168 (ngspice-47, nominal; see RECORD-001
 "Re-run conditions"); original logs are unchanged.
+
+Second operating point (issue #401, RECORD-002): the same nominal corner and
+N = 64, but band code `00` (`B0 = B1 = 0 V`), `f_ref` = 9.375 MHz
+(`T_ref` = 106.67 ns), target `f_vco` = 600 MHz, `.ic vctrl = 1.23 V`
+(interpolated from `sg13cmos5l-vco-kvco-table` RECORD-001's band `00` row),
+`cp` snapshot `cp-dr010.spice` (the committed DR-010 block; RECORD-001's
+`cp.spice` stays untouched as its frozen pre-DR-010 export), and
+`.tran 100p 10u 0 100p` with an 8-10 us averaging window (94 `T_ref`; the
+dual-lock criterion needs 20 consecutive cycles after acquisition, and
+RECORD-001's 2500 ns default spans only ~23 `T_ref` at this `f_ref`).
+ngspice-47, `num_threads=2`; every artifact carries `TAG_SUFFIX=_o2`
+(`corners/*_o2`, selected via `CP_SNAP=cp-dr010.spice` and the run.sh
+`FREF/B0V/B1V/VC0/TSTOP/TAVG0` overrides; `run.sh` defaults still reproduce
+RECORD-001's point). Chosen so the loop's required VCO frequency (600 MHz)
+sits 40 MHz below the 640 MHz where RECORD-001's ideal-clock bracket proves
+exact /64, and below target-spec row 3's measured 866 MHz one-edge retiming
+closing bound at `mos_tt`/27 C. The row 6/6a loop-bandwidth / phase-margin
+criteria are NOT re-verified at this (band, `f_ref`) tuple; the deck's ideal
+10 uA `IREF` is carried over unchanged.

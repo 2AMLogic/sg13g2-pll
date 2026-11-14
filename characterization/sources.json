@@ -4246,6 +4246,69 @@
     "955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba",
     "fd399096307c12e9d698f62bf9e77b3364cbd4c1896fd8b7aa442a02a8783d51"
    ]
+  },
+  {
+   "id": "closed-loop-real-divider-o2",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "repaired transistor-level divider_chain + DR-010 cp in the loop (netlist-snapshots at design/sg13cmos5l/netlist @ab6e9f1; RECORD-002 sha256 table; pfd/loop_filter/vco/divider_chain snapshots byte-identical to RECORD-001's)",
+   "context": "schematic, pre-layout, closed loop",
+   "conditions": "one nominal point (mos_tt, res_typ, 27 C, 3.3 V), band 00, f_ref 9.375 MHz (target 600 MHz), N=64; 10 us; local ngspice-47",
+   "method": "closed-loop transient; trace_real_o2 = per-reference-cycle error, vctrl_real_o2 = control-voltage waveform",
+   "record": "sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/trace_real_o2.csv",
+     "sha256": "2de0238652967eccfd35718f9e9456d480cc1eaf1e965120be7b4febd1375857"
+    },
+    {
+     "id": "vctrl",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real_o2.csv",
+     "sha256": "43271a577cd0e63909e9d4232faaf2c51fc6e81c74bf7d3a0602a9e85aa2abea"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "vctrl",
+     "column": "vctrl_v",
+     "units": "V",
+     "quantity": "VCTRL over the 10 us run",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "First real-block closed loop in this slug to meet the dual-lock criterion: locks in 3 ref cycles (warm-started .ic), exact /64 in-loop (93/93 FB periods), 599.996 MHz, static phase error 1.729% of T_ref. Control arm likewise locks (213 ns, 1.741%). Localizes RECORD-001's no-lock to the top-of-band operating point; not a PVT or post-layout result.",
+    "Row 6/6a loop-bandwidth / phase-margin criteria are NOT re-verified at this (band, f_ref) tuple; ideal 10 uA IREF carried over, no trim code re-selected."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed",
+    "cp-dumpbuf-nominal-only"
+   ],
+   "record_sha256": "6ad617df4f20058877ac40a3167b6d3ae98ee8649d8dae78bb6a77aa328a25e4"
   }
  ]
 }

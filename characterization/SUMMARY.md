@@ -1110,6 +1110,27 @@ the min/max.
 | schmitt_hv hysteresis (`hysteresis_v`) | V | `schmitt` | - | 1 | 0 | 0.94179 | 0.94179 | `mos_corner`: mos_tt; `temp_c`: 27; `vsup_v`: 3.3 |
 | bare delaywin_hv window width (rising) (`twin_r_s`) | s | `window` | - | 1 | 0 | 6.66809e-09 | 6.66809e-09 | `corner_tag`: mos_tt_res_typ_27c_3.3v_24p4MHz_real |
 
+### closed-loop-real-divider-o2
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: repaired transistor-level divider_chain + DR-010 cp in the loop (netlist-snapshots at design/sg13cmos5l/netlist @ab6e9f1; RECORD-002 sha256 table; pfd/loop_filter/vco/divider_chain snapshots byte-identical to RECORD-001's)
+- **Context**: schematic, pre-layout, closed loop
+- **Conditions**: one nominal point (mos_tt, res_typ, 27 C, 3.3 V), band 00, f_ref 9.375 MHz (target 600 MHz), N=64; 10 us; local ngspice-47
+- **Method**: closed-loop transient; trace_real_o2 = per-reference-cycle error, vctrl_real_o2 = control-voltage waveform
+- **Record**: `sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md` (sha256 `6ad617df4f20058877ac40a3167b6d3ae98ee8649d8dae78bb6a77aa328a25e4`)
+- **Table `trace`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/trace_real_o2.csv` (sha256 `2de0238652967eccfd35718f9e9456d480cc1eaf1e965120be7b4febd1375857`)
+- **Table `vctrl`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real_o2.csv` (sha256 `43271a577cd0e63909e9d4232faaf2c51fc6e81c74bf7d3a0602a9e85aa2abea`)
+- **Note**: First real-block closed loop in this slug to meet the dual-lock criterion: locks in 3 ref cycles (warm-started .ic), exact /64 in-loop (93/93 FB periods), 599.996 MHz, static phase error 1.729% of T_ref. Control arm likewise locks (213 ns, 1.741%). Localizes RECORD-001's no-lock to the top-of-band operating point; not a PVT or post-layout result.
+- **Note**: Row 6/6a loop-bandwidth / phase-margin criteria are NOT re-verified at this (band, f_ref) tuple; ideal 10 uA IREF carried over, no trim code re-selected.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed), cp tracking dump buffer (DR-010) nominal-only (#178)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| per-cycle phase error (`phase_err_frac`) | fraction of T_ref | `trace` | - | 93 | 0 | 0.0169177 | 0.0303543 | `t_s`: 93 distinct (1.0672503748125937e-07 .. 9.920051599582039e-06) |
+| per-cycle frequency error (`delta_f_frac`) | fraction of f_ref | `trace` | - | 93 | 0 | -0.00132818 | 0.025126 | `t_s`: 93 distinct (1.0672503748125937e-07 .. 9.920051599582039e-06) |
+| VCTRL over the 10 us run (`vctrl_v`) | V | `vctrl` | - | 10001 | 0 | 1.23 | 1.50629 | `t_s`: 10001 distinct (0.000000e+00 .. 1.000000e-05) |
+
 ## SG13G2 (non-port design)
 
 ### g2-vco-kvco-table

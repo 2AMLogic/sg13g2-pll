@@ -11,7 +11,14 @@
 # Calls extract.py, which writes ../corners/trace_<arm>.csv (per-ref-cycle
 # lock trace), ../corners/summary_<arm>.json and ../corners/vctrl_<arm>.csv
 # (decimated vctrl/fb waveform, ~1 sample/ns); this script also copies the
-# ngspice log to ../corners/log_<arm>.txt. Overrides: TSTOP_OVERRIDE, TAVG0_OVERRIDE, TAG_SUFFIX.
+# ngspice log to ../corners/log_<arm>.txt. Overrides: TSTOP_OVERRIDE,
+# TAVG0_OVERRIDE, TAG_SUFFIX, FREF_OVERRIDE, B0V_OVERRIDE, B1V_OVERRIDE,
+# VC0_OVERRIDE. CP_SNAP selects which netlist-snapshots/ file is used for the
+# charge pump (default cp.spice, RECORD-001's pre-DR-010 frozen export; pass
+# CP_SNAP=cp-dr010.spice for the committed DR-010 block). ALWAYS set a
+# non-empty TAG_SUFFIX on any run whose deck differs from RECORD-001's, and
+# never run bare with defaults changed: ./run.sh <arm> with no TAG_SUFFIX
+# overwrites RECORD-001's committed corners/ artifacts (issue #401).
 ARM="${1:?usage: run.sh control|real}"
 case "$ARM" in control|real) ;; *) echo "arm must be control|real" >&2; exit 2;; esac
 
@@ -28,17 +35,19 @@ osdi $OSDI/r3_cmc.osdi
 EOF
 
 MOS_CORNER=mos_tt; RES_CORNER=res_typ; TEMP=27; VDD=3.3; IREF=10u
-FREF=20e6
+FREF="${FREF_OVERRIDE:-20e6}"
 TREF=$(python3 -c "print(f'{1/${FREF}:.6e}')")
 TREFH=$(python3 -c "print(f'{1/${FREF}/2 - 100e-12:.6e}')")
-B0V=$VDD; B1V=$VDD; VC0=2.46
+B0V="${B0V_OVERRIDE:-$VDD}"; B1V="${B1V_OVERRIDE:-$VDD}"; VC0="${VC0_OVERRIDE:-2.46}"
 TSTOP="${TSTOP_OVERRIDE:-2500n}"; TAVG0="${TAVG0_OVERRIDE:-2000n}"
 TPRINT=100p; TMAX=100p
+CP_SNAP="${CP_SNAP:-cp.spice}"
+case "$CP_SNAP" in */*|.*|"") echo "CP_SNAP must be a plain netlist-snapshots/ filename" >&2; exit 2;; esac
 SUFFIX="${TAG_SUFFIX:-}"
 
-python3 -I - "$SNAP" "$WORK" "$HERE" "$ARM" <<'PY'
+python3 -I - "$SNAP" "$WORK" "$HERE" "$ARM" "$CP_SNAP" <<'PY'
 import re, sys
-snap, work, here, arm = sys.argv[1:5]
+snap, work, here, arm, cp_snap = sys.argv[1:6]
 rd = lambda n: open(f"{snap}/{n}").read()
 vco = re.sub(r'(?m)^XCDECAP', '*XCDECAP', rd("vco.spice"))
 assert "*XCDECAP" in vco
@@ -47,7 +56,7 @@ def sub_cap(text, x, n1, n2, v):
     new, n = re.subn(rf'(?m)^X{x}\s+{n1}\s+{n2}\s+cap_cmomi\b.*$', f"C{x} {n1} {n2} {v:.6e}", text)
     assert n == 1; return new
 lf = sub_cap(sub_cap(rd("loop_filter.spice"), "C1", "NZ", "VSS", C1_F), "C2", "VCTRL", "VSS", C2_F)
-blocks = [rd("pfd.spice"), rd("cp.spice"), lf, vco]
+blocks = [rd("pfd.spice"), rd(cp_snap), lf, vco]
 if arm == "real":
     blocks.append(rd("divider_chain.spice"))
 open(f"{work}/pll_blocks_realdiv.spice", "w").write("\n".join(blocks))
@@ -67,7 +76,7 @@ sed -i \
   -e "s/@TAVG0@/$TAVG0/g" "$WORK/tb_run.sp"
 ! grep -n '@[A-Z0-9_]*@' "$WORK/tb_run.sp" || { echo "unsubstituted token" >&2; exit 1; }
 
-echo "=== arm=$ARM tstop=$TSTOP ===" >&2
+echo "=== arm=$ARM fref=$FREF b0v=$B0V b1v=$B1V vc0=$VC0 tstop=$TSTOP tavg0=$TAVG0 cp_snap=$CP_SNAP ===" >&2
 START=$(date +%s)
 ( cd "$WORK" && timeout "${NGSPICE_TIMEOUT:-2400}" ngspice -b tb_run.sp > log_run.txt 2>&1 ) || echo "ngspice exit status $?" >&2
 echo "wall_seconds=$(( $(date +%s) - START ))" >&2
