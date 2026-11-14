@@ -45,12 +45,14 @@ Stdlib only. Exit 0 = pass, 1 = fail.
 Usage: check_pex_coverage.py [--root DIR] [--manifest P]
 """
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from _common import load, record_from_evidence, sha256_file  # noqa: E402
 
 SIGNOFF = "sim/sg13cmos5l-klt-pex-signoff"
 BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain")
@@ -61,17 +63,6 @@ WITHHELD = {"lock_detector": "#157"}
 STALE_PENDING = {}
 REQUESTS = {"pfd": ["pfd"], "cp": ["cp_up", "cp_dn"], "loop_filter": ["loop_filter"],
             "vco": ["vco"], "divider_chain": ["divider_chain"]}
-
-
-def sha256_file(p):
-    return "sha256:" + hashlib.sha256(Path(p).read_bytes()).hexdigest()
-
-
-def load(p):
-    try:
-        return json.loads(Path(p).read_text()), None
-    except (OSError, ValueError) as e:
-        return None, f"unreadable {p}: {e}"
 
 
 def check_leg(root, block, prov):
@@ -187,7 +178,7 @@ def main(argv=None):
         print("FAIL: " + err, file=sys.stderr)
         return 1
     ev = m.get("evidence", {})
-    record = root / Path(ev["4.analog"]["file"]).parent
+    record = root / record_from_evidence(ev)
     prov, perr = load(root / SIGNOFF / "leg-provenance.json")
     errs = [perr] if perr else []
     hashes = {}

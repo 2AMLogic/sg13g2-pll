@@ -15,11 +15,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import check_pex_coverage as chk  # noqa: E402
+from _common import record_from_manifest  # noqa: E402
 
 REPO = Path.cwd().resolve()
 MANIFEST = "manifests/sg13g2-pll.json"
 S = chk.SIGNOFF
-REC = Path(json.loads((REPO / MANIFEST).read_text())["evidence"]["4.analog"]["file"]).parent
+REC = record_from_manifest(REPO / MANIFEST)
 ORIG_STALE = dict(chk.STALE_PENDING)
 
 

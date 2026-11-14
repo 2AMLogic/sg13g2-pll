@@ -33,7 +33,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from check_lvs_coverage import ANALOG_BLOCKS, DIGITAL_BLOCK, sha256_file  # noqa: E402
+from _common import record_from_manifest, sha256_file  # noqa: E402
+from check_lvs_coverage import ANALOG_BLOCKS, DIGITAL_BLOCK  # noqa: E402
 
 BLOCKS = ANALOG_BLOCKS + (DIGITAL_BLOCK,)
 
@@ -125,13 +126,6 @@ def check_manifest(manifest_path, record, cites=True):
     if deck is None or (sib_deck is not None and deck != sib_deck):
         errs.append(f"manifest: item 3 deck {deck!r} != sibling divider report deck {sib_deck!r}")
     return errs
-
-
-def record_from_manifest(manifest_path):
-    c = json.loads(Path(manifest_path).read_text()).get("evidence", {}).get("4.analog")
-    if not isinstance(c, dict) or "file" not in c:
-        sys.exit("manifest has no 4.analog file citation")
-    return Path(c["file"]).parent
 
 
 def main(argv=None):

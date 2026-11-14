@@ -16,9 +16,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import check_drc_coverage as chk  # noqa: E402
+from _common import record_from_manifest  # noqa: E402
 
 MANIFEST = Path("manifests/sg13g2-pll.json")
-REC = Path(json.loads(MANIFEST.read_text())["evidence"]["4.analog"]["file"]).parent
+REC = record_from_manifest(MANIFEST)
 
 
 class Cov(unittest.TestCase):

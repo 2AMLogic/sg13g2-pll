@@ -12,8 +12,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import check_lvs_coverage as chk  # noqa: E402
+from _common import record_from_manifest  # noqa: E402
 
-REC = Path(json.loads(Path("manifests/sg13g2-pll.json").read_text())["evidence"]["4.analog"]["file"]).parent
+REC = record_from_manifest(Path("manifests/sg13g2-pll.json"))
 BLOCKS = chk.ANALOG_BLOCKS + (chk.DIGITAL_BLOCK,)
 
 
