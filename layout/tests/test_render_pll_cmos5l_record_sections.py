@@ -25,6 +25,7 @@ from pathlib import Path
 import pytest
 
 BIN_DIR = Path(__file__).resolve().parents[1] / "bin"
+REPORTS_DIR = Path(__file__).resolve().parents[1] / "sg13cmos5l-pll" / "reports"
 
 
 def _load_renderer():
@@ -80,6 +81,18 @@ def _plan(**over) -> dict:
 
 def _text(lines) -> str:
     return "\n".join(lines)
+
+
+def _committed_build(record_id: str) -> dict:
+    """A committed record's own `build.json`, as the real oracle.
+
+    The synthetic fixtures below cover branches no run has taken; these
+    cover the two the committed evidence actually contains, so a wording
+    change cannot pass the suite while contradicting a checked-in record.
+    """
+    import json
+
+    return json.loads((REPORTS_DIR / record_id / "build.json").read_text())
 
 
 # --- the three family clauses (verdict section) ------------------------------
@@ -323,6 +336,128 @@ def test_block_probe_without_rejection_reasons_omits_that_list():
     text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
 
     assert "Per-leg rejection reasons" not in text
+
+
+# --- real-block probe: the second routing plane (issue #381) -----------------
+#
+# The closing sentence used to assert that a second routing plane "cannot be
+# selected on this PDK family at all", citing "the error above", on every run
+# whose single-layer attempt routed fewer nets than it declared -- including
+# the runs whose own two-layer attempt was accepted, returned no error and
+# routed *more* nets. Four committed records carry that contradiction. The
+# cases below pin the sentence to the two-layer attempt's own recorded fields.
+
+
+def test_block_probe_two_layer_accepted_is_not_called_unselectable():
+    """Accepted, partly routed: the plane was selected, so say so."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 3,
+        "error": None,
+        "net_count": 22,
+        "routed_net_count": 6,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit 3 — **6 of 22 nets routed**" in text
+    assert "**was** accepted on this run" in text
+    assert "**6 of 22 nets**, against 2 of 22 on the single plane" in text
+    assert "cannot be selected" not in text
+    assert "the error above" not in text
+    assert "`cmos5l_route.py` is still required on the routing side." in text
+
+
+def test_block_probe_two_layer_routes_every_net():
+    """Accepted and fully routed: do not conclude the router must stay."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 0,
+        "error": None,
+        "net_count": 22,
+        "routed_net_count": 22,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "**every declared net routed** (22 of 22, against 2 of 22" in text
+    assert "cannot be selected" not in text
+    assert "does not retire `cmos5l_route.py`" not in text
+    assert "`cmos5l_route.py` is still required" not in text
+
+
+def test_block_probe_two_layer_rejected_keeps_the_existing_wording():
+    """Rejected with 0 of 0 nets: no bogus count, original sentence kept."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 1,
+        "error": "'metal2' is not a known layer role",
+        "net_count": 0,
+        "routed_net_count": 0,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit 1 — `'metal2' is not a known layer role`" in text
+    assert "0 of 0 nets routed" not in text
+    assert "cannot be selected on this PDK family at all" in text
+    assert "the error above lists the roles that family *does* expose" in text
+
+
+def test_block_probe_two_layer_attempt_missing_claims_nothing():
+    """An older `build.json` with no two-layer attempt at all."""
+    probe = _block_probe(2)
+    probe["attempts"].pop("block-routing-two-layer")
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit None" in text
+    assert "nets routed**" in text  # the single-layer bullet still prints
+    assert "of None nets routed" not in text
+    assert "this run measured nothing about that plane" in text
+    assert "cannot be selected" not in text
+
+
+def test_block_probe_ignores_a_top_cell_shape_tally():
+    """`attempts.*.top_cell_shapes` (#383) must not reach the prose.
+
+    No committed record carries the field, so a renderer that read it
+    could not be checked against real evidence; present or absent, the
+    rendered text is the same.
+    """
+    without = _block_probe(2)
+    with_tally = _block_probe(2)
+    for attempt in with_tally["attempts"].values():
+        attempt["top_cell_shapes"] = {"Metal1": 8, "Via1": 19, "Metal2": 10}
+
+    assert R._block_probe_lines(
+        _build(gen_compose_block_probe=with_tally)
+    ) == R._block_probe_lines(_build(gen_compose_block_probe=without))
+
+
+def test_block_probe_committed_rejected_record():
+    """`20260921-155747-c44fa68`: the two-layer request was rejected.
+
+    Its committed `record.md` says the plane "cannot be selected" and
+    cites the error; that is true of this record, so it must not change.
+    """
+    build = _committed_build("20260921-155747-c44fa68")
+    text = _text(R._block_probe_lines(build))
+
+    assert "**2 of 18 nets routed**" in text
+    assert "exit 1 — `routing.cross_block_layer_role 'metal2' is not a known" in text
+    assert "cannot be selected on this PDK family at all" in text
+
+
+def test_block_probe_committed_accepted_record():
+    """`20261027-175228-74cf8d0-dirty`: accepted, 6 of 22 against 2 of 22.
+
+    This is the record `reports/LATEST` names, and the one whose committed
+    `record.md` contradicts itself -- line 42 prints exit 3 with no error
+    and line 53 says the plane cannot be selected at all.
+    """
+    build = _committed_build("20261027-175228-74cf8d0-dirty")
+    text = _text(R._block_probe_lines(build))
+
+    assert "6 of 22 nets routed" in text
+    assert "cannot be selected" not in text
+    assert "the error above" not in text
 
 
 # --- generator footprint probe ----------------------------------------------

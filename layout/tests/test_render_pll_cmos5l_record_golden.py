@@ -29,6 +29,21 @@ oracle, and auto-skipping mismatches would make this file pass vacuously.
 Maintaining it: after a flow re-run that changes rendered prose, add the new
 record id here and drop any id that no longer round-trips. Never edit a
 committed `record.md` to make this test pass.
+
+**The one section currently cut from the comparison.** Issue #381 corrected
+the real-block probe's closing sentence, which asserted that a second routing
+plane "cannot be selected on this PDK family at all" even on the runs whose
+own two-layer attempt was accepted and routed more nets than the single-layer
+one. All four records listed below are such runs, so none of them round-trips
+through that section any more -- while every other section of all four still
+does. Rather than edit committed evidence or empty the oracle (which
+`test_latest_record_is_a_golden` would catch), the three byte-comparisons
+below cut the block-probe section from *both* sides via
+`_without_block_probe_section()`; its wording is covered instead by the
+committed-`build.json` cases in `test_render_pll_cmos5l_record_sections.py`.
+Remove the cut -- and with it this paragraph -- once the next flow run commits
+a record rendered with the corrected wording and the four ids below are
+dropped under the rule in the paragraph above.
 """
 
 from __future__ import annotations
@@ -55,6 +70,37 @@ GOLDEN_RECORDS = (
     "20261010-012952-a4ca1b8",
     "20261027-175228-74cf8d0-dirty",
 )
+
+
+#: First line of the real-block probe section, in both the committed records
+#: and the renderer's own output.
+BLOCK_PROBE_HEADING = "#### Re-measured against a real block (klayout-tools#1467)"
+
+
+def _without_block_probe_section(text: str) -> str:
+    """Return `text` with the real-block probe section removed.
+
+    The section runs from `BLOCK_PROBE_HEADING` up to, not including, the
+    next line that starts a heading. A text with no such heading is a
+    failure, not a no-op: a silent "cut nothing" would turn these
+    comparisons back into whole-file ones without saying so, and a renamed
+    heading would make them pass while comparing the very prose the cut
+    exists to exclude.
+    """
+    lines = text.splitlines(keepends=True)
+    start = next(
+        (i for i, line in enumerate(lines) if line.startswith(BLOCK_PROBE_HEADING)),
+        None,
+    )
+    assert start is not None, (
+        f"no {BLOCK_PROBE_HEADING!r} heading to cut -- the section is gone or "
+        "renamed, so this comparison is no longer the one it claims to be"
+    )
+    end = next(
+        (i for i in range(start + 1, len(lines)) if lines[i].startswith("#")),
+        len(lines),
+    )
+    return "".join(lines[:start] + lines[end:])
 
 
 def _load_renderer():
@@ -145,6 +191,40 @@ def test_golden_record_fixture_is_present(record_id: str):
         assert (record_dir / name).is_file(), f"missing {record_id}/{name}"
 
 
+@pytest.mark.parametrize("record_id", GOLDEN_RECORDS)
+def test_golden_record_has_a_block_probe_section(record_id: str):
+    """Guard the cut: it must remove a real section, never nothing.
+
+    If a committed record had no block-probe heading, the three
+    comparisons below would silently become whole-file ones for it -- and
+    would then fail on the corrected wording for the wrong reason.
+    """
+    committed = (REPORTS_DIR / record_id / "record.md").read_text()
+    assert BLOCK_PROBE_HEADING in committed
+    cut = _without_block_probe_section(committed)
+    assert len(cut) < len(committed)
+    assert BLOCK_PROBE_HEADING not in cut
+
+
+def test_block_probe_cut_fails_without_the_heading():
+    """The guard above is a real assertion, not a comment about one."""
+    with pytest.raises(AssertionError, match="no '#### Re-measured"):
+        _without_block_probe_section("## Record\n\nno block probe here\n")
+
+
+def test_block_probe_cut_keeps_the_following_section():
+    """The cut ends at the next heading, not at the end of the document."""
+    text = (
+        "## Routing\n\n"
+        f"{BLOCK_PROBE_HEADING}\n\nsomething measured\n\n"
+        "#### Generator-drawn footprints, re-measured\n\nkept\n"
+    )
+
+    assert _without_block_probe_section(text) == (
+        "## Routing\n\n#### Generator-drawn footprints, re-measured\n\nkept\n"
+    )
+
+
 def test_latest_record_is_a_golden():
     """`reports/LATEST` names the newest full run; it must round-trip.
 
@@ -161,7 +241,10 @@ def test_latest_record_is_a_golden():
 def test_committed_record_rerenders_byte_identically(record_id: str):
     record_dir = REPORTS_DIR / record_id
     committed = (record_dir / "record.md").read_text()
-    assert _render(record_dir, committed) == committed
+    rendered = _render(record_dir, committed)
+    assert _without_block_probe_section(rendered) == _without_block_probe_section(
+        committed
+    )
 
 
 @pytest.mark.parametrize("record_id", GOLDEN_RECORDS)
@@ -184,7 +267,10 @@ def test_render_shells_out_to_nothing(record_id: str, monkeypatch):
 
     record_dir = REPORTS_DIR / record_id
     committed = (record_dir / "record.md").read_text()
-    assert _render(record_dir, committed) == committed
+    rendered = _render(record_dir, committed)
+    assert _without_block_probe_section(rendered) == _without_block_probe_section(
+        committed
+    )
 
 
 def test_render_writes_nothing(tmp_path, monkeypatch):
@@ -199,6 +285,9 @@ def test_render_writes_nothing(tmp_path, monkeypatch):
 
     monkeypatch.setattr(Path, "write_text", forbidden)
     try:
-        assert _render(record_dir, committed) == committed
+        rendered = _render(record_dir, committed)
     finally:
         monkeypatch.setattr(Path, "write_text", real_write_text)
+    assert _without_block_probe_section(rendered) == _without_block_probe_section(
+        committed
+    )
