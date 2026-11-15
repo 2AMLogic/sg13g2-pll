@@ -1,0 +1,14 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell cp_nfet_w8_l1
+* pin vsubs
+.SUBCKT cp_nfet_w8_l1 vsubs
+* device instance $1 r0 *1 5.3,3.36 nfet
+X$1 \$10 \$2 \$3 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $2 r0 *1 15.26,3.36 nfet
+X$2 \$11 \$4 \$5 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $3 r0 *1 25.22,3.36 nfet
+X$3 \$12 \$6 \$7 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+* device instance $4 r0 *1 35.18,3.36 nfet
+X$4 \$13 \$8 \$9 vsubs sg13_hv_nmos L=1U W=8U AS=3.2P AD=3.2P PS=16.8U PD=16.8U
+.ENDS cp_nfet_w8_l1
