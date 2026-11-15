@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# Replay/record ngspice shim for the #157 lock_detector re-measurement
+# (rerun157/tools; shape copied from rerun325/tools/ngspice-bridge, paths
+# taken from the environment instead of hardcoded scratch directories).
+#
+# `ngspice -b DECK` (cwd = the runner's WORK). Cache hit -> replay the batch
+# result; miss -> record the deck + every WORK file it references into
+# $LD157_PENDING, print nothing, exit 0 -- the unmodified runner keeps
+# rendering (with NA values where a measurement was still pending) and the
+# next pass, after ingest, replays the real values and extends the frontier
+# one dependency level further. Converged when a pass records nothing.
+#
+# Env: LD157_CACHE (ingested unit results), LD157_PENDING (rendered, unsimulated)
+import sys, os, re, hashlib, shutil
+
+CACHE = os.environ["LD157_CACHE"]
+PENDING = os.environ["LD157_PENDING"]
+args = sys.argv[1:]
+deck = [a for a in args if not a.startswith("-")][-1]
+cwd = os.getcwd()
+txt = open(deck, errors="replace").read()
+h = hashlib.sha256(txt.encode())
+refs = sorted(set(re.findall(re.escape(cwd) + r"/[^\s\"']+", txt)))
+for r in refs:
+    h.update(r.encode())
+    if os.path.isfile(r):
+        h.update(open(r, "rb").read())
+# relative includes (e.g. `.include pll_lock_detector.pex.spice`) resolve in cwd
+for m in re.findall(r"(?mi)^\s*\.(?:include|inc)\s+(\S+)", txt):
+    p = os.path.join(cwd, m)
+    if not m.startswith("/") and os.path.isfile(p):
+        h.update(m.encode())
+        h.update(open(p, "rb").read())
+key = h.hexdigest()[:20]
+c = os.path.join(CACHE, key)
+if os.path.isdir(c) and os.path.exists(c + "/rc"):
+    sys.stdout.buffer.write(open(c + "/stdout.bin", "rb").read())
+    sys.stderr.buffer.write(open(c + "/stderr.bin", "rb").read())
+    sys.exit(int(open(c + "/rc").read()))
+p = os.path.join(PENDING, key)
+os.makedirs(p, exist_ok=True)
+open(p + "/deck.sp", "w").write(txt)
+open(p + "/cwd", "w").write(cwd)
+os.makedirs(p + "/refs", exist_ok=True)
+for r in refs:
+    if os.path.isfile(r):
+        shutil.copy(r, p + "/refs/" + r[len(cwd) + 1:].replace("/", "__"))
+for m in re.findall(r"(?mi)^\s*\.(?:include|inc)\s+(\S+)", txt):
+    q = os.path.join(cwd, m)
+    if not m.startswith("/") and os.path.isfile(q):
+        shutil.copy(q, p + "/refs/REL__" + m.replace("/", "__"))
+open(p + "/name", "w").write(deck)
+sys.exit(0)
