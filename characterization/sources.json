@@ -4246,6 +4246,133 @@
     "955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba",
     "fd399096307c12e9d698f62bf9e77b3364cbd4c1896fd8b7aa442a02a8783d51"
    ]
+  },
+  {
+   "id": "pfd-ref-input-thresholds",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "design/sg13cmos5l/netlist/pfd.spice as committed at run time (byte-identical snapshot under sim/sg13cmos5l-pfd-input-threshold/netlist-snapshots/)",
+   "context": "schematic, not extracted",
+   "conditions": "9 correlated PVT bundle x VDD corners of the row-2 operating box (fast = mos_ff/res_bcs/-40 C, typ = mos_tt/res_typ/27 C, slow = mos_ss/res_wcs/125 C; x 3.0/3.3/3.6 V); stimulus at the row-2 range endpoints 3.5 and 24.4 MHz, 30 % and 70 % duty",
+   "method": "DC sweep trip points on the REF edgedet's internal nodes (d1, xd5; ntmp reported as sweep minimum -- it never crosses mid-rail in DC) plus 32-step edge-registration ladders counted on edgedet OUT, FB driven as a full-rail copy so the PFD reset path cycles",
+   "record": "sim/sg13cmos5l-pfd-input-threshold/records/RECORD-001-pfd-ref-input-thresholds.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-pfd-input-threshold/corners/results.csv",
+     "sha256": "3336e0cf06dc3464ea1fcac0d82b553b5986b7cfd95d4cb9659beb8ef4176cbf"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "vth_d1_v",
+     "units": "V",
+     "quantity": "DC switching threshold of the REF input inverter (edgedet d1)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "vth_xd5_v",
+     "units": "V",
+     "quantity": "DC trip of the edgedet 5-inverter delayed leg (xd5)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "vth_ntmp_v",
+     "units": "V",
+     "quantity": "mid-rail crossing of the nand output ntmp in the DC sweep (none exists at any corner; column is NA)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_pass_v",
+     "units": "V",
+     "quantity": "highest REF low level that still registers every rising edge (last passing il ladder step)",
+     "where": {
+      "kind": "il"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_fail_v",
+     "units": "V",
+     "quantity": "first failing REF low level (one ladder step above the il boundary)",
+     "where": {
+      "kind": "il"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_pass_v",
+     "units": "V",
+     "quantity": "lowest REF high level that still registers every rising edge (last passing ih ladder step)",
+     "where": {
+      "kind": "ih"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_fail_v",
+     "units": "V",
+     "quantity": "first failing REF high level (one ladder step below the ih boundary)",
+     "where": {
+      "kind": "ih"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    }
+   ],
+   "notes": [
+    "Proposes no V_IL / V_IH spec value; row 2's electrical levels stay open pending DR-002 (target-spec R-5).",
+    "The boundary is one ladder step deep (0.9 x VDD / 31, ~96 mV at 3.3 V); the pass/fail pair in the CSV brackets it, and the V_IL boundary brackets the DC d1 trip at 32/36 stimulus points.",
+    "Boundary values are identical across all four stimulus points at every corner: no frequency/duty dependence resolved at ladder resolution.",
+    "DR-005's proposed 1-25 MHz widening is NOT covered; the grid is row 2's ratified 3.5-24.4 MHz endpoints, which is what R-5 gates on.",
+    "The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001)."
+   ],
+   "record_sha256": "6a5c84669946f017caac62a28ee9e5bfe928f1e99cfab28dc87cdc803a5a849d"
   }
  ]
 }

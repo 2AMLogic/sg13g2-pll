@@ -790,6 +790,32 @@ the min/max.
 | cp UP-leg current, per Monte Carlo sample (`iup_a`) | A | `mc_samples` | - | 1500 | 0 | 9.5424e-06 | 1.06827e-05 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
 | cp DN-leg current, per Monte Carlo sample (`idn_a`) | A | `mc_samples` | - | 1500 | 0 | -1.14617e-05 | -8.89743e-06 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
 
+### pfd-ref-input-thresholds
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: design/sg13cmos5l/netlist/pfd.spice as committed at run time (byte-identical snapshot under sim/sg13cmos5l-pfd-input-threshold/netlist-snapshots/)
+- **Context**: schematic, not extracted
+- **Conditions**: 9 correlated PVT bundle x VDD corners of the row-2 operating box (fast = mos_ff/res_bcs/-40 C, typ = mos_tt/res_typ/27 C, slow = mos_ss/res_wcs/125 C; x 3.0/3.3/3.6 V); stimulus at the row-2 range endpoints 3.5 and 24.4 MHz, 30 % and 70 % duty
+- **Method**: DC sweep trip points on the REF edgedet's internal nodes (d1, xd5; ntmp reported as sweep minimum -- it never crosses mid-rail in DC) plus 32-step edge-registration ladders counted on edgedet OUT, FB driven as a full-rail copy so the PFD reset path cycles
+- **Record**: `sim/sg13cmos5l-pfd-input-threshold/records/RECORD-001-pfd-ref-input-thresholds.md` (sha256 `6a5c84669946f017caac62a28ee9e5bfe928f1e99cfab28dc87cdc803a5a849d`)
+- **Table `results`**: `sim/sg13cmos5l-pfd-input-threshold/corners/results.csv` (sha256 `3336e0cf06dc3464ea1fcac0d82b553b5986b7cfd95d4cb9659beb8ef4176cbf`)
+- **Note**: Proposes no V_IL / V_IH spec value; row 2's electrical levels stay open pending DR-002 (target-spec R-5).
+- **Note**: The boundary is one ladder step deep (0.9 x VDD / 31, ~96 mV at 3.3 V); the pass/fail pair in the CSV brackets it, and the V_IL boundary brackets the DC d1 trip at 32/36 stimulus points.
+- **Note**: Boundary values are identical across all four stimulus points at every corner: no frequency/duty dependence resolved at ladder resolution.
+- **Note**: DR-005's proposed 1-25 MHz widening is NOT covered; the grid is row 2's ratified 3.5-24.4 MHz endpoints, which is what R-5 gates on.
+- **Note**: The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001).
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DC switching threshold of the REF input inverter (edgedet d1) (`vth_d1_v`) | V | `results` | kind=dc | 9 | 0 | 1.3461 | 1.71992 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| DC trip of the edgedet 5-inverter delayed leg (xd5) (`vth_xd5_v`) | V | `results` | kind=dc | 9 | 0 | 1.35 | 1.72196 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| mid-rail crossing of the nand output ntmp in the DC sweep (none exists at any corner; column is NA) (`vth_ntmp_v`) | V | `results` | kind=dc | 9 | 9 | n/a | n/a | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6 |
+| highest REF low level that still registers every rising edge (last passing il ladder step) (`v_pass_v`) | V | `results` | kind=il | 36 | 0 | 1.30645 | 1.67226 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `freq_mhz`: 3.5, 24.4; `duty_pct`: 30, 70 |
+| first failing REF low level (one ladder step above the il boundary) (`v_fail_v`) | V | `results` | kind=il | 36 | 0 | 1.39355 | 1.77677 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `freq_mhz`: 3.5, 24.4; `duty_pct`: 30, 70 |
+| lowest REF high level that still registers every rising edge (last passing ih ladder step) (`v_pass_v`) | V | `results` | kind=ih | 36 | 0 | 1.60645 | 2.03226 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `freq_mhz`: 3.5, 24.4; `duty_pct`: 30, 70 |
+| first failing REF high level (one ladder step below the ih boundary) (`v_fail_v`) | V | `results` | kind=ih | 36 | 0 | 1.51936 | 1.92774 | `bundle`: fast, slow, typ; `vdd_v`: 3.0, 3.3, 3.6; `freq_mhz`: 3.5, 24.4; `duty_pct`: 30, 70 |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
