@@ -18,13 +18,13 @@ the min/max.
 | --- | --- | --- |
 | No ratified spec table | none filed | The target spec is drafted in spec/target-spec.md (Status: DRAFT) but not ratified: it awaits the two-key ratification under ratification/. This summary therefore carries no pass/fail-versus-spec column and derives no target from any measurement. |
 | Partial PVT axes | none filed | Most campaigns use a 3-bundle PVT convention (typ/slow/fast), a fixed supply (3.3 V) and a subset of band codes or trim codes; none is a full cross-product. Each dataset lists the corner coverage actually present in its CSVs. Targeted fine-trim and nominal records cover single tuples only. |
-| Bodyfix (#136) not re-verified across PVT | #139 | The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only in the records citing this gap (RECORD-005 and its nominal rerun). A full-grid rerun of the bodyfix DUT exists (RECORD-011) with its own disclosed gaps (20x probe not run; ladder PDK-confounded); those records themselves are not re-verified across PVT. |
-| lock_detector PVT gaps | #139 | The full-PVT lock_detector grid for the current DUT is owed. |
+| Bodyfix (#136): full-grid rerun has disclosed PVT gaps | none filed | The lock_detector bulk-on-VSS change (#136) was verified at the nominal corner only in the records citing this gap (RECORD-005 and its nominal rerun). A full-grid rerun of the bodyfix DUT exists (RECORD-011) with its own disclosed gaps (20x probe not run; ladder PDK-confounded); those records themselves are not re-verified across PVT. |
+| lock_detector PVT gaps | none filed | RECORD-011 re-ran the full PVT lock_detector grid on the bodyfix DUT on the batch fleet, so the grid itself exists; what that run leaves open: the 20x-window idd_outlock probe was not run (row 11's 20x bound is still RECORD-004's figure), and the ladder rows are PDK-confounded (the ran-on PDK revision is inferred, not the pin), so a DUT-only attribution of the ladder criteria is not claimed (RECORD-011). |
 | lock_detector post-layout/PEX gap | #157 | lock_detector PEX evidence is stale relative to the current GDS and withheld from T1 item 7. |
 | Divider speed evidence | none filed | Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none. |
-| cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI | #178 | The 1500-sample campaign has now run (sg13cmos5l-cp-icp-trim-mc RECORD-002): pooled yield 63.47 % (95 % CI 60.97-65.91 %) against the bench's own +/-3.5 % screening limit, sigma 3.877 %. Two things keep this a gap. (a) No ratified cp mismatch limit exists, so no target_yield is declared and nothing is a pass/fail claim; the +/-3.5 % screening value is derived from closed-loop records measured on the pre-DR-010 cp. (b) klt yield's sample-size verdict is `insufficient`: N = 1500 resolves the yield to +/-2.47 pp, and 8907 samples are needed for the default +/-1 pp, so klt signoff grades T1 item 6 analog unmet / undersized_sample. Resizing the campaign is secondary to ratifying a limit, whose uncertainty dominates. vco duty cycle (row 13) and lock_detector threshold offset (row 16) still have no Monte Carlo evidence at all. |
-| cp tracking dump buffer (DR-010) nominal-only | #178 | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are owed (batch fleet: klayout-tools#2727, #2851, #2901). The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
-| Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid is blocked on the batch fleet (klayout-tools#2851, #2727; job klt-sim-3a086f48e27a exited 87). DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
+| cp up/dn mismatch yield graded against the retired +/-3.5 % screening value, undersized for the default CI | #389 | The 1500-sample campaign has run (sg13cmos5l-cp-icp-trim-mc RECORD-002): pooled yield 63.47 % (95 % CI 60.97-65.91 %) against the +/-3.5 % screening value the committed envelope carries. That value is retired: RECORD-014 re-measured on the committed DR-010 cp the gain it was derived from (-0.0394 to -0.0484 pp/pp, about 30x smaller and of the opposite sign, linear-through-origin rejected), and DR-013 (proposed) retires +/-3.5 %, proposing no replacement bound and no target_yield. RECORD-003 re-grades the same 1500 draws against DR-013's +/-11.92 % evidence-coverage bound (NOT a spec limit, NOT a pass/fail threshold): 99.60 % inside it (95 % CI [99.13 %, 99.85 %]), Cpk 0.9973, and klt yield's sample-size verdict turns `sufficient` (required_n 8907 -> 154) -- at that bound the campaign is no longer undersized. None of that re-grades the committed row: the manifest still cites yield.mc.json (RECORD-002), which still self-reports `insufficient` at its default +/-1 pp target, so klt signoff grades T1 item 6 analog unmet / undersized_sample. What a met needs is the R-12 ruling (whether a cp mismatch limit must exist for T1 at all, which row owns it, what evidence it requires) -- ratifying or explicitly declining a limit is the blocker, not resizing the campaign. Still open on the campaign itself: no negative control, and the 125 C deck gap (both tracked in #389); vco duty cycle (row 13) and lock_detector threshold offset (row 16) still have no Monte Carlo evidence at all (no tracking issue filed). |
+| cp tracking dump buffer (DR-010) nominal-only | none filed | The VDUMP-tracks-VOUT buffer (DR-010) is evidenced at mos_tt/27 C/3.3 V only: the \|VDUMP-VOUT\| offset across PVT, the cp-icp-trim re-run across PVT, row 7 across PVT, Monte Carlo (random offset) and low Icp*Tref are still owed, and no tracking issue is filed for them. The batch-fleet capability gaps that used to block such grids (klayout-tools#2727, #2851, #2901) have all closed as completed -- RECORD-011 already ran a full SG13CMOS5L grid through the batch backend -- but the dump-buffer grid has not been produced. The cp layout was redrawn for DR-010 by #195 (LVS match, DRC/ERC clean, nominal klt pex re-run), but that nominal PEX bench measures only the output current and does not observe VDUMP tracking, so no post-layout tracking evidence exists. |
+| Real-cp VOUT capacitance in the PM bench: typ only, DR-008 fast at risk | #203 | The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid has not been produced: the attempt behind this row exited 87 on the batch fleet (job klt-sim-3a086f48e27a) while klayout-tools#2851/#2727 were open, and both capability gaps have since closed as completed without the grid being re-attempted. DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included. |
 
 ## SG13CMOS5L: nominal-corner PEX (not PVT)
 
@@ -224,7 +224,7 @@ the min/max.
 - **Table `ld_window`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window.csv` (sha256 `fd88ed4bf2da7b99996728e371585a4af48a51fd66d46ecef59b27da4557a9ab`)
 - **Table `ld_deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation.csv` (sha256 `8d961cabb1f816e47a32c5212cf33eb4dd115be918929281d18e1d08ce656647`)
 - **Note**: Measured on the DUT before the #136 bodyfix; not re-verified across PVT after it.
-- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136): full-grid rerun has disclosed PVT gaps (none filed), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -299,7 +299,7 @@ the min/max.
 - **Table `ld_window`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_window-rerun325.csv` (sha256 `def0a13be84ffe2f97ab8813d984e17445b66e5b8190b3121ae4a166632dae3e`)
 - **Table `ld_deviation`**: `sim/sg13cmos5l-postlayout-pex-pvt/corners/ld_deviation-rerun325.csv` (sha256 `9f2a4056fc1a1d61c766b1520d774c205fc7a10d8a9aa1931afaaee05d37c0a0`)
 - **Note**: Supersedes the evidence claim of RECORD-003 (ADDENDUM-002); magnitude differs from the original (+66% vs +46% mean), resistor-model tree difference attributed in the record.
-- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136): full-grid rerun has disclosed PVT gaps (none filed), lock_detector post-layout/PEX gap (#157), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -596,7 +596,7 @@ the min/max.
 - **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_batch.csv` (sha256 `79d280073b38fc934f0998aa101898e1597a3534aa69bb883cc29e077d0e0d21`)
 - **Note**: Part of #16 (#139): full-grid rerun on the bodyfix DUT. Ran-on PDK revision is inferred, not pinned, so DUT-only attribution is not claimed; the 20x idd_outlock probe is not covered and RECORD-004's figure stays unreplicated.
 - **Note**: RECORD-004 remains the cited full-PVT source; no consumer figure was replaced.
-- **Gaps**: No ratified spec table (none filed), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -640,7 +640,7 @@ the min/max.
 - **Note**: CONTROL DISAGREES WITH vco-kvco-table: the 3.3 V vco rows differ from that dataset by up to 3.08 % (floor 431.6 vs 445.3 MHz; ceiling 1575.6 vs 1562.0 MHz); undiagnosed, so supply effects are stated against this run's own 3.3 V rows.
 - **Note**: NOT MEASURED: lock-detector time-domain hysteresis and chatter at 3.0/3.6 V; only the window and bare Schmitt thresholds are covered.
 - **Note**: DIVIDER NOT TABULATED: divider.csv is pinned but has no summarised metric (tdiv_s has NA rows by design). Retiming at 1562.0 MHz is unmet at slow for all VDD (pre-existing, R-3); the typ/3.0 V retime tdiv anomaly (128.8 ns vs ~86 ns) is undiagnosed and a follow-up probe is owed.
-- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -782,7 +782,7 @@ the min/max.
 - **Note**: Mismatch is only live on the PDK pin: the newer ihp-sg13cmos5l install defaults sg13_hv_[np]mos to mm_ok=0 and this repo's netlists carry no mm_ok=, which silently yields sigma 0. See RECORD-002 and 2AMLogic/klayout-tools#5486.
 - **Note**: RECORD-003 re-grades these same 1500 draws with klt yield --limits against DR-013's evidence-coverage bound of +/-11.92 % (how far RECORD-014's evidence reaches, NOT a spec limit): 99.60 % (95 % CI [99.13 %, 99.85 %]), Cpk 0.9973, required_n 154, and klt yield's sample-size verdict turns `sufficient`. Still no target_yield; the manifest is not re-pointed and T1 item 6 analog still grades unmet / undersized_sample against reports/yield.mc.json.
 - **Note**: The negative_control warning survives both envelopes: no seeded known-bad variant has shown these statistics can detect a degraded design. The bench's zero-spread control is the opposite kind of control and does not qualify; see RECORD-003 for the disposition.
-- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI (#178), cp tracking dump buffer (DR-010) nominal-only (#178)
+- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against the retired +/-3.5 % screening value, undersized for the default CI (#389), cp tracking dump buffer (DR-010) nominal-only (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -845,7 +845,7 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-011-cascbias-real-cp-rerun-pinned.md` (sha256 `2dad8252173c82d6d7ec9d402a24c69a68a36d1ee0cccffcca00d8b8ee8be6ac`)
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_proposal_cascbias_rerun229.csv` (sha256 `fda199af313678f6a36f552f1594a6b73ff8e9997a7337dd34169f318cc437f7`)
 - **Note**: FAILURE RETAINED: the rerun reproduces RECORD-005 exactly, including its static phase-error plateau of ~8.2 % of T_ref (final 20 cycles 8.200 % to 8.221 %) against the 5 % criterion and lock_time = None (longest dual-lock run 4 cycles); the extrema above span the full trace including the startup transient and are not a steady-state figure.
-- **Note**: NOMINAL ONLY, PROPOSAL DECK: supersedes RECORD-005's evidence claim at one point; it implies no PVT grid coverage (the full-grid re-run for this DUT is owed, #139).
+- **Note**: NOMINAL ONLY, PROPOSAL DECK: supersedes RECORD-005's evidence claim at one point; it implies no PVT grid coverage (no full-PVT re-run of the closed-loop deck exists; no tracking issue filed).
 - **Note**: Pre-DR-010 cp (before the VDUMP-tracks-VOUT correction, #165); the corrected-cp nominal row 7 is in cp-tracking-dumpbuf-dc.
 - **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed)
 
@@ -911,7 +911,7 @@ the min/max.
 - **Note**: NOMINAL ONLY. Every table here is a single corner (mos_tt/27 C/3.3 V). The |VDUMP-VOUT| offset across PVT and the cp-icp-trim re-run across PVT are not established; the PVT batch report (reports/sim.otabuf_pvt.batch.json) is 15/15 errored and carries no measurement.
 - **Note**: Coverage column `name` is the measurement name in the klt report; the bench's own limit verdicts in those reports are not reproduced here (no pass/fail column).
 - **Note**: Random (Monte Carlo) offset and low Icp*Tref are not bounded by this record.
-- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178)
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -949,7 +949,7 @@ the min/max.
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-lock/corners/lock_trace_cpdiag_otabuf.csv` (sha256 `2c598a4d7b1590d672ad40634f7c1f153a6a5dcd24d272fbc13e8c03112f2602`)
 - **Note**: NOMINAL ONLY, PROPOSAL DECK. RECORD-007 reports a static phase error of 0.779 % of T_ref at this one point (was 8.20 % in RECORD-005); row 7 is not established across PVT, on the committed loop, or post-layout. The extrema above span the full trace including the startup transient and are not a steady-state figure.
 - **Note**: The repeat run (corners/lock_trace_cpdiag_otabuf_rep.csv) is byte-identical to the cited trace.
-- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178), Partial PVT axes (none filed)
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (none filed), Partial PVT axes (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1077,7 +1077,7 @@ the min/max.
 - **Note**: RESULT RETAINED (failure kept, not dropped): at 125 C the proposal deck does not acquire lock at ANY mismatch point, including the unperturbed one (vctrl rails at 3.289 V, df/f_ref -0.60 %, longest dual-lock run 0). That is a deck limitation newly visible because every earlier closed-loop record in this slug ran at 27 C only, and it bounds the gain to two of three temperatures.
 - **Note**: Baseline reproduction: the unperturbed point reads 0.7662 % here against RECORD-007's 0.779 %. The committed run_closed_loop_otabuf.sh re-run on this host under ngspice-47 reads 0.7780 % with i_cp and vc_avg equal to this run's to every printed digit, so the 0.012 pp (= 6 ps) difference is the edge-extraction path (klt sim crossings on the simulator's own grid vs cpdiag_post.py on the deck's linearized 100 ps grid), not the simulation.
 - **Note**: The mismatch is INJECTED on one mirror leg, not drawn. A real Monte Carlo sample perturbs every device, so this measures sensitivity to the up/dn current ratio -- the quantity sg13cmos5l-cp-icp-trim-mc grades -- not sensitivity to 'all mismatch'.
-- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (#178)
+- **Gaps**: No ratified spec table (none filed), cp tracking dump buffer (DR-010) nominal-only (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1120,9 +1120,9 @@ the min/max.
 - **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` (sha256 `15313f19b3bb3d73e0ef5f9687eb0a016901f58fb578d7f79e6821a93ffa03a6`)
 - **Table `ladder`**: `sim/sg13cmos5l-lock-detector-window/corners/ladder_bodyfix_nominal.csv` (sha256 `e4038f438b07b5b17be0917b7a0fa778eedc1e41dbffcf787587ecf677d9733e`)
 - **Table `schmitt`**: `sim/sg13cmos5l-lock-detector-window/corners/schmitt_bodyfix_nominal.csv` (sha256 `97ac47a0bc658b3e9548991edd91fe64daa3f90c7c1d85cd110d157a3e737999`)
-- **Note**: Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
+- **Note**: Bodyfix PVT evidence has since moved: RECORD-011 re-runs the full grid on the bodyfix DUT, with disclosed gaps (20x probe not run; ladder rows PDK-confounded); RECORD-004 (pre-bodyfix, crowbar-fix DUT) remains the 20x probe's only evidence.
 - **Note**: Superseded as the provenance claim by RECORD-006 (issue #256: ADDENDUM-001 -> RECORD-006-rpu-body-on-vss-rerun-pinned.md, nominal rerun at the pinned dual-tree PDK revisions; every output byte-identical). Retained as history; its figures are unreplaced, so no consumer was re-pointed.
-- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136): full-grid rerun has disclosed PVT gaps (none filed), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1145,9 +1145,9 @@ the min/max.
 - **Table `rc_extract`**: `sim/sg13cmos5l-lock-detector-window/corners/rc_extract_bodyfix_nominal_rerun256.csv` (sha256 `5c2401af67b3d99b5f70b2e4ea71bce399ca01482c24cb2ef19d5573c94b93fd`)
 - **Table `tstep`**: `sim/sg13cmos5l-lock-detector-window/corners/tstep_convergence_bodyfix_nominal_rerun256.csv` (sha256 `d09457ae685a1bd77604bc98fbd43dece4d5a84b407571995006457d1e88dadd`)
 - **Note**: Rerun evidence for RECORD-005's claim (issue #256): every one of the seven output files is byte-identical to the committed *_bodyfix_nominal.* set RECORD-005 cites, so the two datasets carry the same numbers.
-- **Note**: Nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz): this is NOT a PVT result. Bodyfix not re-verified across PVT (#139): RECORD-004 (pre-bodyfix, crowbar-fix DUT) stays the full-PVT evidence.
+- **Note**: Nominal corner only (mos_tt/res_typ/27 C/3.3 V/3.5 MHz): this is NOT a PVT result. Bodyfix PVT evidence has since moved: RECORD-011 re-runs the full grid on the bodyfix DUT, with disclosed gaps (20x probe not run; ladder rows PDK-confounded).
 - **Note**: Dual-tree PDK provenance is in the record: ihp-sg13cmos5l 607e18d4 + ihp-sg13g2 5cccb161, ngspice-46, loom-worker-3.
-- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136): full-grid rerun has disclosed PVT gaps (none filed), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1328,14 +1328,14 @@ the min/max.
 
 - **PDK**: SG13CMOS5L
 - **Status**: superseded
-- **DUT revision**: lock_detector_crowbarfix.spice (RECORD-004, #76); superseded by the #136 bodyfix DUT, whose PVT re-verification is owed (#139)
+- **DUT revision**: lock_detector_crowbarfix.spice (RECORD-004, #76); superseded by the #136 bodyfix DUT, whose full-PVT rerun is RECORD-011 (disclosed gaps: 20x probe not run; ladder rows PDK-confounded)
 - **Context**: schematic
 - **Conditions**: corner lists per coverage; ngspice-46
 - **Method**: transient window width and Schmitt threshold extraction
 - **Record**: `sim/sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` (sha256 `a9b432b67c4cf9cd0d23dfa8552300d0c33f8166fc5b507e5201aa8fa234b0cf`)
 - **Table `window`**: `sim/sg13cmos5l-lock-detector-window/corners/window_crowbarfix.csv` (sha256 `2ee284dfacde951f0fbc1f9f183c533d652755280902f9d484f313481d2bf8fc`)
 - **Note**: Last full-PVT lock_detector window evidence, but of a DUT that has since changed (bodyfix).
-- **Gaps**: No ratified spec table (none filed), Bodyfix (#136) not re-verified across PVT (#139), lock_detector PVT gaps (#139)
+- **Gaps**: No ratified spec table (none filed), Bodyfix (#136): full-grid rerun has disclosed PVT gaps (none filed), lock_detector PVT gaps (none filed)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -314,9 +314,14 @@ not an anonymous body net.
 
 No snapshot had a body on an anonymous net, and every `unbiased_pmos_body_nets`
 list is empty. **`lock_detector` is not cited**: its committed PEX netlist
-and its postlayout-pex-pvt evidence describe the pre-#136 layout, no `klt pex`
-envelope exists for the current GDS, and the full-PVT grid for the #136 DUT
-is still owed (#139). Re-extraction and the `klt pex` run are filed as
+and its postlayout-pex-pvt evidence describe the pre-#136 layout, and no
+`klt pex` envelope exists for the current GDS. The full-PVT grid for the
+#136 bodyfix DUT itself is no longer owed: it was re-run on the batch fleet
+([RECORD-011](../sim/sg13cmos5l-lock-detector-window/records/RECORD-011-bodyfix-full-grid-batch.md),
+which closed #139), with two disclosed gaps of its own — the 20x-window
+`idd_outlock` probe was not run (row 11's 20x bound is still RECORD-004's
+figure) and the ladder rows are PDK-confounded (the ran-on PDK revision is
+inferred, not the pin). Re-extraction and the `klt pex` run are filed as
 **#157**; the multi-corner part goes through `klt sim` corners / `monte_carlo`
 (batch), not a local ngspice grid.
 
@@ -508,14 +513,35 @@ evidence exists. The numbers, the per-corner breakdown and the limitations
 are in
 [`RECORD-002`](../sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md).
 
-**What a `met` here would still need**, beyond more samples: the yield is
-graded against the bench's own `±3.5 %` **screening** limit, derived from
-closed-loop records measured on the pre-DR-010 `cp`, not against anything in
-`spec/target-spec.md` — which proposes no `cp` mismatch number at all. No
-`target_yield` is declared, because declaring one would be a pass/fail claim
-against an unratified number. Ratifying a limit is the prerequisite; a
-larger campaign on its own would buy a `met` row that still measures the
-wrong thing.
+**The evidence behind that campaign has moved; the committed citation has
+not.** [`RECORD-014`](../sim/sg13cmos5l-closed-loop-lock/records/RECORD-014-cp-mismatch-phase-error-gain.md)
+re-measured, on the committed DR-010 `cp`, the gain the `±3.5 %` value was
+derived from: -0.0394 to -0.0484 pp/pp — about 30x smaller and of the
+opposite sign — with a linear-through-origin fit rejected.
+[`DR-013`](../spec/decision-records/DR-013-cp-mismatch-limit.md) (proposed)
+therefore **retires** the `±3.5 %` screening limit outright: it proposes no
+replacement bound and no `target_yield`. [`RECORD-003`](../sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-003-regrade-proposed-limit.md)
+re-grades the *same 1500 draws* against DR-013's `±11.92 %`
+**evidence-coverage** bound — explicitly not a spec limit and not a
+pass/fail threshold — and finds 99.60 % inside it (95 % CI [99.13 %,
+99.85 %]), Cpk 0.9973, with `klt yield`'s sample-size verdict turning
+`sufficient` (`required_n` drops from 8907 to 154). None of that re-grades
+this row: the manifest still cites `yield.mc.json`, which still self-reports
+`insufficient` at its own default `±1 pp` target, so the row still reads
+`unmet` / `undersized_sample`.
+
+**What a `met` here would still need**: a ruling, not more samples. The
+screening limit this row was graded against is retired (`DR-013`, proposed)
+and nothing has replaced it, and `spec/target-spec.md` still proposes no
+`cp` mismatch number at all. What decides the row is **R-12**: whether a
+`cp` mismatch limit must exist for T1 in the first place, which row would
+own it, and what evidence it would require. Since `RECORD-003`, campaign
+size is no longer the blocker — at DR-013's evidence-coverage bound the
+existing 1500 draws are already `sufficient` (`required_n` 154) — so
+ratifying, or explicitly declining, a limit is what stands between this row
+and a `met`. The campaign itself still lacks a negative control, and the
+proposal deck the gain was measured on does not acquire at 125 C; both are
+tracked in #389.
 
 **The digital row is uncited, and is not claimed `not_applicable` either.**
 `divider_chain` has no statistical spec row. `spec/target-spec.md` carries
@@ -630,16 +656,16 @@ hand):
 - a ratified spec table: the spec is drafted in `spec/target-spec.md`
   (Status: DRAFT) and awaits the two-key ratification under `ratification/`
   (no tracking issue filed), so the summary can be read against a spec;
-- full PVT coverage on the current DUT, including the `lock_detector` bodyfix
-  re-verification (#139) and the `lock_detector` PEX re-extraction (#157);
+- full PVT coverage on the current DUT, including the `lock_detector` PEX
+  re-extraction (#157);
 - divider speed evidence on the current design (no tracking issue filed; the
   #168 follow-on retained edge counts but they are not selected into the
   summary);
-- the charge-pump PVT evidence for the DR-010 dump buffer (#178 —
-  the up/dn mismatch Monte Carlo now exists, see "Item 6", but the dump
-  buffer itself is still nominal-only), the real-cp loop PM re-check across
-  the fast/slow grid (#203), and a closed loop that acquires (the nominal
-  real-divider loop does not acquire).
+- the charge-pump PVT evidence for the DR-010 dump buffer (no tracking issue
+  filed — the up/dn mismatch Monte Carlo now exists, see "Item 6", but the
+  dump buffer itself is still nominal-only), the real-cp loop PM re-check
+  across the fast/slow grid (#203), and a closed loop that acquires (the
+  nominal real-divider loop does not acquire).
 
 ## The tool that grades
 
