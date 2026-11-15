@@ -82,6 +82,14 @@ jobs:
           python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py
           python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py
 
+      # PEX extraction script guard (issue #438): PEX_BLOCKS without
+      # PEX_SNAP_SUBDIR would rewrite the committed top-level
+      # netlist-snapshots/provenance.json as a roll-up of only the named
+      # blocks. The guard's own self-test -- stdlib-only, offline, no klt,
+      # no PDK, sub-second.
+      - name: run-pex.sh PEX_BLOCKS/PEX_SNAP_SUBDIR guard self-test
+        run: python3 sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py
+
       - name: Records format, numbering and sources.json coverage
         run: python3 characterization/check_records.py
 
