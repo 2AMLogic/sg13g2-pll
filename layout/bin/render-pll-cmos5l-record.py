@@ -122,7 +122,10 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             f"{block_probe.get('nets_declared')} multi-pin nets), where it "
             f"routes **{block_routing.get('routed_net_count')} of "
             f"{block_routing.get('net_count')}** nets — "
-            "klayout-tools#1467, reproduced at this pin, and the reason this "
+            "klayout-tools#1962, still open at this pin: the layer/track "
+            "assignment across many mutually-crossing nets that the "
+            "closed klayout-tools#1467 channel-track fix (PR #1840, "
+            "present at this pin) does not resolve, and the reason this "
             "flow keeps drawing and routing via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py`"
         )
@@ -133,10 +136,12 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             "(klayout-tools#1462); **this run's own re-probe (below) shows "
             "that gap fixed at the current pin**, but `klt gen-compose`'s "
             "own router was separately measured routing only 1 of 13 nets "
-            "on this design's smallest block past that fix "
-            "(klayout-tools#1467) -- that measurement predates this pin and "
-            "has not been repeated against it this run, so this flow "
-            "continues to draw and route via this repo's own "
+            "on this design's smallest block past that fix -- the unsolved "
+            "layer/track assignment across nets that is tracked open as "
+            "klayout-tools#1962, the gap the closed klayout-tools#1467 "
+            "channel-track fix hands off to -- that measurement predates "
+            "this pin and has not been repeated against it this run, so "
+            "this flow continues to draw and route via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py` rather than switching to "
             "`klt gen-compose`'s router on the strength of an unconfirmed "
             "fix"
@@ -148,7 +153,9 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             "(the gap klayout-tools#1462 tracked, **closed upstream "
             "2026-08-30, after this pin**; re-probed below), and past that "
             "fix `gen-compose` still routes 1 of 13 nets on this design's "
-            "smallest block (klayout-tools#1467)"
+            "smallest block — the layer/track-assignment gap across nets "
+            "tracked open as klayout-tools#1962, which the closed "
+            "klayout-tools#1467 channel-track fix hands off to"
         )
     lines.append(
         "Drawn *and routed* by this repo's own `cmos5l_devices.py` / "
@@ -282,16 +289,20 @@ def _gen_compose_probe_lines(build: dict) -> list[str]:
                 "`cp`, the smallest block here, it routes **1 of 13 "
                 "nets**, rejecting the rest with `crosses already-routed "
                 "net`, because it has no track or layer assignment "
-                "between nets. Filed upstream as **klayout-tools#1467**. "
-                "A pin bump therefore does not retire this flow's own "
-                "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                "between nets. That no-assignment-between-nets behavior "
+                "is the still-open **klayout-tools#1962** — the gap the "
+                "closed **klayout-tools#1467** (filed from this very "
+                "measurement, since fixed upstream by its channel-track "
+                "PR #1840) hands off to. A pin bump therefore does not "
+                "retire this flow's own router; see "
+                "`layout/sg13cmos5l-pll/README.md`'s friction "
                 "log.\n"
             )
     return lines
 
 
 def _block_probe_lines(build: dict) -> list[str]:
-    """#### Re-measured against a real block (klayout-tools#1467)."""
+    """#### Re-measured against a real block (klayout-tools#1962)."""
     lines: list[str] = []
     block_probe = build.get("gen_compose_block_probe") or {}
     if block_probe.get("ran"):
@@ -307,7 +318,7 @@ def _block_probe_lines(build: dict) -> list[str]:
         two_layer_total = two_layer.get("net_count") or 0
         two_layer_error = two_layer.get("error")
         lines.append(
-            "#### Re-measured against a real block (klayout-tools#1467)\n"
+            "#### Re-measured against a real block (klayout-tools#1962)\n"
         )
         lines.append(
             "The two-pad probe above is far too small to exercise the finding "
@@ -402,12 +413,15 @@ def _block_probe_lines(build: dict) -> list[str]:
                     "log."
                 )
             lines.append(
-                "**klayout-tools#1467 reproduces at this pin.** The first net "
+                "**klayout-tools#1962 reproduces at this pin** — the "
+                "layer/track-assignment gap the closed klayout-tools#1467 "
+                "(its channel-track fix present at this pin) hands off "
+                "to. The first net "
                 "accepted rejects the rest, and " + second_plane + "\n"
             )
         else:
             lines.append(
-                "**klayout-tools#1467 no longer reproduces at this pin.** "
+                "**klayout-tools#1962 no longer reproduces at this pin.** "
                 "Every declared net routed. This flow's own router is no "
                 "longer required on the routing side; see "
                 "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"

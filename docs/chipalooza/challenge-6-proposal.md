@@ -324,9 +324,12 @@ capacitor device class — **closed and retired for this port by
 `cap_cmomf`, all five devices draw, extract at the schematic's own `w`/`l`
 and LVS-match through the reference rewrite; the successor gap is
 [#2327](https://github.com/2AMLogic/klayout-tools/issues/2327) — a
-custom-device-class `X … PARAMS:` card still cannot pass through
+custom-device-class `X … PARAMS:` card could not pass through
 `reference.form: "subckt-call"` in one request, worked around caller-side
-— open; and
+— **closed upstream as completed 2026-09-22 via [PR
+#2334](https://github.com/2AMLogic/klayout-tools/pull/2334), present at
+this repo's pin**, and the caller-side lift/splice workaround was deleted
+(the reference rewrite itself stays — by necessity, not by gap); and
 [#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) (resistor
 device_map — **closed and retired** by #114's run, whose references pass
 no `device_map`),
@@ -352,17 +355,22 @@ unrouted and what keeps `cmos5l_route.py` alive — open), the pre-existing
 (parasitics extraction silently zero — **closed via #2126**, curated
 Metal1–TopMetal1 R/C coefficients),
 [#1157](https://github.com/2AMLogic/klayout-tools/issues/1157)
-(three-terminal `R` cards are not ngspice-simulatable — open; #30 narrowed
-its scope condition and this repo works around it in
-`pex-to-ngspice.py`),
+(three-terminal `R` cards are not ngspice-simulatable — **closed via
+[#2336](https://github.com/2AMLogic/klayout-tools/pull/2336)**, in this
+repo's 0.8.0 pin; #30 narrowed its scope condition and `pex-to-ngspice.py`
+now only replays the committed pre-fix snapshots),
 [#2145](https://github.com/2AMLogic/klayout-tools/issues/2145)
 (hierarchical net names joined with `.` collide with ngspice's own
-separator — open, same workaround),
+separator — **closed via
+[#2153](https://github.com/2AMLogic/klayout-tools/pull/2153)**, also in
+the 0.8.0 pin; the shared workaround retired to pre-fix snapshot replay),
 [#2355](https://github.com/2AMLogic/klayout-tools/issues/2355)
 (extracted `cap_cmomi` cards carry bare-micron `PARAMS: W= L=` values
 against the PDK subckt interface's SI-meter defaults — silent at DC, an
-effectively-shorted capacitor at AC; worked around in `pex-to-ngspice.py`
-— filed from RECORD-004),
+effectively-shorted capacitor at AC; **closed via
+[#2381](https://github.com/2AMLogic/klayout-tools/pull/2381)**, in the
+0.8.0 pin, and `pex-to-ngspice.py` now only replays the committed
+pre-0.7 snapshots — filed from RECORD-004),
 [#2726](https://github.com/2AMLogic/klayout-tools/issues/2726)
 (DRC cannot see a `Via1` landing on no `Metal1` at all, and the deck
 reads no `Cont` rule — this hid #136's uncontacted 0.25 µm `XMPD` for

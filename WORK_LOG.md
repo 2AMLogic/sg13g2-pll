@@ -6,8 +6,18 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-15
+
+- **PR #408**: refactor(manifests): share the record resolver, sha256_file and JSON loader across the four signoff gates
+- **Issue #405** (closed): Deduplicate manifests/ gate helpers: one record resolver, one sha256_file, one JSON loader
+
 ### 2026-11-14
 
+- **PR #399**: ci: guard item-10's checks inventory against signoff.yml gate drift
+- **PR #418**: refactor: drop check-osdi-arch.sh --warn-only, the blanket exit-0 downgrade
+- **Issue #395** (closed): item-10 hygiene inventory's `checks` list has drifted from signoff.yml's actual gate set (5 gates missing)
+- **Issue #417** (closed): render-pll-cmos5l-record.py: a two-layer attempt with both an error and a nonzero routed count renders a bullet and a paragraph that contradict each other
+- **Issue #406** (closed): Remove check-osdi-arch.sh --warn-only: a never-called flag that downgrades a known-unloadable deck to exit 0
 - **Issue #411** (closed): Remove the dead klt() transport and consolidate the duplicated klt-sim deck-list machinery in the two lock-detector-window batch drivers
 - **PR #400**: docs: roadmap as of 2026-11-13
 - **PR #394**: ci: gate the two testbench metric-extraction self-tests
