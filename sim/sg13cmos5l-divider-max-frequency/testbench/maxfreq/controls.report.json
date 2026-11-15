@@ -1,0 +1,143 @@
+{
+  "schema_version": 3,
+  "mode": "decks",
+  "backend": "batch",
+  "engine": "ngspice",
+  "status": "pass",
+  "unit_count": 3,
+  "passed": 3,
+  "errored": 0,
+  "timed_out": 0,
+  "units": [
+    {
+      "id": "n64_mos_tt_27c_3v3_f1152_s10",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 142.442,
+      "engine_version": "47",
+      "deck": "n64_mos_tt_27c_3v3_f1152_s10.sp",
+      "deck_sha256": "ff216d9d7c74881908bd2b1aa323bbee4caa159226a3f0e948e2094cff4f9f55",
+      "stdout": "n64_mos_tt_27c_3v3_f1152_s10/stdout.bin",
+      "stderr": "n64_mos_tt_27c_3v3_f1152_s10/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [],
+      "diagnostics": [],
+      "resumed": false
+    },
+    {
+      "id": "n64_mos_tt_27c_3v3_f1152_w",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 88.686,
+      "engine_version": "47",
+      "deck": "n64_mos_tt_27c_3v3_f1152_w.sp",
+      "deck_sha256": "1b8367ec384b402344e936dbe2995ec51f9b3d9b5eae03cc666d94a125ff8334",
+      "stdout": "n64_mos_tt_27c_3v3_f1152_w/stdout.bin",
+      "stderr": "n64_mos_tt_27c_3v3_f1152_w/stderr.bin",
+      "outputs": [
+        "waves.txt"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [],
+      "diagnostics": [],
+      "resumed": false
+    },
+    {
+      "id": "n64_mos_tt_27c_3v3_f1088_w",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 91.33,
+      "engine_version": "47",
+      "deck": "n64_mos_tt_27c_3v3_f1088_w.sp",
+      "deck_sha256": "084f81bad30a2bed394037f5e2c235e440021e8218295876db492e7cc566b658",
+      "stdout": "n64_mos_tt_27c_3v3_f1088_w/stdout.bin",
+      "stderr": "n64_mos_tt_27c_3v3_f1088_w/stderr.bin",
+      "outputs": [
+        "waves.txt"
+      ],
+      "missing_outputs": [],
+      "host_resolved": [],
+      "diagnostics": [],
+      "resumed": false
+    }
+  ],
+  "outdir": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-402/sim/sg13cmos5l-divider-max-frequency/testbench/maxfreq/run-controls",
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "47",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "klt_version": "0.9.0",
+    "max_workers": 2,
+    "engine_host": "worker",
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-59157df11b4b",
+      "region": "us-east-1",
+      "instance_id": "i-04468fe00c143f823",
+      "instance_type": "m7i.4xlarge",
+      "availability_zone": "us-east-1a",
+      "ami_id": "ami-09c14f55df4958cbd",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "1",
+      "physical_cores": "8",
+      "elapsed_seconds": 190,
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.3.dev3+gd5d57daf9a14",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "decks"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Fri Nov 13 23:19:32 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": "ihp-sg13cmos5l",
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": false,
+          "stamp_scope": "executed"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": null,
+        "diagnostics": [
+          "pdk stamp unreadable: FileNotFoundError"
+        ],
+        "pdk_stamp_comparison": {
+          "status": "not_comparable",
+          "reason": "worker_stamp_unavailable"
+        }
+      },
+      "runner_model_inputs": null,
+      "models_lib_comparison": {
+        "status": "not_comparable",
+        "reason": "runner_hash_unavailable"
+      }
+    },
+    "resume": {
+      "resumed_units": 0,
+      "resumed_ids": []
+    },
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice"
+  }
+}

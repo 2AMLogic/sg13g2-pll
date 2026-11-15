@@ -1,0 +1,26 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "decks": [
+    {
+      "id": "n64_mos_tt_27c_3v3_f1136_w",
+      "deck": "decks/n64_mos_tt_27c_3v3_f1136_w.sp",
+      "timeout_s": 900,
+      "outputs": [
+        "waves.txt"
+      ]
+    }
+  ],
+  "options": {
+    "timeout_s": 900,
+    "max_workers": 1
+  },
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "batch": {
+    "capacity_wait_s": 600,
+    "max_units_per_job": 3,
+    "max_concurrent_jobs": 4
+  }
+}
