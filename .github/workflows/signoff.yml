@@ -54,6 +54,19 @@ jobs:
         with:
           python-version: "3.12"
 
+      # T1 item 10's `checks` inventory claims to cover every python3 gate this
+      # file runs, and `klt signoff --attest 10` executes exactly what it names
+      # -- but the envelope only hashes this file's raw bytes, so a gate added
+      # here could be re-attested into an envelope that never runs it (three
+      # were, before issue #395). This compares the two directly, so drift
+      # fails in the offline job rather than only through the item-10
+      # re-attest in `grade`. One-directional: inventory-ahead-of-workflow is
+      # not drift. Stdlib-only, no klt, sub-second.
+      - name: Item-10 inventory parity gate (signoff.yml gates vs item-10 checks)
+        run: |
+          python3 scripts/check_signoff_inventory_parity.py
+          python3 scripts/test_check_signoff_inventory_parity.py
+
       - name: Records checker unit tests
         run: python3 characterization/test_check_records.py
 
@@ -126,12 +139,12 @@ jobs:
           python3 characterization/gen_summary.py --check
 
       # T1 item 7: the manifest cites only the vco and divider_chain PEX
-      # envelopes. This gate validates all five nominal klt pex reports
+      # envelopes. This gate validates all six nominal klt pex reports
       # (status, body bias, GDS input hash, block identity) and that the
       # flattened schematic legs match a fresh re-flatten of the design
-      # exports. lock_detector stays withheld (#157). Nominal evidence
-      # integrity only -- not a PVT/spec pass.
-      - name: Item-7 PEX sibling coverage gate (five nominal envelopes + legs)
+      # exports. lock_detector joined the gated blocks with #157. Nominal
+      # evidence integrity only -- not a PVT/spec pass.
+      - name: Item-7 PEX sibling coverage gate (six nominal envelopes + legs)
         run: |
           python3 manifests/check_pex_coverage.py
           python3 manifests/test_check_pex_coverage.py

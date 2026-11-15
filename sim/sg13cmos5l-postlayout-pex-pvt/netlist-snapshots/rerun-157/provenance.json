@@ -1,0 +1,28 @@
+{
+  "blocks": {
+    "pll_lock_detector": {
+      "c_count": 23,
+      "cc_count": 175,
+      "device_count": 41,
+      "metals_without_coefficient": [],
+      "net_count": 23,
+      "netlist": "netlist-snapshots/rerun-157/pll_lock_detector.pex.spice",
+      "netlist_sha256": "a74e82c1490ac6cd5cde99ed15620a640e0c5e98e754c091a3ec14c772a00d24",
+      "overlap_pairs_without_coefficient": [],
+      "r_count": 157,
+      "rc_model": "lumped star per net (klt default); see the report's own parasitics.model for the full statement",
+      "total_capacitance_ff": 3904.297036,
+      "total_coupling_capacitance_ff": 3.582125,
+      "total_resistance_ohm": 21926.1917
+    }
+  },
+  "deck": "sg13cmos5l",
+  "klt_requires": [
+    "klayout-tools#2012 (sg13cmos5l registered in the parasitics registry)",
+    "klayout-tools#2126 (curated sg13cmos5l nominal metal R/C coefficients)"
+  ],
+  "klt_version": "klt 0.9.3.dev3+gd5d57daf9a14",
+  "layout_record": "20261010-012952-a4ca1b8",
+  "pdk": "ihp-sg13cmos5l",
+  "real_parasitics_modelled": true
+}
