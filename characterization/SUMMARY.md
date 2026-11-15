@@ -804,7 +804,7 @@ the min/max.
 - **Note**: Sanity: the nominal fields of both new envelopes are byte-identical to the committed ones (the merge changed nothing but the control), and the 'no measurement declared a negative_control' warning is gone; each new envelope carries only the same no-declared-yield advisory the committed envelopes carry.
 - **Note**: NOT shown by this control: one process section (mos_tt_mismatch only), one temperature (27 C only -- RECORD-002 reports the spread peaks at -40 C), one injected defect on one mirror leg (RECORD-014's substitution style, not switching-charge, bias-replica or dump-buffer offset).
 - **Note**: A discarded first submission (sigma exactly 0 on all 100 draws, job klt-sim-70583a612331) ran against the newer-install tree whose HV MOS mismatch subcircuits default to mm_ok=0; the committed control comes from the request re-pointed at the pinned tree, verified with gen_requests.py's mm_ok closure check first.
-- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI (#178)
+- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against the retired +/-3.5 % screening value, undersized for the default CI (#389)
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
