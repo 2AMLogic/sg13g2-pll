@@ -36,7 +36,7 @@ N = 64, but band code `00` (`B0 = B1 = 0 V`), `f_ref` = 9.375 MHz
 (interpolated from `sg13cmos5l-vco-kvco-table` RECORD-001's band `00` row),
 `cp` snapshot `cp-dr010.spice` (the committed DR-010 block; RECORD-001's
 `cp.spice` stays untouched as its frozen pre-DR-010 export), and
-`.tran 100p 10u 0 100p` with an 8-10 us averaging window (94 `T_ref`; the
+`.tran 100p 10u 0 100p` (94 `T_ref`) with an 8-10 us averaging window; the
 dual-lock criterion needs 20 consecutive cycles after acquisition, and
 RECORD-001's 2500 ns default spans only ~23 `T_ref` at this `f_ref`).
 ngspice-47, `num_threads=2`; every artifact carries `TAG_SUFFIX=_o2`

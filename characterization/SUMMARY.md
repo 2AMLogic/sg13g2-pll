@@ -1118,7 +1118,7 @@ the min/max.
 - **Context**: schematic, pre-layout, closed loop
 - **Conditions**: one nominal point (mos_tt, res_typ, 27 C, 3.3 V), band 00, f_ref 9.375 MHz (target 600 MHz), N=64; 10 us; local ngspice-47
 - **Method**: closed-loop transient; trace_real_o2 = per-reference-cycle error, vctrl_real_o2 = control-voltage waveform
-- **Record**: `sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md` (sha256 `6ad617df4f20058877ac40a3167b6d3ae98ee8649d8dae78bb6a77aa328a25e4`)
+- **Record**: `sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md` (sha256 `051da83198ab7a1e8e0d26f89953fd0e1c0aa88a55240de6d7d35385b4674047`)
 - **Table `trace`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/trace_real_o2.csv` (sha256 `2de0238652967eccfd35718f9e9456d480cc1eaf1e965120be7b4febd1375857`)
 - **Table `vctrl`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real_o2.csv` (sha256 `43271a577cd0e63909e9d4232faaf2c51fc6e81c74bf7d3a0602a9e85aa2abea`)
 - **Note**: First real-block closed loop in this slug to meet the dual-lock criterion: locks in 3 ref cycles (warm-started .ic), exact /64 in-loop (93/93 FB periods), 599.996 MHz, static phase error 1.729% of T_ref. Control arm likewise locks (213 ns, 1.741%). Localizes RECORD-001's no-lock to the top-of-band operating point; not a PVT or post-layout result.

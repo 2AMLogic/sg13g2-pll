@@ -94,15 +94,22 @@ the divider inside its proven range, the closed loop acquires in 3 reference
 cycles (320 ns) and then holds the dual-lock criterion for the remaining 91
 cycles to the end of the 10 us window — the criterion neither arm could meet
 in RECORD-001. The real chain divides exactly 64 in **93/93** FB periods
-(6000 clk edges, not one dropped or doubled), so at 600 MHz the in-loop
+(5952 clk edges in those 93 periods, not one dropped or doubled; 6003 across
+the full 10 us run), so at 600 MHz the in-loop
 divider behaves exactly like the ideal-clock case — in contrast to 1.28 GHz,
 where the ideal clock gave 96 and the in-loop waveform 128. The VCO settles
 at 599.996 MHz (final-20-cycle `df` mean -0.00035 %), and the static phase
 error is 1.729 % of `T_ref`, under the 5 % bound that failed both arms at the
 old point.
 
-This answers RECORD-001's open question affirmatively: that record's
-no-lock was a top-of-band divider-speed effect, not a loop-level obstruction.
+This answers RECORD-001's open question affirmatively. That record's real-arm
+non-acquisition was a top-of-band divider-speed effect: the in-loop misdivide
+is absent at 600 MHz (93/93 FB periods at exactly 64). RECORD-001's *control*
+arm failed the same criterion for a different, loop-level reason (8.31 %
+static phase error with no real divider in the loop); that failure is also
+absent here (1.741 %), but this record does not attribute why — `f_ref`,
+band, Kvco and the `cp` all moved together (see "What this does and does not
+establish").
 The same loop discipline (`pfd` + `loop_filter` + `vco` + repaired
 `divider_chain`, with the `cp` updated to the committed DR-010 block) locks
 at an operating point the divider can sustain, and the divider produces the
