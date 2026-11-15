@@ -299,6 +299,13 @@ def _block_probe_lines(build: dict) -> list[str]:
         declare = attempts.get("block-declare") or {}
         routed = attempts.get("block-routing") or {}
         two_layer = attempts.get("block-routing-two-layer") or {}
+        # Both the bullets and the closing paragraph below read these; an
+        # attempt the run never recorded reads as 0, never as a missing key.
+        single_routed = routed.get("routed_net_count") or 0
+        single_total = routed.get("net_count") or 0
+        two_layer_routed = two_layer.get("routed_net_count") or 0
+        two_layer_total = two_layer.get("net_count") or 0
+        two_layer_error = two_layer.get("error")
         lines.append(
             "#### Re-measured against a real block (klayout-tools#1467)\n"
         )
@@ -332,7 +339,14 @@ def _block_probe_lines(build: dict) -> list[str]:
             "- with a second routing plane "
             "(`routing.cross_block_layer_role`): exit "
             f"{two_layer.get('returncode')}"
-            + (f" — `{two_layer.get('error')}`" if two_layer.get("error") else "")
+            # A rejected attempt reports 0 of 0 nets; say nothing rather
+            # than print a count the attempt never got far enough to have.
+            + (
+                f" — **{two_layer_routed} of {two_layer_total} nets routed**"
+                if two_layer_total > 0
+                else ""
+            )
+            + (f" — `{two_layer_error}`" if two_layer_error else "")
         )
         lines.append("")
         reasons = routed.get("leg_rejection_reasons") or {}
@@ -345,15 +359,51 @@ def _block_probe_lines(build: dict) -> list[str]:
             for reason, count in list(reasons.items())[:6]:
                 lines.append(f"- {count} × `{reason}`")
             lines.append("")
-        if (routed.get("routed_net_count") or 0) < (routed.get("net_count") or 0):
+        if single_routed < single_total:
+            # What this run's own two-layer attempt recorded decides the
+            # clause about the second plane. Asserting a rejection the
+            # attempt did not report would contradict the bullet above it.
+            if two_layer_error:
+                second_plane = (
+                    "the second routing plane that "
+                    "would let a rejected net move out of the way cannot be "
+                    "selected on this PDK family at all — the error above lists "
+                    "the roles that family *does* expose, and `metal` is the only "
+                    "routing metal among them. That is why a pin bump past "
+                    "klayout-tools#1462 does not retire `cmos5l_route.py`."
+                )
+            elif two_layer_total <= 0:
+                second_plane = (
+                    "the attempt that adds a second routing plane recorded "
+                    "neither an error nor a net count of its own, so this run "
+                    "measured nothing about that plane. `cmos5l_route.py` is "
+                    "still required on the routing side."
+                )
+            elif two_layer_routed < two_layer_total:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run: adding "
+                    "`routing.cross_block_layer_role` returned exit "
+                    f"{two_layer.get('returncode')} with no error and routed "
+                    f"**{two_layer_routed} of {two_layer_total} nets**, against "
+                    f"{single_routed} of {single_total} on the single plane. "
+                    "Declared nets are still left unrouted with it, so "
+                    "`cmos5l_route.py` is still required on the routing side."
+                )
+            else:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run, and with it "
+                    "**every declared net routed** "
+                    f"({two_layer_routed} of {two_layer_total}, against "
+                    f"{single_routed} of {single_total} on the single plane). "
+                    "What is left on the routing side is the single-plane "
+                    "case; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                    "log."
+                )
             lines.append(
                 "**klayout-tools#1467 reproduces at this pin.** The first net "
-                "accepted rejects the rest, and the second routing plane that "
-                "would let a rejected net move out of the way cannot be "
-                "selected on this PDK family at all — the error above lists "
-                "the roles that family *does* expose, and `metal` is the only "
-                "routing metal among them. That is why a pin bump past "
-                "klayout-tools#1462 does not retire `cmos5l_route.py`.\n"
+                "accepted rejects the rest, and " + second_plane + "\n"
             )
         else:
             lines.append(
