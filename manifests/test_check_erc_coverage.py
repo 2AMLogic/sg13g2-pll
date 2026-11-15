@@ -4,7 +4,6 @@ Run from the repo root: python3 manifests/test_check_erc_coverage.py
 The committed evidence is never modified (GDS files are symlinked read-only
 into the temporary tree; JSON is copied and edited there).
 """
-import hashlib
 import json
 import shutil
 import sys
@@ -14,12 +13,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import check_erc_coverage as chk  # noqa: E402
+from _common import record_from_evidence, sha256_file  # noqa: E402
 
 MANIFEST = Path("manifests/sg13g2-pll.json")
 TIER = Path("manifests/sg13g2-pll.tier-report.json")
 EV = json.loads(MANIFEST.read_text())["evidence"]
 ERC_REC = Path(EV["11.analog"][0]["file"]).parent
-LVS_REC = Path(EV["4.analog"]["file"]).parent
+LVS_REC = record_from_evidence(EV)
 SPECS = Path(chk.DEFAULT_SPECS)
 BLOCKS = chk.ANALOG_BLOCKS
 ORIG_KNOWN = dict(chk.KNOWN_DEFECTS)
@@ -31,10 +31,6 @@ def restore_module():
     chk.KNOWN_DEFECTS.update(ORIG_KNOWN)
     chk.DISCLOSURE_ALLOWED.clear()
     chk.DISCLOSURE_ALLOWED.update(ORIG_ALLOWED)
-
-
-def sha(p):
-    return "sha256:" + hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
 class Cov(unittest.TestCase):
@@ -229,9 +225,9 @@ class Cov(unittest.TestCase):
         gds = self.lvs / "pll_loop_filter.gds"
         gds.unlink()
         gds.write_bytes(data[: len(data) // 2])
-        self.edit(self.rep("loop_filter"), lambda d: d["provenance"]["input"].update(content_hash=sha(gds)))
+        self.edit(self.rep("loop_filter"), lambda d: d["provenance"]["input"].update(content_hash=sha256_file(gds)))
         self.edit(self.lvs / "lvs.loop_filter.json",
-                  lambda d: d["response"]["provenance"]["input"].update(content_hash=sha(gds)))
+                  lambda d: d["response"]["provenance"]["input"].update(content_hash=sha256_file(gds)))
         self.assertEqual(self.run_main(), 1, "truncated GDS must not justify the disclosure")
 
     def test_mos_block_without_deck(self):
@@ -295,14 +291,14 @@ class Cov(unittest.TestCase):
                 spec = self.specs / "erc-supply-spec.pll_lock_detector.json"
                 self.edit(spec, fn)
                 self.edit(self.rep("lock_detector"),
-                          lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
+                          lambda d: d["provenance"]["spec"].update(content_hash=sha256_file(spec)))
                 self.assertEqual(self.run_main(), 1)
 
     # --- cp (#195, DR-010): the PSRC well selected by literal box ---------
     def cp_spec_case(self, fn):
         spec = self.specs / "erc-supply-spec.pll_cp.json"
         self.edit(spec, fn)
-        self.edit(self.rep("cp"), lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
+        self.edit(self.rep("cp"), lambda d: d["provenance"]["spec"].update(content_hash=sha256_file(spec)))
         return self.run_main()
 
     def test_cp_spec_box_selection_rules(self):
@@ -329,7 +325,7 @@ class Cov(unittest.TestCase):
     def test_sibling_may_not_use_well_selector(self):
         spec = self.specs / "erc-supply-spec.pll_pfd.json"
         self.edit(spec, lambda d: d["ties"][0].update(well_excludes_boxes=[[0, 0, 1, 1]]))
-        self.edit(self.rep("pfd"), lambda d: d["provenance"]["spec"].update(content_hash=sha(spec)))
+        self.edit(self.rep("pfd"), lambda d: d["provenance"]["spec"].update(content_hash=sha256_file(spec)))
         self.assertEqual(self.run_main(), 1)
 
     def test_cp_box_selected_ties_coverage(self):

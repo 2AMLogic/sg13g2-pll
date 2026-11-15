@@ -6,7 +6,7 @@ took the *same* path through the renderer's conditionals: `klt gen-compose`
 re-probed and accepted, the real-block probe run and still only partly
 routing, no undrawn devices, no incomplete nets. The branches that fire on a
 *different* upstream state -- the ones that decide whether a record says
-klayout-tools#1467 "reproduces at this pin" or "no longer reproduces", and
+klayout-tools#1962 "reproduces at this pin" or "no longer reproduces", and
 which of three mutually exclusive sentences describes the `klt gen` family
 gap -- have no committed record to compare against, and a wrong branch here
 puts a wrong sentence into committed evidence.
@@ -20,11 +20,13 @@ still be rendered and asserted.
 from __future__ import annotations
 
 import importlib.util
+import re
 from pathlib import Path
 
 import pytest
 
 BIN_DIR = Path(__file__).resolve().parents[1] / "bin"
+REPORTS_DIR = Path(__file__).resolve().parents[1] / "sg13cmos5l-pll" / "reports"
 
 
 def _load_renderer():
@@ -82,6 +84,35 @@ def _text(lines) -> str:
     return "\n".join(lines)
 
 
+def _assert_1467_cited_only_as_closed(text: str) -> None:
+    """Every `klayout-tools#1467` mention must be past tense (issue #397).
+
+    #1467 is closed upstream with its channel-track fix present at this
+    pin, so it may be named only as the closed issue the live gap
+    (klayout-tools#1962) hands off from -- never as the live gap itself.
+    The renderer uses both plain and bolded mentions, so the `closed`
+    prefix may carry the `**` bold markers.
+    """
+    for m in re.finditer(r"klayout-tools#1467", text):
+        before = text[: m.start()]
+        assert before.endswith(("closed ", "closed **")), (
+            "klayout-tools#1467 cited as if live: "
+            f"{text[max(0, m.start() - 40) : m.end() + 40]!r}"
+        )
+
+
+def _committed_build(record_id: str) -> dict:
+    """A committed record's own `build.json`, as the real oracle.
+
+    The synthetic fixtures below cover branches no run has taken; these
+    cover the two the committed evidence actually contains, so a wording
+    change cannot pass the suite while contradicting a checked-in record.
+    """
+    import json
+
+    return json.loads((REPORTS_DIR / record_id / "build.json").read_text())
+
+
 # --- the three family clauses (verdict section) ------------------------------
 
 
@@ -106,8 +137,10 @@ def test_family_clause_reprobed_and_block_remeasured():
 
 
 def test_family_clause_reprobed_without_block_remeasurement():
-    """Two-pad probe accepted but no real-block probe: the #1467 measurement
-    is explicitly flagged as predating this pin, not quietly reused."""
+    """Two-pad probe accepted but no real-block probe: the 1-of-13
+    measurement (filed then as klayout-tools#1467, now attributed to the
+    still-open #1962) is explicitly flagged as predating this pin, not
+    quietly reused."""
     build = _build(gen_compose_probe={"routing": {"ok": True}})
     text = _text(R._verdict_lines(_plan(), build, "ihp-sg13cmos5l", "sg13cmos5l"))
 
@@ -258,6 +291,11 @@ def test_gen_compose_probe_rejected_reports_the_error():
     assert "- with `routing`: exit 2 (rejected) — `unknown pdk family`" in text
     assert "after this repo's `layout/requirements.txt` pin" in text
     assert "**Both probes above are now accepted.**" not in text
+    # The 1-of-13 measurement attributes the still-open gap to #1962 and
+    # names #1467 only as the closed issue it was filed from (issue #397).
+    assert "still-open **klayout-tools#1962**" in text
+    assert "closed **klayout-tools#1467**" in text
+    _assert_1467_cited_only_as_closed(text)
 
 
 # --- real-block probe --------------------------------------------------------
@@ -303,7 +341,16 @@ def test_block_probe_reproduces_the_upstream_gap():
     assert "**2 of 22 nets routed**" in text
     assert "exit 2 — `no such layer role`" in text
     assert "- 7 × `crosses already-routed net`" in text
-    assert "**klayout-tools#1467 reproduces at this pin.**" in text
+    # The heading names the still-open issue, not the closed one (issue
+    # #397): the golden test cuts it as a prefix, so this is the pin.
+    assert (
+        "#### Re-measured against a real block (klayout-tools#1962)" in text
+    )
+    assert "**klayout-tools#1962 reproduces at this pin**" in text
+    # #1467 may only be named in the past tense: closed upstream, its fix
+    # at this pin, handing the live gap off to #1962.
+    assert "the closed klayout-tools#1467" in text
+    assert "klayout-tools#1467 reproduces" not in text
 
 
 def test_block_probe_fully_routed_retires_the_gap():
@@ -312,9 +359,47 @@ def test_block_probe_fully_routed_retires_the_gap():
         R._block_probe_lines(_build(gen_compose_block_probe=_block_probe(22)))
     )
 
-    assert "**klayout-tools#1467 no longer reproduces at this pin.**" in text
+    assert "**klayout-tools#1962 no longer reproduces at this pin.**" in text
     assert "Every declared net routed." in text
-    assert "**klayout-tools#1467 reproduces at this pin.**" not in text
+    assert "**klayout-tools#1962 reproduces at this pin**" not in text
+    assert "klayout-tools#1467 reproduces" not in text
+
+
+def test_branches_no_record_takes_never_cite_1467_as_the_live_gap():
+    """Every branch no committed record exercises (issue #397).
+
+    The `routing.ok == False` verdict clause, the `ok == True` clause
+    with no real-block probe, and the fully-routed block probe: a future
+    run that takes any of them must not write the stale attribution --
+    klayout-tools#1467 "reproducing" -- into evidence. #1467 is closed
+    upstream with its fix at this pin; the live gap is
+    klayout-tools#1962. Each verdict branch must positively name #1962,
+    and every section these builds render -- verdict, block probe,
+    gen-compose probe -- may cite #1467 only as closed, so a revert to
+    any of the stale wordings fails here instead of passing vacuously.
+    """
+    builds = [
+        _build(gen_compose_probe={"routing": {"ok": False}}),
+        _build(gen_compose_probe={"routing": {"ok": True}}),
+        _build(
+            gen_compose_probe={"routing": {"ok": True}},
+            gen_compose_block_probe=_block_probe(22),
+        ),
+    ]
+    for build in builds:
+        verdict = _text(
+            R._verdict_lines(_plan(), build, "ihp-sg13cmos5l", "sg13cmos5l")
+        )
+        assert "klayout-tools#1962" in verdict
+        _assert_1467_cited_only_as_closed(verdict)
+
+        block = _text(R._block_probe_lines(build))
+        _assert_1467_cited_only_as_closed(block)
+        assert "klayout-tools#1467 reproduces" not in block
+        assert "klayout-tools#1467 no longer reproduces" not in block
+
+        probe = _text(R._gen_compose_probe_lines(build))
+        _assert_1467_cited_only_as_closed(probe)
 
 
 def test_block_probe_without_rejection_reasons_omits_that_list():
@@ -323,6 +408,128 @@ def test_block_probe_without_rejection_reasons_omits_that_list():
     text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
 
     assert "Per-leg rejection reasons" not in text
+
+
+# --- real-block probe: the second routing plane (issue #381) -----------------
+#
+# The closing sentence used to assert that a second routing plane "cannot be
+# selected on this PDK family at all", citing "the error above", on every run
+# whose single-layer attempt routed fewer nets than it declared -- including
+# the runs whose own two-layer attempt was accepted, returned no error and
+# routed *more* nets. Four committed records carry that contradiction. The
+# cases below pin the sentence to the two-layer attempt's own recorded fields.
+
+
+def test_block_probe_two_layer_accepted_is_not_called_unselectable():
+    """Accepted, partly routed: the plane was selected, so say so."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 3,
+        "error": None,
+        "net_count": 22,
+        "routed_net_count": 6,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit 3 — **6 of 22 nets routed**" in text
+    assert "**was** accepted on this run" in text
+    assert "**6 of 22 nets**, against 2 of 22 on the single plane" in text
+    assert "cannot be selected" not in text
+    assert "the error above" not in text
+    assert "`cmos5l_route.py` is still required on the routing side." in text
+
+
+def test_block_probe_two_layer_routes_every_net():
+    """Accepted and fully routed: do not conclude the router must stay."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 0,
+        "error": None,
+        "net_count": 22,
+        "routed_net_count": 22,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "**every declared net routed** (22 of 22, against 2 of 22" in text
+    assert "cannot be selected" not in text
+    assert "does not retire `cmos5l_route.py`" not in text
+    assert "`cmos5l_route.py` is still required" not in text
+
+
+def test_block_probe_two_layer_rejected_keeps_the_existing_wording():
+    """Rejected with 0 of 0 nets: no bogus count, original sentence kept."""
+    probe = _block_probe(2)
+    probe["attempts"]["block-routing-two-layer"] = {
+        "returncode": 1,
+        "error": "'metal2' is not a known layer role",
+        "net_count": 0,
+        "routed_net_count": 0,
+    }
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit 1 — `'metal2' is not a known layer role`" in text
+    assert "0 of 0 nets routed" not in text
+    assert "cannot be selected on this PDK family at all" in text
+    assert "the error above lists the roles that family *does* expose" in text
+
+
+def test_block_probe_two_layer_attempt_missing_claims_nothing():
+    """An older `build.json` with no two-layer attempt at all."""
+    probe = _block_probe(2)
+    probe["attempts"].pop("block-routing-two-layer")
+    text = _text(R._block_probe_lines(_build(gen_compose_block_probe=probe)))
+
+    assert "exit None" in text
+    assert "nets routed**" in text  # the single-layer bullet still prints
+    assert "of None nets routed" not in text
+    assert "this run measured nothing about that plane" in text
+    assert "cannot be selected" not in text
+
+
+def test_block_probe_ignores_a_top_cell_shape_tally():
+    """`attempts.*.top_cell_shapes` (#383) must not reach the prose.
+
+    No committed record carries the field, so a renderer that read it
+    could not be checked against real evidence; present or absent, the
+    rendered text is the same.
+    """
+    without = _block_probe(2)
+    with_tally = _block_probe(2)
+    for attempt in with_tally["attempts"].values():
+        attempt["top_cell_shapes"] = {"Metal1": 8, "Via1": 19, "Metal2": 10}
+
+    assert R._block_probe_lines(
+        _build(gen_compose_block_probe=with_tally)
+    ) == R._block_probe_lines(_build(gen_compose_block_probe=without))
+
+
+def test_block_probe_committed_rejected_record():
+    """`20260921-155747-c44fa68`: the two-layer request was rejected.
+
+    Its committed `record.md` says the plane "cannot be selected" and
+    cites the error; that is true of this record, so it must not change.
+    """
+    build = _committed_build("20260921-155747-c44fa68")
+    text = _text(R._block_probe_lines(build))
+
+    assert "**2 of 18 nets routed**" in text
+    assert "exit 1 — `routing.cross_block_layer_role 'metal2' is not a known" in text
+    assert "cannot be selected on this PDK family at all" in text
+
+
+def test_block_probe_committed_accepted_record():
+    """`20261027-175228-74cf8d0-dirty`: accepted, 6 of 22 against 2 of 22.
+
+    This is the record `reports/LATEST` names, and the one whose committed
+    `record.md` contradicts itself -- line 42 prints exit 3 with no error
+    and line 53 says the plane cannot be selected at all.
+    """
+    build = _committed_build("20261027-175228-74cf8d0-dirty")
+    text = _text(R._block_probe_lines(build))
+
+    assert "6 of 22 nets routed" in text
+    assert "cannot be selected" not in text
+    assert "the error above" not in text
 
 
 # --- generator footprint probe ----------------------------------------------

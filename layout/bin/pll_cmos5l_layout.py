@@ -185,8 +185,6 @@ def _parse_mom_cap_um(value: str) -> float:
     return float(value) * 1e6
 
 
-_MOM_CAP_RUN_RE = re.compile(r"^\* loom-mom-cap-run (\d+)$")
-
 #: A converted resistor card: `R<name> <nets...> 0 <class> L=<l>U W=<w>U` --
 #: `_convert_geometry_card`'s own output shape (value `0` placeholder,
 #: uppercase-suffixed geometry). The value is the first positional token
@@ -253,11 +251,7 @@ def _fill_resistor_values(converted: str) -> str:
 def mom_cap_reference(text: str) -> str:
     """Convert a committed schematic netlist into an LVS-readable reference.
 
-    Two rewrites, both caller-side because no single `klt lvs` request shape
-    performs them together (the gap between `reference.form:
-    "subckt-call"`'s converter and the custom-device-class reader of
-    klayout-tools#1942/#1944 is itself filed upstream -- see the README's
-    friction log):
+    Two rewrites, both caller-side by necessity rather than by workaround:
 
     * Every ``X<name> <a> <b> cap_cmomi w= l= ... m=M ...`` card becomes `M`
       cards of the exact shape that reader recognises --
@@ -269,15 +263,23 @@ def mom_cap_reference(text: str) -> str:
       PDK-cell parameters the card also carries (`mmin`/`mmax`/`feed`/
       `subblock`/`mm_ok`) describe the *generator's* geometry; the
       extracted device's only matched parameters are `W`/`L`, so the card
-      carries exactly those.
+      carries exactly those. This expansion is caller-side because no `klt
+      lvs` request shape performs it: the normalizer converts curated
+      subckt calls, not custom-device-class cards, so a raw
+      ``w=40u ... m=3`` cap card rides through untouched. (The gap that
+      once forced the cap cards to be *lifted out* of the text entirely --
+      klayout-tools#2327, the converter rejecting the rewritten
+      `PARAMS:` card -- closed 2026-09-22 via upstream PR #2334, present
+      at this repo's `klayout-tools==0.8.0` pin, so the rewritten cards
+      now normalize in place.)
     * Everything else (MOS `sg13_hv_*` X cards, `rppd`/`rhigh` resistor X
       cards, the `.subckt` hierarchy itself) is converted to plain-element
       form by `klayout_tools.netlist_normalize.normalize_reference_netlist`
       -- the same conversion `reference.form: "subckt-call"` performs --
-      run on the text with the cap cards lifted out, so its converter never
-      sees the `PARAMS:` token it would otherwise reject. Converted resistor
-      cards then get their `0` value placeholder replaced with the real
-      resistance/area/perimeter the deck's own curated coefficients compute
+      run once over the whole rewritten text, whose cap `PARAMS:` cards
+      pass through untouched. Converted resistor cards then get their `0`
+      value placeholder replaced with the real resistance/area/perimeter
+      the deck's own curated coefficients compute
       (:func:`_fill_resistor_values`), so nothing in the final reference
       relies on `klt lvs`'s placeholder-exclusion disclosure -- the compare
       verifies the resistance dimension instead of skipping it.
@@ -288,12 +290,11 @@ def mom_cap_reference(text: str) -> str:
     """
     from klayout_tools.netlist_normalize import normalize_reference_netlist
 
-    keepers: list[str] = []
-    lifted: list[str] = []
+    rewritten: list[str] = []
     for raw in text.splitlines():
         stripped = raw.strip()
         if not (stripped[:1].upper() == "X" and MOM_CAP_MODEL in stripped.split()):
-            lifted.append(raw)
+            rewritten.append(raw)
             continue
         tokens = stripped.split()
         name, net_a, net_b, rest = tokens[0], tokens[1], tokens[2], tokens[3:]
@@ -322,33 +323,15 @@ def mom_cap_reference(text: str) -> str:
             )
         for k in range(multiplicity):
             suffix = "" if multiplicity == 1 else f"__{k}"
-            keepers.append(
+            rewritten.append(
                 f"{name}{suffix} {net_a} {net_b} {MOM_CAP_MODEL} "
                 f"PARAMS: W={w_um:g} L={l_um:g}"
             )
-        # One slot line per original card; the splice re-expands the run.
-        lifted.append(f"* loom-mom-cap-run {multiplicity}")
 
     converted = normalize_reference_netlist(
-        "\n".join(lifted) + "\n", deck=DEFAULT_DECK
+        "\n".join(rewritten) + "\n", deck=DEFAULT_DECK
     )
-
-    out: list[str] = []
-    taken = 0
-    for raw in converted.splitlines():
-        match = _MOM_CAP_RUN_RE.match(raw.strip())
-        if match is None:
-            out.append(raw)
-            continue
-        count = int(match.group(1))
-        out.extend(keepers[taken : taken + count])
-        taken += count
-    if taken != len(keepers):
-        raise ValueError(
-            "mom_cap_reference: the normalizer dropped a lifted cap slot "
-            f"({taken} of {len(keepers)} cards spliced back)"
-        )
-    return _fill_resistor_values("\n".join(out) + "\n")
+    return _fill_resistor_values(converted)
 
 
 def promote_local_mom_caps(plan: dict[str, Any]) -> list[str]:
