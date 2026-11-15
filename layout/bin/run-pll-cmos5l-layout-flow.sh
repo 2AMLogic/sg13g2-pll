@@ -11,60 +11,46 @@
 # Writes layout/sg13cmos5l-pll/reports/<record-id>/ and updates
 # layout/sg13cmos5l-pll/reports/LATEST to point at it. Never edits a prior
 # record -- see layout/sg13cmos5l-pll/README.md's "Directory layout" section.
+#
+# This is a thin, flow-specific wrapper: the shared driver loop (record-id/
+# dirty detection, the klt preflight, the layout -> renderer -> record_store
+# dedupe calls, and the LATEST pointer write) is shared with
+# layout/bin/run-pll-layout-flow.sh via layout/bin/layout-flow.sh (issue
+# #415) -- see that file's header for the parameter contract this wrapper
+# fills in below.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LAYOUT_DIR="$(cd "$HERE/.." && pwd)"
-REPO_ROOT="$(cd "$LAYOUT_DIR/.." && pwd)"
-PLL_DIR="$LAYOUT_DIR/sg13cmos5l-pll"
-
-KLT="$LAYOUT_DIR/.venv/bin/klt"
-PY="$LAYOUT_DIR/.venv/bin/python"
-PDK_VARIANT="${PDK:-ihp-sg13cmos5l}"
+# shellcheck disable=SC2034  # consumed by the sourced lib below, not this file
+DRIVER_NAME="run-pll-cmos5l-layout-flow.sh"
+# shellcheck disable=SC2034
+PLL_DIR_REL="layout/sg13cmos5l-pll/"
+# shellcheck disable=SC2034
+PDK_VARIANT_DEFAULT="ihp-sg13cmos5l"
+# shellcheck disable=SC2034
 DECK="${DECK:-sg13cmos5l}"
-PDK_ROOT_ARG=()
-if [[ -n "${PDK_ROOT:-}" ]]; then
-  PDK_ROOT_ARG=(--pdk-root "$PDK_ROOT")
-fi
-
-if [[ ! -x "$KLT" ]]; then
-  echo "run-pll-cmos5l-layout-flow.sh: no $KLT -- run layout/bin/setup-venv.sh first" >&2
-  exit 1
-fi
-
+# shellcheck disable=SC2034
+NETLIST_DIR_REL="design/sg13cmos5l/netlist"
+# shellcheck disable=SC2034
+LAYOUT_SCRIPT="$HERE/pll_cmos5l_layout.py"
+# shellcheck disable=SC2034
+RENDER_SCRIPT="$HERE/render-pll-cmos5l-record.py"
 # The drawing half needs `klayout.db`, which the pinned klt install already
 # brings in -- run under the venv's own interpreter rather than the system
 # python3 so a bare host without klayout still works.
-if ! "$PY" -c "import klayout.db" 2>/dev/null; then
-  echo "run-pll-cmos5l-layout-flow.sh: $PY has no klayout.db -- re-run layout/bin/setup-venv.sh --force" >&2
-  exit 1
-fi
+# shellcheck disable=SC2034
+PYEXE="$LAYOUT_DIR/.venv/bin/python"
 
-SHA="$(git -C "$REPO_ROOT" rev-parse --short HEAD)"
-DIRTY=""
-git -C "$REPO_ROOT" diff --quiet -- . ":(exclude)layout/sg13cmos5l-pll/reports" || DIRTY="-dirty"
-git -C "$REPO_ROOT" diff --cached --quiet -- . ":(exclude)layout/sg13cmos5l-pll/reports" || DIRTY="-dirty"
-RECORD_ID="$(date -u +%Y%m%d-%H%M%S)-${SHA}${DIRTY}"
-RECORD_DIR="$PLL_DIR/reports/$RECORD_ID"
-mkdir -p "$RECORD_DIR"
+# shellcheck disable=SC2317  # invoked by layout-flow.sh via EXTRA_PREFLIGHT
+cmos5l_klayout_preflight() {
+  if ! "$PYEXE" -c "import klayout.db" 2>/dev/null; then
+    echo "$DRIVER_NAME: $PYEXE has no klayout.db -- re-run layout/bin/setup-venv.sh --force" >&2
+    exit 1
+  fi
+}
+# shellcheck disable=SC2034
+EXTRA_PREFLIGHT=cmos5l_klayout_preflight
 
-echo "run-pll-cmos5l-layout-flow.sh: writing $RECORD_DIR"
-
-"$PY" "$HERE/pll_cmos5l_layout.py" \
-  --netlist-dir "$REPO_ROOT/design/sg13cmos5l/netlist" \
-  --out-dir "$RECORD_DIR" \
-  --klt "$KLT" \
-  --pdk "$PDK_VARIANT" \
-  --deck "$DECK" \
-  "${PDK_ROOT_ARG[@]}"
-
-"$PY" "$HERE/render-pll-cmos5l-record.py" \
-  "$RECORD_DIR" "$KLT" "$PDK_VARIANT" "$DECK" "${PDK_ROOT:-}"
-
-# Storage only (issue #261): move large artifacts into the shared immutable
-# reports/objects/ store, leave same-path symlinks, write artifacts.json and
-# verify every reference. record.md/plan.json/build.json stay inline.
-"$PY" "$HERE/record_store.py" dedupe "$RECORD_DIR"
-
-echo "$RECORD_ID" > "$PLL_DIR/reports/LATEST"
-echo "run-pll-cmos5l-layout-flow.sh: done -- $RECORD_DIR/record.md"
+# shellcheck source=layout-flow.sh
+source "${HERE}/layout-flow.sh"

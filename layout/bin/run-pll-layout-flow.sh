@@ -9,48 +9,31 @@
 # Writes layout/pll/reports/<record-id>/ and updates
 # layout/pll/reports/LATEST to point at it. Never edits a prior record --
 # see layout/pll/README.md's "Directory layout" section.
+#
+# This is a thin, flow-specific wrapper: the shared driver loop (record-id/
+# dirty detection, the klt preflight, the layout -> renderer -> record_store
+# dedupe calls, and the LATEST pointer write) is shared with
+# layout/bin/run-pll-cmos5l-layout-flow.sh via layout/bin/layout-flow.sh
+# (issue #415) -- see that file's header for the parameter contract this
+# wrapper fills in below.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LAYOUT_DIR="$(cd "$HERE/.." && pwd)"
-REPO_ROOT="$(cd "$LAYOUT_DIR/.." && pwd)"
-PLL_DIR="$LAYOUT_DIR/pll"
+# shellcheck disable=SC2034  # consumed by the sourced lib below, not this file
+DRIVER_NAME="run-pll-layout-flow.sh"
+# shellcheck disable=SC2034
+PLL_DIR_REL="layout/pll/"
+# shellcheck disable=SC2034
+PDK_VARIANT_DEFAULT="ihp-sg13g2"
+# shellcheck disable=SC2034
+NETLIST_DIR_REL="design/netlist"
+# shellcheck disable=SC2034
+LAYOUT_SCRIPT="$HERE/pll_layout.py"
+# shellcheck disable=SC2034
+RENDER_SCRIPT="$HERE/render-pll-record.py"
+# shellcheck disable=SC2034  # the stdlib-only flow runs on the system python3
+PYEXE="python3"
 
-KLT="$LAYOUT_DIR/.venv/bin/klt"
-PDK_VARIANT="${PDK:-ihp-sg13g2}"
-PDK_ROOT_ARG=()
-if [[ -n "${PDK_ROOT:-}" ]]; then
-  PDK_ROOT_ARG=(--pdk-root "$PDK_ROOT")
-fi
-
-if [[ ! -x "$KLT" ]]; then
-  echo "run-pll-layout-flow.sh: no $KLT -- run layout/bin/setup-venv.sh first" >&2
-  exit 1
-fi
-
-SHA="$(git -C "$REPO_ROOT" rev-parse --short HEAD)"
-DIRTY=""
-git -C "$REPO_ROOT" diff --quiet -- . ":(exclude)layout/pll/reports" || DIRTY="-dirty"
-git -C "$REPO_ROOT" diff --cached --quiet -- . ":(exclude)layout/pll/reports" || DIRTY="-dirty"
-RECORD_ID="$(date -u +%Y%m%d-%H%M%S)-${SHA}${DIRTY}"
-RECORD_DIR="$PLL_DIR/reports/$RECORD_ID"
-mkdir -p "$RECORD_DIR"
-
-echo "run-pll-layout-flow.sh: writing $RECORD_DIR"
-
-python3 "$HERE/pll_layout.py" \
-  --netlist-dir "$REPO_ROOT/design/netlist" \
-  --out-dir "$RECORD_DIR" \
-  --klt "$KLT" \
-  --pdk "$PDK_VARIANT" \
-  "${PDK_ROOT_ARG[@]}"
-
-python3 "$HERE/render-pll-record.py" "$RECORD_DIR" "$KLT" "$PDK_VARIANT" "${PDK_ROOT:-}"
-
-# Storage only (issue #261): move large artifacts into the shared immutable
-# reports/objects/ store, leave same-path symlinks, write artifacts.json and
-# verify every reference. record.md/plan.json/build.json stay inline.
-python3 "$HERE/record_store.py" dedupe "$RECORD_DIR"
-
-echo "$RECORD_ID" > "$PLL_DIR/reports/LATEST"
-echo "run-pll-layout-flow.sh: done -- $RECORD_DIR/record.md"
+# shellcheck source=layout-flow.sh
+source "${HERE}/layout-flow.sh"
