@@ -17,7 +17,9 @@ Usage (state lives in --work, so every step is resumable):
   run_batch.py stage2 --work W      # ladder (21 corners x 24 decks) + hysteresis diag
   run_batch.py reduce --work W      # parse raw stdout -> ../corners/*_resized_rerun236.csv
 
-`stageN` only renders + submits + waits; `reduce` is offline.  Not covered
+`stageN` only renders decks + writes `request.json` for the operator to submit
+by hand (`klt sim ... --wait-for-capacity 600`; RECORD-002:71-84);  `reduce` is
+offline.  Not covered
 (stated, not silent): the four SIZING sweeps (run_rc_sizing.sh,
 run_xmpd_sizing.sh -> rc_sizing/rc_pairing/window_sizing/xmpd_sizing.csv).
 They select the geometry; the claim RECORD-001 makes is the measurement of the
@@ -28,7 +30,6 @@ import csv
 import importlib.util
 import json
 import math
-import os
 import re
 import subprocess
 import sys
@@ -161,7 +162,8 @@ def window_deck(mos, res, cap, temp, vsup, tstep="20p"):
         "@TEMP@": temp, "@VSUP@": vsup, "@VMID@": vmid, "@TSTEP@": tstep})
 
 
-# ---- klt transport -----------------------------------------------------------
+# ---- deck-list request builder (Stage writes decks + request.json; operator
+# submits by hand with --wait-for-capacity; nothing here submits) --------------
 class Stage:
     def __init__(self, work, name):
         self.dir = Path(work) / name
@@ -186,12 +188,6 @@ class Stage:
         p = d / "request.json"
         p.write_text(json.dumps(req, indent=1) + "\n")
         return p
-
-
-def klt(args, log):
-    env = dict(os.environ, KLT_SIM_BACKEND="batch")
-    with open(log, "w") as lf:
-        return subprocess.call(["klt", "sim"] + args, env=env, stderr=lf)
 
 
 def stdout_of(outdir, unit_id):
