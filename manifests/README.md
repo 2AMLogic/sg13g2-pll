@@ -464,8 +464,12 @@ inferred, not the pin). Re-extraction and the `klt pex` run are filed as
     `BLOCK_BUILD`), not by `e6284fbe62e2`. The grader reads only the cited
     `lock_detector` pair, so the tier report is unaffected. The grading
     build's own run on the old two-tie spec is committed as a negative run:
-    one `erc.missing_tie` on the PSRC well. Well-to-well spacing is not
-    checked by the curated deck at all (klayout-tools#3012). A caller-side
+    one `erc.missing_tie` on the PSRC well. Well-to-well spacing was not
+    checked by the curated deck at the grading build (klayout-tools#3012 —
+    closed 2026-10-16 via PR #3570, present at this repo's
+    `klayout-tools==0.8.0` pin, where the deck now also checks the
+    different-net `NW.b1` itself as net-aware `nwell.space.2`,
+    klayout-tools#3572). A caller-side
     probe measures it at 7.36 um against `NW.b1` = 1.80 um.
   - **`loop_filter` has no tie to check, and says so.** It is passive (one
     rppd, two MoM caps), with no Activ, no NWell and no MOS. CI accepts its
