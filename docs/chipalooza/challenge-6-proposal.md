@@ -324,9 +324,12 @@ capacitor device class — **closed and retired for this port by
 `cap_cmomf`, all five devices draw, extract at the schematic's own `w`/`l`
 and LVS-match through the reference rewrite; the successor gap is
 [#2327](https://github.com/2AMLogic/klayout-tools/issues/2327) — a
-custom-device-class `X … PARAMS:` card still cannot pass through
+custom-device-class `X … PARAMS:` card could not pass through
 `reference.form: "subckt-call"` in one request, worked around caller-side
-— open; and
+— **closed upstream as completed 2026-09-22 via [PR
+#2334](https://github.com/2AMLogic/klayout-tools/pull/2334), present at
+this repo's pin**, and the caller-side lift/splice workaround was deleted
+(the reference rewrite itself stays — by necessity, not by gap); and
 [#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) (resistor
 device_map — **closed and retired** by #114's run, whose references pass
 no `device_map`),

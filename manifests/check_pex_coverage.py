@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""PEX sibling evidence gate: the five nominal `klt pex` envelopes + their schematic legs.
+"""PEX sibling evidence gate: the six nominal `klt pex` envelopes + their schematic legs.
 
 manifests/sg13g2-pll.json cites only the vco and divider_chain PEX envelopes
-(T1 item 7). The other three (pfd, cp, loop_filter) are never byte-compared by
-the fresh grade, so this gate inspects all five blocks and requires, per block:
+(T1 item 7). The other four (pfd, cp, loop_filter, lock_detector) are never
+byte-compared by the fresh grade, so this gate inspects all six blocks and
+requires, per block:
 
   * reports/pex.<block>.json exists and is a direct `klt pex` envelope with
     status "pass", no pin_count/flat_dut/model mismatch, nothing failed or
@@ -25,8 +26,9 @@ the fresh grade, so this gate inspects all five blocks and requires, per block:
   * the manifest's 7.* citations (when present) point at one of these reports
     and pin the block GDS hash.
 
-lock_detector is explicitly WITHHELD (issue #157): no pex.lock_detector.json
-may exist yet. When #157 supplies valid evidence, promote it into BLOCKS.
+lock_detector joined the gated blocks (#157): its envelope was produced against
+the same authoritative record as the other five (issue #152 withheld it because
+its committed PEX snapshot predated the #136 substrate-split re-route).
 
 STALE_PENDING names a block whose design export has deliberately moved ahead
 of its layout/PEX evidence, with the open follow-up that refreshes it (the
@@ -54,14 +56,18 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _common import load, record_from_evidence, sha256_file  # noqa: E402
 
 SIGNOFF = "sim/sg13cmos5l-klt-pex-signoff"
-BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain")
-WITHHELD = {"lock_detector": "#157"}
+BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain", "lock_detector")
+# Nothing is withheld any more: lock_detector's envelope landed (#157). The
+# mechanism stays: a report for a block the gate does not gate is an error
+# (the stray-report scan below), so future withholdings list themselves here.
+WITHHELD = {}
 # Block -> follow-up issue that re-draws its layout and re-runs its PEX.
 # Empty: #195 redrew pll_cp for DR-010 (#165) and refreshed its leg and
 # envelope (layout record 20261010-012952-a4ca1b8), retiring the cp entry.
 STALE_PENDING = {}
 REQUESTS = {"pfd": ["pfd"], "cp": ["cp_up", "cp_dn"], "loop_filter": ["loop_filter"],
-            "vco": ["vco"], "divider_chain": ["divider_chain"]}
+            "vco": ["vco"], "divider_chain": ["divider_chain"],
+            "lock_detector": ["lock_detector"]}
 
 
 def check_leg(root, block, prov):
@@ -126,9 +132,20 @@ def check_report(root, record, block):
         errs.append(f"{block}: status {d.get('status')!r}, expected 'pass'")
     if d.get("failed") != 0 or d.get("errored") != 0 or not isinstance(d.get("passed"), int) or d["passed"] < 1:
         errs.append(f"{block}: passed/failed/errored = {d.get('passed')}/{d.get('failed')}/{d.get('errored')}")
-    for k in ("pin_count_mismatch", "flat_dut_mismatch", "model_mismatch"):
+    for k in ("pin_count_mismatch", "flat_dut_mismatch"):
         if d.get(k) is not None:
             errs.append(f"{block}: {k} is {d.get(k)!r}")
+    # model_mismatch: a *different device family* on one side invalidates the
+    # comparison and still fails. The one accepted shape is klt pex's own
+    # benign `count_only` with both family lists empty (docs/cli/pex.md:
+    # finger/multiplier decomposition -- lock_detector's XDW.XC1 is drawn as
+    # two cap_cmomi cells in the layout while the schematic carries one m=2
+    # instance; klt lvs reconciles the same split) -- the multiset is the same
+    # silicon, so the delta rows stay a parasitic comparison.
+    mm = d.get("model_mismatch")
+    if mm is not None and not (isinstance(mm, dict) and mm.get("kind") == "count_only"
+                               and not mm.get("reference_only") and not mm.get("extracted_only")):
+        errs.append(f"{block}: model_mismatch {mm!r}")
     bb = d.get("body_bias") or {}
     if bb.get("status") != "biased" or bb.get("unbiased_device_count") != 0 \
             or bb.get("unbiased_nets") or bb.get("unbiased_pmos_body_nets"):

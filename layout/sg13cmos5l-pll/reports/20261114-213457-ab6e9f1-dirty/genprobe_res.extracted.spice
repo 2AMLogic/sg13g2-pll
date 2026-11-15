@@ -1,0 +1,8 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell genprobe_res
+* pin vsubs
+.SUBCKT genprobe_res vsubs
+* device instance $1 r0 *1 405.42,0.3 rppd
+X$1 \$1 \$2 vsubs rppd r=347641.419142 L=810U W=0.6U
+.ENDS genprobe_res
