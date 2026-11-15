@@ -73,11 +73,13 @@ Usage: check_erc_coverage.py [--manifest P] [--tier-report P] [--erc-record D]
                              [--lvs-record D] [--specs D]
 """
 import argparse
-import hashlib
 import json
 import struct
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from _common import load, record_from_evidence, sha256_file  # noqa: E402
 
 DEFAULT_ERC_RECORD = "layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87"
 DEFAULT_SPECS = "layout/sg13cmos5l-pll"
@@ -131,14 +133,6 @@ DISCLOSURE_ALLOWED = {"loop_filter": (1, 31)}
 KNOWN_DEFECTS = {}
 
 
-def sha256_file(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return "sha256:" + h.hexdigest()
-
-
 def gds_layers(path):
     """Set of GDS layer numbers drawn anywhere in the stream (LAYER records).
 
@@ -163,13 +157,6 @@ def gds_layers(path):
             return layers
         i += size
     raise ValueError(f"{path}: no ENDLIB record (truncated GDS stream)")
-
-
-def load(path):
-    try:
-        return json.loads(Path(path).read_text()), None
-    except (OSError, ValueError) as e:
-        return None, f"unreadable {path}: {e}"
 
 
 def subckt_ports(path, name):
@@ -453,7 +440,7 @@ def main(argv=None):
     ap.add_argument("--specs", default=DEFAULT_SPECS)
     a = ap.parse_args(argv)
     ev = json.loads(Path(a.manifest).read_text()).get("evidence", {})
-    lvs_record = Path(a.lvs_record or Path(ev["4.analog"]["file"]).parent)
+    lvs_record = Path(a.lvs_record) if a.lvs_record else record_from_evidence(ev)
     cite = ev.get("11.analog")
     if a.erc_record:
         erc_record = Path(a.erc_record)
