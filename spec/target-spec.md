@@ -258,7 +258,7 @@ so the gain is established at two of three temperatures.
 ## Accounting
 
 Rows 0 to 18 as listed in porting-plan §1.2, with 4/5 and 6/6a merged:
-17 rows, each appearing once in the table above.
+18 rows, each appearing once in the table above.
 
 | Status | Rows |
 |---|---|
