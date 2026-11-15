@@ -266,10 +266,16 @@ Disclosures that travel with these envelopes (not softened):
 
 ### Item 7 — post-layout verification: `7.analog` and `7.digital` `met`, audit-first (#152)
 
-**What is cited.** Item 7 accepts only a `klt pex` envelope. Five were
-produced (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, ngspice-46, one nominal
-corner each, `--backend local`; `sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`).
-They were re-run by #195 against layout record `20261010-012952-a4ca1b8`
+**What is cited.** Item 7 accepts only a `klt pex` envelope. Six exist. Five
+were produced together (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, ngspice-46,
+one nominal corner each, `--backend local`;
+`sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`); the sixth, `lock_detector`,
+landed with #157 (its RECORD-004: `klt 0.9.3.dev3`, KLayout 0.30.13,
+ngspice-47, same one-nominal-corner discipline) — #152's audit withheld it
+because the committed PEX snapshot predated the #136 substrate-split re-route,
+and its `body_bias.status: biased` (zero unbiased devices) closes that audit
+row.
+The five were re-run by #195 against layout record `20261010-012952-a4ca1b8`
 (RECORD-002; the runner now reads that record from `4.analog`), and each
 envelope's
 `provenance.input.content_hash` equals the GDS hash in the item 1/2 table
@@ -287,7 +293,9 @@ the most flattering. The other committed envelopes are not cited but are in
 the same directory: `pfd` (UP/DN average duty, +77.8 % / +9.3 %), `cp`
 (output current at 10 uA reference, +0.141 % up / -0.039 % down on the
 DR-010 redraw; this DC bench does not observe the dump buffer's tracking),
-`loop_filter` (NZ step-response t63, +29.6 %).
+`loop_filter` (NZ step-response t63, +29.6 %), and `lock_detector`
+(#157's RECORD-004: error-burst transition +33.6 %, RC recovery +16.9 %,
+settled supply current −91 % on a nanoamp scale).
 
 **Body-bias audit (the step that decides what may be cited).** Each block's
 PEX netlist was checked for how device bodies are bound, and the netlist's
@@ -300,7 +308,7 @@ GDS compared with the current record's:
 | `loop_filter` | `pll_loop_filter.pex.spice` | yes | `rppd` bulk `vsubs` (substrate global, 0 V in the testbench) | `biased` | pass |
 | `vco` | `pll_vco.pex.spice` | yes | nmos `GND_VCO` (21), pmos `VDD_VCO` (17), `rppd`/`rhigh` `GND_VCO` | `biased` | pass |
 | `divider_chain` | `pll_divider_chain.pex.spice` | yes | nmos `VSS` (173), pmos `VDD_DIV` (120) | `biased` | pass |
-| `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** |
+| `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** — resolved by #157: the `rerun-157/` re-extraction and `pex.lock_detector.json` (RECORD-004, `body_bias.status: biased`, zero unbiased devices) |
 
 That table records the #152 audit. **#195 changes cp's row.** The current
 `pll_cp.gds` (`840267fd…e050`) is the DR-010 redraw, so the cp snapshot above
@@ -481,7 +489,7 @@ inferred, not the pin). Re-extraction and the `klt pex` run are filed as
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
 | 6 (analog) | `undersized_sample` | A real Monte Carlo campaign is cited (1500 samples, #178) and `klt yield`'s own sample-size verdict is `insufficient`, which the grader treats as disqualifying. See "Item 6" below. |
 | 6 (digital) | `no_evidence` | Deliberate. `divider_chain` has **no statistical spec row**, and nothing here fabricates one; see "Item 6" below for why the `not_applicable` outcome is not claimed either. |
-| 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
+| 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter`, `lock_detector` (analog envelopes committed but the analog row takes one citation; `lock_detector`'s landed with #157, so all five analog blocks are gate-checked). |
 | 8 | `no_evidence` | `characterization/SUMMARY.md` now exists (generated and CI-checked, #171), but it is **deliberately not cited**. See "Item 8 decision (#171)" below. |
 | 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
 
