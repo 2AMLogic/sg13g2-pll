@@ -122,7 +122,10 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             f"{block_probe.get('nets_declared')} multi-pin nets), where it "
             f"routes **{block_routing.get('routed_net_count')} of "
             f"{block_routing.get('net_count')}** nets — "
-            "klayout-tools#1467, reproduced at this pin, and the reason this "
+            "klayout-tools#1962, still open at this pin: the layer/track "
+            "assignment across many mutually-crossing nets that the "
+            "closed klayout-tools#1467 channel-track fix (PR #1840, "
+            "present at this pin) does not resolve, and the reason this "
             "flow keeps drawing and routing via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py`"
         )
@@ -133,10 +136,12 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             "(klayout-tools#1462); **this run's own re-probe (below) shows "
             "that gap fixed at the current pin**, but `klt gen-compose`'s "
             "own router was separately measured routing only 1 of 13 nets "
-            "on this design's smallest block past that fix "
-            "(klayout-tools#1467) -- that measurement predates this pin and "
-            "has not been repeated against it this run, so this flow "
-            "continues to draw and route via this repo's own "
+            "on this design's smallest block past that fix -- the unsolved "
+            "layer/track assignment across nets that is tracked open as "
+            "klayout-tools#1962, the gap the closed klayout-tools#1467 "
+            "channel-track fix hands off to -- that measurement predates "
+            "this pin and has not been repeated against it this run, so "
+            "this flow continues to draw and route via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py` rather than switching to "
             "`klt gen-compose`'s router on the strength of an unconfirmed "
             "fix"
@@ -148,7 +153,9 @@ def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
             "(the gap klayout-tools#1462 tracked, **closed upstream "
             "2026-08-30, after this pin**; re-probed below), and past that "
             "fix `gen-compose` still routes 1 of 13 nets on this design's "
-            "smallest block (klayout-tools#1467)"
+            "smallest block — the layer/track-assignment gap across nets "
+            "tracked open as klayout-tools#1962, which the closed "
+            "klayout-tools#1467 channel-track fix hands off to"
         )
     lines.append(
         "Drawn *and routed* by this repo's own `cmos5l_devices.py` / "
@@ -282,16 +289,20 @@ def _gen_compose_probe_lines(build: dict) -> list[str]:
                 "`cp`, the smallest block here, it routes **1 of 13 "
                 "nets**, rejecting the rest with `crosses already-routed "
                 "net`, because it has no track or layer assignment "
-                "between nets. Filed upstream as **klayout-tools#1467**. "
-                "A pin bump therefore does not retire this flow's own "
-                "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                "between nets. That no-assignment-between-nets behavior "
+                "is the still-open **klayout-tools#1962** — the gap the "
+                "closed **klayout-tools#1467** (filed from this very "
+                "measurement, since fixed upstream by its channel-track "
+                "PR #1840) hands off to. A pin bump therefore does not "
+                "retire this flow's own router; see "
+                "`layout/sg13cmos5l-pll/README.md`'s friction "
                 "log.\n"
             )
     return lines
 
 
 def _block_probe_lines(build: dict) -> list[str]:
-    """#### Re-measured against a real block (klayout-tools#1467)."""
+    """#### Re-measured against a real block (klayout-tools#1962)."""
     lines: list[str] = []
     block_probe = build.get("gen_compose_block_probe") or {}
     if block_probe.get("ran"):
@@ -299,8 +310,15 @@ def _block_probe_lines(build: dict) -> list[str]:
         declare = attempts.get("block-declare") or {}
         routed = attempts.get("block-routing") or {}
         two_layer = attempts.get("block-routing-two-layer") or {}
+        # Both the bullets and the closing paragraph below read these; an
+        # attempt the run never recorded reads as 0, never as a missing key.
+        single_routed = routed.get("routed_net_count") or 0
+        single_total = routed.get("net_count") or 0
+        two_layer_routed = two_layer.get("routed_net_count") or 0
+        two_layer_total = two_layer.get("net_count") or 0
+        two_layer_error = two_layer.get("error")
         lines.append(
-            "#### Re-measured against a real block (klayout-tools#1467)\n"
+            "#### Re-measured against a real block (klayout-tools#1962)\n"
         )
         lines.append(
             "The two-pad probe above is far too small to exercise the finding "
@@ -332,7 +350,14 @@ def _block_probe_lines(build: dict) -> list[str]:
             "- with a second routing plane "
             "(`routing.cross_block_layer_role`): exit "
             f"{two_layer.get('returncode')}"
-            + (f" — `{two_layer.get('error')}`" if two_layer.get("error") else "")
+            # A rejected attempt reports 0 of 0 nets; say nothing rather
+            # than print a count the attempt never got far enough to have.
+            + (
+                f" — **{two_layer_routed} of {two_layer_total} nets routed**"
+                if two_layer_total > 0
+                else ""
+            )
+            + (f" — `{two_layer_error}`" if two_layer_error else "")
         )
         lines.append("")
         reasons = routed.get("leg_rejection_reasons") or {}
@@ -345,19 +370,58 @@ def _block_probe_lines(build: dict) -> list[str]:
             for reason, count in list(reasons.items())[:6]:
                 lines.append(f"- {count} × `{reason}`")
             lines.append("")
-        if (routed.get("routed_net_count") or 0) < (routed.get("net_count") or 0):
+        if single_routed < single_total:
+            # What this run's own two-layer attempt recorded decides the
+            # clause about the second plane. Asserting a rejection the
+            # attempt did not report would contradict the bullet above it.
+            if two_layer_error:
+                second_plane = (
+                    "the second routing plane that "
+                    "would let a rejected net move out of the way cannot be "
+                    "selected on this PDK family at all — the error above lists "
+                    "the roles that family *does* expose, and `metal` is the only "
+                    "routing metal among them. That is why a pin bump past "
+                    "klayout-tools#1462 does not retire `cmos5l_route.py`."
+                )
+            elif two_layer_total <= 0:
+                second_plane = (
+                    "the attempt that adds a second routing plane recorded "
+                    "neither an error nor a net count of its own, so this run "
+                    "measured nothing about that plane. `cmos5l_route.py` is "
+                    "still required on the routing side."
+                )
+            elif two_layer_routed < two_layer_total:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run: adding "
+                    "`routing.cross_block_layer_role` returned exit "
+                    f"{two_layer.get('returncode')} with no error and routed "
+                    f"**{two_layer_routed} of {two_layer_total} nets**, against "
+                    f"{single_routed} of {single_total} on the single plane. "
+                    "Declared nets are still left unrouted with it, so "
+                    "`cmos5l_route.py` is still required on the routing side."
+                )
+            else:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run, and with it "
+                    "**every declared net routed** "
+                    f"({two_layer_routed} of {two_layer_total}, against "
+                    f"{single_routed} of {single_total} on the single plane). "
+                    "What is left on the routing side is the single-plane "
+                    "case; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                    "log."
+                )
             lines.append(
-                "**klayout-tools#1467 reproduces at this pin.** The first net "
-                "accepted rejects the rest, and the second routing plane that "
-                "would let a rejected net move out of the way cannot be "
-                "selected on this PDK family at all — the error above lists "
-                "the roles that family *does* expose, and `metal` is the only "
-                "routing metal among them. That is why a pin bump past "
-                "klayout-tools#1462 does not retire `cmos5l_route.py`.\n"
+                "**klayout-tools#1962 reproduces at this pin** — the "
+                "layer/track-assignment gap the closed klayout-tools#1467 "
+                "(its channel-track fix present at this pin) hands off "
+                "to. The first net "
+                "accepted rejects the rest, and " + second_plane + "\n"
             )
         else:
             lines.append(
-                "**klayout-tools#1467 no longer reproduces at this pin.** "
+                "**klayout-tools#1962 no longer reproduces at this pin.** "
                 "Every declared net routed. This flow's own router is no "
                 "longer required on the routing side; see "
                 "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"

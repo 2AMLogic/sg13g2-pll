@@ -6,8 +6,36 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-15
+
+- **PR #408**: refactor(manifests): share the record resolver, sha256_file and JSON loader across the four signoff gates
+- **Issue #405** (closed): Deduplicate manifests/ gate helpers: one record resolver, one sha256_file, one JSON loader
+
+### 2026-11-14
+
+- **PR #399**: ci: guard item-10's checks inventory against signoff.yml gate drift
+- **PR #418**: refactor: drop check-osdi-arch.sh --warn-only, the blanket exit-0 downgrade
+- **Issue #395** (closed): item-10 hygiene inventory's `checks` list has drifted from signoff.yml's actual gate set (5 gates missing)
+- **Issue #417** (closed): render-pll-cmos5l-record.py: a two-layer attempt with both an error and a nonzero routed count renders a bullet and a paragraph that contradict each other
+- **Issue #406** (closed): Remove check-osdi-arch.sh --warn-only: a never-called flag that downgrades a known-unloadable deck to exit 0
+- **Issue #411** (closed): Remove the dead klt() transport and consolidate the duplicated klt-sim deck-list machinery in the two lock-detector-window batch drivers
+- **PR #400**: docs: roadmap as of 2026-11-13
+- **PR #394**: ci: gate the two testbench metric-extraction self-tests
+- **PR #377**: refactor: split the SG13CMOS5L record renderer into per-section helpers
+- **Issue #376** (closed): Split render-pll-cmos5l-record.py's 525-line main() into testable section renderers
+- **PR #392**: build: run the repo's stdlib test and check gates from package.json
+- **Issue #388** (closed): Wire package.json test/check:ci to the real checks: the stubs exit 0 without running anything
+
 ### 2026-11-13
 
+- **PR #390**: sim+spec: measure the cp mismatch-to-phase-error gain on the DR-010 cp and retire the +/-3.5% screening limit
+- **Issue #385** (closed): spec+sim: re-measure the cp mismatch-to-phase-error gain on the DR-010 cp and propose a cp mismatch limit (T1 item 6 follow-up to #178)
+- **PR #387**: feat(probes): tally each gen-compose attempt's own Metal1/Via1/Metal2 shapes
+- **Issue #383** (closed): Measure whether the two-layer gen-compose route draws on a second metal (klayout-tools#1474 no longer rejects 'metal2')
+- **PR #386**: sim: run the cp mismatch Monte Carlo campaign and wire T1 item 6
+- **Issue #178** (closed): sim: Monte Carlo bench for cp up/dn mirror mismatch with klt yield report (T1 item 6)
+- **PR #382**: docs: cite the LATEST record for cp's gen-compose probe figures
+- **Issue #379** (closed): Stale `cp` block counts quoted in cmos5l layout prose (8 groups / 14 devices vs 13 / 28 in the latest record)
 - **PR #378**: refactor: move the klt-gen capability probes into cmos5l_probes.py
 - **Issue #372** (closed): Split the klt-gen capability probes out of pll_cmos5l_layout.py into a sibling module
 - **PR #374**: sim: supersede vco-kvco-table RECORD-001 with a fleet rerun on the pinned PDK
