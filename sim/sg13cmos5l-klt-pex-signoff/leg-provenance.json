@@ -46,6 +46,15 @@
       "pins": "CKIN,CKIN_VCO,DIVOUT,FB,P0,P1,P2,P3,P4,P5,VDD_DIV,VSS",
       "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_divider_chain.schematic.sp",
       "leg_sha256": "sha256:b3aa65b2edb787d17fa590499abcff9f46da4be1058462ab713f634db3dcc267"
+    },
+    "lock_detector": {
+      "source": "design/sg13cmos5l/netlist/lock_detector.spice",
+      "source_sha256": "sha256:0730a067c2a37041a1814be8d31177986da1d0b0c5583f8ca0b04986e27cc1a9",
+      "top": "lock_detector",
+      "new_name": "pll_lock_detector",
+      "pins": "UP,DN,LOCK,VDD,VSS",
+      "leg": "sim/sg13cmos5l-klt-pex-signoff/dut/pll_lock_detector.schematic.sp",
+      "leg_sha256": "sha256:64a76e7b45d737c064a2821ce6efb22aa017870b40795d4c8f0ace8dfc7cc995"
     }
   },
   "flattener_sha256": "sha256:1dbb3810da427485578001cee6ae410ee6f72c213db035aaf055d53595227155"
