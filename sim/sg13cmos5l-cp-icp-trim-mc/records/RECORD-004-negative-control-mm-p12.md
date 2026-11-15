@@ -66,10 +66,19 @@ mounted here on this bench's own committed snapshot:
   instance, same `mismatch_pct` expression and `+/-3.5 %` limits.
 - `../testbench/mc.mm_p12.request.json` is `mc.request.json` narrowed to
   `mos_tt_mismatch` / 27 C, N = 100 (one per-corner slice of the committed
-  campaign), **seed 178** — the campaign's own seed, and per-sample seeds
-  are sample-index-derived client-side, so control draw *i* pairs with the
-  committed campaign's `mos_tt_mismatch`/27 C draw *i*: the only difference
-  between the paired draws is the perturbed snapshot.
+  campaign), **seed 178** — the campaign's own seed. Per-sample seeds are
+  derived from the corner's index within the request (plus the sample index
+  and that seed), not from the corner's process/temperature identity, and
+  the control request has a single corner — so its draws inherit the
+  index-0 seed stream, which in the committed campaign (5 process sections
+  x 3 temperatures, process-major) is the `mos_tt_mismatch`/−40 C slice,
+  not its 27 C slice. Measured on the two committed reports: control draw
+  *i* is seed-identical to the campaign's `mos_tt_mismatch`/−40 C draw *i*
+  for **100/100** draws, and to its 27 C slice for **0/100**. There is
+  therefore no same-temperature draw-level pairing between control and
+  campaign — and none is needed: `klt yield` grades the control unpaired
+  (its empirical yield against the nominal population), so the verdict
+  below does not rest on any pairing.
 
 ## Result
 
@@ -78,6 +87,18 @@ The control campaign (`reports/sim.mc.mm_p12.json`): 100 draws, 0 errored,
 +18.3034 % (a mismatch-enabled campaign against a snapshot seeded 3.1 sigma
 UP: the draws centre where the seeding aims, and their spread matches the
 committed campaign's per-corner sigma at this corner, 3.973 %, to ~12 %).
+
+One cross-temperature comparison the seed coincidence *does* buy (see the
+request bullet above): paired draw for draw against the campaign's
+`mos_tt_mismatch`/−40 C slice — the slice whose seed stream the control
+inherited — the perturbation delta is **+12.2483 % ± 0.4931 %** (mean ± sd,
+n = 100). With 100/100 seed-identical draws, sampling noise largely cancels,
+and the tight sd confirms `perturb_cp(scale_for(12.0))` injects the ~+12 %
+it claims. Read only the size of that effect, not its precise value: control
+at 27 C vs campaign draws at −40 C confounds temperature with the
+perturbation. The unpaired 27 C comparison shows the difference — mean
++12.4712 % with sd 5.4931 %, i.e. statistically two independent samples
+(sd ≈ sqrt(3.973² + 3.480²) = 5.28 %), no pairing benefit at all.
 
 The merge (`klt yield-samples reports/sim.mc.json --negative-control
 reports/sim.mc.mm_p12.json` -> `reports/yield-samples.mc.json`; the

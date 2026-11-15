@@ -4317,7 +4317,7 @@
    "status": "current",
    "dut_revision": "netlist-snapshots/cp-mm_p12.spice: this bench's committed cp.spice (sha256 063450257a9b3ab2...) with ONLY the two cp_leg_p cascode mirror widths scaled by k = 1.131043 (24u -> 27.145036u) -- RECORD-014's mm_p12 point, a +11.97 % DC mismatch, about 3.1 sigma of the campaign's measured 3.8769 % sigma; every other device line byte-identical",
    "context": "seeded known-bad negative control for the cp-mismatch-mc campaign, closing RECORD-003's carried disposition (the klt yield 'no measurement declared a negative_control' warning). The committed campaign and both committed envelopes are NOT re-simulated or edited; the two new envelopes sit beside them and the manifest citation is not re-pointed",
-   "conditions": "mos_tt_mismatch / 27 C, N = 100, monte_carlo seed 178 (the campaign's own seed; per-sample seeds are sample-index-derived client-side, so control draw i pairs with the committed campaign's mos_tt_mismatch/27C draw i -- the only difference is the perturbed snapshot); VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; control campaign on the batch fleet (klt-sim-8ecae6282d9f), ngspice-47, client klt 0.9.2.dev1029+g76f47afa48f1; merge and both re-grades offline, klt yield-samples / klt yield 0.9.2 in a uvx throwaway env, no simulator",
+   "conditions": "mos_tt_mismatch / 27 C, N = 100, monte_carlo seed 178 (the campaign's own seed; per-sample seeds key on the corner's index in the request, so the single-corner control's draws coincide seed-for-seed with the campaign's first slice, mos_tt_mismatch/-40C -- control draw i is seed-identical to that slice's draw i (100/100) and shares no seeds with the 27C slice; no same-temperature draw pairing exists and the grading is unpaired against the nominal population); VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; control campaign on the batch fleet (klt-sim-8ecae6282d9f), ngspice-47, client klt 0.9.2.dev1029+g76f47afa48f1; merge and both re-grades offline, klt yield-samples / klt yield 0.9.2 in a uvx throwaway env, no simulator",
    "method": "klt sim Monte Carlo over tb_cp_mc_mm_p12.sp (tb_cp_mc.sp byte for byte apart from the .include and header: same operating point, same mismatch_pct expression and limits); klt yield-samples merges the control with the committed 1500-draw set; klt yield re-grades at both committed limit sets (+/-3.5 % and +/-11.92 %)",
    "record": "sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-004-negative-control-mm-p12.md",
    "tables": [
@@ -4377,7 +4377,7 @@
     "no-ratified-spec",
     "cp-mismatch-mc"
    ],
-   "record_sha256": "d699a58f296801a8760bbc5ee4956d950343883a17491ceee9932bec952e7a74"
+   "record_sha256": "88bffe3303ffe267f8414533af227bf80003590cccff4919ab59b13cd2784983"
   }
  ]
 }
