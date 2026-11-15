@@ -9,7 +9,7 @@
 # cites as item 7.
 #
 #   PDK_ROOT=<parent of ihp-sg13cmos5l> [KLT=<klt>] ./run-klt-pex.sh <block>
-#   blocks: pfd cp loop_filter vco divider_chain
+#   blocks: pfd cp loop_filter vco divider_chain lock_detector
 #
 # The layout record is NOT hardcoded (issue #195): it is the directory of the
 # manifest's 4.analog citation -- the same derivation
@@ -30,6 +30,7 @@ case "$block" in
   loop_filter)   reqs=(loop_filter);      pins=NZ,VCTRL,VSS ;;
   vco)           reqs=(vco);              pins=B0,B1,CLK,GND_VCO,VCTRL,VDD_VCO ;;
   divider_chain) reqs=(divider_chain);    pins=CKIN,CKIN_VCO,DIVOUT,FB,P0,P1,P2,P3,P4,P5,VDD_DIV,VSS ;;
+  lock_detector) reqs=(lock_detector);    pins=UP,DN,LOCK,VDD,VSS ;;
   *) echo "unknown block $block" >&2; exit 2 ;;
 esac
 # The schematic leg dut/pll_<block>.schematic.sp is regenerated from the design

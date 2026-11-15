@@ -17,7 +17,7 @@ run-klt-pex.sh          regenerates one reports/pex.<block>.json
 flatten-schematic.py    hierarchical design netlist -> one flat .subckt
 ```
 
-`PDK_ROOT=<parent of ihp-sg13cmos5l> [KLT=<klt>] ./run-klt-pex.sh <pfd|cp|loop_filter|vco|divider_chain>`
+`PDK_ROOT=<parent of ihp-sg13cmos5l> [KLT=<klt>] ./run-klt-pex.sh <pfd|cp|loop_filter|vco|divider_chain|lock_detector>`
 
 The runner binds to the directory of the manifest's `4.analog` citation, the
 same derivation the gate uses, so it cannot run against a record the gate does
@@ -30,7 +30,9 @@ refuses `osdi_preload`.
 Every request is a single corner and runs with `--backend local`. A
 multi-corner or Monte Carlo version must be expressed as `klt sim` corners /
 `monte_carlo` and dispatched to the batch fleet; none was run here.
-`lock_detector` has no envelope on purpose (#157).
+`lock_detector`'s envelope landed in #157 (RECORD-004) — it was withheld
+through #152's audit because the committed PEX snapshot predated the #136
+substrate-split re-route.
 
 ## Integrity gate (issue #170)
 
@@ -58,6 +60,6 @@ buffer's post-layout behaviour is not evidenced here (see RECORD-002's
 limits).
 
 This proves **nominal evidence integrity**, not a complete PVT or spec pass:
-one corner per block, no `limits` declared. `lock_detector` remains explicitly
-withheld pending #157; a `pex.lock_detector.json` appearing before the gate is
-updated fails the check.
+one corner per block, no `limits` declared. All six routed blocks are gated
+since #157 (RECORD-004); a `pex.<block>.json` for a block the gate does not
+list still fails the check.
