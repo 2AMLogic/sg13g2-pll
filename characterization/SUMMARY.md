@@ -790,6 +790,29 @@ the min/max.
 | cp UP-leg current, per Monte Carlo sample (`iup_a`) | A | `mc_samples` | - | 1500 | 0 | 9.5424e-06 | 1.06827e-05 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
 | cp DN-leg current, per Monte Carlo sample (`idn_a`) | A | `mc_samples` | - | 1500 | 0 | -1.14617e-05 | -8.89743e-06 | `process`: mos_ff_mismatch, mos_fs_mismatch, mos_sf_mismatch, mos_ss_mismatch, mos_tt_mismatch; `temperature_c`: -40, 27, 125 |
 
+### cp-mismatch-mc-negative-control
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: netlist-snapshots/cp-mm_p12.spice: this bench's committed cp.spice (sha256 063450257a9b3ab2...) with ONLY the two cp_leg_p cascode mirror widths scaled by k = 1.131043 (24u -> 27.145036u) -- RECORD-014's mm_p12 point, a +11.97 % DC mismatch, about 3.1 sigma of the campaign's measured 3.8769 % sigma; every other device line byte-identical
+- **Context**: seeded known-bad negative control for the cp-mismatch-mc campaign, closing RECORD-003's carried disposition (the klt yield 'no measurement declared a negative_control' warning). The committed campaign and both committed envelopes are NOT re-simulated or edited; the two new envelopes sit beside them and the manifest citation is not re-pointed
+- **Conditions**: mos_tt_mismatch / 27 C, N = 100, monte_carlo seed 178 (the campaign's own seed; per-sample seeds are sample-index-derived client-side, so control draw i pairs with the committed campaign's mos_tt_mismatch/27C draw i -- the only difference is the perturbed snapshot); VDD 3.3 V, VOUT 2.40 V, Iref 10 uA; control campaign on the batch fleet (klt-sim-8ecae6282d9f), ngspice-47, client klt 0.9.2.dev1029+g76f47afa48f1; merge and both re-grades offline, klt yield-samples / klt yield 0.9.2 in a uvx throwaway env, no simulator
+- **Method**: klt sim Monte Carlo over tb_cp_mc_mm_p12.sp (tb_cp_mc.sp byte for byte apart from the .include and header: same operating point, same mismatch_pct expression and limits); klt yield-samples merges the control with the committed 1500-draw set; klt yield re-grades at both committed limit sets (+/-3.5 % and +/-11.92 %)
+- **Record**: `sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-004-negative-control-mm-p12.md` (sha256 `d699a58f296801a8760bbc5ee4956d950343883a17491ceee9932bec952e7a74`)
+- **Table `mm_p12_report`**: `sim/sg13cmos5l-cp-icp-trim-mc/reports/sim.mc.mm_p12.json` (sha256 `d5d2d47658eab1c0a78a607c2267c1ad65f20bd4ce4f286623157f21eb501275`)
+- **Note**: VERDICT: negative_control reads detected at BOTH committed limit sets -- control empirical yield 1 % (CI [0.03, 5.45]) at +/-3.5 % against nominal 63.47 %, and 46 % (CI [35.98, 56.26]) at +/-11.92 % against nominal 99.60 %; no CI overlap either way.
+- **Note**: Sanity: the nominal fields of both new envelopes are byte-identical to the committed ones (the merge changed nothing but the control), and the 'no measurement declared a negative_control' warning is gone; each new envelope carries only the same no-declared-yield advisory the committed envelopes carry.
+- **Note**: NOT shown by this control: one process section (mos_tt_mismatch only), one temperature (27 C only -- RECORD-002 reports the spread peaks at -40 C), one injected defect on one mirror leg (RECORD-014's substitution style, not switching-charge, bias-replica or dump-buffer offset).
+- **Note**: A discarded first submission (sigma exactly 0 on all 100 draws, job klt-sim-70583a612331) ran against the newer-install tree whose HV MOS mismatch subcircuits default to mm_ok=0; the committed control comes from the request re-pointed at the pinned tree, verified with gen_requests.py's mm_ok closure check first.
+- **Gaps**: No ratified spec table (none filed), cp up/dn mismatch yield graded against an unratified limit, undersized for the default CI (#178)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| seeded-control mismatch_pct distribution mean (draws centre +12.27 %, where the k = 1.131043 seeding aims) (`mean`) | % | `mm_p12_report` | - | 1 | 0 | 12.2735 | 12.2735 | `corner_id`: mos_tt_mismatch/novdd/27C |
+| seeded-control mismatch_pct sigma (about 12 % below the committed campaign's 3.973 % per-corner sigma at this corner) (`stddev`) | % | `mm_p12_report` | - | 1 | 0 | 3.47971 | 3.47971 | `corner_id`: mos_tt_mismatch/novdd/27C |
+| seeded-control lowest draw -- the one draw inside +/-3.5 % (`min`) | % | `mm_p12_report` | - | 1 | 0 | 1.60893 | 1.60893 | `corner_id`: mos_tt_mismatch/novdd/27C |
+| seeded-control highest draw (`max`) | % | `mm_p12_report` | - | 1 | 0 | 18.3034 | 18.3034 | `corner_id`: mos_tt_mismatch/novdd/27C |
+
 ## SG13CMOS5L: nominal single-point and closed-loop results (failures retained)
 
 ### closed-loop-static-phase-error
@@ -1062,6 +1085,29 @@ the min/max.
 | closed-loop static phase error, final-20-cycle mean, at points that HELD dual lock (the measured quantity) (`phase_mean_pct`) | % of T_ref | `mismatch_gain` | dual_lock=1 | 12 | 0 | 0.115956 | 1.32654 | `temp_c`: -40, 27 |
 | same statistic at points that did NOT hold dual lock -- 125 C only, where the proposal deck rails vctrl at 3.289 V; NOT a static phase error and excluded from every fit (`phase_mean_pct`) | % of T_ref | `mismatch_gain` | dual_lock=0 | 6 | 0 | -39.7046 | -33.5256 | `temp_c`: 125 |
 | control-voltage average over 2.0-2.5 us (3.289 V at 125 C is the rail, i.e. the non-acquisition) (`vc_avg_v`) | V | `mismatch_gain` | - | 18 | 0 | 2.22491 | 3.29065 | `temp_c`: -40, 27, 125 |
+
+### proposal-deck-125c-acquisition
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: RECORD-006-frozen proposal-deck snapshots (behavioural XSPICE divide-by-64, R1 120u->2400u, ideal MOM caps, ideal IREF); the open-loop DUT is this slug's frozen netlist-snapshots/vco.spice with XCDECAP commented out (byte-identical device lines to sg13cmos5l-vco-kvco-table's copy); the closed-loop sanity point is RECORD-014's unperturbed mm_nom deck (k = 1, cp_otabuf.spice sha256 c8a55d8d...)
+- **Context**: diagnosis of RECORD-014's 125 C non-acquisition: an open-loop VCO band sweep plus an unperturbed closed-loop sanity point, both at the single failing corner, failure retained. The finding is a DESIGN limitation (VCO band-11 range), filed as #426 -- not a deck finding; no vco change is made
+- **Conditions**: mos_tt/res_typ/125 C, 3.3 V rail, band 11 = the proposal deck's own selection (B0V=B1V=VDD per run_closed_loop_otabuf.sh), band liveness verified first (39.5 % spread across the four codes at 2.1 V; band 11 fastest); band-11 vctrl sweep 0.3/0.9/1.5/2.1/2.7/3.0/3.3 V, ten units per point, one 40 ns transient each; closed-loop sanity point unperturbed, 2.5 us transient, final 20 of 49 reference cycles; Spot batch fleet (klt-sim-dcc446b0de33, klt-sim-36052c300e2a), ngspice-47, client klt 0.9.2.dev1029+g76f47afa48f1, pinned PDK ihp-sg13cmos5l 607e18d4...
+- **Method**: open loop: klt sim --batch-set over the sg13cmos5l-vco-kvco-table bench's own period measurement (rising edges 3-4 at 1.65 V, .ic v(xvco.ring1)=0.5, staged-closure deck body), collected by collect_125c_acquisition.py; closed loop: the report's v(ref)/v(fb) crossing series through the committed, self-tested mismatch_gain_metrics.lock_trace_from_edges + cpdiag_metrics.summarize
+- **Record**: `sim/sg13cmos5l-closed-loop-lock/records/RECORD-015-proposal-deck-125c-acquisition.md` (sha256 `da5deaf9ac2c2dfe4e3bc7202904637d1da31e99a463c9ceb7549db6f339bba8`)
+- **Table `vco_openloop_125c`**: `sim/sg13cmos5l-closed-loop-lock/corners/vco_openloop_125c.csv` (sha256 `a831f8a3d9773ed39d60755595ddb0d011ac138ab0aa8f764327824b326c07fd`)
+- **Table `loop_nominal_125c`**: `sim/sg13cmos5l-closed-loop-lock/corners/sim_125c_nominal.json` (sha256 `5d09ab126270ff01512e5eafa4bfd9c393590aea2ffb7c17b8e33ecd599c6944`)
+- **Note**: HEADLINE: the 125 C non-acquisition is the VCO's own band-11 tuning range -- 1270.1 MHz at the 3.3 V rail, 9.9 MHz short of f_ref x N = 20 MHz x 64 = 1280 MHz; the curve saturates into the rail (the last whole volt delivers 55.6 MHz, the final 0.3 V only 22.5 MHz).
+- **Note**: The behavioural divider is ruled out by measurement: the railed loop's df/f_ref = -0.5985 % implies f_fb = 19.880 MHz, the /64 rate of a ~1272 MHz clk -- 0.23 % from the open-loop curve at the same rail voltage.
+- **Note**: R1 x20 and the VC0 = 2.46 V start point are NOT TESTED and moot: the loop drives vctrl UP into the rail (charge direction correct), so the filter conducts, and the start point only sets where the transient begins on an already-saturated curve.
+- **Note**: Design finding filed as #426 (loom:triage): band ladder range, VCO core sizing or a spec-row re-scope are that issue's to weigh. matrix.md's 'filed as issue #389' deferral is replaced with this diagnosed cause (outcome (b)).
+- **Note**: A discarded first submission ran against a tree whose cornerMOShv.lib matches the pin's sha256 but whose mismatch defaults are the newer install's mm_ok=0; every unit of it was discarded uncommitted -- see the record's own note for the lesson.
+- **Gaps**: No ratified spec table (none filed)
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| open-loop VCO frequency, band-11 sweep, per vctrl point; the max (1.27015e9 at the 3.3 V rail) is 9.9 MHz short of the 1.28e9 an N = 64 loop at 20 MHz f_ref needs (`freq_hz`) | Hz | `vco_openloop_125c` | band_code=11 | 7 | 0 | 4.87257e+08 | 1.27015e+09 | `vctrl_v`: 0.3, 0.9, 1.5, 2.1, 2.7, 3.0, 3.3 |
+| closed-loop control-voltage average at the sanity point: 3.28989 V, the rail -- reproduces RECORD-014's mm_nom 125 C value to every printed digit (`value`) | V | `loop_nominal_125c` | name=vc_avg | 1 | 0 | 3.28989 | 3.28989 | `name`: vc_avg |
 
 ### lock-detector-bodyfix-nominal
 
