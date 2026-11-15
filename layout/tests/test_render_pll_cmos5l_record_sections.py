@@ -6,7 +6,7 @@ took the *same* path through the renderer's conditionals: `klt gen-compose`
 re-probed and accepted, the real-block probe run and still only partly
 routing, no undrawn devices, no incomplete nets. The branches that fire on a
 *different* upstream state -- the ones that decide whether a record says
-klayout-tools#1467 "reproduces at this pin" or "no longer reproduces", and
+klayout-tools#1962 "reproduces at this pin" or "no longer reproduces", and
 which of three mutually exclusive sentences describes the `klt gen` family
 gap -- have no committed record to compare against, and a wrong branch here
 puts a wrong sentence into committed evidence.
@@ -119,8 +119,10 @@ def test_family_clause_reprobed_and_block_remeasured():
 
 
 def test_family_clause_reprobed_without_block_remeasurement():
-    """Two-pad probe accepted but no real-block probe: the #1467 measurement
-    is explicitly flagged as predating this pin, not quietly reused."""
+    """Two-pad probe accepted but no real-block probe: the 1-of-13
+    measurement (filed then as klayout-tools#1467, now attributed to the
+    still-open #1962) is explicitly flagged as predating this pin, not
+    quietly reused."""
     build = _build(gen_compose_probe={"routing": {"ok": True}})
     text = _text(R._verdict_lines(_plan(), build, "ihp-sg13cmos5l", "sg13cmos5l"))
 
@@ -316,7 +318,11 @@ def test_block_probe_reproduces_the_upstream_gap():
     assert "**2 of 22 nets routed**" in text
     assert "exit 2 — `no such layer role`" in text
     assert "- 7 × `crosses already-routed net`" in text
-    assert "**klayout-tools#1467 reproduces at this pin.**" in text
+    assert "**klayout-tools#1962 reproduces at this pin**" in text
+    # #1467 may only be named in the past tense: closed upstream, its fix
+    # at this pin, handing the live gap off to #1962.
+    assert "the closed klayout-tools#1467" in text
+    assert "klayout-tools#1467 reproduces" not in text
 
 
 def test_block_probe_fully_routed_retires_the_gap():
@@ -325,9 +331,39 @@ def test_block_probe_fully_routed_retires_the_gap():
         R._block_probe_lines(_build(gen_compose_block_probe=_block_probe(22)))
     )
 
-    assert "**klayout-tools#1467 no longer reproduces at this pin.**" in text
+    assert "**klayout-tools#1962 no longer reproduces at this pin.**" in text
     assert "Every declared net routed." in text
-    assert "**klayout-tools#1467 reproduces at this pin.**" not in text
+    assert "**klayout-tools#1962 reproduces at this pin**" not in text
+    assert "klayout-tools#1467 reproduces" not in text
+
+
+def test_branches_no_record_takes_never_cite_1467_as_the_live_gap():
+    """Every branch no committed record exercises (issue #397).
+
+    The `routing.ok == False` verdict clause, the `ok == True` clause
+    with no real-block probe, and the fully-routed block probe: a future
+    run that takes any of them must not write the stale attribution --
+    klayout-tools#1467 "reproducing" -- into evidence. #1467 is closed
+    upstream with its fix at this pin; the live gap is
+    klayout-tools#1962.
+    """
+    builds = [
+        _build(gen_compose_probe={"routing": {"ok": False}}),
+        _build(gen_compose_probe={"routing": {"ok": True}}),
+        _build(
+            gen_compose_probe={"routing": {"ok": True}},
+            gen_compose_block_probe=_block_probe(22),
+        ),
+    ]
+    for build in builds:
+        verdict = _text(
+            R._verdict_lines(_plan(), build, "ihp-sg13cmos5l", "sg13cmos5l")
+        )
+        assert "klayout-tools#1467 reproduces" not in verdict
+        assert "klayout-tools#1467, reproduced at this pin" not in verdict
+        block = _text(R._block_probe_lines(build))
+        assert "klayout-tools#1467 reproduces" not in block
+        assert "klayout-tools#1467 no longer reproduces" not in block
 
 
 def test_block_probe_without_rejection_reasons_omits_that_list():
