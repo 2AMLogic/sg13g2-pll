@@ -81,6 +81,10 @@ _HEAD = """* sg13g2-pll :: sim/sg13cmos5l-postlayout-pex-pvt (issue #102, Part o
 
 .lib {pdk_root}/{pdk}/libs.tech/ngspice/models/cornerMOShv.lib {mos}
 .lib {pdk_root}/{pdk}/libs.tech/ngspice/models/cornerRES.lib {res}
+* The current extraction (#157 rerun) carries drawn cap_cmomi instances; the
+* sibling campaign's own templates include the subckt definition for the
+* same reason.
+.include {pdk_root}/{pdk}/libs.tech/ngspice/models/cap_cmomi.lib
 .option scale=1 temp={temp}
 .global sub!
 

@@ -15,11 +15,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import check_pex_coverage as chk  # noqa: E402
+from _common import record_from_manifest  # noqa: E402
 
 REPO = Path.cwd().resolve()
 MANIFEST = "manifests/sg13g2-pll.json"
 S = chk.SIGNOFF
-REC = Path(json.loads((REPO / MANIFEST).read_text())["evidence"]["4.analog"]["file"]).parent
+REC = record_from_manifest(REPO / MANIFEST)
 ORIG_STALE = dict(chk.STALE_PENDING)
 
 
@@ -163,9 +164,42 @@ class Pex(unittest.TestCase):
         self.edit(pp, lambda d: d["blocks"]["pfd"].update(source_sha256=chk.sha256_file(src)))
         self.fails("pfd: committed schematic leg differs")
 
-    def test_lock_detector_stays_withheld(self):
-        self.rep("lock_detector").write_text("{}")
-        self.fails("lock_detector: report present but evidence is withheld pending #157")
+    def test_model_set_mismatch_fails(self):
+        # A different device family on one side invalidates the comparison.
+        self.edit(self.rep("vco"), lambda d: d.update(model_mismatch={
+            "kind": "model_set", "reference_only": ["some_other_fet"], "extracted_only": [],
+            "counts": {}, "detail": "x"}))
+        self.fails("vco: model_mismatch")
+
+    def test_count_only_with_family_lists_fails(self):
+        # Even count_only is only benign when both family lists are empty;
+        # a same-name-different-count split that also names families is not
+        # finger decomposition.
+        self.edit(self.rep("vco"), lambda d: d.update(model_mismatch={
+            "kind": "count_only", "reference_only": [], "extracted_only": ["cap_cmomi"],
+            "counts": {}, "detail": "x"}))
+        self.fails("vco: model_mismatch")
+
+    def test_count_only_finger_split_passes(self):
+        # The benign shape lock_detector's envelope carries (issue #157): the
+        # m=2 XDW.XC1 cap drawn as two cells; klt lvs reconciles the same
+        # split, and the delta rows stay a parasitic comparison.
+        self.edit(self.rep("vco"), lambda d: d.update(model_mismatch={
+            "kind": "count_only", "reference_only": [], "extracted_only": [],
+            "counts": {"reference": {"cap_cmomi": 2}, "extracted": {"cap_cmomi": 3}},
+            "detail": "finger/multiplier decomposition"}))
+        rc, err = self.run_chk()
+        self.assertEqual(rc, 0, err)
+
+    def test_lock_detector_is_gated(self):
+        # Promoted from WITHHELD in #157: it is a full BLOCKS member now, so
+        # removing its report (or its leg entry) fails like any other block.
+        self.rep("lock_detector").unlink()
+        self.fails("lock_detector: missing PEX report")
+        shutil.copy(REPO / S / "reports" / "pex.lock_detector.json", self.rep("lock_detector"))
+        pp = self.root / S / "leg-provenance.json"
+        self.edit(pp, lambda d: d["blocks"].pop("lock_detector"))
+        self.fails("lock_detector: no entry in leg-provenance.json")
 
     def test_manifest_citation_hash(self):
         mp = self.root / MANIFEST

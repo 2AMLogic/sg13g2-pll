@@ -19,21 +19,15 @@ record with pointer "/response". Stdlib only. Exit 0 = pass, 1 = fail.
 Usage: check_lvs_coverage.py [--manifest PATH] [--record DIR]
 """
 import argparse
-import hashlib
 import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _common import record_from_manifest, sha256_file  # noqa: E402
+
 ANALOG_BLOCKS = ("pfd", "cp", "loop_filter", "vco", "lock_detector")
 DIGITAL_BLOCK = "divider_chain"
-
-
-def sha256_file(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return "sha256:" + h.hexdigest()
 
 
 def check_block(record, block, kind="lvs"):
@@ -100,13 +94,6 @@ def check_manifest(manifest_path, record):
         if c.get("pointer") != "/response":
             errs.append(f"manifest: {key} pointer is {c.get('pointer')!r}, expected '/response'")
     return errs
-
-
-def record_from_manifest(manifest_path):
-    c = json.loads(Path(manifest_path).read_text()).get("evidence", {}).get("4.analog")
-    if not isinstance(c, dict) or "file" not in c:
-        sys.exit("manifest has no 4.analog file citation")
-    return Path(c["file"]).parent
 
 
 def main(argv=None):
