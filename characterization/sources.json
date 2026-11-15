@@ -56,8 +56,8 @@
   {
    "id": "divider-speed",
    "title": "Divider speed evidence",
-   "issue": "none filed",
-   "text": "Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none."
+   "issue": "none filed (SG13G2 side)",
+   "text": "SG13G2's (non-port) divider has no maximum-input-frequency evidence at all; the SG13CMOS5L repaired divider_chain is now characterised per corner by sim/sg13cmos5l-divider-max-frequency/records/RECORD-001 (issue #402), schematic-level only - post-layout speed remains uncovered there."
   },
   {
    "id": "cp-mismatch-mc",
@@ -4301,6 +4301,56 @@
     "955933709c0009bc54c31ac566518f6fe72f8ab843f2694ebd07ee1a925777ba",
     "fd399096307c12e9d698f62bf9e77b3364cbd4c1896fd8b7aa442a02a8783d51"
    ]
+  },
+  {
+   "id": "divider-max-frequency",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "netlist-snapshots/divider_chain.spice frozen from design/sg13cmos5l/netlist/divider_chain.spice at commit 1b0f9c9 (origin/main; comment-stripped body identical to the closed-loop-real-divider snapshot)",
+   "context": "schematic, not extracted; divider alone (no loop), ideal pulse clock on CKIN=CKIN_VCO, no load on FB/DIVOUT",
+   "conditions": "9-point PVT star (mos_{tt,ss,ff,sf,fs} at 27 C/3.3 V; mos_tt at -40 C and 125 C; mos_tt at 2.97 V and 3.63 V) x N in {64 (000000), 127 (111111)} x 640-1562 MHz (coarse 64 MHz, refine 16 MHz); 20 ps timestep, reltol 0.001; 80 ps clock edges (tb_div_speed convention); batch fleet, pinned PDK model bytes staged with every job (ihp-sg13cmos5l 607e18d4..., resolving into ihp-sg13g2 5cccb161...); ngspice-47",
+   "method": "per-FB-period rising-edge counts from ngspice .meas VDD/2 crossings (ck, and ck1..ck5/divout on stage-count units), bucketed per FB period, scored against N; per-corner exact-N bound = last swept frequency with all scored periods == N (scored = FB period fully inside the time window [2.0*N/f, 7.5*N/f]: the first scored period is 2 or 3 in practice, >= 4 required for exact); anchored against the closed-loop slug's committed 640 MHz / 1.28 GHz bracket on the byte-identical DUT",
+   "record": "sim/sg13cmos5l-divider-max-frequency/records/RECORD-001-divider-max-frequency-per-corner.md",
+   "tables": [
+    {
+     "id": "by-corner",
+     "path": "sim/sg13cmos5l-divider-max-frequency/corners/max-freq-by-corner.csv",
+     "sha256": "ec71f4fe77deb56dfbf406c818a32747ddc53fa29040065bdc00523ec174f65e"
+    },
+    {
+     "id": "per-unit",
+     "path": "sim/sg13cmos5l-divider-max-frequency/corners/maxfreq.csv",
+     "sha256": "8fef66024fca98c851b1bd02e7f41ac69099b45c0ea1c9a4a8fb292891a81bcf"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "by-corner",
+     "column": "last_exact_fin_mhz",
+     "units": "MHz",
+     "quantity": "highest swept input frequency where every scored FB period contains exactly N clock edges (one-sided cells: NA means no exact point anywhere in the swept range)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "n_nominal"
+     ]
+    },
+    {
+     "table": "by-corner",
+     "column": "first_fail_fin_mhz",
+     "units": "MHz",
+     "quantity": "lowest swept input frequency where a scored FB period miscounts (one-sided cells: NA means exact at every swept frequency)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "n_nominal"
+     ]
+    }
+   ],
+   "record_sha256": "89a9c27cc0cd202041128a0d6ec5faa086fd47c903bbc4b23d97339577670787"
   },
   {
    "id": "lock-detector-pex-envelope",
