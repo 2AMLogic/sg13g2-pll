@@ -33,10 +33,13 @@ control units) run verbatim by `klt sim` deck-list requests. Per unit:
 - reltol 0.001 (the value `sg13cmos5l-divider-nrange-retiming`'s tol stage showed this
   deck family converges at; 0.005 fails), timestep **20 ps** for every sweep unit
   (>= 32 samples per 640 ps clock period at 1562 MHz, the top of the sweep);
-- `TSTOP = 8.0*N/f_clk + 20 ns`; the first 10 ns of the clock is inside the rise, and FB
-  periods 1..3 are startup (the first post-startup FB edge is shifted by the .ic settling
-  glitch: measured 6.7 ns at the 640 MHz anchor) and never scored; **FB periods 4..8 are
-  scored, >= 4 of which must lie fully inside the window** `[2.0*N/f, 7.5*N/f]`.
+- `TSTOP = 8.0*N/f_clk + 20 ns` (250 ns floor); the scored window is defined in **time**,
+  `[2.0*N/f, 7.5*N/f]`, not by period index: an FB period is scored iff it lies fully
+  inside the window, and `exact` requires >= 4 such periods. Earlier periods are excluded
+  as startup because the first post-startup FB edge is shifted by the `.ic` settling
+  glitch (measured 6.7 ns at the 640 MHz anchor). Measured over all 347 committed units:
+  the first scored period is FB period 2 (96 units) or 3 (the other 251), never 4 — the
+  window, not a period index, decides what is scored.
 
 ### Edge counting
 
@@ -116,7 +119,8 @@ stage-isolation attribution relies on.
   (`75,75,75,75`) — both verdicts match the 20 ps grid, so the stated 16 MHz bound is
   timestep-robust. (3) No swept failing point shows the sampling-boundary signature
   (an adjacent N-1/N+1 pair summing to 2N): every failing cell's counts are a sustained
-  near-constant (e.g. `80,80,80`, `96,96,96,96,96`, `128,128`), and the stage-count
+  near-constant (e.g. `80,80,80`, `96,96,96,96,96`, `128,128`, and the `mos_tt`/125 C
+  N=127 cell's flat `126`s — see "Reading the table"), and the stage-count
   controls show `ck1..ck5,fb,divout` at their ideal cascade values in every scored period
   — the bucketing is not splitting periods.
 - Batch route only: every grid job went through `klt sim --backend batch` with
@@ -141,7 +145,7 @@ per-period lists and edge times in `corners/edges_<unit>.json`); the per-corner 
 | `mos_tt` 27 C 2.97 V | 1008 / 1024 MHz | 672 / 688 MHz |
 | `mos_tt` 27 C 3.3 V (nominal) | 1120 / 1136 MHz | 752 / 768 MHz |
 | `mos_tt` 27 C 3.63 V | 1216 / 1232 MHz | 816 / 832 MHz |
-| `mos_tt` 125 C 3.3 V | 880 / 896 MHz | **miscounts at every swept frequency** (bound: fails ≥ 640 MHz, resolution 64 MHz) |
+| `mos_tt` 125 C 3.3 V | 880 / 896 MHz | **miscounts at every swept frequency** — divides by **126** (see "Reading the table"); bound: fails ≥ 640 MHz, resolution 64 MHz |
 
 Each entry is a bracket, not a point: "exact at F" means every scored FB period contained
 exactly N rising clock edges at F, and "first miscount" is the next swept frequency where
@@ -154,8 +158,25 @@ Reading the table:
   comfortably above the closed-loop campaign's 640 MHz operating floor, but below row 1's
   1562.0 MHz VCO ceiling in every corner: **the committed chain cannot ship an exact-N
   divide anywhere in the spec's top VCO band at any tested corner.**
-- **N=127 fails at ~2/3 the N=64 limit at every corner** (0.65–0.71 across the nine) —
-  the margin cost of the top programming word is large and uniform.
+- **N=127 fails at ~2/3 the N=64 limit at every corner where it has an exact point**
+  (measured ratio 0.661–0.675 across the eight two-sided corners; the ninth,
+  `mos_tt`/125 C, has no N=127 exact point and so no ratio) — the margin cost of the top
+  programming word is large and uniform.
+- **The one-sided cell's failure is a wrong modulus, not a speed limit.** At
+  `mos_tt`/125 C the N=127 chain divides by **126** — every scored FB period counts
+  exactly 126 clock edges — at every swept frequency up to 832 MHz, including the bottom
+  of the band (640 MHz, where N=64 at the same corner is exact up to 880 MHz): reading
+  the table's NA row as "speed limit below 640 MHz" would be wrong. The 640 MHz artifact
+  (`corners/edges_n127_mos_tt_125c_3v3_f0640.json`) shows 8 consecutive FB periods tiled
+  edge-to-edge at 125.997–126.003 clock periods each, with every clock edge the deck
+  asked `.meas` for resolved (1029/1029) — a sustained off-by-one, qualitatively
+  different from the capture-rate failure elsewhere (80/96/128-edge stretches). From
+  896 MHz upward the counts rise above 126 (137/136 at 896 MHz, 251–254 at
+  1088–1280 MHz): the capture-rate failure stacks on the off-by-one. Suspected mechanism,
+  **unverified** (this cell has no stage-count unit): `N = 64 + Σ Pᵢ·2ⁱ`, so losing
+  exactly the weight-1 modulus pulse P0 yields 126 — the same XD0 modulus path the next
+  section fingers for the speed failure. One stage-count unit at this cell would settle
+  the mechanism; not run in this campaign.
 - The corner ordering is the expected digital one: faster with lower temperature
   (−40 > 27 > 125 C), faster with higher supply (3.63 > 3.3 > 2.97 V), `ff` fastest and
   `ss` slowest of the five MOS corners; `mos_tt`/125 C is the only cell with no exact

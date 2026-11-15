@@ -13,8 +13,9 @@ For every unit of `phase` in REPORT (a `mode: "decks"` report):
     (`tdvo_k`); `.meas ... failed!` lines record missing edges as null;
   * buckets the CKIN edges per FB period (interval [f[i], f[i+1]), the same
     linear-interpolated 50 % crossings tb_div_speed's extractor used) and
-    scores the periods that lie fully inside [t_settle, t_score_end] -- the
-    first two FB periods are startup and are never scored;
+    scores the periods that lie fully inside the time window
+    [t_settle, t_score_end] -- the window decides, not a period index (in
+    the committed data the first scored period is FB period 2 or 3, never 4);
   * writes ../corners/edges_<uid>.json (per-unit artifact: parameters, edge
     times, per-period counts, verdict) and appends a row to
     ../corners/maxfreq-<phase>.csv;
@@ -53,7 +54,10 @@ BOTTOM_MHZ, TOP_MHZ = 640.0, 1562.0
 STAGE_NODES = ["ck", "ck1", "ck2", "ck3", "ck4", "ck5", "fb", "divout"]
 MEAS_NAME = {"tck": "ck", "tck1": "ck1", "tck2": "ck2", "tck3": "ck3",
              "tck4": "ck4", "tck5": "ck5", "tfb": "fb", "tdvo": "divout"}
-OK_RE = re.compile(r"^(\S+)\s*=\s*([-+0-9.eE]+)\s*$", re.M)
+# Only .meas output lines: the generator's names are t<node>_<k> with
+# node in ck/ck1..ck5/fb/divout. Matching any `name = value` stdout line
+# would silently absorb future ngspice lines of the same shape.
+OK_RE = re.compile(r"^((?:tck[1-5]?|tfb|tdvo)_\d+)\s*=\s*([-+0-9.eE]+)\s*$", re.M)
 FAIL_RE = re.compile(r"^\s*\.meas tran (\S+).*failed!", re.M)
 
 
@@ -249,10 +253,10 @@ def do_merge(res, corners):
                              "-- inconsistent bounds; investigate before merging")
         lo = le if le is not None else ff
         hi = ff if ff is not None else le
-        res_mhz = 16.0 if (le is not None and ff is not None) else 64.0
+        res_mhz = (ff - le) if (le is not None and ff is not None) else 64.0
         if le is None:
             bound = (f"miscounts at every swept frequency (no exact point in "
-                     f"{g(BOTTOM_MHZ)}-{g(ff)} MHz)")
+                     f"{g(BOTTOM_MHZ)}-{g(TOP_MHZ)} MHz)")
         elif ff is None:
             bound = f"exact at every swept frequency (up to {g(le)} MHz)"
         else:

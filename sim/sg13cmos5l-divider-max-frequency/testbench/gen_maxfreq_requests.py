@@ -96,8 +96,9 @@ N_LIST = sorted(WORDS)
 # TSTOP = START_PERIODS*N/f + SETTLE_GUARD_S, scored window (collector):
 # [SETTLE_PERIODS*N/f, SCORE_END_PERIODS*N/f] => SCORE_PERIODS periods.
 # The first post-startup FB edge is shifted by the .ic settling glitch
-# (measured 6.7 ns at the 640 MHz anchor, i.e. < 0.07*N/f), so periods are
-# only scored from FB period 4 -- periods 1..3 are startup and never scored.
+# (measured 6.7 ns at the 640 MHz anchor, i.e. < 0.07*N/f). The window is
+# defined in TIME: an FB period is scored iff it lies fully inside it, and
+# in the committed data the first scored period is 2 or 3, never 4.
 START_PERIODS = 8.0
 SETTLE_GUARD_S = 20e-9
 MIN_TSTOP_S = 250e-9
