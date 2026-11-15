@@ -34,6 +34,10 @@ LAYOUT_SCRIPT="$HERE/pll_layout.py"
 RENDER_SCRIPT="$HERE/render-pll-record.py"
 # shellcheck disable=SC2034  # the stdlib-only flow runs on the system python3
 PYEXE="python3"
+# shellcheck disable=SC2034  # the SG13G2 flow takes no deck; do not inherit $DECK
+DECK=""
+# shellcheck disable=SC2034  # and no extra preflight; do not inherit the env
+EXTRA_PREFLIGHT=""
 
 # shellcheck source=layout-flow.sh
 source "${HERE}/layout-flow.sh"
