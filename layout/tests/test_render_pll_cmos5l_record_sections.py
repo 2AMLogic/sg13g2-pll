@@ -20,6 +20,7 @@ still be rendered and asserted.
 from __future__ import annotations
 
 import importlib.util
+import re
 from pathlib import Path
 
 import pytest
@@ -81,6 +82,23 @@ def _plan(**over) -> dict:
 
 def _text(lines) -> str:
     return "\n".join(lines)
+
+
+def _assert_1467_cited_only_as_closed(text: str) -> None:
+    """Every `klayout-tools#1467` mention must be past tense (issue #397).
+
+    #1467 is closed upstream with its channel-track fix present at this
+    pin, so it may be named only as the closed issue the live gap
+    (klayout-tools#1962) hands off from -- never as the live gap itself.
+    The renderer uses both plain and bolded mentions, so the `closed`
+    prefix may carry the `**` bold markers.
+    """
+    for m in re.finditer(r"klayout-tools#1467", text):
+        before = text[: m.start()]
+        assert before.endswith(("closed ", "closed **")), (
+            "klayout-tools#1467 cited as if live: "
+            f"{text[max(0, m.start() - 40) : m.end() + 40]!r}"
+        )
 
 
 def _committed_build(record_id: str) -> dict:
@@ -273,6 +291,11 @@ def test_gen_compose_probe_rejected_reports_the_error():
     assert "- with `routing`: exit 2 (rejected) — `unknown pdk family`" in text
     assert "after this repo's `layout/requirements.txt` pin" in text
     assert "**Both probes above are now accepted.**" not in text
+    # The 1-of-13 measurement attributes the still-open gap to #1962 and
+    # names #1467 only as the closed issue it was filed from (issue #397).
+    assert "still-open **klayout-tools#1962**" in text
+    assert "closed **klayout-tools#1467**" in text
+    _assert_1467_cited_only_as_closed(text)
 
 
 # --- real-block probe --------------------------------------------------------
@@ -318,6 +341,11 @@ def test_block_probe_reproduces_the_upstream_gap():
     assert "**2 of 22 nets routed**" in text
     assert "exit 2 — `no such layer role`" in text
     assert "- 7 × `crosses already-routed net`" in text
+    # The heading names the still-open issue, not the closed one (issue
+    # #397): the golden test cuts it as a prefix, so this is the pin.
+    assert (
+        "#### Re-measured against a real block (klayout-tools#1962)" in text
+    )
     assert "**klayout-tools#1962 reproduces at this pin**" in text
     # #1467 may only be named in the past tense: closed upstream, its fix
     # at this pin, handing the live gap off to #1962.
@@ -345,7 +373,10 @@ def test_branches_no_record_takes_never_cite_1467_as_the_live_gap():
     run that takes any of them must not write the stale attribution --
     klayout-tools#1467 "reproducing" -- into evidence. #1467 is closed
     upstream with its fix at this pin; the live gap is
-    klayout-tools#1962.
+    klayout-tools#1962. Each verdict branch must positively name #1962,
+    and every section these builds render -- verdict, block probe,
+    gen-compose probe -- may cite #1467 only as closed, so a revert to
+    any of the stale wordings fails here instead of passing vacuously.
     """
     builds = [
         _build(gen_compose_probe={"routing": {"ok": False}}),
@@ -359,11 +390,16 @@ def test_branches_no_record_takes_never_cite_1467_as_the_live_gap():
         verdict = _text(
             R._verdict_lines(_plan(), build, "ihp-sg13cmos5l", "sg13cmos5l")
         )
-        assert "klayout-tools#1467 reproduces" not in verdict
-        assert "klayout-tools#1467, reproduced at this pin" not in verdict
+        assert "klayout-tools#1962" in verdict
+        _assert_1467_cited_only_as_closed(verdict)
+
         block = _text(R._block_probe_lines(build))
+        _assert_1467_cited_only_as_closed(block)
         assert "klayout-tools#1467 reproduces" not in block
         assert "klayout-tools#1467 no longer reproduces" not in block
+
+        probe = _text(R._gen_compose_probe_lines(build))
+        _assert_1467_cited_only_as_closed(probe)
 
 
 def test_block_probe_without_rejection_reasons_omits_that_list():
