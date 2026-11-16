@@ -16,11 +16,16 @@
 #   ./run-pex.sh
 #
 # Append-only re-extraction (issue #157): set PEX_BLOCKS to a subset of the
-# block list and PEX_SNAP_SUBDIR to a new subdirectory name to re-extract
+# block list AND PEX_SNAP_SUBDIR to a new subdirectory name to re-extract
 # without touching the committed snapshots -- outputs land in
 # netlist-snapshots/<PEX_SNAP_SUBDIR>/ and that directory gets its own
-# roll-up provenance.json covering only this run's blocks. Without both
-# variables the behaviour is the original in-place refresh.
+# roll-up provenance.json covering only this run's blocks. PEX_BLOCKS
+# requires PEX_SNAP_SUBDIR (issue #438): the roll-up writer below REPLACES
+# its provenance.json wholesale instead of merging, so a subset run without
+# a subdirectory would rewrite the committed top-level roll-up with only the
+# named blocks -- silent append-only evidence loss. The script refuses that
+# unpaired combination; without either variable the behaviour is the
+# original in-place refresh.
 #
 # Requires: a `klt` that carries BOTH klayout-tools#2012 (sg13cmos5l in the
 # parasitics registry) and klayout-tools#2126 (the curated sg13cmos5l metal
@@ -36,6 +41,20 @@
 # checkout, which this script runs via `python3 -m`.
 
 set -euo pipefail
+
+# Issue #438: PEX_BLOCKS alone is a *subset in-place* refresh -- the roll-up
+# writer below replaces $SNAP/provenance.json wholesale, never merges, so a
+# subset run against the committed top-level snapshots would silently drop
+# every other recorded block. The two variables are only safe together.
+# The guard sits before the PDK_ROOT requirement so it can be exercised
+# offline, with no PDK, no GDS and no klt (test_run_pex_guard.py).
+if [ -n "${PEX_BLOCKS:-}" ] && [ -z "${PEX_SNAP_SUBDIR:-}" ]; then
+  echo "FATAL: PEX_BLOCKS requires PEX_SNAP_SUBDIR -- a subset run in place" >&2
+  echo "       would rewrite the committed netlist-snapshots/provenance.json" >&2
+  echo "       as a roll-up of only: $PEX_BLOCKS -- dropping every other" >&2
+  echo "       committed block. Set PEX_SNAP_SUBDIR to a new name." >&2
+  exit 1
+fi
 
 : "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
 : "${PDK:=ihp-sg13cmos5l}"

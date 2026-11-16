@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 29/29 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 30/30 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 29,
-    "passed_count": 29,
+    "check_count": 30,
+    "passed_count": 30,
     "checks": [
       {
         "check": "present",
@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:9d9493520b3a627de09c8731345f74a59e3595396b937e230af650bdde62eb87"
+        "content_hash": "sha256:b29e5809912a0c4f5dd7f0bd75111fab290e5b0254b61e074e80e68b581f00b3"
       },
       {
         "check": "present",
@@ -331,6 +331,19 @@
       {
         "check": "command",
         "role": "audit",
+        "name": "run-pex-guard-self-test",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
         "name": "signoff-inventory-parity",
         "argv": [
           "python3",
@@ -366,7 +379,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:aeaab88c5e7de0b35642a8f5b23480d65bb06a248348274ec3753e5ed60a0599"
+      "content_hash": "sha256:233532d5d88319ea43bb6da66aee3493869a90d9c95a889f1541753190d547fa"
     }
   }
 }
