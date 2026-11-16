@@ -11,11 +11,13 @@ __pycache__/
 sim/build/
 
 # sim/sg13cmos5l-loop-bandwidth-pm: the issue-#319 provenance rerun renders
-# 1872 decks (7.7 MB) and four large klt sim requests. They are a pure
-# function of git history -- gen_rerun319.py extracts each original's own
+# 1872 decks (7.7 MB, plus the staged pinned-PDK closure beside them) and the
+# chunked klt sim request documents (30 chunk requests + probe). They are a
+# pure function of git history -- gen_rerun319.py extracts each original's own
 # run.sh and templates from its producing commit -- and re-rendering is
 # byte-identical, so the generator is the committed artifact, not its output.
-#   python3 -I sim/sg13cmos5l-loop-bandwidth-pm/testbench/gen_rerun319.py render
+#   python3 -I sim/sg13cmos5l-loop-bandwidth-pm/testbench/gen_rerun319.py \
+#       render --pinned-pdk <ihp-sg13cmos5l checkout at the PDK-PIN> --chunk-size 64
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319/
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319_*.request.json
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/probe319.request.json
