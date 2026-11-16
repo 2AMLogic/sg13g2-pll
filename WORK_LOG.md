@@ -8,6 +8,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-16
 
+- **PR #476**: fix: classify python3 value flags (-X, -W, --check-hash-based-pycs) by arity in run_gates script_token
+- **Issue #470** (closed): run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests`
 - **PR #472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
 - **PR #471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
 - **PR #467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
