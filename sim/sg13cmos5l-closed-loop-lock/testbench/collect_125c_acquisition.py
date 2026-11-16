@@ -6,10 +6,14 @@ for the 125 C acquisition diagnosis (issue #389).
         LOOP_REPORT --vco-csv ../corners/vco_openloop_125c.csv \
         --loop-json ../corners/loop_nominal_125c_metrics.json
 
-`VCO_OUTDIR` is the `-o` directory the batch-set ran with (per-unit
-`stdout.bin` files under it), `VCO_DECKS_SHA256_CSV` is the generator's own
-deck manifest, and `LOOP_REPORT` is the collected single-corner report of the
-unperturbed (`mm_nom`) closed-loop point.  Writes:
+`VCO_OUTDIR` is where a unit's ngspice stdout lives: either the `-o`
+directory the batch-set ran with (per-unit `<id>/stdout.bin` files under
+it, tried first) or the committed raw layout
+`../corners/vco_openloop_125c_raw` (one flat `<id>.out` file per unit --
+what the offline reproduce path hands the collector).
+`VCO_DECKS_SHA256_CSV` is the generator's own deck manifest, and
+`LOOP_REPORT` is the collected single-corner report of the unperturbed
+(`mm_nom`) closed-loop point.  Writes:
 
 vco-csv
     One row per unit: band, `vctrl`, the `per1 = ...` line ngspice printed
@@ -49,11 +53,28 @@ TARGET_F_HZ = 64 * FREF
 PER1_RE = re.compile(r"^per1 = (\S+)\s*$", re.M)
 
 
+def resolve_stdout(outdir: pathlib.Path, uid: str) -> pathlib.Path | None:
+    """A unit's ngspice stdout: `<outdir>/<id>/stdout.bin` (the repo-wide
+    `klt sim` convention, tried first) or the committed raw layout's flat
+    `<outdir>/<id>.out`."""
+    for cand in (outdir / uid / "stdout.bin", outdir / f"{uid}.out"):
+        if cand.is_file():
+            return cand
+    return None
+
+
 def collect_vco(outdir: pathlib.Path, shacsv: pathlib.Path, out_csv: pathlib.Path):
+    manifest = list(csv.DictReader(open(shacsv)))
+    stdouts = [resolve_stdout(outdir, r["id"]) for r in manifest]
+    if not any(stdouts):
+        raise SystemExit(
+            f"no unit in {shacsv} resolved to a readable stdout under {outdir} "
+            "(looked for '<id>/stdout.bin' then '<id>.out' per manifest id) -- "
+            "an absence of inputs, NOT an absence of oscillation; "
+            "nothing collected")
     rows = []
-    for r in csv.DictReader(open(shacsv)):
-        stdout = outdir / r["id"] / "stdout.bin"
-        hits = PER1_RE.findall(stdout.read_text(errors="replace")) if stdout.is_file() else []
+    for r, stdout in zip(manifest, stdouts):
+        hits = PER1_RE.findall(stdout.read_text(errors="replace")) if stdout else []
         period = hits[-1] if hits else None
         rows.append({
             "id": r["id"], "mos_corner": r["mos_corner"],
