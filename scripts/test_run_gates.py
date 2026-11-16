@@ -195,6 +195,48 @@ class Derivation(unittest.TestCase):
         self.assertEqual(tests, [("real-test", g("a/test_real.py"))])
 
 
+class ScriptTokenFlags(unittest.TestCase):
+    """script_token against each interpreter flag's arity (#470): -B
+    consumes nothing, -m/-c mean no script file follows, and the value
+    flags (-X, -W, --check-hash-based-pycs) skip exactly one value token
+    of their own and keep scanning for the script."""
+
+    def test_dash_b_consumes_nothing(self):
+        self.assertEqual(rg.script_token(["python3", "-B", "a/test_x.py"]),
+                         "a/test_x.py")
+
+    def test_dash_m_runs_no_file(self):
+        self.assertIsNone(rg.script_token(["python3", "-m", "unittest"]))
+
+    def test_dash_c_runs_no_file(self):
+        self.assertIsNone(rg.script_token(["python3", "-c", "print('x')"]))
+
+    def test_dash_x_skips_its_value(self):
+        self.assertEqual(
+            rg.script_token(["python3", "-X", "utf8", "a/test_x.py"]),
+            "a/test_x.py")
+
+    def test_dash_w_skips_its_value(self):
+        self.assertEqual(
+            rg.script_token(["python3", "-W", "ignore", "a/test_x.py"]),
+            "a/test_x.py")
+
+    def test_check_hash_based_pycs_skips_its_value(self):
+        self.assertEqual(
+            rg.script_token(
+                ["python3", "--check-hash-based-pycs", "default",
+                 "a/test_x.py"]),
+            "a/test_x.py")
+
+    def test_value_flag_as_last_token_finds_no_script(self):
+        self.assertIsNone(rg.script_token(["python3", "-X"]))
+
+    def test_flag_value_starting_with_dash_is_skipped(self):
+        self.assertEqual(
+            rg.script_token(["python3", "-W", "-weird", "a/test_x.py"]),
+            "a/test_x.py")
+
+
 class Execution(unittest.TestCase):
     """Tests first, stop at the first failure, exit code out, gates named."""
 
