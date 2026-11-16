@@ -16,8 +16,9 @@
 #   ./run-pex.sh
 #
 # Append-only re-extraction (issue #157): set PEX_BLOCKS to a subset of the
-# block list AND PEX_SNAP_SUBDIR to a new subdirectory name to re-extract
-# without touching the committed snapshots -- outputs land in
+# block list AND PEX_SNAP_SUBDIR to a new subdirectory name -- a *plain*
+# name: no "/", never "." or ".." (issue #458) -- to re-extract without
+# touching the committed snapshots -- outputs land in
 # netlist-snapshots/<PEX_SNAP_SUBDIR>/ and that directory gets its own
 # roll-up provenance.json covering only this run's blocks. PEX_BLOCKS
 # requires PEX_SNAP_SUBDIR (issue #438): the roll-up writer below REPLACES
@@ -54,6 +55,26 @@ if [ -n "${PEX_BLOCKS:-}" ] && [ -z "${PEX_SNAP_SUBDIR:-}" ]; then
   echo "       as a roll-up of only: $PEX_BLOCKS -- dropping every other" >&2
   echo "       committed block. Set PEX_SNAP_SUBDIR to a new name." >&2
   exit 1
+fi
+
+# Issue #458: a non-empty PEX_SNAP_SUBDIR must be a *plain new name* -- no
+# "/", never "." or "..". $SNAP below is built by plain string concatenation,
+# so "." would resolve back onto the committed top-level snapshots (the very
+# target the #438 guard above keeps subset runs away from), "../.." would
+# write outside the record directory entirely, and any "/" would mis-set
+# the netlist paths the roll-up records. Checked unconditionally -- the
+# escape needs no PEX_BLOCKS -- and before the PDK_ROOT requirement, for
+# the same offline-testability as the #438 guard (test_run_pex_guard.py).
+if [ -n "${PEX_SNAP_SUBDIR:-}" ]; then
+  case "$PEX_SNAP_SUBDIR" in
+    .|..|*/*)
+      echo "FATAL: PEX_SNAP_SUBDIR='$PEX_SNAP_SUBDIR' is not a plain new subdirectory name -- pass a" >&2
+      echo "       single new name: no '/', and not '.' or '..'. '.' would alias the committed" >&2
+      echo "       top-level snapshots, which the roll-up writer below replaces wholesale;" >&2
+      echo "       '..' would write outside the record directory." >&2
+      exit 1
+      ;;
+  esac
 fi
 
 : "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
