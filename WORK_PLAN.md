@@ -28,7 +28,10 @@ _None._
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#436**: check_signoff_inventory_parity.py: a comment line joined by a \\-continuation can produce a false FAIL
+- **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope
+- **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
+- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
+- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
 
 ## In Progress
 
@@ -39,35 +42,29 @@ Issues currently being built (`loom:building`).
 - **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 - **#393**: Nothing guards package.json's stdlib gate chain against drift from .github/workflows/
-- **#403**: sim: reference-input switching-threshold bench for pfd (target-spec R-5)
-- **#407**: spec: target-spec.md Accounting says "17 rows" but its own status table lists 18
-- **#415**: Dedupe the two layout-flow drivers onto a shared lib (28 of 33 lines identical), and fix the cross-flow -dirty stamp they both carry
-- **#419**: check-osdi-arch.sh: usage() prints the USAGE block to stdout, blocking an rc-only self-test guard for retired flags
-- **#429**: Correct stale klayout-tools#2727 'open/blocking' status in provenance-migration.md and characterization/SUMMARY.md
-- **#432**: Correct stale klayout-tools#3012 / #2726 'open' status in sg13cmos5l README, manifests/README.md and challenge-6 proposal
-- **#438**: run-pex.sh: PEX_BLOCKS without PEX_SNAP_SUBDIR truncates the committed snapshot roll-up
-- **#439**: sim: RECORD-015's offline reproduce path for the 125 C VCO CSV needs a layout the committed raw files do not have
+- **#454**: sim: pfd-input-threshold publishes a res_corner column its decks never apply
+- **#456**: docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files
+- **#457**: check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row
+- **#458**: run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks
+- **#460**: Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007)
-- **#441**: build: derive package.json's stdlib gate chains from item-10.json
-- **#451**: sim: send check-osdi-arch.sh usage() to stderr and add retired-flag self-test guard
-- **#455**: docs: correct closed klayout-tools#3012/#2726 gap status to the 0.8.0 pin
+- **#467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
+- **#469**: docs: correct ROADMAP decision-record count to sixteen
+- **#471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
+- **#472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
 
 ## Approved (Awaiting Merge)
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
-- **#430**: refactor: dedupe the two layout-flow drivers onto layout/bin/layout-flow.sh, fix the cross-flow -dirty record-id stamp
-- **#445**: docs: mark closed klt#2727/#221/#139 blockers resolved in provenance-migration
-- **#446**: bench: pfd REF-input switching thresholds across the row-2 operating box
-- **#448**: spec: reconcile Accounting total to 18 rows and gate it
-- **#450**: fix: hard-fail PEX_BLOCKS without PEX_SNAP_SUBDIR in run-pex.sh
-- **#452**: sim: resolve flat <id>.out stdout layout in the 125C acquisition collector
+- **#441**: build: derive package.json's stdlib gate chains from item-10.json
+- **#465**: fix: guard accounting status row width in check_accounting
 
 ## Proposed
 
@@ -87,14 +84,16 @@ Issues carrying `loom:curated`.
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)*
 - **#393**: Nothing guards package.json's stdlib gate chain against drift from .github/workflows/ *(curated)*
-- **#403**: sim: reference-input switching-threshold bench for pfd (target-spec R-5) *(curated)*
-- **#407**: spec: target-spec.md Accounting says "17 rows" but its own status table lists 18 *(curated)*
-- **#419**: check-osdi-arch.sh: usage() prints the USAGE block to stdout, blocking an rc-only self-test guard for retired flags *(curated)*
-- **#429**: Correct stale klayout-tools#2727 'open/blocking' status in provenance-migration.md and characterization/SUMMARY.md *(curated)*
-- **#436**: check_signoff_inventory_parity.py: a comment line joined by a \\-continuation can produce a false FAIL *(curated)*
-- **#438**: run-pex.sh: PEX_BLOCKS without PEX_SNAP_SUBDIR truncates the committed snapshot roll-up *(curated)*
-- **#439**: sim: RECORD-015's offline reproduce path for the 125 C VCO CSV needs a layout the committed raw files do not have *(curated)*
-- **#444**: spec: rows 6/6a and 16 still derive their figures from row 2's union range — name them in R-13 *(curated)*
+- **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope *(curated)*
+- **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting *(curated)*
+- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
+- **#454**: sim: pfd-input-threshold publishes a res_corner column its decks never apply *(curated)*
+- **#456**: docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files *(curated)*
+- **#457**: check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row *(curated)*
+- **#458**: run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks *(curated)*
+- **#460**: Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs *(curated)*
+- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow *(curated)*
+- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -119,11 +118,11 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 1 |
 | Very important | 0 |
 | Important | 4 |
-| Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 13 |
-| PRs awaiting review | 4 |
-| Approved PRs awaiting merge | 7 |
-| Curated | 22 |
+| Ready (`loom:issue`) | 4 |
+| In Progress (`loom:building`) | 10 |
+| PRs awaiting review | 5 |
+| Approved PRs awaiting merge | 3 |
+| Curated | 24 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->

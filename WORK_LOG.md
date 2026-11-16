@@ -8,6 +8,7 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-16
 
+- **PR #463**: spec: name row 6/6a, row 16 and R-2's row 2-derived figures in R-13
 - **PR #461**: fix: stop the backslash-continuation join at a shell comment line
 - **PR #455**: docs: correct closed klayout-tools#3012/#2726 gap status to the 0.8.0 pin
 - **PR #452**: sim: resolve flat <id>.out stdout layout in the 125C acquisition collector
@@ -17,6 +18,7 @@ Chronological record of recently merged pull requests and closed issues. This fi
 - **PR #446**: bench: pfd REF-input switching thresholds across the row-2 operating box
 - **PR #445**: docs: mark closed klt#2727/#221/#139 blockers resolved in provenance-migration
 - **PR #430**: refactor: dedupe the two layout-flow drivers onto layout/bin/layout-flow.sh, fix the cross-flow -dirty record-id stamp
+- **Issue #444** (closed): spec: rows 6/6a and 16 still derive their figures from row 2's union range — name them in R-13
 - **Issue #439** (closed): sim: RECORD-015's offline reproduce path for the 125 C VCO CSV needs a layout the committed raw files do not have
 - **Issue #438** (closed): run-pex.sh: PEX_BLOCKS without PEX_SNAP_SUBDIR truncates the committed snapshot roll-up
 - **Issue #436** (closed): check_signoff_inventory_parity.py: a comment line joined by a \-continuation can produce a false FAIL
