@@ -35,3 +35,10 @@ request (`testbench/run_batch.sh`).
 * The srlatch's own latching margin on degraded pulses is not measured
   directly; "registers" is defined at edgedet's OUT (see RECORD-001 for
   why that is the meaningful observable).
+* The resistor corner named in the PVT bundle axis (`res_typ`/`res_wcs`/
+  `res_bcs`) is NOT applied to any deck — every deck loads only
+  `cornerMOShv.lib`, with no `cornerRES.lib` line. It is immaterial here:
+  the DUT instantiates no resistor devices, so `cornerRES.lib` would be a
+  numerical no-op. The `res_corner` column in `results.csv` records the
+  bundle's nominal resistor corner as bundle identity only, matching the
+  published bundle axis above.

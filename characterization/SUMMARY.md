@@ -890,6 +890,7 @@ the min/max.
 - **Note**: Boundary values are identical across all four stimulus points at every corner: no frequency/duty dependence resolved at ladder resolution.
 - **Note**: DR-005's proposed 1-25 MHz widening is NOT covered; the grid is row 2's ratified 3.5-24.4 MHz endpoints, which is what R-5 gates on.
 - **Note**: The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001).
+- **Note**: The res_corner column (res_typ/res_wcs/res_bcs) records PVT bundle identity only: the named resistor corner is NOT applied to any deck (every deck loads only cornerMOShv.lib) and is immaterial here, since the DUT instantiates no resistor devices -- see the bench's corners/matrix.md.
 
 | Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

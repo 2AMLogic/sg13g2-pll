@@ -4754,7 +4754,8 @@
     "The boundary is one ladder step deep (0.9 x VDD / 31, ~96 mV at 3.3 V); the pass/fail pair in the CSV brackets it, and the V_IL boundary brackets the DC d1 trip at 32/36 stimulus points.",
     "Boundary values are identical across all four stimulus points at every corner: no frequency/duty dependence resolved at ladder resolution.",
     "DR-005's proposed 1-25 MHz widening is NOT covered; the grid is row 2's ratified 3.5-24.4 MHz endpoints, which is what R-5 gates on.",
-    "The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001)."
+    "The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001).",
+    "The res_corner column (res_typ/res_wcs/res_bcs) records PVT bundle identity only: the named resistor corner is NOT applied to any deck (every deck loads only cornerMOShv.lib) and is immaterial here, since the DUT instantiates no resistor devices -- see the bench's corners/matrix.md."
    ],
    "record_sha256": "6a5c84669946f017caac62a28ee9e5bfe928f1e99cfab28dc87cdc803a5a849d"
   }
