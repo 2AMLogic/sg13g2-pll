@@ -275,7 +275,24 @@ windows are arithmetic on row 1's schematic band, so a ruling that binds
 the spec to the post-layout band recomputes this one too. The interface
 half of row 2 (what the `pfd` / `lock_detector` input can accept, extended
 to 50 MHz by #301 per ruling r7-q30 on #296) is a different claim and is
-not bounded by this window.
+not bounded by this window. Three committed figures elsewhere in this file
+derive from row 2's range, and this ruling names them so an implementer
+knows which move with it and which do not. Row 6/6a's `f_c` ceiling
+("0.35 to 2.44 MHz across the row 2 range") is pure arithmetic on the union
+endpoints (`3.5/10`, `24.4/10`), so if this ruling binds the intersection
+the ceiling is recomputed in the same edit: **0.432 to 1.740 MHz**
+(`4.317/10`, `17.403/10`). Row 16's threshold span ("about 12 to 37% of a
+reference period over 3.5 to 24.4 MHz") and R-2's `at least about 16.4%`
+arithmetic, which grades `2 x 8.204%` against that span's 12% low end, sit
+on the interface side of the line drawn above: they are DR-006's threshold
+table evaluated at the union endpoints, owned by ruling r7-q30 (#296) as
+extended by #301, and must **not** be rewritten to the intersection when it
+binds. And the narrowing only helps them: percent-of-`T_ref` rises with
+`f_ref` at both ends of the corner band in the SG13G2 resized ladder
+(`sim/sg13g2-lock-detector-window/corners/ladder_resized_rerun236.csv`),
+so evaluating the thresholds at the intersection endpoints would shrink the
+quoted span — `12 to 37%` stays a conservative outer bound over the
+intersection and R-2's test gets easier, not harder.
 
 ## Accounting
 
