@@ -92,20 +92,46 @@ def normalize(tokens):
 
 
 def command_tokens(text):
-    """shlex-split a shell fragment, stopping at the first operator token."""
-    text = HEREDOC_RE.sub(" ", text).rstrip()
+    """shlex-split a shell fragment, stopping at the first operator token.
+
+    A comment ends the command: `_strip_inline_comment()` drops an unquoted
+    `#` and everything after it (quotes respected, a `#` embedded mid-token
+    kept), so a surviving `#`-leading token is a real quoted argument and only
+    the degraded unbalanced-quote fallback breaks on it (issue #466).
+    """
+    text = _strip_inline_comment(HEREDOC_RE.sub(" ", text)).rstrip()
     while text.endswith("\\"):  # `run:` line continuations
         text = text[:-1].rstrip()
+    degraded = False
     try:
         tokens = shlex.split(text)
     except ValueError:  # unbalanced quotes across lines -- degrade, don't crash
-        tokens = text.split()
+        tokens, degraded = text.split(), True
     out = []
     for tok in tokens:
-        if tok in OPERATORS or tok.startswith("#"):
+        if tok in OPERATORS or (degraded and tok.startswith("#")):
             break
         out.append(tok)
     return out
+
+
+def _strip_inline_comment(line):
+    """Truncate a logical shell line at its first *unquoted* `#` token start."""
+    q = None
+    i = 0
+    while i < len(line):
+        c = line[i]
+        if q:
+            if c == q:
+                q = None
+            elif q == '"' and c == "\\":
+                i += 1
+        elif c in "'\"":
+            q = c
+        elif c == "#" and (i == 0 or line[i - 1].isspace()):
+            return line[:i]
+        i += 1
+    return line
 
 
 def workflow_invocations(text):
@@ -117,7 +143,10 @@ def workflow_invocations(text):
     split across lines is still seen; the reported line number stays the one
     where `python3` appears (issue #409). A comment ends a continuation: the
     shell comments out the rest of that line, so a `#` line is never joined
-    and is left for the ordinary comment skip below (issue #436).
+    and is left for the ordinary comment skip below (issue #436). A comment
+    ends the logical line itself, too: the first unquoted `#` token truncates
+    it before the gate scan and the heredoc probe, so a commented-out gate
+    trailing a real command is not recorded (issue #466).
     """
     def indent(s):
         return len(s) - len(s.lstrip())
@@ -151,6 +180,7 @@ def workflow_invocations(text):
                 break
             line = line.rstrip()[:-1] + " " + lines[i].strip()
             i += 1
+        line = _strip_inline_comment(line)
         heredoc = HEREDOC_RE.search(line)
         for match in PYTHON3_RE.finditer(line):
             inv = normalize(command_tokens(line[match.end():]))
