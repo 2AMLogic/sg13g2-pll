@@ -384,6 +384,10 @@ self_test() {
   _e2e 2 "" "absent non-soft object is a usage error" "$dir/nope.osdi"
   _e2e 3 "nope.osdi" "absent soft object is a fallback case" \
        --soft nope.osdi "$dir/nope.osdi"
+  # A flag retired since PR #418 must stay a usage error: exit 2, empty
+  # stdout (usage() writes to stderr, so no rc-only guard needs the block).
+  _e2e 2 "" "retired --warn-only flag still exits 2" \
+       --warn-only "$dir/macho_arm64.osdi"
 
   if [ "$rc" -eq 0 ]; then echo "self-test: PASS"; else echo "self-test: FAIL"; fi
   return "$rc"
@@ -400,7 +404,7 @@ usage() {
     /^# USAGE/          { p = 1 }
     /^set -uo pipefail/ { exit }
     p                   { print }
-  ' "$0" | sed 's/^# \{0,1\}//'
+  ' "$0" | sed 's/^# \{0,1\}//' >&2
   exit 2
 }
 
