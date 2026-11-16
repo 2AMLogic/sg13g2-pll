@@ -39,7 +39,7 @@ Design facts that shape the plan, each from a committed record:
 - **`cp` mismatch**: the `+/-3.5 %` screening limit is retired (PR #390, DR-013 proposed).
 - **Item 9** is down to 8 unresolved records after the batch-rerun campaign: `cp-icp-trim`
   RECORD-003/004, `loop-bandwidth-pm` RECORD-001 to 004 (five files), `vco-decap-momcap` RECORD-001.
-- The spec has 18 rows: 5 measured, 3 proposed, 2 not specified, 8 open; of the fifteen decision
+- The spec has 18 rows: 5 measured, 3 proposed, 2 not specified, 8 open; of the sixteen decision
   records only DR-004 and DR-006 (lock-detector threshold) are ratified.
 
 ## In flight (open pull requests)
