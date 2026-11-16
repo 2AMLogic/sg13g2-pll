@@ -8,6 +8,19 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-16
 
+- **PR #472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
+- **PR #471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
+- **PR #467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
+- **PR #441**: build: derive package.json's stdlib gate chains from item-10.json
+- **PR #465**: fix: guard accounting status row width in check_accounting
+- **PR #469**: docs: correct ROADMAP decision-record count to sixteen
+- **Issue #454** (closed): sim: pfd-input-threshold publishes a res_corner column its decks never apply
+- **Issue #460** (closed): Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs
+- **Issue #458** (closed): run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks
+- **Issue #393** (closed): Nothing guards package.json's stdlib gate chain against drift from .github/workflows/
+- **Issue #462** (closed): run_gates.py pin test: retire the one-shot pre-rewrite snapshot when the next gate lands
+- **Issue #457** (closed): check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row
+- **Issue #456** (closed): docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files
 - **PR #463**: spec: name row 6/6a, row 16 and R-2's row 2-derived figures in R-13
 - **PR #461**: fix: stop the backslash-continuation join at a shell comment line
 - **PR #455**: docs: correct closed klayout-tools#3012/#2726 gap status to the 0.8.0 pin

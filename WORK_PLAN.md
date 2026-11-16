@@ -31,7 +31,9 @@ Human-approved issues ready for implementation (`loom:issue`).
 - **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope
 - **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
+- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
 - **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
+- **#470**: run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests`
 
 ## In Progress
 
@@ -41,30 +43,18 @@ Issues currently being built (`loom:building`).
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#393**: Nothing guards package.json's stdlib gate chain against drift from .github/workflows/
-- **#454**: sim: pfd-input-threshold publishes a res_corner column its decks never apply
-- **#456**: docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files
-- **#457**: check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row
-- **#458**: run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks
-- **#460**: Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007)
-- **#467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
-- **#469**: docs: correct ROADMAP decision-record count to sixteen
-- **#471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
-- **#472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
 
 ## Approved (Awaiting Merge)
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
-- **#441**: build: derive package.json's stdlib gate chains from item-10.json
-- **#465**: fix: guard accounting status row width in check_accounting
 
 ## Proposed
 
@@ -83,17 +73,12 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)*
-- **#393**: Nothing guards package.json's stdlib gate chain against drift from .github/workflows/ *(curated)*
 - **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope *(curated)*
 - **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting *(curated)*
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
-- **#454**: sim: pfd-input-threshold publishes a res_corner column its decks never apply *(curated)*
-- **#456**: docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files *(curated)*
-- **#457**: check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row *(curated)*
-- **#458**: run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks *(curated)*
-- **#460**: Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs *(curated)*
 - **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow *(curated)*
 - **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL *(curated)*
+- **#470**: run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests` *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -118,11 +103,11 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 1 |
 | Very important | 0 |
 | Important | 4 |
-| Ready (`loom:issue`) | 4 |
-| In Progress (`loom:building`) | 10 |
-| PRs awaiting review | 5 |
-| Approved PRs awaiting merge | 3 |
-| Curated | 24 |
+| Ready (`loom:issue`) | 6 |
+| In Progress (`loom:building`) | 4 |
+| PRs awaiting review | 1 |
+| Approved PRs awaiting merge | 1 |
+| Curated | 19 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
