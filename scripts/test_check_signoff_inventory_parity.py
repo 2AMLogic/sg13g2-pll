@@ -114,6 +114,52 @@ class Parity(unittest.TestCase):
         wf = workflow(step("python3 a/gate.py") + "      # python3 a/retired.py\n")
         self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
 
+    def test_comment_after_continuation_is_not_joined(self):
+        r"""A `\`-continued line followed by a comment line ends the command.
+
+        Issue #436: the join pre-pass folded the comment into the logical
+        command, so `python3` inside the comment was recorded as a live gate
+        and CI failed demanding an inventory entry for a script that never
+        runs. Pre-fix this test fails: `a/retired.py` is reported missing.
+        """
+        wf = workflow(step("python3 a/gate.py \\", "# python3 a/retired.py"))
+        problems = self.run_check(wf, inventory("a/gate.py"))
+        self.assertEqual(problems, [])
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("gate.py", ()): [6]}
+        )
+
+    def test_comment_line_ending_in_backslash_keeps_later_command(self):
+        r"""A comment line's own trailing `\` continues nothing; a real gate
+        after it must still be recorded, at its physical line.
+
+        This is the case that separates the correct fix (break the join at a
+        comment) from truncation-at-`#`, which silently drops `other.py`.
+        """
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # note \\\n"
+            "          python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text),
+            {("gate.py", ()): [6], ("other.py", ()): [8]},
+        )
+
     def test_module_and_interpreter_only_invocations_are_not_gates(self):
         wf = workflow(step("python3 -m venv /tmp/v", "python3 -c 'import sys'", "python3"))
         self.assertEqual(self.run_check(wf, inventory()), [])
