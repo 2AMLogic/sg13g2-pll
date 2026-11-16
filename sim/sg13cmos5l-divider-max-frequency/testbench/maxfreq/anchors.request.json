@@ -1,0 +1,20 @@
+{
+  "engine": "ngspice",
+  "backend": "local",
+  "decks": [
+    {
+      "id": "n64_mos_tt_27c_3v3_f0640_a",
+      "deck": "decks/n64_mos_tt_27c_3v3_f0640_a.sp",
+      "timeout_s": 900
+    },
+    {
+      "id": "n64_mos_tt_27c_3v3_f1280_a",
+      "deck": "decks/n64_mos_tt_27c_3v3_f1280_a.sp",
+      "timeout_s": 900
+    }
+  ],
+  "options": {
+    "timeout_s": 900,
+    "max_workers": 1
+  }
+}

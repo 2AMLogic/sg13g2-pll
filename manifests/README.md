@@ -266,10 +266,16 @@ Disclosures that travel with these envelopes (not softened):
 
 ### Item 7 — post-layout verification: `7.analog` and `7.digital` `met`, audit-first (#152)
 
-**What is cited.** Item 7 accepts only a `klt pex` envelope. Five were
-produced (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, ngspice-46, one nominal
-corner each, `--backend local`; `sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`).
-They were re-run by #195 against layout record `20261010-012952-a4ca1b8`
+**What is cited.** Item 7 accepts only a `klt pex` envelope. Six exist. Five
+were produced together (`klt 0.6.0+g1eb3e4bfd0f5`, KLayout 0.30.12, ngspice-46,
+one nominal corner each, `--backend local`;
+`sim/sg13cmos5l-klt-pex-signoff/run-klt-pex.sh`); the sixth, `lock_detector`,
+landed with #157 (its RECORD-004: `klt 0.9.3.dev3`, KLayout 0.30.13,
+ngspice-47, same one-nominal-corner discipline) — #152's audit withheld it
+because the committed PEX snapshot predated the #136 substrate-split re-route,
+and its `body_bias.status: biased` (zero unbiased devices) closes that audit
+row.
+The five were re-run by #195 against layout record `20261010-012952-a4ca1b8`
 (RECORD-002; the runner now reads that record from `4.analog`), and each
 envelope's
 `provenance.input.content_hash` equals the GDS hash in the item 1/2 table
@@ -287,7 +293,9 @@ the most flattering. The other committed envelopes are not cited but are in
 the same directory: `pfd` (UP/DN average duty, +77.8 % / +9.3 %), `cp`
 (output current at 10 uA reference, +0.141 % up / -0.039 % down on the
 DR-010 redraw; this DC bench does not observe the dump buffer's tracking),
-`loop_filter` (NZ step-response t63, +29.6 %).
+`loop_filter` (NZ step-response t63, +29.6 %), and `lock_detector`
+(#157's RECORD-004: error-burst transition +33.6 %, RC recovery +16.9 %,
+settled supply current −91 % on a nanoamp scale).
 
 **Body-bias audit (the step that decides what may be cited).** Each block's
 PEX netlist was checked for how device bodies are bound, and the netlist's
@@ -300,7 +308,7 @@ GDS compared with the current record's:
 | `loop_filter` | `pll_loop_filter.pex.spice` | yes | `rppd` bulk `vsubs` (substrate global, 0 V in the testbench) | `biased` | pass |
 | `vco` | `pll_vco.pex.spice` | yes | nmos `GND_VCO` (21), pmos `VDD_VCO` (17), `rppd`/`rhigh` `GND_VCO` | `biased` | pass |
 | `divider_chain` | `pll_divider_chain.pex.spice` | yes | nmos `VSS` (173), pmos `VDD_DIV` (120) | `biased` | pass |
-| `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** |
+| `lock_detector` | `pll_lock_detector.pex.spice` | **no** (`61a18fc1...` vs `54bea524...afc`) | nmos `VSS`, pmos `VDD`, `rhigh` `VSS` (but on the pre-#136 layout) | not run | **withheld** — resolved by #157: the `rerun-157/` re-extraction and `pex.lock_detector.json` (RECORD-004, `body_bias.status: biased`, zero unbiased devices) |
 
 That table records the #152 audit. **#195 changes cp's row.** The current
 `pll_cp.gds` (`840267fd…e050`) is the DR-010 redraw, so the cp snapshot above
@@ -314,9 +322,14 @@ not an anonymous body net.
 
 No snapshot had a body on an anonymous net, and every `unbiased_pmos_body_nets`
 list is empty. **`lock_detector` is not cited**: its committed PEX netlist
-and its postlayout-pex-pvt evidence describe the pre-#136 layout, no `klt pex`
-envelope exists for the current GDS, and the full-PVT grid for the #136 DUT
-is still owed (#139). Re-extraction and the `klt pex` run are filed as
+and its postlayout-pex-pvt evidence describe the pre-#136 layout, and no
+`klt pex` envelope exists for the current GDS. The full-PVT grid for the
+#136 bodyfix DUT itself is no longer owed: it was re-run on the batch fleet
+([RECORD-011](../sim/sg13cmos5l-lock-detector-window/records/RECORD-011-bodyfix-full-grid-batch.md),
+which closed #139), with two disclosed gaps of its own — the 20x-window
+`idd_outlock` probe was not run (row 11's 20x bound is still RECORD-004's
+figure) and the ladder rows are PDK-confounded (the ran-on PDK revision is
+inferred, not the pin). Re-extraction and the `klt pex` run are filed as
 **#157**; the multi-corner part goes through `klt sim` corners / `monte_carlo`
 (batch), not a local ngspice grid.
 
@@ -451,8 +464,12 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
     `BLOCK_BUILD`), not by `e6284fbe62e2`. The grader reads only the cited
     `lock_detector` pair, so the tier report is unaffected. The grading
     build's own run on the old two-tie spec is committed as a negative run:
-    one `erc.missing_tie` on the PSRC well. Well-to-well spacing is not
-    checked by the curated deck at all (klayout-tools#3012). A caller-side
+    one `erc.missing_tie` on the PSRC well. Well-to-well spacing was not
+    checked by the curated deck at the grading build (klayout-tools#3012 —
+    closed 2026-10-16 via PR #3570, present at this repo's
+    `klayout-tools==0.8.0` pin, where the deck now also checks the
+    different-net `NW.b1` itself as net-aware `nwell.space.2`,
+    klayout-tools#3572). A caller-side
     probe measures it at 7.36 um against `NW.b1` = 1.80 um.
   - **`loop_filter` has no tie to check, and says so.** It is passive (one
     rppd, two MoM caps), with no Activ, no NWell and no MOS. CI accepts its
@@ -474,16 +491,89 @@ is still owed (#139). Re-extraction and the `klt pex` run are filed as
 | 9 (both rows) | `no_evidence` | Real material exists — committed testbenches (`sim/sg13cmos5l-*`) — and item 9 does bind to a verb (`klt signoff --attest 9`), so it is **not** "unbindable". It stays uncited because the `check_testbench_coverage.py` gate still carries 37 grandfathered pre-gate records (#182, #198) and an item-9 attestation is owned by the #199 campaign. Citing an unrelated passing envelope to turn it green is the dishonesty this file exists to prevent. |
 | 10 | — | **No longer `unmet`: both rows `met`** (see "Item 10" below). |
 | 5 (both rows) | `no_evidence` | No **ratified** spec table yet (prerequisite: draft + ratify through `spec/` per the two-key mechanism), so no corner campaign is gradeable "vs a ratified spec"; partial pre-layout PVT evidence exists as ngspice records, not `klt sim` envelopes. |
-| 6 | `no_evidence` | No Monte Carlo campaign; no `klt yield` envelope. |
-| 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter` (analog envelopes committed but the analog row takes one citation) and `lock_detector` (withheld, #157). |
+| 6 (analog) | `undersized_sample` | A real Monte Carlo campaign is cited (1500 samples, #178) and `klt yield`'s own sample-size verdict is `insufficient`, which the grader treats as disqualifying. See "Item 6" below. |
+| 6 (digital) | `no_evidence` | Deliberate. `divider_chain` has **no statistical spec row**, and nothing here fabricates one; see "Item 6" below for why the `not_applicable` outcome is not claimed either. |
+| 7 (both rows) | — | **No longer `unmet`: both rows `met`** (see "Item 7" above). Not cited: `pfd`, `cp`, `loop_filter`, `lock_detector` (analog envelopes committed but the analog row takes one citation; `lock_detector`'s landed with #157, so all five analog blocks are gate-checked). |
 | 8 | `no_evidence` | `characterization/SUMMARY.md` now exists (generated and CI-checked, #171), but it is **deliberately not cited**. See "Item 8 decision (#171)" below. |
 | 11 (analog) | — | **No longer `unmet`: `met`** (see "Item 11" above; all five blocks clean in CI). |
+
+## Item 6 — statistical claims: `6.analog` cited and `unmet`, `6.digital` uncited (#178)
+
+| Row | Cites | Grade |
+| --- | --- | --- |
+| `6.analog` | [`sim/sg13cmos5l-cp-icp-trim-mc/reports/yield.mc.json`](../sim/sg13cmos5l-cp-icp-trim-mc/reports/yield.mc.json), pinned to the campaign report `sim.mc.json` it was computed from (`dc958111…11e8c`) | `unmet`, `undersized_sample` |
+| `6.digital` | nothing | `unmet`, `no_evidence` |
+
+**The analog row is cited even though it does not grade `met`, on purpose.**
+`klt signoff` reads the campaign's own self-report as a grading input: a
+cited `klt yield` envelope whose `sample_size.verdict` is `insufficient`
+renders `unmet` with `reason: "undersized_sample"` (klayout-tools#2467). The
+campaign behind it is real — 1500 samples (5 mismatch-enabled MOS sections ×
+{-40, 27, 125} C × N = 100), seed 178, a deterministic negative control
+whose every sigma is exactly 0, combined with (not instead of) the process
+corners, run on the batch fleet on the PDK pin's model bytes. What it does
+not have is resolution: N = 1500 pins the yield to ±2.47 pp at 95 %
+confidence and `klt yield`'s default target is ±1 pp, which needs 8907
+samples.
+
+So the honest state of this row is "somebody ran a campaign and it is too
+small", not "nobody ever checked" — and those are exactly the two states the
+`reason` enum exists to keep apart. Citing it is the opposite of the
+turn-a-row-green move this file is written to prevent: the citation *lowers*
+nothing and claims nothing, it just stops item 6 reading `no_evidence` when
+evidence exists. The numbers, the per-corner breakdown and the limitations
+are in
+[`RECORD-002`](../sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md).
+
+**The evidence behind that campaign has moved; the committed citation has
+not.** [`RECORD-014`](../sim/sg13cmos5l-closed-loop-lock/records/RECORD-014-cp-mismatch-phase-error-gain.md)
+re-measured, on the committed DR-010 `cp`, the gain the `±3.5 %` value was
+derived from: -0.0394 to -0.0484 pp/pp — about 30x smaller and of the
+opposite sign — with a linear-through-origin fit rejected.
+[`DR-013`](../spec/decision-records/DR-013-cp-mismatch-limit.md) (proposed)
+therefore **retires** the `±3.5 %` screening limit outright: it proposes no
+replacement bound and no `target_yield`. [`RECORD-003`](../sim/sg13cmos5l-cp-icp-trim-mc/records/RECORD-003-regrade-proposed-limit.md)
+re-grades the *same 1500 draws* against DR-013's `±11.92 %`
+**evidence-coverage** bound — explicitly not a spec limit and not a
+pass/fail threshold — and finds 99.60 % inside it (95 % CI [99.13 %,
+99.85 %]), Cpk 0.9973, with `klt yield`'s sample-size verdict turning
+`sufficient` (`required_n` drops from 8907 to 154). None of that re-grades
+this row: the manifest still cites `yield.mc.json`, which still self-reports
+`insufficient` at its own default `±1 pp` target, so the row still reads
+`unmet` / `undersized_sample`.
+
+**What a `met` here would still need**: a ruling, not more samples. The
+screening limit this row was graded against is retired (`DR-013`, proposed)
+and nothing has replaced it, and `spec/target-spec.md` still proposes no
+`cp` mismatch number at all. What decides the row is **R-12**: whether a
+`cp` mismatch limit must exist for T1 in the first place, which row would
+own it, and what evidence it would require. Since `RECORD-003`, campaign
+size is no longer the blocker — at DR-013's evidence-coverage bound the
+existing 1500 draws are already `sufficient` (`required_n` 154) — so
+ratifying, or explicitly declining, a limit is what stands between this row
+and a `met`. The campaign itself still lacks a negative control, and the
+proposal deck the gain was measured on does not acquire at 125 C; both are
+tracked in #389.
+
+**The digital row is uncited, and is not claimed `not_applicable` either.**
+`divider_chain` has no statistical spec row. `spec/target-spec.md` carries
+exactly one `Partition: Digital` row — row 3, multiplication ratio — and its
+`Kind` is `Det`: an integer-N divide ratio is functional and corner-bounded,
+not distributional. All three `Kind: Stat` rows in that table (8 period
+jitter, 9 integrated RMS jitter / phase noise, 10 reference spur) are
+Analog. The grader does offer a recorded
+`not_applicable` outcome for exactly that situation — but only for a
+**ratified** spec, and `spec/target-spec.md` is `Status: DRAFT`, awaiting the
+two-key ratification under `ratification/`. Claiming the outcome against a
+draft would be the waiver this file refuses to write, so the row stays
+`no_evidence` and this paragraph is the statement that the digital partition
+has no statistical row.
 
 ## Item 10 — repo hygiene: both rows `met`, from a `klt signoff --attest 10` envelope (#266)
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `9e36e959…261b9` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `aeaab88c…a0599` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -493,14 +583,31 @@ hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
 hashed: `README.md`, `LICENSE`, `spec/target-spec.md` and the three workflows
-`.github/workflows/{signoff,layout-tests,netlist}.yml`. Sixteen audit commands
-then each run, without a shell, from the repo root and must exit 0: the
-records checker and its unit tests, the summary generator's unit tests and
-`--check`, and the six `manifests/check_*` gates with their unit tests (the
-same offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
+`.github/workflows/{signoff,layout-tests,netlist}.yml`. Twenty-three audit
+commands then each run, without a shell, from the repo root and must exit 0:
+the records checker and its unit tests, the summary generator's unit tests and
+`--check`, the six `manifests/check_*` gates with their unit tests, the
+`manifests/check_netlist_stamp.py` and `design/check_pfd_reset_parity.py` unit
+tests plus the parity check itself, the two
+`sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction self-tests, and
+`scripts/check_signoff_inventory_parity.py` with its unit test (the same
+offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
 --attest 10 --inventory … --check …` re-attests and diffs against the
 committed envelope, so an edited or missing hygiene file, or a failing gate,
 fails the `grade` job.
+
+**The list is enforced, not maintained by hand (#395).** That claim — every
+`python3` gate `signoff.yml` runs except the base-ref one below — used to be
+upkeep, and it drifted: three gates ran in CI that no inventory attested.
+`scripts/check_signoff_inventory_parity.py` now compares the two directly and
+fails naming any gate `signoff.yml` invokes that the `checks` list omits. It is
+itself one of the twenty-three commands, so it cannot be dropped silently, and
+`signoff.yml` also runs it in the offline `records` job, so drift fails there
+rather than only through the re-attest. The comparison is one-directional:
+an inventory entry the workflow does not (yet) run is more verification, not
+drift, and does not fail. Its one exclusion carries a reason string and goes
+stale loudly — if nothing in `signoff.yml` matches it any more, that is an
+error, not a silent skip.
 
 **What it does not check.**
 
@@ -509,7 +616,17 @@ fails the `grade` job.
   simulator or network, and CI runs them itself. The workflows are attested
   as present and unchanged, not as green.
 - It does not run `check_records.py --base` (append-only enforcement), which
-  needs a PR base ref; `signoff.yml` still runs it on pull requests.
+  needs a PR base ref; `signoff.yml` still runs it on pull requests. This is
+  the **only** gate `signoff.yml` runs that the inventory omits, and the parity
+  check above is what keeps that true — it is the one entry in that script's
+  exclusion table.
+- It does not attest `.github/workflows/artifact-manifests.yml` or the two
+  gates that workflow runs (`scripts/check_artifact_manifests.py` and its unit
+  test): that workflow is absent from the `hygiene` list, so its bytes are
+  unattested and its gates are outside the parity check's `signoff.yml`-scoped
+  comparison. A `hygiene`-list gap, not a `checks`-list gap; widening the
+  attestation surface would change what item 10 claims, so it is left to its
+  own issue.
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's
@@ -551,14 +668,16 @@ hand):
 - a ratified spec table: the spec is drafted in `spec/target-spec.md`
   (Status: DRAFT) and awaits the two-key ratification under `ratification/`
   (no tracking issue filed), so the summary can be read against a spec;
-- full PVT coverage on the current DUT, including the `lock_detector` bodyfix
-  re-verification (#139) and the `lock_detector` PEX re-extraction (#157);
+- full PVT coverage on the current DUT, including the `lock_detector` PEX
+  re-extraction (#157);
 - divider speed evidence on the current design (no tracking issue filed; the
   #168 follow-on retained edge counts but they are not selected into the
   summary);
-- the charge-pump PVT and Monte Carlo evidence for the DR-010 dump buffer
-  (#178), the real-cp loop PM re-check across the fast/slow grid (#203), and a
-  closed loop that acquires (the nominal real-divider loop does not acquire).
+- the charge-pump PVT evidence for the DR-010 dump buffer (no tracking issue
+  filed — the up/dn mismatch Monte Carlo now exists, see "Item 6", but the
+  dump buffer itself is still nominal-only), the real-cp loop PM re-check
+  across the fast/slow grid (#203), and a closed loop that acquires (the
+  nominal real-divider loop does not acquire).
 
 ## The tool that grades
 
@@ -640,9 +759,9 @@ installs the pinned grader at that commit, first runs `manifests/check_lvs_cover
 cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS),
 `manifests/check_drc_coverage.py` (all six composed-block DRC reports, item 3) and
 `manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
-item 11) and `manifests/check_pex_coverage.py` (all five nominal `klt pex`
+item 11) and `manifests/check_pex_coverage.py` (all six nominal `klt pex`
 envelopes and their flattened schematic legs, item 7 siblings; `lock_detector`
-withheld, #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182 and can be resolved only by validated append-only `ADDENDUM-*.md` associations (recovered provenance or superseding rerun; format in `sim/README.md` "Provenance addenda", issue #198; no addenda are committed yet, migration status 0 of 37 resolved), so item 9 stays `unmet` and uncited in the manifest), then re-runs the full grade (the
+joined the gated blocks with #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182 and can be resolved only by validated append-only `ADDENDUM-*.md` associations (recovered provenance or superseding rerun; format in `sim/README.md` "Provenance addenda", issue #198; no addenda are committed yet, migration status 0 of 37 resolved), so item 9 stays `unmet` and uncited in the manifest), then re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
 re-read and its pinned `content_hash` re-checked), and byte-compares the
 fresh report against the committed one.

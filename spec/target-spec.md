@@ -59,11 +59,22 @@ benches swept. See R-9.
 - **Det** — deterministic: the bound is a worst case over a declared
   corner set, checked by a corner sweep.
 - **Stat** — statistical: the bound is a distribution quantity (noise,
-  mismatch). No Monte Carlo record exists anywhere under `sim/`
-  (`grep -ril monte sim` hits only `sg13cmos5l-klt-pex-signoff`, a tool
-  option), so no Stat row below is measured as a statistic. Where a Stat row
-  has a corner-sweep number, that number is evidence of the deterministic
-  part only.
+  mismatch). One Monte Carlo record now exists under `sim/` (issue #178):
+  `sg13cmos5l-cp-icp-trim-mc/records/RECORD-002-cp-mismatch-mc-yield.md`, a
+  1500-sample `cp` up/dn mirror-mismatch campaign with a `klt yield`
+  envelope. It grades `cp` mismatch against that bench's own
+  evidence-derived screening limit, which is **not** a row of this table and
+  is not ratified, so no Stat row below is measured as a statistic. Where a
+  Stat row has a corner-sweep number, that number is evidence of the
+  deterministic part only. **That screening limit (`+/-3.5 %`) is now
+  retired** by DR-013 (issue #385): the mismatch-to-static-phase-error gain
+  it was divided out of was re-measured on the DR-010 `cp`
+  (`sg13cmos5l-closed-loop-lock`:
+  `records/RECORD-014-cp-mismatch-phase-error-gain.md`) and is about 30x
+  smaller, of the opposite sign, and not through the origin. DR-013 proposes
+  no replacement bound and no `target_yield`, because row 7 does not
+  constrain `cp` mismatch at the DR-010 design's measured sensitivity; see
+  R-12.
 
 **Partition** (the manifest grades two; `manifests/README.md`): **Analog** =
 `pfd`, `cp`, `loop_filter`, `vco`, `lock_detector`. **Digital** =
@@ -78,11 +89,11 @@ the plan.
 |---|---|---|---|---|---|---|---|---|
 | 0 | Supply / device flavor | P | Det | both | 3.3 V thick-oxide CMOS throughout, per the operating box. A decision, not a measured parameter | DR-002 Decision 0 (proposed); DR-004 (ratified) | none | n/a |
 | 1 | Output band | M | Det | Analog | 445.3 to 1562.0 MHz, pre-layout, open-loop `vco`, 60/60 points valid, 3 bundles x 4 band codes x 5 `VCTRL` (0.3 to 2.7 V). Post-layout deviates; see R-1 | DR-005 (proposed) reads it as the fixed point for rows 2 and 3 | `sg13cmos5l-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md`; corroborated byte-identical by `sg13g2-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md` | floor: `slow`, `VCTRL` = 0.3 V (all band codes equal); ceiling: `fast`, band `11`, `VCTRL` = 2.7 V |
-| 2 | Reference input | M | Det | Analog (`pfd` input) | Frequency 3.5 to 24.4 MHz (3.51 = 445.3/127; 24.4 = 1562.0/64). Shape unchanged: CMOS square wave, rising-edge trigger, 30 to 70% duty. Electrical levels open; see R-5 | DR-005 (proposed) amends 1 to 25 MHz | derived from the row 1 record; `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md` exercises the range | n/a (arithmetic on the row 1 corners) |
+| 2 | Reference input | O | Det | Analog (`pfd` input) | Frequency 3.5 to 24.4 MHz (3.51 = 445.3/127; 24.4 = 1562.0/64) — a corner union: floor from the `slow` bundle, ceiling from the `fast`. The PVT intersection this `Det` row requires is 4.317 to 17.403 MHz (548.2/127 `fast` own-floor; 1113.8/64 `slow` own-ceiling), conservative against the unmeasured 2.7 to 3.3 V rail headroom; see DR-014 `fref-window-pvt-intersection` and R-13. Shape unchanged: CMOS square wave, rising-edge trigger, 30 to 70% duty. Electrical levels open; see R-5. Gate: R-13 | DR-005 (proposed) amends 1 to 25 MHz; DR-014 (proposed) supersedes DR-005's row-2 numeric derivation (union kept, intersection stated) | derived from the row 1 record; `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md` exercises the range | n/a (arithmetic on the row 1 corners) |
 | 3 | Multiplication ratio | M | Det | Digital | N in 64 to 127, every integer, no holes. Functional: 20/20 simulated points divide at exactly the commanded N (9 PVT corners at N=64, every program-bit weight, two mixed codes, N=127 at both speed-bracket extremes, 100 MHz). Retiming closure at 1562.0 MHz is **unmet**; see R-3 | DR-005 (proposed) amends 4 to 64 | `sg13cmos5l-divider-nrange-retiming`: `records/RECORD-003-divider-repair-reverification.md`; SG13G2 corroboration `sg13g2-divider-repair-reverification`: `records/RECORD-001-divider-repair-reverification.md` | one-edge closing bound: 825 MHz at `mos_tt`/-40 C, 866 MHz at `mos_tt`/27 C, 1277 MHz at `mos_ff`/27 C |
 | 4/5 | Kvco bound / band-selection rule | M | Det | Analog | The per-band, per-corner Kvco table, not a single ceiling. Range across the table: Kvco avg 144.2 to 422.4 MHz/V, Kvco peak local (2.1 to 2.7 V) 162.2 to 379.9 MHz/V. Band code is inert at `VCTRL` = 0.3 V and spreads about 2.8x at 2.7 V. A numeric ceiling and the lowest-band-first rule are not set by any record; see R-4 | none sets a bound; DR-001 / porting-plan row 4/5 name the rule structure | `sg13cmos5l-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md` (range figures are quoted in `sim/README.md` from `sg13g2-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md`) | per-row in the record's table |
 | 6/6a | Loop bandwidth / phase margin | M | Det | Analog | Criteria: `f_c` < `f_ref`/10 (ceiling 0.35 to 2.44 MHz across the row 2 range) and phase margin >= 45 deg. Mechanism: `R1` = `rppd` `w=0.6u l=810u` (about 344.2 kOhm typ) plus an Icp trim table keyed to `f_ref`: the six original codes (2.5 to 80 uA ladder) plus 3.75 uA (band 00, mid interval, `f_ref` = 4.5 MHz) and 11 uA (band 00, low interval, `f_ref` = 4.5 MHz). Coverage is incomplete; see R-6 | DR-006 `loop-filter-r1-resize` (proposed); DR-007 (proposed); DR-008 (proposed); DR-005 left this row as-is | `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md`, `records/RECORD-003-issue83-close-band00-mid-fref4p5-pm-gap.md`, `records/RECORD-004-issue79-close-band00-low-fref4p5-pm-gap.md`; `sg13cmos5l-cp-icp-trim`: `records/RECORD-003-issue83-finetrim-icp.md`, `records/RECORD-004-issue79-finetrim-icp.md`; `sg13cmos5l-loop-filter-momcap`: `records/RECORD-002-r1-resize-momcap.md` | band 00, low interval, `f_ref` = 4.5 MHz: `fast` PM 45.592 deg at 11 uA (0.592 deg margin); band 00, mid interval, 4.5 MHz: `slow` PM 49.973 deg at 3.75 uA |
-| 7 | Lock time | O | Det | both (closed loop) | No number proposed. Gate: R-2 | porting-plan row 7 (structure only: dual threshold, held N cycles; the < 100 us and < 20 us gf180 values are not carried) | `sg13cmos5l-closed-loop-lock`: `records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`; `sg13cmos5l-closed-loop-real-divider`: `records/RECORD-001-repaired-divider-in-loop-nominal.md` (both fail) | n/a |
+| 7 | Lock time | O | Det | both (closed loop) | No number proposed. Gate: R-2. This row's 5%-of-`T_ref` static-phase criterion is also what the retired `cp` mismatch screening limit was derived from; R-12 | porting-plan row 7 (structure only: dual threshold, held N cycles; the < 100 us and < 20 us gf180 values are not carried); DR-013 (proposed) retires that derived screening value and proposes no `cp` mismatch bound in its place, leaving this row's own criterion unchanged | `sg13cmos5l-closed-loop-lock`: `records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`; `sg13cmos5l-closed-loop-real-divider`: `records/RECORD-001-repaired-divider-in-loop-nominal.md` (both fail); sensitivity of this row's criterion to `cp` mismatch: `sg13cmos5l-closed-loop-lock`: `records/RECORD-014-cp-mismatch-phase-error-gain.md` | n/a |
 | 8 | Period jitter | O | Stat | Analog (`vco`) | No number proposed. Gate: R-7 | porting-plan row 8 (percent-of-period framing, ripple-conditional structure) | `sg13cmos5l-vco-decap-momcap`: `records/RECORD-001-decap-momcap-sensitivity.md` bounds the decap value only, not jitter | n/a |
 | 9 | Integrated RMS jitter / phase noise | N | Stat | Analog | Not specified, derived-only. ngspice has no direct path to free-running-oscillator phase noise | DR-002 Decision 5 (proposed); ported as-is | none | n/a |
 | 10 | Reference spur | O | Stat | Analog (`pfd`, `cp`) | No number proposed. Gate: R-2 (needs a phase-locked carrier) plus a switching-charge-mismatch record | porting-plan row 10 (re-derive entirely) | `sg13cmos5l-closed-loop-lock`: `records/RECORD-001-closed-loop-lock-spur-power.md` (no locked carrier); static `cp` mismatch input in `sg13cmos5l-cp-icp-trim`: `records/RECORD-002-cascode-bias-mismatch-remeasure.md` | n/a |
@@ -217,14 +228,63 @@ confirmation rather than evidence.
 SG13G2 bench reports its own window of 3.732 to 10.249 ns. Ruling needed:
 which tree the spec is stated for. This draft quotes the SG13CMOS5L numbers.
 
+**R-12. There is no `cp` up/dn mismatch limit, and row 7 does not supply
+one.** `sim/sg13cmos5l-cp-icp-trim-mc` graded its 1500-sample campaign
+against `+/-3.5 %`, a screening value the bench derived from row 7's 5%
+static-phase criterion divided by a 1.4293 pp/pp gain measured on the
+**pre-DR-010** `cp`. Issue #385 re-measured that gain on the committed `cp`
+(`sim/sg13cmos5l-closed-loop-lock/records/RECORD-014-cp-mismatch-phase-error-gain.md`,
+six mismatch points over -11.998 to +12.009 %, i.e. +/-3.1 sigma, at
+-40 / 27 / 125 C): the slope is -0.0394 to -0.0484 pp/pp — about 30x
+smaller and of the opposite sign — with a +0.754 to +0.842 pp intercept
+that is the DR-010 `cp`'s own zero-mismatch residual, and a
+linear-through-origin model is rejected (forcing the intercept to zero
+multiplies the fit residual by 22x to 90x). Across the whole measured span
+the worst static phase error is 1.3265 % against the 5 % criterion, so row 7
+is met with >= 3.55 pp of margin at every mismatch point that locks.
+`DR-013-cp-mismatch-limit.md` (proposed) therefore retires `+/-3.5 %`,
+proposes no replacement bound and no `target_yield`, and names what would
+set a limit instead: row 10 (reference spur), which has no measurement at
+all, row 16's unmeasured "window >= 2x worst static phase offset" half, or
+row 7 re-measured on the committed loop rather than the proposal deck.
+**Ruling needed**: whether a `cp` mismatch limit must exist for T1 at all,
+and if so which row owns it and what evidence is required — or whether "no
+evidence-derived limit exists yet" is the accepted T1 state for this
+quantity. Two caveats the ratifiers should see together: every number above
+is from the behavioural-divider proposal deck, and that deck does **not**
+acquire lock at 125 C at any mismatch point (including the unperturbed one),
+so the gain is established at two of three temperatures.
+
+**R-13. Row 2's frequency window is a corner union on a `Det` row; the PVT
+intersection is narrower.** Row 2's committed 3.5 to 24.4 MHz endpoints
+(`3.51 = 445.3/127`, `24.4 = 1562.0/64`) take the floor from the `slow`
+bundle's slowest point and the ceiling from the `fast` bundle's fastest — no
+single corner supports both, and this row's own `Kind` = `Det` means "worst
+case over a declared corner set". DR-014
+(`DR-014-fref-window-pvt-intersection.md`, proposed) derives the
+intersection from the committed Kvco table: **4.317 to 17.403 MHz**
+(`548.2/127`, the `fast` bundle's own floor; `1113.8/64`, the `slow`
+bundle's own ceiling), conservative because the table stops at
+`VCTRL` = 2.7 V against the 3.3 V rail (at `mos_tt`/125 C the last 0.6 V
+buys 55.6 MHz, per #426 / PR #427). The first operating point to make the
+defect bite is the closed-loop deck's 1280 MHz / 125 C non-acquisition
+(#426, #427): its `f_ref` = 20 MHz was chosen near the union ceiling, above
+the intersection ceiling. Ruling needed: bind row 2's lockable
+`f_ref` × N window to the intersection, **together with R-1** — both
+windows are arithmetic on row 1's schematic band, so a ruling that binds
+the spec to the post-layout band recomputes this one too. The interface
+half of row 2 (what the `pfd` / `lock_detector` input can accept, extended
+to 50 MHz by #301 per ruling r7-q30 on #296) is a different claim and is
+not bounded by this window.
+
 ## Accounting
 
 Rows 0 to 18 as listed in porting-plan §1.2, with 4/5 and 6/6a merged:
-17 rows, each appearing once in the table above.
+18 rows, each appearing once in the table above.
 
 | Status | Rows |
 |---|---|
-| M (measured, proposed) | 1, 2, 3, 4/5, 6/6a, 16 |
+| M (measured, proposed) | 1, 3, 4/5, 6/6a, 16 |
 | P (proposed, no measurement) | 0, 14, 18 |
 | N (not specified) | 9, 17 |
-| O (open, gate named) | 7, 8, 10, 11, 12, 13, 15 |
+| O (open, gate named) | 2, 7, 8, 10, 11, 12, 13, 15 |

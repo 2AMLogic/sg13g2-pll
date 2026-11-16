@@ -1,0 +1,1393 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell pll_divider_chain
+* pin CKIN
+* pin CKIN_VCO
+* pin DIVOUT
+* pin FB
+* pin P0
+* pin P1
+* pin P2
+* pin P3
+* pin P4
+* pin P5
+* pin VDD_DIV
+* pin VSS
+* pin XD0_XDFFM_CKBB
+* pin XD0_XDFFM_CLKB
+* pin XD0_XDFFM_M
+* pin XD0_XDFFM_MB
+* pin XD0_XDFFM_MFB
+* pin XD0_XDFFM_S
+* pin XD0_XDFFM_SB
+* pin XD0_XDFFM_SFB
+* pin XD0_XDFFQ_CKBB
+* pin XD0_XDFFQ_CLKB
+* pin XD0_XDFFQ_M
+* pin XD0_XDFFQ_MB
+* pin XD0_XDFFQ_MFB
+* pin XD0_XDFFQ_S
+* pin XD0_XDFFQ_SB
+* pin XD0_XDFFQ_SFB
+* pin XD0_XN2_mid1
+* pin XD0_XN3_mid1
+* pin XD0_XN3_mid2
+* pin XD0_XNOR_midp
+* pin XD0_dmodout
+* pin XD0_dq
+* pin XD0_nm
+* pin XD0_nt
+* pin XD0_t1
+* pin XD1_XDFFM_CKBB
+* pin XD1_XDFFM_CLKB
+* pin XD1_XDFFM_M
+* pin XD1_XDFFM_MB
+* pin XD1_XDFFM_MFB
+* pin XD1_XDFFM_S
+* pin XD1_XDFFM_SB
+* pin XD1_XDFFM_SFB
+* pin XD1_XDFFQ_CKBB
+* pin XD1_XDFFQ_CLKB
+* pin XD1_XDFFQ_M
+* pin XD1_XDFFQ_MB
+* pin XD1_XDFFQ_MFB
+* pin XD1_XDFFQ_S
+* pin XD1_XDFFQ_SB
+* pin XD1_XDFFQ_SFB
+* pin XD1_XN2_mid1
+* pin XD1_XN3_mid1
+* pin XD1_XN3_mid2
+* pin XD1_XNOR_midp
+* pin XD1_dmodout
+* pin XD1_dq
+* pin XD1_nm
+* pin XD1_nt
+* pin XD1_t1
+* pin XD2_XDFFM_CKBB
+* pin XD2_XDFFM_CLKB
+* pin XD2_XDFFM_M
+* pin XD2_XDFFM_MB
+* pin XD2_XDFFM_MFB
+* pin XD2_XDFFM_S
+* pin XD2_XDFFM_SB
+* pin XD2_XDFFM_SFB
+* pin XD2_XDFFQ_CKBB
+* pin XD2_XDFFQ_CLKB
+* pin XD2_XDFFQ_M
+* pin XD2_XDFFQ_MB
+* pin XD2_XDFFQ_MFB
+* pin XD2_XDFFQ_S
+* pin XD2_XDFFQ_SB
+* pin XD2_XDFFQ_SFB
+* pin XD2_XN2_mid1
+* pin XD2_XN3_mid1
+* pin XD2_XN3_mid2
+* pin XD2_XNOR_midp
+* pin XD2_dmodout
+* pin XD2_dq
+* pin XD2_nm
+* pin XD2_nt
+* pin XD2_t1
+* pin XD3_XDFFM_CKBB
+* pin XD3_XDFFM_CLKB
+* pin XD3_XDFFM_M
+* pin XD3_XDFFM_MB
+* pin XD3_XDFFM_MFB
+* pin XD3_XDFFM_S
+* pin XD3_XDFFM_SB
+* pin XD3_XDFFM_SFB
+* pin XD3_XDFFQ_CKBB
+* pin XD3_XDFFQ_CLKB
+* pin XD3_XDFFQ_M
+* pin XD3_XDFFQ_MB
+* pin XD3_XDFFQ_MFB
+* pin XD3_XDFFQ_S
+* pin XD3_XDFFQ_SB
+* pin XD3_XDFFQ_SFB
+* pin XD3_XN2_mid1
+* pin XD3_XN3_mid1
+* pin XD3_XN3_mid2
+* pin XD3_XNOR_midp
+* pin XD3_dmodout
+* pin XD3_dq
+* pin XD3_nm
+* pin XD3_nt
+* pin XD3_t1
+* pin XD4_XDFFM_CKBB
+* pin XD4_XDFFM_CLKB
+* pin XD4_XDFFM_M
+* pin XD4_XDFFM_MB
+* pin XD4_XDFFM_MFB
+* pin XD4_XDFFM_S
+* pin XD4_XDFFM_SB
+* pin XD4_XDFFM_SFB
+* pin XD4_XDFFQ_CKBB
+* pin XD4_XDFFQ_CLKB
+* pin XD4_XDFFQ_M
+* pin XD4_XDFFQ_MB
+* pin XD4_XDFFQ_MFB
+* pin XD4_XDFFQ_S
+* pin XD4_XDFFQ_SB
+* pin XD4_XDFFQ_SFB
+* pin XD4_XN2_mid1
+* pin XD4_XN3_mid1
+* pin XD4_XN3_mid2
+* pin XD4_XNOR_midp
+* pin XD4_dmodout
+* pin XD4_dq
+* pin XD4_nm
+* pin XD4_nt
+* pin XD4_t1
+* pin XD5_XDFFM_CKBB
+* pin XD5_XDFFM_CLKB
+* pin XD5_XDFFM_M
+* pin XD5_XDFFM_MB
+* pin XD5_XDFFM_MFB
+* pin XD5_XDFFM_S
+* pin XD5_XDFFM_SB
+* pin XD5_XDFFM_SFB
+* pin XD5_XDFFQ_CKBB
+* pin XD5_XDFFQ_CLKB
+* pin XD5_XDFFQ_M
+* pin XD5_XDFFQ_MB
+* pin XD5_XDFFQ_MFB
+* pin XD5_XDFFQ_S
+* pin XD5_XDFFQ_SB
+* pin XD5_XDFFQ_SFB
+* pin XD5_XN2_mid1
+* pin XD5_XN3_mid1
+* pin XD5_XN3_mid2
+* pin XD5_XNOR_midp
+* pin XD5_dmodout
+* pin XD5_dq
+* pin XD5_nm
+* pin XD5_nt
+* pin XD5_t1
+* pin XFRT_CKBB
+* pin XFRT_CLKB
+* pin XFRT_M
+* pin XFRT_MB
+* pin XFRT_MFB
+* pin XFRT_S
+* pin XFRT_SB
+* pin XFRT_SFB
+* pin ck1
+* pin ck2
+* pin ck3
+* pin ck4
+* pin ck5
+* pin mod0
+* pin mod1
+* pin mod2
+* pin mod3
+* pin mod4
+* pin net1
+.SUBCKT pll_divider_chain CKIN CKIN_VCO DIVOUT FB P0 P1 P2 P3 P4 P5 VDD_DIV VSS
++ XD0_XDFFM_CKBB XD0_XDFFM_CLKB XD0_XDFFM_M XD0_XDFFM_MB XD0_XDFFM_MFB
++ XD0_XDFFM_S XD0_XDFFM_SB XD0_XDFFM_SFB XD0_XDFFQ_CKBB XD0_XDFFQ_CLKB
++ XD0_XDFFQ_M XD0_XDFFQ_MB XD0_XDFFQ_MFB XD0_XDFFQ_S XD0_XDFFQ_SB XD0_XDFFQ_SFB
++ XD0_XN2_mid1 XD0_XN3_mid1 XD0_XN3_mid2 XD0_XNOR_midp XD0_dmodout XD0_dq
++ XD0_nm XD0_nt XD0_t1 XD1_XDFFM_CKBB XD1_XDFFM_CLKB XD1_XDFFM_M XD1_XDFFM_MB
++ XD1_XDFFM_MFB XD1_XDFFM_S XD1_XDFFM_SB XD1_XDFFM_SFB XD1_XDFFQ_CKBB
++ XD1_XDFFQ_CLKB XD1_XDFFQ_M XD1_XDFFQ_MB XD1_XDFFQ_MFB XD1_XDFFQ_S
++ XD1_XDFFQ_SB XD1_XDFFQ_SFB XD1_XN2_mid1 XD1_XN3_mid1 XD1_XN3_mid2
++ XD1_XNOR_midp XD1_dmodout XD1_dq XD1_nm XD1_nt XD1_t1 XD2_XDFFM_CKBB
++ XD2_XDFFM_CLKB XD2_XDFFM_M XD2_XDFFM_MB XD2_XDFFM_MFB XD2_XDFFM_S
++ XD2_XDFFM_SB XD2_XDFFM_SFB XD2_XDFFQ_CKBB XD2_XDFFQ_CLKB XD2_XDFFQ_M
++ XD2_XDFFQ_MB XD2_XDFFQ_MFB XD2_XDFFQ_S XD2_XDFFQ_SB XD2_XDFFQ_SFB
++ XD2_XN2_mid1 XD2_XN3_mid1 XD2_XN3_mid2 XD2_XNOR_midp XD2_dmodout XD2_dq
++ XD2_nm XD2_nt XD2_t1 XD3_XDFFM_CKBB XD3_XDFFM_CLKB XD3_XDFFM_M XD3_XDFFM_MB
++ XD3_XDFFM_MFB XD3_XDFFM_S XD3_XDFFM_SB XD3_XDFFM_SFB XD3_XDFFQ_CKBB
++ XD3_XDFFQ_CLKB XD3_XDFFQ_M XD3_XDFFQ_MB XD3_XDFFQ_MFB XD3_XDFFQ_S
++ XD3_XDFFQ_SB XD3_XDFFQ_SFB XD3_XN2_mid1 XD3_XN3_mid1 XD3_XN3_mid2
++ XD3_XNOR_midp XD3_dmodout XD3_dq XD3_nm XD3_nt XD3_t1 XD4_XDFFM_CKBB
++ XD4_XDFFM_CLKB XD4_XDFFM_M XD4_XDFFM_MB XD4_XDFFM_MFB XD4_XDFFM_S
++ XD4_XDFFM_SB XD4_XDFFM_SFB XD4_XDFFQ_CKBB XD4_XDFFQ_CLKB XD4_XDFFQ_M
++ XD4_XDFFQ_MB XD4_XDFFQ_MFB XD4_XDFFQ_S XD4_XDFFQ_SB XD4_XDFFQ_SFB
++ XD4_XN2_mid1 XD4_XN3_mid1 XD4_XN3_mid2 XD4_XNOR_midp XD4_dmodout XD4_dq
++ XD4_nm XD4_nt XD4_t1 XD5_XDFFM_CKBB XD5_XDFFM_CLKB XD5_XDFFM_M XD5_XDFFM_MB
++ XD5_XDFFM_MFB XD5_XDFFM_S XD5_XDFFM_SB XD5_XDFFM_SFB XD5_XDFFQ_CKBB
++ XD5_XDFFQ_CLKB XD5_XDFFQ_M XD5_XDFFQ_MB XD5_XDFFQ_MFB XD5_XDFFQ_S
++ XD5_XDFFQ_SB XD5_XDFFQ_SFB XD5_XN2_mid1 XD5_XN3_mid1 XD5_XN3_mid2
++ XD5_XNOR_midp XD5_dmodout XD5_dq XD5_nm XD5_nt XD5_t1 XFRT_CKBB XFRT_CLKB
++ XFRT_M XFRT_MB XFRT_MFB XFRT_S XFRT_SB XFRT_SFB ck1 ck2 ck3 ck4 ck5 mod0 mod1
++ mod2 mod3 mod4 net1
+* device instance $1 r0 *1 2.3,3.11 nfet
+X$1 XD0_nt mod0 XD0_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $2 r0 *1 6.26,3.11 nfet
+X$2 XD0_XN3_mid1 P0 XD0_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $3 r0 *1 10.22,3.11 nfet
+X$3 XD0_XN3_mid2 net1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $4 r0 *1 14.18,3.11 nfet
+X$4 XD0_t1 XD0_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $5 r0 *1 18.14,3.11 nfet
+X$5 XD0_dq ck1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $6 r0 *1 22.1,3.11 nfet
+X$6 XD0_dq XD0_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $7 r0 *1 26.06,3.11 nfet
+X$7 XD0_XDFFQ_CLKB CKIN VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $8 r0 *1 30.02,3.11 nfet
+X$8 XD0_XDFFQ_CKBB XD0_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $9 r0 *1 33.98,3.11 nfet
+X$9 XD0_dq XD0_XDFFQ_CLKB XD0_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $10 r0 *1 37.94,3.11 nfet
+X$10 XD0_XDFFQ_MB XD0_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $11 r0 *1 41.9,3.11 nfet
+X$11 XD0_XDFFQ_MFB XD0_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $12 r0 *1 45.86,3.11 nfet
+X$12 XD0_XDFFQ_MFB XD0_XDFFQ_CKBB XD0_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $13 r0 *1 49.82,3.11 nfet
+X$13 XD0_XDFFQ_M XD0_XDFFQ_CKBB XD0_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $14 r0 *1 53.78,3.11 nfet
+X$14 XD0_XDFFQ_SB XD0_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $15 r0 *1 57.74,3.11 nfet
+X$15 XD0_XDFFQ_SFB XD0_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $16 r0 *1 61.7,3.11 nfet
+X$16 XD0_XDFFQ_SFB XD0_XDFFQ_CLKB XD0_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $17 r0 *1 65.66,3.11 nfet
+X$17 ck1 XD0_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $18 r0 *1 69.62,3.11 nfet
+X$18 XD0_nm mod0 XD0_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $19 r0 *1 73.58,3.11 nfet
+X$19 XD0_XN2_mid1 ck1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $20 r0 *1 77.54,3.11 nfet
+X$20 XD0_dmodout XD0_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $21 r0 *1 81.5,3.11 nfet
+X$21 XD0_XDFFM_CLKB CKIN VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $22 r0 *1 85.46,3.11 nfet
+X$22 XD0_XDFFM_CKBB XD0_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $23 r0 *1 89.42,3.11 nfet
+X$23 XD0_dmodout XD0_XDFFM_CLKB XD0_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $24 r0 *1 93.38,3.11 nfet
+X$24 XD0_XDFFM_MB XD0_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $25 r0 *1 97.34,3.11 nfet
+X$25 XD0_XDFFM_MFB XD0_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $26 r0 *1 101.3,3.11 nfet
+X$26 XD0_XDFFM_MFB XD0_XDFFM_CKBB XD0_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $27 r0 *1 105.26,3.11 nfet
+X$27 XD0_XDFFM_M XD0_XDFFM_CKBB XD0_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $28 r0 *1 109.22,3.11 nfet
+X$28 XD0_XDFFM_SB XD0_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $29 r0 *1 113.18,3.11 nfet
+X$29 XD0_XDFFM_SFB XD0_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $30 r0 *1 117.14,3.11 nfet
+X$30 XD0_XDFFM_SFB XD0_XDFFM_CLKB XD0_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $31 r0 *1 121.1,3.11 nfet
+X$31 net1 XD0_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $32 r0 *1 125.06,3.11 nfet
+X$32 XD1_nt mod1 XD1_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $33 r0 *1 129.02,3.11 nfet
+X$33 XD1_XN3_mid1 P1 XD1_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $34 r0 *1 132.98,3.11 nfet
+X$34 XD1_XN3_mid2 mod0 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $35 r0 *1 136.94,3.11 nfet
+X$35 XD1_t1 XD1_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $36 r0 *1 140.9,3.11 nfet
+X$36 XD1_dq ck2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $37 r0 *1 144.86,3.11 nfet
+X$37 XD1_dq XD1_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $38 r0 *1 148.82,3.11 nfet
+X$38 XD1_XDFFQ_CLKB ck1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $39 r0 *1 152.78,3.11 nfet
+X$39 XD1_XDFFQ_CKBB XD1_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $40 r0 *1 156.74,3.11 nfet
+X$40 XD1_dq XD1_XDFFQ_CLKB XD1_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $41 r0 *1 160.7,3.11 nfet
+X$41 XD1_XDFFQ_MB XD1_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $42 r0 *1 164.66,3.11 nfet
+X$42 XD1_XDFFQ_MFB XD1_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $43 r0 *1 168.62,3.11 nfet
+X$43 XD1_XDFFQ_MFB XD1_XDFFQ_CKBB XD1_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $44 r0 *1 172.58,3.11 nfet
+X$44 XD1_XDFFQ_M XD1_XDFFQ_CKBB XD1_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $45 r0 *1 176.54,3.11 nfet
+X$45 XD1_XDFFQ_SB XD1_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $46 r0 *1 180.5,3.11 nfet
+X$46 XD1_XDFFQ_SFB XD1_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $47 r0 *1 184.46,3.11 nfet
+X$47 XD1_XDFFQ_SFB XD1_XDFFQ_CLKB XD1_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $48 r0 *1 188.42,3.11 nfet
+X$48 ck2 XD1_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $49 r0 *1 192.38,3.11 nfet
+X$49 XD1_nm mod1 XD1_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $50 r0 *1 196.34,3.11 nfet
+X$50 XD1_XN2_mid1 ck2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $51 r0 *1 200.3,3.11 nfet
+X$51 XD1_dmodout XD1_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $52 r0 *1 204.26,3.11 nfet
+X$52 XD1_XDFFM_CLKB ck1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $53 r0 *1 208.22,3.11 nfet
+X$53 XD1_XDFFM_CKBB XD1_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $54 r0 *1 212.18,3.11 nfet
+X$54 XD1_dmodout XD1_XDFFM_CLKB XD1_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $55 r0 *1 216.14,3.11 nfet
+X$55 XD1_XDFFM_MB XD1_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $56 r0 *1 220.1,3.11 nfet
+X$56 XD1_XDFFM_MFB XD1_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $57 r0 *1 224.06,3.11 nfet
+X$57 XD1_XDFFM_MFB XD1_XDFFM_CKBB XD1_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $58 r0 *1 228.02,3.11 nfet
+X$58 XD1_XDFFM_M XD1_XDFFM_CKBB XD1_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $59 r0 *1 231.98,3.11 nfet
+X$59 XD1_XDFFM_SB XD1_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $60 r0 *1 235.94,3.11 nfet
+X$60 XD1_XDFFM_SFB XD1_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $61 r0 *1 239.9,3.11 nfet
+X$61 XD1_XDFFM_SFB XD1_XDFFM_CLKB XD1_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $62 r0 *1 243.86,3.11 nfet
+X$62 mod0 XD1_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $63 r0 *1 247.82,3.11 nfet
+X$63 XD2_nt mod2 XD2_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $64 r0 *1 251.78,3.11 nfet
+X$64 XD2_XN3_mid1 P2 XD2_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $65 r0 *1 255.74,3.11 nfet
+X$65 XD2_XN3_mid2 mod1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $66 r0 *1 259.7,3.11 nfet
+X$66 XD2_t1 XD2_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $67 r0 *1 263.66,3.11 nfet
+X$67 XD2_dq ck3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $68 r0 *1 267.62,3.11 nfet
+X$68 XD2_dq XD2_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $69 r0 *1 271.58,3.11 nfet
+X$69 XD2_XDFFQ_CLKB ck2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $70 r0 *1 275.54,3.11 nfet
+X$70 XD2_XDFFQ_CKBB XD2_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $71 r0 *1 279.5,3.11 nfet
+X$71 XD2_dq XD2_XDFFQ_CLKB XD2_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $72 r0 *1 283.46,3.11 nfet
+X$72 XD2_XDFFQ_MB XD2_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $73 r0 *1 287.42,3.11 nfet
+X$73 XD2_XDFFQ_MFB XD2_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $74 r0 *1 291.38,3.11 nfet
+X$74 XD2_XDFFQ_MFB XD2_XDFFQ_CKBB XD2_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $75 r0 *1 295.34,3.11 nfet
+X$75 XD2_XDFFQ_M XD2_XDFFQ_CKBB XD2_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $76 r0 *1 299.3,3.11 nfet
+X$76 XD2_XDFFQ_SB XD2_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $77 r0 *1 303.26,3.11 nfet
+X$77 XD2_XDFFQ_SFB XD2_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $78 r0 *1 307.22,3.11 nfet
+X$78 XD2_XDFFQ_SFB XD2_XDFFQ_CLKB XD2_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $79 r0 *1 311.18,3.11 nfet
+X$79 ck3 XD2_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $80 r0 *1 315.14,3.11 nfet
+X$80 XD2_nm mod2 XD2_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $81 r0 *1 319.1,3.11 nfet
+X$81 XD2_XN2_mid1 ck3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $82 r0 *1 323.06,3.11 nfet
+X$82 XD2_dmodout XD2_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $83 r0 *1 327.02,3.11 nfet
+X$83 XD2_XDFFM_CLKB ck2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $84 r0 *1 330.98,3.11 nfet
+X$84 XD2_XDFFM_CKBB XD2_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $85 r0 *1 334.94,3.11 nfet
+X$85 XD2_dmodout XD2_XDFFM_CLKB XD2_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $86 r0 *1 338.9,3.11 nfet
+X$86 XD2_XDFFM_MB XD2_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $87 r0 *1 342.86,3.11 nfet
+X$87 XD2_XDFFM_MFB XD2_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $88 r0 *1 346.82,3.11 nfet
+X$88 XD2_XDFFM_MFB XD2_XDFFM_CKBB XD2_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $89 r0 *1 350.78,3.11 nfet
+X$89 XD2_XDFFM_M XD2_XDFFM_CKBB XD2_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $90 r0 *1 354.74,3.11 nfet
+X$90 XD2_XDFFM_SB XD2_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $91 r0 *1 358.7,3.11 nfet
+X$91 XD2_XDFFM_SFB XD2_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $92 r0 *1 362.66,3.11 nfet
+X$92 XD2_XDFFM_SFB XD2_XDFFM_CLKB XD2_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $93 r0 *1 366.62,3.11 nfet
+X$93 mod1 XD2_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $94 r0 *1 370.58,3.11 nfet
+X$94 XD3_nt mod3 XD3_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $95 r0 *1 374.54,3.11 nfet
+X$95 XD3_XN3_mid1 P3 XD3_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $96 r0 *1 378.5,3.11 nfet
+X$96 XD3_XN3_mid2 mod2 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $97 r0 *1 382.46,3.11 nfet
+X$97 XD3_t1 XD3_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $98 r0 *1 386.42,3.11 nfet
+X$98 XD3_dq ck4 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $99 r0 *1 390.38,3.11 nfet
+X$99 XD3_dq XD3_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $100 r0 *1 394.34,3.11 nfet
+X$100 XD3_XDFFQ_CLKB ck3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $101 r0 *1 398.3,3.11 nfet
+X$101 XD3_XDFFQ_CKBB XD3_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $102 r0 *1 402.26,3.11 nfet
+X$102 XD3_dq XD3_XDFFQ_CLKB XD3_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $103 r0 *1 406.22,3.11 nfet
+X$103 XD3_XDFFQ_MB XD3_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $104 r0 *1 410.18,3.11 nfet
+X$104 XD3_XDFFQ_MFB XD3_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $105 r0 *1 414.14,3.11 nfet
+X$105 XD3_XDFFQ_MFB XD3_XDFFQ_CKBB XD3_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $106 r0 *1 418.1,3.11 nfet
+X$106 XD3_XDFFQ_M XD3_XDFFQ_CKBB XD3_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $107 r0 *1 422.06,3.11 nfet
+X$107 XD3_XDFFQ_SB XD3_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $108 r0 *1 426.02,3.11 nfet
+X$108 XD3_XDFFQ_SFB XD3_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $109 r0 *1 429.98,3.11 nfet
+X$109 XD3_XDFFQ_SFB XD3_XDFFQ_CLKB XD3_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $110 r0 *1 433.94,3.11 nfet
+X$110 ck4 XD3_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $111 r0 *1 437.9,3.11 nfet
+X$111 XD3_nm mod3 XD3_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $112 r0 *1 441.86,3.11 nfet
+X$112 XD3_XN2_mid1 ck4 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $113 r0 *1 445.82,3.11 nfet
+X$113 XD3_dmodout XD3_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $114 r0 *1 449.78,3.11 nfet
+X$114 XD3_XDFFM_CLKB ck3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $115 r0 *1 453.74,3.11 nfet
+X$115 XD3_XDFFM_CKBB XD3_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $116 r0 *1 457.7,3.11 nfet
+X$116 XD3_dmodout XD3_XDFFM_CLKB XD3_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $117 r0 *1 461.66,3.11 nfet
+X$117 XD3_XDFFM_MB XD3_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $118 r0 *1 465.62,3.11 nfet
+X$118 XD3_XDFFM_MFB XD3_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $119 r0 *1 469.58,3.11 nfet
+X$119 XD3_XDFFM_MFB XD3_XDFFM_CKBB XD3_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $120 r0 *1 473.54,3.11 nfet
+X$120 XD3_XDFFM_M XD3_XDFFM_CKBB XD3_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $121 r0 *1 477.5,3.11 nfet
+X$121 XD3_XDFFM_SB XD3_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $122 r0 *1 481.46,3.11 nfet
+X$122 XD3_XDFFM_SFB XD3_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $123 r0 *1 485.42,3.11 nfet
+X$123 XD3_XDFFM_SFB XD3_XDFFM_CLKB XD3_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $124 r0 *1 489.38,3.11 nfet
+X$124 mod2 XD3_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $125 r0 *1 493.34,3.11 nfet
+X$125 XD4_nt mod4 XD4_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $126 r0 *1 497.3,3.11 nfet
+X$126 XD4_XN3_mid1 P4 XD4_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $127 r0 *1 501.26,3.11 nfet
+X$127 XD4_XN3_mid2 mod3 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $128 r0 *1 505.22,3.11 nfet
+X$128 XD4_t1 XD4_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $129 r0 *1 509.18,3.11 nfet
+X$129 XD4_dq ck5 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $130 r0 *1 513.14,3.11 nfet
+X$130 XD4_dq XD4_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $131 r0 *1 517.1,3.11 nfet
+X$131 XD4_XDFFQ_CLKB ck4 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $132 r0 *1 521.06,3.11 nfet
+X$132 XD4_XDFFQ_CKBB XD4_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $133 r0 *1 525.02,3.11 nfet
+X$133 XD4_dq XD4_XDFFQ_CLKB XD4_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $134 r0 *1 528.98,3.11 nfet
+X$134 XD4_XDFFQ_MB XD4_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $135 r0 *1 532.94,3.11 nfet
+X$135 XD4_XDFFQ_MFB XD4_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $136 r0 *1 536.9,3.11 nfet
+X$136 XD4_XDFFQ_MFB XD4_XDFFQ_CKBB XD4_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $137 r0 *1 540.86,3.11 nfet
+X$137 XD4_XDFFQ_M XD4_XDFFQ_CKBB XD4_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $138 r0 *1 544.82,3.11 nfet
+X$138 XD4_XDFFQ_SB XD4_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $139 r0 *1 548.78,3.11 nfet
+X$139 XD4_XDFFQ_SFB XD4_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $140 r0 *1 552.74,3.11 nfet
+X$140 XD4_XDFFQ_SFB XD4_XDFFQ_CLKB XD4_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $141 r0 *1 556.7,3.11 nfet
+X$141 ck5 XD4_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $142 r0 *1 560.66,3.11 nfet
+X$142 XD4_nm mod4 XD4_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $143 r0 *1 564.62,3.11 nfet
+X$143 XD4_XN2_mid1 ck5 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $144 r0 *1 568.58,3.11 nfet
+X$144 XD4_dmodout XD4_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $145 r0 *1 572.54,3.11 nfet
+X$145 XD4_XDFFM_CLKB ck4 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $146 r0 *1 576.5,3.11 nfet
+X$146 XD4_XDFFM_CKBB XD4_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $147 r0 *1 580.46,3.11 nfet
+X$147 XD4_dmodout XD4_XDFFM_CLKB XD4_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $148 r0 *1 584.42,3.11 nfet
+X$148 XD4_XDFFM_MB XD4_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $149 r0 *1 588.38,3.11 nfet
+X$149 XD4_XDFFM_MFB XD4_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $150 r0 *1 592.34,3.11 nfet
+X$150 XD4_XDFFM_MFB XD4_XDFFM_CKBB XD4_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $151 r0 *1 596.3,3.11 nfet
+X$151 XD4_XDFFM_M XD4_XDFFM_CKBB XD4_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $152 r0 *1 600.26,3.11 nfet
+X$152 XD4_XDFFM_SB XD4_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $153 r0 *1 604.22,3.11 nfet
+X$153 XD4_XDFFM_SFB XD4_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $154 r0 *1 608.18,3.11 nfet
+X$154 XD4_XDFFM_SFB XD4_XDFFM_CLKB XD4_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $155 r0 *1 612.14,3.11 nfet
+X$155 mod3 XD4_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $156 r0 *1 616.1,3.11 nfet
+X$156 XD5_nt VDD_DIV XD5_XN3_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $157 r0 *1 620.06,3.11 nfet
+X$157 XD5_XN3_mid1 P5 XD5_XN3_mid2 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $158 r0 *1 624.02,3.11 nfet
+X$158 XD5_XN3_mid2 mod4 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $159 r0 *1 627.98,3.11 nfet
+X$159 XD5_t1 XD5_nt VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $160 r0 *1 631.94,3.11 nfet
+X$160 XD5_dq DIVOUT VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $161 r0 *1 635.9,3.11 nfet
+X$161 XD5_dq XD5_t1 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $162 r0 *1 639.86,3.11 nfet
+X$162 XD5_XDFFQ_CLKB ck5 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $163 r0 *1 643.82,3.11 nfet
+X$163 XD5_XDFFQ_CKBB XD5_XDFFQ_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $164 r0 *1 647.78,3.11 nfet
+X$164 XD5_dq XD5_XDFFQ_CLKB XD5_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $165 r0 *1 651.74,3.11 nfet
+X$165 XD5_XDFFQ_MB XD5_XDFFQ_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $166 r0 *1 655.7,3.11 nfet
+X$166 XD5_XDFFQ_MFB XD5_XDFFQ_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $167 r0 *1 659.66,3.11 nfet
+X$167 XD5_XDFFQ_MFB XD5_XDFFQ_CKBB XD5_XDFFQ_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $168 r0 *1 663.62,3.11 nfet
+X$168 XD5_XDFFQ_M XD5_XDFFQ_CKBB XD5_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $169 r0 *1 667.58,3.11 nfet
+X$169 XD5_XDFFQ_SB XD5_XDFFQ_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $170 r0 *1 671.54,3.11 nfet
+X$170 XD5_XDFFQ_SFB XD5_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $171 r0 *1 675.5,3.11 nfet
+X$171 XD5_XDFFQ_SFB XD5_XDFFQ_CLKB XD5_XDFFQ_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $172 r0 *1 679.46,3.11 nfet
+X$172 DIVOUT XD5_XDFFQ_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $173 r0 *1 683.42,3.11 nfet
+X$173 XD5_nm VDD_DIV XD5_XN2_mid1 VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $174 r0 *1 687.38,3.11 nfet
+X$174 XD5_XN2_mid1 DIVOUT VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $175 r0 *1 691.34,3.11 nfet
+X$175 XD5_dmodout XD5_nm VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $176 r0 *1 695.3,3.11 nfet
+X$176 XD5_XDFFM_CLKB ck5 VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $177 r0 *1 699.26,3.11 nfet
+X$177 XD5_XDFFM_CKBB XD5_XDFFM_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $178 r0 *1 703.22,3.11 nfet
+X$178 XD5_dmodout XD5_XDFFM_CLKB XD5_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $179 r0 *1 707.18,3.11 nfet
+X$179 XD5_XDFFM_MB XD5_XDFFM_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $180 r0 *1 711.14,3.11 nfet
+X$180 XD5_XDFFM_MFB XD5_XDFFM_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $181 r0 *1 715.1,3.11 nfet
+X$181 XD5_XDFFM_MFB XD5_XDFFM_CKBB XD5_XDFFM_M VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $182 r0 *1 719.06,3.11 nfet
+X$182 XD5_XDFFM_M XD5_XDFFM_CKBB XD5_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $183 r0 *1 723.02,3.11 nfet
+X$183 XD5_XDFFM_SB XD5_XDFFM_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $184 r0 *1 726.98,3.11 nfet
+X$184 XD5_XDFFM_SFB XD5_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P
++ AD=0.8P PS=4.8U PD=4.8U
+* device instance $185 r0 *1 730.94,3.11 nfet
+X$185 XD5_XDFFM_SFB XD5_XDFFM_CLKB XD5_XDFFM_S VSS sg13_hv_nmos L=0.5U W=2U
++ AS=0.8P AD=0.8P PS=4.8U PD=4.8U
+* device instance $186 r0 *1 734.9,3.11 nfet
+X$186 mod4 XD5_XDFFM_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $187 r0 *1 738.86,3.11 nfet
+X$187 XFRT_CLKB CKIN_VCO VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $188 r0 *1 742.82,3.11 nfet
+X$188 XFRT_CKBB XFRT_CLKB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $189 r0 *1 746.78,3.11 nfet
+X$189 DIVOUT XFRT_CLKB XFRT_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $190 r0 *1 750.74,3.11 nfet
+X$190 XFRT_MB XFRT_M VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $191 r0 *1 754.7,3.11 nfet
+X$191 XFRT_MFB XFRT_MB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $192 r0 *1 758.66,3.11 nfet
+X$192 XFRT_MFB XFRT_CKBB XFRT_M VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $193 r0 *1 762.62,3.11 nfet
+X$193 XFRT_M XFRT_CKBB XFRT_S VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $194 r0 *1 766.58,3.11 nfet
+X$194 XFRT_SB XFRT_S VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $195 r0 *1 770.54,3.11 nfet
+X$195 XFRT_SFB XFRT_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $196 r0 *1 774.5,3.11 nfet
+X$196 XFRT_SFB XFRT_CLKB XFRT_S VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P
++ PS=4.8U PD=4.8U
+* device instance $197 r0 *1 778.46,3.11 nfet
+X$197 FB XFRT_SB VSS VSS sg13_hv_nmos L=0.5U W=2U AS=0.8P AD=0.8P PS=4.8U
++ PD=4.8U
+* device instance $198 r0 *1 790.56,3.11 pfet
+X$198 XD0_nt mod0 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $199 r0 *1 797.52,3.11 pfet
+X$199 XD0_nt P0 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $200 r0 *1 804.48,3.11 pfet
+X$200 XD0_nt net1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $201 r0 *1 811.44,3.11 pfet
+X$201 XD0_t1 XD0_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $202 r0 *1 818.4,3.11 pfet
+X$202 XD0_XNOR_midp ck1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $203 r0 *1 825.36,3.11 pfet
+X$203 XD0_dq XD0_t1 XD0_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $204 r0 *1 832.32,3.11 pfet
+X$204 XD0_XDFFQ_CLKB CKIN VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $205 r0 *1 839.28,3.11 pfet
+X$205 XD0_XDFFQ_CKBB XD0_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $206 r0 *1 846.24,3.11 pfet
+X$206 XD0_XDFFQ_M XD0_XDFFQ_CKBB XD0_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $207 r0 *1 853.2,3.11 pfet
+X$207 XD0_XDFFQ_MB XD0_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $208 r0 *1 860.16,3.11 pfet
+X$208 XD0_XDFFQ_MFB XD0_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $209 r0 *1 867.12,3.11 pfet
+X$209 XD0_XDFFQ_M XD0_XDFFQ_CLKB XD0_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $210 r0 *1 874.08,3.11 pfet
+X$210 XD0_XDFFQ_S XD0_XDFFQ_CLKB XD0_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $211 r0 *1 881.04,3.11 pfet
+X$211 XD0_XDFFQ_SB XD0_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $212 r0 *1 888,3.11 pfet
+X$212 XD0_XDFFQ_SFB XD0_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $213 r0 *1 894.96,3.11 pfet
+X$213 XD0_XDFFQ_S XD0_XDFFQ_CKBB XD0_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $214 r0 *1 901.92,3.11 pfet
+X$214 ck1 XD0_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $215 r0 *1 908.88,3.11 pfet
+X$215 XD0_nm mod0 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $216 r0 *1 915.84,3.11 pfet
+X$216 XD0_nm ck1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $217 r0 *1 922.8,3.11 pfet
+X$217 XD0_dmodout XD0_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $218 r0 *1 929.76,3.11 pfet
+X$218 XD0_XDFFM_CLKB CKIN VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $219 r0 *1 936.72,3.11 pfet
+X$219 XD0_XDFFM_CKBB XD0_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $220 r0 *1 943.68,3.11 pfet
+X$220 XD0_XDFFM_M XD0_XDFFM_CKBB XD0_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $221 r0 *1 950.64,3.11 pfet
+X$221 XD0_XDFFM_MB XD0_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $222 r0 *1 957.6,3.11 pfet
+X$222 XD0_XDFFM_MFB XD0_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $223 r0 *1 964.56,3.11 pfet
+X$223 XD0_XDFFM_M XD0_XDFFM_CLKB XD0_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $224 r0 *1 971.52,3.11 pfet
+X$224 XD0_XDFFM_S XD0_XDFFM_CLKB XD0_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $225 r0 *1 978.48,3.11 pfet
+X$225 XD0_XDFFM_SB XD0_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $226 r0 *1 985.44,3.11 pfet
+X$226 XD0_XDFFM_SFB XD0_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $227 r0 *1 992.4,3.11 pfet
+X$227 XD0_XDFFM_S XD0_XDFFM_CKBB XD0_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $228 r0 *1 999.36,3.11 pfet
+X$228 net1 XD0_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $229 r0 *1 1006.32,3.11 pfet
+X$229 XD1_nt mod1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $230 r0 *1 1013.28,3.11 pfet
+X$230 XD1_nt P1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $231 r0 *1 1020.24,3.11 pfet
+X$231 XD1_nt mod0 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $232 r0 *1 1027.2,3.11 pfet
+X$232 XD1_t1 XD1_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $233 r0 *1 1034.16,3.11 pfet
+X$233 XD1_XNOR_midp ck2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $234 r0 *1 1041.12,3.11 pfet
+X$234 XD1_dq XD1_t1 XD1_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $235 r0 *1 1048.08,3.11 pfet
+X$235 XD1_XDFFQ_CLKB ck1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $236 r0 *1 1055.04,3.11 pfet
+X$236 XD1_XDFFQ_CKBB XD1_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $237 r0 *1 1062,3.11 pfet
+X$237 XD1_XDFFQ_M XD1_XDFFQ_CKBB XD1_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $238 r0 *1 1068.96,3.11 pfet
+X$238 XD1_XDFFQ_MB XD1_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $239 r0 *1 1075.92,3.11 pfet
+X$239 XD1_XDFFQ_MFB XD1_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $240 r0 *1 1082.88,3.11 pfet
+X$240 XD1_XDFFQ_M XD1_XDFFQ_CLKB XD1_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $241 r0 *1 1089.84,3.11 pfet
+X$241 XD1_XDFFQ_S XD1_XDFFQ_CLKB XD1_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $242 r0 *1 1096.8,3.11 pfet
+X$242 XD1_XDFFQ_SB XD1_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $243 r0 *1 1103.76,3.11 pfet
+X$243 XD1_XDFFQ_SFB XD1_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $244 r0 *1 1110.72,3.11 pfet
+X$244 XD1_XDFFQ_S XD1_XDFFQ_CKBB XD1_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $245 r0 *1 1117.68,3.11 pfet
+X$245 ck2 XD1_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $246 r0 *1 1124.64,3.11 pfet
+X$246 XD1_nm mod1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $247 r0 *1 1131.6,3.11 pfet
+X$247 XD1_nm ck2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $248 r0 *1 1138.56,3.11 pfet
+X$248 XD1_dmodout XD1_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $249 r0 *1 1145.52,3.11 pfet
+X$249 XD1_XDFFM_CLKB ck1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $250 r0 *1 1152.48,3.11 pfet
+X$250 XD1_XDFFM_CKBB XD1_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $251 r0 *1 1159.44,3.11 pfet
+X$251 XD1_XDFFM_M XD1_XDFFM_CKBB XD1_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $252 r0 *1 1166.4,3.11 pfet
+X$252 XD1_XDFFM_MB XD1_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $253 r0 *1 1173.36,3.11 pfet
+X$253 XD1_XDFFM_MFB XD1_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $254 r0 *1 1180.32,3.11 pfet
+X$254 XD1_XDFFM_M XD1_XDFFM_CLKB XD1_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $255 r0 *1 1187.28,3.11 pfet
+X$255 XD1_XDFFM_S XD1_XDFFM_CLKB XD1_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $256 r0 *1 1194.24,3.11 pfet
+X$256 XD1_XDFFM_SB XD1_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $257 r0 *1 1201.2,3.11 pfet
+X$257 XD1_XDFFM_SFB XD1_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $258 r0 *1 1208.16,3.11 pfet
+X$258 XD1_XDFFM_S XD1_XDFFM_CKBB XD1_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $259 r0 *1 1215.12,3.11 pfet
+X$259 mod0 XD1_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $260 r0 *1 1222.08,3.11 pfet
+X$260 XD2_nt mod2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $261 r0 *1 1229.04,3.11 pfet
+X$261 XD2_nt P2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $262 r0 *1 1236,3.11 pfet
+X$262 XD2_nt mod1 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $263 r0 *1 1242.96,3.11 pfet
+X$263 XD2_t1 XD2_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $264 r0 *1 1249.92,3.11 pfet
+X$264 XD2_XNOR_midp ck3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $265 r0 *1 1256.88,3.11 pfet
+X$265 XD2_dq XD2_t1 XD2_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $266 r0 *1 1263.84,3.11 pfet
+X$266 XD2_XDFFQ_CLKB ck2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $267 r0 *1 1270.8,3.11 pfet
+X$267 XD2_XDFFQ_CKBB XD2_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $268 r0 *1 1277.76,3.11 pfet
+X$268 XD2_XDFFQ_M XD2_XDFFQ_CKBB XD2_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $269 r0 *1 1284.72,3.11 pfet
+X$269 XD2_XDFFQ_MB XD2_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $270 r0 *1 1291.68,3.11 pfet
+X$270 XD2_XDFFQ_MFB XD2_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $271 r0 *1 1298.64,3.11 pfet
+X$271 XD2_XDFFQ_M XD2_XDFFQ_CLKB XD2_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $272 r0 *1 1305.6,3.11 pfet
+X$272 XD2_XDFFQ_S XD2_XDFFQ_CLKB XD2_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $273 r0 *1 1312.56,3.11 pfet
+X$273 XD2_XDFFQ_SB XD2_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $274 r0 *1 1319.52,3.11 pfet
+X$274 XD2_XDFFQ_SFB XD2_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $275 r0 *1 1326.48,3.11 pfet
+X$275 XD2_XDFFQ_S XD2_XDFFQ_CKBB XD2_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $276 r0 *1 1333.44,3.11 pfet
+X$276 ck3 XD2_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $277 r0 *1 1340.4,3.11 pfet
+X$277 XD2_nm mod2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $278 r0 *1 1347.36,3.11 pfet
+X$278 XD2_nm ck3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $279 r0 *1 1354.32,3.11 pfet
+X$279 XD2_dmodout XD2_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $280 r0 *1 1361.28,3.11 pfet
+X$280 XD2_XDFFM_CLKB ck2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $281 r0 *1 1368.24,3.11 pfet
+X$281 XD2_XDFFM_CKBB XD2_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $282 r0 *1 1375.2,3.11 pfet
+X$282 XD2_XDFFM_M XD2_XDFFM_CKBB XD2_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $283 r0 *1 1382.16,3.11 pfet
+X$283 XD2_XDFFM_MB XD2_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $284 r0 *1 1389.12,3.11 pfet
+X$284 XD2_XDFFM_MFB XD2_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $285 r0 *1 1396.08,3.11 pfet
+X$285 XD2_XDFFM_M XD2_XDFFM_CLKB XD2_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $286 r0 *1 1403.04,3.11 pfet
+X$286 XD2_XDFFM_S XD2_XDFFM_CLKB XD2_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $287 r0 *1 1410,3.11 pfet
+X$287 XD2_XDFFM_SB XD2_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $288 r0 *1 1416.96,3.11 pfet
+X$288 XD2_XDFFM_SFB XD2_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $289 r0 *1 1423.92,3.11 pfet
+X$289 XD2_XDFFM_S XD2_XDFFM_CKBB XD2_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $290 r0 *1 1430.88,3.11 pfet
+X$290 mod1 XD2_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $291 r0 *1 1437.84,3.11 pfet
+X$291 XD3_nt mod3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $292 r0 *1 1444.8,3.11 pfet
+X$292 XD3_nt P3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $293 r0 *1 1451.76,3.11 pfet
+X$293 XD3_nt mod2 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $294 r0 *1 1458.72,3.11 pfet
+X$294 XD3_t1 XD3_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $295 r0 *1 1465.68,3.11 pfet
+X$295 XD3_XNOR_midp ck4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $296 r0 *1 1472.64,3.11 pfet
+X$296 XD3_dq XD3_t1 XD3_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $297 r0 *1 1479.6,3.11 pfet
+X$297 XD3_XDFFQ_CLKB ck3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $298 r0 *1 1486.56,3.11 pfet
+X$298 XD3_XDFFQ_CKBB XD3_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $299 r0 *1 1493.52,3.11 pfet
+X$299 XD3_XDFFQ_M XD3_XDFFQ_CKBB XD3_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $300 r0 *1 1500.48,3.11 pfet
+X$300 XD3_XDFFQ_MB XD3_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $301 r0 *1 1507.44,3.11 pfet
+X$301 XD3_XDFFQ_MFB XD3_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $302 r0 *1 1514.4,3.11 pfet
+X$302 XD3_XDFFQ_M XD3_XDFFQ_CLKB XD3_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $303 r0 *1 1521.36,3.11 pfet
+X$303 XD3_XDFFQ_S XD3_XDFFQ_CLKB XD3_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $304 r0 *1 1528.32,3.11 pfet
+X$304 XD3_XDFFQ_SB XD3_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $305 r0 *1 1535.28,3.11 pfet
+X$305 XD3_XDFFQ_SFB XD3_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $306 r0 *1 1542.24,3.11 pfet
+X$306 XD3_XDFFQ_S XD3_XDFFQ_CKBB XD3_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $307 r0 *1 1549.2,3.11 pfet
+X$307 ck4 XD3_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $308 r0 *1 1556.16,3.11 pfet
+X$308 XD3_nm mod3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $309 r0 *1 1563.12,3.11 pfet
+X$309 XD3_nm ck4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $310 r0 *1 1570.08,3.11 pfet
+X$310 XD3_dmodout XD3_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $311 r0 *1 1577.04,3.11 pfet
+X$311 XD3_XDFFM_CLKB ck3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $312 r0 *1 1584,3.11 pfet
+X$312 XD3_XDFFM_CKBB XD3_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $313 r0 *1 1590.96,3.11 pfet
+X$313 XD3_XDFFM_M XD3_XDFFM_CKBB XD3_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $314 r0 *1 1597.92,3.11 pfet
+X$314 XD3_XDFFM_MB XD3_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $315 r0 *1 1604.88,3.11 pfet
+X$315 XD3_XDFFM_MFB XD3_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $316 r0 *1 1611.84,3.11 pfet
+X$316 XD3_XDFFM_M XD3_XDFFM_CLKB XD3_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $317 r0 *1 1618.8,3.11 pfet
+X$317 XD3_XDFFM_S XD3_XDFFM_CLKB XD3_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $318 r0 *1 1625.76,3.11 pfet
+X$318 XD3_XDFFM_SB XD3_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $319 r0 *1 1632.72,3.11 pfet
+X$319 XD3_XDFFM_SFB XD3_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $320 r0 *1 1639.68,3.11 pfet
+X$320 XD3_XDFFM_S XD3_XDFFM_CKBB XD3_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $321 r0 *1 1646.64,3.11 pfet
+X$321 mod2 XD3_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $322 r0 *1 1653.6,3.11 pfet
+X$322 XD4_nt mod4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $323 r0 *1 1660.56,3.11 pfet
+X$323 XD4_nt P4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $324 r0 *1 1667.52,3.11 pfet
+X$324 XD4_nt mod3 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $325 r0 *1 1674.48,3.11 pfet
+X$325 XD4_t1 XD4_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $326 r0 *1 1681.44,3.11 pfet
+X$326 XD4_XNOR_midp ck5 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $327 r0 *1 1688.4,3.11 pfet
+X$327 XD4_dq XD4_t1 XD4_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $328 r0 *1 1695.36,3.11 pfet
+X$328 XD4_XDFFQ_CLKB ck4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $329 r0 *1 1702.32,3.11 pfet
+X$329 XD4_XDFFQ_CKBB XD4_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $330 r0 *1 1709.28,3.11 pfet
+X$330 XD4_XDFFQ_M XD4_XDFFQ_CKBB XD4_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $331 r0 *1 1716.24,3.11 pfet
+X$331 XD4_XDFFQ_MB XD4_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $332 r0 *1 1723.2,3.11 pfet
+X$332 XD4_XDFFQ_MFB XD4_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $333 r0 *1 1730.16,3.11 pfet
+X$333 XD4_XDFFQ_M XD4_XDFFQ_CLKB XD4_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $334 r0 *1 1737.12,3.11 pfet
+X$334 XD4_XDFFQ_S XD4_XDFFQ_CLKB XD4_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $335 r0 *1 1744.08,3.11 pfet
+X$335 XD4_XDFFQ_SB XD4_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $336 r0 *1 1751.04,3.11 pfet
+X$336 XD4_XDFFQ_SFB XD4_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $337 r0 *1 1758,3.11 pfet
+X$337 XD4_XDFFQ_S XD4_XDFFQ_CKBB XD4_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $338 r0 *1 1764.96,3.11 pfet
+X$338 ck5 XD4_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $339 r0 *1 1771.92,3.11 pfet
+X$339 XD4_nm mod4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $340 r0 *1 1778.88,3.11 pfet
+X$340 XD4_nm ck5 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $341 r0 *1 1785.84,3.11 pfet
+X$341 XD4_dmodout XD4_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $342 r0 *1 1792.8,3.11 pfet
+X$342 XD4_XDFFM_CLKB ck4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $343 r0 *1 1799.76,3.11 pfet
+X$343 XD4_XDFFM_CKBB XD4_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $344 r0 *1 1806.72,3.11 pfet
+X$344 XD4_XDFFM_M XD4_XDFFM_CKBB XD4_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $345 r0 *1 1813.68,3.11 pfet
+X$345 XD4_XDFFM_MB XD4_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $346 r0 *1 1820.64,3.11 pfet
+X$346 XD4_XDFFM_MFB XD4_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $347 r0 *1 1827.6,3.11 pfet
+X$347 XD4_XDFFM_M XD4_XDFFM_CLKB XD4_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $348 r0 *1 1834.56,3.11 pfet
+X$348 XD4_XDFFM_S XD4_XDFFM_CLKB XD4_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $349 r0 *1 1841.52,3.11 pfet
+X$349 XD4_XDFFM_SB XD4_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $350 r0 *1 1848.48,3.11 pfet
+X$350 XD4_XDFFM_SFB XD4_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $351 r0 *1 1855.44,3.11 pfet
+X$351 XD4_XDFFM_S XD4_XDFFM_CKBB XD4_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $352 r0 *1 1862.4,3.11 pfet
+X$352 mod3 XD4_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $353 r0 *1 1869.36,3.11 pfet
+X$353 XD5_nt VDD_DIV VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $354 r0 *1 1876.32,3.11 pfet
+X$354 XD5_nt P5 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $355 r0 *1 1883.28,3.11 pfet
+X$355 XD5_nt mod4 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+* device instance $356 r0 *1 1890.24,3.11 pfet
+X$356 XD5_t1 XD5_nt VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $357 r0 *1 1897.2,3.11 pfet
+X$357 XD5_XNOR_midp DIVOUT VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $358 r0 *1 1904.16,3.11 pfet
+X$358 XD5_dq XD5_t1 XD5_XNOR_midp VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $359 r0 *1 1911.12,3.11 pfet
+X$359 XD5_XDFFQ_CLKB ck5 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $360 r0 *1 1918.08,3.11 pfet
+X$360 XD5_XDFFQ_CKBB XD5_XDFFQ_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $361 r0 *1 1925.04,3.11 pfet
+X$361 XD5_XDFFQ_M XD5_XDFFQ_CKBB XD5_dq VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $362 r0 *1 1932,3.11 pfet
+X$362 XD5_XDFFQ_MB XD5_XDFFQ_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $363 r0 *1 1938.96,3.11 pfet
+X$363 XD5_XDFFQ_MFB XD5_XDFFQ_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $364 r0 *1 1945.92,3.11 pfet
+X$364 XD5_XDFFQ_M XD5_XDFFQ_CLKB XD5_XDFFQ_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $365 r0 *1 1952.88,3.11 pfet
+X$365 XD5_XDFFQ_S XD5_XDFFQ_CLKB XD5_XDFFQ_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $366 r0 *1 1959.84,3.11 pfet
+X$366 XD5_XDFFQ_SB XD5_XDFFQ_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $367 r0 *1 1966.8,3.11 pfet
+X$367 XD5_XDFFQ_SFB XD5_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $368 r0 *1 1973.76,3.11 pfet
+X$368 XD5_XDFFQ_S XD5_XDFFQ_CKBB XD5_XDFFQ_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $369 r0 *1 1980.72,3.11 pfet
+X$369 DIVOUT XD5_XDFFQ_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $370 r0 *1 1987.68,3.11 pfet
+X$370 XD5_nm VDD_DIV VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $371 r0 *1 1994.64,3.11 pfet
+X$371 XD5_nm DIVOUT VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $372 r0 *1 2001.6,3.11 pfet
+X$372 XD5_dmodout XD5_nm VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $373 r0 *1 2008.56,3.11 pfet
+X$373 XD5_XDFFM_CLKB ck5 VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $374 r0 *1 2015.52,3.11 pfet
+X$374 XD5_XDFFM_CKBB XD5_XDFFM_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $375 r0 *1 2022.48,3.11 pfet
+X$375 XD5_XDFFM_M XD5_XDFFM_CKBB XD5_dmodout VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $376 r0 *1 2029.44,3.11 pfet
+X$376 XD5_XDFFM_MB XD5_XDFFM_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $377 r0 *1 2036.4,3.11 pfet
+X$377 XD5_XDFFM_MFB XD5_XDFFM_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $378 r0 *1 2043.36,3.11 pfet
+X$378 XD5_XDFFM_M XD5_XDFFM_CLKB XD5_XDFFM_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $379 r0 *1 2050.32,3.11 pfet
+X$379 XD5_XDFFM_S XD5_XDFFM_CLKB XD5_XDFFM_M VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $380 r0 *1 2057.28,3.11 pfet
+X$380 XD5_XDFFM_SB XD5_XDFFM_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $381 r0 *1 2064.24,3.11 pfet
+X$381 XD5_XDFFM_SFB XD5_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P
++ AD=2P PS=10.8U PD=10.8U
+* device instance $382 r0 *1 2071.2,3.11 pfet
+X$382 XD5_XDFFM_S XD5_XDFFM_CKBB XD5_XDFFM_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U
++ AS=2P AD=2P PS=10.8U PD=10.8U
+* device instance $383 r0 *1 2078.16,3.11 pfet
+X$383 mod4 XD5_XDFFM_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $384 r0 *1 2085.12,3.11 pfet
+X$384 XFRT_CLKB CKIN_VCO VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $385 r0 *1 2092.08,3.11 pfet
+X$385 XFRT_CKBB XFRT_CLKB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $386 r0 *1 2099.04,3.11 pfet
+X$386 XFRT_M XFRT_CKBB DIVOUT VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $387 r0 *1 2106,3.11 pfet
+X$387 XFRT_MB XFRT_M VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $388 r0 *1 2112.96,3.11 pfet
+X$388 XFRT_MFB XFRT_MB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $389 r0 *1 2119.92,3.11 pfet
+X$389 XFRT_M XFRT_CLKB XFRT_MFB VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $390 r0 *1 2126.88,3.11 pfet
+X$390 XFRT_S XFRT_CLKB XFRT_M VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $391 r0 *1 2133.84,3.11 pfet
+X$391 XFRT_SB XFRT_S VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $392 r0 *1 2140.8,3.11 pfet
+X$392 XFRT_SFB XFRT_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $393 r0 *1 2147.76,3.11 pfet
+X$393 XFRT_S XFRT_CKBB XFRT_SFB VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P
++ PS=10.8U PD=10.8U
+* device instance $394 r0 *1 2154.72,3.11 pfet
+X$394 FB XFRT_SB VDD_DIV VDD_DIV sg13_hv_pmos L=0.5U W=5U AS=2P AD=2P PS=10.8U
++ PD=10.8U
+.ENDS pll_divider_chain

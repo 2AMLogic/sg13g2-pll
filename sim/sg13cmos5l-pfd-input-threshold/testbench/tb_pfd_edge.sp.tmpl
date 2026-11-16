@@ -1,0 +1,44 @@
+* sg13g2-pll :: sim/sg13cmos5l-pfd-input-threshold (issue #403, spec row 2 / R-5)
+* Dynamic edge-registration ladder for the committed SG13CMOS5L `pfd` REF
+* input (../netlist-snapshots/pfd.spice).  @DIR@ deck: the REF @AXIS@ level
+* is stepped through a @NSEG@-step ladder (16 cycles per step, every edge in
+* a step identical), while the other rail stays clean.  Registration is
+* counted on edgedet's OUT -- the `set_up` net, the ~5-gate-delay pulse the
+* XD1 inv_hv chain + XN1 nand2_hv composite produces per registered rising
+* edge: t_rise_<n> is the n-th set_up rising 50%-of-rail crossing.  With the
+* ladder monotone (@LADDER@), the last passing segment locates the level
+* where every edge still registers; segment geometry is recomputed by
+* threshold_grid.py reduce from the same constants.
+*
+* FB is driven too -- a full-rail copy at a fixed @FBTD_s@ s offset, exactly
+* as sg13g2-pfd-reset-parity drives it -- because inside `pfd` reset asserts
+* only when UP and DN are both high: with FB static the first REF edge would
+* latch UP and never reset, and an edge-counting measurement would read
+* 1-of-N at every level regardless of the input threshold.  FB never changes
+* across the ladder, so it is not a second confounding variable.
+*
+* Ladder shape: segment 1 is always the full-swing control (the cheap bench
+* bug guard: a 1-of-N nominal result here is an artifact, not a threshold).
+*
+* Placeholders are substituted by testbench/threshold_grid.py, which also
+* inserts the pre_osdi / num_threads lines and the generated meas block (a
+* deck-list unit has no .spiceinit).
+
+.lib $PDK_ROOT/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include pfd_snap.spice
+
+Vdd vdd 0 dc @VDD@
+Vref ref 0 pwl(@PWL@)
+Vfb  fb  0 pulse(0 @VDD@ @FBTD@ @TR@ @TF@ @PWF@ @TPER@)
+
+Xpfd ref fb up dn vdd 0 pfd
+
+.tran @TSTEP@ @TSTOP@ 0 @TMAX@
+
+.control
+run
+@MEASBLOCK@
+.endc
+.end
