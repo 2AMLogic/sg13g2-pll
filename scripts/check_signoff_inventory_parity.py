@@ -115,7 +115,9 @@ def workflow_invocations(text):
     and embedded Python are not mistaken for invocations. `\`-continued lines
     are joined into one logical command first, so a gate (or its arguments)
     split across lines is still seen; the reported line number stays the one
-    where `python3` appears (issue #409).
+    where `python3` appears (issue #409). A comment ends a continuation: the
+    shell comments out the rest of that line, so a `#` line is never joined
+    and is left for the ordinary comment skip below (issue #436).
     """
     def indent(s):
         return len(s) - len(s.lstrip())
@@ -138,9 +140,15 @@ def workflow_invocations(text):
         # Join `\`-continued lines into one logical command. A next line that
         # is blank or dedents (the block scalar ended -- the next YAML key)
         # is not joined; command_tokens()'s trailing-`\` strip then still
-        # handles the dangling backslash.
+        # handles the dangling backslash. A next line that is a comment is
+        # not joined either -- the shell comments out the rest of that line,
+        # so it ends the command; breaking without advancing `i` lets the
+        # outer loop skip it via the `startswith("#")` test below, keeping
+        # any real command after it visible (issue #436).
         while (line.rstrip().endswith("\\") and i < len(lines)
                and lines[i].strip() and indent(lines[i]) >= indent(line)):
+            if lines[i].strip().startswith("#"):
+                break
             line = line.rstrip()[:-1] + " " + lines[i].strip()
             i += 1
         heredoc = HEREDOC_RE.search(line)
