@@ -8,6 +8,18 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-15
 
+- **PR #443**: sim: remove dead klt() submit helper and stale transport claims from sg13g2 run_batch
+- **PR #440**: spec: restate row 2's f_ref window as the PVT intersection (DR-014)
+- **PR #437**: sim: bound divider_chain max exact-N input frequency per corner (880-1328 MHz, N=64)
+- **PR #434**: fix: cite klayout-tools#1962 as the live block-routing gap in the cmos5l record renderer
+- **PR #433**: fix: see backslash-continued and -X/-W-flagged python3 gates in signoff parity parser
+- **PR #428**: sim: lock the real-divider loop at a divider-compatible operating point (RECORD-002)
+- **Issue #426** (closed): spec: row 2's f_ref window is a corner union on a worst-case row — supersede DR-005's derivation (found by the band-11 125 C shortfall)
+- **Issue #414** (closed): Remove the dead klt() transport from the sg13g2 lock-detector-window batch driver
+- **Issue #409** (closed): check_signoff_inventory_parity.py misses backtick-continued and -X-flagged python3 gates (false pass)
+- **Issue #402** (closed): sim: divider_chain maximum input frequency per corner (the untracked "Divider speed evidence" gap)
+- **Issue #401** (closed): sim: real-divider closed loop at a VCO frequency inside the divider's measured exact-N range
+- **Issue #397** (closed): render-pll-cmos5l-record.py still blames klayout-tools#1467 for the block-routing gap, which closed upstream and is fixed at this pin (the live gap is #1962)
 - **PR #424**: docs: mark klayout-tools #1157/#2145/#2355 closed at the 0.8.0 pin
 - **PR #423**: layout: retire the mom_cap lift/splice workaround for klayout-tools#2327
 - **PR #427**: sim: 125C non-acquisition is the vco band-11 range ceiling; seeded mm_p12 negative control reads detected at both yield limit sets
