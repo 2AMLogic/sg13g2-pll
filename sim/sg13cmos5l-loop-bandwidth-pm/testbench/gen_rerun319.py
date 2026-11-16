@@ -88,7 +88,7 @@ OSDI_NAMES = ("cap_cmomi", "cap_cmomf", "r3_cmc")
 MODELS_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/models/"
 OSDI_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/osdi/"
 STAGED_RE = re.compile(r"(?:^|\s)models/(\S+)", re.M)   # staged names a deck references
-PROBE_TAG = "A_typ_11_top_25_10u"   # the RECORD-001 cross-check point
+PROBE_TAGS = ("X_real", "X_lump")   # the historical crosscheck decks (b37918d)
 PROBE_ARM = "b37918d"
 
 # One entry per original record being superseded: the producing commit, the
@@ -275,7 +275,7 @@ def drive(label, mode, outdir=None, pdk_root=None):
                 # run to completion; render-mode CSVs are scratch, not evidence.
                 return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
             if mode == "probe-check":
-                if tag != PROBE_TAG:
+                if tag not in PROBE_TAGS:
                     return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
                 dat = Path(outdir) / tag / "ac.dat"
                 if not dat.exists():
@@ -310,13 +310,13 @@ def drive(label, mode, outdir=None, pdk_root=None):
                 json.dumps(manifest, indent=2, sort_keys=True) + "\n")
             return sorted(manifest), staged
         if mode == "probe-check":
-            # The probe unit's ac.dat is real; every other unit fed the
-            # historical writers a synthetic pair, so only the probe
-            # scenario's crosscheck line is meaningful -- print it.
+            # The two crosscheck decks' ac.dat are real; every other unit fed
+            # the historical writers a synthetic pair, so the crosscheck.txt
+            # this run writes carries the real probe point and nothing else
+            # meaningful -- print it whole.
             txt = (work / "rec" / "corners" / "crosscheck.txt").read_text()
             for ln in txt.splitlines():
-                if PROBE_TAG in ln:
-                    print("    | " + ln)
+                print("    | " + ln)
             return {}
         produced = {}
         for hist_name, new_name in spec["outputs"].items():
@@ -421,12 +421,11 @@ def main(argv):
                 path.write_text(json.dumps(request(label, ids), indent=2) + "\n")
                 print(f"{label}: {len(ids)} decks -> {path.name}")
             if probe is None:
-                # The RECORD-001 cross-check point: typ / band 11 / top
-                # interval / f_ref 25 MHz / 10 uA.  RECORD-001 publishes its
-                # historical value (f_c 954.6 kHz, PM 4.275 deg), so this one
-                # unit is a real check on the whole pipeline before the grid.
-                probe = (PROBE_ARM, PROBE_TAG)
-                assert probe[1] in ids, probe
+                # The historical crosscheck decks: RECORD-001 publishes their
+                # expected value (f_c 954.6 kHz, PM 4.275 deg), so this pair
+                # is a real check on the whole pipeline before the grid.
+                probe = (PROBE_ARM, PROBE_TAGS)
+                assert all(t in ids for t in PROBE_TAGS), probe
         ref = staged_all[next(iter(SNAPSHOTS))]
         for label, staged in staged_all.items():
             if staged != ref:
@@ -440,13 +439,13 @@ def main(argv):
               f"{len(SNAPSHOTS)} arms -> {manifest_path.relative_to(REPO)}")
         c, uid = probe
         (HERE / "probe319.request.json").write_text(
-            json.dumps(request(c, [uid]), indent=2) + "\n")
+            json.dumps(request(c, list(uid)), indent=2) + "\n")
         print(f"probe: {c}/{uid} -> probe319.request.json")
         return
     if a.mode == "probe-check":
         if len(a.outdirs) != 1:
             raise SystemExit("probe-check needs the probe job's -o outdir")
-        print(f"=== probe {PROBE_ARM}/{PROBE_TAG} through the historical crossover():")
+        print(f"=== probe {PROBE_ARM}/{PROBE_TAGS} through the historical crossover():")
         drive(PROBE_ARM, "probe-check", a.outdirs[0])
         print("    (published: fc 9.546166e+05 Hz, pm 4.275 deg)")
         return
