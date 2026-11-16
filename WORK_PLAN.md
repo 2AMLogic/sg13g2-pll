@@ -32,8 +32,6 @@ Human-approved issues ready for implementation (`loom:issue`).
 - **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
 - **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
-- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
-- **#470**: run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests`
 
 ## In Progress
 
@@ -43,6 +41,7 @@ Issues currently being built (`loom:building`).
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
+- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
 
 ## PRs Awaiting Review
 
@@ -78,7 +77,6 @@ Issues carrying `loom:curated`.
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
 - **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow *(curated)*
 - **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL *(curated)*
-- **#470**: run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests` *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -103,11 +101,11 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 1 |
 | Very important | 0 |
 | Important | 4 |
-| Ready (`loom:issue`) | 6 |
-| In Progress (`loom:building`) | 4 |
+| Ready (`loom:issue`) | 4 |
+| In Progress (`loom:building`) | 5 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 19 |
+| Curated | 18 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
