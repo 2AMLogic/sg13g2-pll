@@ -88,6 +88,8 @@ OSDI_NAMES = ("cap_cmomi", "cap_cmomf", "r3_cmc")
 MODELS_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/models/"
 OSDI_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/osdi/"
 STAGED_RE = re.compile(r"(?:^|\s)models/(\S+)", re.M)   # staged names a deck references
+PROBE_TAG = "A_typ_11_top_25_10u"   # the RECORD-001 cross-check point
+PROBE_ARM = "b37918d"
 
 # One entry per original record being superseded: the producing commit, the
 # netlist snapshots `run.sh` stages into its scratch dir, and the CSV/text
@@ -272,9 +274,16 @@ def drive(label, mode, outdir=None, pdk_root=None):
                 # A synthetic magnitude/phase pair so the historical writers
                 # run to completion; render-mode CSVs are scratch, not evidence.
                 return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
-            dat = Path(outdir) / tag / "ac.dat"
-            if not dat.exists():
-                raise SystemExit(f"missing {dat} -- unit {tag} produced no ac.dat")
+            if mode == "probe-check":
+                if tag != PROBE_TAG:
+                    return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
+                dat = Path(outdir) / tag / "ac.dat"
+                if not dat.exists():
+                    raise SystemExit(f"missing {dat} -- probe produced no ac.dat")
+            else:
+                dat = Path(outdir) / tag / "ac.dat"
+                if not dat.exists():
+                    raise SystemExit(f"missing {dat} -- unit {tag} produced no ac.dat")
             rows = []
             for line in dat.read_text().splitlines():
                 p = line.split()
@@ -300,6 +309,15 @@ def drive(label, mode, outdir=None, pdk_root=None):
             (OUT / label / "manifest.json").write_text(
                 json.dumps(manifest, indent=2, sort_keys=True) + "\n")
             return sorted(manifest), staged
+        if mode == "probe-check":
+            # The probe unit's ac.dat is real; every other unit fed the
+            # historical writers a synthetic pair, so only the probe
+            # scenario's crosscheck line is meaningful -- print it.
+            txt = (work / "rec" / "corners" / "crosscheck.txt").read_text()
+            for ln in txt.splitlines():
+                if PROBE_TAG in ln:
+                    print("    | " + ln)
+            return {}
         produced = {}
         for hist_name, new_name in spec["outputs"].items():
             hist_path = tree / BENCH / "corners" / hist_name
@@ -367,7 +385,7 @@ def write_chunks(label, ids, chunk_size):
 
 def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=("render", "collect"))
+    ap.add_argument("mode", choices=("render", "collect", "probe-check"))
     ap.add_argument("outdirs", nargs="*")
     ap.add_argument("--pinned-pdk",
                     help="the ihp-sg13cmos5l tree at sim/README.md's PDK-PIN "
@@ -407,7 +425,7 @@ def main(argv):
                 # interval / f_ref 25 MHz / 10 uA.  RECORD-001 publishes its
                 # historical value (f_c 954.6 kHz, PM 4.275 deg), so this one
                 # unit is a real check on the whole pipeline before the grid.
-                probe = (label, "A_typ_11_top_25_10u")
+                probe = (PROBE_ARM, PROBE_TAG)
                 assert probe[1] in ids, probe
         ref = staged_all[next(iter(SNAPSHOTS))]
         for label, staged in staged_all.items():
@@ -424,6 +442,13 @@ def main(argv):
         (HERE / "probe319.request.json").write_text(
             json.dumps(request(c, [uid]), indent=2) + "\n")
         print(f"probe: {c}/{uid} -> probe319.request.json")
+        return
+    if a.mode == "probe-check":
+        if len(a.outdirs) != 1:
+            raise SystemExit("probe-check needs the probe job's -o outdir")
+        print(f"=== probe {PROBE_ARM}/{PROBE_TAG} through the historical crossover():")
+        drive(PROBE_ARM, "probe-check", a.outdirs[0])
+        print("    (published: fc 9.546166e+05 Hz, pm 4.275 deg)")
         return
     if len(a.outdirs) != len(SNAPSHOTS):
         raise SystemExit(f"collect needs {len(SNAPSHOTS)} outdirs, one per arm in "
