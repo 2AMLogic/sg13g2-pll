@@ -8,6 +8,19 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-15
 
+- **PR #424**: docs: mark klayout-tools #1157/#2145/#2355 closed at the 0.8.0 pin
+- **PR #423**: layout: retire the mom_cap lift/splice workaround for klayout-tools#2327
+- **PR #427**: sim: 125C non-acquisition is the vco band-11 range ceiling; seeded mm_p12 negative control reads detected at both yield limit sets
+- **PR #435**: pex: re-extract lock_detector from the post-#136 GDS, add its klt pex envelope, re-measure on batch
+- **PR #425**: docs: align manifests item 6 / item 8 and summary gap rows with RECORD-011, DR-013 and open trackers
+- **PR #413**: fix: derive the record's second-routing-plane sentence from its own probe
+- **Issue #422** (closed): Correct stale 'open' status for klayout-tools#1157/#2145/#2355: all closed and fixed at the 0.8.0 pin
+- **Issue #421** (closed): Retire the klayout-tools#2327 lift/splice workaround in mom_cap_reference: the gap closed and is at this repo's pin
+- **Issue #389** (closed): sim: the closed-loop proposal deck does not acquire lock at 125 C, and the cp mismatch campaign still has no negative control (follow-ups from #385)
+- **Issue #412** (closed): Verify epic #6 deliverable before closing: tracker reads 14/22 T1 items met, tier null
+- **Issue #157** (closed): pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152)
+- **Issue #404** (closed): docs: bring manifests/README.md item 6 and item 8 text and the summary gap table in line with DR-013 and closed trackers
+- **Issue #381** (closed): render-pll-cmos5l-record.py asserts the second routing plane "cannot be selected" regardless of the two-layer probe result
 - **PR #408**: refactor(manifests): share the record resolver, sha256_file and JSON loader across the four signoff gates
 - **Issue #405** (closed): Deduplicate manifests/ gate helpers: one record resolver, one sha256_file, one JSON loader
 
