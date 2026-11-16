@@ -3,8 +3,9 @@
 Stdlib `unittest`, offline, no klt. `run_gates.py` derives the local gate list
 from `manifests/inventories/item-10.json`'s `checks[].argv` plus a small
 documented tail, replacing the `&&` chains package.json used to hand-enumerate.
-These tests pin the resolved lists against what those chains ran on the day of
-the rewrite, so the derivation is provably behavior-preserving, and pin the
+These tests pin the resolved lists against the committed inventory via golden
+`EXPECTED_*` pins (the pre-rewrite behavior-preservation proof was one-shot and
+was retired with the first post-rewrite gate addition; see #462), and pin the
 execution semantics (tests first, stop at first failure, exit code out).
 
 Run from the repo root: python3 scripts/test_run_gates.py
@@ -30,56 +31,17 @@ def g(path, *args):
     return ["python3", "-B", path, *args]
 
 
-def sig(argv):
-    """(script, *args) with interpreter flags normalized away."""
-    token = rg.script_token(argv)
-    i = argv.index(token) if token is not None else len(argv)
-    return tuple(argv[i:])
-
-
 def entry(name, script, *args):
     """One fixture `checks[]` entry in the inventory's shape."""
     return {"name": name, "argv": g(script, *args)}
 
 
-# What package.json's chains ran on the day of the rewrite (verified against
-# the pre-rewrite tree): 14 test_*.py paths and 12 direct check invocations.
-TODAY_TEST_PATHS = (
-    "characterization/test_check_records.py",
-    "characterization/test_gen_summary.py",
-    "design/test_check_pfd_reset_parity.py",
-    "manifests/test_check_drc_coverage.py",
-    "manifests/test_check_erc_coverage.py",
-    "manifests/test_check_lvs_coverage.py",
-    "manifests/test_check_netlist_stamp.py",
-    "manifests/test_check_pex_coverage.py",
-    "manifests/test_check_spec_citations.py",
-    "manifests/test_check_testbench_coverage.py",
-    "scripts/test_check_artifact_manifests.py",
-    "scripts/test_check_signoff_inventory_parity.py",
-    "sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py",
-    "sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py",
-)
-TODAY_CHECK_SIGS = (
-    ("characterization/check_records.py",),
-    ("characterization/gen_summary.py", "--check"),
-    ("design/check_pfd_reset_parity.py",),
-    ("manifests/check_drc_coverage.py",),
-    ("manifests/check_erc_coverage.py",),
-    ("manifests/check_lvs_coverage.py",),
-    ("manifests/check_netlist_stamp.py",),
-    ("manifests/check_pex_coverage.py",),
-    ("manifests/check_spec_citations.py",),
-    ("manifests/check_testbench_coverage.py",),
-    ("scripts/check_artifact_manifests.py",),
-    ("scripts/check_signoff_inventory_parity.py",),
-)
-
 # The exact resolved lists the runner must produce on the committed tree:
-# today's gates plus the one gate this issue adds (the runner's own unit
-# test, mandated into the tail by the issue). Tests first, then checks;
+# the inventory's gates plus the one gate this issue adds (the runner's own
+# unit test, mandated into the tail by the issue). Tests first, then checks;
 # within each group the inventory's file order is preserved and the tail
-# entries come last.
+# entries come last. These are golden pins, not a second enumeration: when a
+# gate is added to item-10.json, extend them in inventory order.
 EXPECTED_TEST_PATHS = (
     "characterization/test_check_records.py",
     "characterization/test_gen_summary.py",
@@ -93,6 +55,7 @@ EXPECTED_TEST_PATHS = (
     "design/test_check_pfd_reset_parity.py",
     "sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py",
     "sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py",
+    "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py",
     "scripts/test_check_signoff_inventory_parity.py",
     "scripts/test_check_artifact_manifests.py",
     RUNNER_TEST,
@@ -112,6 +75,8 @@ EXPECTED_FULL = (
      g("sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py")),
     ("mismatch-gain-metrics-unit-tests",
      g("sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py")),
+    ("run-pex-guard-self-test",
+     g("sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py")),
     ("signoff-inventory-parity-unit-tests",
      g("scripts/test_check_signoff_inventory_parity.py")),
     ("artifact-manifests-unit-tests", g("scripts/test_check_artifact_manifests.py")),
@@ -132,7 +97,7 @@ EXPECTED_FULL = (
 
 
 class Pin(unittest.TestCase):
-    """The committed tree resolves to exactly today's gates + the runner's test."""
+    """The committed tree resolves to exactly the pinned gate list."""
 
     def setUp(self):
         self.checks = rg.load_inventory()
@@ -147,21 +112,6 @@ class Pin(unittest.TestCase):
         self.assertEqual(
             [rg.script_token(argv) for _, argv in resolved],
             list(EXPECTED_TEST_PATHS))
-
-    def test_behavior_preserving_against_pre_rewrite_chains(self):
-        """Dropping this issue's one mandated addition (the runner's own unit
-        test) must leave exactly the gates the old chains ran, as script+args."""
-        resolved = rg.resolve_commands(self.checks, tests_only=False)
-        kept = [sig(argv) for name, argv in resolved
-                if rg.script_token(argv) != RUNNER_TEST]
-        today = sorted(sig(g(p)) for p in TODAY_TEST_PATHS) + \
-            sorted(TODAY_CHECK_SIGS)
-        self.assertEqual(sorted(kept), sorted(today))
-
-        tests = rg.resolve_commands(self.checks, tests_only=True)
-        kept_paths = sorted(rg.script_token(argv) for _, argv in tests
-                            if rg.script_token(argv) != RUNNER_TEST)
-        self.assertEqual(kept_paths, sorted(TODAY_TEST_PATHS))
 
     def test_tests_before_checks(self):
         resolved = rg.resolve_commands(self.checks, tests_only=False)
