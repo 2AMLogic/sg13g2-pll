@@ -8,6 +8,10 @@ compliance (row 13 is O with a failing candidate by design).
   * the table has the 9-column header; every data row has 9 cells; row labels
     are unique and are exactly 0..18 with the merged 4/5 and 6/6a;
   * Status is one of M, P, N, O;
+  * the `## Accounting` section agrees with the Row table: the total
+    sentence's integer equals the number of Row-table labels, the status
+    table's row lists are an exact partition of those labels, and each row's
+    Status there matches its Row-table Status cell;
   * "Measured by": each hyphenated backticked bench slug names an existing
     sim/<bench>/ directory; each backticked `records/<file>` attaches to the
     nearest preceding bench in the cell and sim/<bench>/records/<file> exists;
@@ -53,6 +57,49 @@ def table_rows(sec):
     return [[c.strip() for c in l.strip().strip("|").split("|")] for l in lines]
 
 
+def check_accounting(text, row_status):
+    """Cross-check '## Accounting' against the Row table's labels and Status cells."""
+    errs = []
+    sec = section(text, "Accounting")
+    if sec is None:
+        return ["spec: no '## Accounting' section"]
+    m = re.search(r"^(\d+) rows,", sec, re.M)
+    if not m:
+        return errs + ["accounting: no '<N> rows,' total sentence"]
+    if int(m.group(1)) != len(row_status):
+        errs.append(f"accounting: total sentence says {m.group(1)} rows, "
+                    f"Row table has {len(row_status)} labels")
+    rows = table_rows(sec)
+    if len(rows) < 2 or rows[0] != ["Status", "Rows"]:
+        return errs + ["accounting: status table is not the Status/Rows table"]
+    acc = {}
+    for cells in rows[2:]:
+        st = cells[0].split("(")[0].strip()
+        if st not in STATUSES:
+            errs.append(f"accounting: status cell {cells[0]!r} does not start "
+                        f"with one of M, P, N, O")
+            continue
+        for lab in (c.strip() for c in cells[1].split(",")):
+            if not lab:
+                continue
+            if lab in acc:
+                errs.append(f"accounting: row {lab} listed under both "
+                            f"{acc[lab]} and {st}")
+            else:
+                acc[lab] = st
+    for l in row_status:
+        if l not in acc:
+            errs.append(f"accounting: row {l} missing from the status table")
+    for l in acc:
+        if l not in row_status:
+            errs.append(f"accounting: row {l} is not a Row-table label")
+    for l in sorted(set(acc) & set(row_status)):
+        if acc[l] != row_status[l]:
+            errs.append(f"accounting: row {l} Status {acc[l]} disagrees with "
+                        f"the Row table's {row_status[l]}")
+    return errs
+
+
 def check(root, spec):
     root, errs = Path(root), []
     text = Path(spec).read_text()
@@ -69,6 +116,7 @@ def check(root, spec):
     drfiles = sorted(p.name for p in drdir.glob("DR-*.md")) if drdir.is_dir() else []
 
     seen = []
+    row_status = {}
     for cells in data:
         label = cells[0]
         if len(cells) != NCOLS:
@@ -76,6 +124,7 @@ def check(root, spec):
             continue
         seen.append(label)
         status, measured = cells[2], cells[7]
+        row_status[label] = status
         row = " | ".join(cells)
         if status not in STATUSES:
             errs.append(f"row {label}: Status {status!r} is not one of M, P, N, O")
@@ -118,6 +167,7 @@ def check(root, spec):
     for p in sorted(set(re.findall(r"`(sim/[^`\s]+/records/[^`\s]+)`", text))):
         if not (root / p).is_file():
             errs.append(f"spec: cited path {p} does not exist")
+    errs += check_accounting(text, row_status)
     return errs
 
 

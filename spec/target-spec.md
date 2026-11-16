@@ -89,7 +89,7 @@ the plan.
 |---|---|---|---|---|---|---|---|---|
 | 0 | Supply / device flavor | P | Det | both | 3.3 V thick-oxide CMOS throughout, per the operating box. A decision, not a measured parameter | DR-002 Decision 0 (proposed); DR-004 (ratified) | none | n/a |
 | 1 | Output band | M | Det | Analog | 445.3 to 1562.0 MHz, pre-layout, open-loop `vco`, 60/60 points valid, 3 bundles x 4 band codes x 5 `VCTRL` (0.3 to 2.7 V). Post-layout deviates; see R-1 | DR-005 (proposed) reads it as the fixed point for rows 2 and 3 | `sg13cmos5l-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md`; corroborated byte-identical by `sg13g2-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md` | floor: `slow`, `VCTRL` = 0.3 V (all band codes equal); ceiling: `fast`, band `11`, `VCTRL` = 2.7 V |
-| 2 | Reference input | M | Det | Analog (`pfd` input) | Frequency 3.5 to 24.4 MHz (3.51 = 445.3/127; 24.4 = 1562.0/64). Shape unchanged: CMOS square wave, rising-edge trigger, 30 to 70% duty. Electrical levels open; see R-5 | DR-005 (proposed) amends 1 to 25 MHz | derived from the row 1 record; `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md` exercises the range | n/a (arithmetic on the row 1 corners) |
+| 2 | Reference input | O | Det | Analog (`pfd` input) | Frequency 3.5 to 24.4 MHz (3.51 = 445.3/127; 24.4 = 1562.0/64) — a corner union: floor from the `slow` bundle, ceiling from the `fast`. The PVT intersection this `Det` row requires is 4.317 to 17.403 MHz (548.2/127 `fast` own-floor; 1113.8/64 `slow` own-ceiling), conservative against the unmeasured 2.7 to 3.3 V rail headroom; see DR-014 `fref-window-pvt-intersection` and R-13. Shape unchanged: CMOS square wave, rising-edge trigger, 30 to 70% duty. Electrical levels open; see R-5. Gate: R-13 | DR-005 (proposed) amends 1 to 25 MHz; DR-014 (proposed) supersedes DR-005's row-2 numeric derivation (union kept, intersection stated) | derived from the row 1 record; `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md` exercises the range | n/a (arithmetic on the row 1 corners) |
 | 3 | Multiplication ratio | M | Det | Digital | N in 64 to 127, every integer, no holes. Functional: 20/20 simulated points divide at exactly the commanded N (9 PVT corners at N=64, every program-bit weight, two mixed codes, N=127 at both speed-bracket extremes, 100 MHz). Retiming closure at 1562.0 MHz is **unmet**; see R-3 | DR-005 (proposed) amends 4 to 64 | `sg13cmos5l-divider-nrange-retiming`: `records/RECORD-003-divider-repair-reverification.md`; SG13G2 corroboration `sg13g2-divider-repair-reverification`: `records/RECORD-001-divider-repair-reverification.md` | one-edge closing bound: 825 MHz at `mos_tt`/-40 C, 866 MHz at `mos_tt`/27 C, 1277 MHz at `mos_ff`/27 C |
 | 4/5 | Kvco bound / band-selection rule | M | Det | Analog | The per-band, per-corner Kvco table, not a single ceiling. Range across the table: Kvco avg 144.2 to 422.4 MHz/V, Kvco peak local (2.1 to 2.7 V) 162.2 to 379.9 MHz/V. Band code is inert at `VCTRL` = 0.3 V and spreads about 2.8x at 2.7 V. A numeric ceiling and the lowest-band-first rule are not set by any record; see R-4 | none sets a bound; DR-001 / porting-plan row 4/5 name the rule structure | `sg13cmos5l-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md` (range figures are quoted in `sim/README.md` from `sg13g2-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md`) | per-row in the record's table |
 | 6/6a | Loop bandwidth / phase margin | M | Det | Analog | Criteria: `f_c` < `f_ref`/10 (ceiling 0.35 to 2.44 MHz across the row 2 range) and phase margin >= 45 deg. Mechanism: `R1` = `rppd` `w=0.6u l=810u` (about 344.2 kOhm typ) plus an Icp trim table keyed to `f_ref`: the six original codes (2.5 to 80 uA ladder) plus 3.75 uA (band 00, mid interval, `f_ref` = 4.5 MHz) and 11 uA (band 00, low interval, `f_ref` = 4.5 MHz). Coverage is incomplete; see R-6 | DR-006 `loop-filter-r1-resize` (proposed); DR-007 (proposed); DR-008 (proposed); DR-005 left this row as-is | `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md`, `records/RECORD-003-issue83-close-band00-mid-fref4p5-pm-gap.md`, `records/RECORD-004-issue79-close-band00-low-fref4p5-pm-gap.md`; `sg13cmos5l-cp-icp-trim`: `records/RECORD-003-issue83-finetrim-icp.md`, `records/RECORD-004-issue79-finetrim-icp.md`; `sg13cmos5l-loop-filter-momcap`: `records/RECORD-002-r1-resize-momcap.md` | band 00, low interval, `f_ref` = 4.5 MHz: `fast` PM 45.592 deg at 11 uA (0.592 deg margin); band 00, mid interval, 4.5 MHz: `slow` PM 49.973 deg at 3.75 uA |
@@ -255,14 +255,36 @@ is from the behavioural-divider proposal deck, and that deck does **not**
 acquire lock at 125 C at any mismatch point (including the unperturbed one),
 so the gain is established at two of three temperatures.
 
+**R-13. Row 2's frequency window is a corner union on a `Det` row; the PVT
+intersection is narrower.** Row 2's committed 3.5 to 24.4 MHz endpoints
+(`3.51 = 445.3/127`, `24.4 = 1562.0/64`) take the floor from the `slow`
+bundle's slowest point and the ceiling from the `fast` bundle's fastest — no
+single corner supports both, and this row's own `Kind` = `Det` means "worst
+case over a declared corner set". DR-014
+(`DR-014-fref-window-pvt-intersection.md`, proposed) derives the
+intersection from the committed Kvco table: **4.317 to 17.403 MHz**
+(`548.2/127`, the `fast` bundle's own floor; `1113.8/64`, the `slow`
+bundle's own ceiling), conservative because the table stops at
+`VCTRL` = 2.7 V against the 3.3 V rail (at `mos_tt`/125 C the last 0.6 V
+buys 55.6 MHz, per #426 / PR #427). The first operating point to make the
+defect bite is the closed-loop deck's 1280 MHz / 125 C non-acquisition
+(#426, #427): its `f_ref` = 20 MHz was chosen near the union ceiling, above
+the intersection ceiling. Ruling needed: bind row 2's lockable
+`f_ref` × N window to the intersection, **together with R-1** — both
+windows are arithmetic on row 1's schematic band, so a ruling that binds
+the spec to the post-layout band recomputes this one too. The interface
+half of row 2 (what the `pfd` / `lock_detector` input can accept, extended
+to 50 MHz by #301 per ruling r7-q30 on #296) is a different claim and is
+not bounded by this window.
+
 ## Accounting
 
 Rows 0 to 18 as listed in porting-plan §1.2, with 4/5 and 6/6a merged:
-17 rows, each appearing once in the table above.
+18 rows, each appearing once in the table above.
 
 | Status | Rows |
 |---|---|
-| M (measured, proposed) | 1, 2, 3, 4/5, 6/6a, 16 |
+| M (measured, proposed) | 1, 3, 4/5, 6/6a, 16 |
 | P (proposed, no measurement) | 0, 14, 18 |
 | N (not specified) | 9, 17 |
-| O (open, gate named) | 7, 8, 10, 11, 12, 13, 15 |
+| O (open, gate named) | 2, 7, 8, 10, 11, 12, 13, 15 |

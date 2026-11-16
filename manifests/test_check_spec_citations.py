@@ -118,6 +118,26 @@ class Cit(unittest.TestCase):
         text = re.sub(r"^\| 17 \|.*\n", "", SPEC, flags=re.M)
         self.assertFails(self.run_spec(text), "row 17", "missing")
 
+    def test_accounting_total_mismatch(self):
+        errs = self.mutate("18 rows, each appearing once in the table above.",
+                           "17 rows, each appearing once in the table above.")
+        self.assertFails(errs, "accounting:", "17 rows", "18 labels")
+
+    def test_accounting_partition_break(self):
+        errs = self.mutate("| P (proposed, no measurement) | 0, 14, 18 |",
+                           "| P (proposed, no measurement) | 0, 14 |")
+        self.assertFails(errs, "accounting:", "row 18", "missing")
+
+    def test_accounting_status_disagreement(self):
+        errs = self.mutate("| N (not specified) | 9, 17 |",
+                           "| M (not specified) | 9, 17 |")
+        self.assertFails(errs, "accounting:", "row 9", "row 17")
+
+    def test_accounting_section_missing(self):
+        import re
+        text = re.sub(r"^## Accounting\n.*", "", SPEC, flags=re.M | re.S)
+        self.assertFails(self.run_spec(text), "no '## Accounting'")
+
 
 if __name__ == "__main__":
     unittest.main()

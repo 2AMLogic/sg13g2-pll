@@ -30,20 +30,34 @@ Maintaining it: after a flow re-run that changes rendered prose, add the new
 record id here and drop any id that no longer round-trips. Never edit a
 committed `record.md` to make this test pass.
 
-**The one section currently cut from the comparison.** Issue #381 corrected
-the real-block probe's closing sentence, which asserted that a second routing
-plane "cannot be selected on this PDK family at all" even on the runs whose
-own two-layer attempt was accepted and routed more nets than the single-layer
-one. All four records listed below are such runs, so none of them round-trips
-through that section any more -- while every other section of all four still
-does. Rather than edit committed evidence or empty the oracle (which
-`test_latest_record_is_a_golden` would catch), the three byte-comparisons
-below cut the block-probe section from *both* sides via
-`_without_block_probe_section()`; its wording is covered instead by the
+**The sections currently cut from the comparison.** Two single cuts,
+added by #381 and #397 respectively, exclude prose whose corrected
+wording the committed records listed below predate:
+
+- `_without_block_probe_section()` (#381) removes the real-block probe
+  section: #381 corrected its closing sentence, which asserted that a
+  second routing plane "cannot be selected on this PDK family at all"
+  even on the runs whose own two-layer attempt was accepted and routed
+  more nets than the single-layer one. All four records listed below
+  are such runs, so none of them round-trips through that section any
+  more -- while every other section of all four still does.
+- `_without_verdict_attribution_line()` (#397) removes the single
+  "Drawn *and routed* by this repo's own ..." verdict line: #397
+  corrected its live-gap attribution from the closed klayout-tools#1467
+  to the open klayout-tools#1962 and re-titled the block-probe heading
+  (hence the prefix-only `BLOCK_PROBE_HEADING` anchor above). The line
+  is one line in every record, between the `## Verdict:` heading --
+  which keeps all of its counts in the oracle -- and `### Per-block`.
+
+Each cut asserts it removed something, so a renamed heading or paragraph
+fails loudly instead of silently turning the comparison back into a
+whole-file one. The excluded prose is covered instead by the
 committed-`build.json` cases in `test_render_pll_cmos5l_record_sections.py`.
-Remove the cut -- and with it this paragraph -- once the next flow run commits
-a record rendered with the corrected wording and the four ids below are
-dropped under the rule in the paragraph above.
+
+**Retirement (both cuts together, one condition):** once the next flow
+run commits a record rendered with the corrected wording, drop the four
+ids below under the rule in the paragraph above, list the new record,
+and remove both cuts and this paragraph in the same change.
 """
 
 from __future__ import annotations
@@ -73,9 +87,12 @@ GOLDEN_RECORDS = (
 )
 
 
-#: First line of the real-block probe section, in both the committed records
-#: and the renderer's own output.
-BLOCK_PROBE_HEADING = "#### Re-measured against a real block (klayout-tools#1467)"
+#: Heading *prefix* of the real-block probe section, matched with
+#: `startswith` so one constant covers both the committed records' old
+#: heading (`... (klayout-tools#1467)`) and the renderer's new one
+#: (`... (klayout-tools#1962)` -- issue #397 re-titled the section after
+#: #1467 closed upstream).
+BLOCK_PROBE_HEADING = "#### Re-measured against a real block"
 
 
 def _without_block_probe_section(text: str) -> str:
@@ -102,6 +119,42 @@ def _without_block_probe_section(text: str) -> str:
         len(lines),
     )
     return "".join(lines[:start] + lines[end:])
+
+
+#: The single verdict line that carries the drawn-and-routed attribution
+#: prose (issue #397: its live-gap citation moved from the closed
+#: klayout-tools#1467 to the open klayout-tools#1962, and the committed
+#: records still carry the old sentence, so the byte-comparisons cut it
+#: from both sides).
+VERDICT_ATTRIBUTION_PREFIX = "Drawn *and routed* by this repo's own"
+
+
+def _without_verdict_attribution_line(text: str) -> str:
+    """Return `text` with the verdict attribution line removed.
+
+    Same contract as `_without_block_probe_section`: a text with no such
+    line is a failure, not a no-op -- a silent "cut nothing" would turn
+    these comparisons back into whole-file ones without saying so, and a
+    renamed paragraph would make them pass while comparing the very prose
+    the cut exists to exclude.
+    """
+    lines = text.splitlines(keepends=True)
+    kept = [
+        line for line in lines if not line.startswith(VERDICT_ATTRIBUTION_PREFIX)
+    ]
+    assert len(kept) < len(lines), (
+        f"no line starting {VERDICT_ATTRIBUTION_PREFIX!r} to cut -- the "
+        "verdict attribution paragraph is gone or renamed, so this "
+        "comparison is no longer the one it claims to be"
+    )
+    return "".join(kept)
+
+
+def _outside_documented_cuts(text: str) -> str:
+    """`text` with both documented cuts applied, for the byte-comparisons."""
+    return _without_verdict_attribution_line(
+        _without_block_probe_section(text)
+    )
 
 
 def _load_renderer():
@@ -226,6 +279,40 @@ def test_block_probe_cut_keeps_the_following_section():
     )
 
 
+@pytest.mark.parametrize("record_id", GOLDEN_RECORDS)
+def test_golden_record_has_the_verdict_attribution_line(record_id: str):
+    """Guard the second cut: it must remove a real line, never nothing.
+
+    If a committed record carried no such line, the byte-comparisons
+    below would silently compare that record whole -- including the old
+    attribution sentence the cut exists to exclude.
+    """
+    committed = (REPORTS_DIR / record_id / "record.md").read_text()
+    cut = _without_verdict_attribution_line(committed)
+    assert len(cut) < len(committed)
+
+
+def test_verdict_attribution_cut_fails_without_the_paragraph():
+    """The guard above is a real assertion, not a comment about one."""
+    with pytest.raises(AssertionError, match="no line starting"):
+        _without_verdict_attribution_line(
+            "## Verdict: **2 / 2 devices drawn**\n\n### Per-block\n\n"
+        )
+
+
+def test_verdict_attribution_cut_keeps_the_surrounding_lines():
+    """The cut drops exactly the attribution line, not its neighbours."""
+    text = (
+        "## Verdict: **2 / 2 devices drawn**\n\n"
+        f"{VERDICT_ATTRIBUTION_PREFIX} `cmos5l_devices.py` -- prose\n"
+        "### Per-block\n\nkept\n"
+    )
+
+    assert _without_verdict_attribution_line(text) == (
+        "## Verdict: **2 / 2 devices drawn**\n\n### Per-block\n\nkept\n"
+    )
+
+
 def test_latest_record_is_a_golden():
     """`reports/LATEST` names the newest full run; it must round-trip.
 
@@ -243,9 +330,7 @@ def test_committed_record_rerenders_byte_identically(record_id: str):
     record_dir = REPORTS_DIR / record_id
     committed = (record_dir / "record.md").read_text()
     rendered = _render(record_dir, committed)
-    assert _without_block_probe_section(rendered) == _without_block_probe_section(
-        committed
-    )
+    assert _outside_documented_cuts(rendered) == _outside_documented_cuts(committed)
 
 
 @pytest.mark.parametrize("record_id", GOLDEN_RECORDS)
@@ -269,7 +354,7 @@ def test_render_shells_out_to_nothing(record_id: str, monkeypatch):
     record_dir = REPORTS_DIR / record_id
     committed = (record_dir / "record.md").read_text()
     rendered = _render(record_dir, committed)
-    assert _without_block_probe_section(rendered) == _without_block_probe_section(
+    assert _outside_documented_cuts(rendered) == _outside_documented_cuts(
         committed
     )
 
@@ -289,6 +374,6 @@ def test_render_writes_nothing(tmp_path, monkeypatch):
         rendered = _render(record_dir, committed)
     finally:
         monkeypatch.setattr(Path, "write_text", real_write_text)
-    assert _without_block_probe_section(rendered) == _without_block_probe_section(
+    assert _outside_documented_cuts(rendered) == _outside_documented_cuts(
         committed
     )

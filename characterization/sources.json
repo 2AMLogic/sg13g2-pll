@@ -56,8 +56,8 @@
   {
    "id": "divider-speed",
    "title": "Divider speed evidence",
-   "issue": "none filed",
-   "text": "Maximum-input-frequency evidence for the repaired divider_chain is not part of this summary's selected sources (the edge counts exist in the SG13CMOS5L divider slug but are not selected); the SG13G2 divider has none."
+   "issue": "none filed (SG13G2 side)",
+   "text": "SG13G2's (non-port) divider has no maximum-input-frequency evidence at all; the SG13CMOS5L repaired divider_chain is now characterised per corner by sim/sg13cmos5l-divider-max-frequency/records/RECORD-001 (issue #402), schematic-level only - post-layout speed remains uncovered there."
   },
   {
    "id": "cp-mismatch-mc",
@@ -4303,6 +4303,56 @@
    ]
   },
   {
+   "id": "divider-max-frequency",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "netlist-snapshots/divider_chain.spice frozen from design/sg13cmos5l/netlist/divider_chain.spice at commit 1b0f9c9 (origin/main; comment-stripped body identical to the closed-loop-real-divider snapshot)",
+   "context": "schematic, not extracted; divider alone (no loop), ideal pulse clock on CKIN=CKIN_VCO, no load on FB/DIVOUT",
+   "conditions": "9-point PVT star (mos_{tt,ss,ff,sf,fs} at 27 C/3.3 V; mos_tt at -40 C and 125 C; mos_tt at 2.97 V and 3.63 V) x N in {64 (000000), 127 (111111)} x 640-1562 MHz (coarse 64 MHz, refine 16 MHz); 20 ps timestep, reltol 0.001; 80 ps clock edges (tb_div_speed convention); batch fleet, pinned PDK model bytes staged with every job (ihp-sg13cmos5l 607e18d4..., resolving into ihp-sg13g2 5cccb161...); ngspice-47",
+   "method": "per-FB-period rising-edge counts from ngspice .meas VDD/2 crossings (ck, and ck1..ck5/divout on stage-count units), bucketed per FB period, scored against N; per-corner exact-N bound = last swept frequency with all scored periods == N (scored = FB period fully inside the time window [2.0*N/f, 7.5*N/f]: the first scored period is 2 or 3 in practice, >= 4 required for exact); anchored against the closed-loop slug's committed 640 MHz / 1.28 GHz bracket on the byte-identical DUT",
+   "record": "sim/sg13cmos5l-divider-max-frequency/records/RECORD-001-divider-max-frequency-per-corner.md",
+   "tables": [
+    {
+     "id": "by-corner",
+     "path": "sim/sg13cmos5l-divider-max-frequency/corners/max-freq-by-corner.csv",
+     "sha256": "ec71f4fe77deb56dfbf406c818a32747ddc53fa29040065bdc00523ec174f65e"
+    },
+    {
+     "id": "per-unit",
+     "path": "sim/sg13cmos5l-divider-max-frequency/corners/maxfreq.csv",
+     "sha256": "8fef66024fca98c851b1bd02e7f41ac69099b45c0ea1c9a4a8fb292891a81bcf"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "by-corner",
+     "column": "last_exact_fin_mhz",
+     "units": "MHz",
+     "quantity": "highest swept input frequency where every scored FB period contains exactly N clock edges (one-sided cells: NA means no exact point anywhere in the swept range)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "n_nominal"
+     ]
+    },
+    {
+     "table": "by-corner",
+     "column": "first_fail_fin_mhz",
+     "units": "MHz",
+     "quantity": "lowest swept input frequency where a scored FB period miscounts (one-sided cells: NA means exact at every swept frequency)",
+     "coverage_columns": [
+      "mos_corner",
+      "temp_c",
+      "vdd_v",
+      "n_nominal"
+     ]
+    }
+   ],
+   "record_sha256": "89a9c27cc0cd202041128a0d6ec5faa086fd47c903bbc4b23d97339577670787"
+  },
+  {
    "id": "lock-detector-pex-envelope",
    "section": "sg13cmos5l-nominal-pex",
    "pdk": "SG13CMOS5L",
@@ -4517,6 +4567,196 @@
     "cp-mismatch-mc"
    ],
    "record_sha256": "88bffe3303ffe267f8414533af227bf80003590cccff4919ab59b13cd2784983"
+  },
+  {
+   "id": "closed-loop-real-divider-o2",
+   "section": "sg13cmos5l-nominal-single-point",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "repaired transistor-level divider_chain + DR-010 cp in the loop (netlist-snapshots at design/sg13cmos5l/netlist @ab6e9f1; RECORD-002 sha256 table; pfd/loop_filter/vco/divider_chain snapshots byte-identical to RECORD-001's)",
+   "context": "schematic, pre-layout, closed loop",
+   "conditions": "one nominal point (mos_tt, res_typ, 27 C, 3.3 V), band 00, f_ref 9.375 MHz (target 600 MHz), N=64; 10 us; local ngspice-47",
+   "method": "closed-loop transient; trace_real_o2 = per-reference-cycle error, vctrl_real_o2 = control-voltage waveform",
+   "record": "sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md",
+   "tables": [
+    {
+     "id": "trace",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/trace_real_o2.csv",
+     "sha256": "2de0238652967eccfd35718f9e9456d480cc1eaf1e965120be7b4febd1375857"
+    },
+    {
+     "id": "vctrl",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/vctrl_real_o2.csv",
+     "sha256": "43271a577cd0e63909e9d4232faaf2c51fc6e81c74bf7d3a0602a9e85aa2abea"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "trace",
+     "column": "phase_err_frac",
+     "units": "fraction of T_ref",
+     "quantity": "per-cycle phase error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "trace",
+     "column": "delta_f_frac",
+     "units": "fraction of f_ref",
+     "quantity": "per-cycle frequency error",
+     "coverage_columns": [
+      "t_s"
+     ]
+    },
+    {
+     "table": "vctrl",
+     "column": "vctrl_v",
+     "units": "V",
+     "quantity": "VCTRL over the 10 us run",
+     "coverage_columns": [
+      "t_s"
+     ]
+    }
+   ],
+   "notes": [
+    "First real-block closed loop in this slug to meet the dual-lock criterion: locks in 3 ref cycles (warm-started .ic), exact /64 in-loop (93/93 FB periods), 599.996 MHz, static phase error 1.729% of T_ref. Control arm likewise locks (213 ns, 1.741%). Localizes RECORD-001's no-lock to the top-of-band operating point; not a PVT or post-layout result.",
+    "Row 6/6a loop-bandwidth / phase-margin criteria are NOT re-verified at this (band, f_ref) tuple; ideal 10 uA IREF carried over, no trim code re-selected."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed",
+    "cp-dumpbuf-nominal-only"
+   ],
+   "record_sha256": "051da83198ab7a1e8e0d26f89953fd0e1c0aa88a55240de6d7d35385b4674047"
+  },
+  {
+   "id": "pfd-ref-input-thresholds",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "design/sg13cmos5l/netlist/pfd.spice as committed at run time (byte-identical snapshot under sim/sg13cmos5l-pfd-input-threshold/netlist-snapshots/)",
+   "context": "schematic, not extracted",
+   "conditions": "9 correlated PVT bundle x VDD corners of the row-2 operating box (fast = mos_ff/res_bcs/-40 C, typ = mos_tt/res_typ/27 C, slow = mos_ss/res_wcs/125 C; x 3.0/3.3/3.6 V); stimulus at the row-2 range endpoints 3.5 and 24.4 MHz, 30 % and 70 % duty",
+   "method": "DC sweep trip points on the REF edgedet's internal nodes (d1, xd5; ntmp reported as sweep minimum -- it never crosses mid-rail in DC) plus 32-step edge-registration ladders counted on edgedet OUT, FB driven as a full-rail copy so the PFD reset path cycles",
+   "record": "sim/sg13cmos5l-pfd-input-threshold/records/RECORD-001-pfd-ref-input-thresholds.md",
+   "tables": [
+    {
+     "id": "results",
+     "path": "sim/sg13cmos5l-pfd-input-threshold/corners/results.csv",
+     "sha256": "3336e0cf06dc3464ea1fcac0d82b553b5986b7cfd95d4cb9659beb8ef4176cbf"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "results",
+     "column": "vth_d1_v",
+     "units": "V",
+     "quantity": "DC switching threshold of the REF input inverter (edgedet d1)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "vth_xd5_v",
+     "units": "V",
+     "quantity": "DC trip of the edgedet 5-inverter delayed leg (xd5)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "vth_ntmp_v",
+     "units": "V",
+     "quantity": "mid-rail crossing of the nand output ntmp in the DC sweep (none exists at any corner; column is NA)",
+     "where": {
+      "kind": "dc"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_pass_v",
+     "units": "V",
+     "quantity": "highest REF low level that still registers every rising edge (last passing il ladder step)",
+     "where": {
+      "kind": "il"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_fail_v",
+     "units": "V",
+     "quantity": "first failing REF low level (one ladder step above the il boundary)",
+     "where": {
+      "kind": "il"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_pass_v",
+     "units": "V",
+     "quantity": "lowest REF high level that still registers every rising edge (last passing ih ladder step)",
+     "where": {
+      "kind": "ih"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    },
+    {
+     "table": "results",
+     "column": "v_fail_v",
+     "units": "V",
+     "quantity": "first failing REF high level (one ladder step below the ih boundary)",
+     "where": {
+      "kind": "ih"
+     },
+     "coverage_columns": [
+      "bundle",
+      "vdd_v",
+      "freq_mhz",
+      "duty_pct"
+     ]
+    }
+   ],
+   "notes": [
+    "Proposes no V_IL / V_IH spec value; row 2's electrical levels stay open pending DR-002 (target-spec R-5).",
+    "The boundary is one ladder step deep (0.9 x VDD / 31, ~96 mV at 3.3 V); the pass/fail pair in the CSV brackets it, and the V_IL boundary brackets the DC d1 trip at 32/36 stimulus points.",
+    "Boundary values are identical across all four stimulus points at every corner: no frequency/duty dependence resolved at ladder resolution.",
+    "DR-005's proposed 1-25 MHz widening is NOT covered; the grid is row 2's ratified 3.5-24.4 MHz endpoints, which is what R-5 gates on.",
+    "The fleet image's ihp-sg13cmos5l working tree is unstamped; see the record's PDK note (same disclosure as sg13cmos5l-supply-range RECORD-001)."
+   ],
+   "record_sha256": "6a5c84669946f017caac62a28ee9e5bfe928f1e99cfab28dc87cdc803a5a849d"
   }
  ]
 }

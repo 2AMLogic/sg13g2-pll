@@ -372,9 +372,12 @@ effectively-shorted capacitor at AC; **closed via
 0.8.0 pin, and `pex-to-ngspice.py` now only replays the committed
 pre-0.7 snapshots — filed from RECORD-004),
 [#2726](https://github.com/2AMLogic/klayout-tools/issues/2726)
-(DRC cannot see a `Via1` landing on no `Metal1` at all, and the deck
+(DRC could not see a `Via1` landing on no `Metal1` at all, and the deck
 reads no `Cont` rule — this hid #136's uncontacted 0.25 µm `XMPD` for
-three records; the footprint now raises on uncontacted terminals), and
+three records; the footprint now raises on uncontacted terminals —
+**closed via PR #2801, in this repo's 0.8.0 pin**: `klt drc` now flags a
+`Via1` on no `Metal1`, re-probed at the pin by #432's pass; the `Cont`
+half of the entry is untouched by that fix), and
 [#2727](https://github.com/2AMLogic/klayout-tools/issues/2727)
 (`klt sim`'s batch/remote backends refuse the `sg13cmos5l` family, so a
 full-PVT SPICE grid cannot be submitted to the batch fleet — the reason

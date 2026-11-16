@@ -1,0 +1,95 @@
+* sg13g2-pll :: sim/sg13cmos5l-divider-max-frequency (issue #402)
+* `divider_chain` maximum-input-frequency deck: the committed (repaired)
+* divider_chain alone, ideal pulse clock at one frequency, one corner,
+* one programming word. Counts -- via ngspice `.meas ... when rise=k` --
+* the FIRST `@VDD50@` crossing time of every rising edge of the clock (CKIN)
+* and of the feedback clock (FB) within `@TSTOP@`; the collector
+* (../testbench/collect_maxfreq.py) buckets the CKIN edges per FB period and
+* scores each period against the programmed ratio N. Wave units
+* (the generator's "waves" flag) additionally dump the internal stage nodes
+* ck1..ck5 (plus CKIN/FB/DIVOUT) as text for the failing-stage isolation
+* (AC 3); the collector gzips that dump into ../corners/.
+*
+* The deck is rendered per unit by ../testbench/gen_maxfreq_requests.py,
+* which substitutes the corner (@CORNER_MOS@), temperature (@TEMP@), supply
+* (@VDD@, with the 50 % crossing threshold @VDD50@ -- the supply corners
+* make a hard-coded 1.65 V wrong), the clock period (@TPER@) and high time
+* (@CH@ = @TPER@/2 - 80 p: 80 ps edges and ~50 % duty, the SAME drive shape
+* tb_div_speed.sp.tmpl used for the 640 MHz / 1.28 GHz bracket this
+* campaign anchors against), timestep, stop time, reltol, the programming
+* word, the saved-node list, an optional waveform-dump control block and
+* the emitted per-edge .meas lines.
+*
+* PDK provenance: the deck names the PINNED model files relative to itself
+* (`models/`, `osdi/`). `klt sim`'s deck-list preservation contract stages
+* those files from the submitting host -- the pinned
+* `ihp-sg13cmos5l 607e18d4...` checkout's bytes (staged by the generator,
+* which refuses to run without `--pinned-pdk`) -- so neither this deck nor
+* the record may cite `$PDK_ROOT` (that resolves on the worker to the
+* newer, unpinned fleet image). See ../records/RECORD-001.
+*
+* Both clock inputs of `divider_chain` are driven from the same source
+* (`CKIN` = `CKIN_VCO` = `ck`): in the closed loop they are the same net,
+* exactly as in tb_div_func.sp.tmpl. Driving them separately would invent
+* a skew the design does not have.
+*
+* `divider_chain` has NO reset pin: its 13 `dff_tg_hv` state elements have
+* no defined power-up state, so the DC operating point is indeterminate and
+* ngspice's gmin/source stepping cannot resolve it. These `.ic` statements
+* are the minimum symmetry break that makes an OP exist -- a TESTBENCH
+* workaround for a DESIGN gap (Finding 1 of
+* sim/sg13cmos5l-divider-nrange-retiming/records/RECORD-001), not a
+* property of the block.
+*
+* The `.control` block deliberately contains NO `run`. With a `.control`
+* present, ngspice executes the control block BEFORE the deck-level analyses
+* (that is why `pre_osdi` works from here -- it must precede model
+* resolution), so a bare `wrdata` in the control block would run before the
+* transient's vectors exist. Wave units therefore render the POST block as a
+* control-block `tran` command + `linearize` + `wrdata`: the analysis is
+* started from the control block itself (the deck-level TRAN line is
+* rendered empty for wave units), `linearize`/`wrdata` then see the
+* transient vectors, and the deck-level `.meas` cards still evaluate (they
+* hook the analysis regardless of how it was started; measured 2026-11-15:
+* single transient, waves.txt written, .meas values identical to the
+* deck-level-.tran form). Every non-wave unit keeps the deck-level TRAN.
+
+.lib models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+.options reltol=@RELTOL@ vntol=1e-4 abstol=1e-9 trtol=7
+.global sub!
+
+.include divider_chain.spice
+
+Vdd vdd 0 dc @VDD@
+Vsub sub! 0 dc 0
+Vck ck 0 pulse(0 @VDD@ 0 80p 80p @CH@ @TPER@)
+Vp0 p0 0 dc @P0@
+Vp1 p1 0 dc @P1@
+Vp2 p2 0 dc @P2@
+Vp3 p3 0 dc @P3@
+Vp4 p4 0 dc @P4@
+Vp5 p5 0 dc @P5@
+
+Xdiv ck ck p0 p1 p2 p3 p4 p5 fb divout vdd 0 divider_chain
+
+.ic v(xdiv.xd0.xdffq.m)=0 v(xdiv.xd0.xdffq.s)=0 v(xdiv.xd0.xdffm.m)=0 v(xdiv.xd0.xdffm.s)=0
+.ic v(xdiv.xd1.xdffq.m)=0 v(xdiv.xd1.xdffq.s)=0 v(xdiv.xd1.xdffm.m)=0 v(xdiv.xd1.xdffm.s)=0
+.ic v(xdiv.xd2.xdffq.m)=0 v(xdiv.xd2.xdffq.s)=0 v(xdiv.xd2.xdffm.m)=0 v(xdiv.xd2.xdffm.s)=0
+.ic v(xdiv.xd3.xdffq.m)=0 v(xdiv.xd3.xdffq.s)=0 v(xdiv.xd3.xdffm.m)=0 v(xdiv.xd3.xdffm.s)=0
+.ic v(xdiv.xd4.xdffq.m)=0 v(xdiv.xd4.xdffq.s)=0 v(xdiv.xd4.xdffm.m)=0 v(xdiv.xd4.xdffm.s)=0
+.ic v(xdiv.xd5.xdffq.m)=0 v(xdiv.xd5.xdffq.s)=0 v(xdiv.xd5.xdffm.m)=0 v(xdiv.xd5.xdffm.s)=0
+.ic v(xdiv.xfrt.m)=0 v(xdiv.xfrt.s)=0
+
+.save @SAVELIST@
+@TRAN@
+
+.control
+pre_osdi osdi/psp103.osdi
+pre_osdi osdi/psp103_nqs.osdi
+pre_osdi osdi/mosvar.osdi
+set num_threads=2
+@POST@
+.endc
+@MEAS@
+.end

@@ -143,6 +143,58 @@ def test_vco_row_and_na():
     assert rows["dead"]["period_s"] == "NA" and rows["dead"]["freq_hz"] == "NA"
 
 
+def test_vco_flat_dot_out_layout():
+    """The committed raw layout: flat `<id>.out` files resolve too; a unit
+    with both candidates takes the `<id>/stdout.bin` convention, and a
+    single unresolvable unit still lands NA (no refusal)."""
+    with tempfile.TemporaryDirectory() as td:
+        outdir = pathlib.Path(td)
+        (outdir / "b11_both.out").write_text(
+            "Simulation text\nper1 = 9.9e-10\n")
+        conv = outdir / "b11_both"
+        conv.mkdir()
+        (conv / "stdout.bin").write_text(
+            "Simulation text\nper1 = 7.873107e-10\n")
+        (outdir / "b00_v2p1.out").write_text(
+            "Simulation text\nper1 = 1.31279e-09\n")
+        (outdir / "dead.out").write_text("no oscillation here\n")
+        shacsv = outdir / "decks.csv"
+        shacsv.write_text(
+            "id,mos_corner,res_corner,temp_c,band_code,vctrl_v,deck_sha256\n"
+            "b11_both,mos_tt,res_typ,125,11,3.3,aa\n"
+            "b00_v2p1,mos_tt,res_typ,125,00,2.1,bb\n"
+            "dead,mos_tt,res_typ,125,00,2.1,cc\n"
+            "missing,mos_tt,res_typ,125,00,2.1,dd\n")
+        out_csv = outdir / "vco.csv"
+        ca.collect_vco(outdir, shacsv, out_csv)
+        rows = {r["id"]: r for r in __import__("csv").DictReader(open(out_csv))}
+    got = float(rows["b11_both"]["period_s"])
+    assert got == 7.873107e-10, got  # stdout.bin beat the flat .out candidate
+    assert rows["b00_v2p1"]["period_s"] == "1.31279e-09"
+    assert rows["dead"]["period_s"] == "NA"
+    assert rows["missing"]["period_s"] == "NA" and rows["missing"]["freq_hz"] == "NA"
+
+
+def test_vco_refuses_when_no_unit_resolves():
+    """No readable stdout for ANY unit -> hard refusal naming both layouts,
+    never an emitted all-NA CSV."""
+    with tempfile.TemporaryDirectory() as td:
+        outdir = pathlib.Path(td)
+        shacsv = outdir / "decks.csv"
+        shacsv.write_text(
+            "id,mos_corner,res_corner,temp_c,band_code,vctrl_v,deck_sha256\n"
+            "gone,mos_tt,res_typ,125,11,3.3,aa\n"
+            "lost,mos_tt,res_typ,125,00,2.1,bb\n")
+        out_csv = outdir / "vco.csv"
+        try:
+            ca.collect_vco(outdir, shacsv, out_csv)
+        except SystemExit as e:
+            assert "stdout.bin" in str(e) and "<id>.out" in str(e), e
+        else:
+            raise AssertionError("collector emitted a CSV with zero stdout inputs")
+        assert not out_csv.exists()
+
+
 def test_fit_helpers_untouched():
     """The collector must not grow its own fit or lock math."""
     assert ca.mg is mg

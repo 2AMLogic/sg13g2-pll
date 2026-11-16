@@ -1,0 +1,47 @@
+* sg13g2-pll :: sim/sg13cmos5l-pfd-input-threshold (issue #403, spec row 2 / R-5)
+* DC switching threshold of the committed SG13CMOS5L `pfd` REF input stage
+* (../netlist-snapshots/pfd.spice, byte-identical to
+* design/sg13cmos5l/netlist/pfd.spice).
+*
+* REF is swept 0 -> VDD with FB held low, so the reset path is inert and the
+* REF edgedet (XED_UP) is the only input stage being exercised.  edgedet's
+* OUT (the `set_up` net) is a ~5-gate-delay EDGE PULSE, not a level -- it
+* responds where the XN1 nand2_hv sees X and the 5-inverter delayed leg XD5
+* overlap high -- so it cannot be measured in a DC sweep.  The static
+* thresholds reported are on the named internal nodes:
+*   d1   -- the input inverter's output: its own trip point (V_M of inv_hv).
+*   xd5  -- the delayed leg the NAND compares against; its trip point
+*           (falling, since five inversions hang off X).
+*   ntmp -- the NAND output; it dips below mid-rail only where X and XD5
+*           overlap high in the sweep, so its crossing may not exist at
+*           every corner (NA is meaningful there); ntmp_min over the sweep
+*           is reported alongside.
+* The edge decks (tb_pfd_edge.sp.tmpl) measure where the pulse stops being
+* produced; the record names the node each number belongs to.
+*
+* Placeholders are substituted by testbench/threshold_grid.py, which also
+* inserts the pre_osdi / num_threads lines into the .control block (a
+* deck-list unit has no .spiceinit).
+
+.lib $PDK_ROOT/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.option scale=1 temp=@TEMP@
+
+.include pfd_snap.spice
+
+Vdd vdd 0 dc @VDD@
+Vref ref 0 dc 0
+Vfb  fb  0 dc 0
+
+Xpfd ref fb up dn vdd 0 pfd
+
+.dc Vref 0 @VDD@ @DSTEP@
+
+.control
+run
+meas dc vth_d1   when v(xpfd.xed_up.d1)=@VMID@
+meas dc vth_xd5  when v(xpfd.xed_up.xd5)=@VMID@
+meas dc vth_ntmp when v(xpfd.xed_up.ntmp)=@VMID@
+meas dc ntmp_min min v(xpfd.xed_up.ntmp)
+print vth_d1 vth_xd5 vth_ntmp ntmp_min
+.endc
+.end

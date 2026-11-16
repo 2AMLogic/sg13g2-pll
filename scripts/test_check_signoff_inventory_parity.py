@@ -114,6 +114,52 @@ class Parity(unittest.TestCase):
         wf = workflow(step("python3 a/gate.py") + "      # python3 a/retired.py\n")
         self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
 
+    def test_comment_after_continuation_is_not_joined(self):
+        r"""A `\`-continued line followed by a comment line ends the command.
+
+        Issue #436: the join pre-pass folded the comment into the logical
+        command, so `python3` inside the comment was recorded as a live gate
+        and CI failed demanding an inventory entry for a script that never
+        runs. Pre-fix this test fails: `a/retired.py` is reported missing.
+        """
+        wf = workflow(step("python3 a/gate.py \\", "# python3 a/retired.py"))
+        problems = self.run_check(wf, inventory("a/gate.py"))
+        self.assertEqual(problems, [])
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("gate.py", ()): [6]}
+        )
+
+    def test_comment_line_ending_in_backslash_keeps_later_command(self):
+        r"""A comment line's own trailing `\` continues nothing; a real gate
+        after it must still be recorded, at its physical line.
+
+        This is the case that separates the correct fix (break the join at a
+        comment) from truncation-at-`#`, which silently drops `other.py`.
+        """
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # note \\\n"
+            "          python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text),
+            {("gate.py", ()): [6], ("other.py", ()): [8]},
+        )
+
     def test_module_and_interpreter_only_invocations_are_not_gates(self):
         wf = workflow(step("python3 -m venv /tmp/v", "python3 -c 'import sys'", "python3"))
         self.assertEqual(self.run_check(wf, inventory()), [])
@@ -142,6 +188,122 @@ class Parity(unittest.TestCase):
         problems = self.run_check(wf, inventory("a/gate.py"))
         self.assertEqual(len(problems), 1)
         self.assertIn("--extra", problems[0])
+
+    # --- continuations and interpreter flags (issue #409) -------------------
+
+    def test_backslash_continued_script_line_is_seen(self):
+        """Case A: `python3 \\` with the script on the next line is a gate.
+
+        Pre-fix the parser scanned one physical line at a time, saw `python3`
+        with no script, and dropped the invocation -- the guard stayed green
+        with the gate inventoried nowhere. This test is the bite: it fails
+        against that parser.
+        """
+        wf = workflow(step("python3 \\", "    a/gate.py"))
+        problems = self.run_check(wf, inventory())
+        self.assertEqual(len(problems), 1)
+        self.assertIn("a/gate.py", problems[0])
+        self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
+
+    def test_continued_invocation_reports_the_python3_line(self):
+        """The FAIL message's line pointer is where `python3` appears, not
+        where the joined continuation ends."""
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 \\\n"
+            "            a/gate.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("a/gate.py", ()): [6]}
+        )
+
+    def test_backslash_continued_argument_is_retained(self):
+        """Case B: a `\\`-continued argument must not be dropped.
+
+        Pre-fix the continuation was stripped and the invocation normalized
+        to (a/gen.py, ()) -- matching a plain inventory entry and defeating
+        argument-awareness.
+        """
+        wf = workflow(step("python3 a/gen.py \\", "    --check"))
+        problems = self.run_check(wf, inventory("a/gen.py"))
+        self.assertEqual(len(problems), 1)
+        self.assertIn("--check", problems[0])
+        self.assertEqual(self.run_check(wf, inventory(("a/gen.py", "--check"))), [])
+
+    def test_continued_operator_splits_two_gates(self):
+        """A `\\`-joined `&&` is still two invocations, not one with args."""
+        wf = workflow(step("python3 a/one.py \\", "    && python3 a/two.py"))
+        self.assertEqual(self.run_check(wf, inventory("a/one.py", "a/two.py")), [])
+        problems = self.run_check(wf, inventory("a/one.py"))
+        self.assertEqual(len(problems), 1)
+        self.assertIn("a/two.py", problems[0])
+
+    def test_x_flag_with_value_gate_missing_from_inventory_fails(self):
+        """Case C: `-X utf8` consumes its value, then the script is a gate.
+
+        Pre-fix `-X` was in NO_SCRIPT_FLAGS (the `-m`/`-c` bucket) and the
+        invocation normalized to None -- invisible to the guard.
+        """
+        wf = workflow(step("python3 -X utf8 a/gate.py"))
+        problems = self.run_check(wf, inventory())
+        self.assertEqual(len(problems), 1)
+        self.assertIn("a/gate.py", problems[0])
+        self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
+
+    def test_w_flag_with_value_gate_missing_from_inventory_fails(self):
+        """Case C, `-W` variant: value consumed, script and args still seen."""
+        wf = workflow(step("python3 -W error a/gen.py --check"))
+        problems = self.run_check(wf, inventory())
+        self.assertEqual(len(problems), 1)
+        self.assertIn("a/gen.py", problems[0])
+        self.assertIn("--check", problems[0])
+        self.assertEqual(self.run_check(wf, inventory(("a/gen.py", "--check"))), [])
+
+    def test_normalize_value_flags_consume_value_then_script(self):
+        self.assertEqual(
+            chk.normalize(["-X", "utf8", "a/gate.py", "--strict"]),
+            ("a/gate.py", ("--strict",)),
+        )
+        self.assertEqual(chk.normalize(["-W", "error", "a/gate.py"]),
+                         ("a/gate.py", ()))
+        self.assertEqual(
+            chk.normalize(["--check-hash-based-pycs", "never", "a/gate.py"]),
+            ("a/gate.py", ()),
+        )
+
+    def test_attached_flag_spellings_still_work(self):
+        """`-Xutf8` / `-Werror` already worked before the fix; they must not
+        regress when the separated spellings gain value-consuming handling."""
+        wf = workflow(step("python3 -Xutf8 -Werror -B a/gate.py --strict"))
+        self.assertEqual(
+            self.run_check(wf, inventory(("a/gate.py", "--strict"))), [])
+        problems = self.run_check(wf, inventory("a/gate.py"))
+        self.assertEqual(len(problems), 1)
+        self.assertIn("--strict", problems[0])
+
+    def test_no_script_flags_still_return_none(self):
+        """`-m`/`-c` really do run no gate file; they keep the None bucket."""
+        self.assertIsNone(chk.normalize(["-m", "venv", "/tmp/v"]))
+        self.assertIsNone(chk.normalize(["-c", "import sys"]))
+        self.assertIsNone(chk.normalize(["-"]))
+
+    def test_continuation_inside_heredoc_body_is_ignored(self):
+        """The join pre-pass must not weaken heredoc skipping."""
+        wf = workflow(step("python3 - \"$RUNNER_TEMP/fresh.json\" <<'PY'",
+                           "import json, sys",
+                           "python3 not_a_real_gate.py \\",
+                           "    also_not_a_gate.py",
+                           "PY"))
+        self.assertEqual(self.run_check(wf, inventory()), [])
+
+    def test_trailing_backslash_on_last_run_line_does_not_crash(self):
+        """Nothing follows to join; command_tokens()'s strip stays the net."""
+        wf = workflow(step("python3 a/gate.py \\"))
+        self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
 
     # --- the exclusion table ------------------------------------------------
 

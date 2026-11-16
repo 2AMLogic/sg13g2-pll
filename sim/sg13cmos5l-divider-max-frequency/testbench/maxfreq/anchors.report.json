@@ -1,0 +1,54 @@
+{
+  "schema_version": 3,
+  "mode": "decks",
+  "backend": "local",
+  "engine": "ngspice",
+  "status": "pass",
+  "unit_count": 2,
+  "passed": 2,
+  "errored": 0,
+  "timed_out": 0,
+  "units": [
+    {
+      "id": "n64_mos_tt_27c_3v3_f0640_a",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 193.081,
+      "engine_version": "47",
+      "deck": "n64_mos_tt_27c_3v3_f0640_a.sp",
+      "deck_sha256": "f099fe756c5398d696cb3ecf032d1dfae2324426b046dedd9bf00feb85d4a504",
+      "stdout": "n64_mos_tt_27c_3v3_f0640_a/stdout.bin",
+      "stderr": "n64_mos_tt_27c_3v3_f0640_a/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [],
+      "diagnostics": []
+    },
+    {
+      "id": "n64_mos_tt_27c_3v3_f1280_a",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 111.301,
+      "engine_version": "47",
+      "deck": "n64_mos_tt_27c_3v3_f1280_a.sp",
+      "deck_sha256": "77f27678b34a703ee2af620314ea6ee6253831f523f2872be9784f520c8be7ce",
+      "stdout": "n64_mos_tt_27c_3v3_f1280_a/stdout.bin",
+      "stderr": "n64_mos_tt_27c_3v3_f1280_a/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [],
+      "diagnostics": []
+    }
+  ],
+  "outdir": "/home/ubuntu/GitHub/sg13g2-pll/.loom/worktrees/issue-402/sim/sg13cmos5l-divider-max-frequency/testbench/maxfreq/run-anchors",
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "47",
+    "ngspice_binary": "/home/ubuntu/.local/bin/ngspice",
+    "klt_version": "0.9.2.dev1029+g76f47afa48f1",
+    "max_workers": 1,
+    "engine_host": "local"
+  }
+}

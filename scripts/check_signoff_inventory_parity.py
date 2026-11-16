@@ -60,21 +60,29 @@ PYTHON3_RE = re.compile(r"(?<![\w./-])python3(?![\w.-])")
 HEREDOC_RE = re.compile(r"<<-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 # Tokens that end one command within a `run:` block.
 OPERATORS = {"&&", "||", "|", ";", "&", ">", ">>", "<", "2>", "2>&1", "|&"}
-# Interpreter flags that take the next token and mean "no script file follows".
-NO_SCRIPT_FLAGS = {"-m", "-c", "-X", "-W", "--check-hash-based-pycs"}
+# Interpreter flags that mean "no script file follows": `python3 -m venv`,
+# `python3 -c '...'` run no gate file.
+NO_SCRIPT_FLAGS = {"-m", "-c"}
+# Interpreter flags that consume the next token as their value and are
+# followed by the script (`python3 -X utf8 gate.py`): skip flag *and* value,
+# then keep looking for the script (issue #409). The attached spellings
+# (`-Xutf8`) already fall out of the unrecognized-flag skip below.
+VALUE_FLAGS = {"-X", "-W", "--check-hash-based-pycs"}
 
 
 def normalize(tokens):
     """argv tokens *after* the `python3` word -> (script, args) or None.
 
-    None means the invocation runs no gate file: a `-m module`, a `-c snippet`,
-    a bare REPL, or the `python3 - <<'PY'` heredoc (whose "path" is `-`).
+    None means the invocation runs no gate file: a `-m module`, a `-c
+    snippet`, a bare REPL, or the `python3 - <<'PY'` heredoc (whose "path"
+    is `-`). VALUE_FLAGS consume their value and the scan continues, so the
+    script after `python3 -X utf8` is still seen as a gate.
     """
     i = 0
     while i < len(tokens) and tokens[i].startswith("-") and tokens[i] != "-":
         if tokens[i] in NO_SCRIPT_FLAGS:
             return None
-        i += 1
+        i += 2 if tokens[i] in VALUE_FLAGS else 1
     if i >= len(tokens):
         return None
     script = tokens[i]
@@ -101,14 +109,27 @@ def command_tokens(text):
 
 
 def workflow_invocations(text):
-    """{(script, args): [1-based line numbers]} for every gate signoff.yml runs.
+    r"""{(script, args): [1-based line numbers]} for every gate signoff.yml runs.
 
     Skips `#` comment lines and the bodies of heredocs, so commented-out gates
-    and embedded Python are not mistaken for invocations.
+    and embedded Python are not mistaken for invocations. `\`-continued lines
+    are joined into one logical command first, so a gate (or its arguments)
+    split across lines is still seen; the reported line number stays the one
+    where `python3` appears (issue #409). A comment ends a continuation: the
+    shell comments out the rest of that line, so a `#` line is never joined
+    and is left for the ordinary comment skip below (issue #436).
     """
+    def indent(s):
+        return len(s) - len(s.lstrip())
+
     found = {}
     delimiter = None
-    for lineno, line in enumerate(text.splitlines(), 1):
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        lineno = i + 1
+        i += 1
         if delimiter is not None:
             if line.strip() == delimiter:
                 delimiter = None
@@ -116,6 +137,20 @@ def workflow_invocations(text):
         stripped = line.strip()
         if stripped.startswith("#"):
             continue
+        # Join `\`-continued lines into one logical command. A next line that
+        # is blank or dedents (the block scalar ended -- the next YAML key)
+        # is not joined; command_tokens()'s trailing-`\` strip then still
+        # handles the dangling backslash. A next line that is a comment is
+        # not joined either -- the shell comments out the rest of that line,
+        # so it ends the command; breaking without advancing `i` lets the
+        # outer loop skip it via the `startswith("#")` test below, keeping
+        # any real command after it visible (issue #436).
+        while (line.rstrip().endswith("\\") and i < len(lines)
+               and lines[i].strip() and indent(lines[i]) >= indent(line)):
+            if lines[i].strip().startswith("#"):
+                break
+            line = line.rstrip()[:-1] + " " + lines[i].strip()
+            i += 1
         heredoc = HEREDOC_RE.search(line)
         for match in PYTHON3_RE.finditer(line):
             inv = normalize(command_tokens(line[match.end():]))
