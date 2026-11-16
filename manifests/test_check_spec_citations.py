@@ -133,6 +133,15 @@ class Cit(unittest.TestCase):
                            "| M (not specified) | 9, 17 |")
         self.assertFails(errs, "accounting:", "row 9", "row 17")
 
+    def test_accounting_short_row(self):
+        errs = self.mutate("| N (not specified) | 9, 17 |", "| N (not specified) |")
+        self.assertFails(errs, "accounting:", "cells")
+
+    def test_accounting_wide_row(self):
+        errs = self.mutate("| N (not specified) | 9, 17 |",
+                           "| N (not specified) | 9, 17 | extra |")
+        self.assertFails(errs, "accounting:", "cells")
+
     def test_accounting_section_missing(self):
         import re
         text = re.sub(r"^## Accounting\n.*", "", SPEC, flags=re.M | re.S)
