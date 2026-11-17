@@ -8,6 +8,11 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-17
 
+- **PR #485**: run_gates: mirror signoff.yml's bash osdi-arch self-test via a TAIL entry
+- **PR #482**: ci: run check-osdi-arch.sh self-test in signoff workflow
+- **Issue #483** (closed): ci: run_gates.py's local/CI mirror invariant covers python3 gates only — the new bash self-test is outside it
+- **Issue #464** (closed): ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
+- **Issue #319** (closed): Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **PR #481**: feat: gate docs/ROADMAP.md's accounting sentence against the spec Row table
 - **PR #480**: docs: annotate landed postlayout-pex-pvt reruns and past-tense the #221 gate bullet in provenance-migration.md
 - **PR #475**: fix: strip unquoted inline comments before scanning signoff.yml gates
