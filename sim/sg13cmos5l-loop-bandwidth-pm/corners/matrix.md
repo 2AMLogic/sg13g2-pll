@@ -61,3 +61,29 @@ cross-check at one point inside the amended range -> `crosscheck_resized.txt`
   linearisation; the `f_c < f_ref/10` criterion is exactly the guard-band
   that makes that approximation admissible, and it is *evaluated*, never
   assumed satisfied.
+
+## Batch rerun (issue #319, provenance migration)
+
+Every CSV and cross-check named above is retained unedited as history. Their
+evidence claims are superseded by same-bench reruns of the same matrices,
+driven by each original's own `run.sh` (extracted from git at its producing
+commit, with only the ngspice call replaced) on the `klt sim` batch fleet,
+with the pinned PDK trees (`sim/README.md`'s `PDK-PIN` revisions, both trees)
+staged beside the decks — see `../testbench/gen_rerun319.py` and
+`../corners/staged_pdk_rerun319.sha256.csv`:
+
+| Original (commit) | Rerun output | Rerun record |
+|---|---|---|
+| `results.csv`, `mom_band.csv`, `proposal.csv`, `crosscheck.txt` (`b37918d`) | `results_rerun319.csv`, `mom_band_rerun319.csv`, `proposal_rerun319.csv`, `crosscheck_rerun319.txt` | `../records/RECORD-006-loop-bandwidth-pm-rerun-batch.md` |
+| the same four after the DR-006 `Icp` refresh (`f54b9ef`) | `results_icp_refresh_rerun319.csv`, `mom_band_icp_refresh_rerun319.csv`, `proposal_icp_refresh_rerun319.csv`, `crosscheck_icp_refresh_rerun319.txt` | `../records/RECORD-007-icp-input-refresh-rerun-batch.md` |
+| `results_resized.csv`, `crosscheck_resized.txt` (`ffec56a`) | `results_resized_rerun319.csv`, `crosscheck_resized_rerun319.txt`, plus the control arm `results_resized_origicp_rerun319.csv` / `crosscheck_resized_origicp_rerun319.txt` | `../records/RECORD-008-r1-resize-full-fref-range-rerun-batch.md` |
+
+Parts A - C reproduce the originals **byte-identically** — every output of
+both arms, sha256 for sha256, verdicts included (0 of 90 rows meet
+PM >= 45 deg). Part D reproduces the original exactly in the control arm
+(byte-identical) and differs only through the intentional `Icp` input refresh
+in the primary arm (0 of 426 verdict flips; 16 of 17 full-coverage regions,
+as in the original). An earlier in-PR version of these reruns ran on the
+fleet image's own PDK tree and did not reproduce Part D (14 flips, 14 of
+17) — that observation is PDK drift, kept labelled as such inside
+`RECORD-008`; the data committed here is the pinned-trees run.

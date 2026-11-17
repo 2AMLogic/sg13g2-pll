@@ -1,0 +1,478 @@
+#!/usr/bin/env python3
+"""Render the issue-#319 rerun of RECORD-001 / -002 / -002-r1 as `klt sim` batch
+`decks[]` requests, and collect the returned units back into new CSVs.
+
+Why this exists
+---------------
+Each of the three originals was produced by `testbench/run.sh`, which loops
+`ngspice -b` locally over a few hundred decks.  Dispatch workers forbid
+hand-launched local ngspice grids, so the grid has to be expressed as a
+`klt sim --backend batch` request.  Re-expressing the campaign as a *corner*
+request would mint a different artifact than the originals were minted by, so
+this uses the deck-transport (`decks[]`) path instead: klt ships each deck
+byte-for-byte and runs `ngspice -b` on it, exactly as `run.sh` did.
+
+Fidelity
+--------
+The matrix, the `crossover()` interpolation and every CSV writer are the
+*historical* ones: this script extracts each original's own `run.sh` from git
+at that original's producing commit, lifts the embedded Python verbatim, and
+replaces **only** the body of `run_ac()` -- the function that shells out to
+ngspice.  In `render` mode `run_ac` writes the deck; in `collect` mode it reads
+that deck's returned `ac.dat`.  Nothing else about the historical program is
+touched, and the historical *input* CSVs (Kvco / R-C / Icp tables) are read
+from the same historical tree, so each rerun measures that original's own
+historical DUT rather than today's design.
+
+Pinned PDK (required)
+---------------------
+`--pinned-pdk DIR` (the `ihp-sg13cmos5l` tree at `sim/README.md`'s
+`PDK-PIN ihp-sg13cmos5l 607e18d4...` revision -- a clean checkout of it) is
+required, because the fleet image's `/opt/pdk/ihp-sg13cmos5l` is a *newer*
+tree and a deck resolving `$PDK_ROOT/...` on the runner would run on the
+wrong revision.  The way out is the #374 staging route: after the rewrite
+below, every PDK reference in every deck is *deck-relative* into a staged
+closure copied from the pinned tree, so klt ships those bytes with the deck
+and nothing is left for the runner's own PDK tree to resolve (`klt sim
+--dry-run` reports `host_resolved: []`).  The staged closure per arm is the
+two corner libraries the decks name plus their same-directory includes
+(symlinks dereferenced -- the pinned tree tracks the resistor cards as
+symlinks into the sibling ihp-sg13g2 tree) and the three OSDI objects;
+`render` manifests every staged byte with its sha256 and asserts all four
+arms staged identical files.
+
+Deck deltas vs. what `run.sh` ran (the only ones, all forced by the transport):
+  * `.lib` / `.include` paths into the PDK become `models/<name>` -- staged
+    pinned bytes beside the deck, resolved deck-relative by klt.
+  * `run.sh` loaded the three OSDI objects from a `.spiceinit` in its scratch
+    dir; a shipped deck has no `.spiceinit`, so the same three objects are
+    loaded with `pre_osdi osdi/<n>.osdi` lines at the top of `.control`
+    (ngspice hoists them).  Same objects, same order, staged pinned bytes.
+
+Collect copies bytes
+--------------------
+The historical writers use `csv.writer(..., newline="")` and emit CRLF; the
+original committed CSVs are CRLF.  `collect` therefore round-trips the
+returned files as **bytes** (`read_bytes`/`write_bytes`) and prints a
+per-file byte-identity verdict plus sha256 against the historical original,
+so "identical" claims are about the committed bytes, not about text that a
+`read_text()` round-trip silently re-line-ended.
+
+Usage
+-----
+  python3 -I gen_rerun319.py render --pinned-pdk DIR [--chunk-size 64]
+  python3 -I gen_rerun319.py collect <outdir> ...   # one outdir per arm ('-' skips)
+"""
+import argparse
+import csv
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+REC_DIR = HERE.parent                      # sim/sg13cmos5l-loop-bandwidth-pm
+REPO = REC_DIR.parent.parent               # repo root
+OUT = HERE / "rerun319"
+BENCH = "sim/sg13cmos5l-loop-bandwidth-pm"
+PDK = "ihp-sg13cmos5l"
+TIMEOUT_S = 900
+MODELS_REL = "models"                      # deck-relative staged closure dir
+OSDI_REL = "osdi"
+OSDI_NAMES = ("cap_cmomi", "cap_cmomf", "r3_cmc")
+MODELS_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/models/"
+OSDI_TOKEN = f"$PDK_ROOT/{PDK}/libs.tech/ngspice/osdi/"
+STAGED_RE = re.compile(r"(?:^|\s)models/(\S+)", re.M)   # staged names a deck references
+PROBE_TAGS = ("X_real", "X_lump")   # the historical crosscheck decks (b37918d)
+PROBE_ARM = "b37918d"
+
+# One entry per original record being superseded: the producing commit, the
+# netlist snapshots `run.sh` stages into its scratch dir, and the CSV/text
+# outputs the historical program writes (historical name -> rerun name).
+SNAPSHOTS = {
+    "b37918d": {
+        "commit": "b37918d",
+        "record": "RECORD-001-loop-bandwidth-phase-margin.md",
+        "stage": {"loop_filter.spice": "loop_filter_snap.spice"},
+        "outputs": {"results.csv": "results_rerun319.csv",
+                    "mom_band.csv": "mom_band_rerun319.csv",
+                    "proposal.csv": "proposal_rerun319.csv",
+                    "crosscheck.txt": "crosscheck_rerun319.txt"},
+    },
+    "f54b9ef": {
+        "commit": "f54b9ef",
+        "record": "RECORD-002-icp-input-refresh.md",
+        "stage": {"loop_filter.spice": "loop_filter_snap.spice"},
+        "outputs": {"results.csv": "results_icp_refresh_rerun319.csv",
+                    "mom_band.csv": "mom_band_icp_refresh_rerun319.csv",
+                    "proposal.csv": "proposal_icp_refresh_rerun319.csv",
+                    "crosscheck.txt": "crosscheck_icp_refresh_rerun319.txt"},
+    },
+    # Part D, re-driven against ffec56a's own tree: the faithful "rerun at the
+    # original's commit".  Note that ffec56a's COMMITTED results_resized.csv
+    # carries the PRE-#72 Icp values (fast 1.005123e-05 / slow 1.004412e-05 /
+    # typ 1.004607e-05 at the 10u code) -- the b37918d table, not the refreshed
+    # one already present in its own tree.  So the original Part D ran before
+    # the #72 input refresh merged and was never regenerated against it.  The
+    # `_origicp` control arm below re-runs this same grid on the Icp table the
+    # original actually consumed, which separates that input refresh from
+    # PDK/tool drift.
+    "ffec56a": {
+        "commit": "ffec56a",
+        "record": "RECORD-002-r1-resize-full-fref-range.md",
+        "stage": {"loop_filter.spice": "loop_filter_snap.spice",
+                  "loop_filter_resized.spice": "loop_filter_snap_resized.spice"},
+        "outputs": {"results_resized.csv": "results_resized_rerun319.csv",
+                    "crosscheck_resized.txt": "crosscheck_resized_rerun319.txt"},
+    },
+    "ffec56a_origicp": {
+        "commit": "ffec56a",
+        "icp_from": "b37918d",
+        "record": "RECORD-002-r1-resize-full-fref-range.md (control: the Icp table the original consumed)",
+        "stage": {"loop_filter.spice": "loop_filter_snap.spice",
+                  "loop_filter_resized.spice": "loop_filter_snap_resized.spice"},
+        "outputs": {"results_resized.csv": "results_resized_origicp_rerun319.csv",
+                    "crosscheck_resized.txt": "crosscheck_resized_origicp_rerun319.txt"},
+    },
+}
+
+# `run_ac`'s replacement body.  Everything else in the historical program --
+# the matrix, crossover(), the CSV writers -- is executed verbatim.
+RUN_AC = '''def run_ac(tmpl, subs, tag):
+    src = open(f"{HERE}/{tmpl}").read()
+    for k, v in subs.items():
+        src = src.replace(k, str(v))
+    return _KLT_RUN_AC(tag, tmpl, src)
+'''
+RUN_AC_RE = re.compile(r"^def run_ac\(tmpl, subs, tag\):\n.*?^    return rows\n",
+                       re.M | re.S)
+
+
+def historical_tree(commit):
+    """Extract the repo at `commit` into a temp dir (caller removes it)."""
+    d = Path(tempfile.mkdtemp(prefix=f"rerun319-{commit}-"))
+    archive = subprocess.run(["git", "-C", str(REPO), "archive", commit],
+                             stdout=subprocess.PIPE, check=True).stdout
+    subprocess.run(["tar", "-x", "-C", str(d)], input=archive, check=True)
+    return d
+
+
+def historical_python(tree):
+    """The Python program embedded in that commit's own run.sh, with run_ac swapped."""
+    sh = (tree / BENCH / "testbench" / "run.sh").read_text()
+    body = sh.split("python3 - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+    body, n = RUN_AC_RE.subn(RUN_AC, body)
+    if n != 1:
+        raise SystemExit("could not substitute run_ac (matched %d times)" % n)
+    return body
+
+
+def to_deck(src):
+    """The transport-forced edits, and nothing else: PDK references become
+    deck-relative paths into the staged pinned closure, and the OSDI objects
+    load via `pre_osdi` (a deck-list unit has no `.spiceinit`)."""
+    src = src.replace("$PDK_ROOT/$PDK/", f"$PDK_ROOT/{PDK}/")
+    src = src.replace("@PDK_ROOT@/@PDK@", f"$PDK_ROOT/{PDK}")
+    src = src.replace(MODELS_TOKEN, MODELS_REL + "/")
+    src = src.replace(OSDI_TOKEN, OSDI_REL + "/")
+    pre = "".join(f"pre_osdi {OSDI_REL}/{n}.osdi\n" for n in OSDI_NAMES)
+    src, n = re.subn(r"^\.control\n", ".control\n" + pre, src, count=1, flags=re.M)
+    if n != 1:
+        raise SystemExit("deck has no .control block to hoist pre_osdi into")
+    leftover = [l for l in src.splitlines()
+                if ("@" in l or "$PDK" in l) and not l.startswith("*")]
+    if leftover:
+        raise SystemExit("unsubstituted token(s): %r" % leftover[:3])
+    return src
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def stage_pinned(pdk_root, decks_dir, label):
+    """Stage the pinned tree's model closure and OSDI objects beside the
+    decks: every file some deck of this arm references deck-relatively, plus,
+    recursively, each staged library's same-directory `.include` closure
+    (symlinks dereferenced -- the pinned tree tracks the resistor cards as
+    symlinks into the sibling ihp-sg13g2 tree).  Returns manifest rows."""
+    ng = pdk_root / "libs.tech" / "ngspice"
+    referenced = set()
+    for sp in sorted(decks_dir.glob("*.sp")):
+        referenced |= set(STAGED_RE.findall(sp.read_text()))
+    if not referenced:
+        raise SystemExit(f"{label}: no staged model references found in decks")
+    rows = []
+    done = set()
+    queue = sorted(referenced)
+    while queue:
+        name = queue.pop(0)
+        if name in done:
+            continue
+        src = ng / "models" / name
+        if not src.is_file():
+            raise SystemExit(f"{label}: staged closure: {src} is not a readable file")
+        (decks_dir / MODELS_REL).mkdir(exist_ok=True)
+        shutil.copyfile(src, decks_dir / MODELS_REL / name)  # follows symlinks
+        done.add(name)
+        rows.append((f"{MODELS_REL}/{name}", str(src.resolve()),
+                     sha256(decks_dir / MODELS_REL / name)))
+        for target in re.findall(r"^\.include\s+(\S+)\s*$",
+                                 (decks_dir / MODELS_REL / name).read_text(
+                                     errors="replace"), re.M):
+            if "/" in target or target.startswith("$"):
+                raise SystemExit(f"{label}: staged closure: {name} includes "
+                                 f"{target!r}; only same-directory relative "
+                                 "includes are followed")
+            queue.append(target)
+    (decks_dir / OSDI_REL).mkdir(exist_ok=True)
+    for n in OSDI_NAMES:
+        src = ng / "osdi" / f"{n}.osdi"
+        if not src.is_file():
+            raise SystemExit(f"{label}: OSDI: {src} is not a readable file")
+        shutil.copyfile(src, decks_dir / OSDI_REL / f"{n}.osdi")
+        rows.append((f"{OSDI_REL}/{n}.osdi", str(src.resolve()),
+                     sha256(decks_dir / OSDI_REL / f"{n}.osdi")))
+    return rows
+
+
+def drive(label, mode, outdir=None, pdk_root=None):
+    """Execute the historical program with run_ac in `render` or `collect` mode."""
+    spec = SNAPSHOTS[label]
+    commit = spec["commit"]
+    tree = historical_tree(commit)
+    try:
+        if spec.get("icp_from"):
+            icp = "sim/sg13cmos5l-cp-icp-trim/corners/results.csv"
+            (tree / icp).write_text(subprocess.check_output(
+                ["git", "-C", str(REPO), "show", f"{spec['icp_from']}:{icp}"], text=True))
+        hbench = tree / BENCH
+        work = Path(tempfile.mkdtemp(prefix=f"rerun319-work-{commit}-"))
+        # The historical program writes its CSVs under {REC}/corners.  Point it
+        # at scratch so no committed original is ever opened for writing.
+        (work / "rec" / "corners").mkdir(parents=True)
+        decks = OUT / label / "decks"
+        manifest = {}
+
+        if mode == "render":
+            decks.mkdir(parents=True, exist_ok=True)
+            for f in decks.glob("*"):
+                if f.is_file():
+                    f.unlink()
+            for src_name, dst_name in spec["stage"].items():
+                shutil.copyfile(hbench / "netlist-snapshots" / src_name, decks / dst_name)
+
+        def run_ac(tag, tmpl, src):
+            if mode == "render":
+                (decks / f"{tag}.sp").write_text(to_deck(src))
+                manifest[tag] = {"template": tmpl, "commit": commit, "arm": label}
+                # A synthetic magnitude/phase pair so the historical writers
+                # run to completion; render-mode CSVs are scratch, not evidence.
+                return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
+            if mode == "probe-check":
+                if tag not in PROBE_TAGS:
+                    return [(10.0, 2.0, -90.0), (1e9, 0.5, -90.0)]
+                dat = Path(outdir) / tag / "ac.dat"
+                if not dat.exists():
+                    raise SystemExit(f"missing {dat} -- probe produced no ac.dat")
+            else:
+                dat = Path(outdir) / tag / "ac.dat"
+                if not dat.exists():
+                    raise SystemExit(f"missing {dat} -- unit {tag} produced no ac.dat")
+            rows = []
+            for line in dat.read_text().splitlines():
+                p = line.split()
+                if len(p) >= 4:
+                    try:
+                        rows.append((float(p[0]), float(p[1]), float(p[3])))
+                    except ValueError:
+                        pass
+            if not rows:
+                raise SystemExit(f"empty ac.dat for unit {tag}")
+            return rows
+
+        env = {"WORK": str(work), "HERE": str(hbench / "testbench"),
+               "RECORD_DIR": str(work / "rec"), "SIM_ROOT": str(tree / "sim"),
+               "PDK_ROOT": os.environ.get("PDK_ROOT", "/nonexistent"), "PDK": PDK}
+        os.environ.update(env)
+        g = {"__name__": "__main__", "_KLT_RUN_AC": run_ac}
+        exec(compile(historical_python(tree), f"run.sh:{commit}", "exec"), g)
+
+        if mode == "render":
+            staged = stage_pinned(pdk_root, decks, label)
+            (OUT / label).mkdir(parents=True, exist_ok=True)
+            (OUT / label / "manifest.json").write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+            return sorted(manifest), staged
+        if mode == "probe-check":
+            # The two crosscheck decks' ac.dat are real; every other unit fed
+            # the historical writers a synthetic pair, so the crosscheck.txt
+            # this run writes carries the real probe point and nothing else
+            # meaningful -- print it whole.
+            txt = (work / "rec" / "corners" / "crosscheck.txt").read_text()
+            for ln in txt.splitlines():
+                print("    | " + ln)
+            return {}
+        produced = {}
+        for hist_name, new_name in spec["outputs"].items():
+            hist_path = tree / BENCH / "corners" / hist_name
+            produced[new_name] = ((work / "rec" / "corners" / hist_name).read_bytes(),
+                                  hist_path.read_bytes() if hist_path.exists() else None)
+        return produced
+    finally:
+        shutil.rmtree(tree, ignore_errors=True)
+
+
+def compare(new_bytes, old_bytes, label):
+    """Per-column max relative difference and verdict flips, rerun vs the original."""
+    new = list(csv.DictReader(new_bytes.decode().splitlines()))
+    old = list(csv.DictReader(old_bytes.decode().splitlines()))
+    if len(new) != len(old):
+        print(f"  {label}: ROW COUNT {len(new)} vs {len(old)} -- not comparable")
+        return
+    num, verdict = {}, {}
+    for n, o in zip(new, old):
+        for col, nv in n.items():
+            ov = o[col]
+            if col.startswith("meets_"):
+                verdict[col] = verdict.get(col, 0) + (nv != ov)
+                continue
+            try:
+                a, b = float(nv), float(ov)
+            except ValueError:
+                continue
+            if b:
+                num[col] = max(num.get(col, 0.0), abs(a / b - 1))
+    print(f"  {label}: {len(new)} rows; " + ", ".join(
+        f"{c} max rel diff {d:.3e}" for c, d in sorted(num.items()) if d) or "identical")
+    for c, k in sorted(verdict.items()):
+        print(f"    {c}: {k} flip(s) of {len(new)}")
+
+
+def request(label, ids):
+    return {
+        "engine": "ngspice",
+        "backend": "batch",
+        "models": {"pdk": PDK},
+        "decks": [{"id": i,
+                   "deck": f"rerun319/{label}/decks/{i}.sp",
+                   "outputs": ["ac.dat"],
+                   "timeout_s": TIMEOUT_S} for i in ids],
+        "options": {"timeout_s": TIMEOUT_S},
+        "batch": {"capacity_wait_s": 600},
+    }
+
+
+def write_chunks(label, ids, chunk_size):
+    """One request document per chunk of `chunk_size` decks.  klt uploads one
+    S3 object per staged file with no content dedup (klayout-tools#5539), so
+    one 682-deck arm would be one serial ~7k-object upload; chunking lets
+    `klt sim --batch-set` fan the upload out over worker threads instead.
+    Same decks, same bytes -- only the transport is split."""
+    paths = []
+    for i in range(0, len(ids), chunk_size):
+        path = HERE / f"rerun319_{label}.chunk{i // chunk_size:02d}.request.json"
+        path.write_text(json.dumps(request(label, ids[i:i + chunk_size]),
+                                   indent=2) + "\n")
+        paths.append(path)
+    return paths
+
+
+def main(argv):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("mode", choices=("render", "collect", "probe-check"))
+    ap.add_argument("outdirs", nargs="*")
+    ap.add_argument("--pinned-pdk",
+                    help="the ihp-sg13cmos5l tree at sim/README.md's PDK-PIN "
+                         "revision (render; a clean checkout of it)")
+    ap.add_argument("--chunk-size", type=int, default=64,
+                    help="decks per request document (render; 0 = one "
+                         "request per arm)")
+    a = ap.parse_args(argv)
+    if a.mode == "render":
+        if not a.pinned_pdk:
+            raise SystemExit("render needs --pinned-pdk DIR (the pinned "
+                             "ihp-sg13cmos5l checkout) -- the fleet image's "
+                             "own tree is newer and must not resolve decks")
+        pdk_root = Path(a.pinned_pdk).resolve()
+        head = subprocess.check_output(
+            ["git", "-C", str(pdk_root), "rev-parse", "HEAD"], text=True).strip()
+        pin = re.search(r"^PDK-PIN ihp-sg13cmos5l ([0-9a-f]{40})$",
+                        (REPO / "sim" / "README.md").read_text(), re.M).group(1)
+        if head != pin:
+            raise SystemExit(f"--pinned-pdk is at {head}, sim/README.md pins {pin}")
+        print(f"pinned PDK: {pdk_root} @ {head} (== PDK-PIN)")
+        probe = None
+        staged_rows, staged_all = {}, {}
+        for label in SNAPSHOTS:
+            ids, staged = drive(label, "render", pdk_root=pdk_root)
+            staged_rows[label] = staged
+            staged_all[label] = {name: sha for _, name, sha in staged}
+            if a.chunk_size > 0:
+                paths = write_chunks(label, ids, a.chunk_size)
+                print(f"{label}: {len(ids)} decks -> {len(paths)} chunk requests")
+            else:
+                path = HERE / f"rerun319_{label}.request.json"
+                path.write_text(json.dumps(request(label, ids), indent=2) + "\n")
+                print(f"{label}: {len(ids)} decks -> {path.name}")
+            if probe is None:
+                # The historical crosscheck decks: RECORD-001 publishes their
+                # expected value (f_c 954.6 kHz, PM 4.275 deg), so this pair
+                # is a real check on the whole pipeline before the grid.
+                probe = (PROBE_ARM, PROBE_TAGS)
+                assert all(t in ids for t in PROBE_TAGS), probe
+        ref = staged_all[next(iter(SNAPSHOTS))]
+        for label, staged in staged_all.items():
+            if staged != ref:
+                raise SystemExit(f"{label}: staged bytes differ across arms")
+        manifest_path = OUT / "staged_pdk_rerun319.sha256.csv"
+        with open(manifest_path, "w", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(["staged_name", "source_path", "sha256"])
+            w.writerows(staged_rows[next(iter(SNAPSHOTS))])
+        print(f"staged closure: {len(ref)} files, identical across all "
+              f"{len(SNAPSHOTS)} arms -> {manifest_path.relative_to(REPO)}")
+        c, uid = probe
+        (HERE / "probe319.request.json").write_text(
+            json.dumps(request(c, list(uid)), indent=2) + "\n")
+        print(f"probe: {c}/{uid} -> probe319.request.json")
+        return
+    if a.mode == "probe-check":
+        if len(a.outdirs) != 1:
+            raise SystemExit("probe-check needs the probe job's -o outdir")
+        print(f"=== probe {PROBE_ARM}/{PROBE_TAGS} through the historical crossover():")
+        drive(PROBE_ARM, "probe-check", a.outdirs[0])
+        print("    (published: fc 9.546166e+05 Hz, pm 4.275 deg)")
+        return
+    if len(a.outdirs) != len(SNAPSHOTS):
+        raise SystemExit(f"collect needs {len(SNAPSHOTS)} outdirs, one per arm in "
+                         f"order: {list(SNAPSHOTS)} (use '-' to skip an arm)")
+    for label, outdir in zip(SNAPSHOTS, a.outdirs):
+        if outdir == "-":
+            print(f"=== {label}: skipped")
+            continue
+        print(f"=== {label} ({SNAPSHOTS[label]['record']})")
+        for new_name, (data, hist) in drive(label, "collect", outdir).items():
+            (REC_DIR / "corners" / new_name).write_bytes(data)
+            verdict = ("byte-identical to the original" if data == hist
+                       else "bytes DIFFER from the original")
+            print(f"  wrote corners/{new_name}: sha256 {hashlib.sha256(data).hexdigest()}"
+                  + (f" (original {hashlib.sha256(hist).hexdigest()})" if hist else "")
+                  + f" -- {verdict}")
+            if hist is not None and new_name.endswith(".csv"):
+                compare(data, hist, new_name)
+            elif hist is not None:
+                print(f"  --- original {new_name} ---")
+                for ln in hist.decode().splitlines()[-5:]:
+                    print("    | " + ln)
+                print(f"  --- rerun {new_name} ---")
+                for ln in data.decode().splitlines()[-5:]:
+                    print("    | " + ln)
+
+
+main(sys.argv[1:])
