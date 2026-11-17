@@ -19,13 +19,22 @@ Two things are load-bearing:
     line, `freq_hz = 1.0 / period`), and a unit with no `per1` line must
     land in the CSV as NA -- run.sh's own non-oscillation encoding -- never
     as a measured frequency.
+
+`test_vco_flat_dot_out_layout` (issue #453)
+    The VCO diagnostic must not report an absent stdout as a missing
+    `per1` line: resolved-but-`per1`-less and unresolvable units are
+    named in separate lines, the latter with the NOT COLLECTED framing
+    the loop half already refuses on. The CSV is unaffected -- NA stays
+    NA either way.
 """
+import io
 import json
 import math
 import os
 import pathlib
 import sys
 import tempfile
+from contextlib import redirect_stdout
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import collect_125c_acquisition as ca  # noqa: E402
@@ -146,7 +155,12 @@ def test_vco_row_and_na():
 def test_vco_flat_dot_out_layout():
     """The committed raw layout: flat `<id>.out` files resolve too; a unit
     with both candidates takes the `<id>/stdout.bin` convention, and a
-    single unresolvable unit still lands NA (no refusal)."""
+    single unresolvable unit still lands NA (no refusal).  Its fixture
+    also has one unit of each NA kind -- `dead` (stdout resolved, no
+    `per1` line) and `missing` (no file at all) -- so the printed
+    diagnostic must name them under different labels (issue #453): the
+    unresolved wording carries the NOT COLLECTED framing and says nothing
+    about a `per1` line."""
     with tempfile.TemporaryDirectory() as td:
         outdir = pathlib.Path(td)
         (outdir / "b11_both.out").write_text(
@@ -166,13 +180,22 @@ def test_vco_flat_dot_out_layout():
             "dead,mos_tt,res_typ,125,00,2.1,cc\n"
             "missing,mos_tt,res_typ,125,00,2.1,dd\n")
         out_csv = outdir / "vco.csv"
-        ca.collect_vco(outdir, shacsv, out_csv)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            ca.collect_vco(outdir, shacsv, out_csv)
+        text = buf.getvalue()
         rows = {r["id"]: r for r in __import__("csv").DictReader(open(out_csv))}
     got = float(rows["b11_both"]["period_s"])
     assert got == 7.873107e-10, got  # stdout.bin beat the flat .out candidate
     assert rows["b00_v2p1"]["period_s"] == "1.31279e-09"
     assert rows["dead"]["period_s"] == "NA"
     assert rows["missing"]["period_s"] == "NA" and rows["missing"]["freq_hz"] == "NA"
+    no_per1 = [l for l in text.splitlines() if "no per1 line" in l]
+    not_res = [l for l in text.splitlines() if "did not resolve" in l]
+    assert len(no_per1) == 1 and "dead" in no_per1[0] and "missing" not in no_per1[0], text
+    assert len(not_res) == 1 and "missing" in not_res[0] \
+        and "dead" not in not_res[0] and "per1" not in not_res[0] \
+        and "NOT COLLECTED" in not_res[0], text
 
 
 def test_vco_refuses_when_no_unit_resolves():

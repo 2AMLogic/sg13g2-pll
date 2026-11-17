@@ -71,7 +71,8 @@ jobs:
         run: python3 characterization/test_check_records.py
 
       # The metric extraction behind the numbers *inside* those records
-      # (issue #391). Both are stdlib-only, sub-second and synthetic-data
+      # (issue #391; #453 wires the #389/#403 reducer self-tests in too).
+      # All are stdlib-only, sub-second and synthetic-data
       # only -- no klt, ngspice or PDK -- and run from the repo root like
       # every other step here. One step on purpose: sources.json names
       # test_mismatch_gain_metrics.py as the pin keeping
@@ -81,6 +82,8 @@ jobs:
         run: |
           python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py
           python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py
+          python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_collect_125c_acquisition.py
+          python3 sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py
 
       # PEX extraction script guard (issue #438): PEX_BLOCKS without
       # PEX_SNAP_SUBDIR would rewrite the committed top-level

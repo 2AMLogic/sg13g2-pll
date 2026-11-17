@@ -253,6 +253,13 @@ def out_of(work, uid):
     return p.read_text(errors="replace") if p.exists() else ""
 
 
+def stdout_resolved(work, uid):
+    """out_of() returns "" for BOTH an absent stdout and an empty one; this
+    is the absence test, so a deck whose input never came back cannot
+    render as the NA a resolved deck legitimately records (issue #453)."""
+    return (work / "pfdthr" / "out" / uid / "stdout.bin").exists()
+
+
 def seg_of(tmeas, t_exp, tper):
     """True if measured crossing time matches the expected segment-last edge."""
     return t_exp - 0.05 * tper <= tmeas <= t_exp + 0.25 * tper
@@ -265,11 +272,16 @@ def reduce_all(work, corners):
            "t_rise_1_s", "t_rise_last_s", "flag",
            "vth_d1_v", "vth_xd5_v", "vth_ntmp_v", "ntmp_min_v"]
     rows = []
-    bad_seg1, nonmono = [], []
+    bad_seg1, nonmono, dc_unresolved = [], [], []
     for b, vdd in points(False):
         bn, mos, res, temp = b
-        txt = out_of(work, "dc_%s_%s" % (bn, tag(vdd)))
-        rows.append(["dc", bn, mos, res, temp, vdd, "", "", "", "", "", "", "", "",
+        uid = "dc_%s_%s" % (bn, tag(vdd))
+        txt = out_of(work, uid)
+        resolved = stdout_resolved(work, uid)
+        if not resolved:
+            dc_unresolved.append(uid)
+        rows.append(["dc", bn, mos, res, temp, vdd, "", "", "", "", "", "", "",
+                     "" if resolved else "nounit",
                      val(txt, "vth_d1") or "NA", val(txt, "vth_xd5") or "NA",
                      val(txt, "vth_ntmp") or "NA", val(txt, "ntmp_min") or "NA"])
         v = float(vdd)
@@ -335,6 +347,12 @@ def reduce_all(work, corners):
           "%d/%d decks OK" % (n_edge - len(bad_seg1), n_edge))
     if bad_seg1:
         print("  seg1 FAILURES: %s" % ", ".join(bad_seg1))
+    n_dc = len(points(False))                                        # 9 decks
+    print("SANITY DC stdout resolution: %d/%d decks resolved"
+          % (n_dc - len(dc_unresolved), n_dc))
+    if dc_unresolved:
+        print("  DC UNRESOLVED (flagged nounit; NOT COLLECTED, not a measured NA): %s"
+              % ", ".join(dc_unresolved))
     print("SANITY ladder contiguity/monotonicity: %d nonmonotone rows" % len(nonmono))
     if nonmono:
         print("  NONMONOTONE: %s" % ", ".join(nonmono))

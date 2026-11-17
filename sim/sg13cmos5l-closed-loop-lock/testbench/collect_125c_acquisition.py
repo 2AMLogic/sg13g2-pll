@@ -115,9 +115,15 @@ def collect_vco(outdir: pathlib.Path, shacsv: pathlib.Path, out_csv: pathlib.Pat
             print(f"1280 MHz NOT reached at any swept vctrl; max "
                   f"{top_f / 1e6:.1f} MHz at {top_v:g} V -- short by "
                   f"{(TARGET_F_HZ - top_f) / 1e6:.1f} MHz")
-    na = [r["id"] for r in rows if r["period_s"] == "NA"]
-    if na:
-        print(f"units with no per1 line (recorded NA, not as unlocked): {na}")
+    dead = [r["id"] for r, s in zip(rows, stdouts)
+            if s is not None and r["period_s"] == "NA"]
+    unresolved = [r["id"] for r, s in zip(rows, stdouts) if s is None]
+    if dead:
+        print(f"units whose stdout resolved but carries no per1 line "
+              f"(recorded NA, not as unlocked): {dead}")
+    if unresolved:
+        print(f"units whose stdout did not resolve (recorded NA; "
+              f"NOT COLLECTED, not unlocked): {unresolved}")
 
 
 def collect_loop(report_path: pathlib.Path, out_json: pathlib.Path):
