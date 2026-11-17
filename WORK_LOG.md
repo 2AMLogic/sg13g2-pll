@@ -6,6 +6,15 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-17
+
+- **PR #481**: feat: gate docs/ROADMAP.md's accounting sentence against the spec Row table
+- **PR #480**: docs: annotate landed postlayout-pex-pvt reruns and past-tense the #221 gate bullet in provenance-migration.md
+- **PR #475**: fix: strip unquoted inline comments before scanning signoff.yml gates
+- **Issue #466** (closed): check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
+- **Issue #449** (closed): docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
+- **Issue #447** (closed): Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope
+
 ### 2026-11-16
 
 - **PR #476**: fix: classify python3 value flags (-X, -W, --check-hash-based-pycs) by arity in run_gates script_token
