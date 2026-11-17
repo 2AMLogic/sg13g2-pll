@@ -16,9 +16,14 @@ about which gates exist, which `scripts/check_signoff_inventory_parity.py`
 The mirror invariant, stated once: python3 gates reach this list via the
 inventory -- a gate added to signoff.yml must be inventoried or the parity
 guard fails CI, and once inventoried it appears in `pnpm test` /
-`pnpm run check:ci` here automatically -- while a non-python3 gate cannot be
-inventoried (the parity guard and the attest runner are python3-only), so it
-is mirrored through TAIL, by hand, with a reason. No new parser: each `argv`
+`pnpm run check:ci` here automatically -- while a non-python3 gate is not
+inventoried by declared scope: the parity guard is python3-only (its
+`PYTHON3_RE` matches whole-word `python3`), and this runner accepts only
+`python3` entries, so a bash gate has no inventoried path and is mirrored
+through TAIL, by hand, with a reason. `klt signoff --attest` can carry a
+non-python3 argv (measured at the CI pin, klayout-tools==0.8.0, issue
+#486), so keeping the bash gate out is a scope choice (#483 option 1),
+not a tool limit. No new parser: each `argv`
 is taken verbatim as a token list (the repo keeps exactly one
 python3-invocation-text parser, the parity checker), and the only
 classification is `--tests`, on the gate file's basename.
@@ -34,9 +39,11 @@ reason-bearing tail instead:
   `scripts/test_check_artifact_manifests.py` -- they live in
   `.github/workflows/artifact-manifests.yml`, not signoff.yml.
 - `sim/tools/check-osdi-arch.sh --self-test` -- signoff.yml runs it as a
-  direct `bash` line (issue #464); the inventory, its parity guard and the
-  attest runner are python3-only, so this bash gate cannot be attested and
-  is mirrored here by hand.
+  direct `bash` line (issue #464); the inventory's declared scope and the
+  parity guard's `PYTHON3_RE` are python3-only, so it is kept out of the
+  inventory and mirrored here by hand -- a scope choice (#483 option 1),
+  not a tool limit: `klt signoff --attest` can carry a non-python3 argv
+  (measured at the CI pin, klayout-tools==0.8.0, issue #486).
 - `scripts/test_run_gates.py` -- this runner's own unit test, wired into
   artifact-manifests.yml by #393. The tail is unguarded by construction;
   it is small, static, and each entry carries its reason.
@@ -100,9 +107,11 @@ TAIL = (
         "name": "osdi-arch-self-test",
         "argv": ["bash", "sim/tools/check-osdi-arch.sh", "--self-test"],
         "reason": "signoff.yml runs this as a direct bash line (issue #464); "
-                  "the inventory, its parity guard and the attest runner are "
-                  "python3-only, so this bash gate cannot be attested and is "
-                  "mirrored here by hand.",
+                  "the inventory's declared scope and the parity guard are "
+                  "python3-only, so it is kept out of the inventory and "
+                  "mirrored here by hand -- a scope choice (#483 option 1), "
+                  "not a klt limit: klt 0.8.0 attest can carry a non-python3 "
+                  "argv (measured at the CI pin, issue #486).",
     },
 )
 
