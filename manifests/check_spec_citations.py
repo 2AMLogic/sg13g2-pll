@@ -12,6 +12,10 @@ compliance (row 13 is O with a failing candidate by design).
     sentence's integer equals the number of Row-table labels, the status
     table's row lists are an exact partition of those labels, and each row's
     Status there matches its Row-table Status cell;
+  * `docs/ROADMAP.md`'s "The spec has <N> rows: <a> measured, <b> proposed,
+    <c> not specified, <d> open" sentence, when present, agrees with the Row
+    table's total and per-status counts; a missing ROADMAP file, or a missing
+    sentence, is a pass;
   * "Measured by": each hyphenated backticked bench slug names an existing
     sim/<bench>/ directory; each backticked `records/<file>` attaches to the
     nearest preceding bench in the cell and sim/<bench>/records/<file> exists;
@@ -31,6 +35,7 @@ Usage: check_spec_citations.py [--root DIR] [--spec P]
 import argparse
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 LABELS = [str(i) for i in range(19)]
@@ -41,6 +46,11 @@ NCOLS = 9
 BENCH = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)+$")
 DR = re.compile(r"\bDR-(\d{3})(?:\s+Decision\s+\d+)?(?:\s+`([a-z0-9-]+)`)?")
 RN = re.compile(r"\bR-(\d+)\b")
+ROADMAP_SENTENCE = re.compile(
+    r"The spec has (\d+) rows: (\d+) measured, (\d+) proposed, "
+    r"(\d+) not specified, (\d+) open")
+ROADMAP_STATUS = (("measured", "M"), ("proposed", "P"),
+                  ("not specified", "N"), ("open", "O"))
 
 
 def section(text, name):
@@ -101,6 +111,25 @@ def check_accounting(text, row_status):
         if acc[l] != row_status[l]:
             errs.append(f"accounting: row {l} Status {acc[l]} disagrees with "
                         f"the Row table's {row_status[l]}")
+    return errs
+
+
+def check_roadmap_accounting(root, row_status):
+    """Cross-check docs/ROADMAP.md's accounting sentence against the Row table."""
+    p = Path(root) / "docs" / "ROADMAP.md"
+    if not p.is_file():
+        return []
+    m = ROADMAP_SENTENCE.search(re.sub(r"\s+", " ", p.read_text()))
+    if not m:
+        return []
+    errs = []
+    counts = Counter(row_status.values())
+    total, nums = int(m.group(1)), [int(g) for g in m.groups()[1:]]
+    if total != len(row_status):
+        errs.append(f"roadmap: says {total} rows, Row table has {len(row_status)}")
+    for n, (word, st) in zip(nums, ROADMAP_STATUS):
+        if n != counts[st]:
+            errs.append(f"roadmap: says {n} {word}, Row table has {counts[st]}")
     return errs
 
 
@@ -172,6 +201,7 @@ def check(root, spec):
         if not (root / p).is_file():
             errs.append(f"spec: cited path {p} does not exist")
     errs += check_accounting(text, row_status)
+    errs += check_roadmap_accounting(root, row_status)
     return errs
 
 
