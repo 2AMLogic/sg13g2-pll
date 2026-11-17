@@ -8,6 +8,7 @@ Current backlog state maintained by the Loom Guide role.
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
+- **#482**: ci: run check-osdi-arch.sh self-test in signoff workflow
 
 ## Very Important
 
@@ -19,49 +20,68 @@ _None._
 
 `loom:important`; taken before unlabelled work.
 
-_None._
+- **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
+- **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance
+- **#250**: Re-stamp SG13CMOS5L PDK pin from klayout-tools (IHP-Open-PDK dev f7bca326)
+- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296)
 
 ## Ready
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-_None._
+- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
-- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296)
+- **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
+- **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
+- **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
+- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
+- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
-_None._
+- **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007)
+- **#375**: sim: supersede loop-bandwidth-pm RECORD-001/002/002-r1 with batch-fleet reruns
 
 ## Approved (Awaiting Merge)
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
+- **#482**: ci: run check-osdi-arch.sh self-test in signoff workflow
 
 ## Proposed
 
 Issues carrying `loom:curated`.
 
 - **#16**: [Epic #542] 5A — Port to SG13CMOS5L for Chipalooza Challenge #6 brief *(curated)*
-- **#157**: pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152) *(curated)*
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9) *(curated)*
+- **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close *(curated)*
 - **#212**: Item 9 campaign: charge-pump and divider-retiming provenance *(curated)*
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance *(curated)*
+- **#231**: Item 9 campaign (#212 part 2/4): supersede cp-icp-trim RECORD-003/004 (fine-trim grids) *(curated)*
 - **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296) *(curated)*
+- **#309**: design/sg13cmos5l: committed netlists stale vs installed PDK (mm_ok=1 missing); netlist.sh --check fails on main *(curated)*
+- **#316**: Item 9: supersede sg13cmos5l-vco-decap-momcap provenance (child of #216) *(curated)*
+- **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b *(curated)*
+- **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)*
+- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
+- **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)*
+- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
+- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow *(curated)*
 
 ## Proposed (Architect / Hermit)
 
-- **#187**: sim: supply-range 3.0/3.3/3.6 V sweep beyond cp for spec row 18 (T1 item 5) *(architect)*
-- **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5) *(architect)*
-- **#189**: divider_chain: size to close row 3 retiming at 1562 MHz (R-3, T1 item 5) *(architect)*
-- **#190**: sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5) *(architect)*
+- **#384**: Collapse run_rerun256.sh (921-line copy of the lock-detector run.sh, one functional line differs) into a thin wrapper *(hermit)*
+- **#396**: Collapse run_rerun256.sh into a run.sh output-suffix knob: 906 duplicated lines, one line of real difference *(hermit)*
+- **#398**: Remove committed klt scratch cache under sim/ and gitignore .klt/ *(hermit)*
+- **#410**: Deduplicate the manifests/ gate envelope checks: four spellings of hash-bound-to-adjacent-GDS, plus one unexercised fallback *(hermit)*
+- **#416**: Artifact-store writer from #278 is inert: zero manifests in 3 weeks while 75.7 MB of raw evidence went to git *(hermit)*
 
 ## Epics
 
@@ -75,14 +95,14 @@ Issues carrying `loom:curated`.
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 1 |
+| Operator merge-risk holds | 2 |
 | Very important | 0 |
-| Important | 0 |
-| Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 1 |
-| PRs awaiting review | 0 |
-| Approved PRs awaiting merge | 1 |
-| Curated | 6 |
-| Architect / Hermit proposals | 4 |
+| Important | 4 |
+| Ready (`loom:issue`) | 1 |
+| In Progress (`loom:building`) | 5 |
+| PRs awaiting review | 2 |
+| Approved PRs awaiting merge | 2 |
+| Curated | 15 |
+| Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->

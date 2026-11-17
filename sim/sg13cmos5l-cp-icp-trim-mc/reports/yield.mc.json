@@ -1,0 +1,175 @@
+{
+  "samples": "sim.mc.json",
+  "limits": null,
+  "source": {
+    "kind": "sim-report",
+    "netlist": "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+    "monte_carlo": {
+      "n": 100,
+      "seed": 178,
+      "vary": "mismatch",
+      "family_mismatch": [
+        {
+          "family": "other",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'other' family could not be verified; treat any sampled spread for it as unconfirmed."
+        },
+        {
+          "family": "mosfet",
+          "active": null,
+          "note": "PDK family could not be determined for this request (set models.pdk) -- mismatch activity for the 'mosfet' family could not be verified; treat any sampled spread for it as unconfirmed."
+        }
+      ],
+      "family_mismatch_scan": {
+        "scanned": [
+          "sim/sg13cmos5l-cp-icp-trim-mc/testbench/tb_cp_mc.sp",
+          "sim/sg13cmos5l-cp-icp-trim-mc/netlist-snapshots/cp.spice"
+        ],
+        "not_scanned": []
+      },
+      "quantiles": [
+        0.5,
+        5.0,
+        50.0,
+        95.0,
+        99.5
+      ]
+    },
+    "provenance": {
+      "klt_version": "0.9.2.dev930+g37dbc2458b5a",
+      "klt_git_commit": "37dbc2458b5ad83bcadd85f77997c4e30800e791",
+      "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@37dbc2458b5ad83bcadd85f77997c4e30800e791",
+      "klayout_version": "0.30.13",
+      "pdk": null,
+      "deck": {
+        "name": "cornerMOShv.lib",
+        "content_hash": "sha256:5a1f862dc304fdfe2fb9758b15d54809a688d83c3ce981dad2e8473b3e93481a",
+        "released": false
+      },
+      "input": {
+        "content_hash": "sha256:7e2efcf584bfb9df1c49890ebe334df28ade4f882fa31e15878b825f9798d871",
+        "role": "netlist"
+      }
+    },
+    "sample_count": 1500
+  },
+  "schema_version": 1,
+  "confidence": 0.95,
+  "target_ci_halfwidth": 0.01,
+  "min_samples": 2,
+  "status": "reported",
+  "measurement_count": 1,
+  "measurements": [
+    {
+      "name": "mismatch_pct",
+      "unit": "%",
+      "n": 1500,
+      "errored": 0,
+      "failed_unmeasurable": 0,
+      "censored": 0,
+      "inconclusive": 0,
+      "limits": {
+        "min": -3.5,
+        "max": 3.5
+      },
+      "source_corners": [
+        "mos_tt_mismatch/novdd/-40C",
+        "mos_tt_mismatch/novdd/27C",
+        "mos_tt_mismatch/novdd/125C",
+        "mos_ss_mismatch/novdd/-40C",
+        "mos_ss_mismatch/novdd/27C",
+        "mos_ss_mismatch/novdd/125C",
+        "mos_ff_mismatch/novdd/-40C",
+        "mos_ff_mismatch/novdd/27C",
+        "mos_ff_mismatch/novdd/125C",
+        "mos_sf_mismatch/novdd/-40C",
+        "mos_sf_mismatch/novdd/27C",
+        "mos_sf_mismatch/novdd/125C",
+        "mos_fs_mismatch/novdd/-40C",
+        "mos_fs_mismatch/novdd/27C",
+        "mos_fs_mismatch/novdd/125C"
+      ],
+      "distribution": {
+        "model": "normal",
+        "mean": -0.3201296652960083,
+        "stddev": 3.876906526011221,
+        "min": -13.6157049183,
+        "max": 14.00691610826,
+        "median": -0.363687705528,
+        "skewness": -0.033975500043198846,
+        "excess_kurtosis": 0.15414225512288837,
+        "normality": {
+          "test": "anderson-darling",
+          "statistic": 0.5244070367342074,
+          "critical_value": 0.787,
+          "significance": 0.05,
+          "verdict": "consistent"
+        }
+      },
+      "yield": {
+        "empirical": {
+          "method": "clopper-pearson",
+          "estimate": 0.6346666666666667,
+          "confidence": 0.95,
+          "confidence_interval": {
+            "low": 0.6097205295599983,
+            "high": 0.6590842605141474
+          },
+          "n": 1500
+        },
+        "normal": {
+          "method": "normal-delta",
+          "estimate": 0.63172643690566,
+          "confidence": 0.95,
+          "confidence_interval": {
+            "low": 0.6145883775500609,
+            "high": 0.6488644962612591
+          },
+          "n": 1500
+        },
+        "variance_reduced": null
+      },
+      "capability": {
+        "cp": 0.3009272106095885,
+        "cpk": 0.27340271712075737,
+        "cpk_confidence_interval": {
+          "low": 0.2539006278760693,
+          "high": 0.2929048063654454
+        },
+        "sigma_to_spec": 0.8202081513622721,
+        "sigma_to_spec_confidence_interval": {
+          "low": 0.7617018836282079,
+          "high": 0.8787144190963363
+        },
+        "limiting_side": "lower"
+      },
+      "sample_size": {
+        "n": 1500,
+        "observed_ci_halfwidth": 0.024681865477074516,
+        "target_ci_halfwidth": 0.01,
+        "required_n": 8907,
+        "required_n_for_target": null,
+        "verdict": "insufficient",
+        "method": "normal-approximation",
+        "variance_reduced": null
+      },
+      "negative_control": null,
+      "analytic_cross_check": null,
+      "sampling": {
+        "strategy": "plain_random",
+        "replicates": null,
+        "effective_sample_size": null
+      },
+      "status": "reported",
+      "warnings": [
+        "measurement 'mismatch_pct': N = 1500 resolves the yield only to +/-0.0247 at 95% confidence; 8907 samples are needed for the requested +/-0.01",
+        "measurement 'mismatch_pct': samples were pooled across 15 originating corners; each corner is its own population, so the pooled estimate is a worst-case envelope rather than a distribution anyone sampled"
+      ],
+      "spec_row": null
+    }
+  ],
+  "warnings": [
+    "no measurement declared a target_yield, so no yield claim was checked -- the estimates below are reported, never failed",
+    "no measurement declared a negative_control -- this campaign has no seeded, known-bad variant demonstrating that the statistics above can actually detect a degraded design; see docs/cli/yield.md#negative-control"
+  ]
+}

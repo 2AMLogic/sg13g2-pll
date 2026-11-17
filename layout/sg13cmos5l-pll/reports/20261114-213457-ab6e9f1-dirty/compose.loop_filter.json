@@ -1,0 +1,91 @@
+{
+  "cell_name": "pll_loop_filter",
+  "gds": "pll_loop_filter.gds",
+  "strategy": "single_row",
+  "spacing_um": 6.0,
+  "placements": {
+    "loop_filter_resrppd_w0p6_l810": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "loop_filter_XC1": {
+      "x": 817.0,
+      "y": 0.0
+    },
+    "loop_filter_XC2": {
+      "x": 863.0,
+      "y": 0.0
+    }
+  },
+  "terminal_count": 6,
+  "unrouted_ports": [
+    {
+      "port": "loop_filter_resrppd_w0p6_l810.R0_BULK",
+      "net": "sub!",
+      "reason": "a drawn poly resistor's bulk terminal is the p-substrate, which the curated sg13cmos5l deck extracts onto its own `vsubs` global rather than onto a drawn, routable pad -- there is no terminal here to route to"
+    }
+  ],
+  "routing": {
+    "style": "per-net Metal3 track over per-terminal Metal2 risers",
+    "riser_layer": "Metal2.drawing (10/0)",
+    "trunk_layer": "Metal3.drawing (30/0)",
+    "label_layer": "Metal3.pin (30/2)",
+    "wire_width_um": 0.3,
+    "track_pitch_um": 0.6,
+    "channel_y0_um": 42.0,
+    "net_count": 3,
+    "routed_net_count": 3,
+    "wire_length_um": 1090.2,
+    "nets": [
+      {
+        "net": "NZ",
+        "track": 0,
+        "trunk_y_um": 42.0,
+        "trunk_x_um": [
+          810.75,
+          817.3
+        ],
+        "pin_count": 2,
+        "pins": [
+          "loop_filter_resrppd_w0p6_l810.R0_B",
+          "loop_filter_XC1.TOP"
+        ],
+        "routed": true,
+        "route_length_um": 70.05
+      },
+      {
+        "net": "VCTRL",
+        "track": 1,
+        "trunk_y_um": 42.6,
+        "trunk_x_um": [
+          0.25,
+          863.3
+        ],
+        "pin_count": 2,
+        "pins": [
+          "loop_filter_resrppd_w0p6_l810.R0_A",
+          "loop_filter_XC2.TOP"
+        ],
+        "routed": true,
+        "route_length_um": 942.75
+      },
+      {
+        "net": "VSS",
+        "track": 2,
+        "trunk_y_um": 43.2,
+        "trunk_x_um": [
+          856.7,
+          872.7
+        ],
+        "pin_count": 2,
+        "pins": [
+          "loop_filter_XC1.BOT",
+          "loop_filter_XC2.BOT"
+        ],
+        "routed": true,
+        "route_length_um": 77.4
+      }
+    ],
+    "incomplete_nets": []
+  }
+}

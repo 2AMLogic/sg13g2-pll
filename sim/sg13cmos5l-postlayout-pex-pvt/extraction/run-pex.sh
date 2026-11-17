@@ -15,6 +15,19 @@
 #
 #   ./run-pex.sh
 #
+# Append-only re-extraction (issue #157): set PEX_BLOCKS to a subset of the
+# block list AND PEX_SNAP_SUBDIR to a new subdirectory name -- a *plain*
+# name: no "/", never "." or ".." (issue #458) -- to re-extract without
+# touching the committed snapshots -- outputs land in
+# netlist-snapshots/<PEX_SNAP_SUBDIR>/ and that directory gets its own
+# roll-up provenance.json covering only this run's blocks. PEX_BLOCKS
+# requires PEX_SNAP_SUBDIR (issue #438): the roll-up writer below REPLACES
+# its provenance.json wholesale instead of merging, so a subset run without
+# a subdirectory would rewrite the committed top-level roll-up with only the
+# named blocks -- silent append-only evidence loss. The script refuses that
+# unpaired combination; without either variable the behaviour is the
+# original in-place refresh.
+#
 # Requires: a `klt` that carries BOTH klayout-tools#2012 (sg13cmos5l in the
 # parasitics registry) and klayout-tools#2126 (the curated sg13cmos5l metal
 # R/C coefficients). The preflight below HARD-FAILS on a klt that has
@@ -30,6 +43,40 @@
 
 set -euo pipefail
 
+# Issue #438: PEX_BLOCKS alone is a *subset in-place* refresh -- the roll-up
+# writer below replaces $SNAP/provenance.json wholesale, never merges, so a
+# subset run against the committed top-level snapshots would silently drop
+# every other recorded block. The two variables are only safe together.
+# The guard sits before the PDK_ROOT requirement so it can be exercised
+# offline, with no PDK, no GDS and no klt (test_run_pex_guard.py).
+if [ -n "${PEX_BLOCKS:-}" ] && [ -z "${PEX_SNAP_SUBDIR:-}" ]; then
+  echo "FATAL: PEX_BLOCKS requires PEX_SNAP_SUBDIR -- a subset run in place" >&2
+  echo "       would rewrite the committed netlist-snapshots/provenance.json" >&2
+  echo "       as a roll-up of only: $PEX_BLOCKS -- dropping every other" >&2
+  echo "       committed block. Set PEX_SNAP_SUBDIR to a new name." >&2
+  exit 1
+fi
+
+# Issue #458: a non-empty PEX_SNAP_SUBDIR must be a *plain new name* -- no
+# "/", never "." or "..". $SNAP below is built by plain string concatenation,
+# so "." would resolve back onto the committed top-level snapshots (the very
+# target the #438 guard above keeps subset runs away from), "../.." would
+# write outside the record directory entirely, and any "/" would mis-set
+# the netlist paths the roll-up records. Checked unconditionally -- the
+# escape needs no PEX_BLOCKS -- and before the PDK_ROOT requirement, for
+# the same offline-testability as the #438 guard (test_run_pex_guard.py).
+if [ -n "${PEX_SNAP_SUBDIR:-}" ]; then
+  case "$PEX_SNAP_SUBDIR" in
+    .|..|*/*)
+      echo "FATAL: PEX_SNAP_SUBDIR='$PEX_SNAP_SUBDIR' is not a plain new subdirectory name -- pass a" >&2
+      echo "       single new name: no '/', and not '.' or '..'. '.' would alias the committed" >&2
+      echo "       top-level snapshots, which the roll-up writer below replaces wholesale;" >&2
+      echo "       '..' would write outside the record directory." >&2
+      exit 1
+      ;;
+  esac
+fi
+
 : "${PDK_ROOT:?set PDK_ROOT to the parent dir containing ihp-sg13cmos5l/}"
 : "${PDK:=ihp-sg13cmos5l}"
 
@@ -42,6 +89,9 @@ LAYOUT_RECORD="${PEX_LAYOUT_RECORD:-$(cat "$LAYOUT_REPORTS/LATEST")}"
 GDS_DIR="$LAYOUT_REPORTS/$LAYOUT_RECORD"
 
 SNAP="$RECORD_DIR/netlist-snapshots"
+if [ -n "${PEX_SNAP_SUBDIR:-}" ]; then
+  SNAP="$SNAP/$PEX_SNAP_SUBDIR"
+fi
 mkdir -p "$SNAP"
 
 # Every block the layout record routes. This list is asserted against the
@@ -49,6 +99,17 @@ mkdir -p "$SNAP"
 # forgotten here is an error, not a silent omission (acceptance criterion:
 # "EVERY routed block has a parasitic-annotated netlist").
 BLOCKS=(pfd cp loop_filter vco divider_chain lock_detector)
+
+# Optional subset (issue #157): each named block must be one the record routes.
+if [ -n "${PEX_BLOCKS:-}" ]; then
+  for b in $PEX_BLOCKS; do
+    case " ${BLOCKS[*]} " in
+      *" $b "*) ;;
+      *) echo "FATAL: PEX_BLOCKS names '$b', which this record does not route" >&2; exit 1 ;;
+    esac
+  done
+  read -r -a BLOCKS <<< "$PEX_BLOCKS"
+fi
 
 klt_run() {
   if [ -n "${PEX_KLT_PYTHONPATH:-}" ]; then
@@ -140,6 +201,13 @@ python3 - "$SNAP" "$LAYOUT_RECORD" "$KLT_VERSION" "${BLOCKS[@]}" <<'PY'
 import hashlib, json, os, sys
 snap, layout_record, klt_version = sys.argv[1], sys.argv[2], sys.argv[3]
 blocks = sys.argv[4:]
+# Repo-relative prefix of this run's snapshot dir: the committed top-level
+# roll-up names "netlist-snapshots/pll_<block>.pex.spice"; an append-only
+# rerun names its own subdirectory instead (issue #157).
+prefix = "netlist-snapshots"
+if os.path.basename(os.path.dirname(snap)) == "netlist-snapshots" \
+        and os.path.basename(snap) != "netlist-snapshots":
+    prefix = "netlist-snapshots/" + os.path.basename(snap)
 out = {
     "deck": "sg13cmos5l",
     "pdk": "ihp-sg13cmos5l",
@@ -157,7 +225,7 @@ for b in blocks:
     p = rep["parasitics"]
     spice = os.path.join(snap, "pll_%s.pex.spice" % b)
     out["blocks"]["pll_%s" % b] = {
-        "netlist": "netlist-snapshots/pll_%s.pex.spice" % b,
+        "netlist": "%s/pll_%s.pex.spice" % (prefix, b),
         "netlist_sha256": hashlib.sha256(open(spice, "rb").read()).hexdigest(),
         "device_count": rep["device_count"],
         "net_count": rep["net_count"],

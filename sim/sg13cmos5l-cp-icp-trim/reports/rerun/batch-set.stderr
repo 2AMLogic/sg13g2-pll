@@ -1,0 +1,31 @@
+klt sim: warning: batch job bound 13620s (options.timeout_s 900s x 15 units + 120s; a conservative fully-serial upper bound, not a runtime estimate) exceeds the fleet's whole-job ceiling of 3600s (max_job_seconds from fleet_config); a job still running at the ceiling is killed and every unit is reported batch_job_timeout. Set request.remote.hosts to at least 5 to run one job per shard of at most 3 units, each within the ceiling
+klt: batch job klt-sim-524fdf6ad61d submitting to s3://<bucket>/jobs/klt-sim-524fdf6ad61d
+klt: batch job klt-sim-255a83825e11 submitting to s3://<bucket>/jobs/klt-sim-255a83825e11
+klt sim: batch job klt-sim-255a83825e11 (testbench/rerun1_pvt33.request.json): submitted
+klt sim: batch job klt-sim-524fdf6ad61d (testbench/rerun1_v30.request.json): submitted
+klt sim: batch job klt-sim-524fdf6ad61d launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-524fdf6ad61d`
+klt sim: batch job klt-sim-524fdf6ad61d state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-524fdf6ad61d (testbench/rerun1_v30.request.json): done
+klt: batch job klt-sim-58bf332840e1 submitting to s3://<bucket>/jobs/klt-sim-58bf332840e1
+klt sim: batch job klt-sim-58bf332840e1 (testbench/rerun1_v36.request.json): submitted
+klt sim: batch job klt-sim-255a83825e11 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-255a83825e11`
+klt sim: batch job klt-sim-255a83825e11 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-255a83825e11 (testbench/rerun1_pvt33.request.json): done
+klt sim: warning: batch job bound 13620s (options.timeout_s 900s x 15 units + 120s; a conservative fully-serial upper bound, not a runtime estimate) exceeds the fleet's whole-job ceiling of 3600s (max_job_seconds from fleet_config); a job still running at the ceiling is killed and every unit is reported batch_job_timeout. Set request.remote.hosts to at least 5 to run one job per shard of at most 3 units, each within the ceiling
+klt: batch job klt-sim-288c053b42b8 submitting to s3://<bucket>/jobs/klt-sim-288c053b42b8
+klt sim: batch job klt-sim-288c053b42b8 (testbench/rerun2_pvt33.request.json): submitted
+klt: batch job klt-sim-c976a950861b submitting to s3://<bucket>/jobs/klt-sim-c976a950861b
+klt sim: batch job klt-sim-c976a950861b (testbench/rerun1_v36.request.json): submitted
+klt sim: batch job klt-sim-c976a950861b launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-c976a950861b`
+klt sim: batch job klt-sim-c976a950861b state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-c976a950861b (testbench/rerun1_v36.request.json): done
+klt: batch job klt-sim-ef43e7cbd0c0 submitting to s3://<bucket>/jobs/klt-sim-ef43e7cbd0c0
+klt sim: batch job klt-sim-ef43e7cbd0c0 (testbench/rerun2_v30.request.json): submitted
+klt sim: batch job klt-sim-288c053b42b8 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-288c053b42b8`
+klt sim: batch job klt-sim-288c053b42b8 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-288c053b42b8 (testbench/rerun2_pvt33.request.json): done
+klt: batch job klt-sim-32cd2c6fbe94 submitting to s3://<bucket>/jobs/klt-sim-32cd2c6fbe94
+klt sim: batch job klt-sim-32cd2c6fbe94 (testbench/rerun2_v36.request.json): submitted
+klt sim: batch job klt-sim-32cd2c6fbe94 launched; re-attach with `klt sim <request> --backend batch --attach klt-sim-32cd2c6fbe94`
+klt sim: batch job klt-sim-32cd2c6fbe94 state=no status.json yet elapsed=1s
+klt sim: batch job klt-sim-32cd2c6fbe94 (testbench/rerun2_v36.request.json): done

@@ -1,0 +1,109 @@
+{
+  "engine": "ngspice",
+  "netlist": "setup_asdrawn.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "5p 5.331692e-09"
+  },
+  "measurements": [
+    {
+      "name": "q_s",
+      "spice": ".meas tran q_s find v(q) at=5.311692e-09",
+      "unit": "V"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 600
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt",
+      "mos_ss",
+      "mos_ff"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ],
+    "params": {
+      "vddp": [
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3
+      ],
+      "tsu": [
+        3e-10,
+        2e-10,
+        1.3e-10,
+        8e-11,
+        4e-11,
+        0.0
+      ]
+    }
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  },
+  "exclude": [
+    {
+      "process": "mos_tt",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_tt",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    }
+  ]
+}

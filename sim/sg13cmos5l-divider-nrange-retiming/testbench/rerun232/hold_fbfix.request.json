@@ -1,0 +1,320 @@
+{
+  "engine": "ngspice",
+  "netlist": "hold_fbfix.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "20p 42n"
+  },
+  "measurements": [
+    {
+      "name": "q_end",
+      "spice": ".meas tran q_end find v(q) at=41.9n",
+      "unit": "V"
+    },
+    {
+      "name": "s_end",
+      "spice": ".meas tran s_end find v(xdut.s) at=41.9n",
+      "unit": "V"
+    },
+    {
+      "name": "t_decay",
+      "spice": ".meas tran t_decay when v(q)='0.9*vddp' fall=1 td=2.0n",
+      "unit": "s"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 600
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt",
+      "mos_ss",
+      "mos_ff",
+      "mos_sf",
+      "mos_fs"
+    ],
+    "temperature_c": [
+      -40,
+      27,
+      125
+    ],
+    "params": {
+      "vddp": [
+        2.97,
+        3.3,
+        3.63
+      ]
+    }
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  },
+  "exclude": [
+    {
+      "process": "mos_tt",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_tt",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_tt",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_tt",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_ff",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_sf",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": -40,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": 27,
+      "params": {
+        "vddp": 3.63
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 2.97
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.3
+      }
+    },
+    {
+      "process": "mos_fs",
+      "temperature_c": 125,
+      "params": {
+        "vddp": 3.63
+      }
+    }
+  ]
+}

@@ -1,12 +1,9 @@
 {
   "name": "loom-workspace",
-  "description": "Loom-managed workspace with AI development orchestration",
+  "description": "Loom-managed workspace. `test` and `check:ci` run the repo's tool-free stdlib gates (no klt, ngspice or PDK), derived from manifests/inventories/item-10.json by scripts/run_gates.py (#393); klt signoff, xschem netlisting and layout/tests stay in .github/workflows/.",
   "private": true,
   "scripts": {
-    "worktree:return": "./.loom/scripts/worktree-return.sh",
-    "check:ci": "echo 'No CI checks configured. Customize this script for your project.' && exit 0",
-    "check:all": "echo 'No checks configured. Customize this script for your project.' && exit 0",
-    "test": "echo 'No tests configured. Customize this script for your project.' && exit 0",
-    "lint": "echo 'No linter configured. Customize this script for your project.' && exit 0"
+    "test": "python3 -B scripts/run_gates.py --tests",
+    "check:ci": "python3 -B scripts/run_gates.py"
   }
 }

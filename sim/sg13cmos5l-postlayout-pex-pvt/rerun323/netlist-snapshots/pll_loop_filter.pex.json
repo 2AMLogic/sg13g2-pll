@@ -1,0 +1,413 @@
+{
+  "schema_version": 4,
+  "file": {
+    "path": null,
+    "scope": "external"
+  },
+  "deck": "sg13cmos5l",
+  "top": "pll_loop_filter",
+  "dbu_um": 0.001,
+  "netlist_path": "/tmp/r323/hist/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/pll_loop_filter.pex.spice",
+  "netlist_sha256": "40b9bed2d60a99d1e910769db0134af1201007ef8af66907f10902cfedfa3bf5",
+  "netlist_normalized_sha256": "09f82153b4b309d26104b20f5f64694974e5d686db5082fc1329ba5c88348caf",
+  "status": "extracted",
+  "device_count": 1,
+  "net_count": 3,
+  "pin_count": 3,
+  "device_counts": {
+    "rppd": 1
+  },
+  "dummy_devices_dropped": 0,
+  "ignored_layers": [],
+  "device_recognition_only_layers": [
+    {
+      "layer": 28,
+      "datatype": 0,
+      "shapes": 1
+    },
+    {
+      "layer": 111,
+      "datatype": 0,
+      "shapes": 1
+    },
+    {
+      "layer": 128,
+      "datatype": 0,
+      "shapes": 1
+    }
+  ],
+  "device_classes": [
+    "nfet",
+    "pfet",
+    "cap_cmomi",
+    "cap_cmomf",
+    "resistor"
+  ],
+  "devices": [
+    {
+      "name": "$1",
+      "class": "rppd",
+      "nets": {
+        "a": "VCTRL",
+        "b": "NZ",
+        "w": "vsubs"
+      },
+      "params": {
+        "r_ohm": 7805.817524,
+        "l_um": 120.0,
+        "w_um": 4.0,
+        "area_um2": 480.0,
+        "perimeter_um": 248.0
+      },
+      "instance_path": [
+        {
+          "cell": "loop_filter_resrppd_w4_l120",
+          "array_index": null
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "NZ",
+      "pin": true,
+      "device_count": 1,
+      "net_id": 2,
+      "pin_index": 0,
+      "label_positions_um": [
+        {
+          "text": "NZ",
+          "x_um": 120.75,
+          "y_um": 6.4
+        }
+      ]
+    },
+    {
+      "name": "VCTRL",
+      "pin": true,
+      "device_count": 1,
+      "net_id": 1,
+      "pin_index": 1,
+      "label_positions_um": [
+        {
+          "text": "VCTRL",
+          "x_um": 0.25,
+          "y_um": 7.0
+        }
+      ]
+    },
+    {
+      "name": "vsubs",
+      "pin": true,
+      "device_count": 1,
+      "net_id": 3,
+      "pin_index": 2,
+      "label_positions_um": []
+    }
+  ],
+  "warnings": [
+    "deck 'sg13cmos5l' declares MOS flavour 'hv' scoped by marker layer 44/0, but that layer has no shapes in the layout; every MOS device binds to the deck's default flavour"
+  ],
+  "black_box_regions": [],
+  "abstracted_cells": [],
+  "unmodelled_poly": [],
+  "merged_net_labels": [],
+  "split_net_labels": [],
+  "voltage_domain_warnings": [],
+  "missing_flavour_markers": [
+    {
+      "deck": "sg13cmos5l",
+      "flavour": "hv",
+      "marker": "44/0"
+    }
+  ],
+  "unsupported_devices": [],
+  "unbiased_pmos_body_nets": [],
+  "single_terminal_nets": [],
+  "dead_metal": [],
+  "matched_device_groups": [],
+  "def_pin_promotion": null,
+  "pin_renames": null,
+  "rename_declared_pins": false,
+  "declared_pins": null,
+  "def_pins": null,
+  "label_layers": null,
+  "device_models": null,
+  "probes": [],
+  "pdk": {
+    "variant": "ihp-sg13cmos5l",
+    "root": {
+      "path": null,
+      "scope": "external"
+    },
+    "version": null
+  },
+  "provenance": {
+    "klt_version": "0.9.2.dev661+g1de5c0432aad",
+    "klt_git_commit": "1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klt_reinstall_spec": "klayout-tools @ git+https://github.com/2AMLogic/klayout-tools@1de5c0432aadd774f1d0088b9d3169df8f39766d",
+    "klayout_version": "0.30.13",
+    "pdk": {
+      "name": "ihp-sg13cmos5l",
+      "source": "--pdk-root flag",
+      "version": null
+    },
+    "deck": {
+      "name": "sg13cmos5l",
+      "content_hash": "sha256:a8810ba6fd8e57f496a96cc44e28aa3c7effa9d73f1302ef6415fd4aedd33768",
+      "released": false
+    },
+    "input": {
+      "content_hash": "sha256:6cea07cc5bd9683aa1d91179200b28b55993b84d2d6191d816d528fb9f4be3fd",
+      "role": "layout"
+    }
+  },
+  "parasitics": {
+    "r_count": 2,
+    "c_count": 2,
+    "cc_count": 0,
+    "l_count": 0,
+    "total_resistance_ohm": 4.84,
+    "total_capacitance_ff": 1.742548,
+    "total_coupling_capacitance_ff": 0.0,
+    "total_inductance_nh": 0.0,
+    "nets": [
+      {
+        "net": "NZ",
+        "net_id": 2,
+        "resistance_ohm": 2.332,
+        "capacitance_ff": 0.848314,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 0.924,
+            "capacitance_ff": 0.444719
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 1.32,
+            "capacitance_ff": 0.365727
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 0.088,
+            "capacitance_ff": 0.037868
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "NZ",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$1",
+            "terminal": "B",
+            "leg_net": "NZ__t0",
+            "resistance_ohm": 2.332
+          }
+        ],
+        "segments": [],
+        "pin_order": null,
+        "coupled": [],
+        "integrity": {
+          "open": {
+            "status": "not_applicable",
+            "reason": "lumped model: terminal legs attach to the hub by construction; no distributed segments to check connectivity over",
+            "disconnected_count": 0,
+            "disconnected_terminals": [],
+            "details_truncated": false
+          },
+          "islands": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "orphan_nodes": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "suspicious_resistors": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "short_candidates": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "capacitance": {
+            "status": "pass",
+            "declared_ff": 0.848314,
+            "computed_ff": 0.848314,
+            "delta_ff": 0.0,
+            "reason": null,
+            "tolerance": {
+              "absolute_ff": 1e-06,
+              "relative": 1e-09
+            }
+          }
+        }
+      },
+      {
+        "net": "VCTRL",
+        "net_id": 1,
+        "resistance_ohm": 2.508,
+        "capacitance_ff": 0.894234,
+        "by_layer": [
+          {
+            "layer": "metal0",
+            "resistance_ohm": 0.924,
+            "capacitance_ff": 0.444719
+          },
+          {
+            "layer": "metal1",
+            "resistance_ohm": 1.496,
+            "capacitance_ff": 0.411647
+          },
+          {
+            "layer": "metal2",
+            "resistance_ohm": 0.088,
+            "capacitance_ff": 0.037868
+          }
+        ],
+        "resistance_ohm_top_cell": null,
+        "capacitance_ff_top_cell": null,
+        "inductance_nh": 0.0,
+        "hub_net": "VCTRL",
+        "rc_model": "lumped",
+        "terminals": [
+          {
+            "device": "$1",
+            "terminal": "A",
+            "leg_net": "VCTRL__t0",
+            "resistance_ohm": 2.508
+          }
+        ],
+        "segments": [],
+        "pin_order": null,
+        "coupled": [],
+        "integrity": {
+          "open": {
+            "status": "not_applicable",
+            "reason": "lumped model: terminal legs attach to the hub by construction; no distributed segments to check connectivity over",
+            "disconnected_count": 0,
+            "disconnected_terminals": [],
+            "details_truncated": false
+          },
+          "islands": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "orphan_nodes": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "suspicious_resistors": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "short_candidates": {
+            "count": 0,
+            "details": [],
+            "details_truncated": false,
+            "reason": null
+          },
+          "capacitance": {
+            "status": "pass",
+            "declared_ff": 0.894234,
+            "computed_ff": 0.894234,
+            "delta_ff": 0.0,
+            "reason": null,
+            "tolerance": {
+              "absolute_ff": 1e-06,
+              "relative": 1e-09
+            }
+          }
+        }
+      }
+    ],
+    "substrate_dc_tie": {
+      "resistance_ohm": 1000000000000.0,
+      "mode": "shunt",
+      "nets": [
+        {
+          "net": "vsubs",
+          "device": "Rvsubs_dctie"
+        }
+      ],
+      "node_scope": "global"
+    },
+    "integrity": {
+      "short_threshold_ohm": 1.0,
+      "cap_tolerance": {
+        "absolute_ff": 1e-06,
+        "relative": 1e-09
+      },
+      "max_detail_items": 20,
+      "nets_checked": 2,
+      "nets_with_findings": 0,
+      "open_nets": 0,
+      "island_components": 0,
+      "orphan_nodes": 0,
+      "suspicious_resistors": 0,
+      "short_candidates": 0,
+      "capacitance_mismatches": 0
+    },
+    "metals_without_coefficient": [],
+    "overlap_pairs_without_coefficient": [],
+    "critical_nets": [],
+    "parasitics_nets": [],
+    "distributed_rc": false,
+    "top_cell_only": false,
+    "model": {
+      "capacitance": "net-to-ground for every net's own (non-coupled) area/perimeter, plus net-to-net for the vertical-overlap coupling `coupling` describes below -- a coupled net pair gets a direct capacitor between their two hub nodes, not just capacitors to the deck's ground/substrate net",
+      "coupling": "vertical overlap (crossover) unconditionally -- where one net's conductor on an adjacent metal level sits directly over another *distinct* net's conductor, that overlap area is charged between the two nets instead of to ground (issue #760) -- plus lateral (same-layer, sidewall) coupling, but only for a net pair naming one of the caller's declared `--critical-net` nets (issue #976): facing-edge length within that layer's own minimum-spacing lookback is charged between the two nets, *additively* (not deducted from either net's substrate fringe term, unlike the vertical case -- a known simplification). Any same-layer pair with neither side named `--critical-net`, and fringe shielding in general, are still not modelled",
+      "resistance": "single lumped series resistance per net, distributed as a star across that net's device terminals (issue #592) -- not a per-segment, distributed RC ladder, *unless* `--distributed-rc` names this net via `--critical-net` (issue #977, Epic #709 Phase 2b): then the net's terminals are ordered along their approximate physical spread and its total R/C is broken into a chain of per-segment resistors (segment length proportional to inter-terminal distance) with a ground capacitor at each terminal node (proportional to its adjacent segment length/2), instead of one star hub -- still an approximation (terminal position is a device-placement proxy, not true per-segment routing geometry), but a strictly finer-grained one than the single-hub star",
+      "frequency": "quasi-static -- one frequency-independent R and C per net; no skin effect, no distributed transmission-line behavior"
+    },
+    "model_revision": 2,
+    "mom_crosscheck": null,
+    "substrate_spreading": null,
+    "mom_rlc_override": null
+  },
+  "spef_path": null,
+  "subcircuit": null,
+  "metrics": {
+    "extract__device__count": 1,
+    "extract__net__count": 3,
+    "extract__pin__count": 3,
+    "extract__resistor__count": 2,
+    "extract__capacitor__count": 2,
+    "extract__coupling__capacitor__count": 0,
+    "extract__inductor__count": 0,
+    "extract__resistance__ohm": 4.84,
+    "extract__capacitance__ff": 1.742548,
+    "extract__coupling__capacitance__ff": 0.0,
+    "extract__inductance__nh": 0.0
+  },
+  "timing": {
+    "stages": {
+      "read_layout": 0.0,
+      "device_extraction": 0.003,
+      "diagnostics": 0.0,
+      "netlist_write": 0.0,
+      "netlist_hash": 0.0,
+      "netlist_normalized_hash": 0.0
+    },
+    "total_seconds": 0.093,
+    "unattributed_seconds": 0.088
+  }
+}

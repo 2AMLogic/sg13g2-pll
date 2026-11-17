@@ -1,0 +1,21 @@
+preflight: checking klt parasitics support for deck sg13cmos5l
+preflight OK: r_count=2 c_count=2, no metal without a coefficient
+klt: klt 0.3.0+unknown
+layout record: 20261111-201126-ff8b653
+extracting pll_pfd ...
+  pll_pfd: 66 devices, 37 nets, R=264 (2900.364 ohm total), C=37 (680.655 fF total)
+extracting pll_cp ...
+  pll_cp: 20 devices, 18 nets, R=80 (914.862 ohm total), C=18 (219.402 fF total)
+extracting pll_loop_filter ...
+  pll_loop_filter: 1 devices, 3 nets, R=2 (2.347 ohm total), C=2 (0.826 fF total)
+extracting pll_vco ...
+  pll_vco: 44 devices, 33 nets, R=170 (1435.309 ohm total), C=33 (343.427 fF total)
+extracting pll_divider_chain ...
+  pll_divider_chain: 316 devices, 142 nets, R=1264 (44894.258 ohm total), C=142 (10389.756 fF total)
+extracting pll_lock_detector ...
+  pll_lock_detector: 38 devices, 25 nets, R=149 (1926.208 ohm total), C=23 (465.887 fF total)
+wrote /tmp/r324/wt/sim/sg13cmos5l-postlayout-pex-pvt/netlist-snapshots/provenance.json
+
+real	0m3.871s
+user	0m3.517s
+sys	0m0.290s

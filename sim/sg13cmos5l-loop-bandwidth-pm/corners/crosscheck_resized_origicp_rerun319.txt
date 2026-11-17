@@ -1,0 +1,13 @@
+Cross-check (issue #41, DR-006): RESIZED real `loop_filter` subckt
+vs. lumped R/C equivalent built from the resized filter's own
+measured R1/C1/C2 (sg13cmos5l-loop-filter-momcap RECORD-002), at a
+nominal point inside the amended f_ref range (bundle=typ,
+band=11, Kvco interval=top, f_ref=19 MHz,
+N=66, trim code 10u, mom_frac=0.00).
+
+  R1 = 3.442341e+05 ohm   C1 = 1.691196e-12 F   C2 = 1.001529e-13 F
+  Icp = 1.004607e-05 A   Kvco = 3.286114e+08 Hz/V
+
+  real subckt : f_c = 2.170869e+06 Hz   PM = 51.299 deg
+  lumped R/C  : f_c = 2.347968e+06 Hz   PM = 57.709 deg
+  difference  : f_c +8.158 %   PM +6.410 deg

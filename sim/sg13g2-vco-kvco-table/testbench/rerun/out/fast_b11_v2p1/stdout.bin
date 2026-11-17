@@ -1,0 +1,66 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: * sg13g2-pll :: sim/sg13g2-vco-kvco-table (issue #97, the sg13g2 twin of
+
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vctrl                                      2.1
+b0                                         3.3
+b1                                         3.3
+vdd                                        3.3
+sub!                                         0
+xvco.xbias.vb1                        0.609074
+xvco.xbias.vb2                         2.92166
+xvco.xbias.n2s                         1.41358
+xvco.xbias.xrs.dt                            0
+xvco.xbias.xrstart.dt                        0
+xvco.xbias.vfix                        2.95425
+xvco.xbias.vfixmid                     1.33876
+xvco.vbp                               1.47019
+xvco.xbias.dega                        1.28937
+xvco.xbias.xrdega.dt                         0
+xvco.xbias.degb                       0.595355
+xvco.xbias.xrdegb0.dt                        0
+xvco.xbias.nb0                        0.587151
+xvco.xbias.xrdegb1.dt                        0
+xvco.xbias.nb1                        0.579257
+xvco.xbias.xrdegb2.dt                        0
+xvco.vbn                               1.52207
+xvco.xs1.nh                            1.97254
+xvco.ring1                                 0.5
+xvco.ring5                         4.61548e-09
+xvco.xs1.nt                        0.000320024
+xvco.xs2.nh                            3.18813
+xvco.ring2                             3.11784
+xvco.xs2.nt                          0.0808272
+xvco.xs3.nh                                3.3
+xvco.ring3                         1.94703e-07
+xvco.xs3.nt                         1.1871e-07
+xvco.xs4.nh                            3.29317
+xvco.ring4                             3.28939
+xvco.xs4.nt                         0.00489125
+xvco.xs5.nh                                3.3
+xvco.xs5.nt                        2.83327e-09
+xvco.bufmid                            3.29991
+clk                                2.74251e-09
+xvco.xcdecap.1                             3.3
+vsub#branch                                  0
+vdd#branch                         -0.00196274
+vb1#branch                                   0
+vb0#branch                                   0
+vvctrl#branch                                0
+
+ Reference value :  4.05600e-10 Reference value :  1.64291e-09 Reference value :  2.84065e-09 Reference value :  4.09761e-09 Reference value :  5.33488e-09 Reference value :  6.59280e-09 Reference value :  7.84927e-09 Reference value :  9.04482e-09 Reference value :  1.03448e-08 Reference value :  1.15820e-08 Reference value :  1.28376e-08 Reference value :  1.40976e-08 Reference value :  1.53348e-08 Reference value :  1.65705e-08 Reference value :  1.78305e-08 Reference value :  1.90476e-08 Reference value :  2.02834e-08 Reference value :  2.15634e-08 Reference value :  2.27804e-08 Reference value :  2.39962e-08 Reference value :  2.52362e-08 Reference value :  2.64733e-08 Reference value :  2.77091e-08 Reference value :  2.89691e-08 Reference value :  3.02062e-08 Reference value :  3.14220e-08 Reference value :  3.26820e-08 Reference value :  3.39390e-08 Reference value :  3.51549e-08 Reference value :  3.64349e-08 Reference value :  3.76919e-08 Reference value :  3.88878e-08
+No. of Data Rows : 2012
+per1                =  7.49595e-10 targ=  2.46115e-09 trig=  1.71156e-09
+per1 = 7.495949e-10
+Note: Simulation executed from .control section 

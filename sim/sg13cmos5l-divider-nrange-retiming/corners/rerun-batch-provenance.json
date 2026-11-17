@@ -1,0 +1,623 @@
+{
+ "issue": 233,
+ "date": "2026-11-11",
+ "submit_host": "loom-worker-2",
+ "client_klt": "0.9.2.dev661+g1de5c0432aad",
+ "probe_job": "klt-sim-d31896d51311",
+ "worker_probe_job": "klt-sim-e305836c8388",
+ "hold_attempt1_job": "klt-sim-990e315a74be (refused batch_no_capacity after 600s wait; resubmitted unchanged)",
+ "stages": {
+  "opconv": {
+   "job_id": "klt-sim-a78e8e3b623f",
+   "instance_type": "m6i.4xlarge",
+   "ami_id": "ami-095c25ae241a4d360",
+   "lifecycle": "spot",
+   "runner_klt": "0.9.0",
+   "engine_version": "46",
+   "elapsed_s": 8,
+   "status": "pass",
+   "unit_count": 2,
+   "passed": 2,
+   "errored": 0,
+   "timed_out": 0,
+   "units": [
+    {
+     "id": "op_repaired_none",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 1.173,
+     "deck_sha256": "ae51a8ef805b082c3a0fcbf152e066d42509cc3be823455bbd6038b370517029"
+    },
+    {
+     "id": "op_repaired_applied",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 1.177,
+     "deck_sha256": "11cbac2f2ccb3f57c37fdff06b3ce566ab7302dd8dabdbf6eaf3b700f01bd005"
+    }
+   ]
+  },
+  "hold": {
+   "job_id": "klt-sim-83c2aa507d64",
+   "instance_type": "m6i.4xlarge",
+   "ami_id": "ami-095c25ae241a4d360",
+   "lifecycle": "spot",
+   "runner_klt": "0.9.0",
+   "engine_version": "46",
+   "elapsed_s": 8,
+   "status": "pass",
+   "unit_count": 9,
+   "passed": 9,
+   "errored": 0,
+   "timed_out": 0,
+   "units": [
+    {
+     "id": "hold_mos_tt_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.967,
+     "deck_sha256": "f65cbbe26d5bb4bd69d30264ae993a814242219a01ee89cce4e182d39fecdab4"
+    },
+    {
+     "id": "hold_mos_ss_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.967,
+     "deck_sha256": "70533d824d944501814d1e70a7edb97d090733b49bc9b96f1c70efc44cfd62cd"
+    },
+    {
+     "id": "hold_mos_ff_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.297,
+     "deck_sha256": "d7348118aead2ad0c44dd76ae1b9162712898d707b64d8f94f8459484b4da5d1"
+    },
+    {
+     "id": "hold_mos_sf_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.295,
+     "deck_sha256": "c0e5214e1df010d80768655700d0957955d14605102ce6aeb4e896b701f98c13"
+    },
+    {
+     "id": "hold_mos_fs_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.31,
+     "deck_sha256": "05d4bb0718c3255d2ac23ae99651bc870af1a246ea307aeb07f9ef2b1938ff71"
+    },
+    {
+     "id": "hold_mos_tt_m40_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.316,
+     "deck_sha256": "913f76ebc95ca9e467a84fc0e5f7923f4a8843424708a49c2e6afbf72fc1e3f5"
+    },
+    {
+     "id": "hold_mos_tt_125_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.33,
+     "deck_sha256": "55253e0a63ff4ab2f15a377553a1687ecf598f097cdbe1a949b26e23ed6590f9"
+    },
+    {
+     "id": "hold_mos_tt_27_2p97",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.323,
+     "deck_sha256": "306cbe4bb89450e1de5606d56dbe5dfe57735ec245619a01c4eba13616e7a527"
+    },
+    {
+     "id": "hold_mos_tt_27_3p63",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.314,
+     "deck_sha256": "f9a187acb254291cdb8e580e73dd2c06960be119ee7c750c64a24b6f6cf1ac02"
+    }
+   ]
+  },
+  "setup": {
+   "job_id": "klt-sim-83279cacd753",
+   "instance_type": "m7i.4xlarge",
+   "ami_id": "ami-095c25ae241a4d360",
+   "lifecycle": "spot",
+   "runner_klt": "0.9.0",
+   "engine_version": "46",
+   "elapsed_s": 11,
+   "status": "pass",
+   "unit_count": 30,
+   "passed": 30,
+   "errored": 0,
+   "timed_out": 0,
+   "units": [
+    {
+     "id": "setup_mos_tt_27_3p3_1500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.582,
+     "deck_sha256": "5254a89b668fa814bfcf8d60a057c53faceda89c1fa8bd0191a8700721834fdb"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_1000p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.592,
+     "deck_sha256": "899d0eb7bb8ab3675fa9c1753d5f23e29cf1b9deb9362f7b9057781485c16d28"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_700p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.249,
+     "deck_sha256": "bd3625a9086f40b9bb9c922cbb494f69ff9982b1fd5ef41dfd6ea4a27f993d81"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.258,
+     "deck_sha256": "44fcfa3d652d7d752fc60a94f8eab6c545801946116f3297577c550b7c43cd0c"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_300p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.246,
+     "deck_sha256": "715d214d1128e178471dfcb75019ac5cc9963ff37793c7a9188fac41f157af5a"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_200p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.235,
+     "deck_sha256": "d47f370447f8f985b0510a2c7249c0da0fda2ed7008b2809e56f07913418f669"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_130p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.276,
+     "deck_sha256": "2f6a24241dc9fc72f5c26d3caddbeac492a21ffaf84ee3ec9a8ae56575848d3a"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_80p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.295,
+     "deck_sha256": "04d94b824b8ea0654de0deceb9a61a434213959da70594709fff428ad5d4bb7b"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_40p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.312,
+     "deck_sha256": "aed7e516eae062cd55a76c324dd09ac39a8cf358a0127f95e81b83dcf38ea12c"
+    },
+    {
+     "id": "setup_mos_tt_27_3p3_0p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.249,
+     "deck_sha256": "7bd27edf31115191ddb11fc269ca4e24f55eb9a007f53f36e0fcdf3dd2be45fc"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_1500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.299,
+     "deck_sha256": "3399108d18591f13764aba23dfd37eee8ba3a06f5eba2fc19218fec8f95b4084"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_1000p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.285,
+     "deck_sha256": "4bfd54647d166ffee288f2965f5e44b80f0bde965be6954d673f9df11098f1d2"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_700p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.278,
+     "deck_sha256": "fc32e8927baa9a526671fa06789c8ba5a8187a4110b9e4b22cfc61a7a381c91e"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.267,
+     "deck_sha256": "dda2074e0f17b73677cf27be1d6996623a1f63446fef6efef37c0208dd2e3562"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_300p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.292,
+     "deck_sha256": "68a62cf832ff91f67ab0143f5c3d2985363ff440a286f5840bc8b3dd539e3c4b"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_200p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.267,
+     "deck_sha256": "020c204bb481f025c74efa7b8a98b12374789da13f6893e9377ab4ce3bf8b0e7"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_130p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.285,
+     "deck_sha256": "97eaf6ac73b47be19b58714e1176d59984f89d0d5dec4b9f5d4614363b923ef7"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_80p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.252,
+     "deck_sha256": "40f397a1fdbfccc42eec7959495a2a3c540065405e2e48001e61d3636fd4c3bd"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_40p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.276,
+     "deck_sha256": "04a9cab355eb7526ba6d47996c6003eb7657857d4f027c1badd6b148d112ee3b"
+    },
+    {
+     "id": "setup_mos_ss_125_3p3_0p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.303,
+     "deck_sha256": "45e65eb8fabc674b2a50a2ea07cdf3ffbcfaf92e851d797309e7200a8775ba97"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_1500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.281,
+     "deck_sha256": "1782dc874c118e065c943b070e12226db784281a5ebb4ee24bf4e4243fee5623"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_1000p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.26,
+     "deck_sha256": "b31729af56323af42a3704af49cbeb51782ce04d5562358cd19880a4182b07ad"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_700p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.275,
+     "deck_sha256": "f9af90d7e4bd5da6b46c1a519a5b65d8fe342f62e2db387d695f4d4b32946aa5"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_500p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.265,
+     "deck_sha256": "b989024d582e1724d29fa554c8b5ac96b7751a6d490d67193b800e3b3271c7f8"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_300p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.257,
+     "deck_sha256": "9c789e8be715f66193b0c9e2a62b52c0069e361fbab6eeede3070725f740c67a"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_200p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.253,
+     "deck_sha256": "76fa3d390144c751e4b6745b560acb7bfb1bb14d7b83072289448af907f10b4e"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_130p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.283,
+     "deck_sha256": "2ac07a5cafc208ff3857d718de20b8eef214c210a7204cfe56437ab40c738cae"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_80p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.277,
+     "deck_sha256": "8c85c929d515917f16fb97bbb1fe93951d9ca0d742d38908554188023e00f29e"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_40p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.252,
+     "deck_sha256": "83c3694e6152adbdcf5071ff6af2d71aa3f1893cc0e3c92d25988bf99c912bad"
+    },
+    {
+     "id": "setup_mos_ff_m40_3p3_0p",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 0.283,
+     "deck_sha256": "ca71f96cb48dd7909f222b7b0e481de6f20e42d2674f7f8f42d42642e3da0018"
+    }
+   ]
+  },
+  "func": {
+   "job_id": "klt-sim-54b56d42f020",
+   "instance_type": "c7i.8xlarge",
+   "ami_id": "ami-095c25ae241a4d360",
+   "lifecycle": "spot",
+   "runner_klt": "0.9.0",
+   "engine_version": "46",
+   "elapsed_s": 723,
+   "status": "error",
+   "unit_count": 26,
+   "passed": 24,
+   "errored": 2,
+   "timed_out": 0,
+   "units": [
+    {
+     "id": "func_baseline_mos_tt_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 96.254,
+     "deck_sha256": "fcb6cecd6419ce7347a13a93c34864461ed3977ff002f80ad4f54b0c57c68593"
+    },
+    {
+     "id": "func_baseline_mos_ss_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 92.102,
+     "deck_sha256": "28d101cf68a34571628a63bc56084b2fffb44e77d5d3877869169593c3b3482d"
+    },
+    {
+     "id": "func_baseline_mos_ff_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 102.729,
+     "deck_sha256": "a6a7dd09bd936ee9b90534d017c385d543fb1662ddab0a0178986637a84fcb01"
+    },
+    {
+     "id": "func_baseline_mos_sf_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 92.282,
+     "deck_sha256": "08c71fc4969b25c7abff677644e4a0f315a1da2c104d115b6fac86849362c817"
+    },
+    {
+     "id": "func_baseline_mos_fs_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 106.082,
+     "deck_sha256": "4921c11dba0d5867113e7a135054cda60967c60864e1d7fc197a907f66161f9e"
+    },
+    {
+     "id": "func_baseline_mos_tt_m40_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 92.471,
+     "deck_sha256": "2e020d8679cb42d34de493b47e55a05c4f7f6894b6c61af06022218939bd69f5"
+    },
+    {
+     "id": "func_baseline_mos_tt_125_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 104.212,
+     "deck_sha256": "ad9e257e18f63540bacd30a6961c3c0a6a9eac3cf0623b909e97983f1a400db1"
+    },
+    {
+     "id": "func_baseline_mos_tt_27_2p97_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 90.709,
+     "deck_sha256": "8b8f9221f51c81047cecbe5e5a515ead1966ffb92157af9e9104a63e62136061"
+    },
+    {
+     "id": "func_baseline_mos_tt_27_3p63_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 105.358,
+     "deck_sha256": "04ba8faf74fab6db048a7673394604486b9db3b630f626ae3df315b815a4570f"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_000001_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 95.758,
+     "deck_sha256": "57e903d9731b8d3f2f86f63bea6b7986736fbff51dd390a2f8424729575af1de"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_000010_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 103.974,
+     "deck_sha256": "233dac49f880956d773ec95cc86416ee79fda67f02608624f785ffbe22399a51"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_000100_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 119.579,
+     "deck_sha256": "9a184d06a08e0b3112efeb12d95d341b4940cb04e39bcef986f88ac74568f944"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_001000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 111.747,
+     "deck_sha256": "dfa375f6543fbc6b41c29241e29f31c932ec7e784ee7ea908d8fe127a9c0ddf7"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_010000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 120.07,
+     "deck_sha256": "26488178f57206cc21a7bea2532d40227bfa83f6655b58c091c5370b0532025c"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_100000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 136.281,
+     "deck_sha256": "81791a9202da0bf7070e680d89f68327d980345fde5d437e7e3159221f6c1466"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_011111_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 140.117,
+     "deck_sha256": "6d985c883da3ee9a263cf86248066f777fbfd60f56e6512fb0aaf4e277589e02"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_101010_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 151.157,
+     "deck_sha256": "4b02174ced4ac4292db7fc05254cab0040d79081e7481b96b43296b1ca696226"
+    },
+    {
+     "id": "func_code_mos_tt_27_3p3_111111_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 174.397,
+     "deck_sha256": "252688f96012a40a9748088da1d4bc85e50eea20b8dbd975b09b1f4ad4f0dbc4"
+    },
+    {
+     "id": "func_edge_mos_ss_125_3p3_111111_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 183.054,
+     "deck_sha256": "0de4ad7b20059abb2897fcc8a08603d6cbcc3404a9d71eee72c4294481f899a5"
+    },
+    {
+     "id": "func_edge_mos_ff_m40_3p3_111111_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 192.504,
+     "deck_sha256": "25aff0a70b3f960b7a771f806b8357567e776ef64864a70ffc8b0e85828d229a"
+    },
+    {
+     "id": "func_tol_mos_tt_27_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 88.766,
+     "deck_sha256": "fcb6cecd6419ce7347a13a93c34864461ed3977ff002f80ad4f54b0c57c68593"
+    },
+    {
+     "id": "func_tol_mos_ss_125_3p3_000000_rt0p001",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 100.763,
+     "deck_sha256": "25a5ced4bcf0557a158c353ba4ef68b052da363286f9c28ffbfa7a524e6c9f09"
+    },
+    {
+     "id": "func_tol_mos_tt_27_3p3_000000_rt0p002",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 77.098,
+     "deck_sha256": "8328aa9bb80165737bcb936fd919c9f67c2c2b8201503f46662790f6429ffd7f"
+    },
+    {
+     "id": "func_tol_mos_ss_125_3p3_000000_rt0p002",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 75.262,
+     "deck_sha256": "e85f7304078550dcfdb6c33742987a27a39aec7f6150a727db59a7bc3d357866"
+    },
+    {
+     "id": "func_tol_mos_tt_27_3p3_000000_rt0p005",
+     "status": "error",
+     "exit_code": 1,
+     "duration_s": 34.181,
+     "deck_sha256": "6ee76a17464b9a0737732ccfd455ad1203ede6a9ad7926d9175d6a219a60a4fc"
+    },
+    {
+     "id": "func_tol_mos_ss_125_3p3_000000_rt0p005",
+     "status": "error",
+     "exit_code": 1,
+     "duration_s": 5.945,
+     "deck_sha256": "3e877ccac5c18e7e1dc41036a5e1c555252031cd32ff435b9cc78d2f0cd1bfa0"
+    }
+   ]
+  },
+  "retime": {
+   "job_id": "klt-sim-c38ff179299b",
+   "instance_type": "c7i.8xlarge",
+   "ami_id": "ami-095c25ae241a4d360",
+   "lifecycle": "spot",
+   "runner_klt": "0.9.0",
+   "engine_version": "46",
+   "elapsed_s": 209,
+   "status": "pass",
+   "unit_count": 9,
+   "passed": 9,
+   "errored": 0,
+   "timed_out": 0,
+   "units": [
+    {
+     "id": "retime_mos_tt_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 59.224,
+     "deck_sha256": "868bc5e060d3872629d0ba833c20703edfc2b8c6da2c43fa3b2619c23dadd709"
+    },
+    {
+     "id": "retime_mos_ss_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 59.48,
+     "deck_sha256": "86dcb82840627773dec944d8bd7ca233e4f6f020012d124a2426e5da0574438b"
+    },
+    {
+     "id": "retime_mos_ff_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 62.456,
+     "deck_sha256": "9c35eb175a6ba92fee9574e6e4e113b20ad405acce46491eda5f442e8ca9d07f"
+    },
+    {
+     "id": "retime_mos_sf_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 55.943,
+     "deck_sha256": "8a9bac0451591efdafdef378b2b1b08bb582b0a7adcaada7e65cea8d35dec428"
+    },
+    {
+     "id": "retime_mos_fs_27_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 63.523,
+     "deck_sha256": "24fb76dc14a14cd71ecb6870cbfab04a1670cfbc94d177a675fc915fa8760f6a"
+    },
+    {
+     "id": "retime_mos_tt_m40_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 57.164,
+     "deck_sha256": "ec314bb893feb0d483b1a5485b41dce70bbf7c33f3e58dfaa7be8a07a783a32a"
+    },
+    {
+     "id": "retime_mos_tt_125_3p3",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 54.408,
+     "deck_sha256": "ebb9057015c4f1abeb89fbe7f6dd8d888bcc6caca67262b299eb95e07d353a97"
+    },
+    {
+     "id": "retime_mos_tt_27_2p97",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 55.533,
+     "deck_sha256": "667306ffe2b74b5c066d5e07febe1f589a9180bb2566150327f5a73d8859c094"
+    },
+    {
+     "id": "retime_mos_tt_27_3p63",
+     "status": "pass",
+     "exit_code": 0,
+     "duration_s": 53.601,
+     "deck_sha256": "00d975f062e87d8144441a99b0578c040286d6921bab2d12e3525791d355ef9f"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,164 @@
+{
+  "schema_version": 3,
+  "mode": "decks",
+  "backend": "batch",
+  "engine": "ngspice",
+  "status": "pass",
+  "unit_count": 4,
+  "passed": 4,
+  "errored": 0,
+  "timed_out": 0,
+  "units": [
+    {
+      "id": "50f12283fe580343d70b",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 233.087,
+      "engine_version": "46",
+      "deck": "deck.sp",
+      "deck_sha256": "8f5339b8ad2c715b961bee9783d06e0509dddb476bfe2402b81ea583d291190a",
+      "stdout": "50f12283fe580343d70b/stdout.bin",
+      "stderr": "50f12283fe580343d70b/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "ad9c0dffde09ed60d80f",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 868.582,
+      "engine_version": "46",
+      "deck": "deck.sp",
+      "deck_sha256": "9dab563ca16d664b02246683e90187455742472ce91bce7ad30370883ca06162",
+      "stdout": "ad9c0dffde09ed60d80f/stdout.bin",
+      "stderr": "ad9c0dffde09ed60d80f/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "078d758a2621b0da6a3c",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 113.368,
+      "engine_version": "46",
+      "deck": "deck.sp",
+      "deck_sha256": "7ae39d8fb83655fecf595504148e62b87f08c8d92d5d3c895d91570a5c26ded2",
+      "stdout": "078d758a2621b0da6a3c/stdout.bin",
+      "stderr": "078d758a2621b0da6a3c/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+      ],
+      "diagnostics": []
+    },
+    {
+      "id": "6ba9cd2d0f6bd0568077",
+      "status": "pass",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_s": 676.975,
+      "engine_version": "46",
+      "deck": "deck.sp",
+      "deck_sha256": "5010628973fed017985cf228853dfacc15c2d04ffabc73344143bec54ef4d078",
+      "stdout": "6ba9cd2d0f6bd0568077/stdout.bin",
+      "stderr": "6ba9cd2d0f6bd0568077/stderr.bin",
+      "outputs": [],
+      "missing_outputs": [],
+      "host_resolved": [
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+        "$PDK_ROOT/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+      ],
+      "diagnostics": []
+    }
+  ],
+  "outdir": "/tmp/r326/outdivp3",
+  "environment": {
+    "engine": "ngspice",
+    "engine_version": "46",
+    "ngspice_binary": "/usr/local/bin/ngspice",
+    "klt_version": "0.9.0",
+    "max_workers": 2,
+    "engine_host": "worker",
+    "remote": {
+      "provider": "aws-batch-fleet",
+      "job_id": "klt-sim-ac6587d80691",
+      "region": "us-east-1",
+      "instance_id": "i-0fb6c9cf061fd8be4",
+      "instance_type": "m7i.4xlarge",
+      "availability_zone": "us-east-1b",
+      "ami_id": "ami-095c25ae241a4d360",
+      "lifecycle": "spot",
+      "spot": true,
+      "state": "done",
+      "exit_code": "0",
+      "concurrency": "1",
+      "physical_cores": "8",
+      "elapsed_seconds": 1029,
+      "runner_klt_version": "0.9.0",
+      "client_klt_version": "0.9.2.dev699+gbfb96f18cb1b",
+      "runner_compatibility": "match",
+      "runner_request_features": {
+        "required": [
+          "decks"
+        ],
+        "missing": [],
+        "status": "supported"
+      },
+      "worker_environment": {
+        "capture": "ok",
+        "simulator": {
+          "requested_binary": "ngspice",
+          "binary_source": "PATH",
+          "selected_path": "/usr/local/bin/ngspice",
+          "version_banner": "******\n** ngspice-46 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2025, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Thu Oct  1 23:51:59 UTC 2026\n******\n",
+          "version_probe": "ok"
+        },
+        "pdk": {
+          "variant": "ihp-sg13cmos5l",
+          "root": "/opt/pdk",
+          "stamp_scheme": null,
+          "stamp_sha256": null,
+          "stamp_text": null,
+          "models_staged": false,
+          "stamp_scope": "executed"
+        },
+        "cpu_model": "Intel(R) Xeon(R) Platinum 8488C",
+        "omp_num_threads": null,
+        "image_manifest": null,
+        "model_inputs": null,
+        "diagnostics": [
+          "pdk stamp unreadable: FileNotFoundError"
+        ],
+        "pdk_stamp_comparison": {
+          "status": "not_comparable",
+          "reason": "worker_stamp_unavailable"
+        }
+      },
+      "runner_model_inputs": null
+    },
+    "client_ngspice_binary": "/home/ubuntu/.local/bin/ngspice"
+  }
+}

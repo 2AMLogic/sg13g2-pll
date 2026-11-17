@@ -1,0 +1,10 @@
+* extracted by klt extract --deck sg13cmos5l
+
+* cell cp_pfet_w6_l0p3
+* pin VDD
+.SUBCKT cp_pfet_w6_l0p3 VDD
+* device instance $1 r0 *1 4.3,3.01 pfet
+X$1 \$6 \$2 \$3 VDD sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U PD=12.8U
+* device instance $2 r0 *1 12.26,3.01 pfet
+X$2 \$7 \$4 \$5 VDD sg13_hv_pmos L=0.3U W=6U AS=2.4P AD=2.4P PS=12.8U PD=12.8U
+.ENDS cp_pfet_w6_l0p3

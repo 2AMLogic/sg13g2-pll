@@ -1,0 +1,27 @@
+# cap_cmom* availability probe, batch job klt-sim-a8b56f40dc7e (issue #318)
+# deck: ../testbench/probe_cap_cmom_rerun318.sp, staged pinned-tree models/OSDI
+# --- stdout.bin ---
+Linux 7.0.0-1014-aws x86_64
+osdi/cap_cmomi.osdi: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, not stripped
+osdi/cap_cmomf.osdi: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, not stripped
+9e16967935d9a69f5a18629f83be8bbd7d3d50ac6dae230f8e00b369ba969b04  osdi/cap_cmomi.osdi
+006ebb9bb05729e408966da04b3c02391ef3e460666e3a59ec2900c8089ea6cc  osdi/cap_cmomf.osdi
+6813c423f6669bf03f0e7fddda5f032ba6ec7e94b6ed1c4bf117311ed0cdb1d1  models/cornerCAP.lib
+ea8e1e2b2efcb072c0b516138f4ef1900691d217b7f1d8a7e810efe2de5d5e9a  models/cap_cmomi.lib
+-rw-rw-r-- 1 root root 1091 Oct  9 10:21 /opt/pdk/ihp-sg13cmos5l/libs.tech/ngspice/.spiceinit
+
+Note: No compatibility mode selected!
+
+
+Circuit: * sg13g2-pll :: sim/sg13cmos5l-vco-kvco-table (issue #318)
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+cdecap = 5.315078e-12
+Note: Simulation executed from .control section 
+# --- stderr.bin ---
+ls: cannot access '.spiceinit': No such file or directory
+ls: cannot access '/root/.spiceinit': No such file or directory

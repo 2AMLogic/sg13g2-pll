@@ -4,6 +4,9 @@ name: artifact manifests
 # artifact store, only a manifest committed): schema, `artifact:` URIs only, no
 # storage location, no stored object duplicated in git. Stdlib only; separate
 # from signoff.yml so that byte-compare gate and its klt pin are untouched.
+# Also runs the stdlib-gate runner's unit tests (#393): the runner derives
+# package.json's `test`/`check:ci` chains from item-10.json, so its own suite
+# needs a CI home outside signoff.yml (which item-10 inventories).
 #
 # Honest gap: this job has no broker access, so it does NOT re-hash stored
 # bytes. `klt artifact verify <manifest>` on a fleet worker does that.
@@ -27,3 +30,5 @@ jobs:
         run: python3 scripts/test_check_artifact_manifests.py
       - name: Check manifests
         run: python3 scripts/check_artifact_manifests.py
+      - name: Stdlib gate runner unit tests
+        run: python3 scripts/test_run_gates.py

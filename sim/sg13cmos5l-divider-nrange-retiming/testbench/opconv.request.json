@@ -1,0 +1,25 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "decks": [
+    {
+      "id": "op_repaired_none",
+      "deck": "rerun233/decks/op_repaired_none.sp",
+      "timeout_s": 1800
+    },
+    {
+      "id": "op_repaired_applied",
+      "deck": "rerun233/decks/op_repaired_applied.sp",
+      "timeout_s": 1800
+    }
+  ],
+  "options": {
+    "timeout_s": 1800
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}

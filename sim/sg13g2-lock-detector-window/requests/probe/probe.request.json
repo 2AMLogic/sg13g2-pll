@@ -1,0 +1,23 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13g2"
+  },
+  "decks": [
+    {
+      "id": "window_mos_tt_res_typ_cap_typ_27C_3p3V",
+      "deck": "tb_window_probe.sp",
+      "inputs": [
+        {
+          "path": "spiceinit.txt",
+          "name": ".spiceinit"
+        }
+      ]
+    }
+  ],
+  "options": {
+    "timeout_s": 600,
+    "keep_artifacts": true
+  }
+}

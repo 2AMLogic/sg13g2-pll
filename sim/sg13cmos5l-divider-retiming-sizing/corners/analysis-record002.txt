@@ -1,0 +1,143 @@
+setup cb_f1-1-0p25-1 mos_ff/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_fs/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_sf/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_ss/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_tt/ -40C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_tt/  27C/2.97V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_tt/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_tt/  27C/3.63V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p25-1 mos_tt/ 125C/3.3V  t_setup in (600.0, 700.0] ps
+setup cb_f1-1-0p5-1 mos_ff/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_fs/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_sf/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_ss/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_tt/ -40C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_tt/  27C/2.97V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_tt/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_tt/  27C/3.63V  t_setup in (500.0, 600.0] ps
+setup cb_f1-1-0p5-1 mos_tt/ 125C/3.3V  t_setup in (600.0, 700.0] ps
+setup cb_f2-0p5-0p5-1 mos_ff/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_fs/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_sf/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_ss/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_tt/ -40C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_tt/  27C/2.97V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_tt/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_tt/  27C/3.63V  t_setup in (500.0, 600.0] ps
+setup cb_f2-0p5-0p5-1 mos_tt/ 125C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_ff/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_fs/  27C/3.3V  t_setup in (600.0, 700.0] ps
+setup cb_fb     mos_sf/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_ss/  27C/3.3V  t_setup in (600.0, 700.0] ps
+setup cb_fb     mos_tt/ -40C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_tt/  27C/2.97V  t_setup in (600.0, 700.0] ps
+setup cb_fb     mos_tt/  27C/3.3V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_tt/  27C/3.63V  t_setup in (500.0, 600.0] ps
+setup cb_fb     mos_tt/ 125C/3.3V  t_setup in (600.0, 700.0] ps
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_ff/27C/3.3V tdiv=85.888ns t_arr=101.0ps tfb-tdiv=895.0ps implied_c2q[k+1/k+2]=356/-284ps idd=-2.389mA  F_close<= 1426 MHz (t_setup_hi=600)
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_fs/27C/3.3V tdiv=107.288ns t_arr=373.8ps tfb-tdiv=679.0ps implied_c2q[k+1/k+2]=413/-228ps idd=-2.072mA  F_close<= 1027 MHz (t_setup_hi=600)
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_sf/27C/3.3V tdiv=86.201ns t_arr=413.4ps tfb-tdiv=643.4ps implied_c2q[k+1/k+2]=417/-224ps idd=-2.290mA  F_close<= 987 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p25-1', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00122159, 'dvo_max': 0.071476, 'fb_max': 0.00291184}
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.722ns t_arr=574.3ps tfb-tdiv=442.2ps implied_c2q[k+1/k+2]=376/-264ps idd=-2.293mA  F_close<= 852 MHz (t_setup_hi=600)
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_tt/27C/2.97V tdiv=128.787ns t_arr=105.8ps tfb-tdiv=991.0ps implied_c2q[k+1/k+2]=457/-184ps idd=-1.702mA  F_close<= 1417 MHz (t_setup_hi=600)
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_tt/27C/3.3V tdiv=86.277ns t_arr=489.2ps tfb-tdiv=584.1ps implied_c2q[k+1/k+2]=433/-207ps idd=-2.290mA  F_close<= 918 MHz (t_setup_hi=600)
+retime cb_f1-1-0p25-1 N=64 1562MHz mos_tt/27C/3.63V tdiv=85.943ns t_arr=155.5ps tfb-tdiv=852.4ps implied_c2q[k+1/k+2]=368/-272ps idd=-2.574mA  F_close<= 1324 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p25-1', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00126516, 'dvo_max': 0.0840863, 'fb_max': 0.00278754}
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_ff/27C/3.3V tdiv=85.890ns t_arr=102.8ps tfb-tdiv=913.6ps implied_c2q[k+1/k+2]=376/-264ps idd=-2.419mA  F_close<= 1423 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_ff/27C/3.3V tdiv=166.548ns t_arr=94.7ps tfb-tdiv=922.0ps implied_c2q[k+1/k+2]=377/-264ps idd=-2.314mA  F_close<= 1439 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_fs/27C/3.3V tdiv=107.288ns t_arr=373.8ps tfb-tdiv=697.0ps implied_c2q[k+1/k+2]=431/-210ps idd=-2.100mA  F_close<= 1027 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_fs/27C/3.3V tdiv=207.786ns t_arr=359.6ps tfb-tdiv=710.0ps implied_c2q[k+1/k+2]=429/-211ps idd=-2.027mA  F_close<= 1042 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_sf/27C/3.3V tdiv=86.201ns t_arr=413.4ps tfb-tdiv=658.6ps implied_c2q[k+1/k+2]=432/-208ps idd=-2.318mA  F_close<= 987 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_sf/27C/3.3V tdiv=164.936ns t_arr=403.3ps tfb-tdiv=668.0ps implied_c2q[k+1/k+2]=431/-209ps idd=-2.229mA  F_close<= 997 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p5-1', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00124445, 'dvo_max': 0.0627303, 'fb_max': 0.00228361}
+retime ('cb_f1-1-0p5-1', 'mos_ss', 27, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.0012439, 'dvo_max': 0.0627302, 'fb_max': 0.00228361}
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.730ns t_arr=583.0ps tfb-tdiv=441.2ps implied_c2q[k+1/k+2]=384/-256ps idd=-2.319mA  F_close<= 845 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_tt/-40C/3.3V tdiv=166.386ns t_arr=572.9ps tfb-tdiv=447.0ps implied_c2q[k+1/k+2]=380/-260ps idd=-2.220mA  F_close<= 853 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_tt/27C/2.97V tdiv=128.790ns t_arr=108.8ps tfb-tdiv=1007.0ps implied_c2q[k+1/k+2]=476/-165ps idd=-1.726mA  F_close<= 1411 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_tt/27C/2.97V tdiv=249.139ns t_arr=99.3ps tfb-tdiv=1016.0ps implied_c2q[k+1/k+2]=475/-165ps idd=-1.680mA  F_close<= 1430 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_tt/27C/3.3V tdiv=86.276ns t_arr=488.2ps tfb-tdiv=595.6ps implied_c2q[k+1/k+2]=444/-197ps idd=-2.316mA  F_close<= 919 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_tt/27C/3.3V tdiv=166.923ns t_arr=469.7ps tfb-tdiv=611.0ps implied_c2q[k+1/k+2]=441/-200ps idd=-2.219mA  F_close<= 935 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=64 1562MHz mos_tt/27C/3.63V tdiv=85.945ns t_arr=157.3ps tfb-tdiv=870.2ps implied_c2q[k+1/k+2]=387/-253ps idd=-2.605mA  F_close<= 1320 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1  N=127 1562MHz mos_tt/27C/3.63V tdiv=166.602ns t_arr=148.7ps tfb-tdiv=879.0ps implied_c2q[k+1/k+2]=388/-253ps idd=-2.492mA  F_close<= 1336 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p5-1', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00128821, 'dvo_max': 0.0769471, 'fb_max': 0.00349085}
+retime ('cb_f1-1-0p5-1', 'mos_tt', 125, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00128766, 'dvo_max': 0.076947, 'fb_max': 0.00349085}
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_ff/27C/3.3V tdiv=85.848ns t_arr=60.5ps tfb-tdiv=717.3ps implied_c2q[k+0.5/k+1.5/k+2.5]=458/-182/-823ps idd=-2.549mA  F_close<= 2271 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_fs/27C/3.3V tdiv=107.345ns t_arr=430.8ps tfb-tdiv=1018.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1129/488/-152ps idd=-2.226mA  F_close<= 1455 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_sf/27C/3.3V tdiv=86.250ns t_arr=462.1ps tfb-tdiv=998.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1140/500/-140ps idd=-2.445mA  F_close<= 1412 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p5-1_neg', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00136366, 'dvo_max': 0.0666369, 'fb_max': 0.00225296}
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.698ns t_arr=550.5ps tfb-tdiv=848.1ps implied_c2q[k+0.5/k+1.5/k+2.5]=1078/438/-202ps idd=-2.444mA  F_close<= 1304 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_tt/27C/2.97V tdiv=128.742ns t_arr=60.8ps tfb-tdiv=810.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=551/-89/-730ps idd=-1.835mA  F_close<= 2270 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_tt/27C/3.3V tdiv=86.310ns t_arr=522.8ps tfb-tdiv=939.7ps implied_c2q[k+0.5/k+1.5/k+2.5]=1142/502/-138ps idd=-2.441mA  F_close<= 1336 MHz (t_setup_hi=600)
+retime cb_f1-1-0p5-1_neg N=64 1562MHz mos_tt/27C/3.63V tdiv=85.920ns t_arr=132.2ps tfb-tdiv=658.6ps implied_c2q[k+0.5/k+1.5/k+2.5]=471/-169/-810ps idd=-2.745mA  F_close<= 2048 MHz (t_setup_hi=600)
+retime ('cb_f1-1-0p5-1_neg', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00141072, 'dvo_max': 0.0800159, 'fb_max': 0.00232147}
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_ff/27C/3.3V tdiv=85.916ns t_arr=128.7ps tfb-tdiv=908.1ps implied_c2q[k+1/k+2]=397/-244ps idd=-2.525mA  F_close<= 1372 MHz (t_setup_hi=600)
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_fs/27C/3.3V tdiv=107.294ns t_arr=379.8ps tfb-tdiv=728.0ps implied_c2q[k+1/k+2]=468/-173ps idd=-2.193mA  F_close<= 1021 MHz (t_setup_hi=600)
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_sf/27C/3.3V tdiv=86.206ns t_arr=418.8ps tfb-tdiv=678.2ps implied_c2q[k+1/k+2]=457/-183ps idd=-2.416mA  F_close<= 982 MHz (t_setup_hi=600)
+retime ('cb_f2-0p5-0p5-1', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00132265, 'dvo_max': 0.125779, 'fb_max': 0.0017787}
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.764ns t_arr=617.3ps tfb-tdiv=455.7ps implied_c2q[k+1/k+2]=433/-207ps idd=-2.425mA  F_close<= 822 MHz (t_setup_hi=600)
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_tt/27C/2.97V tdiv=128.821ns t_arr=139.8ps tfb-tdiv=1004.0ps implied_c2q[k+1/k+2]=504/-137ps idd=-1.804mA  F_close<= 1352 MHz (t_setup_hi=600)
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_tt/27C/3.3V tdiv=86.277ns t_arr=489.7ps tfb-tdiv=631.2ps implied_c2q[k+1/k+2]=481/-159ps idd=-2.412mA  F_close<= 918 MHz (t_setup_hi=600)
+retime cb_f2-0p5-0p5-1 N=64 1562MHz mos_tt/27C/3.63V tdiv=85.969ns t_arr=181.5ps tfb-tdiv=871.9ps implied_c2q[k+1/k+2]=413/-227ps idd=-2.717mA  F_close<= 1280 MHz (t_setup_hi=600)
+retime ('cb_f2-0p5-0p5-1', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00136424, 'dvo_max': 0.157503, 'fb_max': 0.00207038}
+retime cb_fb          N=64 1562MHz mos_ff/27C/3.3V tdiv=85.894ns t_arr=106.2ps tfb-tdiv=948.2ps implied_c2q[k+1/k+2]=414/-226ps idd=-2.478mA  F_close<= 1416 MHz (t_setup_hi=600)
+retime cb_fb          N=127 1562MHz mos_ff/27C/3.3V tdiv=166.552ns t_arr=98.7ps tfb-tdiv=956.0ps implied_c2q[k+1/k+2]=415/-226ps idd=-2.368mA  F_close<= 1431 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1562MHz mos_fs/27C/3.3V tdiv=107.287ns t_arr=372.8ps tfb-tdiv=739.0ps implied_c2q[k+1/k+2]=472/-169ps idd=-2.154mA  F_close<= 932 MHz (t_setup_hi=700)
+retime cb_fb          N=127 1562MHz mos_fs/27C/3.3V tdiv=207.786ns t_arr=359.6ps tfb-tdiv=752.0ps implied_c2q[k+1/k+2]=471/-169ps idd=-2.077mA  F_close<= 944 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1562MHz mos_sf/27C/3.3V tdiv=86.201ns t_arr=413.4ps tfb-tdiv=694.8ps implied_c2q[k+1/k+2]=468/-172ps idd=-2.373mA  F_close<= 987 MHz (t_setup_hi=600)
+retime cb_fb          N=127 1562MHz mos_sf/27C/3.3V tdiv=164.936ns t_arr=403.3ps tfb-tdiv=704.0ps implied_c2q[k+1/k+2]=467/-173ps idd=-2.280mA  F_close<= 997 MHz (t_setup_hi=600)
+retime cb_fb          N=64 600MHz mos_ss/27C/3.3V tdiv=112.315ns t_arr=648.3ps tfb-tdiv=1486.0ps implied_c2q[k+1/k+2]=468/-1199ps idd=-1.304mA  F_close<= 742 MHz (t_setup_hi=700)
+retime cb_fb          N=64 800MHz mos_ss/27C/3.3V tdiv=85.263ns t_arr=262.6ps tfb-tdiv=1460.8ps implied_c2q[k+1/k+2]=473/-777ps idd=-1.728mA  F_close<= 1039 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1000MHz mos_ss/27C/3.3V tdiv=69.145ns t_arr=145.4ps tfb-tdiv=1339.6ps implied_c2q[k+1/k+2]=485/-515ps idd=-2.166mA  F_close<= 1183 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1100MHz mos_ss/27C/3.3V tdiv=92.201ns t_arr=382.5ps tfb-tdiv=1020.2ps implied_c2q[k+1/k+2]=494/-415ps idd=-1.885mA  F_close<= 924 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1200MHz mos_ss/27C/3.3V tdiv=111.618ns t_arr=784.7ps tfb-tdiv=607.0ps implied_c2q[k+1/k+2]=558/-275ps idd=-1.767mA  F_close<= 674 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1300MHz mos_ss/27C/3.3V tdiv=103.312ns t_arr=235.1ps tfb-tdiv=1048.0ps implied_c2q[k+1/k+2]=514/-255ps idd=-1.893mA  F_close<= 1069 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1400MHz mos_ss/27C/3.3V tdiv=119.679ns t_arr=393.3ps tfb-tdiv=845.0ps implied_c2q[k+1/k+2]=524/-190ps idd=-1.867mA  F_close<= 915 MHz (t_setup_hi=700)
+retime ('cb_fb', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00128722, 'dvo_max': 0.0519301, 'fb_max': 0.00306034}
+retime ('cb_fb', 'mos_ss', 27, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00128666, 'dvo_max': 0.05193, 'fb_max': 0.00306034}
+retime cb_fb          N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.746ns t_arr=598.8ps tfb-tdiv=458.8ps implied_c2q[k+1/k+2]=417/-223ps idd=-2.379mA  F_close<= 834 MHz (t_setup_hi=600)
+retime cb_fb          N=127 1562MHz mos_tt/-40C/3.3V tdiv=166.402ns t_arr=588.9ps tfb-tdiv=465.0ps implied_c2q[k+1/k+2]=414/-226ps idd=-2.274mA  F_close<= 841 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1562MHz mos_tt/27C/2.97V tdiv=128.795ns t_arr=113.8ps tfb-tdiv=1052.0ps implied_c2q[k+1/k+2]=526/-115ps idd=-1.772mA  F_close<= 1229 MHz (t_setup_hi=700)
+retime cb_fb          N=127 1562MHz mos_tt/27C/2.97V tdiv=249.144ns t_arr=104.3ps tfb-tdiv=1061.0ps implied_c2q[k+1/k+2]=525/-115ps idd=-1.723mA  F_close<= 1243 MHz (t_setup_hi=700)
+retime cb_fb          N=64 800MHz mos_tt/27C/3.3V tdiv=84.851ns t_arr=1101.1ps tfb-tdiv=596.3ps implied_c2q[k+1/k+2]=447/-803ps idd=-1.806mA  F_close<= 588 MHz (t_setup_hi=600)
+retime cb_fb          N=64 900MHz mos_tt/27C/3.3V tdiv=75.791ns t_arr=235.6ps tfb-tdiv=1301.5ps implied_c2q[k+1/k+2]=426/-685ps idd=-2.024mA  F_close<= 1197 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1000MHz mos_tt/27C/3.3V tdiv=68.572ns t_arr=572.0ps tfb-tdiv=858.0ps implied_c2q[k+1/k+2]=430/-570ps idd=-2.242mA  F_close<= 853 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1100MHz mos_tt/27C/3.3V tdiv=62.761ns t_arr=33.6ps tfb-tdiv=1308.8ps implied_c2q[k+1/k+2]=433/-476ps idd=-2.472mA  F_close<= 1578 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1250MHz mos_tt/27C/3.3V tdiv=81.173ns t_arr=373.5ps tfb-tdiv=869.0ps implied_c2q[k+1/k+2]=442/-358ps idd=-2.223mA  F_close<= 1027 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1400MHz mos_tt/27C/3.3V tdiv=95.794ns t_arr=79.7ps tfb-tdiv=1087.6ps implied_c2q[k+1/k+2]=453/-261ps idd=-2.130mA  F_close<= 1471 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1562MHz mos_tt/27C/3.3V tdiv=86.272ns t_arr=484.9ps tfb-tdiv=636.4ps implied_c2q[k+1/k+2]=481/-159ps idd=-2.372mA  F_close<= 922 MHz (t_setup_hi=600)
+retime cb_fb          N=127 1562MHz mos_tt/27C/3.3V tdiv=166.921ns t_arr=467.7ps tfb-tdiv=651.0ps implied_c2q[k+1/k+2]=479/-162ps idd=-2.270mA  F_close<= 937 MHz (t_setup_hi=600)
+retime cb_fb          N=64 1562MHz mos_tt/27C/3.63V tdiv=85.948ns t_arr=160.7ps tfb-tdiv=906.5ps implied_c2q[k+1/k+2]=427/-213ps idd=-2.667mA  F_close<= 1314 MHz (t_setup_hi=600)
+retime cb_fb          N=127 1562MHz mos_tt/27C/3.63V tdiv=166.606ns t_arr=152.7ps tfb-tdiv=914.0ps implied_c2q[k+1/k+2]=427/-214ps idd=-2.550mA  F_close<= 1328 MHz (t_setup_hi=600)
+retime cb_fb          N=64 600MHz mos_tt/125C/3.3V tdiv=112.800ns t_arr=1133.3ps tfb-tdiv=1047.0ps implied_c2q[k+1/k+2]=514/-1153ps idd=-1.393mA  F_close<= 545 MHz (t_setup_hi=700)
+retime cb_fb          N=64 800MHz mos_tt/125C/3.3V tdiv=85.667ns t_arr=666.6ps tfb-tdiv=1103.6ps implied_c2q[k+1/k+2]=520/-730ps idd=-1.838mA  F_close<= 732 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1000MHz mos_tt/125C/3.3V tdiv=101.412ns t_arr=412.0ps tfb-tdiv=1122.0ps implied_c2q[k+1/k+2]=534/-466ps idd=-1.823mA  F_close<= 899 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1100MHz mos_tt/125C/3.3V tdiv=121.775ns t_arr=865.9ps tfb-tdiv=666.0ps implied_c2q[k+1/k+2]=623/-286ps idd=-1.721mA  F_close<= 639 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1200MHz mos_tt/125C/3.3V tdiv=111.963ns t_arr=296.3ps tfb-tdiv=1092.0ps implied_c2q[k+1/k+2]=555/-278ps idd=-1.862mA  F_close<= 1004 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1300MHz mos_tt/125C/3.3V tdiv=128.160ns t_arr=467.7ps tfb-tdiv=870.0ps implied_c2q[k+1/k+2]=568/-201ps idd=-1.860mA  F_close<= 856 MHz (t_setup_hi=700)
+retime cb_fb          N=64 1400MHz mos_tt/125C/3.3V tdiv=120.288ns t_arr=288.0ps tfb-tdiv=1005.0ps implied_c2q[k+1/k+2]=579/-136ps idd=-2.007mA  F_close<= 1012 MHz (t_setup_hi=700)
+retime ('cb_fb', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00133072, 'dvo_max': 0.066685, 'fb_max': 0.0033147}
+retime ('cb_fb', 'mos_tt', 125, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00133019, 'dvo_max': 0.066685, 'fb_max': 0.0033147}
+retime cb_fb_neg      N=64 1562MHz mos_ff/27C/3.3V tdiv=85.848ns t_arr=60.7ps tfb-tdiv=749.4ps implied_c2q[k+0.5/k+1.5/k+2.5]=490/-150/-790ps idd=-2.606mA  F_close<= 2270 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=127 1562MHz mos_ff/27C/3.3V tdiv=166.504ns t_arr=50.7ps tfb-tdiv=759.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=490/-151/-791ps idd=-2.498mA  F_close<= 2305 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1562MHz mos_fs/27C/3.3V tdiv=107.353ns t_arr=438.8ps tfb-tdiv=1059.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1178/537/-103ps idd=-2.279mA  F_close<= 1317 MHz (t_setup_hi=700)
+retime cb_fb_neg      N=127 1562MHz mos_fs/27C/3.3V tdiv=207.853ns t_arr=426.6ps tfb-tdiv=1055.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1162/521/-119ps idd=-2.201mA  F_close<= 1331 MHz (t_setup_hi=700)
+retime cb_fb_neg      N=64 1562MHz mos_sf/27C/3.3V tdiv=86.254ns t_arr=466.5ps tfb-tdiv=1028.6ps implied_c2q[k+0.5/k+1.5/k+2.5]=1175/535/-105ps idd=-2.498mA  F_close<= 1406 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=127 1562MHz mos_sf/27C/3.3V tdiv=164.989ns t_arr=456.3ps tfb-tdiv=1039.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1175/535/-105ps idd=-2.405mA  F_close<= 1420 MHz (t_setup_hi=600)
+retime ('cb_fb_neg', 'mos_ss', 27, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00140475, 'dvo_max': 0.0570539, 'fb_max': 0.00178366}
+retime ('cb_fb_neg', 'mos_ss', 27, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00140427, 'dvo_max': 0.0570539, 'fb_max': 0.00178366}
+retime cb_fb_neg      N=64 1562MHz mos_tt/-40C/3.3V tdiv=85.700ns t_arr=553.3ps tfb-tdiv=877.5ps implied_c2q[k+0.5/k+1.5/k+2.5]=1111/470/-170ps idd=-2.501mA  F_close<= 1301 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=127 1562MHz mos_tt/-40C/3.3V tdiv=166.359ns t_arr=545.9ps tfb-tdiv=885.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1111/471/-170ps idd=-2.398mA  F_close<= 1309 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1562MHz mos_tt/27C/2.97V tdiv=128.743ns t_arr=61.8ps tfb-tdiv=862.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=604/-36/-677ps idd=-1.880mA  F_close<= 1969 MHz (t_setup_hi=700)
+retime cb_fb_neg      N=127 1562MHz mos_tt/27C/2.97V tdiv=249.092ns t_arr=52.3ps tfb-tdiv=871.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=603/-37/-677ps idd=-1.831mA  F_close<= 1994 MHz (t_setup_hi=700)
+retime cb_fb_neg      N=64 800MHz mos_tt/27C/3.3V tdiv=84.797ns t_arr=1047.4ps tfb-tdiv=1314.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1736/486/-764ps idd=-1.871mA  F_close<= 911 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 900MHz mos_tt/27C/3.3V tdiv=75.823ns t_arr=267.8ps tfb-tdiv=785.6ps implied_c2q[k+0.5/k+1.5/k+2.5]=498/-613/-1724ps idd=-2.097mA  F_close<= 1728 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1000MHz mos_tt/27C/3.3V tdiv=68.626ns t_arr=625.7ps tfb-tdiv=1378.4ps implied_c2q[k+0.5/k+1.5/k+2.5]=1504/504/-496ps idd=-2.326mA  F_close<= 1224 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1100MHz mos_tt/27C/3.3V tdiv=62.708ns t_arr=889.4ps tfb-tdiv=986.6ps implied_c2q[k+0.5/k+1.5/k+2.5]=1421/512/-397ps idd=-2.558mA  F_close<= 1007 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1250MHz mos_tt/27C/3.3V tdiv=81.234ns t_arr=433.7ps tfb-tdiv=535.7ps implied_c2q[k+0.5/k+1.5/k+2.5]=569/-231/-1031ps idd=-2.325mA  F_close<= 1451 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1400MHz mos_tt/27C/3.3V tdiv=95.737ns t_arr=23.1ps tfb-tdiv=867.6ps implied_c2q[k+0.5/k+1.5/k+2.5]=534/-181/-895ps idd=-2.240mA  F_close<= 2407 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1562MHz mos_tt/27C/3.3V tdiv=86.314ns t_arr=526.4ps tfb-tdiv=970.3ps implied_c2q[k+0.5/k+1.5/k+2.5]=1177/536/-104ps idd=-2.493mA  F_close<= 1332 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=127 1562MHz mos_tt/27C/3.3V tdiv=166.970ns t_arr=516.7ps tfb-tdiv=980.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=1177/536/-104ps idd=-2.393mA  F_close<= 1343 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=64 1562MHz mos_tt/27C/3.63V tdiv=85.919ns t_arr=132.0ps tfb-tdiv=691.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=503/-137/-777ps idd=-2.805mA  F_close<= 2049 MHz (t_setup_hi=600)
+retime cb_fb_neg      N=127 1562MHz mos_tt/27C/3.63V tdiv=166.575ns t_arr=121.7ps tfb-tdiv=701.0ps implied_c2q[k+0.5/k+1.5/k+2.5]=503/-138/-778ps idd=-2.689mA  F_close<= 2078 MHz (t_setup_hi=600)
+retime ('cb_fb_neg', 'mos_tt', 125, 3.3, 64, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00145042, 'dvo_max': 0.0718489, 'fb_max': 0.00228377}
+retime ('cb_fb_neg', 'mos_tt', 125, 3.3, 127, 1562.0) NA (tdiv/tfb unresolved) {'tdiv': None, 'tfb': None, 'idd': -0.00144996, 'dvo_max': 0.0718489, 'fb_max': 0.00228377}

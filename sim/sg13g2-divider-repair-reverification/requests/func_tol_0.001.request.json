@@ -1,0 +1,147 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "netlist": "../testbench/tb_div_func_batch.sp",
+  "models": {
+    "pdk": "ihp-sg13g2",
+    "lib": "libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "corners": {
+    "process": [
+      "mos_tt",
+      "mos_ss"
+    ],
+    "temperature_c": [
+      27,
+      125
+    ],
+    "params": {
+      "vdd_p": [
+        3.3
+      ],
+      "b0": [
+        0
+      ],
+      "b1": [
+        0
+      ],
+      "b2": [
+        0
+      ],
+      "b3": [
+        0
+      ],
+      "b4": [
+        0
+      ],
+      "b5": [
+        0
+      ]
+    }
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "3.000000e-10 2.176000e-06"
+  },
+  "measurements": [
+    {
+      "name": "ck1_max",
+      "spice": ".meas tran ck1_max max v(xdiv.ck1) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck1_min",
+      "spice": ".meas tran ck1_min min v(xdiv.ck1) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck2_max",
+      "spice": ".meas tran ck2_max max v(xdiv.ck2) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck2_min",
+      "spice": ".meas tran ck2_min min v(xdiv.ck2) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck3_max",
+      "spice": ".meas tran ck3_max max v(xdiv.ck3) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck3_min",
+      "spice": ".meas tran ck3_min min v(xdiv.ck3) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck4_max",
+      "spice": ".meas tran ck4_max max v(xdiv.ck4) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck4_min",
+      "spice": ".meas tran ck4_min min v(xdiv.ck4) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck5_max",
+      "spice": ".meas tran ck5_max max v(xdiv.ck5) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "ck5_min",
+      "spice": ".meas tran ck5_min min v(xdiv.ck5) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "dvo_max",
+      "spice": ".meas tran dvo_max max v(divout) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "dvo_min",
+      "spice": ".meas tran dvo_min min v(divout) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "fb_max",
+      "spice": ".meas tran fb_max max v(fb) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "fb_min",
+      "spice": ".meas tran fb_min min v(fb) from=6.720000e-07 to=2.176000e-06"
+    },
+    {
+      "name": "tdiv_a",
+      "spice": ".meas tran tdiv_a when v(divout)='vdd_p/2' rise=2"
+    },
+    {
+      "name": "tdiv_b",
+      "spice": ".meas tran tdiv_b when v(divout)='vdd_p/2' rise=3"
+    },
+    {
+      "name": "tck_a",
+      "spice": ".meas tran tck_a when v(ck)='vdd_p/2' rise=3"
+    },
+    {
+      "name": "tck_b",
+      "spice": ".meas tran tck_b when v(ck)='vdd_p/2' rise=4"
+    },
+    {
+      "name": "idd",
+      "spice": ".meas tran idd avg i(vdd) from=6.720000e-07 to=2.176000e-06"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/mosvar.osdi",
+      "$PDK_ROOT/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "timeout_s": 1800,
+    "keep_artifacts": true,
+    "ngspice_options": {
+      "reltol": 0.001
+    }
+  },
+  "exclude": [
+    {
+      "process": "mos_tt",
+      "temperature_c": 125
+    },
+    {
+      "process": "mos_ss",
+      "temperature_c": 27
+    }
+  ]
+}

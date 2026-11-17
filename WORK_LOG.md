@@ -2,6 +2,183 @@
 
 Chronological record of recently merged pull requests and closed issues. This file is maintained by the Loom Guide role.
 
+## Archives
+
+- [2026-09](work_log/WORK_LOG_2026-09.md)
+
+### 2026-11-17
+
+- **PR #481**: feat: gate docs/ROADMAP.md's accounting sentence against the spec Row table
+- **PR #480**: docs: annotate landed postlayout-pex-pvt reruns and past-tense the #221 gate bullet in provenance-migration.md
+- **PR #475**: fix: strip unquoted inline comments before scanning signoff.yml gates
+- **Issue #466** (closed): check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
+- **Issue #449** (closed): docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
+- **Issue #447** (closed): Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope
+
+### 2026-11-16
+
+- **PR #476**: fix: classify python3 value flags (-X, -W, --check-hash-based-pycs) by arity in run_gates script_token
+- **Issue #470** (closed): run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests`
+- **PR #472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
+- **PR #471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
+- **PR #467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
+- **PR #441**: build: derive package.json's stdlib gate chains from item-10.json
+- **PR #465**: fix: guard accounting status row width in check_accounting
+- **PR #469**: docs: correct ROADMAP decision-record count to sixteen
+- **Issue #454** (closed): sim: pfd-input-threshold publishes a res_corner column its decks never apply
+- **Issue #460** (closed): Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs
+- **Issue #458** (closed): run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks
+- **Issue #393** (closed): Nothing guards package.json's stdlib gate chain against drift from .github/workflows/
+- **Issue #462** (closed): run_gates.py pin test: retire the one-shot pre-rewrite snapshot when the next gate lands
+- **Issue #457** (closed): check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row
+- **Issue #456** (closed): docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files
+- **PR #463**: spec: name row 6/6a, row 16 and R-2's row 2-derived figures in R-13
+- **PR #461**: fix: stop the backslash-continuation join at a shell comment line
+- **PR #455**: docs: correct closed klayout-tools#3012/#2726 gap status to the 0.8.0 pin
+- **PR #452**: sim: resolve flat <id>.out stdout layout in the 125C acquisition collector
+- **PR #451**: sim: send check-osdi-arch.sh usage() to stderr and add retired-flag self-test guard
+- **PR #450**: fix: hard-fail PEX_BLOCKS without PEX_SNAP_SUBDIR in run-pex.sh
+- **PR #448**: spec: reconcile Accounting total to 18 rows and gate it
+- **PR #446**: bench: pfd REF-input switching thresholds across the row-2 operating box
+- **PR #445**: docs: mark closed klt#2727/#221/#139 blockers resolved in provenance-migration
+- **PR #430**: refactor: dedupe the two layout-flow drivers onto layout/bin/layout-flow.sh, fix the cross-flow -dirty record-id stamp
+- **Issue #444** (closed): spec: rows 6/6a and 16 still derive their figures from row 2's union range — name them in R-13
+- **Issue #439** (closed): sim: RECORD-015's offline reproduce path for the 125 C VCO CSV needs a layout the committed raw files do not have
+- **Issue #438** (closed): run-pex.sh: PEX_BLOCKS without PEX_SNAP_SUBDIR truncates the committed snapshot roll-up
+- **Issue #436** (closed): check_signoff_inventory_parity.py: a comment line joined by a \-continuation can produce a false FAIL
+- **Issue #432** (closed): Correct stale klayout-tools#3012 / #2726 'open' status in sg13cmos5l README, manifests/README.md and challenge-6 proposal
+- **Issue #429** (closed): Correct stale klayout-tools#2727 'open/blocking' status in provenance-migration.md and characterization/SUMMARY.md
+- **Issue #419** (closed): check-osdi-arch.sh: usage() prints the USAGE block to stdout, blocking an rc-only self-test guard for retired flags
+- **Issue #415** (closed): Dedupe the two layout-flow drivers onto a shared lib (28 of 33 lines identical), and fix the cross-flow -dirty stamp they both carry
+- **Issue #407** (closed): spec: target-spec.md Accounting says "17 rows" but its own status table lists 18
+- **Issue #403** (closed): sim: reference-input switching-threshold bench for pfd (target-spec R-5)
+
+### 2026-11-15
+
+- **PR #443**: sim: remove dead klt() submit helper and stale transport claims from sg13g2 run_batch
+- **PR #440**: spec: restate row 2's f_ref window as the PVT intersection (DR-014)
+- **PR #437**: sim: bound divider_chain max exact-N input frequency per corner (880-1328 MHz, N=64)
+- **PR #434**: fix: cite klayout-tools#1962 as the live block-routing gap in the cmos5l record renderer
+- **PR #433**: fix: see backslash-continued and -X/-W-flagged python3 gates in signoff parity parser
+- **PR #428**: sim: lock the real-divider loop at a divider-compatible operating point (RECORD-002)
+- **Issue #426** (closed): spec: row 2's f_ref window is a corner union on a worst-case row — supersede DR-005's derivation (found by the band-11 125 C shortfall)
+- **Issue #414** (closed): Remove the dead klt() transport from the sg13g2 lock-detector-window batch driver
+- **Issue #409** (closed): check_signoff_inventory_parity.py misses backtick-continued and -X-flagged python3 gates (false pass)
+- **Issue #402** (closed): sim: divider_chain maximum input frequency per corner (the untracked "Divider speed evidence" gap)
+- **Issue #401** (closed): sim: real-divider closed loop at a VCO frequency inside the divider's measured exact-N range
+- **Issue #397** (closed): render-pll-cmos5l-record.py still blames klayout-tools#1467 for the block-routing gap, which closed upstream and is fixed at this pin (the live gap is #1962)
+- **PR #424**: docs: mark klayout-tools #1157/#2145/#2355 closed at the 0.8.0 pin
+- **PR #423**: layout: retire the mom_cap lift/splice workaround for klayout-tools#2327
+- **PR #427**: sim: 125C non-acquisition is the vco band-11 range ceiling; seeded mm_p12 negative control reads detected at both yield limit sets
+- **PR #435**: pex: re-extract lock_detector from the post-#136 GDS, add its klt pex envelope, re-measure on batch
+- **PR #425**: docs: align manifests item 6 / item 8 and summary gap rows with RECORD-011, DR-013 and open trackers
+- **PR #413**: fix: derive the record's second-routing-plane sentence from its own probe
+- **Issue #422** (closed): Correct stale 'open' status for klayout-tools#1157/#2145/#2355: all closed and fixed at the 0.8.0 pin
+- **Issue #421** (closed): Retire the klayout-tools#2327 lift/splice workaround in mom_cap_reference: the gap closed and is at this repo's pin
+- **Issue #389** (closed): sim: the closed-loop proposal deck does not acquire lock at 125 C, and the cp mismatch campaign still has no negative control (follow-ups from #385)
+- **Issue #412** (closed): Verify epic #6 deliverable before closing: tracker reads 14/22 T1 items met, tier null
+- **Issue #157** (closed): pex: re-extract lock_detector from the post-#136 GDS and run klt pex (withheld from T1 item 7 in #152)
+- **Issue #404** (closed): docs: bring manifests/README.md item 6 and item 8 text and the summary gap table in line with DR-013 and closed trackers
+- **Issue #381** (closed): render-pll-cmos5l-record.py asserts the second routing plane "cannot be selected" regardless of the two-layer probe result
+- **PR #408**: refactor(manifests): share the record resolver, sha256_file and JSON loader across the four signoff gates
+- **Issue #405** (closed): Deduplicate manifests/ gate helpers: one record resolver, one sha256_file, one JSON loader
+
+### 2026-11-14
+
+- **PR #399**: ci: guard item-10's checks inventory against signoff.yml gate drift
+- **PR #418**: refactor: drop check-osdi-arch.sh --warn-only, the blanket exit-0 downgrade
+- **Issue #395** (closed): item-10 hygiene inventory's `checks` list has drifted from signoff.yml's actual gate set (5 gates missing)
+- **Issue #417** (closed): render-pll-cmos5l-record.py: a two-layer attempt with both an error and a nonzero routed count renders a bullet and a paragraph that contradict each other
+- **Issue #406** (closed): Remove check-osdi-arch.sh --warn-only: a never-called flag that downgrades a known-unloadable deck to exit 0
+- **Issue #411** (closed): Remove the dead klt() transport and consolidate the duplicated klt-sim deck-list machinery in the two lock-detector-window batch drivers
+- **PR #400**: docs: roadmap as of 2026-11-13
+- **PR #394**: ci: gate the two testbench metric-extraction self-tests
+- **PR #377**: refactor: split the SG13CMOS5L record renderer into per-section helpers
+- **Issue #376** (closed): Split render-pll-cmos5l-record.py's 525-line main() into testable section renderers
+- **PR #392**: build: run the repo's stdlib test and check gates from package.json
+- **Issue #388** (closed): Wire package.json test/check:ci to the real checks: the stubs exit 0 without running anything
+
+### 2026-11-13
+
+- **PR #390**: sim+spec: measure the cp mismatch-to-phase-error gain on the DR-010 cp and retire the +/-3.5% screening limit
+- **Issue #385** (closed): spec+sim: re-measure the cp mismatch-to-phase-error gain on the DR-010 cp and propose a cp mismatch limit (T1 item 6 follow-up to #178)
+- **PR #387**: feat(probes): tally each gen-compose attempt's own Metal1/Via1/Metal2 shapes
+- **Issue #383** (closed): Measure whether the two-layer gen-compose route draws on a second metal (klayout-tools#1474 no longer rejects 'metal2')
+- **PR #386**: sim: run the cp mismatch Monte Carlo campaign and wire T1 item 6
+- **Issue #178** (closed): sim: Monte Carlo bench for cp up/dn mirror mismatch with klt yield report (T1 item 6)
+- **PR #382**: docs: cite the LATEST record for cp's gen-compose probe figures
+- **Issue #379** (closed): Stale `cp` block counts quoted in cmos5l layout prose (8 groups / 14 devices vs 13 / 28 in the latest record)
+- **PR #378**: refactor: move the klt-gen capability probes into cmos5l_probes.py
+- **Issue #372** (closed): Split the klt-gen capability probes out of pll_cmos5l_layout.py into a sibling module
+- **PR #374**: sim: supersede vco-kvco-table RECORD-001 with a fleet rerun on the pinned PDK
+- **Issue #318** (closed): Item 9: supersede sg13cmos5l-vco-kvco-table provenance (child of #216)
+- **Issue #360** (closed): Migrate three pre-#261 layout records into the objects dedupe store (~100 MB)
+
+### 2026-11-12
+
+- **PR #370**: sim: rerun loop_filter momcap records on batch fleet, add superseded addenda
+- **Issue #321** (closed): Item 9 campaign (#214 part 3/3): supersede loop-filter-momcap RECORD-001/002
+- **Issue #215** (closed): Item 9 campaign: post-layout PEX/PVT provenance
+- **PR #367**: sim: rerun RECORD-004 loop-filter and divider-chain arms on the batch fleet
+- **PR #366**: sim: run retry2 tier in run_rerun328.sh and tolerate all-tier failure
+- **PR #363**: sim: waveform check of retimed XFRT capture edge at 1562 MHz (RECORD-003)
+- **Issue #362** (closed): divider_chain: waveform-level check of retimed capture edge at 1562 MHz (RECORD-002 Finding 4)
+- **Issue #350** (closed): run_rerun328.sh does not invoke the retry2 tier its record relies on
+- **Issue #326** (closed): Item 9 campaign (#215 part 4/4): supersede postlayout-pex-pvt RECORD-004 (loop filter + divider chain)
+- **Issue #213** (closed): Item 9 campaign: PEX-signoff and lock-detector provenance
+- **PR #361**: sim: 9-corner retime and opposite-edge retiming evidence for row-3 closure (RECORD-002)
+- **Issue #189** (closed): divider_chain: size to close row 3 retiming at 1562 MHz (R-3, T1 item 5)
+
+### 2026-11-11
+
+- **PR #359**: sim: add 3.0/3.3/3.6 V supply-range sweep for vco, lock_detector, divider_chain
+- **PR #358**: docs: reword bodyfix-pvt gap to point at RECORD-011 full-grid evidence
+- **PR #357**: sim: dff_tg_hv sizing sweep vs row-3 retiming closure (partial)
+- **PR #353**: sim: add SG13CMOS5L vco output-levels bench for spec row 14
+- **PR #352**: sim: full-grid batch rerun of XRPU-bulk-on-VSS lock detector vs RECORD-004 (RECORD-009)
+- **PR #351**: sim: batch-fleet rerun of SG13G2 lock-detector RECORD-001 with superseded addendum
+- **PR #349**: sim: rerun RECORD-001 92-point lock_detector grid via klt sim batch on db36732 files
+- **PR #348**: sim: rerun RECORD-002 resized lock-detector grid on batch fleet at 07e1866; superseded addendum
+- **PR #347**: sim: rerun RECORD-003 pfd and lock-detector arms on the batch fleet; superseded addendum
+- **PR #346**: sim: rerun postlayout-pex-pvt RECORD-002 on pinned dual-tree PDK; superseded addendum
+- **PR #345**: sim: fleet rerun of vco-duty-cycle RECORD-001 grid; superseded addendum
+- **PR #344**: sim: rerun pre-repair divider RECORD-001/002 on batch fleet, superseded addenda
+- **PR #343**: sim: rerun RECORD-001 post-layout PEX PVT matrices on batch fleet; superseded addendum
+- **PR #342**: sim: rerun RECORD-004 crowbar grid on the batch fleet at the pinned PDK revisions; superseded addendum
+- **PR #341**: sim: rerun historical cp Icp-trim grids on batch fleet and supersede RECORD-001/002
+- **PR #340**: sim: rerun RECORD-003 divider repair re-verification on the batch fleet; superseded addendum
+- **PR #338**: sim: re-measure SG13G2 divider repair opconv/hold/func on batch fleet; superseded addendum
+- **PR #337**: sim: rerun RECORD-003 schmitt_rewire grid on batch fleet with pinned provenance
+- **PR #333**: sim: rerun sg13g2 VCO Kvco table on batch fleet, supersede RECORD-001
+- **Issue #355** (closed): Follow-on from PR #352: refresh stale text in RECORD-011 and sources.json bodyfix-pvt gap
+- **Issue #331** (closed): sim: rerun lock-detector-window RECORD-004-crowbar-current-mitigation on batch fleet (provenance migration)
+- **Issue #329** (closed): sim: rerun lock-detector-window RECORD-003-hysteresis-fix on batch fleet (provenance migration)
+- **Issue #328** (closed): sim: rerun lock-detector-window RECORD-002-resized-window-hysteresis-chatter on batch fleet (provenance migration)
+- **Issue #327** (closed): sim: rerun lock-detector-window RECORD-001-window-hysteresis-chatter on batch fleet (provenance migration)
+- **Issue #325** (closed): Item 9 campaign (#215 part 3/4): supersede postlayout-pex-pvt RECORD-003 (PFD + lock detector)
+- **Issue #324** (closed): Item 9 campaign (#215 part 2/4): supersede postlayout-pex-pvt RECORD-002 (floorplan-aware VCO route)
+- **Issue #323** (closed): Item 9 campaign (#215 part 1/4): supersede postlayout-pex-pvt RECORD-001 (VCO + CP)
+- **Issue #317** (closed): Item 9: supersede sg13cmos5l-vco-duty-cycle provenance (child of #216)
+- **Issue #257** (closed): Item 9 (#213 child): supersede lock-detector-window RECORD-001..004 (historical grids; needs batch route)
+- **Issue #237** (closed): Item 9: supersede SG13G2 VCO Kvco RECORD-001
+- **Issue #236** (closed): Item 9: supersede SG13G2 lock detector RECORD-001
+- **Issue #235** (closed): Item 9: supersede SG13G2 divider repair RECORD-001
+- **Issue #233** (closed): Item 9 campaign (#212 part 4/4): supersede divider-nrange-retiming RECORD-003 (repaired divider re-verification)
+- **Issue #232** (closed): Item 9 campaign (#212 part 3/4): supersede divider-nrange-retiming RECORD-001/002 (pre-repair divider)
+- **Issue #230** (closed): Item 9 campaign (#212 part 1/4): supersede cp-icp-trim RECORD-001/002 (historical Icp-trim grids)
+- **Issue #190** (closed): sim: SG13CMOS5L vco output-levels bench for spec row 14 (T1 item 5)
+- **Issue #187** (closed): sim: supply-range 3.0/3.3/3.6 V sweep beyond cp for spec row 18 (T1 item 5)
+- **Issue #139** (closed): sim: run the owed full-PVT lock_detector grid for the #136 bodyfix DUT (RECORD-005 is nominal-only)
+- **PR #336**: sim: add klt sim batch deck-list driver for the lock_detector grid
+- **Issue #322** (closed): sim: batch-request driver for the sg13cmos5l lock_detector full grid (klt sim route)
+
+### 2026-11-10
+
+- **PR #313**: docs(spec): state row 14 output swing as single-ended per node, add DR-011
+- **Issue #312** (closed): spec: state clock output swing and load for a downstream TX mux
+- **PR #308**: docs(design): annotate LOCK opin as active-low in lock_detector schematics
+- **Issue #307** (closed): lock_detector: add (active-low) note to source schematic LOCK pin
+
 ### 2026-11-06
 
 - **PR #298**: test: add static pfd reset-chain parity guard
@@ -202,7 +379,3 @@ Chronological record of recently merged pull requests and closed issues. This fi
 - **PR #99**: [Part of #16] Post-layout PEX + PVT re-simulation for the SG13CMOS5L PLL port
 - **Issue #30** (closed): [Part of #16] Post-layout PEX + PVT re-simulation for the SG13CMOS5L PLL port
 
-### 2026-09-09
-
-- **PR #98**: sim: stand up sg13g2-vco-kvco-table (SG13G2 twin of sg13cmos5l-vco-kvco-table)
-- **Issue #97** (closed): sim: stand up `sim/sg13g2-vco-kvco-table/` — open-loop VCO band / Kvco-vs-band-code table for the SG13G2 design across its PVT grid (rows 1/4/5; the SG13G2 twin of `sg13cmos5l-vco-kvco-table`)

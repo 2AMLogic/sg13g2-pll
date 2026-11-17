@@ -1,0 +1,1138 @@
+{
+  "engine": "ngspice",
+  "netlist": "tb_cp_rerun1_v36.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "dc",
+    "args": "Vs 0.15 3.45 0.05"
+  },
+  "measurements": [
+    {
+      "name": "vs_mid_v",
+      "unit": "V",
+      "expr": "v(vs)[33]"
+    },
+    {
+      "name": "icp_mid_up_2p5",
+      "unit": "A",
+      "expr": "i(Vm_up2p5)[33]"
+    },
+    {
+      "name": "icp_mid_dn_2p5",
+      "unit": "A",
+      "expr": "i(Vm_dn2p5)[33]"
+    },
+    {
+      "name": "icp_mid_both_2p5",
+      "unit": "A",
+      "expr": "i(Vm_both2p5)[33]"
+    },
+    {
+      "name": "icp_mid_up_5",
+      "unit": "A",
+      "expr": "i(Vm_up5)[33]"
+    },
+    {
+      "name": "icp_mid_dn_5",
+      "unit": "A",
+      "expr": "i(Vm_dn5)[33]"
+    },
+    {
+      "name": "icp_mid_both_5",
+      "unit": "A",
+      "expr": "i(Vm_both5)[33]"
+    },
+    {
+      "name": "icp_mid_up_10",
+      "unit": "A",
+      "expr": "i(Vm_up10)[33]"
+    },
+    {
+      "name": "icp_mid_dn_10",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[33]"
+    },
+    {
+      "name": "icp_mid_both_10",
+      "unit": "A",
+      "expr": "i(Vm_both10)[33]"
+    },
+    {
+      "name": "icp_mid_up_20",
+      "unit": "A",
+      "expr": "i(Vm_up20)[33]"
+    },
+    {
+      "name": "icp_mid_dn_20",
+      "unit": "A",
+      "expr": "i(Vm_dn20)[33]"
+    },
+    {
+      "name": "icp_mid_both_20",
+      "unit": "A",
+      "expr": "i(Vm_both20)[33]"
+    },
+    {
+      "name": "icp_mid_up_40",
+      "unit": "A",
+      "expr": "i(Vm_up40)[33]"
+    },
+    {
+      "name": "icp_mid_dn_40",
+      "unit": "A",
+      "expr": "i(Vm_dn40)[33]"
+    },
+    {
+      "name": "icp_mid_both_40",
+      "unit": "A",
+      "expr": "i(Vm_both40)[33]"
+    },
+    {
+      "name": "icp_mid_up_80",
+      "unit": "A",
+      "expr": "i(Vm_up80)[33]"
+    },
+    {
+      "name": "icp_mid_dn_80",
+      "unit": "A",
+      "expr": "i(Vm_dn80)[33]"
+    },
+    {
+      "name": "icp_mid_both_80",
+      "unit": "A",
+      "expr": "i(Vm_both80)[33]"
+    },
+    {
+      "name": "cmp_up_10_k00",
+      "unit": "A",
+      "expr": "i(Vm_up10)[0]"
+    },
+    {
+      "name": "cmp_up_10_k01",
+      "unit": "A",
+      "expr": "i(Vm_up10)[1]"
+    },
+    {
+      "name": "cmp_up_10_k02",
+      "unit": "A",
+      "expr": "i(Vm_up10)[2]"
+    },
+    {
+      "name": "cmp_up_10_k03",
+      "unit": "A",
+      "expr": "i(Vm_up10)[3]"
+    },
+    {
+      "name": "cmp_up_10_k04",
+      "unit": "A",
+      "expr": "i(Vm_up10)[4]"
+    },
+    {
+      "name": "cmp_up_10_k05",
+      "unit": "A",
+      "expr": "i(Vm_up10)[5]"
+    },
+    {
+      "name": "cmp_up_10_k06",
+      "unit": "A",
+      "expr": "i(Vm_up10)[6]"
+    },
+    {
+      "name": "cmp_up_10_k07",
+      "unit": "A",
+      "expr": "i(Vm_up10)[7]"
+    },
+    {
+      "name": "cmp_up_10_k08",
+      "unit": "A",
+      "expr": "i(Vm_up10)[8]"
+    },
+    {
+      "name": "cmp_up_10_k09",
+      "unit": "A",
+      "expr": "i(Vm_up10)[9]"
+    },
+    {
+      "name": "cmp_up_10_k10",
+      "unit": "A",
+      "expr": "i(Vm_up10)[10]"
+    },
+    {
+      "name": "cmp_up_10_k11",
+      "unit": "A",
+      "expr": "i(Vm_up10)[11]"
+    },
+    {
+      "name": "cmp_up_10_k12",
+      "unit": "A",
+      "expr": "i(Vm_up10)[12]"
+    },
+    {
+      "name": "cmp_up_10_k13",
+      "unit": "A",
+      "expr": "i(Vm_up10)[13]"
+    },
+    {
+      "name": "cmp_up_10_k14",
+      "unit": "A",
+      "expr": "i(Vm_up10)[14]"
+    },
+    {
+      "name": "cmp_up_10_k15",
+      "unit": "A",
+      "expr": "i(Vm_up10)[15]"
+    },
+    {
+      "name": "cmp_up_10_k16",
+      "unit": "A",
+      "expr": "i(Vm_up10)[16]"
+    },
+    {
+      "name": "cmp_up_10_k17",
+      "unit": "A",
+      "expr": "i(Vm_up10)[17]"
+    },
+    {
+      "name": "cmp_up_10_k18",
+      "unit": "A",
+      "expr": "i(Vm_up10)[18]"
+    },
+    {
+      "name": "cmp_up_10_k19",
+      "unit": "A",
+      "expr": "i(Vm_up10)[19]"
+    },
+    {
+      "name": "cmp_up_10_k20",
+      "unit": "A",
+      "expr": "i(Vm_up10)[20]"
+    },
+    {
+      "name": "cmp_up_10_k21",
+      "unit": "A",
+      "expr": "i(Vm_up10)[21]"
+    },
+    {
+      "name": "cmp_up_10_k22",
+      "unit": "A",
+      "expr": "i(Vm_up10)[22]"
+    },
+    {
+      "name": "cmp_up_10_k23",
+      "unit": "A",
+      "expr": "i(Vm_up10)[23]"
+    },
+    {
+      "name": "cmp_up_10_k24",
+      "unit": "A",
+      "expr": "i(Vm_up10)[24]"
+    },
+    {
+      "name": "cmp_up_10_k25",
+      "unit": "A",
+      "expr": "i(Vm_up10)[25]"
+    },
+    {
+      "name": "cmp_up_10_k26",
+      "unit": "A",
+      "expr": "i(Vm_up10)[26]"
+    },
+    {
+      "name": "cmp_up_10_k27",
+      "unit": "A",
+      "expr": "i(Vm_up10)[27]"
+    },
+    {
+      "name": "cmp_up_10_k28",
+      "unit": "A",
+      "expr": "i(Vm_up10)[28]"
+    },
+    {
+      "name": "cmp_up_10_k29",
+      "unit": "A",
+      "expr": "i(Vm_up10)[29]"
+    },
+    {
+      "name": "cmp_up_10_k30",
+      "unit": "A",
+      "expr": "i(Vm_up10)[30]"
+    },
+    {
+      "name": "cmp_up_10_k31",
+      "unit": "A",
+      "expr": "i(Vm_up10)[31]"
+    },
+    {
+      "name": "cmp_up_10_k32",
+      "unit": "A",
+      "expr": "i(Vm_up10)[32]"
+    },
+    {
+      "name": "cmp_up_10_k33",
+      "unit": "A",
+      "expr": "i(Vm_up10)[33]"
+    },
+    {
+      "name": "cmp_up_10_k34",
+      "unit": "A",
+      "expr": "i(Vm_up10)[34]"
+    },
+    {
+      "name": "cmp_up_10_k35",
+      "unit": "A",
+      "expr": "i(Vm_up10)[35]"
+    },
+    {
+      "name": "cmp_up_10_k36",
+      "unit": "A",
+      "expr": "i(Vm_up10)[36]"
+    },
+    {
+      "name": "cmp_up_10_k37",
+      "unit": "A",
+      "expr": "i(Vm_up10)[37]"
+    },
+    {
+      "name": "cmp_up_10_k38",
+      "unit": "A",
+      "expr": "i(Vm_up10)[38]"
+    },
+    {
+      "name": "cmp_up_10_k39",
+      "unit": "A",
+      "expr": "i(Vm_up10)[39]"
+    },
+    {
+      "name": "cmp_up_10_k40",
+      "unit": "A",
+      "expr": "i(Vm_up10)[40]"
+    },
+    {
+      "name": "cmp_up_10_k41",
+      "unit": "A",
+      "expr": "i(Vm_up10)[41]"
+    },
+    {
+      "name": "cmp_up_10_k42",
+      "unit": "A",
+      "expr": "i(Vm_up10)[42]"
+    },
+    {
+      "name": "cmp_up_10_k43",
+      "unit": "A",
+      "expr": "i(Vm_up10)[43]"
+    },
+    {
+      "name": "cmp_up_10_k44",
+      "unit": "A",
+      "expr": "i(Vm_up10)[44]"
+    },
+    {
+      "name": "cmp_up_10_k45",
+      "unit": "A",
+      "expr": "i(Vm_up10)[45]"
+    },
+    {
+      "name": "cmp_up_10_k46",
+      "unit": "A",
+      "expr": "i(Vm_up10)[46]"
+    },
+    {
+      "name": "cmp_up_10_k47",
+      "unit": "A",
+      "expr": "i(Vm_up10)[47]"
+    },
+    {
+      "name": "cmp_up_10_k48",
+      "unit": "A",
+      "expr": "i(Vm_up10)[48]"
+    },
+    {
+      "name": "cmp_up_10_k49",
+      "unit": "A",
+      "expr": "i(Vm_up10)[49]"
+    },
+    {
+      "name": "cmp_up_10_k50",
+      "unit": "A",
+      "expr": "i(Vm_up10)[50]"
+    },
+    {
+      "name": "cmp_up_10_k51",
+      "unit": "A",
+      "expr": "i(Vm_up10)[51]"
+    },
+    {
+      "name": "cmp_up_10_k52",
+      "unit": "A",
+      "expr": "i(Vm_up10)[52]"
+    },
+    {
+      "name": "cmp_up_10_k53",
+      "unit": "A",
+      "expr": "i(Vm_up10)[53]"
+    },
+    {
+      "name": "cmp_up_10_k54",
+      "unit": "A",
+      "expr": "i(Vm_up10)[54]"
+    },
+    {
+      "name": "cmp_up_10_k55",
+      "unit": "A",
+      "expr": "i(Vm_up10)[55]"
+    },
+    {
+      "name": "cmp_up_10_k56",
+      "unit": "A",
+      "expr": "i(Vm_up10)[56]"
+    },
+    {
+      "name": "cmp_up_10_k57",
+      "unit": "A",
+      "expr": "i(Vm_up10)[57]"
+    },
+    {
+      "name": "cmp_up_10_k58",
+      "unit": "A",
+      "expr": "i(Vm_up10)[58]"
+    },
+    {
+      "name": "cmp_up_10_k59",
+      "unit": "A",
+      "expr": "i(Vm_up10)[59]"
+    },
+    {
+      "name": "cmp_up_10_k60",
+      "unit": "A",
+      "expr": "i(Vm_up10)[60]"
+    },
+    {
+      "name": "cmp_up_10_k61",
+      "unit": "A",
+      "expr": "i(Vm_up10)[61]"
+    },
+    {
+      "name": "cmp_up_10_k62",
+      "unit": "A",
+      "expr": "i(Vm_up10)[62]"
+    },
+    {
+      "name": "cmp_up_10_k63",
+      "unit": "A",
+      "expr": "i(Vm_up10)[63]"
+    },
+    {
+      "name": "cmp_up_10_k64",
+      "unit": "A",
+      "expr": "i(Vm_up10)[64]"
+    },
+    {
+      "name": "cmp_up_10_k65",
+      "unit": "A",
+      "expr": "i(Vm_up10)[65]"
+    },
+    {
+      "name": "cmp_up_10_k66",
+      "unit": "A",
+      "expr": "i(Vm_up10)[66]"
+    },
+    {
+      "name": "cmp_dn_10_k00",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[0]"
+    },
+    {
+      "name": "cmp_dn_10_k01",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[1]"
+    },
+    {
+      "name": "cmp_dn_10_k02",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[2]"
+    },
+    {
+      "name": "cmp_dn_10_k03",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[3]"
+    },
+    {
+      "name": "cmp_dn_10_k04",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[4]"
+    },
+    {
+      "name": "cmp_dn_10_k05",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[5]"
+    },
+    {
+      "name": "cmp_dn_10_k06",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[6]"
+    },
+    {
+      "name": "cmp_dn_10_k07",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[7]"
+    },
+    {
+      "name": "cmp_dn_10_k08",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[8]"
+    },
+    {
+      "name": "cmp_dn_10_k09",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[9]"
+    },
+    {
+      "name": "cmp_dn_10_k10",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[10]"
+    },
+    {
+      "name": "cmp_dn_10_k11",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[11]"
+    },
+    {
+      "name": "cmp_dn_10_k12",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[12]"
+    },
+    {
+      "name": "cmp_dn_10_k13",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[13]"
+    },
+    {
+      "name": "cmp_dn_10_k14",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[14]"
+    },
+    {
+      "name": "cmp_dn_10_k15",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[15]"
+    },
+    {
+      "name": "cmp_dn_10_k16",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[16]"
+    },
+    {
+      "name": "cmp_dn_10_k17",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[17]"
+    },
+    {
+      "name": "cmp_dn_10_k18",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[18]"
+    },
+    {
+      "name": "cmp_dn_10_k19",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[19]"
+    },
+    {
+      "name": "cmp_dn_10_k20",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[20]"
+    },
+    {
+      "name": "cmp_dn_10_k21",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[21]"
+    },
+    {
+      "name": "cmp_dn_10_k22",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[22]"
+    },
+    {
+      "name": "cmp_dn_10_k23",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[23]"
+    },
+    {
+      "name": "cmp_dn_10_k24",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[24]"
+    },
+    {
+      "name": "cmp_dn_10_k25",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[25]"
+    },
+    {
+      "name": "cmp_dn_10_k26",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[26]"
+    },
+    {
+      "name": "cmp_dn_10_k27",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[27]"
+    },
+    {
+      "name": "cmp_dn_10_k28",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[28]"
+    },
+    {
+      "name": "cmp_dn_10_k29",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[29]"
+    },
+    {
+      "name": "cmp_dn_10_k30",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[30]"
+    },
+    {
+      "name": "cmp_dn_10_k31",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[31]"
+    },
+    {
+      "name": "cmp_dn_10_k32",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[32]"
+    },
+    {
+      "name": "cmp_dn_10_k33",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[33]"
+    },
+    {
+      "name": "cmp_dn_10_k34",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[34]"
+    },
+    {
+      "name": "cmp_dn_10_k35",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[35]"
+    },
+    {
+      "name": "cmp_dn_10_k36",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[36]"
+    },
+    {
+      "name": "cmp_dn_10_k37",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[37]"
+    },
+    {
+      "name": "cmp_dn_10_k38",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[38]"
+    },
+    {
+      "name": "cmp_dn_10_k39",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[39]"
+    },
+    {
+      "name": "cmp_dn_10_k40",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[40]"
+    },
+    {
+      "name": "cmp_dn_10_k41",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[41]"
+    },
+    {
+      "name": "cmp_dn_10_k42",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[42]"
+    },
+    {
+      "name": "cmp_dn_10_k43",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[43]"
+    },
+    {
+      "name": "cmp_dn_10_k44",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[44]"
+    },
+    {
+      "name": "cmp_dn_10_k45",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[45]"
+    },
+    {
+      "name": "cmp_dn_10_k46",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[46]"
+    },
+    {
+      "name": "cmp_dn_10_k47",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[47]"
+    },
+    {
+      "name": "cmp_dn_10_k48",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[48]"
+    },
+    {
+      "name": "cmp_dn_10_k49",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[49]"
+    },
+    {
+      "name": "cmp_dn_10_k50",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[50]"
+    },
+    {
+      "name": "cmp_dn_10_k51",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[51]"
+    },
+    {
+      "name": "cmp_dn_10_k52",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[52]"
+    },
+    {
+      "name": "cmp_dn_10_k53",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[53]"
+    },
+    {
+      "name": "cmp_dn_10_k54",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[54]"
+    },
+    {
+      "name": "cmp_dn_10_k55",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[55]"
+    },
+    {
+      "name": "cmp_dn_10_k56",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[56]"
+    },
+    {
+      "name": "cmp_dn_10_k57",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[57]"
+    },
+    {
+      "name": "cmp_dn_10_k58",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[58]"
+    },
+    {
+      "name": "cmp_dn_10_k59",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[59]"
+    },
+    {
+      "name": "cmp_dn_10_k60",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[60]"
+    },
+    {
+      "name": "cmp_dn_10_k61",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[61]"
+    },
+    {
+      "name": "cmp_dn_10_k62",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[62]"
+    },
+    {
+      "name": "cmp_dn_10_k63",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[63]"
+    },
+    {
+      "name": "cmp_dn_10_k64",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[64]"
+    },
+    {
+      "name": "cmp_dn_10_k65",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[65]"
+    },
+    {
+      "name": "cmp_dn_10_k66",
+      "unit": "A",
+      "expr": "i(Vm_dn10)[66]"
+    },
+    {
+      "name": "cmp_both_10_k00",
+      "unit": "A",
+      "expr": "i(Vm_both10)[0]"
+    },
+    {
+      "name": "cmp_both_10_k01",
+      "unit": "A",
+      "expr": "i(Vm_both10)[1]"
+    },
+    {
+      "name": "cmp_both_10_k02",
+      "unit": "A",
+      "expr": "i(Vm_both10)[2]"
+    },
+    {
+      "name": "cmp_both_10_k03",
+      "unit": "A",
+      "expr": "i(Vm_both10)[3]"
+    },
+    {
+      "name": "cmp_both_10_k04",
+      "unit": "A",
+      "expr": "i(Vm_both10)[4]"
+    },
+    {
+      "name": "cmp_both_10_k05",
+      "unit": "A",
+      "expr": "i(Vm_both10)[5]"
+    },
+    {
+      "name": "cmp_both_10_k06",
+      "unit": "A",
+      "expr": "i(Vm_both10)[6]"
+    },
+    {
+      "name": "cmp_both_10_k07",
+      "unit": "A",
+      "expr": "i(Vm_both10)[7]"
+    },
+    {
+      "name": "cmp_both_10_k08",
+      "unit": "A",
+      "expr": "i(Vm_both10)[8]"
+    },
+    {
+      "name": "cmp_both_10_k09",
+      "unit": "A",
+      "expr": "i(Vm_both10)[9]"
+    },
+    {
+      "name": "cmp_both_10_k10",
+      "unit": "A",
+      "expr": "i(Vm_both10)[10]"
+    },
+    {
+      "name": "cmp_both_10_k11",
+      "unit": "A",
+      "expr": "i(Vm_both10)[11]"
+    },
+    {
+      "name": "cmp_both_10_k12",
+      "unit": "A",
+      "expr": "i(Vm_both10)[12]"
+    },
+    {
+      "name": "cmp_both_10_k13",
+      "unit": "A",
+      "expr": "i(Vm_both10)[13]"
+    },
+    {
+      "name": "cmp_both_10_k14",
+      "unit": "A",
+      "expr": "i(Vm_both10)[14]"
+    },
+    {
+      "name": "cmp_both_10_k15",
+      "unit": "A",
+      "expr": "i(Vm_both10)[15]"
+    },
+    {
+      "name": "cmp_both_10_k16",
+      "unit": "A",
+      "expr": "i(Vm_both10)[16]"
+    },
+    {
+      "name": "cmp_both_10_k17",
+      "unit": "A",
+      "expr": "i(Vm_both10)[17]"
+    },
+    {
+      "name": "cmp_both_10_k18",
+      "unit": "A",
+      "expr": "i(Vm_both10)[18]"
+    },
+    {
+      "name": "cmp_both_10_k19",
+      "unit": "A",
+      "expr": "i(Vm_both10)[19]"
+    },
+    {
+      "name": "cmp_both_10_k20",
+      "unit": "A",
+      "expr": "i(Vm_both10)[20]"
+    },
+    {
+      "name": "cmp_both_10_k21",
+      "unit": "A",
+      "expr": "i(Vm_both10)[21]"
+    },
+    {
+      "name": "cmp_both_10_k22",
+      "unit": "A",
+      "expr": "i(Vm_both10)[22]"
+    },
+    {
+      "name": "cmp_both_10_k23",
+      "unit": "A",
+      "expr": "i(Vm_both10)[23]"
+    },
+    {
+      "name": "cmp_both_10_k24",
+      "unit": "A",
+      "expr": "i(Vm_both10)[24]"
+    },
+    {
+      "name": "cmp_both_10_k25",
+      "unit": "A",
+      "expr": "i(Vm_both10)[25]"
+    },
+    {
+      "name": "cmp_both_10_k26",
+      "unit": "A",
+      "expr": "i(Vm_both10)[26]"
+    },
+    {
+      "name": "cmp_both_10_k27",
+      "unit": "A",
+      "expr": "i(Vm_both10)[27]"
+    },
+    {
+      "name": "cmp_both_10_k28",
+      "unit": "A",
+      "expr": "i(Vm_both10)[28]"
+    },
+    {
+      "name": "cmp_both_10_k29",
+      "unit": "A",
+      "expr": "i(Vm_both10)[29]"
+    },
+    {
+      "name": "cmp_both_10_k30",
+      "unit": "A",
+      "expr": "i(Vm_both10)[30]"
+    },
+    {
+      "name": "cmp_both_10_k31",
+      "unit": "A",
+      "expr": "i(Vm_both10)[31]"
+    },
+    {
+      "name": "cmp_both_10_k32",
+      "unit": "A",
+      "expr": "i(Vm_both10)[32]"
+    },
+    {
+      "name": "cmp_both_10_k33",
+      "unit": "A",
+      "expr": "i(Vm_both10)[33]"
+    },
+    {
+      "name": "cmp_both_10_k34",
+      "unit": "A",
+      "expr": "i(Vm_both10)[34]"
+    },
+    {
+      "name": "cmp_both_10_k35",
+      "unit": "A",
+      "expr": "i(Vm_both10)[35]"
+    },
+    {
+      "name": "cmp_both_10_k36",
+      "unit": "A",
+      "expr": "i(Vm_both10)[36]"
+    },
+    {
+      "name": "cmp_both_10_k37",
+      "unit": "A",
+      "expr": "i(Vm_both10)[37]"
+    },
+    {
+      "name": "cmp_both_10_k38",
+      "unit": "A",
+      "expr": "i(Vm_both10)[38]"
+    },
+    {
+      "name": "cmp_both_10_k39",
+      "unit": "A",
+      "expr": "i(Vm_both10)[39]"
+    },
+    {
+      "name": "cmp_both_10_k40",
+      "unit": "A",
+      "expr": "i(Vm_both10)[40]"
+    },
+    {
+      "name": "cmp_both_10_k41",
+      "unit": "A",
+      "expr": "i(Vm_both10)[41]"
+    },
+    {
+      "name": "cmp_both_10_k42",
+      "unit": "A",
+      "expr": "i(Vm_both10)[42]"
+    },
+    {
+      "name": "cmp_both_10_k43",
+      "unit": "A",
+      "expr": "i(Vm_both10)[43]"
+    },
+    {
+      "name": "cmp_both_10_k44",
+      "unit": "A",
+      "expr": "i(Vm_both10)[44]"
+    },
+    {
+      "name": "cmp_both_10_k45",
+      "unit": "A",
+      "expr": "i(Vm_both10)[45]"
+    },
+    {
+      "name": "cmp_both_10_k46",
+      "unit": "A",
+      "expr": "i(Vm_both10)[46]"
+    },
+    {
+      "name": "cmp_both_10_k47",
+      "unit": "A",
+      "expr": "i(Vm_both10)[47]"
+    },
+    {
+      "name": "cmp_both_10_k48",
+      "unit": "A",
+      "expr": "i(Vm_both10)[48]"
+    },
+    {
+      "name": "cmp_both_10_k49",
+      "unit": "A",
+      "expr": "i(Vm_both10)[49]"
+    },
+    {
+      "name": "cmp_both_10_k50",
+      "unit": "A",
+      "expr": "i(Vm_both10)[50]"
+    },
+    {
+      "name": "cmp_both_10_k51",
+      "unit": "A",
+      "expr": "i(Vm_both10)[51]"
+    },
+    {
+      "name": "cmp_both_10_k52",
+      "unit": "A",
+      "expr": "i(Vm_both10)[52]"
+    },
+    {
+      "name": "cmp_both_10_k53",
+      "unit": "A",
+      "expr": "i(Vm_both10)[53]"
+    },
+    {
+      "name": "cmp_both_10_k54",
+      "unit": "A",
+      "expr": "i(Vm_both10)[54]"
+    },
+    {
+      "name": "cmp_both_10_k55",
+      "unit": "A",
+      "expr": "i(Vm_both10)[55]"
+    },
+    {
+      "name": "cmp_both_10_k56",
+      "unit": "A",
+      "expr": "i(Vm_both10)[56]"
+    },
+    {
+      "name": "cmp_both_10_k57",
+      "unit": "A",
+      "expr": "i(Vm_both10)[57]"
+    },
+    {
+      "name": "cmp_both_10_k58",
+      "unit": "A",
+      "expr": "i(Vm_both10)[58]"
+    },
+    {
+      "name": "cmp_both_10_k59",
+      "unit": "A",
+      "expr": "i(Vm_both10)[59]"
+    },
+    {
+      "name": "cmp_both_10_k60",
+      "unit": "A",
+      "expr": "i(Vm_both10)[60]"
+    },
+    {
+      "name": "cmp_both_10_k61",
+      "unit": "A",
+      "expr": "i(Vm_both10)[61]"
+    },
+    {
+      "name": "cmp_both_10_k62",
+      "unit": "A",
+      "expr": "i(Vm_both10)[62]"
+    },
+    {
+      "name": "cmp_both_10_k63",
+      "unit": "A",
+      "expr": "i(Vm_both10)[63]"
+    },
+    {
+      "name": "cmp_both_10_k64",
+      "unit": "A",
+      "expr": "i(Vm_both10)[64]"
+    },
+    {
+      "name": "cmp_both_10_k65",
+      "unit": "A",
+      "expr": "i(Vm_both10)[65]"
+    },
+    {
+      "name": "cmp_both_10_k66",
+      "unit": "A",
+      "expr": "i(Vm_both10)[66]"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 900
+  },
+  "backend": "batch",
+  "batch": {
+    "capacity_wait_s": 600
+  },
+  "corners": {
+    "process": [
+      "mos_tt"
+    ],
+    "temperature_c": [
+      27
+    ]
+  }
+}

@@ -324,40 +324,60 @@ capacitor device class — **closed and retired for this port by
 `cap_cmomf`, all five devices draw, extract at the schematic's own `w`/`l`
 and LVS-match through the reference rewrite; the successor gap is
 [#2327](https://github.com/2AMLogic/klayout-tools/issues/2327) — a
-custom-device-class `X … PARAMS:` card still cannot pass through
+custom-device-class `X … PARAMS:` card could not pass through
 `reference.form: "subckt-call"` in one request, worked around caller-side
-— open; and
+— **closed upstream as completed 2026-09-22 via [PR
+#2334](https://github.com/2AMLogic/klayout-tools/pull/2334), present at
+this repo's pin**, and the caller-side lift/splice workaround was deleted
+(the reference rewrite itself stays — by necessity, not by gap); and
 [#1464](https://github.com/2AMLogic/klayout-tools/issues/1464) (resistor
 device_map — **closed and retired** by #114's run, whose references pass
 no `device_map`),
 [#1467](https://github.com/2AMLogic/klayout-tools/issues/1467)
-(`gen-compose` routes 1 of 13 nets on a block this size — open, re-probed
-every run; the current record's own probe measures **2 of 18** multi-pin
-nets on `cp` at this repo's pin),
-[#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (the IHP
-families expose exactly one routing-metal role, so `gen-compose`'s escape
-hatch cannot be named — open), the pre-existing
+(`gen-compose` leaves most nets on a block this size unrouted — **closed
+upstream 2026-09-15**, and its channel-track fix is present at this repo's
+pin; re-probed every run, the current record measures **2 of 22** multi-pin
+nets routed on `cp`, 6 of 22 with a second routing plane, *with* that fix
+in),
+[#1474](https://github.com/2AMLogic/klayout-tools/issues/1474) (filed
+because the IHP families exposed exactly one routing-metal role, so
+`gen-compose`'s escape hatch could not be named — **closed upstream
+2026-08-30 and fixed at this repo's pin**: the record's two-layer attempt is
+accepted *and* draws 75 `Metal2` + 50 `Via1` shapes in the composed top
+cell, measured by #383),
+[#1962](https://github.com/2AMLogic/klayout-tools/issues/1962) (the live
+successor to both: no layer/track assignment across many mutually-crossing
+nets in one composition, which is what still leaves 16 of those 22 nets
+unrouted and what keeps `cmos5l_route.py` alive — open), the pre-existing
 [#1440](https://github.com/2AMLogic/klayout-tools/issues/1440)
 (`klt extract --parasitics` rejected the deck — **closed via #2012**),
 [#2113](https://github.com/2AMLogic/klayout-tools/issues/2113)
 (parasitics extraction silently zero — **closed via #2126**, curated
 Metal1–TopMetal1 R/C coefficients),
 [#1157](https://github.com/2AMLogic/klayout-tools/issues/1157)
-(three-terminal `R` cards are not ngspice-simulatable — open; #30 narrowed
-its scope condition and this repo works around it in
-`pex-to-ngspice.py`),
+(three-terminal `R` cards are not ngspice-simulatable — **closed via
+[#2336](https://github.com/2AMLogic/klayout-tools/pull/2336)**, in this
+repo's 0.8.0 pin; #30 narrowed its scope condition and `pex-to-ngspice.py`
+now only replays the committed pre-fix snapshots),
 [#2145](https://github.com/2AMLogic/klayout-tools/issues/2145)
 (hierarchical net names joined with `.` collide with ngspice's own
-separator — open, same workaround),
+separator — **closed via
+[#2153](https://github.com/2AMLogic/klayout-tools/pull/2153)**, also in
+the 0.8.0 pin; the shared workaround retired to pre-fix snapshot replay),
 [#2355](https://github.com/2AMLogic/klayout-tools/issues/2355)
 (extracted `cap_cmomi` cards carry bare-micron `PARAMS: W= L=` values
 against the PDK subckt interface's SI-meter defaults — silent at DC, an
-effectively-shorted capacitor at AC; worked around in `pex-to-ngspice.py`
-— filed from RECORD-004),
+effectively-shorted capacitor at AC; **closed via
+[#2381](https://github.com/2AMLogic/klayout-tools/pull/2381)**, in the
+0.8.0 pin, and `pex-to-ngspice.py` now only replays the committed
+pre-0.7 snapshots — filed from RECORD-004),
 [#2726](https://github.com/2AMLogic/klayout-tools/issues/2726)
-(DRC cannot see a `Via1` landing on no `Metal1` at all, and the deck
+(DRC could not see a `Via1` landing on no `Metal1` at all, and the deck
 reads no `Cont` rule — this hid #136's uncontacted 0.25 µm `XMPD` for
-three records; the footprint now raises on uncontacted terminals), and
+three records; the footprint now raises on uncontacted terminals —
+**closed via PR #2801, in this repo's 0.8.0 pin**: `klt drc` now flags a
+`Via1` on no `Metal1`, re-probed at the pin by #432's pass; the `Cont`
+half of the entry is untouched by that fix), and
 [#2727](https://github.com/2AMLogic/klayout-tools/issues/2727)
 (`klt sim`'s batch/remote backends refuse the `sg13cmos5l` family, so a
 full-PVT SPICE grid cannot be submitted to the batch fleet — the reason

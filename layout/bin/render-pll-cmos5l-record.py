@@ -10,6 +10,12 @@ captured reason for every device this run did **not** draw.
 Every number below is read out of `build.json`, which is itself derived from
 `klt`'s own JSON responses -- nothing here is hand-asserted alongside the
 evidence.
+
+`render()` below is the whole document as a pure function of `plan.json` +
+`build.json` + the resolved PDK/deck identity -- no subprocess, no PDK and
+no file write -- so a committed record can be re-rendered and compared
+byte-for-byte in a unit test. `main()` keeps argv parsing, the file reads,
+the three `klt` calls and the write.
 """
 
 from __future__ import annotations
@@ -28,43 +34,16 @@ def _run_json(cmd: list[str]) -> dict:
         return {}
 
 
-def main(argv: list[str]) -> int:
-    if len(argv) < 5:
-        print(
-            "usage: render-pll-cmos5l-record.py <record-dir> <klt> <pdk> <deck> "
-            "[pdk-root]",
-            file=sys.stderr,
-        )
-        return 2
-    record_dir = Path(argv[1])
-    klt, pdk, deck = argv[2], argv[3], argv[4]
-    pdk_root = argv[5] if len(argv) > 5 and argv[5] else None
-
-    plan = json.loads((record_dir / "plan.json").read_text())
-    build_path = record_dir / "build.json"
-    build = json.loads(build_path.read_text()) if build_path.is_file() else None
-
-    pdk_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
-    if pdk_root:
-        pdk_cmd[3:3] = ["--pdk-root", pdk_root]
-    pdk_info = _run_json(pdk_cmd)
-    # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
-    # object `klt pdk find` returns -- unwrap the requested deck's entry.
-    deck_info = next(
-        (
-            entry
-            for entry in _run_json(
-                [klt, "deck", "info", "--deck", deck, "--format", "json"]
-            ).get("decks", [])
-            if entry.get("deck") == deck
-        ),
-        {},
-    )
-    klt_version = subprocess.run(
-        [klt, "--version"], capture_output=True, text=True
-    ).stdout.strip()
-
-    lines: list[str] = [f"# PLL SG13CMOS5L layout record — `{record_dir.name}`\n"]
+def _header_lines(
+    record_name: str,
+    klt_version: str,
+    pdk: str,
+    deck: str,
+    pdk_info: dict,
+    deck_info: dict,
+) -> list[str]:
+    """Title plus the klt / PDK / deck identity block."""
+    lines: list[str] = [f"# PLL SG13CMOS5L layout record — `{record_name}`\n"]
     lines.append(f"- **klt**: `{klt_version or 'unknown'}`")
     lines.append(f"- **PDK variant requested**: `{pdk}`")
     if pdk_info.get("root"):
@@ -83,17 +62,25 @@ def main(argv: list[str]) -> int:
     else:
         lines.append(f"- **Deck**: `{deck}`")
     lines.append("")
+    return lines
 
+
+def _plan_only_lines(plan: dict) -> list[str]:
+    """The whole body of a plan-only run: no `build.json` was written."""
     total_devices = sum(b["device_count"] for b in plan["blocks"])
-    if build is None:
-        lines.append("## Verdict: PLAN ONLY — nothing drawn this run\n")
-        lines.append(
-            f"`plan.json` derives **{total_devices}** device(s) across "
-            f"{len(plan['blocks'])} blocks."
-        )
-        (record_dir / "record.md").write_text("\n".join(lines) + "\n")
-        return 0
+    lines: list[str] = []
+    lines.append("## Verdict: PLAN ONLY — nothing drawn this run\n")
+    lines.append(
+        f"`plan.json` derives **{total_devices}** device(s) across "
+        f"{len(plan['blocks'])} blocks."
+    )
+    return lines
 
+
+def _verdict_lines(plan: dict, build: dict, pdk: str, deck: str) -> list[str]:
+    """The headline verdict and the `klt gen`/`gen-compose` family clause."""
+    total_devices = sum(b["device_count"] for b in plan["blocks"])
+    lines: list[str] = []
     drawn = sum(b["devices_drawn"] for b in build["blocks"])
     drc_clean = sum(b["devices_drc_clean"] for b in build["blocks"])
     matched = sum(b["devices_matched"] for b in build["blocks"])
@@ -135,7 +122,10 @@ def main(argv: list[str]) -> int:
             f"{block_probe.get('nets_declared')} multi-pin nets), where it "
             f"routes **{block_routing.get('routed_net_count')} of "
             f"{block_routing.get('net_count')}** nets — "
-            "klayout-tools#1467, reproduced at this pin, and the reason this "
+            "klayout-tools#1962, still open at this pin: the layer/track "
+            "assignment across many mutually-crossing nets that the "
+            "closed klayout-tools#1467 channel-track fix (PR #1840, "
+            "present at this pin) does not resolve, and the reason this "
             "flow keeps drawing and routing via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py`"
         )
@@ -146,10 +136,12 @@ def main(argv: list[str]) -> int:
             "(klayout-tools#1462); **this run's own re-probe (below) shows "
             "that gap fixed at the current pin**, but `klt gen-compose`'s "
             "own router was separately measured routing only 1 of 13 nets "
-            "on this design's smallest block past that fix "
-            "(klayout-tools#1467) -- that measurement predates this pin and "
-            "has not been repeated against it this run, so this flow "
-            "continues to draw and route via this repo's own "
+            "on this design's smallest block past that fix -- the unsolved "
+            "layer/track assignment across nets that is tracked open as "
+            "klayout-tools#1962, the gap the closed klayout-tools#1467 "
+            "channel-track fix hands off to -- that measurement predates "
+            "this pin and has not been repeated against it this run, so "
+            "this flow continues to draw and route via this repo's own "
             "`cmos5l_devices.py`/`cmos5l_route.py` rather than switching to "
             "`klt gen-compose`'s router on the strength of an unconfirmed "
             "fix"
@@ -161,7 +153,9 @@ def main(argv: list[str]) -> int:
             "(the gap klayout-tools#1462 tracked, **closed upstream "
             "2026-08-30, after this pin**; re-probed below), and past that "
             "fix `gen-compose` still routes 1 of 13 nets on this design's "
-            "smallest block (klayout-tools#1467)"
+            "smallest block — the layer/track-assignment gap across nets "
+            "tracked open as klayout-tools#1962, which the closed "
+            "klayout-tools#1467 channel-track fix hands off to"
         )
     lines.append(
         "Drawn *and routed* by this repo's own `cmos5l_devices.py` / "
@@ -172,7 +166,12 @@ def main(argv: list[str]) -> int:
         "`layout/sg13cmos5l-pll/README.md`'s friction log, never a silent "
         "drop.\n"
     )
+    return lines
 
+
+def _per_block_lines(build: dict) -> list[str]:
+    """### Per-block -- one row per block, every cell read out of `build.json`."""
+    lines: list[str] = []
     lines.append("### Per-block\n")
     lines.append(
         "| Block | Groups drawn | Devices drawn | Devices | Group DRC clean | "
@@ -209,7 +208,12 @@ def main(argv: list[str]) -> int:
             f"{lvs_cell} |"
         )
     lines.append("")
+    return lines
 
+
+def _floorplan_lines(build: dict) -> list[str]:
+    """### Floorplan -- only for blocks composed through the locality pass."""
+    lines: list[str] = []
     # Floorplan section (issue #101): named blocks are composed through the
     # locality pass; report the wire-length arithmetic from the compose JSON
     # rather than re-deriving it here.
@@ -236,8 +240,12 @@ def main(argv: list[str]) -> int:
                 f"`compose.{name}.json` -> `floorplan`."
             )
         lines.append("")
+    return lines
 
-    lines.append("### Routing\n")
+
+def _gen_compose_probe_lines(build: dict) -> list[str]:
+    """This run's two-pad `klt gen-compose` re-probe (klayout-tools#1462)."""
+    lines: list[str] = []
     probe = build.get("gen_compose_probe") or {}
     if probe:
         placement = probe.get("placement", {})
@@ -281,19 +289,36 @@ def main(argv: list[str]) -> int:
                 "`cp`, the smallest block here, it routes **1 of 13 "
                 "nets**, rejecting the rest with `crosses already-routed "
                 "net`, because it has no track or layer assignment "
-                "between nets. Filed upstream as **klayout-tools#1467**. "
-                "A pin bump therefore does not retire this flow's own "
-                "router; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                "between nets. That no-assignment-between-nets behavior "
+                "is the still-open **klayout-tools#1962** — the gap the "
+                "closed **klayout-tools#1467** (filed from this very "
+                "measurement, since fixed upstream by its channel-track "
+                "PR #1840) hands off to. A pin bump therefore does not "
+                "retire this flow's own router; see "
+                "`layout/sg13cmos5l-pll/README.md`'s friction "
                 "log.\n"
             )
+    return lines
 
+
+def _block_probe_lines(build: dict) -> list[str]:
+    """#### Re-measured against a real block (klayout-tools#1962)."""
+    lines: list[str] = []
+    block_probe = build.get("gen_compose_block_probe") or {}
     if block_probe.get("ran"):
         attempts = block_probe.get("attempts") or {}
         declare = attempts.get("block-declare") or {}
         routed = attempts.get("block-routing") or {}
         two_layer = attempts.get("block-routing-two-layer") or {}
+        # Both the bullets and the closing paragraph below read these; an
+        # attempt the run never recorded reads as 0, never as a missing key.
+        single_routed = routed.get("routed_net_count") or 0
+        single_total = routed.get("net_count") or 0
+        two_layer_routed = two_layer.get("routed_net_count") or 0
+        two_layer_total = two_layer.get("net_count") or 0
+        two_layer_error = two_layer.get("error")
         lines.append(
-            "#### Re-measured against a real block (klayout-tools#1467)\n"
+            "#### Re-measured against a real block (klayout-tools#1962)\n"
         )
         lines.append(
             "The two-pad probe above is far too small to exercise the finding "
@@ -325,7 +350,14 @@ def main(argv: list[str]) -> int:
             "- with a second routing plane "
             "(`routing.cross_block_layer_role`): exit "
             f"{two_layer.get('returncode')}"
-            + (f" — `{two_layer.get('error')}`" if two_layer.get("error") else "")
+            # A rejected attempt reports 0 of 0 nets; say nothing rather
+            # than print a count the attempt never got far enough to have.
+            + (
+                f" — **{two_layer_routed} of {two_layer_total} nets routed**"
+                if two_layer_total > 0
+                else ""
+            )
+            + (f" — `{two_layer_error}`" if two_layer_error else "")
         )
         lines.append("")
         reasons = routed.get("leg_rejection_reasons") or {}
@@ -338,24 +370,68 @@ def main(argv: list[str]) -> int:
             for reason, count in list(reasons.items())[:6]:
                 lines.append(f"- {count} × `{reason}`")
             lines.append("")
-        if (routed.get("routed_net_count") or 0) < (routed.get("net_count") or 0):
+        if single_routed < single_total:
+            # What this run's own two-layer attempt recorded decides the
+            # clause about the second plane. Asserting a rejection the
+            # attempt did not report would contradict the bullet above it.
+            if two_layer_error:
+                second_plane = (
+                    "the second routing plane that "
+                    "would let a rejected net move out of the way cannot be "
+                    "selected on this PDK family at all — the error above lists "
+                    "the roles that family *does* expose, and `metal` is the only "
+                    "routing metal among them. That is why a pin bump past "
+                    "klayout-tools#1462 does not retire `cmos5l_route.py`."
+                )
+            elif two_layer_total <= 0:
+                second_plane = (
+                    "the attempt that adds a second routing plane recorded "
+                    "neither an error nor a net count of its own, so this run "
+                    "measured nothing about that plane. `cmos5l_route.py` is "
+                    "still required on the routing side."
+                )
+            elif two_layer_routed < two_layer_total:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run: adding "
+                    "`routing.cross_block_layer_role` returned exit "
+                    f"{two_layer.get('returncode')} with no error and routed "
+                    f"**{two_layer_routed} of {two_layer_total} nets**, against "
+                    f"{single_routed} of {single_total} on the single plane. "
+                    "Declared nets are still left unrouted with it, so "
+                    "`cmos5l_route.py` is still required on the routing side."
+                )
+            else:
+                second_plane = (
+                    "the second routing plane that lets a rejected net move "
+                    "out of the way **was** accepted on this run, and with it "
+                    "**every declared net routed** "
+                    f"({two_layer_routed} of {two_layer_total}, against "
+                    f"{single_routed} of {single_total} on the single plane). "
+                    "What is left on the routing side is the single-plane "
+                    "case; see `layout/sg13cmos5l-pll/README.md`'s friction "
+                    "log."
+                )
             lines.append(
-                "**klayout-tools#1467 reproduces at this pin.** The first net "
-                "accepted rejects the rest, and the second routing plane that "
-                "would let a rejected net move out of the way cannot be "
-                "selected on this PDK family at all — the error above lists "
-                "the roles that family *does* expose, and `metal` is the only "
-                "routing metal among them. That is why a pin bump past "
-                "klayout-tools#1462 does not retire `cmos5l_route.py`.\n"
+                "**klayout-tools#1962 reproduces at this pin** — the "
+                "layer/track-assignment gap the closed klayout-tools#1467 "
+                "(its channel-track fix present at this pin) hands off "
+                "to. The first net "
+                "accepted rejects the rest, and " + second_plane + "\n"
             )
         else:
             lines.append(
-                "**klayout-tools#1467 no longer reproduces at this pin.** "
+                "**klayout-tools#1962 no longer reproduces at this pin.** "
                 "Every declared net routed. This flow's own router is no "
                 "longer required on the routing side; see "
                 "`layout/sg13cmos5l-pll/README.md`'s friction log.\n"
             )
+    return lines
 
+
+def _generator_footprint_lines(build: dict) -> list[str]:
+    """#### Generator-drawn footprints, re-measured."""
+    lines: list[str] = []
     footprints = build.get("generator_footprint_probe") or []
     if footprints:
         lines.append("#### Generator-drawn footprints, re-measured\n")
@@ -421,7 +497,12 @@ def main(argv: list[str]) -> int:
             for note in sorted(set(notes)):
                 lines.append(f"- `{note}`")
             lines.append("")
+    return lines
 
+
+def _interconnect_lines(build: dict) -> list[str]:
+    """How `cmos5l_route.py` drew the interconnect, plus incomplete nets."""
+    lines: list[str] = []
     lines.append(
         "Interconnect is therefore drawn by `cmos5l_route.py`: one vertical "
         "`Metal2` riser per device terminal, one horizontal `Metal3` trunk per "
@@ -476,7 +557,23 @@ def main(argv: list[str]) -> int:
             lines.append(f"- {', '.join(entries)}")
             lines.append(f"  - reason: {reason}")
         lines.append("")
+    return lines
 
+
+def _routing_lines(build: dict) -> list[str]:
+    """### Routing -- the probes, the generator footprints and this flow's own."""
+    lines: list[str] = []
+    lines.append("### Routing\n")
+    lines += _gen_compose_probe_lines(build)
+    lines += _block_probe_lines(build)
+    lines += _generator_footprint_lines(build)
+    lines += _interconnect_lines(build)
+    return lines
+
+
+def _never_drawn_lines(build: dict) -> list[str]:
+    """### Devices recorded but never drawn -- the captured reason for each."""
+    lines: list[str] = []
     lines.append("### Devices recorded but never drawn\n")
     reasons: dict[str, list[str]] = {}
     for block in build["blocks"]:
@@ -490,7 +587,28 @@ def main(argv: list[str]) -> int:
     else:
         lines.append("- none: every planned device was drawn.")
     lines.append("")
+    return lines
 
+
+def _lvs_line(name: str, lvs: dict) -> str:
+    counts = lvs.get("counts") or {}
+    categories = lvs.get("category_counts") or {}
+    return (
+        f"{name} — **{lvs.get('status')}**, "
+        f"devices {counts.get('devices', {}).get('matched')}/"
+        f"{counts.get('devices', {}).get('reference')}, "
+        f"nets {counts.get('nets', {}).get('matched')}/"
+        f"{counts.get('nets', {}).get('reference')}, "
+        f"pins {counts.get('pins', {}).get('matched')}/"
+        f"{counts.get('pins', {}).get('reference')}; "
+        f"`mismatch_count` {lvs.get('mismatch_count')} "
+        f"({', '.join(f'{k}: {v}' for k, v in sorted(categories.items())) or 'none'})"
+    )
+
+
+def _lvs_lines(build: dict) -> list[str]:
+    """### LVS status -- per block, read out of `lvs.<block>.json`."""
+    lines: list[str] = []
     lines.append("### LVS status\n")
     lines.append(
         "`klt lvs` is run per composed block against that block's own "
@@ -499,21 +617,6 @@ def main(argv: list[str]) -> int:
         "`<block>.reference.spice`, so this evidence is self-contained). "
         "Per-block, read out of `lvs.<block>.json` rather than asserted:\n"
     )
-    def _lvs_line(name: str, lvs: dict) -> str:
-        counts = lvs.get("counts") or {}
-        categories = lvs.get("category_counts") or {}
-        return (
-            f"{name} — **{lvs.get('status')}**, "
-            f"devices {counts.get('devices', {}).get('matched')}/"
-            f"{counts.get('devices', {}).get('reference')}, "
-            f"nets {counts.get('nets', {}).get('matched')}/"
-            f"{counts.get('nets', {}).get('reference')}, "
-            f"pins {counts.get('pins', {}).get('matched')}/"
-            f"{counts.get('pins', {}).get('reference')}; "
-            f"`mismatch_count` {lvs.get('mismatch_count')} "
-            f"({', '.join(f'{k}: {v}' for k, v in sorted(categories.items())) or 'none'})"
-        )
-
     for block in build["blocks"]:
         lvs = block.get("block_lvs") or {}
         if not lvs.get("ran"):
@@ -539,7 +642,12 @@ def main(argv: list[str]) -> int:
         "friction log for the filed gap."
     )
     lines.append("")
+    return lines
 
+
+def _device_flavor_lines(plan: dict) -> list[str]:
+    """### Device flavor -- the plan's own prose, plus the closing pointer."""
+    lines: list[str] = []
     lines.append("### Device flavor\n")
     lines.append(plan["device_flavor"])
     lines.append("")
@@ -549,8 +657,86 @@ def main(argv: list[str]) -> int:
         "`extract.<cell>.json` / `lvs.<block>.json` for the raw `klt` "
         "responses each claim above was read out of."
     )
+    return lines
 
-    (record_dir / "record.md").write_text("\n".join(lines) + "\n")
+
+def render(
+    record_name: str,
+    plan: dict,
+    build: dict | None,
+    pdk: str,
+    deck: str,
+    pdk_info: dict,
+    deck_info: dict,
+    klt_version: str,
+) -> str:
+    """Return the full `record.md` text for one record.
+
+    Pure: no subprocess, no PDK, no filesystem. `build` is `None` for a
+    plan-only run. The returned text is exactly what `main()` writes.
+    """
+    lines = _header_lines(record_name, klt_version, pdk, deck, pdk_info, deck_info)
+    if build is None:
+        lines += _plan_only_lines(plan)
+        return "\n".join(lines) + "\n"
+    lines += _verdict_lines(plan, build, pdk, deck)
+    lines += _per_block_lines(build)
+    lines += _floorplan_lines(build)
+    lines += _routing_lines(build)
+    lines += _never_drawn_lines(build)
+    lines += _lvs_lines(build)
+    lines += _device_flavor_lines(plan)
+    return "\n".join(lines) + "\n"
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 5:
+        print(
+            "usage: render-pll-cmos5l-record.py <record-dir> <klt> <pdk> <deck> "
+            "[pdk-root]",
+            file=sys.stderr,
+        )
+        return 2
+    record_dir = Path(argv[1])
+    klt, pdk, deck = argv[2], argv[3], argv[4]
+    pdk_root = argv[5] if len(argv) > 5 and argv[5] else None
+
+    plan = json.loads((record_dir / "plan.json").read_text())
+    build_path = record_dir / "build.json"
+    build = json.loads(build_path.read_text()) if build_path.is_file() else None
+
+    pdk_cmd = [klt, "pdk", "find", "--pdk", pdk, "--format", "json"]
+    if pdk_root:
+        pdk_cmd[3:3] = ["--pdk-root", pdk_root]
+    pdk_info = _run_json(pdk_cmd)
+    # `klt deck info --format json` returns `{"decks": [...]}`, not the flat
+    # object `klt pdk find` returns -- unwrap the requested deck's entry.
+    deck_info = next(
+        (
+            entry
+            for entry in _run_json(
+                [klt, "deck", "info", "--deck", deck, "--format", "json"]
+            ).get("decks", [])
+            if entry.get("deck") == deck
+        ),
+        {},
+    )
+    klt_version = subprocess.run(
+        [klt, "--version"], capture_output=True, text=True
+    ).stdout.strip()
+
+    (record_dir / "record.md").write_text(
+        render(
+            record_dir.name,
+            plan,
+            build,
+            pdk,
+            deck,
+            pdk_info,
+            deck_info,
+            klt_version,
+        )
+    )
     return 0
 
 

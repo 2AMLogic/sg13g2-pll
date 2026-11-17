@@ -1,0 +1,91 @@
+{
+ "engine": "ngspice",
+ "netlist": "crowbar.cir",
+ "models": {
+  "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+ },
+ "analysis": {
+  "kind": "tran",
+  "args": "1n 4u"
+ },
+ "measurements": [
+  {
+   "name": "vth_up",
+   "unit": "V",
+   "spice": ".meas tran vth_up find v(vin) when v(sout)=v(vmid) fall=1"
+  },
+  {
+   "name": "vth_dn",
+   "unit": "V",
+   "spice": ".meas tran vth_dn find v(vin) when v(sout)=v(vmid) rise=1"
+  },
+  {
+   "name": "hysteresis",
+   "unit": "V",
+   "spice": ".meas tran hysteresis param='vth_up-vth_dn'"
+  },
+  {
+   "name": "i_peak_rise",
+   "unit": "A",
+   "spice": ".meas tran i_peak_rise max par('abs(i(Vdd))') from=0 to=2u"
+  },
+  {
+   "name": "t_peak_rise",
+   "unit": "s",
+   "spice": ".meas tran t_peak_rise max_at par('abs(i(Vdd))') from=0 to=2u"
+  },
+  {
+   "name": "i_peak_fall",
+   "unit": "A",
+   "spice": ".meas tran i_peak_fall max par('abs(i(Vdd))') from=2u to=4u"
+  },
+  {
+   "name": "t_peak_fall",
+   "unit": "s",
+   "spice": ".meas tran t_peak_fall max_at par('abs(i(Vdd))') from=2u to=4u"
+  },
+  {
+   "name": "i_vdd2_rise",
+   "unit": "A",
+   "spice": ".meas tran i_vdd2_rise find par('abs(i(Vdd))') when v(vin)=v(vmid) rise=1"
+  },
+  {
+   "name": "i_vdd2_fall",
+   "unit": "A",
+   "spice": ".meas tran i_vdd2_fall find par('abs(i(Vdd))') when v(vin)=v(vmid) fall=1"
+  },
+  {
+   "name": "i_rail_lo",
+   "unit": "A",
+   "spice": ".meas tran i_rail_lo find par('abs(i(Vdd))') at=0"
+  },
+  {
+   "name": "i_rail_hi",
+   "unit": "A",
+   "spice": ".meas tran i_rail_hi find par('abs(i(Vdd))') at=2u"
+  }
+ ],
+ "options": {
+  "osdi_preload": [
+   "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+   "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+   "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+  ],
+  "stage_model_inputs": true,
+  "timeout_s": 1800
+ },
+ "backend": "batch",
+ "corners": {
+  "process": [
+   "mos_tt"
+  ],
+  "supply_v": {
+   "vdd": [
+    3.3
+   ]
+  },
+  "temperature_c": [
+   27
+  ]
+ }
+}

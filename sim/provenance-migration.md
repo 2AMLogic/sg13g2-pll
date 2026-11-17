@@ -71,11 +71,11 @@ slug says. In practice:
 
 - A `recovered` addendum for any of them needs one `ADDENDUM-PDK` line per
   tree (`ihp-sg13cmos5l` *and* `ihp-sg13g2`).
-- A superseding rerun in an `sg13cmos5l-*` bench cannot at present cite its
-  `ihp-sg13g2` revision. `check_record()` compares every cited revision with
-  the pin for `tree_of(slug)` only, so an honest dual citation fails as a
-  DISCREPANCY. This was reproduced with a probe record outside the repo. It
-  is filed as **#221** and blocks the rerun path of #211–#216.
+- A superseding rerun in an `sg13cmos5l-*` bench could not cite its
+  `ihp-sg13g2` revision until #221 added a tree-qualified comparison:
+  `check_record()` compares a tree-qualified citation against that tree's pin
+  from `tree_pins`. This was reproduced with a probe record outside the repo. It
+  was filed as **#221** (closed 2026-10-11) and no longer blocks the rerun path of #211–#216.
 - `klt` envelopes cannot carry this provenance either:
   `provenance.pdk.version` is `null` for git-checkout and tarball installs,
   and the sibling tree is not named. Filed upstream as
@@ -167,13 +167,13 @@ Legend:
 | 11 | `sg13cmos5l-cp-icp-trim/records/RECORD-004-issue79-finetrim-icp.md` | `a724ddd` 2026-08-30 | G (targeted) | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown); cap_cmom* rebuilt locally | sum, src, prop, sg13cmos5l-loop-bandwidth-pm/RECORD-004, DR-008, spec | superseded | #212 |
 | 12 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-001-nrange-retiming-margin.md` | `1d824d3` 2026-08-30 | G | cmos5l + g2 (symlinked) | not stated; `~/share/pdk` | base, prop | superseded | #212 |
 | 13 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-002-pdk-root-token-fix-reverification.md` | `b8a14c8` 2026-08-30 | G (partial re-run) | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | base | superseded | #212 |
-| 14 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` | `a95a887` 2026-09-22 | G | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, prop, sg13g2-divider-repair-reverification/RECORD-001, spec | superseded | #212 |
+| 14 | `sg13cmos5l-divider-nrange-retiming/records/RECORD-003-divider-repair-reverification.md` | `a95a887` 2026-09-22 | G | cmos5l + g2 (symlinked) | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, prop, sg13g2-divider-repair-reverification/RECORD-001, spec | superseded (rerun landed, #233: ADDENDUM-001 -> RECORD-004; same logic outcomes) | #212 |
 | 15 | `sg13cmos5l-klt-pex-signoff/records/RECORD-001-klt-pex-nominal-envelopes.md` | `e56e14a` 2026-10-08 | N, 5 blocks | cmos5l + g2 (symlinked); envelope `pdk.version` is null | not stated; klt 0.6.0 envelopes | sum, src, spec | superseded (rerun landed, #255: ADDENDUM-001 -> RECORD-003, all 5 blocks, old-layout nominal only) | #213 |
-| 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded | #213 |
-| 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded | #213 |
-| 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded | #213 |
-| 19 | `sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` | `36e4bae` 2026-08-31 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, manifests/test_check_spec_citations.py, sim/README, spec | superseded | #213 |
-| 20 | `sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` | `3fd7967` 2026-10-03 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; `/home/ubuntu/.local/bin/ngspice` | sum, src, prop, layout/sg13cmos5l-pll/README.md, spec | superseded (rerun landed, #256: ADDENDUM-001 -> RECORD-006, nominal only; full-PVT still owed as #139) | #213 |
+| 16 | `sg13cmos5l-lock-detector-window/records/RECORD-001-window-hysteresis-chatter.md` | `db36732` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (arm64 verification of a fix also mentioned) | base, design/README.md, prop, sim/PORTING-osdi-host-arch.md | superseded (rerun landed, #327: ADDENDUM-004 -> RECORD-009, full 92-point grid; **resolved**) | #213 |
+| 17 | `sg13cmos5l-lock-detector-window/records/RECORD-002-resized-window-hysteresis-chatter.md` | `07e1866` 2026-08-30 | G | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown) | base, design/README.md, design/sg13cmos5l/delaywin_hv.sch, design/sg13cmos5l/lock_detector.sch | superseded (rerun landed, #328: ADDENDUM-005 -> RECORD-010, full grid; **resolved**) | #213 |
+| 18 | `sg13cmos5l-lock-detector-window/records/RECORD-003-hysteresis-fix.md` | `a595772` 2026-08-30 | G | cmos5l + g2 (symlinked); **plus the explicit `ihp-sg13g2` arm of `schmitt_rewire.csv`** | x86-64 Linux, `~/share/pdk`; worker not named | base, design/README.md, design/sg13cmos5l/lock_detector.sch, design/sg13cmos5l/schmitt_hv.sch, DR-006, spec | superseded (rerun landed, #329: ADDENDUM-002 -> RECORD-007, `schmitt_rewire` grid only; **resolved**) | #213 |
+| 19 | `sg13cmos5l-lock-detector-window/records/RECORD-004-crowbar-current-mitigation.md` | `36e4bae` 2026-08-31 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, manifests/test_check_spec_citations.py, sim/README, spec | superseded (rerun landed, #331: ADDENDUM-003 -> RECORD-008, `run_schmitt_crowbar.sh` 180-point grid on the batch fleet; RECORD-004's closed-loop/ladder evidence not rerun) | #213 |
+| 20 | `sg13cmos5l-lock-detector-window/records/RECORD-005-rpu-body-on-vss.md` | `3fd7967` 2026-10-03 | N | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; `/home/ubuntu/.local/bin/ngspice` | sum, src, prop, layout/sg13cmos5l-pll/README.md, spec | superseded (rerun landed, #256: ADDENDUM-001 -> RECORD-006, nominal only; full-PVT grid landed as RECORD-011 with two disclosed gaps, #139 closed; **resolved**) | #213 |
 | 21 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-001-loop-bandwidth-phase-margin.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, design/README.md, prop | superseded | #214 |
 | 22 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-icp-input-refresh.md` | `f54b9ef` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, sg13cmos5l-cp-icp-trim/RECORD-002 | superseded | #214 |
 | 23 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-002-r1-resize-full-fref-range.md` | `ffec56a` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, prop, sg13cmos5l-cp-icp-trim/RECORD-003, sg13cmos5l-cp-icp-trim/RECORD-004, sim/sg13cmos5l-cp-icp-trim/testbench/run_issue79_finetrim.sh, sim/sg13cmos5l-cp-icp-trim/testbench/run_issue83_finetrim.sh, RECORD-003, RECORD-004, sim/sg13cmos5l-loop-bandwidth-pm/testbench/run_issue79_finetrim.sh, sim/sg13cmos5l-loop-bandwidth-pm/testbench/run_issue83_finetrim.sh, DR-007, DR-008, spec | superseded | #214 |
@@ -181,15 +181,15 @@ Legend:
 | 25 | `sg13cmos5l-loop-bandwidth-pm/records/RECORD-004-issue79-close-band00-low-fref4p5-pm-gap.md` | `a724ddd` 2026-08-30 | G (targeted) | cmos5l + g2 (symlinked) | arm64 macOS (host/tree unknown); cap_cmom* rebuilt locally | sum, src, prop, manifests/test_check_spec_citations.py, sg13cmos5l-cp-icp-trim/RECORD-004, DR-008, spec | superseded | #214 |
 | 26 | `sg13cmos5l-loop-filter-momcap/records/RECORD-001-rc-corner-momcap-sensitivity.md` | `fac4e4a` 2026-08-30 | G | cmos5l + g2 (symlinked) (`cornerRES.lib`, `r3_cmc.osdi`) | not stated; `~/share/pdk` | base, design/README.md, prop, sim/sg13cmos5l-loop-filter-momcap/corners/matrix.md | superseded | #214 |
 | 27 | `sg13cmos5l-loop-filter-momcap/records/RECORD-002-r1-resize-momcap.md` | `ffec56a` 2026-08-30 | G | cmos5l + g2 (symlinked) (`cornerRES.lib`, `r3_cmc.osdi`) | x86-64 Linux, `~/share/pdk`; worker not named | sum, src, sim/sg13cmos5l-loop-filter-momcap/corners/matrix.md, spec | superseded | #214 |
-| 28 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md` | `d5355e1` 2026-09-19 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; klt 0.4.0 | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md, spec | superseded | #215 |
-| 29 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-002-floorplan-aware-vco-route.md` | `ff8b653` 2026-09-21 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; klt `729ee531e176` | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md, spec | superseded | #215 |
-| 30 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md` | `07751ca` 2026-09-21 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux **and** arm64 macOS (re-measured on both) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded | #215 |
-| 31 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` | `bd62f15` 2026-09-23 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (8-core) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded | #215 |
+| 28 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-001-postlayout-pex-pvt-vco-and-cp.md` | `d5355e1` 2026-09-19 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; klt 0.4.0 | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md, spec | superseded (rerun landed, #323: ADDENDUM-001 -> RECORD-005, rebuilt from `d5355e1` and re-extracted, 21 klt sim requests on the batch fleet; vco, cp `up`/`dn` and RC attribution reproduce to within ~3 %, cp `both`-state rows do not, cp operating-point method disclosed) | #215 |
+| 29 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-002-floorplan-aware-vco-route.md` | `ff8b653` 2026-09-21 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named; klt `729ee531e176` | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md, spec | superseded (rerun landed, #324: ADDENDUM-003 -> RECORD-007; reproduces the original, no figure replaced, consumers unchanged) | #215 |
+| 30 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-003-postlayout-pex-pvt-pfd-and-lock-detector.md` | `07751ca` 2026-09-21 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux **and** arm64 macOS (re-measured on both) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded (rerun landed, #325: ADDENDUM-002 -> RECORD-006, `run_pfd.sh` and `run_lock_detector.sh` rerun unmodified through a deck-replay bridge on the batch fleet; schematic arm, `reflead` rows, 101/102 window-control points and capacitor rows reproduce, `fblead` mode inversion, resistor extraction, ladder classes and window deviation magnitude do not, first two PDK-tree attributed) | #215 |
+| 31 | `sg13cmos5l-postlayout-pex-pvt/records/RECORD-004-postlayout-pex-pvt-loop-filter-and-divider-chain.md` | `bd62f15` 2026-09-23 | G, PEX | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named (8-core) | sum, src, prop, sim/sg13cmos5l-postlayout-pex-pvt/README.md | superseded (rerun landed, #326: ADDENDUM-004 -> RECORD-008, loop-filter and divider-chain runners on the batch fleet; divider N reproduces, loop-filter absolute R1 does not, PDK-tree attributed) | #215 |
 | 32 | `sg13cmos5l-vco-decap-momcap/records/RECORD-001-decap-momcap-sensitivity.md` | `fac4e4a` 2026-08-30 | G | cmos5l + g2 (symlinked) (`r3_cmc.osdi`) | not stated; `~/share/pdk` | base, design/README.md, prop, sim/sg13cmos5l-vco-decap-momcap/corners/matrix.md, spec | superseded | #216 |
-| 33 | `sg13cmos5l-vco-duty-cycle/records/RECORD-001-duty-cycle-and-vco-current.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, manifests/test_check_spec_citations.py, spec | superseded | #216 |
-| 34 | `sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `db5ec6a` 2026-08-29 | G | cmos5l + g2 (symlinked) | arm64 build host (cap_cmom* failed to load); x86-64 also named | sum, src, prop, sim/sg13cmos5l-divider-nrange-retiming/testbench/tb_div_retime.sp.tmpl, DR-005, spec | superseded | #216 |
-| 35 | `sg13g2-divider-repair-reverification/records/RECORD-001-divider-repair-reverification.md` | `e643c39` 2026-09-23 | G (partial; rest transferred) | g2 (fresh runs) + **cmos5l-tree results transferred** from `sg13cmos5l-divider-nrange-retiming/RECORD-003` | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, spec | superseded | #217 |
-| 36 | `sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md` | `40b020e` 2026-08-31 | G | g2 | x86-64 Linux, 8 cores, `~/share/pdk/ihp-sg13g2`; worker not named | sum, src, design/README.md, sim/README, sim/sg13g2-lock-detector-window/README.md, sim/sg13g2-lock-detector-window/corners/matrix.md, spec | superseded | #217 |
+| 33 | `sg13cmos5l-vco-duty-cycle/records/RECORD-001-duty-cycle-and-vco-current.md` | `b37918d` 2026-08-30 | G | cmos5l + g2 (symlinked) | x86-64 Linux, `~/share/pdk`; worker not named | base, prop, manifests/test_check_spec_citations.py, spec | superseded (rerun landed, #317: ADDENDUM-001 -> RECORD-002; not byte-identical, 31/300 below 45 %) | #216 |
+| 34 | `sg13cmos5l-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `db5ec6a` 2026-08-29 | G | cmos5l + g2 (symlinked) | arm64 build host (cap_cmom* failed to load); x86-64 also named | sum, src, prop, sim/sg13cmos5l-divider-nrange-retiming/testbench/tb_div_retime.sp.tmpl, DR-005, spec | superseded (rerun landed, #318: ADDENDUM-001 -> RECORD-002, full 60-point grid on the batch fleet but on the **pinned** tree, staged per deck; byte-identical, no consumer re-pointed) | #216 |
+| 35 | `sg13g2-divider-repair-reverification/records/RECORD-001-divider-repair-reverification.md` | `e643c39` 2026-09-23 | G (partial; rest transferred) | g2 (fresh runs) + **cmos5l-tree results transferred** from `sg13cmos5l-divider-nrange-retiming/RECORD-003` | Linux worker, `/home/ubuntu/share/pdk`; worker not named | sum, src, spec | superseded (rerun landed, #235: ADDENDUM-001 -> RECORD-002, opconv/hold/func on the batch fleet; transferred CMOS5L setup/retime evidence excluded, owed to #233) | #217 |
+| 36 | `sg13g2-lock-detector-window/records/RECORD-001-resized-window-hysteresis-chatter.md` | `40b020e` 2026-08-31 | G | g2 | x86-64 Linux, 8 cores, `~/share/pdk/ihp-sg13g2`; worker not named | sum, src, design/README.md, sim/README, sim/sg13g2-lock-detector-window/README.md, sim/sg13g2-lock-detector-window/corners/matrix.md, spec | superseded (rerun landed, #236: ADDENDUM-001 -> RECORD-002, full reported matrix on the batch fleet, byte-identical; sizing sweeps not rerun) | #217 |
 | 37 | `sg13g2-vco-kvco-table/records/RECORD-001-kvco-band-code-table.md` | `b3031f6` 2026-09-09 | G | g2 | arm64 macOS (host/tree unknown) | sum, src, manifests/test_check_spec_citations.py, spec | superseded | #217 |
 
 Totals:
@@ -224,7 +224,7 @@ Totals:
   Recovering from this would be inferring the revision from today's
   install, which the contract forbids. Follow-up: a superseding rerun in
   `sg13cmos5l-closed-loop-lock` (single nominal diagnostic; the multi-run
-  variants must go through `klt sim`), which is blocked on #221 because it
+  variants must go through `klt sim`), which was blocked on #221 because it
   must cite the `ihp-sg13g2` revision.
   **Update (#239):** the rerun landed as `RECORD-013-cp-dynamic-charge-term-rerun-pinned.md`
   with `ADDENDUM-006-record-006-superseded.md` (`superseded`). Coverage is
@@ -243,8 +243,114 @@ Totals:
   `testbench/gen_ladder.py` -> `sim/tools/gen_lock_ladder.py`, is a file
   relocation). All seven outputs reproduce RECORD-005's committed
   `*_bodyfix_nominal.*` set byte-identically. Scope is nominal-only, same as
-  the original: the full-PVT grid stays owed as #139, and no consumer was
+  the original: the full-PVT grid subsequently ran as `RECORD-011` (#139 closed), and no consumer was
   changed because no figure was replaced.
+
+- **Row 35, `sg13g2-divider-repair-reverification/RECORD-001`: resolved by rerun
+  (#235).** `ADDENDUM-001-record-001-superseded.md` ->
+  `RECORD-002-divider-repair-reverification-rerun-pinned.md` (`superseded`; no
+  recovery of the original environment). The `opconv`, `hold` and `func`
+  stages were re-measured as `klt sim` requests on the batch fleet (23 jobs,
+  ngspice-46, runner klt 0.9.0, `ihp-sg13g2` repo pin 5cccb161 — the runner's
+  PDK stamp was unreadable, so the fleet-side revision is not observed)
+  against the unchanged frozen snapshot, after a one-corner probe
+  (`klt-sim-1bf42451d437`). All rows shared with RECORD-001's CSVs reproduce;
+  `reltol=0.005` collapses at both probe corners (kept as failed corners).
+  RECORD-001's transferred CMOS5L `setup`/`retime` evidence is not re-measured
+  and is excluded from the new claim (replacement owed to #233). No consumer
+  figure was re-pointed (sources.json only lists RECORD-002).
+
+- **Row 14, `sg13cmos5l-divider-nrange-retiming/RECORD-003`: resolved by rerun (#233).**
+  `ADDENDUM-001-record-003-superseded.md` ->
+  `RECORD-004-divider-repair-reverification-rerun-pinned.md` (`superseded`; no
+  recovery of the original environment). All five stages were rerun on the klt
+  batch fleet as 76 pre-composed decks (`testbench/gen_rerun233_requests.py`,
+  the same templates and matrices as `run.sh`) against the frozen DUT snapshot,
+  byte-identical to the producing revision (`a95a887`). The fleet worker exposes
+  no git revision; its OSDI objects and `cornerMOShv.lib` are sha256-identical
+  to the pinned trees (the record says so and claims no more). 20/20 divide
+  ratios exact and 9/9 hold as originally; analog values differ only in the last
+  printed digit; the `reltol=5e-3` arms fail as originally. RECORD-001/002
+  (broken DUT) are not part of this and stay grandfathered. No consumer changed.
+
+- **Row 17, `sg13cmos5l-lock-detector-window/RECORD-002`: resolved by rerun
+  (#328).** `ADDENDUM-005-record-002-superseded.md` ->
+  `RECORD-010-resized-window-hysteresis-chatter-rerun-batch.md` (`superseded`).
+  The full grid was rerun as `klt sim` batch deck-list requests (probe
+  `klt-sim-2b9efd5902c3`; phases `klt-sim-332a5a5443e3`, `-93491bd10e67`,
+  `-de093cb26886`; runner klt 0.9.0, ngspice-46) against the DUT at `07e1866`
+  (frozen snapshot, byte-identical). Window, Schmitt and C reproduce; `rhigh` R
+  is 4.5-8.7 % lower; 17 of 18 ladder corners converge (one fails with an
+  ngspice timestep error under every solver setting, retained as an NA row) and
+  one corner's assert threshold differs. Runner PDK revision unverified
+  (klayout-tools#5318, #3462). No consumer was changed.
+
+- **Row 18, `sg13cmos5l-lock-detector-window/RECORD-003`: resolved by rerun
+  (#329).** `ADDENDUM-002-record-003-superseded.md` ->
+  `RECORD-007-hysteresis-fix-rerun-pinned.md` (`superseded`). The
+  `schmitt_rewire` grid (108 rows, cmos5l and explicit `ihp-sg13g2` arms
+  reported separately) was rerun as 12 `klt sim` batch requests (probe
+  `klt-sim-5a775113a446`, runner klt 0.9.0, ngspice-46) on DUT netlists
+  reconstructed from `a595772`. Three arms reproduce exactly; the
+  cmos5l-rewired arm differs by up to ~2 mV per trip point. The runner's PDK
+  revision is unverified (stamp unreadable; klayout-tools#5318, #3462). No
+  consumer was changed.
+
+- **Row 16, `sg13cmos5l-lock-detector-window/RECORD-001`: resolved by rerun
+  (#327).** `ADDENDUM-004-record-001-superseded.md` ->
+  `RECORD-009-window-hysteresis-chatter-rerun-pinned.md` (`superseded`). The
+  full 92-point grid was rerun as three `klt sim` batch deck-list requests
+  (probe `klt-sim-1a2d7ff81cdd`; runner klt 0.9.0, ngspice-46) on files
+  reconstructed from `db36732` via `batch_grid_db36732.py`. Window, Schmitt,
+  tstep and C values are byte-identical; 92/92 chatter and 0.219-0.409 ns
+  reproduce; R(XRPU) is 4-9 % lower (PDK `rhigh` drift) and one ladder
+  threshold shifts a step. Runner PDK revision unverified. No consumer was
+  changed.
+
+- **Row 34, `sg13cmos5l-vco-kvco-table/RECORD-001`: resolved by a fleet
+  rerun on the pinned tree (#318).** `ADDENDUM-001-record-001-superseded.md`
+  -> `RECORD-002-kvco-band-code-table-rerun-pinned.md` (`superseded`; no
+  recovery of the original environment). The full 60-point grid ran as one
+  `klt sim` deck-list request on the batch fleet (job `klt-sim-9c012bb4ecf5`,
+  ngspice-47 on the worker, runner klt 0.9.0; single-unit pre-probe
+  `klt-sim-58490b6bd691`), and **all 60 `period_s` values are byte-identical**
+  to the committed `corners/results.csv`, so RECORD-001's table, its
+  band-selection and Kvco-nonconstancy findings and its 1562.0 MHz
+  top-of-band figure stand and no consumer was re-pointed.
+  Unlike the other fleet reruns in this campaign, the cited revisions here are
+  **the bytes that ran, not a repo pin taken on trust for a worker whose tree
+  `klt` reports as unstamped**: the fleet image's CMOS5L tree
+  is the unpinned `f7bca326`, so the pinned `607e18d4` checkout's corner-library
+  closure and OSDI objects were staged per deck through `klt sim`'s deck-list
+  preservation contract (relative `.lib`/`.include`/`pre_osdi` targets ship
+  from the submitting host). Every unit's `host_resolved` list is empty and
+  all 60 share one staged-include hash set; all 12 staged libraries resolve
+  into the `ihp-sg13g2` `5cccb161` tree through the CMOS5L checkout's own
+  symlinks. This is the route the sibling attempt under #320 lacked, and it
+  does **not** substitute for the pinned-vs-`f7bca326` comparison owed to
+  #250/#218. 14 of 60 units needed dynamic gmin stepping (disclosed, all
+  exit 0, all byte-identical). Device coverage is explicitly **not** claimed
+  identical to the original: a separate probe (`klt-sim-a8b56f40dc7e`) shows
+  both pinned `cap_cmom*` OSDI objects load on the x86-64 worker and the
+  snapshot's own `XCDECAP` device simulates at 5.315078 pF, where the
+  original's arm64 host could load neither, while the rerun still keeps
+  `XCDECAP` stripped exactly as `run.sh` does.
+
+- **Row 33, `sg13cmos5l-vco-duty-cycle/RECORD-001`: resolved by fleet rerun
+  (#317).** `ADDENDUM-001-record-001-superseded.md` ->
+  `RECORD-002-duty-cycle-and-vco-current-rerun-fleet.md` (`superseded`; no
+  recovery of the original environment). All 300 grid runs plus the 8
+  timestep runs went to the batch fleet as one 308-deck `klt sim` request
+  (job `klt-sim-2ce90b38ce36`, ngspice-46, runner klt 0.9.0) against the frozen
+  DUT snapshot. The fleet worker's PDK tree has no `SOURCES` stamp, so the
+  two pins are cited as the pins, supported by identical sha256 of the six
+  OSDI objects and both corner libraries on the worker; they were not read
+  from the worker. The rerun does **not** reproduce RECORD-001 byte-for-byte
+  (duty 43.71-51.50 % vs 43.74-51.56 %; 31 of 300 points below 45 % vs 30,
+  all at -40 C; supply current within 2.2 %). The failing result is retained,
+  and no consumer was re-pointed: `spec/target-spec.md` and
+  `docs/chipalooza/challenge-6-proposal.md` still cite RECORD-001's figures,
+  which is a spec matter for a decision record.
 
 - **Row 15, `sg13cmos5l-klt-pex-signoff/RECORD-001`: resolved by rerun (#255).**
   `ADDENDUM-001-record-001-superseded.md` -> `RECORD-003-klt-pex-nominal-rerun-pinned.md`
@@ -256,16 +362,43 @@ Totals:
   RECORD-002) and whole-design sign-off are not refreshed, and no consumer was
   changed because none of its figures was replaced.
 
+- **Rows 12-13, `sg13cmos5l-divider-nrange-retiming/RECORD-001` and `RECORD-002`: resolved by rerun (#232).**
+  `ADDENDUM-002-nrange-retiming-margin-superseded.md` ->
+  `RECORD-005-nrange-retiming-margin-rerun-pinned.md` and
+  `ADDENDUM-003-pdk-root-token-fix-superseded.md` ->
+  `RECORD-006-pdk-root-token-fix-rerun-pinned.md` (`superseded`; no recovery of
+  the original environment). The pre-repair `divider_chain` snapshot is
+  byte-identical at both producing commits, and both variants (as-drawn and
+  `fbfix`) were rerun through `klt sim` on the batch fleet (runner klt 0.9.0,
+  ngspice-46; 12 jobs). `hold`, `setup`, `opconv` ran in full; the 100 MHz
+  baseline and top-of-band `retime` ran at the nominal corner only. Reproduced:
+  hold (18/18), setup (36/36), `fbfix` N = 64.00 and `idd`, `fbfix` retime
+  figures. **Not reproduced**: the as-drawn `opconv` non-convergence, the
+  as-drawn dead-chain state, and the all-`NA` as-drawn `retime`. The
+  `ihp-sg13cmos5l` tree used is the unified install pin
+  (`f7bca326...`), not the legacy `PDK-PIN` commit; the worker did not stamp
+  its tree, so that discrepancy is reported in the records, not resolved. No
+  consumer was changed because no figure was replaced.
+
+- **Row 37, `sg13g2-vco-kvco-table/RECORD-001`: resolved by rerun (#237).**
+  `ADDENDUM-001-superseded.md` -> `RECORD-002-kvco-band-code-table-rerun.md`
+  (`superseded`; no recovery of the original environment). The full 60-run matrix
+  was rerun on the batch fleet as one `klt sim` decks request (probe job
+  `klt-sim-b0522cef1561`, grid job `klt-sim-a102ccafc592`; ngspice-46, klt runner
+  0.9.0): 60/60 units ran, 0 `NA`, all 60 periods identical to RECORD-001. The
+  fleet-side PDK revision is the repo pin, not observed. No consumer was changed
+  because no figure was replaced.
+
 ## Execution batches
 
 | Batch | Records (rows above) | Recovered | Superseded (N / G) | Flags |
 |---|---|---|---|---|
-| #211 closed-loop lock + real divider | 1–7 | 1 (#7) | 6 (6 N / 0 G) | **Decompose.** 6 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. The recovery addendum for #7 is done (#224); the 6 nominal reruns remain. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. Blocked on #221 for the rerun half. |
-| #212 charge pump + divider retiming | 8–14 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids. `klt sim`'s batch backend refuses `ihp-sg13cmos5l` (`2AMLogic/klayout-tools#2727`, open), and host policy forbids local grids. Exceeds 8 files. Also blocked on #221. |
-| #213 PEX sign-off + lock detector | 15–20 | 0 | 6 (2 N / 4 G) | **Decompose.** #15 (`klt pex`, 5 single-corner blocks) and #20 (nominal) can run locally. #16–#19 are grids, blocked on klayout-tools#2727. #18 needs both `schmitt_rewire` arms. Coordinate #139 (RECORD-005's owed full grid). Blocked on #221. |
-| #214 loop bandwidth + loop filter | 21–27 | 0 | 7 (0 N / 7 G) | **Blocked + decompose.** All grids (klayout-tools#2727). Exceeds 8 files. Coordinate #203 and DR-007/DR-008, which cite #23/#24. Blocked on #221. |
-| #215 post-layout PEX/PVT | 28–31 | 0 | 4 (0 N / 4 G) | **Blocked + decompose.** PEX grids (klayout-tools#2727). 4 × (record + addendum + CSVs) exceeds 8 files. Recovered or superseded provenance does not make stale layout evidence current. Blocked on #221. |
-| #216 SG13CMOS5L VCO family | 32–34 | 0 | 3 (0 N / 3 G) | **Blocked; borderline size** (about 9 files). Grids (klayout-tools#2727). #34 originally ran on arm64 with `cap_cmom*` unavailable, so its rerun differs in device set as well as host. Blocked on #221. |
+| #211 closed-loop lock + real divider | 1–7 | 1 (#7) | 6 (6 N / 0 G) | **Decompose.** 6 reruns × (record + addendum + regenerated CSVs) exceeds 8 files. The recovery addendum for #7 is done (#224); the 6 nominal reruns remain. Reruns must rebuild each original's DUT from git history at its commit, because later records overwrote the bench's `corners/` and snapshots. Original runtimes were roughly 7–50 min per deck, several decks per record. |
+| #212 charge pump + divider retiming | 8–14 | 0 | 7 (0 N / 7 G) | **Owed + decompose.** All 7 grids are still unrun. Their formerly cited blockers are closed (`2AMLogic/klayout-tools#2727` 2026-11-11, #221 2026-10-11), so nothing blocks them — the grids simply have not been run, and host policy still forbids local grids. Exceeds 8 files. |
+| #213 PEX sign-off + lock detector | 15–20 | 0 | 6 (2 N / 4 G) | **Delivered; batch #213 closed 2026-11-12 (not planned).** All six records superseded by landed reruns (#255, #327, #328, #329, #331, #256), and #139's owed full grid ran as `RECORD-011-bodyfix-full-grid-batch.md` on the batch fleet — per that record, covering everything the batch driver runs, with two disclosed gaps (20× probe not run; PDK-confounded ladder) and #16 still open. |
+| #214 loop bandwidth + loop filter | 21–27 | 0 | 7 (0 N / 7 G) | **Owed + decompose.** All 7 grids are still unrun; their formerly cited blockers (klayout-tools#2727, #221) are closed, so nothing blocks them. Exceeds 8 files. Coordinate #203 and DR-007/DR-008, which cite #23/#24. |
+| #215 post-layout PEX/PVT | 28–31 | 0 | 4 (0 N / 4 G) | **Delivered; batch #215 closed completed 2026-11-12** (children #323, #324, #325, #326 closed). The four superseding reruns landed as `RECORD-005..008` under `sim/sg13cmos5l-postlayout-pex-pvt/records/`, satisfying its "Superseded 4 (0 N / 4 G)". Recovered or superseded provenance does not make stale layout evidence current. |
+| #216 SG13CMOS5L VCO family | 32–34 | 0 | 3 (0 N / 3 G) | **Split one issue per bench; 2 of 3 landed.** #33 via #317 (not byte-identical) and #34 via #318 (byte-identical, run on the pinned tree by per-deck staging). #32 is the remaining grid. #221 and klayout-tools#2727 are closed. #34's wider device set versus its arm64 original is recorded in its rerun, not assumed away. |
 | #217 SG13G2 divider, lock detector, VCO | 35–37 | 0 | 3 (0 N / 3 G) | **Blocked; borderline size** (about 9 files). The batch fleet cannot run PSP/OSDI MOS grids for `ihp-sg13g2` today: the runner has no OSDI objects (see `sg13g2-hbt-characterization/RECORD-001` "Batch failures", `2AMLogic/klayout-tools#2570`, #2901). #35's transferred CMOS5L-tree stages must be re-measured or explicitly scoped out. Not blocked on #221 (single tree). |
 
 No batch can finish its grid reruns until a fleet route exists for these

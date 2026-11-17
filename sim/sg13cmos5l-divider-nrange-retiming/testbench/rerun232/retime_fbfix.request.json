@@ -1,0 +1,79 @@
+{
+  "engine": "ngspice",
+  "netlist": "retime_fbfix.sp",
+  "models": {
+    "lib": "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/models/cornerMOShv.lib"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "1.280410e-11 1.638925e-07"
+  },
+  "measurements": [
+    {
+      "name": "tdiv",
+      "spice": ".meas tran tdiv when v(divout)='0.5*vddp' rise=2",
+      "unit": "s"
+    },
+    {
+      "name": "tfb",
+      "spice": ".meas tran tfb when v(fb)='0.5*vddp' rise=2",
+      "unit": "s"
+    },
+    {
+      "name": "dvo_max",
+      "spice": ".meas tran dvo_max max v(divout) from=4.302178e-08 to=1.638925e-07",
+      "unit": "V"
+    },
+    {
+      "name": "dvo_min",
+      "spice": ".meas tran dvo_min min v(divout) from=4.302178e-08 to=1.638925e-07",
+      "unit": "V"
+    },
+    {
+      "name": "fb_max",
+      "spice": ".meas tran fb_max max v(fb) from=4.302178e-08 to=1.638925e-07",
+      "unit": "V"
+    },
+    {
+      "name": "fb_min",
+      "spice": ".meas tran fb_min min v(fb) from=4.302178e-08 to=1.638925e-07",
+      "unit": "V"
+    },
+    {
+      "name": "idd",
+      "spice": ".meas tran idd avg i(vdd) from=4.302178e-08 to=1.638925e-07",
+      "unit": "A"
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l/libs.tech/ngspice/osdi/mosvar.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=1"
+    ],
+    "timeout_s": 3000,
+    "wall_clock_budget_s": 3300
+  },
+  "backend": "batch",
+  "corners": {
+    "process": [
+      "mos_tt"
+    ],
+    "temperature_c": [
+      27
+    ],
+    "params": {
+      "vddp": [
+        3.3
+      ]
+    }
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}

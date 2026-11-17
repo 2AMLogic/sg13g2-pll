@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 22/22 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 30/30 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 22,
-    "passed_count": 22,
+    "check_count": 30,
+    "passed_count": 30,
     "checks": [
       {
         "check": "present",
@@ -31,7 +31,7 @@
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:891eb9ec3d63256059362542d6179d717df932d6334f1b50d21468892a44829a"
+        "content_hash": "sha256:167fecb654a381513faf5d6e6a1bdc533fabaaf238a173e176355e9fe8a309a7"
       },
       {
         "check": "present",
@@ -52,7 +52,7 @@
         "role": "hygiene",
         "path": "spec/target-spec.md",
         "passed": true,
-        "content_hash": "sha256:2232d35a6d20f751bfa8a3626dd7da0d9ccc46fd078fe2bb6b7a9a92bdd8ead9"
+        "content_hash": "sha256:62a43490d365bcc21d20f36b263d28de8e9987b490d9119eaa331eeb77b7e852"
       },
       {
         "check": "command",
@@ -262,6 +262,110 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "netlist-stamp-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "manifests/test_check_netlist_stamp.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pfd-reset-parity-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "design/test_check_pfd_reset_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "pfd-reset-parity",
+        "argv": [
+          "python3",
+          "-B",
+          "design/check_pfd_reset_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "cpdiag-metrics-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "mismatch-gain-metrics-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "run-pex-guard-self-test",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "signoff-inventory-parity",
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/check_signoff_inventory_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "signoff-inventory-parity-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "scripts/test_check_signoff_inventory_parity.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -275,7 +379,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:9e36e9597fed02501d57bd5b31489f7b7208eb86f0a0685e9a9490424f7261b9"
+      "content_hash": "sha256:233532d5d88319ea43bb6da66aee3493869a90d9c95a889f1541753190d547fa"
     }
   }
 }

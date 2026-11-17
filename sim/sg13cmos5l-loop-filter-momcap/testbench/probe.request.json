@@ -1,0 +1,20 @@
+{
+  "engine": "ngspice",
+  "backend": "batch",
+  "models": {
+    "pdk": "ihp-sg13cmos5l"
+  },
+  "decks": [
+    {
+      "id": "r_asdrawn_res_typ_27",
+      "deck": "rerun321/decks/r_asdrawn_res_typ_27.sp",
+      "timeout_s": 1800
+    }
+  ],
+  "options": {
+    "timeout_s": 1800
+  },
+  "batch": {
+    "capacity_wait_s": 600
+  }
+}

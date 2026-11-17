@@ -175,7 +175,7 @@ REV2 = "b" * 40
 
 class Addenda(Cov):
     def orig(self, slug=SLUG):
-        p = next((self.sim / slug / "records").glob("RECORD-*.md"))
+        p = sorted((self.sim / slug / "records").glob("RECORD-*.md"))[0]  # the grandfathered original, not a later rerun
         return p, p.relative_to(self.sim).as_posix()
 
     def addendum(self, rel, kind="recovered", name="ADDENDUM-001-x.md", **kw):
