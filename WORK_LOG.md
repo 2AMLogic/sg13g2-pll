@@ -8,6 +8,10 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-17
 
+- **PR #489**: docs: state only measured facts for the osdi-arch TAIL reason in run_gates.py
+- **PR #375**: sim: supersede loop-bandwidth-pm RECORD-001/002/002-r1 with batch-fleet reruns
+- **Issue #488** (closed): ci: consider widening the signoff inventory parity gate to require the bash osdi-arch gate (klt attest proven capable)
+- **Issue #486** (closed): ci: run_gates.py's TAIL reason asserts `klt signoff --attest` cannot attest a non-python3 argv — unmeasured
 - **PR #485**: run_gates: mirror signoff.yml's bash osdi-arch self-test via a TAIL entry
 - **PR #482**: ci: run check-osdi-arch.sh self-test in signoff workflow
 - **Issue #483** (closed): ci: run_gates.py's local/CI mirror invariant covers python3 gates only — the new bash self-test is outside it
