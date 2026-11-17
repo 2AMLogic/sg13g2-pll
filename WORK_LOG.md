@@ -8,6 +8,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-17
 
+- **PR #491**: ci: install fleet-pinned xschem 3.4.7 in the netlist gate
+- **Issue #490** (closed): xschem pin migration: migrate sg13g2-pll to the fleet 3.4.7
 - **PR #489**: docs: state only measured facts for the osdi-arch TAIL reason in run_gates.py
 - **PR #375**: sim: supersede loop-bandwidth-pm RECORD-001/002/002-r1 with batch-fleet reruns
 - **Issue #488** (closed): ci: consider widening the signoff inventory parity gate to require the bash osdi-arch gate (klt attest proven capable)
