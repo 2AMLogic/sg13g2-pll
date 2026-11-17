@@ -92,20 +92,46 @@ def normalize(tokens):
 
 
 def command_tokens(text):
-    """shlex-split a shell fragment, stopping at the first operator token."""
-    text = HEREDOC_RE.sub(" ", text).rstrip()
+    """shlex-split a shell fragment, stopping at the first operator token.
+
+    A comment ends the command: `_strip_inline_comment()` drops an unquoted
+    `#` and everything after it (quotes respected, a `#` embedded mid-token
+    kept), so a surviving `#`-leading token is a real quoted argument and only
+    the degraded unbalanced-quote fallback breaks on it (issue #466).
+    """
+    text = _strip_inline_comment(HEREDOC_RE.sub(" ", text)).rstrip()
     while text.endswith("\\"):  # `run:` line continuations
         text = text[:-1].rstrip()
+    degraded = False
     try:
         tokens = shlex.split(text)
     except ValueError:  # unbalanced quotes across lines -- degrade, don't crash
-        tokens = text.split()
+        tokens, degraded = text.split(), True
     out = []
     for tok in tokens:
-        if tok in OPERATORS or tok.startswith("#"):
+        if tok in OPERATORS or (degraded and tok.startswith("#")):
             break
         out.append(tok)
     return out
+
+
+def _strip_inline_comment(line):
+    """Truncate a logical shell line at its first *unquoted* `#` token start."""
+    q = None
+    i = 0
+    while i < len(line):
+        c = line[i]
+        if q:
+            if c == q:
+                q = None
+            elif q == '"' and c == "\\":
+                i += 1
+        elif c in "'\"":
+            q = c
+        elif c == "#" and (i == 0 or line[i - 1].isspace()):
+            return line[:i]
+        i += 1
+    return line
 
 
 def workflow_invocations(text):
@@ -113,11 +139,19 @@ def workflow_invocations(text):
 
     Skips `#` comment lines and the bodies of heredocs, so commented-out gates
     and embedded Python are not mistaken for invocations. `\`-continued lines
-    are joined into one logical command first, so a gate (or its arguments)
-    split across lines is still seen; the reported line number stays the one
-    where `python3` appears (issue #409). A comment ends a continuation: the
-    shell comments out the rest of that line, so a `#` line is never joined
-    and is left for the ordinary comment skip below (issue #436).
+    are joined into one logical command, so a gate (or its arguments) split
+    across lines is still seen; the reported line number stays the one where
+    `python3` appears (issue #409). Each physical line is truncated at its
+    first unquoted `#` *before* the join and each joined piece is truncated
+    as it is appended, so a `\` inside an inline comment is never taken for
+    a continuation -- the comment ends at the newline and the next physical
+    line is a separate command, scanned on its own (issue #466). A comment
+    ends a continuation, too: the shell comments out the rest of that line,
+    so a `#` line is never joined
+    and is left for the ordinary comment skip below (issue #436). A comment
+    ends the logical line itself, too: the first unquoted `#` token truncates
+    it before the gate scan and the heredoc probe, so a commented-out gate
+    trailing a real command is not recorded (issue #466).
     """
     def indent(s):
         return len(s) - len(s.lstrip())
@@ -137,6 +171,11 @@ def workflow_invocations(text):
         stripped = line.strip()
         if stripped.startswith("#"):
             continue
+        # Truncate at the first unquoted `#` *before* the join: a trailing
+        # `\` inside an inline comment does not continue the line (the
+        # comment ends at the newline), so it must not trigger a join that
+        # would then swallow the next physical line (issue #466, AC4).
+        line = _strip_inline_comment(line)
         # Join `\`-continued lines into one logical command. A next line that
         # is blank or dedents (the block scalar ended -- the next YAML key)
         # is not joined; command_tokens()'s trailing-`\` strip then still
@@ -144,12 +183,15 @@ def workflow_invocations(text):
         # not joined either -- the shell comments out the rest of that line,
         # so it ends the command; breaking without advancing `i` lets the
         # outer loop skip it via the `startswith("#")` test below, keeping
-        # any real command after it visible (issue #436).
+        # any real command after it visible (issue #436). Each joined piece
+        # is comment-stripped as it is appended, so a `\` inside *its*
+        # inline comment ends the continuation too.
         while (line.rstrip().endswith("\\") and i < len(lines)
                and lines[i].strip() and indent(lines[i]) >= indent(line)):
             if lines[i].strip().startswith("#"):
                 break
-            line = line.rstrip()[:-1] + " " + lines[i].strip()
+            line = (line.rstrip()[:-1] + " "
+                    + _strip_inline_comment(lines[i].strip()))
             i += 1
         heredoc = HEREDOC_RE.search(line)
         for match in PYTHON3_RE.finditer(line):
