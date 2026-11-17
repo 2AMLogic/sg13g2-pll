@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `ce6b8af6…d41d` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `075fc2b2…c45f` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a

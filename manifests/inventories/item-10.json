@@ -184,6 +184,22 @@
       ]
     },
     {
+      "name": "collect-125c-acquisition-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-closed-loop-lock/testbench/test_collect_125c_acquisition.py"
+      ]
+    },
+    {
+      "name": "threshold-grid-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py"
+      ]
+    },
+    {
       "name": "run-pex-guard-self-test",
       "argv": [
         "python3",
