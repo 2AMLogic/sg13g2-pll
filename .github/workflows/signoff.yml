@@ -90,6 +90,13 @@ jobs:
       - name: run-pex.sh PEX_BLOCKS/PEX_SNAP_SUBDIR guard self-test
         run: python3 sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py
 
+      # OSDI arch preflight guard (issue #464): check-osdi-arch.sh's
+      # --self-test is its only regression harness -- builds its own fake
+      # OSDI header fixtures, stdlib-only, offline, no klt, no PDK,
+      # sub-second.
+      - name: check-osdi-arch.sh self-test
+        run: bash sim/tools/check-osdi-arch.sh --self-test
+
       - name: Records format, numbering and sources.json coverage
         run: python3 characterization/check_records.py
 
