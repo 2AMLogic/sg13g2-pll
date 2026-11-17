@@ -13,14 +13,17 @@ about which gates exist, which `scripts/check_signoff_inventory_parity.py`
     signoff.yml --guarded by #393's predecessor (#399)--> item-10.json
                 --derived by construction-->            this runner
 
-A gate added to signoff.yml must be inventoried or the parity guard fails CI;
-once inventoried it appears in `pnpm test` / `pnpm run check:ci` here
-automatically. No new parser: each `argv` is taken verbatim as a token list
-(the repo keeps exactly one python3-invocation-text parser, the parity
-checker), and the only classification is `--tests`, on the gate file's
-basename.
+The mirror invariant, stated once: python3 gates reach this list via the
+inventory -- a gate added to signoff.yml must be inventoried or the parity
+guard fails CI, and once inventoried it appears in `pnpm test` /
+`pnpm run check:ci` here automatically -- while a non-python3 gate cannot be
+inventoried (the parity guard and the attest runner are python3-only), so it
+is mirrored through TAIL, by hand, with a reason. No new parser: each `argv`
+is taken verbatim as a token list (the repo keeps exactly one
+python3-invocation-text parser, the parity checker), and the only
+classification is `--tests`, on the gate file's basename.
 
-item-10.json scopes `checks` to signoff.yml's gates, so three real gates --
+item-10.json scopes `checks` to signoff.yml's gates, so four real gates --
 plus this runner's own unit test -- are appended here as a literal,
 reason-bearing tail instead:
 
@@ -30,6 +33,10 @@ reason-bearing tail instead:
 - `scripts/check_artifact_manifests.py` and
   `scripts/test_check_artifact_manifests.py` -- they live in
   `.github/workflows/artifact-manifests.yml`, not signoff.yml.
+- `sim/tools/check-osdi-arch.sh --self-test` -- signoff.yml runs it as a
+  direct `bash` line (issue #464); the inventory, its parity guard and the
+  attest runner are python3-only, so this bash gate cannot be attested and
+  is mirrored here by hand.
 - `scripts/test_run_gates.py` -- this runner's own unit test, wired into
   artifact-manifests.yml by #393. The tail is unguarded by construction;
   it is small, static, and each entry carries its reason.
@@ -39,9 +46,9 @@ Semantics: gates run in order, tests before checks (mirroring the old
 each gate's inventory name is printed as it starts, the run stops at the
 first failure and exits with that command's exit code. `--tests` selects the
 entries whose gate file's basename starts with `test_` -- exactly the old
-`test` chain. A malformed or missing inventory, a non-`python3` entry, or a
-zero-gate resolution is a loud error (exit 2), never a silent pass: running
-zero gates would look like every local gate passing.
+`test` chain. A malformed or missing inventory, a non-`python3` inventory
+entry, or a zero-gate resolution is a loud error (exit 2), never a silent
+pass: running zero gates would look like every local gate passing.
 
 The inventory is opened read-only, always; this runner never writes
 `item-10.json` or its envelope.
@@ -88,6 +95,14 @@ TAIL = (
         "reason": "This runner's own unit test, added to "
                   "artifact-manifests.yml by issue #393; item-10's checks "
                   "scope is signoff.yml only.",
+    },
+    {
+        "name": "osdi-arch-self-test",
+        "argv": ["bash", "sim/tools/check-osdi-arch.sh", "--self-test"],
+        "reason": "signoff.yml runs this as a direct bash line (issue #464); "
+                  "the inventory, its parity guard and the attest runner are "
+                  "python3-only, so this bash gate cannot be attested and is "
+                  "mirrored here by hand.",
     },
 )
 
