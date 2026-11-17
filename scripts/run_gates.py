@@ -113,20 +113,35 @@ def load_inventory(path=INVENTORY):
     return checks
 
 
-# Interpreter flags that take the next token and mean "no script file follows"
-# -- same rule as the parity checker, applied to argv lists, not text.
-NO_SCRIPT_FLAGS = {"-m", "-c", "-X", "-W", "--check-hash-based-pycs"}
+# Interpreter flags, by what follows the flag (its arity):
+# - NO_SCRIPT_FLAGS take one argument that is not a script file, and nothing
+#   after it is either, so the invocation runs no script file at all:
+#   -m: 1 arg, the module name; -c: 1 arg, the command string.
+# - VALUE_FLAGS take exactly one value token of their own, after which the
+#   gate file and its arguments may follow; script_token skips that value
+#   and keeps scanning: -X: 1 (e.g. utf8); -W: 1 (e.g. ignore);
+#   --check-hash-based-pycs: 1 (default/always/never).
+# Any other flag consumes nothing (e.g. -B: 0 args); the first non-flag
+# token after the interpreter is the script.
+NO_SCRIPT_FLAGS = {"-m", "-c"}
+VALUE_FLAGS = {"-X", "-W", "--check-hash-based-pycs"}
 
 
 def script_token(argv):
     """The gate file path in an argv: first non-flag token after the
     interpreter, or None for invocations that run no file (a `-m module`, a
     `-c snippet`, a bare REPL). argv lists, never invocation text."""
-    for i, token in enumerate(argv[1:], start=1):
+    i = 1
+    while i < len(argv):
+        token = argv[i]
+        if token in NO_SCRIPT_FLAGS:
+            return None
+        if token in VALUE_FLAGS:
+            i += 2  # skip the flag's own value; the script may follow
+            continue
         if not token.startswith("-"):
-            if argv[i - 1] in NO_SCRIPT_FLAGS:
-                return None
             return token
+        i += 1
     return None
 
 
