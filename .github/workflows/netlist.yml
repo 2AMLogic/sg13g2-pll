@@ -10,8 +10,11 @@ name: netlist regeneration gate (T1 item 1)
 #     .github/scripts/install-xschem (issue #490; master pin: klayout-tools
 #     docker/eda-sim/pdk-versions.json tools.xschem) -- the same version the
 #     committed netlists were generated with. They carry a
-#     `* xschem XSCHEM Vx.y.z` banner line; ONLY that banner line is
-#     excluded from the diff (git diff -I). Every other line must match.
+#     `* xschem XSCHEM Vx.y.z` banner line, compared verbatim like every
+#     other line: the pin matches the banners' version, so no exclusion is
+#     needed, and bumping the pin without regenerating the netlists now
+#     fails visibly on the banner itself (issue #494 dropped the former
+#     `git diff -I` banner exclusion).
 #   * Both PDKs are pinned. SG13CMOS5L is pinned to the commit used for the
 #     committed netlists' host. The host SG13G2 copy has no recorded revision
 #     (its symbols date from March 2026), so IHP-Open-PDK is pinned to the
@@ -19,8 +22,7 @@ name: netlist regeneration gate (T1 item 1)
 #     branch HEAD emits it and would drift every device line. If a pin is
 #     bumped, the netlists must be regenerated deliberately.
 #   * Observed green on a GitHub runner (PR #155) after the PDK layout and
-#     pin fixes; the local run (xschem 3.4.4, banner line ignored) also
-#     reproduced all 12 committed netlists.
+#     pin fixes.
 
 on:
   push:
@@ -92,14 +94,14 @@ jobs:
           # design/xschemrc sources $PDK_ROOT/$PDK/libs.tech/xschem/xschemrc.
           PDK_ROOT="$RUNNER_TEMP/IHP-Open-PDK" PDK=ihp-sg13g2 xvfb-run -a ./design/netlist.sh
           PDK_ROOT="$RUNNER_TEMP/pdk" PDK=ihp-sg13cmos5l xvfb-run -a ./design/sg13cmos5l/netlist.sh
-          if ! git diff --exit-code -I'^\* xschem XSCHEM V' -- design; then
+          if ! git diff --exit-code -- design; then
             echo "::error::Committed netlists differ from what the committed generators emit from the committed .sch. Regenerate with design/netlist.sh and design/sg13cmos5l/netlist.sh and commit."
             exit 1
           fi
-          # Modified tracked files were already judged by the diff above (which
-          # ignores the version banner); here catch generated-but-uncommitted.
+          # Modified tracked files were already judged by the diff above;
+          # here catch generated-but-uncommitted.
           if git status --porcelain --untracked-files=all -- design | grep '^??'; then
             echo "::error::Generators produced untracked files under design/ (a generated netlist is not committed)."
             exit 1
           fi
-          echo "Committed netlists match regenerated output (xschem version banner line excluded)."
+          echo "Committed netlists match regenerated output."
