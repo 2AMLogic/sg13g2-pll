@@ -41,7 +41,8 @@ def entry(name, script, *args):
 # unit test, mandated into the tail by the issue). Tests first, then checks;
 # within each group the inventory's file order is preserved and the tail
 # entries come last. These are golden pins, not a second enumeration: when a
-# gate is added to item-10.json, extend them in inventory order.
+# gate is added to item-10.json, extend them in inventory order; a tail gate
+# extends them in tail order.
 EXPECTED_TEST_PATHS = (
     "characterization/test_check_records.py",
     "characterization/test_gen_summary.py",
@@ -93,6 +94,8 @@ EXPECTED_FULL = (
     ("signoff-inventory-parity", g("scripts/check_signoff_inventory_parity.py")),
     ("netlist-stamp", g("manifests/check_netlist_stamp.py")),
     ("artifact-manifests", g("scripts/check_artifact_manifests.py")),
+    ("osdi-arch-self-test",
+     ["bash", "sim/tools/check-osdi-arch.sh", "--self-test"]),
 )
 
 
@@ -158,18 +161,21 @@ class Derivation(unittest.TestCase):
                 cwd=REPO)
         self.assertEqual(rc, 0)
 
-    def test_tail_is_four_documented_entries(self):
-        self.assertEqual(len(rg.TAIL), 4)
+    def test_tail_is_five_documented_entries(self):
+        self.assertEqual(len(rg.TAIL), 5)
         scripts = sorted(rg.script_token(t["argv"]) for t in rg.TAIL)
         self.assertEqual(scripts, sorted([
             "manifests/check_netlist_stamp.py",
             "scripts/check_artifact_manifests.py",
             "scripts/test_check_artifact_manifests.py",
             RUNNER_TEST,
+            "sim/tools/check-osdi-arch.sh",
         ]))
         for t in rg.TAIL:
             self.assertTrue(t.get("reason"), f"tail entry {t['name']} has no reason")
-            self.assertEqual(t["argv"][0], "python3")
+            # Inventory entries must be python3 (to_entry enforces it); the
+            # tail exists precisely for the non-python3 gates CI runs direct.
+            self.assertIn(t["argv"][0], {"python3", "bash"})
 
     def test_non_python3_entry_is_rejected_with_stated_rule(self):
         with self.assertRaises(SystemExit) as ctx:
