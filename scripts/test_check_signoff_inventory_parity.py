@@ -114,6 +114,172 @@ class Parity(unittest.TestCase):
         wf = workflow(step("python3 a/gate.py") + "      # python3 a/retired.py\n")
         self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
 
+    def test_comment_after_continuation_is_not_joined(self):
+        r"""A `\`-continued line followed by a comment line ends the command.
+
+        Issue #436: the join pre-pass folded the comment into the logical
+        command, so `python3` inside the comment was recorded as a live gate
+        and CI failed demanding an inventory entry for a script that never
+        runs. Pre-fix this test fails: `a/retired.py` is reported missing.
+        """
+        wf = workflow(step("python3 a/gate.py \\", "# python3 a/retired.py"))
+        problems = self.run_check(wf, inventory("a/gate.py"))
+        self.assertEqual(problems, [])
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("gate.py", ()): [6]}
+        )
+
+    def test_comment_line_ending_in_backslash_keeps_later_command(self):
+        r"""A comment line's own trailing `\` continues nothing; a real gate
+        after it must still be recorded, at its physical line.
+
+        This is the case that separates the correct fix (break the join at a
+        comment) from truncation-at-`#`, which silently drops `other.py`.
+        """
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          # note \\\n"
+            "          python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text),
+            {("gate.py", ()): [6], ("other.py", ()): [8]},
+        )
+
+    def test_inline_comment_ending_in_backslash_keeps_later_command(self):
+        r"""Case E: a `\` that lives inside an *inline* comment continues
+        nothing -- the comment ends at the newline -- so the next physical
+        line is a separate, real command and must be recorded at its own
+        line. Pre-fix this test fails: the join triggered on the comment's
+        backslash, and the post-join truncation swallowed `other.py`
+        entirely (the silent false-PASS the Judge's review blocks on).
+        """
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py  # note \\\n"
+            "          python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text),
+            {("gate.py", ()): [6], ("other.py", ()): [7]},
+        )
+
+    def test_inline_trailing_comment_is_not_scanned(self):
+        r"""Shape B (issue #466): a commented-out gate on the same physical
+        line as a real one was recorded as live, demanding a spurious
+        inventory entry. Pre-fix this test fails: `a/retired.py` is reported.
+        """
+        wf = workflow(step("python3 a/gate.py  # python3 a/retired.py"))
+        self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py  # python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("gate.py", ()): [6]}
+        )
+
+    def test_inline_comment_on_continuation_line_is_not_scanned(self):
+        r"""Shape C (issue #466): the inline comment lands on the joined half
+        of a `\`-continuation; only the real gate and its arguments remain.
+        Pre-fix `a/retired.py` is recorded as a second, spurious gate.
+        """
+        wf = workflow(step("python3 a/gate.py \\", "--flag v  # python3 a/retired.py"))
+        self.assertEqual(
+            self.run_check(wf, inventory(("a/gate.py", "--flag", "v"))), []
+        )
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py \\\n"
+            "          --flag v  # python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text), {("gate.py", ("--flag", "v")): [6]}
+        )
+
+    def test_quoted_hash_argument_survives_intact(self):
+        r"""A legitimate quoted argument beginning with `#` is not a comment
+        (issue #466, second shape): pre-fix `command_tokens()` broke at the
+        quote-stripped `#release` token and truncated the argument tuple, so
+        the invocation no longer matched its full inventory entry.
+        """
+        wf = workflow(step("python3 a/gate.py --tag '#release' --more x"))
+        self.assertEqual(
+            self.run_check(wf, inventory(("a/gate.py", "--tag", "#release",
+                                          "--more", "x"))), [])
+        problems = self.run_check(wf, inventory("a/gate.py"))
+        self.assertEqual(len(problems), 1)
+        self.assertIn("#release", problems[0])
+
+    def test_quoted_hash_in_double_quotes_survives(self):
+        r"""Issue #466 edge (c): the quoted-`#` rule holds in double quotes
+        too, where a backslash would also be an escape."""
+        wf = workflow(step('python3 a/gate.py --tag "#release" --more x'))
+        self.assertEqual(
+            self.run_check(wf, inventory(("a/gate.py", "--tag", "#release",
+                                          "--more", "x"))), [])
+
+    def test_doubled_hash_comment_is_not_scanned(self):
+        r"""Issue #466: `## python3 other.py` is still a comment; only the
+        real gate on the line is recorded."""
+        wf = workflow(step("python3 a/gate.py  ## python3 a/retired.py"))
+        self.assertEqual(self.run_check(wf, inventory("a/gate.py")), [])
+
+    def test_hash_inside_a_token_does_not_truncate(self):
+        r"""Issue #466 edge (b): a `#` embedded mid-token (`foo#bar`, a URL
+        fragment) does not start a comment; the argument survives whole and
+        must still match its inventory entry."""
+        wf = workflow(step("python3 a/gate.py --href https://x/y#frag --more z"))
+        self.assertEqual(
+            self.run_check(wf, inventory(("a/gate.py", "--href",
+                                          "https://x/y#frag", "--more", "z"))),
+            [])
+
+    def test_heredoc_redirect_after_comment_does_not_track_delimiter(self):
+        r"""Issue #466 edge (d): a commented-out heredoc redirect never runs,
+        so it must not start delimiter tracking -- the lines after it are
+        ordinary lines. Pre-fix the phantom delimiter swallowed every later
+        line, including the fixture's `--base` step, and the gate reported a
+        stale exclusion instead.
+        """
+        wf = workflow(step("python3 a/gate.py  # python3 - <<'PY'",
+                           "python3 a/other.py"))
+        self.assertEqual(
+            self.run_check(wf, inventory("a/gate.py", "a/other.py")), [])
+
+    def test_unbalanced_quote_degraded_path_does_not_raise(self):
+        r"""Issue #466 edge (e): an unterminated quote keeps the degraded
+        `text.split()` fallback -- the parse degrades but never raises."""
+        wf = workflow(step('python3 a/gate.py --msg "oops  # python3 a/retired.py'))
+        problems = self.run_check(wf, inventory())
+        self.assertTrue(any("a/gate.py" in p for p in problems))
+
     def test_module_and_interpreter_only_invocations_are_not_gates(self):
         wf = workflow(step("python3 -m venv /tmp/v", "python3 -c 'import sys'", "python3"))
         self.assertEqual(self.run_check(wf, inventory()), [])

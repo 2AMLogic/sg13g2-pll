@@ -141,7 +141,7 @@ def meas_block(vmid):
 
 
 def edge_text(direction, bundle, vdd, freqtag, fref, duty):
-    mos, res, temp = bundle[1], bundle[2], bundle[3]
+    mos, temp = bundle[1], bundle[3]
     tper = 1.0 / fref
     tstep, tmax = TIMING[freqtag]
     tstop = N_SEG * N_CYC * tper + 0.5 * tper
@@ -163,7 +163,7 @@ def edge_text(direction, bundle, vdd, freqtag, fref, duty):
 
 
 def dc_text(bundle, vdd):
-    mos, res, temp = bundle[1], bundle[2], bundle[3]
+    mos, temp = bundle[1], bundle[3]
     t = (HERE / "tb_pfd_dc.sp.tmpl").read_text()
     t = sub(t, PDK=PDK, CORNER_MOS=mos, TEMP=temp, VDD=vdd,
             VMID="%.6f" % (float(vdd) / 2.0), DSTEP="%.6f" % (float(vdd) / 2048.0))

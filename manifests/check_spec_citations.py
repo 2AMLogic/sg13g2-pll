@@ -74,6 +74,10 @@ def check_accounting(text, row_status):
         return errs + ["accounting: status table is not the Status/Rows table"]
     acc = {}
     for cells in rows[2:]:
+        if len(cells) != 2:
+            errs.append(f"accounting: status row {cells[0]!r} has "
+                        f"{len(cells)} cells, expected 2")
+            continue
         st = cells[0].split("(")[0].strip()
         if st not in STATUSES:
             errs.append(f"accounting: status cell {cells[0]!r} does not start "

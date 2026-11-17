@@ -6,6 +6,44 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-16
+
+- **PR #476**: fix: classify python3 value flags (-X, -W, --check-hash-based-pycs) by arity in run_gates script_token
+- **Issue #470** (closed): run_gates.py: script_token() drops the gate file after a value-taking interpreter flag (-X/-W), silently excluding such a gate from `--tests`
+- **PR #472**: fix(sim): disclose pfd-input-threshold's never-applied res_corner column
+- **PR #471**: docs: cite the landed NWell-rule PRs in the sg13cmos5l friction row
+- **PR #467**: fix: reject non-plain PEX_SNAP_SUBDIR values in run-pex.sh
+- **PR #441**: build: derive package.json's stdlib gate chains from item-10.json
+- **PR #465**: fix: guard accounting status row width in check_accounting
+- **PR #469**: docs: correct ROADMAP decision-record count to sixteen
+- **Issue #454** (closed): sim: pfd-input-threshold publishes a res_corner column its decks never apply
+- **Issue #460** (closed): Friction table cites klayout-tools#3573 (closed not_planned) as the source of the NW.c/d/e/f rules; name the landed PRs
+- **Issue #458** (closed): run-pex.sh: PEX_SNAP_SUBDIR="." (or "..") still reaches the subset in-place roll-up the #438 guard blocks
+- **Issue #393** (closed): Nothing guards package.json's stdlib gate chain against drift from .github/workflows/
+- **Issue #462** (closed): run_gates.py pin test: retire the one-shot pre-rewrite snapshot when the next gate lands
+- **Issue #457** (closed): check_spec_citations.py: check_accounting() raises IndexError instead of a clean error on a short §Accounting table row
+- **Issue #456** (closed): docs/ROADMAP.md:42 says "fifteen decision records" but there are sixteen DR-*.md files
+- **PR #463**: spec: name row 6/6a, row 16 and R-2's row 2-derived figures in R-13
+- **PR #461**: fix: stop the backslash-continuation join at a shell comment line
+- **PR #455**: docs: correct closed klayout-tools#3012/#2726 gap status to the 0.8.0 pin
+- **PR #452**: sim: resolve flat <id>.out stdout layout in the 125C acquisition collector
+- **PR #451**: sim: send check-osdi-arch.sh usage() to stderr and add retired-flag self-test guard
+- **PR #450**: fix: hard-fail PEX_BLOCKS without PEX_SNAP_SUBDIR in run-pex.sh
+- **PR #448**: spec: reconcile Accounting total to 18 rows and gate it
+- **PR #446**: bench: pfd REF-input switching thresholds across the row-2 operating box
+- **PR #445**: docs: mark closed klt#2727/#221/#139 blockers resolved in provenance-migration
+- **PR #430**: refactor: dedupe the two layout-flow drivers onto layout/bin/layout-flow.sh, fix the cross-flow -dirty record-id stamp
+- **Issue #444** (closed): spec: rows 6/6a and 16 still derive their figures from row 2's union range — name them in R-13
+- **Issue #439** (closed): sim: RECORD-015's offline reproduce path for the 125 C VCO CSV needs a layout the committed raw files do not have
+- **Issue #438** (closed): run-pex.sh: PEX_BLOCKS without PEX_SNAP_SUBDIR truncates the committed snapshot roll-up
+- **Issue #436** (closed): check_signoff_inventory_parity.py: a comment line joined by a \-continuation can produce a false FAIL
+- **Issue #432** (closed): Correct stale klayout-tools#3012 / #2726 'open' status in sg13cmos5l README, manifests/README.md and challenge-6 proposal
+- **Issue #429** (closed): Correct stale klayout-tools#2727 'open/blocking' status in provenance-migration.md and characterization/SUMMARY.md
+- **Issue #419** (closed): check-osdi-arch.sh: usage() prints the USAGE block to stdout, blocking an rc-only self-test guard for retired flags
+- **Issue #415** (closed): Dedupe the two layout-flow drivers onto a shared lib (28 of 33 lines identical), and fix the cross-flow -dirty stamp they both carry
+- **Issue #407** (closed): spec: target-spec.md Accounting says "17 rows" but its own status table lists 18
+- **Issue #403** (closed): sim: reference-input switching-threshold bench for pfd (target-spec R-5)
+
 ### 2026-11-15
 
 - **PR #443**: sim: remove dead klt() submit helper and stale transport claims from sg13g2 run_batch
