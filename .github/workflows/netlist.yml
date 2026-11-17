@@ -6,10 +6,11 @@ name: netlist regeneration gate (T1 item 1)
 # `git diff` against the committed copy (issue #151).
 #
 # Honest gaps (not hidden):
-#   * xschem comes from the runner's apt package, not a pinned container. The
-#     committed netlists carry a `* xschem XSCHEM Vx.y.z` banner line; the
-#     runner's xschem version can differ from the one that generated the
-#     committed files (committed: 3.4.7), so ONLY that banner line is
+#   * xschem is the fleet-pinned 3.4.7, built from the upstream tag by
+#     .github/scripts/install-xschem (issue #490; master pin: klayout-tools
+#     docker/eda-sim/pdk-versions.json tools.xschem) -- the same version the
+#     committed netlists were generated with. They carry a
+#     `* xschem XSCHEM Vx.y.z` banner line; ONLY that banner line is
 #     excluded from the diff (git diff -I). Every other line must match.
 #   * Both PDKs are pinned. SG13CMOS5L is pinned to the commit used for the
 #     committed netlists' host. The host SG13G2 copy has no recorded revision
@@ -37,11 +38,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install xschem (runner apt package; not version-pinned)
+      - name: Install xschem 3.4.7 (pinned source build)
         run: |
+          set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y -qq xschem xvfb
+          sudo apt-get install -y -qq xvfb
+          .github/scripts/install-xschem
+
+      # install-xschem exports the bin dir via GITHUB_PATH, which only takes
+      # effect for steps after the one that appends it -- verify in a
+      # follow-up step, not in-step.
+      - name: Pinned xschem is on PATH
+        run: |
+          set -euo pipefail
+          command -v xschem
           xschem --version | head -1
+          .github/scripts/install-xschem --check
 
       - name: Fetch the PDKs
         run: |
