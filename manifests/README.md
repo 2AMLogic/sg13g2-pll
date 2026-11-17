@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `aeaab88c…a0599` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `7e8dde64…3de7` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -588,16 +588,20 @@ mixed-signal block. The envelope is tool-produced (`klt signoff --attest 10
 hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
-hashed: `README.md`, `LICENSE`, `spec/target-spec.md` and the three workflows
-`.github/workflows/{signoff,layout-tests,netlist}.yml`. Twenty-three audit
-commands then each run, without a shell, from the repo root and must exit 0:
-the records checker and its unit tests, the summary generator's unit tests and
-`--check`, the six `manifests/check_*` gates with their unit tests, the
-`manifests/check_netlist_stamp.py` and `design/check_pfd_reset_parity.py` unit
-tests plus the parity check itself, the two
-`sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction self-tests, and
-`scripts/check_signoff_inventory_parity.py` with its unit test (the same
-offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
+hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the three workflows
+`.github/workflows/{signoff,layout-tests,netlist}.yml`, and the xschem pin
+`.github/scripts/install-xschem` (#495) — the fleet-pinned build (#490) that
+`netlist.yml`'s regeneration gate installs from; attesting its bytes is what
+keeps that gate's "same version as the committed netlists" claim checkable.
+Twenty-four audit commands then each run, without a shell, from the repo root
+and must exit 0: the records checker and its unit tests, the summary
+generator's unit tests and `--check`, the six `manifests/check_*` gates with
+their unit tests, the `manifests/check_netlist_stamp.py` and
+`design/check_pfd_reset_parity.py` unit tests plus the parity check itself,
+the two `sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction
+self-tests, the `sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run guard
+self-test, and `scripts/check_signoff_inventory_parity.py` with its unit test
+(the same offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
 --attest 10 --inventory … --check …` re-attests and diffs against the
 committed envelope, so an edited or missing hygiene file, or a failing gate,
 fails the `grade` job.
@@ -607,7 +611,7 @@ fails the `grade` job.
 upkeep, and it drifted: three gates ran in CI that no inventory attested.
 `scripts/check_signoff_inventory_parity.py` now compares the two directly and
 fails naming any gate `signoff.yml` invokes that the `checks` list omits. It is
-itself one of the twenty-three commands, so it cannot be dropped silently, and
+itself one of the twenty-four commands, so it cannot be dropped silently, and
 `signoff.yml` also runs it in the offline `records` job, so drift fails there
 rather than only through the re-attest. The comparison is one-directional:
 an inventory entry the workflow does not (yet) run is more verification, not

@@ -3,15 +3,22 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 30/30 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 31/31 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 30,
-    "passed_count": 30,
+    "check_count": 31,
+    "passed_count": 31,
     "checks": [
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/scripts/install-xschem",
+        "passed": true,
+        "content_hash": "sha256:651f0298b85120721267ff2e3e7afe43ce8e1c5616cbcd70ae47e60aeacec6dc"
+      },
       {
         "check": "present",
         "role": "hygiene",
@@ -379,7 +386,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:233532d5d88319ea43bb6da66aee3493869a90d9c95a889f1541753190d547fa"
+      "content_hash": "sha256:7e8dde6484dcceb1fa984992b4caab96593fbf05840264ef7ab5789c10dd3de7"
     }
   }
 }
