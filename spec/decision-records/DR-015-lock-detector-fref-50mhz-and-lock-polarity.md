@@ -1,4 +1,4 @@
-# DR-011: extend `f_ref` to 50 MHz for `lock_detector`, set the trip band, and state LOCK polarity (active-low)
+# DR-015: extend `f_ref` to 50 MHz for `lock_detector`, set the trip band, and state LOCK polarity (active-low)
 
 - **Status**: proposed
 - **Date**: 2026-11-06
@@ -280,7 +280,7 @@ The contract is stated in `spec/target-spec.md` row 16 and in
   a superseding record are likely (Decision 3). #303 benches it. Neither is
   started by this record.
 - `spec/target-spec.md` and `spec/porting-plan.md` f_ref row 2 and row 16 are
-  amended as this record directs; every edit cites DR-011. The row 16 measured
+  amended as this record directs; every edit cites DR-015. The row 16 measured
   figure (12 to 37 % over 3.5 to 24.4 MHz) is left as the measurement it is,
   next to the new band.
 - Gate G5 of 2AMLogic/sg13g2-lc-pll can close only after this record is
@@ -291,7 +291,7 @@ The contract is stated in `spec/target-spec.md` row 16 and in
   out 2.4 % below it, predating this record, DR-005), needs a row 1 or row 3
   change under its own record; the operator ruling on #296 should cover it.
 - DR-005 is not edited to point forward to this record while both are
-  `proposed`; add an "amended by DR-011" line at ratification so a reader of
+  `proposed`; add an "amended by DR-015" line at ratification so a reader of
   DR-005 alone does not take 24.4 MHz as the lock-detector limit.
 - The measured 50 MHz figures are the sg13g2-lc-pll authors' simulations as
   reported on #296; this record did not read or re-run them. If #303 measures
