@@ -145,7 +145,8 @@ compares every `*.sch`/`*.sym` in a tree and each netlist against
 source or a netlist without re-stamping fails. It does **not** regenerate: it
 cannot show the stamped netlist equals what xschem emits for the stamped
 sources. That regeneration gate stays `netlist.yml` (`design/netlist.sh --check`,
-runner-apt xschem). After a design change: run both `netlist.sh`, get
+fleet-pinned xschem 3.4.7 built from the upstream tag by
+`.github/scripts/install-xschem`). After a design change: run both `netlist.sh`, get
 `netlist.yml` green, `python3 manifests/check_netlist_stamp.py --update`, then
 re-attest and regrade (commands under "Reproducing the grade").
 
@@ -177,11 +178,16 @@ item 11 only, so each partition row cites one envelope, mirroring item 4:
   are current. **"Regenerated on design change" is enforced separately** by
   [`.github/workflows/netlist.yml`](../.github/workflows/netlist.yml), which
   regenerates every netlist with the committed generators and fails on
-  `git diff`. Disclosed gaps of that gate: xschem is the runner's apt
-  package (not a pinned container), so the `* xschem XSCHEM Vx.y.z` banner
-  line (committed: 3.4.7; local verification used 3.4.4) is the one line
-  excluded from the diff; the SG13G2 PDK is pinned to the last IHP-Open-PDK
-  commit before the `mm_ok=1` symbol change (the host copy has no recorded
+  `git diff`. The gate builds the fleet-pinned xschem 3.4.7 from the
+  upstream tag via `.github/scripts/install-xschem` (issue #490) — the
+  same version the committed netlists were generated with. Disclosed gap
+  of that gate: the `* xschem XSCHEM Vx.y.z` banner line (committed:
+  3.4.7; local verification used 3.4.4) is still the one line excluded
+  from the diff (`git diff -I`) — redundant rather than load-bearing now
+  that the pinned build matches the committed banners, and tracked
+  separately in #494; it is excluded, not compared. The SG13G2 PDK is pinned
+  to the last IHP-Open-PDK commit before the `mm_ok=1` symbol change (the
+  host copy has no recorded
   revision, so this is a best-fit pin). The job was observed green on a
   GitHub runner on PR #155; the local run also reproduced all 12 netlists
   apart from that banner line.
