@@ -28,7 +28,7 @@ _None._
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
+_None._
 
 ## In Progress
 
@@ -37,16 +37,12 @@ Issues currently being built (`loom:building`).
 - **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#494**: netlist gate: the `-I'^\* xschem XSCHEM V'` banner exclusion is redundant once the gate is pinned to 3.4.7
-- **#495**: item-10 hygiene inventory does not cover .github/scripts/install-xschem, so the xschem pin is no longer hash-attested
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007)
-- **#496**: manifests: attest the xschem pin script in item-10's hygiene inventory
-- **#497**: ci: drop the xschem banner exclusion from the netlist drift gate
 
 ## Approved (Awaiting Merge)
 
@@ -70,9 +66,6 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
-- **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
-- **#494**: netlist gate: the `-I'^\* xschem XSCHEM V'` banner exclusion is redundant once the gate is pinned to 3.4.7 *(curated)*
-- **#495**: item-10 hygiene inventory does not cover .github/scripts/install-xschem, so the xschem pin is no longer hash-attested *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -97,11 +90,11 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 1 |
 | Very important | 0 |
 | Important | 4 |
-| Ready (`loom:issue`) | 1 |
-| In Progress (`loom:building`) | 5 |
-| PRs awaiting review | 3 |
+| Ready (`loom:issue`) | 0 |
+| In Progress (`loom:building`) | 3 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 15 |
+| Curated | 12 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->

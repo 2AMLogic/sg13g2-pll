@@ -8,6 +8,15 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-17
 
+- **PR #501**: sim: report an unresolved stdout as NOT COLLECTED, not a measured NA
+- **PR #500**: manifests: attest artifact-manifests.yml in item-10's hygiene inventory
+- **Issue #498** (closed): manifests/README.md item-10 defers the artifact-manifests.yml hygiene gap to "its own issue" that was never filed
+- **PR #497**: ci: drop the xschem banner exclusion from the netlist drift gate
+- **PR #496**: manifests: attest the xschem pin script in item-10's hygiene inventory
+- **Issue #495** (closed): item-10 hygiene inventory does not cover .github/scripts/install-xschem, so the xschem pin is no longer hash-attested
+- **Issue #494** (closed): netlist gate: the `-I'^* xschem XSCHEM V'` banner exclusion is redundant once the gate is pinned to 3.4.7
+- **Issue #453** (closed): sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
+- **Issue #117** (closed): renovate.json5: drop invalid 'uv' matchManagers entry and deprecated fetchReleaseNotes key
 - **PR #491**: ci: install fleet-pinned xschem 3.4.7 in the netlist gate
 - **Issue #490** (closed): xschem pin migration: migrate sg13g2-pll to the fleet 3.4.7
 - **PR #489**: docs: state only measured facts for the osdi-arch TAIL reason in run_gates.py
