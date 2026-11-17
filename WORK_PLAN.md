@@ -8,6 +8,7 @@ Current backlog state maintained by the Loom Guide role.
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
+- **#482**: ci: run check-osdi-arch.sh self-test in signoff workflow
 
 ## Very Important
 
@@ -28,10 +29,7 @@ _None._
 
 Human-approved issues ready for implementation (`loom:issue`).
 
-- **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope
-- **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
-- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
 
 ## In Progress
 
@@ -41,19 +39,21 @@ Issues currently being built (`loom:building`).
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#319**: Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL
+- **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007)
+- **#375**: sim: supersede loop-bandwidth-pm RECORD-001/002/002-r1 with batch-fleet reruns
 
 ## Approved (Awaiting Merge)
 
 PRs that passed review and are queued for Champion auto-merge (`loom:pr`).
 
 - **#304**: docs(spec): DR-011 lock_detector 50 MHz range, trip band, active-low LOCK
+- **#482**: ci: run check-osdi-arch.sh self-test in signoff workflow
 
 ## Proposed
 
@@ -72,11 +72,8 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)*
-- **#447**: Two residual stale statements in sim/provenance-migration.md left by #429's nine-site scope *(curated)*
-- **#449**: docs: gate docs/ROADMAP.md's spec-accounting figures against spec/target-spec.md §Accounting *(curated)*
 - **#453**: sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line" *(curated)*
 - **#464**: ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow *(curated)*
-- **#466**: check_signoff_inventory_parity.py: an *inline* trailing comment containing python3 still produces a false FAIL *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -98,14 +95,14 @@ Issues carrying `loom:curated`.
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 1 |
+| Operator merge-risk holds | 2 |
 | Very important | 0 |
 | Important | 4 |
-| Ready (`loom:issue`) | 4 |
+| Ready (`loom:issue`) | 1 |
 | In Progress (`loom:building`) | 5 |
-| PRs awaiting review | 1 |
-| Approved PRs awaiting merge | 1 |
-| Curated | 18 |
+| PRs awaiting review | 2 |
+| Approved PRs awaiting merge | 2 |
+| Curated | 15 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
