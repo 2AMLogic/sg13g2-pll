@@ -94,7 +94,9 @@ TAIL = (
         "name": "artifact-manifests-unit-tests",
         "argv": ["python3", "-B", "scripts/test_check_artifact_manifests.py"],
         "reason": "Same scope reason as its check: it belongs to "
-                  "artifact-manifests.yml, which item-10 does not inventory.",
+                  "artifact-manifests.yml; item-10's checks scope is "
+                  "signoff.yml's gates only (the workflow file itself is "
+                  "attested in hygiene, #498).",
     },
     {
         "name": "stdlib-gates-runner-unit-tests",

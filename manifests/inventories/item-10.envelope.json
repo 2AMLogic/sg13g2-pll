@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 31/31 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 32/32 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 31,
-    "passed_count": 31,
+    "check_count": 32,
+    "passed_count": 32,
     "checks": [
       {
         "check": "present",
@@ -18,6 +18,13 @@
         "path": ".github/scripts/install-xschem",
         "passed": true,
         "content_hash": "sha256:651f0298b85120721267ff2e3e7afe43ce8e1c5616cbcd70ae47e60aeacec6dc"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/artifact-manifests.yml",
+        "passed": true,
+        "content_hash": "sha256:073f212d393f36353642df2bdfac4642833fba3cccdebf3132b0f2c50a9ac581"
       },
       {
         "check": "present",
@@ -386,7 +393,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:7e8dde6484dcceb1fa984992b4caab96593fbf05840264ef7ab5789c10dd3de7"
+      "content_hash": "sha256:ce6b8af66ae5de82dbc3260794aaf3690d2d5ff0e595d5972429db1ec5aad41d"
     }
   }
 }
