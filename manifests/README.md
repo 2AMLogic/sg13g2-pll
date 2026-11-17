@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `7e8dde64…3de7` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `ce6b8af6…d41d` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -588,8 +588,9 @@ mixed-signal block. The envelope is tool-produced (`klt signoff --attest 10
 hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
-hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the three workflows
-`.github/workflows/{signoff,layout-tests,netlist}.yml`, and the xschem pin
+hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the four workflows
+`.github/workflows/{signoff,layout-tests,netlist,artifact-manifests}.yml`,
+and the xschem pin
 `.github/scripts/install-xschem` (#495) — the fleet-pinned build (#490) that
 `netlist.yml`'s regeneration gate installs from; attesting its bytes is what
 keeps that gate's "same version as the committed netlists" claim checkable.
@@ -630,13 +631,16 @@ error, not a silent skip.
   the **only** gate `signoff.yml` runs that the inventory omits, and the parity
   check above is what keeps that true — it is the one entry in that script's
   exclusion table.
-- It does not attest `.github/workflows/artifact-manifests.yml` or the two
-  gates that workflow runs (`scripts/check_artifact_manifests.py` and its unit
-  test): that workflow is absent from the `hygiene` list, so its bytes are
-  unattested and its gates are outside the parity check's `signoff.yml`-scoped
-  comparison. A `hygiene`-list gap, not a `checks`-list gap; widening the
-  attestation surface would change what item 10 claims, so it is left to its
-  own issue.
+- It attests `.github/workflows/artifact-manifests.yml`'s bytes (the fourth
+  workflow, added to the `hygiene` list by #498) but does not run the three
+  gates that workflow runs (`scripts/check_artifact_manifests.py`, its unit
+  test, and `scripts/test_run_gates.py`): they stay out of the `checks` list
+  because item 10's checks claim is scoped to `signoff.yml`'s gates, and the
+  parity check above enforces exactly that `signoff.yml`-scoped comparison —
+  inventorying another workflow's gates would add an enumeration nothing
+  guards (adding a gate there would not fail CI), the drift #395 deleted.
+  The three gates are mirrored, each with its reason, in
+  `scripts/run_gates.py`'s `TAIL` instead (#393).
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's
