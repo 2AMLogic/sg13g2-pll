@@ -108,6 +108,13 @@ class Cit(unittest.TestCase):
         p.write_text(text)
         return p
 
+    def write_roadmap(self, text):
+        d = self.tmp / "docs"
+        d.mkdir(exist_ok=True)
+        p = d / "ROADMAP.md"
+        p.write_text(text)
+        return p
+
     def test_row11_per_domain_path(self):
         errs = self.mutate("records/RECORD-004-crowbar-current-mitigation.md`.",
                            "records/RECORD-404-gone.md`.")
@@ -146,6 +153,32 @@ class Cit(unittest.TestCase):
         import re
         text = re.sub(r"^## Accounting\n.*", "", SPEC, flags=re.M | re.S)
         self.assertFails(self.run_spec(text), "no '## Accounting'")
+
+    def test_roadmap_file_absent_passes(self):
+        # setUp roots the temp tree at no docs/; a missing ROADMAP is a pass.
+        self.assertEqual(self.run_spec(SPEC), [])
+
+    def test_roadmap_total_mismatch(self):
+        self.write_roadmap("The spec has 17 rows: 5 measured, 3 proposed, "
+                           "2 not specified, 8 open.")
+        errs = self.run_spec(SPEC)
+        self.assertFails(errs, "roadmap:", "says 17 rows", "Row table has 18")
+
+    def test_roadmap_status_count_mismatch(self):
+        self.write_roadmap("The spec has 18 rows: 6 measured, 3 proposed, "
+                           "2 not specified, 8 open.")
+        errs = self.run_spec(SPEC)
+        self.assertFails(errs, "roadmap:", "says 6 measured, Row table has 5")
+
+    def test_roadmap_sentence_absent_passes(self):
+        self.write_roadmap("# Roadmap\n\nNo spec figures quoted here.\n")
+        self.assertEqual(self.run_spec(SPEC), [])
+
+    def test_roadmap_rewrapped_still_checked(self):
+        self.write_roadmap("The spec has 18 rows: 5 measured,\n3 proposed, "
+                           "2 not specified, 7 open.")
+        errs = self.run_spec(SPEC)
+        self.assertFails(errs, "roadmap:", "says 7 open, Row table has 8")
 
 
 if __name__ == "__main__":
