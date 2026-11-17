@@ -21,6 +21,9 @@ sim/build/
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319/
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319_*.request.json
 sim/sg13cmos5l-loop-bandwidth-pm/testbench/probe319.request.json
+# collection scratch: per-unit attach/collect dirs, re-derivable from the
+# job ids recorded in the records via `klt sim <chunk.request.json> --attach`
+sim/sg13cmos5l-loop-bandwidth-pm/testbench/rerun319-*/
 # synthesis / P&R scratch
 flow/build/
 # local klt install, created by the setup script
