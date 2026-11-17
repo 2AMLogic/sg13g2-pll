@@ -160,6 +160,28 @@ class Parity(unittest.TestCase):
             {("gate.py", ()): [6], ("other.py", ()): [8]},
         )
 
+    def test_inline_comment_ending_in_backslash_keeps_later_command(self):
+        r"""Case E: a `\` that lives inside an *inline* comment continues
+        nothing -- the comment ends at the newline -- so the next physical
+        line is a separate, real command and must be recorded at its own
+        line. Pre-fix this test fails: the join triggered on the comment's
+        backslash, and the post-join truncation swallowed `other.py`
+        entirely (the silent false-PASS the Judge's review blocks on).
+        """
+        text = (
+            "jobs:\n"
+            "  records:\n"
+            "    steps:\n"
+            "      - name: A gate\n"
+            "        run: |\n"
+            "          python3 gate.py  # note \\\n"
+            "          python3 other.py\n"
+        )
+        self.assertEqual(
+            chk.workflow_invocations(text),
+            {("gate.py", ()): [6], ("other.py", ()): [7]},
+        )
+
     def test_inline_trailing_comment_is_not_scanned(self):
         r"""Shape B (issue #466): a commented-out gate on the same physical
         line as a real one was recorded as live, demanding a spurious
