@@ -782,6 +782,9 @@ fresh report against the committed one.
   cited in `spec/target-spec.md`'s Row table exists, and that Status is M/P/N/O
   with M rows citing a record and O rows carrying a gate or ruling. Structure
   and resolution only: it never reads bounds or compares Status to measured
-  compliance.
+  compliance. When `docs/ROADMAP.md` quotes the spec's accounting figures ("The
+  spec has N rows: ..."), the gate also cross-checks that sentence's total and
+  per-status counts against the Row table; a missing ROADMAP file or a missing
+  sentence is a pass.
 
 New raw evidence stored outside git is described in [`artifacts/README.md`](artifacts/README.md).
