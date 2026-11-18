@@ -599,9 +599,13 @@ and must exit 0: the records checker and its unit tests, the summary
 generator's unit tests and `--check`, the six `manifests/check_*` gates with
 their unit tests, the `manifests/check_netlist_stamp.py` and
 `design/check_pfd_reset_parity.py` unit tests plus the parity check itself,
-the two `sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction
-self-tests, and the `sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run
-guard self-test. These are the repo's offline gate set, written once in the
+the three `sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction
+self-tests (`test_cpdiag_metrics.py`, `test_mismatch_gain_metrics.py`,
+`test_collect_125c_acquisition.py`), the
+`sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py`
+threshold-grid self-test, and the
+`sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run guard self-test.
+These are the repo's offline gate set, written once in the
 inventory (#503, the one-source ruling): `signoff.yml`'s `records` job runs
 exactly this list through `scripts/run_gates.py` — the same list the local
 `pnpm test` / `check:ci` run — and this attest re-executes every entry. In
