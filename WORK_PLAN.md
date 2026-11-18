@@ -36,7 +36,6 @@ Issues currently being built (`loom:building`).
 - **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#507**: Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503)
 
 ## PRs Awaiting Review
 
@@ -66,7 +65,6 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
-- **#507**: Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -92,10 +90,10 @@ Issues carrying `loom:curated`.
 | Very important | 1 |
 | Important | 3 |
 | Ready (`loom:issue`) | 0 |
-| In Progress (`loom:building`) | 4 |
+| In Progress (`loom:building`) | 3 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 13 |
+| Curated | 12 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
