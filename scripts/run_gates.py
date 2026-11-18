@@ -6,44 +6,41 @@ stdlib gate in two `&&` chains (`test`, `check:ci`) that nothing reconciled
 against `.github/workflows/signoff.yml` -- add a 14th gate to the workflow and
 the local command quietly stopped mirroring CI. This runner deletes that
 second enumeration: the gate list is *derived* from
-`manifests/inventories/item-10.json`'s `checks[].argv`, the attested claim
-about which gates exist, which `scripts/check_signoff_inventory_parity.py`
-(#395) already guards against workflow drift:
+`manifests/inventories/item-10.json`'s `checks[].argv` -- the one list the
+repo's offline stdlib gates are written in (#503, the one-source ruling
+2am#7561). `.github/workflows/signoff.yml`'s `records` job runs exactly this
+list through this runner, so CI and the local `pnpm test` / `pnpm run
+check:ci` execute the same commands, and `klt signoff --attest 10`
+re-executes and attests every entry of it in `grade`. A gate added to the
+inventory runs locally, in the `records` job and in the re-attest
+automatically; there is no second copy and nothing compares two copies.
 
-    signoff.yml --guarded by #393's predecessor (#399)--> item-10.json
-                --derived by construction-->            this runner
-
-The mirror invariant, stated once: python3 gates reach this list via the
-inventory -- a gate added to signoff.yml must be inventoried or the parity
-guard fails CI, and once inventoried it appears in `pnpm test` /
-`pnpm run check:ci` here automatically -- while a non-python3 gate is not
-inventoried by declared scope: the parity guard is python3-only (its
-`PYTHON3_RE` matches whole-word `python3`), and this runner accepts only
+The remaining scope line: python3 gates reach this list via the inventory,
+while a non-python3 gate is not inventoried -- this runner accepts only
 `python3` entries, so a bash gate has no inventoried path and is mirrored
 through TAIL, by hand, with a reason. `klt signoff --attest` can carry a
 non-python3 argv (measured at the CI pin, klayout-tools==0.8.0, issue
 #486), so keeping the bash gate out is a scope choice (#483 option 1),
-not a tool limit. No new parser: each `argv`
-is taken verbatim as a token list (the repo keeps exactly one
-python3-invocation-text parser, the parity checker), and the only
+not a tool limit. No parser of invocation text at all: each `argv`
+is taken verbatim as a token list, and the only
 classification is `--tests`, on the gate file's basename.
 
-item-10.json scopes `checks` to signoff.yml's gates, so four real gates --
+item-10.json's `checks` claim covers the offline gates run from the repo
+root directly; steps that only make sense in CI (the base-ref append-only
+check, the klt attest steps themselves) and other workflows' gates stay
+out, so four real gates --
 plus this runner's own unit test -- are appended here as a literal,
 reason-bearing tail instead:
 
 - `manifests/check_netlist_stamp.py` -- CI reaches it only through
-  `klt signoff --attest 1`, never as a direct `python3` line, so the parity
-  guard does not require it in the inventory.
+  `klt signoff --attest 1`, never as a direct `python3` line in a
+  workflow.
 - `scripts/check_artifact_manifests.py` and
   `scripts/test_check_artifact_manifests.py` -- they live in
   `.github/workflows/artifact-manifests.yml`, not signoff.yml.
-- `sim/tools/check-osdi-arch.sh --self-test` -- signoff.yml runs it as a
-  direct `bash` line (issue #464); the inventory's declared scope and the
-  parity guard's `PYTHON3_RE` are python3-only, so it is kept out of the
-  inventory and mirrored here by hand -- a scope choice (#483 option 1),
-  not a tool limit: `klt signoff --attest` can carry a non-python3 argv
-  (measured at the CI pin, klayout-tools==0.8.0, issue #486).
+- `sim/tools/check-osdi-arch.sh --self-test` -- a bash gate; the
+  inventory's declared scope and this runner's python3 rule keep it out
+  of the inventory (see above).
 - `scripts/test_run_gates.py` -- this runner's own unit test, wired into
   artifact-manifests.yml by #393. The tail is unguarded by construction;
   it is small, static, and each entry carries its reason.
@@ -74,15 +71,15 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = REPO_ROOT / "manifests" / "inventories" / "item-10.json"
 
 # Gates check:ci runs that item-10.json deliberately does not inventory (its
-# `description` scopes `checks` to signoff.yml's gates only). Literal table,
-# each with its reason; see the module docstring.
+# `description` scopes `checks` to the offline gates run from the repo root
+# directly). Literal table, each with its reason; see the module docstring.
 TAIL = (
     {
         "name": "netlist-stamp",
         "argv": ["python3", "-B", "manifests/check_netlist_stamp.py"],
         "reason": "CI reaches this gate only through `klt signoff --attest 1` "
-                  "on item-1, never as a direct python3 line in signoff.yml, "
-                  "so the inventory-parity guard does not require it.",
+                  "on item-1, never as a direct python3 line in a workflow, "
+                  "so item-10's checks do not name it.",
     },
     {
         "name": "artifact-manifests",
@@ -108,12 +105,12 @@ TAIL = (
     {
         "name": "osdi-arch-self-test",
         "argv": ["bash", "sim/tools/check-osdi-arch.sh", "--self-test"],
-        "reason": "signoff.yml runs this as a direct bash line (issue #464); "
-                  "the inventory's declared scope and the parity guard are "
-                  "python3-only, so it is kept out of the inventory and "
-                  "mirrored here by hand -- a scope choice (#483 option 1), "
-                  "not a klt limit: klt 0.8.0 attest can carry a non-python3 "
-                  "argv (measured at the CI pin, issue #486).",
+        "reason": "A bash gate: the inventory's declared scope and this "
+                  "runner's python3 rule are python3-only, so it is kept "
+                  "out of the inventory and mirrored here by hand -- a "
+                  "scope choice (#483 option 1), not a klt limit: klt 0.8.0 "
+                  "attest can carry a non-python3 argv (measured at the CI "
+                  "pin, issue #486).",
     },
 )
 
