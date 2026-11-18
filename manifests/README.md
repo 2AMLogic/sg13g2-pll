@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `d4e21cb4…618a` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `3df5e513…128` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -590,10 +590,16 @@ hand-written, and nothing is borrowed from another item's evidence.
 **What the attestation checks.** Each of the hygiene files exists and is
 hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the four workflows
 `.github/workflows/{signoff,layout-tests,netlist,artifact-manifests}.yml`,
-and the xschem pin
+the xschem pin
 `.github/scripts/install-xschem` (#495) — the fleet-pinned build (#490) that
 `netlist.yml`'s regeneration gate installs from; attesting its bytes is what
-keeps that gate's "same version as the committed netlists" claim checkable.
+keeps that gate's "same version as the committed netlists" claim checkable —
+and the gate runner `scripts/run_gates.py` itself (#507): since #503 the
+`records` job runs one line, this runner, and the runner's `TAIL` is the one
+gate list no inventory's `checks` cover, so hashing its bytes restores the
+byte-binding the `osdi-arch` self-test had when it was a `signoff.yml` line —
+deleting or editing a `TAIL` entry now changes the hash and fails the
+re-attest.
 Twenty-four audit commands then each run, without a shell, from the repo root
 and must exit 0: the records checker and its unit tests, the summary
 generator's unit tests and `--check`, the six `manifests/check_*` gates with
@@ -644,7 +650,9 @@ automatically.
   because item 10's checks claim does not scope to that workflow, and
   inventorying another workflow's gates would add an enumeration this
   re-attest does not consume. The three gates are mirrored, each with its
-  reason, in `scripts/run_gates.py`'s `TAIL` instead (#393).
+  reason, in `scripts/run_gates.py`'s `TAIL` instead (#393) — and the runner's
+  own bytes are hashed in `hygiene` (#507), so that mirroring cannot drift
+  silently: a `TAIL` edit changes the hash and fails the re-attest.
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's
@@ -766,7 +774,8 @@ process's working directory — no manifest-relative anchoring):
 
 Regenerate the item-1 envelope likewise (`--attest 1`, `-o …/item-1.envelope.json`) after a design change. Regenerate the item-10 envelope with the same command plus
 `-o manifests/inventories/item-10.envelope.json` whenever an inventoried
-file (the hygiene files, including `signoff.yml`) or the inventory changes,
+file (the hygiene files, including `signoff.yml` and, since #507,
+`scripts/run_gates.py` itself) or the inventory changes,
 then regenerate the tier report. The hygiene files are hashed into the
 envelope, so editing one without re-attesting fails CI.
 
