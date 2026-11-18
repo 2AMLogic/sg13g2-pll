@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 10,
-  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, the xschem pin script those workflows install from (#495), and the offline stdlib-only gates those workflows run -- every python3 gate signoff.yml invokes except the base-ref append-only check, which needs a PR base. That claim is enforced rather than maintained by hand: the signoff-inventory-parity check below fails when signoff.yml invokes a gate this list omits (#395).",
+  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, the xschem pin script those workflows install from (#495), and the offline stdlib-only gates this repo runs -- written once, in this `checks` list (#503, the one-source ruling 2am#7561): `signoff.yml`'s `records` job runs exactly this list through `scripts/run_gates.py` (as do the local `pnpm test` / `check:ci`), and `klt signoff --attest 10` below re-executes every entry, so there is no second list to keep in step. Gates that cannot join the list: the base-ref append-only record check (needs a PR base; signoff.yml runs it on pull requests) and the gates of `artifact-manifests.yml`, which item 10's checks claim does not scope to -- mirrored with reasons in `scripts/run_gates.py`'s TAIL.",
   "hygiene": [
     "README.md",
     "LICENSE",
@@ -205,22 +205,6 @@
         "python3",
         "-B",
         "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
-      ]
-    },
-    {
-      "name": "signoff-inventory-parity",
-      "argv": [
-        "python3",
-        "-B",
-        "scripts/check_signoff_inventory_parity.py"
-      ]
-    },
-    {
-      "name": "signoff-inventory-parity-unit-tests",
-      "argv": [
-        "python3",
-        "-B",
-        "scripts/test_check_signoff_inventory_parity.py"
       ]
     }
   ]
