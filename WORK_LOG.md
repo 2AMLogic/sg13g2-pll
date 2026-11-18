@@ -8,6 +8,8 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-18
 
+- **PR #510**: manifests: attest scripts/run_gates.py in item-10's hygiene inventory
+- **Issue #507** (closed): Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503)
 - **PR #508**: docs: complete the item-10 audit-command enumeration (24 checks, was 22)
 - **Issue #506** (closed): manifests/README.md: the item-10 "Twenty-four audit commands" enumeration lists only 22
 - **PR #505**: ci: single-source the item-10 gate list — signoff.yml runs run_gates.py
