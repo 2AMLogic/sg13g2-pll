@@ -42,8 +42,11 @@ reason-bearing tail instead:
   inventory's declared scope and this runner's python3 rule keep it out
   of the inventory (see above).
 - `scripts/test_run_gates.py` -- this runner's own unit test, wired into
-  artifact-manifests.yml by #393. The tail is unguarded by construction;
-  it is small, static, and each entry carries its reason.
+  artifact-manifests.yml by #393. The tail is byte-bound, not unguarded:
+  item-10's `hygiene` list hashes this runner's own bytes (#507), so
+  deleting or editing a tail entry here changes the hash and fails the
+  `grade` job's re-attest -- the hand mirroring cannot drift silently.
+  The tail is small, static, and each entry carries its reason.
 
 Semantics: gates run in order, tests before checks (mirroring the old
 `check:ci` = `pnpm run test && <checks>` shape, stable within each group),
