@@ -6,6 +6,13 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-18
+
+- **PR #508**: docs: complete the item-10 audit-command enumeration (24 checks, was 22)
+- **Issue #506** (closed): manifests/README.md: the item-10 "Twenty-four audit commands" enumeration lists only 22
+- **PR #505**: ci: single-source the item-10 gate list — signoff.yml runs run_gates.py
+- **Issue #503** (closed): Single-source the item-10 gate list: signoff.yml and the item-10 inventory share one list
+
 ### 2026-11-17
 
 - **PR #501**: sim: report an unresolved stdout as NOT COLLECTED, not a measured NA

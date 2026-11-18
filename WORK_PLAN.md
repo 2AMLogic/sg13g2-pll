@@ -13,7 +13,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 `loom:very-important` (one counts per workspace); every stage takes these first.
 
-_None._
+- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296)
 
 ## Important
 
@@ -22,11 +22,10 @@ _None._
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance
 - **#250**: Re-stamp SG13CMOS5L PDK pin from klayout-tools (IHP-Open-PDK dev f7bca326) *(held)*
-- **#301**: DR: extend f_ref to 50 MHz, state LOCK polarity and trip band for lock_detector (amends DR-005; part of #296)
 
 ## Ready
 
-Human-approved issues ready for implementation (`loom:issue`).
+Human-approved issues (`loom:issue`) ready for implementation.
 
 _None._
 
@@ -37,7 +36,7 @@ Issues currently being built (`loom:building`).
 - **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#503**: Single-source the item-10 gate list: signoff.yml and the item-10 inventory share one list
+- **#507**: Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503)
 
 ## PRs Awaiting Review
 
@@ -67,7 +66,7 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
-- **#503**: Single-source the item-10 gate list: signoff.yml and the item-10 inventory share one list *(curated)*
+- **#507**: Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -90,8 +89,8 @@ Issues carrying `loom:curated`.
 | Bucket | Count |
 |------|-------|
 | Operator merge-risk holds | 1 |
-| Very important | 0 |
-| Important | 4 |
+| Very important | 1 |
+| Important | 3 |
 | Ready (`loom:issue`) | 0 |
 | In Progress (`loom:building`) | 4 |
 | PRs awaiting review | 1 |
