@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-20T17:21:42Z (snapshot; compare against live labels)_
+_Generated: 2026-11-20T21:39:12Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -23,12 +23,17 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 - **#182**: sim records: backfill PDK revision for pre-gate records and pin ihp-sg13g2 (T1 item 9)
 - **#217**: Item 9 campaign: SG13G2 divider, lock-detector, and VCO provenance
 - **#250**: Re-stamp SG13CMOS5L PDK pin from klayout-tools (IHP-Open-PDK dev f7bca326) *(held)*
+- **#514**: divider_chain: structural redesign of the high-speed front end (XD0 first) so the chain divides exactly at 1562 MHz across the 9-corner star (row 3, R-3, DR-012 follow-up)
+- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3)
+- **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
 
 ## Ready
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-_None._
+- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3)
+- **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
+- **#518**: sim: transient-noise period-jitter method bench for the free-running vco (row 8 method gap, R-7; depends on klayout-tools#5772)
 
 ## In Progress
 
@@ -36,6 +41,7 @@ Issues currently being built (`loom:building`).
 
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
+- **#514**: divider_chain: structural redesign of the high-speed front end (XD0 first) so the chain divides exactly at 1562 MHz across the 9-corner star (row 3, R-3, DR-012 follow-up)
 
 ## PRs Awaiting Review
 
@@ -65,6 +71,10 @@ Issues carrying `loom:curated`.
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
+- **#514**: divider_chain: structural redesign of the high-speed front end (XD0 first) so the chain divides exactly at 1562 MHz across the 9-corner star (row 3, R-3, DR-012 follow-up) *(curated)*
+- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3) *(curated)*
+- **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2) *(curated)*
+- **#518**: sim: transient-noise period-jitter method bench for the free-running vco (row 8 method gap, R-7; depends on klayout-tools#5772) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -88,12 +98,12 @@ Issues carrying `loom:curated`.
 |------|-------|
 | Operator merge-risk holds | 1 |
 | Very important | 1 |
-| Important | 3 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 2 |
+| Important | 6 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 3 |
+| In Progress (`loom:building`) | 3 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 12 |
+| Curated | 16 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
