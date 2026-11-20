@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-19T09:41:14Z (snapshot; compare against live labels)_
+_Generated: 2026-11-20T17:21:42Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -34,7 +34,6 @@ _None._
 
 Issues currently being built (`loom:building`).
 
-- **#188**: vco: close spec row 13 duty-cycle shortfall at -40 C by sizing (R-8, T1 item 5)
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 
@@ -91,7 +90,7 @@ Issues carrying `loom:curated`.
 | Very important | 1 |
 | Important | 3 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 3 |
+| In Progress (`loom:building`) | 2 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
 | Curated | 12 |
