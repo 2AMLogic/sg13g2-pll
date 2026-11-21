@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-21T18:29:58Z (snapshot; compare against live labels)_
+_Generated: 2026-11-21T21:10:08Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -32,9 +32,7 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3)
 - **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
-- **#525**: docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell)
 
 ## In Progress
 
@@ -42,12 +40,15 @@ Issues currently being built (`loom:building`).
 
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
+- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3)
+- **#525**: docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell)
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007) *(held)*
+- **#528**: docs: restate the real-divider nominal lock per RECORD-002 in ROADMAP, chipalooza and spec row 7
 
 ## Approved (Awaiting Merge)
 
@@ -100,9 +101,9 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 1 |
 | Very important | 1 |
 | Important | 7 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 3 |
-| In Progress (`loom:building`) | 2 |
-| PRs awaiting review | 1 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
+| In Progress (`loom:building`) | 4 |
+| PRs awaiting review | 2 |
 | Approved PRs awaiting merge | 1 |
 | Curated | 17 |
 | Architect / Hermit proposals | 5 |
