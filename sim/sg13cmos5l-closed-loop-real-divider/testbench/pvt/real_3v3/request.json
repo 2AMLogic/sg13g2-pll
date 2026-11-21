@@ -95,7 +95,7 @@
     "stage_model_inputs": true,
     "ngspice_init": [
       "set numdgt=12",
-      "set num_threads=2"
+      "set num_threads=4"
     ],
     "save_vectors": [
       "v(ref)",
@@ -117,16 +117,6 @@
     "units": [
       {
         "process": "mos_tt",
-        "temperature_c": -40,
-        "supply_v": {
-          "vdd_pfd": 3.3,
-          "vdd_cp": 3.3,
-          "vdd_vco": 3.3,
-          "vdd_div": 3.3
-        }
-      },
-      {
-        "process": "mos_tt",
         "temperature_c": 27,
         "supply_v": {
           "vdd_pfd": 3.3,
@@ -147,16 +137,6 @@
       },
       {
         "process": "mos_ss",
-        "temperature_c": -40,
-        "supply_v": {
-          "vdd_pfd": 3.3,
-          "vdd_cp": 3.3,
-          "vdd_vco": 3.3,
-          "vdd_div": 3.3
-        }
-      },
-      {
-        "process": "mos_ss",
         "temperature_c": 27,
         "supply_v": {
           "vdd_pfd": 3.3,
@@ -177,16 +157,6 @@
       },
       {
         "process": "mos_ff",
-        "temperature_c": -40,
-        "supply_v": {
-          "vdd_pfd": 3.3,
-          "vdd_cp": 3.3,
-          "vdd_vco": 3.3,
-          "vdd_div": 3.3
-        }
-      },
-      {
-        "process": "mos_ff",
         "temperature_c": 27,
         "supply_v": {
           "vdd_pfd": 3.3,
@@ -207,16 +177,6 @@
       },
       {
         "process": "mos_sf",
-        "temperature_c": -40,
-        "supply_v": {
-          "vdd_pfd": 3.3,
-          "vdd_cp": 3.3,
-          "vdd_vco": 3.3,
-          "vdd_div": 3.3
-        }
-      },
-      {
-        "process": "mos_sf",
         "temperature_c": 27,
         "supply_v": {
           "vdd_pfd": 3.3,
@@ -228,16 +188,6 @@
       {
         "process": "mos_sf",
         "temperature_c": 125,
-        "supply_v": {
-          "vdd_pfd": 3.3,
-          "vdd_cp": 3.3,
-          "vdd_vco": 3.3,
-          "vdd_div": 3.3
-        }
-      },
-      {
-        "process": "mos_fs",
-        "temperature_c": -40,
         "supply_v": {
           "vdd_pfd": 3.3,
           "vdd_cp": 3.3,

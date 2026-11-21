@@ -1,0 +1,56 @@
+{
+  "fingerprint": "5067ed4d0166b7ffdfb57c1c5734b6ba19c8e1852976da256247bac3c8ca5140",
+  "hosts": 3,
+  "jobs_prefix": "jobs",
+  "profile": "batch-runner-submit",
+  "region": "us-east-1",
+  "schema_version": 1,
+  "shards": [
+    {
+      "collected_at": null,
+      "index": 0,
+      "job_id": "klt-sim-a6424be1a0bf",
+      "launch_started_at": "2026-11-21T13:55:40.438649+00:00",
+      "launched_at": null,
+      "state": "launching",
+      "submitted_at": "2026-11-21T13:55:40.437017+00:00",
+      "units": [
+        "mos_tt/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/27C",
+        "mos_tt/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/125C",
+        "mos_ss/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/27C",
+        "mos_ss/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/125C"
+      ],
+      "units_sha256": "a5937231f228a81831fa90a05fc9767fcc5dbc27f3b3465dfcde8a3d01bc7d8b"
+    },
+    {
+      "collected_at": null,
+      "index": 1,
+      "job_id": "klt-sim-e6d676d6323a",
+      "launch_started_at": "2026-11-21T13:55:40.406124+00:00",
+      "launched_at": "2026-11-21T13:57:33.575242+00:00",
+      "state": "launched",
+      "submitted_at": "2026-11-21T13:55:40.404433+00:00",
+      "units": [
+        "mos_ff/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/27C",
+        "mos_ff/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/125C",
+        "mos_sf/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/27C"
+      ],
+      "units_sha256": "172be781e9fbeeccc096f654207e7b53d7d0a7b7795400365a300cc93147b203"
+    },
+    {
+      "collected_at": null,
+      "index": 2,
+      "job_id": "klt-sim-236e273e732b",
+      "launch_started_at": null,
+      "launched_at": null,
+      "state": "pending",
+      "submitted_at": null,
+      "units": [
+        "mos_sf/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/125C",
+        "mos_fs/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/27C",
+        "mos_fs/vdd_cp=3.300_vdd_div=3.300_vdd_pfd=3.300_vdd_vco=3.300V/125C"
+      ],
+      "units_sha256": "ee8a3ef94a17490dede919efefbb5c7b4c1c079b64e309317ad5151099909466"
+    }
+  ]
+}

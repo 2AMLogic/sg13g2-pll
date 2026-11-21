@@ -23,7 +23,7 @@
 *   S6 control arm only: ideal behavioural divider.
 *   S7 real arm only: latch .ic symmetry break on divider flops.
 
-.option scale=1
+.option scale=1 reltol=1e-3 vntol=1e-4 abstol=1e-9 trtol=7
 .global sub!
 
 * Netlist provenance snapshot -- sim/README.md convention

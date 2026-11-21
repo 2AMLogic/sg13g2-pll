@@ -260,9 +260,11 @@ def main() -> None:
     ap.add_argument("reports", nargs="+", help="klt sim report JSON file(s)")
     ap.add_argument("--pinned-closure", required=True,
                     help="the generator's pinned-closure.csv")
-    ap.add_argument("--real-netlist", required=True,
-                    help="the real-arm request's pll_real.cir (arm matching)")
-    ap.add_argument("--control-netlist", required=True,
+    ap.add_argument("--real-netlist", action="append", required=True,
+                    help="a real-arm request netlist (repeatable: the 3.3 V, "
+                         "3.0 V and 3.6 V bodies differ; every member report "
+                         "must match one of them)")
+    ap.add_argument("--control-netlist", action="append", required=True,
                     help="the control-arm request's pll_control.cir")
     ap.add_argument("--out-dir", required=True,
                     help="append-only artifact dir (e.g. ../corners/pvt1)")
@@ -273,7 +275,8 @@ def main() -> None:
 
     def sha(p):
         return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
-    arm_sha = {"real": sha(a.real_netlist), "control": sha(a.control_netlist)}
+    arm_sha = {"real": [sha(p) for p in a.real_netlist],
+               "control": [sha(p) for p in a.control_netlist]}
 
     closure = []
     with open(a.pinned_closure) as fh:
@@ -289,9 +292,9 @@ def main() -> None:
         for job_id, rep in iter_reports(doc):
             env = rep.get("environment", {})
             nl_sha = env.get("netlist_sha256")
-            if nl_sha == arm_sha["real"]:
+            if nl_sha in arm_sha["real"]:
                 arm = "real"
-            elif nl_sha == arm_sha["control"]:
+            elif nl_sha in arm_sha["control"]:
                 arm = "control"
             else:
                 raise SystemExit(f"{path}: report member netlist sha {nl_sha} "

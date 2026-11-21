@@ -179,7 +179,14 @@ def body_for(arm: str, vdd: float) -> str:
         if ln.startswith((".lib ", ".tran ", ".save ", ".end")):
             continue
         if ln.startswith(".option "):
-            keep.append(".option scale=1")
+            # RECORD-002's deck is `.option scale=1 temp=@TEMP@` and converged
+            # at 27 C; at -40 C that tran aborts (timestep too small, dynamic
+            # gmin stepping failed -- attempt 1 of this campaign, all three
+            # cold units). The divider-max-frequency campaign's proven cold-
+            # corner line (tb_div_maxfreq.sp.tmpl, its -40 C star points) is
+            # added verbatim: same DUT family, same solver.
+            keep.append(".option scale=1 reltol=1e-3 vntol=1e-4 abstol=1e-9 "
+                        "trtol=7")
             continue
         if ln.startswith(".include pll_blocks_realdiv.spice"):
             keep.append(build_blocks(arm).rstrip("\n"))
@@ -281,7 +288,7 @@ def write_request(d: pathlib.Path, arm: str, pts, tech: pathlib.Path,
         "options": {
             "osdi_preload": [f"{tech}/osdi/{n}.osdi" for n in OSDI],
             "stage_model_inputs": True,
-            "ngspice_init": ["set numdgt=12", "set num_threads=2"],
+            "ngspice_init": ["set numdgt=12", "set num_threads=4"],
             "save_vectors": ["v(ref)", "v(fb)", "v(vctrl)", "v(clk)"],
             "timeout_s": timeout_s,
             "max_workers": 4,
@@ -367,14 +374,27 @@ def main() -> None:
     all_units = []
     if not a.probe_only:
         real = units_for("real")
-        groups = {"real_3v3": [p for p in real if p[3] == 3.3],
-                  "real_3v0": [p for p in real if p[3] == 3.0],
-                  "real_3v6": [p for p in real if p[3] == 3.6],
-                  "control": units_for("control")}
+        # The five -40 C units are the stiffest transients of the campaign
+        # (attempt 1: the three that ran all aborted at default tolerances,
+        # the other two were never launched) and the fleet's
+        # whole-job ceiling is a hard 3600 s (batch-fleet.env
+        # BATCH_MAX_JOB_SECONDS), so each runs as its OWN single-unit job --
+        # a cold unit that overruns then dies alone instead of taking its
+        # shard-mates with it. The twelve warm 3.3 V units shard 4-per-job.
+        warm = [p for p in real if p[3] == 3.3 and p[2] != -40]
+        cold = [p for p in real if p[3] == 3.3 and p[2] == -40]
+        groups = {"real_3v3": warm}
+        groups.update({f"real_cold_{p[1].split('_')[1]}_-40c": [p]
+                       for p in cold})
+        groups.update({"real_3v0": [p for p in real if p[3] == 3.0],
+                       "real_3v6": [p for p in real if p[3] == 3.6],
+                       "control": units_for("control")})
         for name, pts in groups.items():
             arm = "control" if name == "control" else "real"
-            write_request(out / name, arm, pts, tech, a.timeout_s,
-                          a.max_units_per_job)
+            cold_solo = name.startswith("real_cold_")
+            write_request(out / name, arm, pts, tech,
+                          3200 if cold_solo else a.timeout_s,
+                          1 if cold_solo else a.max_units_per_job)
             all_units += pts
             print(f"wrote {name}: {len(pts)} units -> {out / name / 'request.json'}")
     # probe: the real arm at the slowest expected corner (mos_ss / 125 C)
