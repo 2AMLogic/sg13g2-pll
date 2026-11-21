@@ -115,6 +115,15 @@ CLK_FROM_S = 7.8e-6
 CLK_MAX = 2600                 # 2.2 us x ~1025 MHz (band-00 fast top) + margin
 REF_FB_MAX = 500               # 188 edges at f_ref; misdivide can double f_fb
 
+#: the ss/-40 C unit's tran needs `uic` (start directly from the deck's
+#: `.ic`s): at default and at both augmentation option lines ngspice-47
+#: aborts it with timestep_too_small inside the first 300 ns (measured
+#: locally, 2026-11-21; the tt/-40 C unit passes without uic, so it is the
+#: ss corner's start-up region, not the campaign geometry). With `uic` the
+#: same 300 ns window integrates cleanly; the fleet unit runs the full
+#: 10 us window on the uic deck.
+UIC_COLD_MOS = {"mos_ss"}
+
 OSDI = ("psp103", "psp103_nqs", "mosvar", "r3_cmc")
 
 
@@ -268,7 +277,8 @@ def measurements():
 
 
 def write_request(d: pathlib.Path, arm: str, pts, tech: pathlib.Path,
-                  timeout_s: int, max_units_per_job: int) -> None:
+                  timeout_s: int, max_units_per_job: int,
+                  uic: bool = False) -> None:
     d.mkdir(parents=True, exist_ok=True)
     vdd = pts[0][3]
     assert all(p[3] == vdd for p in pts), "one supply value per request"
@@ -283,7 +293,8 @@ def write_request(d: pathlib.Path, arm: str, pts, tech: pathlib.Path,
         "netlist": f"pll_{arm}.cir",
         "models": {"lib": "corner_pvt.lib"},
         "analysis": {"kind": "tran",
-                     "args": f"{TSTEP} {TSTOP_S * 1e9:.0f}n 0 {TMAX}"},
+                     "args": f"{TSTEP} {TSTOP_S * 1e9:.0f}n 0 {TMAX}"
+                             + (" uic" if uic else "")},
         "measurements": measurements(),
         "options": {
             "osdi_preload": [f"{tech}/osdi/{n}.osdi" for n in OSDI],
@@ -394,7 +405,8 @@ def main() -> None:
             cold_solo = name.startswith("real_cold_")
             write_request(out / name, arm, pts, tech,
                           3200 if cold_solo else a.timeout_s,
-                          1 if cold_solo else a.max_units_per_job)
+                          1 if cold_solo else a.max_units_per_job,
+                          uic=cold_solo and pts[0][1] in UIC_COLD_MOS)
             all_units += pts
             print(f"wrote {name}: {len(pts)} units -> {out / name / 'request.json'}")
     # probe: the real arm at the slowest expected corner (mos_ss / 125 C)
