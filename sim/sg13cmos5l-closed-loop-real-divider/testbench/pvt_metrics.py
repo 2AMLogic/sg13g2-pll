@@ -149,10 +149,26 @@ def predictions(mos, temp, vdd, div_bounds, kvco):
     return div_pred, reach
 
 
-def iter_reports(doc):
+def iter_reports(doc, path):
     if isinstance(doc, dict) and "requests" in doc and "corners" not in doc:
         for r in doc["requests"]:
-            yield r.get("job_id"), r["report"]
+            member = r["report"]
+            if member is None:
+                continue          # a refused member (e.g. not_launched) has no report
+            if isinstance(member, str):
+                # a --batch-set envelope names each member's report file;
+                # klt writes it relative to the invocation directory
+                cands = [pathlib.Path(member),
+                         pathlib.Path(path).parent / member,
+                         pathlib.Path(path).parent.parent / member]
+                for c in cands:
+                    if c.is_file():
+                        member = json.load(open(c))
+                        break
+                else:
+                    raise SystemExit(f"{path}: member report {r['report']!r} "
+                                     "not found (tried CWD and envelope-relative)")
+            yield r.get("job_id"), member
     else:
         yield None, doc
 
@@ -287,9 +303,27 @@ def main() -> None:
     kvco = load_kvco_band00(root)
 
     rows, jobs, closure_checks, no_verdict = [], [], [], []
+    # One campaign row per unit: a unit can legitimately appear in several
+    # reports (a `lost_shard`/error attempt, then its `--resume` re-run). The
+    # LAST report's row wins, except a `pass` row always beats an earlier
+    # `error` row for the same unit -- so the fleet jobs list below keeps the
+    # full attempt trail while the units table carries one outcome per unit.
+    by_unit = {}
+
+    def put(row, nv):
+        uid = row["unit_id"]
+        prev = by_unit.get(uid)
+        if prev is not None:
+            if prev[0]["klt_status"] != "pass" and row["klt_status"] == "pass":
+                pass                       # pass replaces the error row
+            else:
+                row = prev[0]              # earlier (or pass) row stands
+                nv = False
+        by_unit[uid] = (row, nv)
+
     for path in a.reports:
         doc = json.load(open(path))
-        for job_id, rep in iter_reports(doc):
+        for job_id, rep in iter_reports(doc, path):
             env = rep.get("environment", {})
             nl_sha = env.get("netlist_sha256")
             if nl_sha in arm_sha["real"]:
@@ -300,7 +334,8 @@ def main() -> None:
                 raise SystemExit(f"{path}: report member netlist sha {nl_sha} "
                                  "matches neither request netlist")
             rem = env.get("remote") or {}
-            for fleet in (rem.get("fleet") or [rem]):
+            for fl in (rem.get("fleet") or [rem]):
+                fleet = fl or {}
                 jid = fleet.get("job_id") or job_id
                 if jid:
                     jobs.append({"report": pathlib.Path(path).name,
@@ -321,14 +356,15 @@ def main() -> None:
                 vdd = sv.get("vdd_vco")
                 mv = meas_map(c)
                 grade = grade_unit(mv)
-                if grade["lock_verdict"] is None:
+                nv = grade["lock_verdict"] is None
+                if nv:
                     no_verdict.append({"corner_id": c.get("corner_id"), "arm": arm,
                                        "status": c.get("status"),
                                        "reason": grade["reason_no_verdict"]})
                 div_pred, reach_pred = predictions(mos, temp, vdd,
                                                    div_bounds, kvco)
                 uid = f"{arm}_{mos}_{temp}c_{str(vdd).replace('.', 'v')}"
-                rows.append({
+                put({
                     "unit_id": uid, "arm": arm, "mos_corner": mos,
                     "temp_c": temp, "vdd_v": vdd, "corner_id": c.get("corner_id"),
                     "klt_status": c.get("status"),
@@ -338,7 +374,12 @@ def main() -> None:
                     "vc_min_v": mv.get("vc_min"),
                     "pred_divider": div_pred, "pred_vco_band00": reach_pred,
                     **grade,
-                })
+                }, nv)
+    rows = [r for r, _ in by_unit.values()]
+    no_verdict = [{"unit_id": r["unit_id"], "corner_id": r["corner_id"],
+                   "arm": r["arm"], "klt_status": r["klt_status"],
+                   "reason": r["reason_no_verdict"]}
+                  for r, nv in by_unit.values() if nv]
 
     cols = ["unit_id", "arm", "mos_corner", "temp_c", "vdd_v", "corner_id",
             "klt_status", "i_pfd_a", "i_cp_a", "i_vco_a", "i_div_a",
