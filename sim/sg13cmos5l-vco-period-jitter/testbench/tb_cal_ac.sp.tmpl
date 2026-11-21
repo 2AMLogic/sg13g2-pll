@@ -1,0 +1,32 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* Calibration stage (same circuit as tb_cal_noise.sp.tmpl -- see that
+* header): .ac with a 1 A AC current source injected into the stage output
+* node gives |Z_out(f)| directly (v(sout) per 1 A).  The equivalent
+* injected-current density is then S_i,eff(f) = S_v(f)/|Z_out(f)|^2 with
+* S_v the .noise output density from tb_cal_noise; a flat S_i,eff over the
+* jitter band is what licenses modelling the aggregate stage noise as ONE
+* white current source at the output node.  RECORD-001 "Calibration".
+*
+* Template placeholders: the shared set (see tb_bias_op.sp.tmpl).
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vbiasp vbp 0 dc @VBP@
+vbiasn vbn 0 dc @VBN@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+xs1 sin1 vbp vbn sout vdd 0 vco_stage
+rfb sout sin1 1e12
+iz sout 0 dc 0 ac 1
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+ac dec 20 1e5 1e11
+set numdgt=15
+print frequency v(sout)
+.endc
+.end

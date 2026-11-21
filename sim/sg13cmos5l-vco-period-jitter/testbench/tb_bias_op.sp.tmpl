@@ -1,0 +1,39 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* DC operating point of the frozen vco_bias snapshot at this bench's single
+* corner and operating point (mos_tt/res_typ/27C, band 00, VCTRL=1.5V).
+* Yields VBP/VBN: the ideal-source bias values the calibration-stage decks
+* and (through vco_bias instantiated inside the ring decks) the bias the
+* ring actually sees at this operating point.  See RECORD-001
+* "Calibration" for why the calibration stage holds VBP/VBN with ideal
+* sources instead of instantiating vco_bias (its own device noise must not
+* enter the stage noise being calibrated).
+*
+* Template placeholders substituted by ../testbench/gen_decks.py:
+*   @CORNER_MOS@/@CORNER_RES@ (cornerMOShv/cornerRES sections),
+*   @TEMP@ (degC), @VCTRL@/@B0V@/@B1V@ (operating point),
+*   @PDK_ROOT@/@PDK@ (resolved filesystem path; ngspice's .lib parser does
+*   not expand environment variables), @OSDI@ (OSDI model directory).
+* vco_open.spice: the XCDECAP-stripped derivation of the frozen
+* ../netlist-snapshots/vco.spice (see run.sh; identical to the duty-cycle
+* bench's derivation, same justification -- ideal-supply decks).
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vctrl vctrl 0 dc @VCTRL@
+vb0 b0 0 dc @B0V@
+vb1 b1 0 dc @B1V@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+xbias vctrl b0 b1 vbp vbn vdd 0 vco_bias
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+op
+set numdgt=15
+print v(vbp) v(vbn)
+.endc
+.end
