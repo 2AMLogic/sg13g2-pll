@@ -1,0 +1,9 @@
+control,expectation,measured,verdict
+noise_off,rms(sigma=0) < 1% of rms(sigma=cal),3.341e-15 s vs 4.643e-13 s (0.7196%),PASS
+timestep_halved,|rms(tstep=5p)/rms(tstep=10p) - 1| < 10%,ratio 0.9989,PASS
+timestep_halved_noise_off,noise-off floor stays < 1% of noise-on rms,3.537e-15 s (0.7617%),PASS
+amplitude_x2,rms(2*sigma) within 10% of 2x rms(sigma),ratio 2.0006,PASS
+amplitude_x0p5,rms(0.5*sigma) within 10% of 0.5x rms(sigma),ratio 0.5001,PASS
+seed_repeat,rerun of the same seed is bit-identical,sha256 equal,PASS
+seed_scatter,three seed rms values consistent with a common sigma: chi-square(2) <= 5.99 (95%),"seeds ['4.643e-13', '4.447e-13', '4.714e-13']; pooled 4.601e-13; chi2(2)=3.61 vs 5.99",PASS
+cal_psd_band,"every in-band ratio within (0.7, 1.4)",cal_tran_s42: 0.831..1.198; cal_tran_s43: 0.786..1.144,PASS

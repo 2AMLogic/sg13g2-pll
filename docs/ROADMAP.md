@@ -104,8 +104,11 @@ Startable today, but none is ready by label: items 1 to 3 need triage or approva
   considered `vco` route, and does DR-005 need a superseding record (R-1)?
 - **A `pll_top` or wrapper.** First: what the wrapper's I/O boundary is (DR-004). Row 15
   (area) and any chip-level DRC, LVS or power total need it.
-- **Rows 8 and 12 (jitter, supply sensitivity).** First: a transient-noise or ISF method for
-  the ring in ngspice, or a ruling that the rows stay unspecified like row 9 (R-7).
+- **Rows 8 and 12 (jitter, supply sensitivity).** First: the seeded PVT campaign on top of the
+  transient-noise period-jitter method now in
+  `sim/sg13cmos5l-vco-period-jitter/` (RECORD-001) — blocked on the klt transient-noise seed
+  contract (2AMLogic/klayout-tools#5772) — or a ruling that the rows stay unspecified like
+  row 9 (R-7).
 - **Item 6 to `met`.** First: whether a `cp` mismatch limit must exist at all and which row
   owns it (R-12); a larger sample alone would grade against nothing.
 - **The SG13G2 (BiCMOS) target.** `layout/pll/` composes but its README states it is not

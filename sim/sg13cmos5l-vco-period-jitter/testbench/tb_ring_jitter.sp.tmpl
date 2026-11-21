@@ -1,0 +1,63 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* Free-running-ring period-jitter deck: the frozen vco snapshot's own
+* .subckt vco body instantiated at TOP LEVEL (so the internal ring nodes
+* ring1..ring5 are reachable), with XCDECAP stripped (identical
+* derivation and justification as the duty-cycle bench: ideal
+* zero-impedance VDD_VCO/GND_VCO drive makes XCDECAP inconsequential to
+* any node voltage here, and no cap_cmomi OSDI model is then needed) and
+* ONE aggregate white noise current source added per ring-stage output
+* node, calibrated against .noise on the single-stage calibration circuit
+* (tb_cal_noise/tb_cal_ac/tb_cal_tran; RECORD-001 "Calibration" and
+* "Noise injection model").  All control inputs are DC from t=0 (the
+* trnoise-with-non-DC-stimulus abort does not apply; noise sources are
+* trrandom, replayable via setseed).
+*
+* Extraction: rising 50%-of-rail (1.65 V) crossings of the buffered output
+* clk; the generator emits one `meas tran tcN ... rise=N` line per
+* crossing after `run` (see the .control block), measureprec=15 so the
+* printed crossings carry full double precision.  Periods are consecutive
+* differences of tc51..; the first 50 crossings (ring startup) are skipped.
+*
+* Template placeholders: @CORNER_MOS@/@CORNER_RES@/@TEMP@/@VCTRL@/@B0V@/
+* @B1V@ (operating point), @SIGMA@ (per-source rms current, A), @TS@
+* (noise sample interval, s -- a source parameter, NOT the solver step),
+* @TSTEP@ (.tran step, s), @TSTOP@ (s), @SEED@ (setseed value), and the
+* shared @PDK_ROOT@/@PDK@/@OSDI@ set.
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vctrl vctrl 0 dc @VCTRL@
+vb0 b0 0 dc @B0V@
+vb1 b1 0 dc @B1V@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+* -- vco.spice .subckt vco body verbatim, XCDECAP stripped, ring exposed --
+xbias vctrl b0 b1 vbp vbn vdd 0 vco_bias
+xs1 ring5 vbp vbn ring1 vdd 0 vco_stage
+xs2 ring1 vbp vbn ring2 vdd 0 vco_stage
+xs3 ring2 vbp vbn ring3 vdd 0 vco_stage
+xs4 ring3 vbp vbn ring4 vdd 0 vco_stage
+xs5 ring4 vbp vbn ring5 vdd 0 vco_stage
+xbuf1 ring1 bufmid vdd 0 inv2x_hv
+xbuf2 bufmid clk vdd 0 inv2x_hv
+* -- one aggregate calibrated noise current per stage output, shunting to GND --
+inj1 ring1 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+inj2 ring2 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+inj3 ring3 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+inj4 ring4 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+inj5 ring5 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+.ic v(ring1)=0.5
+.tran @TSTEP@ @TSTOP@
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+set measureprec=15
+setseed @SEED@
+run
+@MEAS_LINES@
+.endc
+.end

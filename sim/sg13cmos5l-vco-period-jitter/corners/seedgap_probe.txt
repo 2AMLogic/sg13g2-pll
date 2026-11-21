@@ -1,0 +1,32 @@
+seed-gap probe evidence (issue #518 step 6) -- captured 2026-11-21
+client klt 0.9.3.dev2575+g6bd18bbc8637 (the pinned worker env), host loom-worker-8
+
+1) options.transient_noise_seed does not exist in the pinned klt and is
+   SILENTLY IGNORED when a request carries it:
+
+   $ klt sim request.json --backend local --dry-run     # request has
+     options.transient_noise_seed: 42
+   klt sim --dry-run: valid (11 unit(s), engine=ngspice, backend=local)
+
+   (no unknown-option rejection, no effect: the field is absent from the
+   request/response contract of this klt build -- see its bundled
+   data/cli/sim.md, which documents the seed contract's exclusion of
+   trnoise/trrandom sources and carries no transient_noise_seed anywhere)
+
+2) the local deck-list report (corners/local_report.json, same run) carries
+   no seed anywhere (0 occurrences of "seed") and no per-source
+   transient-noise disclosure block.
+
+3) batch submit attempts of the primary seed-42 deck (fleet form), both
+   refused at launch by fleet IAM (NOT capacity; UnauthorizedOperation on
+   ec2:RunInstances for image ami-0ef97934ba6eaa916, assumed-role
+   loom-worker-sim-submit/loom-worker-8; the klt error itself classifies it
+   "this is IAM, not capacity"):
+
+   - staged job klt-sim-f52a99f47c45 (--wait-for-capacity 600 exhausted its
+     budget against the IAM refusal)
+   - staged job klt-sim-5f28aab43af8 (second attempt, same refusal)
+   Both jobs are complete on S3 (job.json + inputs/) and can be re-launched
+   same-id once the role is repaired. Reported in the issue-#518 PR; the
+   campaign stays parked on 2AMLogic/klayout-tools#5772 regardless -- a
+   working fleet would still have no seed contract to pin/report.

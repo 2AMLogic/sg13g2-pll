@@ -1,0 +1,32 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* Calibration stage (same circuit as tb_cal_noise.sp.tmpl -- see that
+* header), DC-transfer check: sweeps the stage input around the self-bias
+* trip point and prints v(sout), so the record can state the small-signal
+* gain -dv(sout)/dv(sin1) at the bias point and justify "biased in its
+* high-gain linear region" with a number.  Rfb=1e12 stays connected: at
+* ~1 V across it the feedback current is ~1 pA, negligible against the
+* stage's ~100 uA operating currents, so the driven sweep is not loaded.
+*
+* Template placeholders: the shared set (see tb_bias_op.sp.tmpl).
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vbiasp vbp 0 dc @VBP@
+vbiasn vbn 0 dc @VBN@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+xs1 sin1 vbp vbn sout vdd 0 vco_stage
+rfb sout sin1 1e12
+vsin sin1 0 dc @VTRIP@
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+dc vsin @VLO@ @VHI@ @VSTEP@
+set numdgt=15
+print v(sout)
+.endc
+.end

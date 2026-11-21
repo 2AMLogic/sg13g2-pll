@@ -78,6 +78,13 @@
    "issue": "#203",
    "record": "sim/sg13cmos5l-loop-bandwidth-pm/records/RECORD-005-issue196-cp-vout-capacitance-pm-recheck.md",
    "text": "The DR-007/DR-008 row 6/6a tuples are re-checked with the real idle cp on VCTRL only at the typ bundle (mos_tt + res_typ, 27 C, 3.3 V), schematic-level. The fast/slow bundle grid has not been produced: the attempt behind this row exited 87 on the batch fleet (job klt-sim-3a086f48e27a) while klayout-tools#2851/#2727 were open, and both capability gaps have since closed as completed without the grid being re-attempted. DR-008 fast is projected to fall below 45 deg PM (about 44.77-44.93 deg) once the cp is included; that projection applies a typ-model sensitivity to the fast baseline, is an estimate and not a verdict, and the measured answer is tracked in #203. Layout parasitics of the cp (#195) are not included."
+  },
+  {
+   "id": "vco-period-jitter-campaign-parked",
+   "title": "VCO period-jitter method exists; the seeded PVT campaign is parked on the klt seed contract",
+   "issue": "#518",
+   "record": "sim/sg13cmos5l-vco-period-jitter/records/RECORD-001-period-jitter-method.md",
+   "text": "The row 8 method gap (R-7) is closed at method level: sim/sg13cmos5l-vco-period-jitter RECORD-001 builds and validates injected calibrated trrandom noise (calibrated against .noise on a linear-biased single stage; noise-off, timestep, amplitude and seed controls all pass) and takes a first single-corner floor measurement (~460 fs rms, ~0.030% of period at mos_tt/27C/band 00/VCTRL=1.5V). What stays open: the PVT campaign (nominal + 3 bundles x 2 band codes x 2 VCTRL) and the row-12 supply-ripple unit are parked on 2AMLogic/klayout-tools#5772 -- the pinned klt (0.9.3.dev2575) has no options.transient_noise_seed (silently ignored; no seed in any report), so a seeded, per-seed-cited fleet campaign is impossible; two batch probe submits were additionally refused by fleet IAM (jobs klt-sim-f52a99f47c45 / klt-sim-5f28aab43af8 staged, unlaunched). Rows 8/12 stay O with no proposed bound."
   }
  ],
  "datasets": [
@@ -4950,6 +4957,77 @@
     "The res_corner column (res_typ/res_wcs/res_bcs) records PVT bundle identity only: the named resistor corner is NOT applied to any deck (every deck loads only cornerMOShv.lib) and is immaterial here, since the DUT instantiates no resistor devices -- see the bench's corners/matrix.md."
    ],
    "record_sha256": "6a5c84669946f017caac62a28ee9e5bfe928f1e99cfab28dc87cdc803a5a849d"
+  },
+  {
+   "id": "sg13cmos5l-vco-period-jitter-method",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L (reads both trees: ihp-sg13cmos5l + ihp-sg13g2 model symlinks)",
+   "status": "current",
+   "dut_revision": "design/sg13cmos5l/netlist/vco.spice frozen at commit c62d98c9 (netlist-snapshots/vco.spice)",
+   "context": "schematic, open loop, free-running ring with injected calibrated trrandom noise sources",
+   "conditions": "ONE corner (mos_tt/res_typ, 27C, 3.3V, band 00, VCTRL=1.5V); method bench, not a PVT campaign (parked on klayout-tools#5772)",
+   "method": "transient-noise injection: one aggregate white current source per ring stage (trrandom gaussian, ts=10ps), calibrated against .noise on a linear-biased single vco_stage; crossings of the buffered output",
+   "record": "sim/sg13cmos5l-vco-period-jitter/records/RECORD-001-period-jitter-method.md",
+   "tables": [
+    {
+     "id": "jitter",
+     "path": "sim/sg13cmos5l-vco-period-jitter/corners/period_jitter.csv",
+     "sha256": "73a685a2d7df6fe636b961e496592d60f5658d60323dfc162b1cb1716a3717e5"
+    },
+    {
+     "id": "psd",
+     "path": "sim/sg13cmos5l-vco-period-jitter/corners/calibration_psd.csv",
+     "sha256": "e0ca894dc0533c84f9b6f71e5f05bcf8cbc3d1eac04a5d7e8b749b96520576bb"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "jitter",
+     "column": "rms_jitter_s",
+     "units": "s",
+     "quantity": "period jitter rms, noise-on units at calibrated sigma and .tran 10p (3 seeds + bit-identical rerun)",
+     "where": {
+      "sigma_a": "7.68923e-07",
+      "tran_step_s": "10p"
+     },
+     "coverage_columns": [
+      "unit",
+      "seed"
+     ]
+    },
+    {
+     "table": "jitter",
+     "column": "rms_pct_of_period",
+     "units": "%",
+     "quantity": "period jitter rms as % of period, same units",
+     "where": {
+      "sigma_a": "7.68923e-07",
+      "tran_step_s": "10p"
+     },
+     "coverage_columns": [
+      "unit",
+      "seed"
+     ]
+    },
+    {
+     "table": "psd",
+     "column": "ratio",
+     "units": "ratio",
+     "quantity": "calibration transient-PSD vs .noise density ratio, in-band (100MHz-10GHz), both seeds",
+     "coverage_columns": [
+      "unit"
+     ]
+    }
+   ],
+   "notes": [
+    "White-thermal floor only: flicker, bias-network, buffer, resistor, substrate and supply noise excluded; calibrated at a linear-region bias and applied to the switching ring (RECORD-001 'What this does not bound').",
+    "Not a spec figure: no row 8/12 bound is proposed; rows stay O (gate R-7)."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "vco-period-jitter-campaign-parked"
+   ],
+   "record_sha256": "e2c495a002841dce7ae51f4e99794518efec82960674a1f4668147511c04f18c"
   }
  ]
 }
