@@ -6,6 +6,11 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-21
+
+- **PR #522**: docs: cite RECORD-002's nominal real-divider lock in the R-2, manifests and sim README passages
+- **Issue #521** (closed): docs: refresh the stale 'loop does not acquire' texts that RECORD-002/#516 supersede (R-2 paragraph, manifests README, sim README bench row
+
 ### 2026-11-18
 
 - **PR #510**: manifests: attest scripts/run_gates.py in item-10's hygiene inventory
