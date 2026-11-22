@@ -481,6 +481,35 @@ the min/max.
 | divider output period tdiv_b (`tdiv_b_s`) | s | `func` | - | 20 | 0 | 1.29307e-06 | 2.55497e-06 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 | divider supply current (`idd_a`) | A (ngspice source sign: negative = drawn from supply) | `func` | - | 20 | 0 | -0.000256839 | -0.000199282 | `tag`: baseline, code, edge; `variant`: repaired; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 2.97, 3.3, 3.63; `fin_hz`: 1.000000e+08; `p_word`: 10 distinct (000000 .. 111111) |
 
+### closed-loop-real-divider-pvt
+
+- **PDK**: SG13CMOS5L
+- **Status**: current
+- **DUT revision**: same DUT as RECORD-002's _o2 runs: committed pfd, DR-010 cp (cp-dr010.spice), loop_filter, vco (XCDECAP stripped, ideal caps at campaign values) and the repaired divider_chain (netlist-snapshots at design/sg13cmos5l/netlist @3da79b6; RECORD-002 sha256 table)
+- **Context**: schematic, pre-layout, closed loop, PVT campaign
+- **Conditions**: RECORD-002's operating point (band 00, f_ref 9.375 MHz, N = 64, 600 MHz): 5 MOS corners x {-40, 27, 125} C at 3.3 V plus mos_tt/27 C at 3.0 and 3.6 V, real arm; behavioural-divider control arm at mos_tt x 3 temps; res_typ everywhere; one 10 us warm-started (.ic vctrl = 1.23 V) transient per unit; ngspice-47, klt client 0.9.3.dev2575+g6bd18bbc8637, runner 0.9.0, staged pinned closure verified per report (PDK-PIN ihp-sg13cmos5l 607e18d4, PDK ihp-sg13g2 5cccb161)
+- **Method**: pre-composed per-unit decks from gen_pvt_requests.py (byte-identical to run.sh's RECORD-002 _o2 body minus klt-owned cards) submitted with klt sim --backend batch --wait-for-capacity 600; graded by pvt_metrics.py: dual-lock verdict and warm lock time from the t_ref/t_fb crossing series via mismatch_gain_metrics.lock_trace_from_edges, per-domain 8-10 us supply-current averages, pre-stated per-unit predictions from divider-max-frequency RECORD-001 and vco-kvco-table RECORD-002 (unpredicted corners marked, never extrapolated)
+- **Record**: `sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-003-closed-loop-pvt-divider-compatible-point.md` (sha256 `95c1a724c03bbcbe2a9fda3496b351471dcf2cb5b5b3be4a952b22a30ab454be`)
+- **Table `units`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/pvt1/pvt_units.csv` (sha256 `8114db7e6458498c3908aa1f215e15684727a2afb112f377126d96f729432bf4`)
+- **Table `batch-jobs`**: `sim/sg13cmos5l-closed-loop-real-divider/corners/pvt1/batch-jobs.csv` (sha256 `4ab67dddf1c316c3b73065c1e1ca0546ec08fe8854d855fe975ba2522926130a`)
+- **Note**: FAILURE RETAINED: mos_ss/125 C / 3.3 V does NOT lock (15/20 scored FB periods at exactly 64 clk edges, 2 at 63, 2 at 65); failing block named divider_chain (vctrl settled mid-range, ruling out vco reach / cp drive). Column bounds over the full table include that row.
+- **Note**: 19/20 units meet the dual-lock criterion (|df/f_ref| < 1 % AND |phase| < 5 % T_ref for >= 20 consecutive cycles); every lock time is warm-started, one run per corner, simulator-deterministic.
+- **Note**: Solver options differ from RECORD-002's nominal deck (cold-corner line reltol=1e-3 vntol=1e-4 abstol=1e-9 trtol=7; ss/-40C additionally uic): at the nominal tuple the two agree to ~0.6 % on static phase and ~0.1 uA per domain current.
+- **Note**: ss/-40C unit ran the uic deck (starts directly from .ic cards); the other 19 units are plain tran starts.
+- **Note**: Row 7/10/11 numbers are NOT proposed by this dataset; R-2's 5 % static-phase gate is evidenced at 16/17 real corners, not all of PVT.
+- **Gaps**: No ratified spec table (none filed), Partial PVT axes (none filed), Divider speed evidence (none filed (SG13G2 side))
+
+| Quantity | Units | Table | Filter | Rows | Non-numeric | Min | Max | Corner coverage actually present |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| dual-lock acquisition time (longest dual-lock run start); ss/125C row is a non-locked trajectory's longest partial run (`lock_time_s`) | s (WARM-STARTED: .ic vctrl = 1.23 V; not a cold-start acquisition) | `units` | - | 20 | 0 | 1.06717e-07 | 2.02672e-06 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| final-20-cycle static phase error mean (dual-lock criterion bound: 5 %) (`final20_phase_mean`) | fraction of T_ref | `units` | - | 20 | 0 | 0.0124449 | 0.0194503 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| VCO frequency from v(clk) crossings over 8-10 us (`f_vco_hz_8_10us`) | Hz | `units` | - | 20 | 0 | 5.99952e+08 | 6.00026e+08 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| settled control voltage (8-10 us average) (`vc_avg_v`) | V | `units` | - | 20 | 0 | 1.04271 | 1.40071 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| pfd supply current, 8-10 us average (`i_pfd_a`) | A (ngspice source sign: negative = drawn from supply) | `units` | - | 20 | 0 | -2.81547e-05 | -2.25422e-05 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| charge pump supply current, 8-10 us average (`i_cp_a`) | A (ngspice source sign: negative = drawn from supply) | `units` | - | 20 | 0 | -6.26194e-05 | -6.06082e-05 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| vco supply current, 8-10 us average (`i_vco_a`) | A (ngspice source sign: negative = drawn from supply) | `units` | - | 20 | 0 | -0.00175034 | -0.00117545 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+| divider_chain supply current, 8-10 us average (0 for the control arm: behavioural divider unloaded) (`i_div_a`) | A (ngspice source sign: negative = drawn from supply) | `units` | - | 20 | 0 | -0.00154064 | 0 | `arm`: control, real; `mos_corner`: mos_ff, mos_fs, mos_sf, mos_ss, mos_tt; `temp_c`: -40, 27, 125; `vdd_v`: 3.0, 3.3, 3.6 |
+
 ### schmitt-rewire-rerun-pinned
 
 - **PDK**: SG13CMOS5L

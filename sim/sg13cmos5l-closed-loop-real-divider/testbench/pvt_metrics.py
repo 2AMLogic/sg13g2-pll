@@ -151,10 +151,33 @@ def predictions(mos, temp, vdd, div_bounds, kvco):
 
 def iter_reports(doc, path):
     if isinstance(doc, dict) and "requests" in doc and "corners" not in doc:
+        # the conventional member path the envelope writer uses
+        # (pvt/grid-run/request-<index>/report.json); recovered from any
+        # sibling member that did get its report written
+        sib = next((r["report"] for r in doc["requests"]
+                    if isinstance(r.get("report"), str)), None)
+        sib_dir = pathlib.Path(sib).parent.parent if sib else None
         for r in doc["requests"]:
             member = r["report"]
             if member is None:
-                continue          # a refused member (e.g. not_launched) has no report
+                # a member refused at envelope-write time (not_launched)
+                # can still have run and been collected afterwards: its
+                # report lands at the conventional per-index path. Accept
+                # it only when it names one of the member's own job ids.
+                cand = sib_dir / f"request-{r['index']}/report.json" \
+                    if sib_dir is not None else None
+                if cand is not None and cand.is_file():
+                    try:
+                        rec = json.load(open(cand))
+                        rem = rec.get("environment", {}).get("remote") or {}
+                        jids = {f.get("job_id") for f in
+                                (rem.get("fleet") or [rem])} or {None}
+                        if jids & set(r.get("job_ids") or [r.get("job_id")]):
+                            member = rec
+                    except (OSError, json.JSONDecodeError):
+                        pass
+                if not isinstance(member, dict):
+                    continue
             if isinstance(member, str):
                 # a --batch-set envelope names each member's report file;
                 # klt writes it relative to the invocation directory

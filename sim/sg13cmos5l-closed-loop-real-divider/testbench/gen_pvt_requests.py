@@ -124,6 +124,16 @@ REF_FB_MAX = 500               # 188 edges at f_ref; misdivide can double f_fb
 #: 10 us window on the uic deck.
 UIC_COLD_MOS = {"mos_ss"}
 
+#: three warm 3.3 V units that run as their OWN single-unit jobs. Measured
+#: on the fleet (2026-11-21): as a 3-unit shared shard they starve -- 3
+#: ngspice x num_threads 4 = 12 solver threads on an 8-vCPU instance is
+#: 1.5x oversubscribed, and the whole job died at the fleet's hard 3600 s
+#: ceiling (job klt-sim-f5918c7938d2, exit 124 at 3504 s) with no unit
+#: finished. Solo (the cold units' pattern: 4 threads on 8 vCPU, ~1.8-2.9
+#: ks) they fit the ceiling; the remaining seven warm units shard 4-per-job
+#: as before (they finished in 1.2-1.5 ks even three-way oversubscribed).
+SOLO_WARM_UNITS = {("mos_sf", 125), ("mos_fs", 27), ("mos_fs", 125)}
+
 OSDI = ("psp103", "psp103_nqs", "mosvar", "r3_cmc")
 
 
@@ -391,22 +401,29 @@ def main() -> None:
         # whole-job ceiling is a hard 3600 s (batch-fleet.env
         # BATCH_MAX_JOB_SECONDS), so each runs as its OWN single-unit job --
         # a cold unit that overruns then dies alone instead of taking its
-        # shard-mates with it. The twelve warm 3.3 V units shard 4-per-job.
-        warm = [p for p in real if p[3] == 3.3 and p[2] != -40]
+        # shard-mates with it. The three SOLO_WARM_UNITS starve a shared
+        # shard the same way (12 threads on 8 vCPU; measured, see its
+        # comment); the seven remaining warm 3.3 V units shard 4-per-job.
+        warm = [p for p in real
+                if p[3] == 3.3 and p[2] != -40
+                and (p[1], p[2]) not in SOLO_WARM_UNITS]
         cold = [p for p in real if p[3] == 3.3 and p[2] == -40]
         groups = {"real_3v3": warm}
         groups.update({f"real_cold_{p[1].split('_')[1]}_-40c": [p]
                        for p in cold})
+        groups.update({f"real_slow_{p[1].split('_')[1]}_{p[2]}c": [p]
+                       for p in real if p[3] == 3.3 and p[2] != -40
+                       and (p[1], p[2]) in SOLO_WARM_UNITS})
         groups.update({"real_3v0": [p for p in real if p[3] == 3.0],
                        "real_3v6": [p for p in real if p[3] == 3.6],
                        "control": units_for("control")})
         for name, pts in groups.items():
             arm = "control" if name == "control" else "real"
-            cold_solo = name.startswith("real_cold_")
+            solo = name.startswith(("real_cold_", "real_slow_"))
             write_request(out / name, arm, pts, tech,
-                          3200 if cold_solo else a.timeout_s,
-                          1 if cold_solo else a.max_units_per_job,
-                          uic=cold_solo and pts[0][1] in UIC_COLD_MOS)
+                          3200 if solo else a.timeout_s,
+                          1 if solo else a.max_units_per_job,
+                          uic=solo and pts[0][2] == -40 and pts[0][1] in UIC_COLD_MOS)
             all_units += pts
             print(f"wrote {name}: {len(pts)} units -> {out / name / 'request.json'}")
     # probe: the real arm at the slowest expected corner (mos_ss / 125 C)
@@ -422,7 +439,8 @@ def main() -> None:
     print("submit with: klt sim --batch-set OUTDIR/real_3v3/request.json "
           "OUTDIR/real_3v0/request.json OUTDIR/real_3v6/request.json "
           "OUTDIR/control/request.json --wait-for-capacity 600 "
-          "--capacity-retries 3 --format json --report-out OUTDIR/pvt.report.json")
+          "--capacity-retries 3 --format json --report-out OUTDIR/pvt.report.json "
+          "(plus the real_cold_*/real_slow_* single-unit requests)")
 
 
 if __name__ == "__main__":
