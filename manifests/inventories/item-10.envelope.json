@@ -3,15 +3,29 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 30/30 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 33/33 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 30,
-    "passed_count": 30,
+    "check_count": 33,
+    "passed_count": 33,
     "checks": [
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/scripts/install-xschem",
+        "passed": true,
+        "content_hash": "sha256:651f0298b85120721267ff2e3e7afe43ce8e1c5616cbcd70ae47e60aeacec6dc"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
+        "path": ".github/workflows/artifact-manifests.yml",
+        "passed": true,
+        "content_hash": "sha256:073f212d393f36353642df2bdfac4642833fba3cccdebf3132b0f2c50a9ac581"
+      },
       {
         "check": "present",
         "role": "hygiene",
@@ -24,14 +38,14 @@
         "role": "hygiene",
         "path": ".github/workflows/netlist.yml",
         "passed": true,
-        "content_hash": "sha256:474428807ce74842b9ce3cb5995c473eb75c14d7d1170e108b4655786e2d0b3f"
+        "content_hash": "sha256:7cd9118a7e7d467009a4bac047adec18c92630dd92c2939e7e57a8d159c5d049"
       },
       {
         "check": "present",
         "role": "hygiene",
         "path": ".github/workflows/signoff.yml",
         "passed": true,
-        "content_hash": "sha256:167fecb654a381513faf5d6e6a1bdc533fabaaf238a173e176355e9fe8a309a7"
+        "content_hash": "sha256:a97312079669fb606db6449548330a60d70e17b950388653051977ee32e21a5a"
       },
       {
         "check": "present",
@@ -50,9 +64,16 @@
       {
         "check": "present",
         "role": "hygiene",
+        "path": "scripts/run_gates.py",
+        "passed": true,
+        "content_hash": "sha256:15c464c624aefb5cd92cd5050444f0a9dc683328cf653decadbb932a84f71a28"
+      },
+      {
+        "check": "present",
+        "role": "hygiene",
         "path": "spec/target-spec.md",
         "passed": true,
-        "content_hash": "sha256:62a43490d365bcc21d20f36b263d28de8e9987b490d9119eaa331eeb77b7e852"
+        "content_hash": "sha256:569c013c2466994f295a87773f20bc0e261f7168ab0a39efe5d8d3643ae47210"
       },
       {
         "check": "command",
@@ -331,37 +352,37 @@
       {
         "check": "command",
         "role": "audit",
+        "name": "collect-125c-acquisition-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-closed-loop-lock/testbench/test_collect_125c_acquisition.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "threshold-grid-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
         "name": "run-pex-guard-self-test",
         "argv": [
           "python3",
           "-B",
           "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
-        ],
-        "cwd": ".",
-        "exit_status": 0,
-        "passed": true
-      },
-      {
-        "check": "command",
-        "role": "audit",
-        "name": "signoff-inventory-parity",
-        "argv": [
-          "python3",
-          "-B",
-          "scripts/check_signoff_inventory_parity.py"
-        ],
-        "cwd": ".",
-        "exit_status": 0,
-        "passed": true
-      },
-      {
-        "check": "command",
-        "role": "audit",
-        "name": "signoff-inventory-parity-unit-tests",
-        "argv": [
-          "python3",
-          "-B",
-          "scripts/test_check_signoff_inventory_parity.py"
         ],
         "cwd": ".",
         "exit_status": 0,
@@ -379,7 +400,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:233532d5d88319ea43bb6da66aee3493869a90d9c95a889f1541753190d547fa"
+      "content_hash": "sha256:3df5e513ffac5a3f0867b2d62953f0d8dd82053cdda1ec6f292dc9b24f810128"
     }
   }
 }

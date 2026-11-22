@@ -6,8 +6,51 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-22
+
+- **PR #535**: docs(chipalooza): disclose the DR-010 cp delta and drop single-axis attribution in the RECORD-002 update notes
+- **PR #532**: docs(chipalooza): qualify the remaining two 'does not acquire' passages per RECORD-002
+- **Issue #534** (closed): docs: three chipalooza RECORD-002 notes say 'the same N = 64 loop' and attribute the lock to the operating point; RECORD-002 discloses a cp delta and declines that attribution
+- **Issue #530** (closed): docs: two more pre-RECORD-002 'does not acquire' passages in the chipalooza proposal (:316 sign-off row, :429 unmet list)
+
+### 2026-11-21
+
+- **PR #528**: docs: restate the real-divider nominal lock per RECORD-002 in ROADMAP, chipalooza and spec row 7
+- **Issue #525** (closed): docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell)
+- **PR #522**: docs: cite RECORD-002's nominal real-divider lock in the R-2, manifests and sim README passages
+- **Issue #521** (closed): docs: refresh the stale 'loop does not acquire' texts that RECORD-002/#516 supersede (R-2 paragraph, manifests README, sim README bench row
+
+### 2026-11-18
+
+- **PR #510**: manifests: attest scripts/run_gates.py in item-10's hygiene inventory
+- **Issue #507** (closed): Decide whether scripts/run_gates.py belongs in item-10's hygiene list (the osdi-arch gate's invocation left an attested file in #503)
+- **PR #508**: docs: complete the item-10 audit-command enumeration (24 checks, was 22)
+- **Issue #506** (closed): manifests/README.md: the item-10 "Twenty-four audit commands" enumeration lists only 22
+- **PR #505**: ci: single-source the item-10 gate list — signoff.yml runs run_gates.py
+- **Issue #503** (closed): Single-source the item-10 gate list: signoff.yml and the item-10 inventory share one list
+
 ### 2026-11-17
 
+- **PR #501**: sim: report an unresolved stdout as NOT COLLECTED, not a measured NA
+- **PR #500**: manifests: attest artifact-manifests.yml in item-10's hygiene inventory
+- **Issue #498** (closed): manifests/README.md item-10 defers the artifact-manifests.yml hygiene gap to "its own issue" that was never filed
+- **PR #497**: ci: drop the xschem banner exclusion from the netlist drift gate
+- **PR #496**: manifests: attest the xschem pin script in item-10's hygiene inventory
+- **Issue #495** (closed): item-10 hygiene inventory does not cover .github/scripts/install-xschem, so the xschem pin is no longer hash-attested
+- **Issue #494** (closed): netlist gate: the `-I'^* xschem XSCHEM V'` banner exclusion is redundant once the gate is pinned to 3.4.7
+- **Issue #453** (closed): sim: the 125 C VCO collector's NA diagnostic reports a missing stdout file as "no per1 line"
+- **Issue #117** (closed): renovate.json5: drop invalid 'uv' matchManagers entry and deprecated fetchReleaseNotes key
+- **PR #491**: ci: install fleet-pinned xschem 3.4.7 in the netlist gate
+- **Issue #490** (closed): xschem pin migration: migrate sg13g2-pll to the fleet 3.4.7
+- **PR #489**: docs: state only measured facts for the osdi-arch TAIL reason in run_gates.py
+- **PR #375**: sim: supersede loop-bandwidth-pm RECORD-001/002/002-r1 with batch-fleet reruns
+- **Issue #488** (closed): ci: consider widening the signoff inventory parity gate to require the bash osdi-arch gate (klt attest proven capable)
+- **Issue #486** (closed): ci: run_gates.py's TAIL reason asserts `klt signoff --attest` cannot attest a non-python3 argv — unmeasured
+- **PR #485**: run_gates: mirror signoff.yml's bash osdi-arch self-test via a TAIL entry
+- **PR #482**: ci: run check-osdi-arch.sh self-test in signoff workflow
+- **Issue #483** (closed): ci: run_gates.py's local/CI mirror invariant covers python3 gates only — the new bash self-test is outside it
+- **Issue #464** (closed): ci: check-osdi-arch.sh --self-test (27 assertions) is not run by any workflow
+- **Issue #319** (closed): Item 9 campaign (#214 part 1/3): supersede loop-bandwidth-pm RECORD-001/002/002b
 - **PR #481**: feat: gate docs/ROADMAP.md's accounting sentence against the spec Row table
 - **PR #480**: docs: annotate landed postlayout-pex-pvt reruns and past-tense the #221 gate bullet in provenance-migration.md
 - **PR #475**: fix: strip unquoted inline comments before scanning signoff.yml gates

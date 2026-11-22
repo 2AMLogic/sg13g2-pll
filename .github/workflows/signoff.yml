@@ -10,13 +10,25 @@ name: klt signoff (block tier report)
 # reach the klt envelope under /response of the LVS wrapper reports; see
 # manifests/README.md), then byte-compares the fresh report against
 # manifests/sg13g2-pll.tier-report.json — the verdict of record the
-# gap-to-T1 tracker (issue #6) points at. A separate step first runs
-# manifests/check_lvs_coverage.py so the single item-4 analog citation
-# cannot hide a missing or stale sibling block, and
-# manifests/check_erc_coverage.py so the single item-11 analog citation
-# cannot hide a missing, stale or defective sibling ERC report, and
-# manifests/check_drc_coverage.py so the single live item-3 divider DRC
-# command cannot hide a missing, failed, violating or stale sibling report.
+# gap-to-T1 tracker (issue #6) points at.
+#
+# The offline stdlib gates this block runs are not listed here. They are
+# written once, in manifests/inventories/item-10.json's `checks` list
+# (issue #503, the one-source ruling): the `records` job runs exactly that
+# list through scripts/run_gates.py — the same list the local `pnpm test`
+# / `check:ci` run — and the `grade` job's `klt signoff --attest 10`
+# re-executes every entry of it. So the item-4 analog LVS envelopes cannot
+# hide a missing or stale sibling block (manifests/check_lvs_coverage.py),
+# the single item-11 analog citation a missing, stale or defective sibling
+# ERC report (check_erc_coverage.py), and the live item-3 divider DRC
+# command a missing, failed, violating or stale sibling report
+# (check_drc_coverage.py) — each of those gates is in the list, run in
+# `records` and re-run by the re-attest in `grade`.
+#
+# Steps that only make sense in CI stay plain workflow steps: the base-ref
+# append-only record check (needs a PR base), the pinned klt install, the
+# two `klt signoff --attest` steps (they are the gate, not a gate in the
+# list) and the byte-compare below.
 #
 # Pass contract:
 #   * `klt signoff` exit 0 (every T1 item met) or 3 (graded, unmet items
@@ -38,10 +50,13 @@ permissions:
   contents: read
 
 jobs:
-  # Evidence-record hygiene (issue #180, T1 item 10): sim/**/records/ numbering,
-  # required format, characterization/sources.json coverage, and (pull requests
-  # only) append-only enforcement: a PR that deletes, renames or edits a record
-  # already on the base branch fails. Offline, stdlib-only, runs no simulation.
+  # The repo's offline stdlib gates — records hygiene (issue #180, T1 item
+  # 10), the six manifests coverage checks, the spec citation gate, the
+  # characterization summary check and the sim/ self-tests — run from the
+  # single source: item-10.json's `checks` list, via scripts/run_gates.py
+  # (#503, replacing the #395 parity checker). The runner prints each
+  # gate's inventory name as it starts, so a CI log still shows which gate
+  # failed. Stdlib-only, offline, runs no simulation.
   records:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -54,52 +69,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      # T1 item 10's `checks` inventory claims to cover every python3 gate this
-      # file runs, and `klt signoff --attest 10` executes exactly what it names
-      # -- but the envelope only hashes this file's raw bytes, so a gate added
-      # here could be re-attested into an envelope that never runs it (three
-      # were, before issue #395). This compares the two directly, so drift
-      # fails in the offline job rather than only through the item-10
-      # re-attest in `grade`. One-directional: inventory-ahead-of-workflow is
-      # not drift. Stdlib-only, no klt, sub-second.
-      - name: Item-10 inventory parity gate (signoff.yml gates vs item-10 checks)
-        run: |
-          python3 scripts/check_signoff_inventory_parity.py
-          python3 scripts/test_check_signoff_inventory_parity.py
+      - name: Offline stdlib gates (the item-10 checks list)
+        run: python3 -B scripts/run_gates.py
 
-      - name: Records checker unit tests
-        run: python3 characterization/test_check_records.py
-
-      # The metric extraction behind the numbers *inside* those records
-      # (issue #391). Both are stdlib-only, sub-second and synthetic-data
-      # only -- no klt, ngspice or PDK -- and run from the repo root like
-      # every other step here. One step on purpose: sources.json names
-      # test_mismatch_gain_metrics.py as the pin keeping
-      # mismatch_gain_metrics.lock_trace_from_edges equivalent to
-      # cpdiag_metrics.lock_trace, so the pair is one gate.
-      - name: Testbench metric-extraction self-tests
-        run: |
-          python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_cpdiag_metrics.py
-          python3 sim/sg13cmos5l-closed-loop-lock/testbench/test_mismatch_gain_metrics.py
-
-      # PEX extraction script guard (issue #438): PEX_BLOCKS without
-      # PEX_SNAP_SUBDIR would rewrite the committed top-level
-      # netlist-snapshots/provenance.json as a roll-up of only the named
-      # blocks. The guard's own self-test -- stdlib-only, offline, no klt,
-      # no PDK, sub-second.
-      - name: run-pex.sh PEX_BLOCKS/PEX_SNAP_SUBDIR guard self-test
-        run: python3 sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py
-
-      # OSDI arch preflight guard (issue #464): check-osdi-arch.sh's
-      # --self-test is its only regression harness -- builds its own fake
-      # OSDI header fixtures, stdlib-only, offline, no klt, no PDK,
-      # sub-second.
-      - name: check-osdi-arch.sh self-test
-        run: bash sim/tools/check-osdi-arch.sh --self-test
-
-      - name: Records format, numbering and sources.json coverage
-        run: python3 characterization/check_records.py
-
+      # CI-only step, deliberately not in the inventory: append-only
+      # enforcement needs a PR base ref (origin/$BASE_REF) and there is no
+      # base to diff against at attest time.
       - name: Records are append-only (pull requests)
         if: github.event_name == 'pull_request'
         env:
@@ -116,71 +91,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Item-4 coverage gate (all analog LVS envelopes vs adjacent GDS)
-        run: |
-          python3 manifests/check_lvs_coverage.py
-          python3 manifests/test_check_lvs_coverage.py
-
-      # T1 item 3: the manifest grades one live divider `klt drc` command.
-      # This gate requires every one of the six composed blocks' committed
-      # DRC wrapper in the authoritative LVS/layout record to be ok, clean
-      # with zero violations, hash-bound to its adjacent GDS, and to retain
-      # its coverage disclosures (starter-deck completeness not required),
-      # and that the live divider command binds to the same divider content.
-      - name: Item-3 DRC sibling coverage gate (six composed-block DRC reports)
-        run: |
-          python3 manifests/check_drc_coverage.py
-          python3 manifests/test_check_drc_coverage.py
-
-      # T1 item 11 analog: one [erc, lvs] citation stands for five blocks, so
-      # every block's committed `klt erc` supply report is checked here (same
-      # input as its LVS envelope, declared supplies paired in LVS, ties
-      # checked, nothing skipped/unknown). With the committed tier report at
-      # 11.analog `met`, all five must be clean; an `unmet` state must name
-      # each defective block's follow-up (KNOWN_DEFECTS in the script).
-      - name: Item-11 analog coverage gate (all five analog ERC supply reports)
-        run: |
-          python3 manifests/check_erc_coverage.py
-          python3 manifests/test_check_erc_coverage.py
-
-      # Characterization summary (issue #171): characterization/SUMMARY.md is
-      # generated from the sim/ files named in characterization/sources.json.
-      # Fails if a listed source is missing or its sha256 changed, if a
-      # min/max or any other rendered line no longer matches a fresh
-      # generation, or if SUMMARY.md is stale. Offline; runs no simulation.
-      - name: Characterization summary (source hashes, extrema, freshness)
-        run: |
-          python3 characterization/test_gen_summary.py
-          python3 characterization/gen_summary.py --check
-
-      # T1 item 7: the manifest cites only the vco and divider_chain PEX
-      # envelopes. This gate validates all six nominal klt pex reports
-      # (status, body bias, GDS input hash, block identity) and that the
-      # flattened schematic legs match a fresh re-flatten of the design
-      # exports. lock_detector joined the gated blocks with #157. Nominal
-      # evidence integrity only -- not a PVT/spec pass.
-      - name: Item-7 PEX sibling coverage gate (six nominal envelopes + legs)
-        run: |
-          python3 manifests/check_pex_coverage.py
-          python3 manifests/test_check_pex_coverage.py
-
-      # T1 item 9: every sim/ bench must be indexed in sim/README.md "Cold
-      # start" with an executable entry point and documented invocation, and
-      # every record must cite a PDK revision + tool version consistent with
-      # the pin. Pre-gate records (append-only) are grandfathered in
-      # KNOWN_DEFECTS (#182); item 9 stays unmet and uncited until it clears.
-      - name: Item-9 testbench coverage and PDK-pin gate (sim/ benches + records)
-        run: |
-          python3 manifests/check_testbench_coverage.py
-          python3 manifests/test_check_testbench_coverage.py
-
-      # Spec citation gate: every Measured-by bench/record, R-n and DR-NNN in
-      # spec/target-spec.md's Row table resolves. Structure only; never reads
-      # bounds or Status vs measured compliance. Offline, seconds.
-      - name: Spec row-table citation gate (benches, records, R-n, DR-NNN)
-        run: |
-          python3 manifests/check_spec_citations.py
-          python3 manifests/test_check_spec_citations.py
+      # The item-3/4/7/9/11 coverage gates, the characterization summary
+      # check and the spec citation gate used to run as explicit steps
+      # here; they are entries of the item-10 inventory, and the re-attest
+      # of item 10 below re-executes every one of them, so the hand-written
+      # duplicates are gone (#503).
 
       - name: Install the pinned grading build of klt
         run: |
@@ -215,9 +130,10 @@ jobs:
 
       # T1 item 10: the attestation envelope is produced by `klt signoff
       # --attest 10` from manifests/inventories/item-10.json. Re-attesting
-      # re-runs every inventoried check and diffs the envelope, so a changed
-      # or missing hygiene file, or a failing audit command, fails here
-      # (the manifest pin alone only binds the inventory file itself).
+      # re-runs every inventoried check -- the repo's whole offline gate
+      # set -- and diffs the envelope, so a changed or missing hygiene
+      # file, or a failing gate, fails here (the manifest pin alone only
+      # binds the inventory file itself).
       - name: Re-attest T1 item 10 (repo hygiene inventory vs committed envelope)
         run: |
           PATH="$RUNNER_TEMP/klt-venv/bin:$PATH" \
@@ -234,9 +150,6 @@ jobs:
       # regeneration gate is netlist.yml (design/netlist.sh --check).
       - name: Re-attest T1 item 1 (design sources + netlists vs committed envelope)
         run: |
-          python3 manifests/test_check_netlist_stamp.py
-          python3 design/test_check_pfd_reset_parity.py
-          python3 design/check_pfd_reset_parity.py
           PATH="$RUNNER_TEMP/klt-venv/bin:$PATH" \
             klt signoff --attest 1 \
               --inventory manifests/inventories/item-1.json \

@@ -145,7 +145,8 @@ compares every `*.sch`/`*.sym` in a tree and each netlist against
 source or a netlist without re-stamping fails. It does **not** regenerate: it
 cannot show the stamped netlist equals what xschem emits for the stamped
 sources. That regeneration gate stays `netlist.yml` (`design/netlist.sh --check`,
-runner-apt xschem). After a design change: run both `netlist.sh`, get
+fleet-pinned xschem 3.4.7 built from the upstream tag by
+`.github/scripts/install-xschem`). After a design change: run both `netlist.sh`, get
 `netlist.yml` green, `python3 manifests/check_netlist_stamp.py --update`, then
 re-attest and regrade (commands under "Reproducing the grade").
 
@@ -177,11 +178,16 @@ item 11 only, so each partition row cites one envelope, mirroring item 4:
   are current. **"Regenerated on design change" is enforced separately** by
   [`.github/workflows/netlist.yml`](../.github/workflows/netlist.yml), which
   regenerates every netlist with the committed generators and fails on
-  `git diff`. Disclosed gaps of that gate: xschem is the runner's apt
-  package (not a pinned container), so the `* xschem XSCHEM Vx.y.z` banner
-  line (committed: 3.4.7; local verification used 3.4.4) is the one line
-  excluded from the diff; the SG13G2 PDK is pinned to the last IHP-Open-PDK
-  commit before the `mm_ok=1` symbol change (the host copy has no recorded
+  `git diff`. The gate builds the fleet-pinned xschem 3.4.7 from the
+  upstream tag via `.github/scripts/install-xschem` (issue #490) — the
+  same version the committed netlists were generated with. Disclosed gap
+  of that gate: the `* xschem XSCHEM Vx.y.z` banner line (committed:
+  3.4.7; local verification used 3.4.4) is still the one line excluded
+  from the diff (`git diff -I`) — redundant rather than load-bearing now
+  that the pinned build matches the committed banners, and tracked
+  separately in #494; it is excluded, not compared. The SG13G2 PDK is pinned
+  to the last IHP-Open-PDK commit before the `mm_ok=1` symbol change (the
+  host copy has no recorded
   revision, so this is a best-fit pin). The job was observed green on a
   GitHub runner on PR #155; the local run also reproduced all 12 netlists
   apart from that banner line.
@@ -573,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `aeaab88c…a0599` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `3df5e513…128` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -582,32 +588,50 @@ mixed-signal block. The envelope is tool-produced (`klt signoff --attest 10
 hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
-hashed: `README.md`, `LICENSE`, `spec/target-spec.md` and the three workflows
-`.github/workflows/{signoff,layout-tests,netlist}.yml`. Twenty-three audit
-commands then each run, without a shell, from the repo root and must exit 0:
-the records checker and its unit tests, the summary generator's unit tests and
-`--check`, the six `manifests/check_*` gates with their unit tests, the
-`manifests/check_netlist_stamp.py` and `design/check_pfd_reset_parity.py` unit
-tests plus the parity check itself, the two
-`sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction self-tests, and
-`scripts/check_signoff_inventory_parity.py` with its unit test (the same
-offline, stdlib-only scripts `signoff.yml` runs). In CI, `klt signoff
---attest 10 --inventory … --check …` re-attests and diffs against the
-committed envelope, so an edited or missing hygiene file, or a failing gate,
-fails the `grade` job.
+hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the four workflows
+`.github/workflows/{signoff,layout-tests,netlist,artifact-manifests}.yml`,
+the xschem pin
+`.github/scripts/install-xschem` (#495) — the fleet-pinned build (#490) that
+`netlist.yml`'s regeneration gate installs from; attesting its bytes is what
+keeps that gate's "same version as the committed netlists" claim checkable —
+and the gate runner `scripts/run_gates.py` itself (#507): since #503 the
+`records` job runs one line, this runner, and the runner's `TAIL` is the one
+gate list no inventory's `checks` cover, so hashing its bytes restores the
+byte-binding the `osdi-arch` self-test had when it was a `signoff.yml` line —
+deleting or editing a `TAIL` entry now changes the hash and fails the
+re-attest.
+Twenty-four audit commands then each run, without a shell, from the repo root
+and must exit 0: the records checker and its unit tests, the summary
+generator's unit tests and `--check`, the six `manifests/check_*` gates with
+their unit tests, the `manifests/check_netlist_stamp.py` and
+`design/check_pfd_reset_parity.py` unit tests plus the parity check itself,
+the three `sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction
+self-tests (`test_cpdiag_metrics.py`, `test_mismatch_gain_metrics.py`,
+`test_collect_125c_acquisition.py`), the
+`sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py`
+threshold-grid self-test, and the
+`sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run guard self-test.
+These are the repo's offline gate set, written once in the
+inventory (#503, the one-source ruling): `signoff.yml`'s `records` job runs
+exactly this list through `scripts/run_gates.py` — the same list the local
+`pnpm test` / `check:ci` run — and this attest re-executes every entry. In
+CI, `klt signoff --attest 10 --inventory … --check …` re-attests and diffs
+against the committed envelope, so an edited or missing hygiene file, or a
+failing gate, fails the `grade` job.
 
-**The list is enforced, not maintained by hand (#395).** That claim — every
-`python3` gate `signoff.yml` runs except the base-ref one below — used to be
-upkeep, and it drifted: three gates ran in CI that no inventory attested.
-`scripts/check_signoff_inventory_parity.py` now compares the two directly and
-fails naming any gate `signoff.yml` invokes that the `checks` list omits. It is
-itself one of the twenty-three commands, so it cannot be dropped silently, and
-`signoff.yml` also runs it in the offline `records` job, so drift fails there
-rather than only through the re-attest. The comparison is one-directional:
-an inventory entry the workflow does not (yet) run is more verification, not
-drift, and does not fail. Its one exclusion carries a reason string and goes
-stale loudly — if nothing in `signoff.yml` matches it any more, that is an
-error, not a silent skip.
+**The list is written once (#503).** It used to exist twice: this inventory
+and hand-written `python3 …` steps in `signoff.yml`, with
+`scripts/check_signoff_inventory_parity.py` comparing the two — added after
+three gates ran in CI that no inventory attested (#395), because the
+workflow could drift from the list silently. The one-source ruling
+(2am#7561, "when a repository wants the same checks to run locally and in
+CI, the commands are written once, in a script in the repository, and the
+workflow calls that script") replaced the pair: `signoff.yml` now calls
+`scripts/run_gates.py`, which derives its gate list from this `checks`
+list, and the parity checker and its test were deleted — there is one list
+and nothing left to compare. A gate added to the inventory runs in CI (the
+`records` job), locally (`pnpm test` / `check:ci`) and in this re-attest
+automatically.
 
 **What it does not check.**
 
@@ -616,17 +640,19 @@ error, not a silent skip.
   simulator or network, and CI runs them itself. The workflows are attested
   as present and unchanged, not as green.
 - It does not run `check_records.py --base` (append-only enforcement), which
-  needs a PR base ref; `signoff.yml` still runs it on pull requests. This is
-  the **only** gate `signoff.yml` runs that the inventory omits, and the parity
-  check above is what keeps that true — it is the one entry in that script's
-  exclusion table.
-- It does not attest `.github/workflows/artifact-manifests.yml` or the two
-  gates that workflow runs (`scripts/check_artifact_manifests.py` and its unit
-  test): that workflow is absent from the `hygiene` list, so its bytes are
-  unattested and its gates are outside the parity check's `signoff.yml`-scoped
-  comparison. A `hygiene`-list gap, not a `checks`-list gap; widening the
-  attestation surface would change what item 10 claims, so it is left to its
-  own issue.
+  needs a PR base ref; `signoff.yml` still runs it on pull requests as a
+  plain CI-only step — the one gate the workflow runs that the inventory
+  omits, by declared scope (its `description` says so).
+- It attests `.github/workflows/artifact-manifests.yml`'s bytes (the fourth
+  workflow, added to the `hygiene` list by #498) but does not run the three
+  gates that workflow runs (`scripts/check_artifact_manifests.py`, its unit
+  test, and `scripts/test_run_gates.py`): they stay out of the `checks` list
+  because item 10's checks claim does not scope to that workflow, and
+  inventorying another workflow's gates would add an enumeration this
+  re-attest does not consume. The three gates are mirrored, each with its
+  reason, in `scripts/run_gates.py`'s `TAIL` instead (#393) — and the runner's
+  own bytes are hashed in `hygiene` (#507), so that mirroring cannot drift
+  silently: a `TAIL` edit changes the hash and fails the re-attest.
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's
@@ -676,8 +702,11 @@ hand):
 - the charge-pump PVT evidence for the DR-010 dump buffer (no tracking issue
   filed — the up/dn mismatch Monte Carlo now exists, see "Item 6", but the
   dump buffer itself is still nominal-only), the real-cp loop PM re-check
-  across the fast/slow grid (#203), and a closed loop that acquires (the
-  nominal real-divider loop does not acquire).
+  across the fast/slow grid (#203), and a closed loop that acquires across
+  PVT (the nominal real-divider loop now acquires at one committed point —
+  [`RECORD-002`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md),
+  band `00` / `f_ref` = 9.375 MHz / 600 MHz, issue #401 — but the PVT
+  campaign on that point is pending, #516; no spec row is ratified from it).
 
 ## The tool that grades
 
@@ -748,22 +777,26 @@ process's working directory — no manifest-relative anchoring):
 
 Regenerate the item-1 envelope likewise (`--attest 1`, `-o …/item-1.envelope.json`) after a design change. Regenerate the item-10 envelope with the same command plus
 `-o manifests/inventories/item-10.envelope.json` whenever an inventoried
-file (the hygiene files, including `signoff.yml`) or the inventory changes,
+file (the hygiene files, including `signoff.yml` and, since #507,
+`scripts/run_gates.py` itself) or the inventory changes,
 then regenerate the tier report. The hygiene files are hashed into the
 envelope, so editing one without re-attesting fails CI.
 
 ## CI — the gate that keeps this honest
 
 [`.github/workflows/signoff.yml`](../.github/workflows/signoff.yml)
-installs the pinned grader at that commit, first runs `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
+has two jobs. The `records` job runs the repo's offline stdlib gate set —
+the item-10 inventory's `checks` list, through `scripts/run_gates.py`
+(#503): `manifests/check_lvs_coverage.py` (every analog LVS envelope in the
 cited record: `match`, wrapper `ok`, hash equal to the adjacent GDS),
-`manifests/check_drc_coverage.py` (all six composed-block DRC reports, item 3) and
+`manifests/check_drc_coverage.py` (all six composed-block DRC reports, item 3),
 `manifests/check_erc_coverage.py` (all five analog ERC supply reports, see
-item 11) and `manifests/check_pex_coverage.py` (all six nominal `klt pex`
+item 11), `manifests/check_pex_coverage.py` (all six nominal `klt pex`
 envelopes and their flattened schematic legs, item 7 siblings; `lock_detector`
-joined the gated blocks with #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182 and can be resolved only by validated append-only `ADDENDUM-*.md` associations (recovered provenance or superseding rerun; format in `sim/README.md` "Provenance addenda", issue #198; no addenda are committed yet, migration status 0 of 37 resolved), so item 9 stays `unmet` and uncited in the manifest), then re-runs the full grade (the
+joined the gated blocks with #157; proves nominal evidence integrity, **not** a PVT/spec pass), each with its temporary-copy negative tests, `manifests/check_testbench_coverage.py` (item 9: every `sim/` bench indexed with an executable entry point, every record citing a PDK revision and tool version, PDK pin in `sim/README.md` "Cold start"; the 37 pre-gate records are grandfathered under #182 and can be resolved only by validated append-only `ADDENDUM-*.md` associations (recovered provenance or superseding rerun; format in `sim/README.md` "Provenance addenda", issue #198; no addenda are committed yet, migration status 0 of 37 resolved), so item 9 stays `unmet` and uncited in the manifest), the spec citation gate and the records/summary checks, each printing its inventory name as it starts; the base-ref append-only record check runs as a separate pull-requests-only step (it needs a PR base, so it stays out of the inventory). The `grade` job then installs the pinned grader and re-runs the full grade (the
 command-backed DRC citation re-runs live; every file-backed envelope is
-re-read and its pinned `content_hash` re-checked), and byte-compares the
+re-read and its pinned `content_hash` re-checked), re-attests items 10 and 1
+(the item-10 re-attest re-executes every inventoried gate), and byte-compares the
 fresh report against the committed one.
 
 - **Exit 0 or 3 from `klt signoff`** = graded (3: this block has unmet
@@ -776,8 +809,10 @@ fresh report against the committed one.
   machinery exists to catch. The report is refreshed by regenerating and
   recommitting it, never by hand-editing.
 
-- **Spec citation gate (`manifests/check_spec_citations.py`).** A CI step in
-  `signoff.yml` (negative tests in `manifests/test_check_spec_citations.py`)
+- **Spec citation gate (`manifests/check_spec_citations.py`).** An entry of
+  the item-10 inventory, run by `signoff.yml`'s `records` job through
+  `scripts/run_gates.py` and re-executed by the item-10 re-attest (negative
+  tests in `manifests/test_check_spec_citations.py`)
   checks that every bench, record, `R-n` ruling and `DR-NNN` decision record
   cited in `spec/target-spec.md`'s Row table exists, and that Status is M/P/N/O
   with M rows citing a record and O rows carrying a gate or ruling. Structure

@@ -30,10 +30,13 @@ Tracker: [#6](https://github.com/2AMLogic/sg13g2-pll/issues/6).
 
 Design facts that shape the plan, each from a committed record:
 
-- **The closed loop does not yet acquire on the real blocks.** With the transistor-level
-  `divider_chain` in the loop the N=64 nominal run does not lock: the divider miscounts at the
-  VCO frequency the loop needs (`sim/sg13cmos5l-closed-loop-real-divider` RECORD-001). Rows 7,
-  10, 11 and half of 16 are open on this one gate (target-spec R-2).
+- **The closed loop acquires on the real blocks — at one nominal, divider-compatible
+  point.** RECORD-002 locks the N=64 run at band `00` / `f_ref` = 9.375 MHz (600 MHz): dual
+  lock held for the final 91 cycles at 1.729% of `T_ref`, with the in-loop `divider_chain`
+  counting exactly 64 in 93/93 FB periods — RECORD-001's miscount is localized near 1.28 GHz
+  and is not present at 600 MHz (`sim/sg13cmos5l-closed-loop-real-divider` RECORD-002;
+  non-nominal corners unmeasured, #516). Rows 7, 10, 11 and half of 16 are open on this one
+  gate (target-spec R-2).
 - **Row 3 retiming closure is unmet at the 1562 MHz top of band**; width sizing alone does not
   close it (DR-012, proposed). **Row 13 duty cycle** misses 45 to 55 % at -40 C (R-8; PR #354).
 - **`cp` mismatch**: the `+/-3.5 %` screening limit is retired (PR #390, DR-013 proposed).
@@ -57,7 +60,7 @@ Design facts that shape the plan, each from a committed record:
 ## Now
 
 Startable today, but none is ready by label: items 1 to 3 need triage or approval (#389 and
-#393 still carry a blocked label whose cited blocker closed) and items 4 to 7 need an issue.
+#393 still carry a blocked label whose cited blocker closed) and items 5 to 7 need an issue.
 
 1. **Re-extract `lock_detector` PEX from the current GDS** (#157). Done when a `klt pex`
    envelope for the post-#136 layout is committed with its `body_bias` block recorded.
@@ -66,10 +69,11 @@ Startable today, but none is ready by label: items 1 to 3 need triage or approva
    a negative control. The issue covers two things and should be split.
 3. **Guard `package.json`'s gate chain against drift from the workflows** (#393). Done when a
    stdlib test fails if the two lists disagree.
-4. **Real-divider closed loop at a lower VCO frequency** (no issue). RECORD-001 names this as
-   untested. Done when a new record in `sim/sg13cmos5l-closed-loop-real-divider` reports lock
-   or no-lock, with the divide ratio per FB period, at an operating point inside the divider's
-   measured exact-N range, using the committed DR-010 `cp`.
+4. **Real-divider closed loop across PVT at the divider-compatible point** (#516). RECORD-002
+   answers RECORD-001's open question at the nominal corner only (band `00` / `f_ref` =
+   9.375 MHz, 600 MHz: lock, 64 in 93/93 FB periods). Done when #516's records report lock or
+   no-lock per corner, with the divide ratio per FB period and the static phase error, at the
+   divider-compatible operating point, using the committed DR-010 `cp`.
 5. **Divider maximum input frequency across corners** (no issue; the "Divider speed evidence"
    gap in `characterization/SUMMARY.md` has no tracker). Done when a record resolves the
    640 MHz to 1.28 GHz bracket per corner and the summary selects it.

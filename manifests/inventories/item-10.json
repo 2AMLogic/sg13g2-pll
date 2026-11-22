@@ -2,14 +2,17 @@
   "schema_version": 1,
   "kind": "t1-attestation-inventory",
   "t1_item": 10,
-  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, and the offline stdlib-only gates those workflows run -- every python3 gate signoff.yml invokes except the base-ref append-only check, which needs a PR base. That claim is enforced rather than maintained by hand: the signoff-inventory-parity check below fails when signoff.yml invokes a gate this list omits (#395).",
+  "description": "T1 item 10 (repo hygiene) for sg13g2-pll (#266): README, LICENSE, the spec, the CI workflows, the xschem pin script those workflows install from (#495), the gate runner the records job executes (scripts/run_gates.py, hashed here per #507: its TAIL is the one gate list no inventory's checks cover, so its bytes are bound like every other gate-defining file), and the offline stdlib-only gates this repo runs -- written once, in this `checks` list (#503, the one-source ruling 2am#7561): `signoff.yml`'s `records` job runs exactly this list through `scripts/run_gates.py` (as do the local `pnpm test` / `check:ci`), and `klt signoff --attest 10` below re-executes every entry, so there is no second list to keep in step. Gates that cannot join the list: the base-ref append-only record check (needs a PR base; signoff.yml runs it on pull requests) and the gates of `artifact-manifests.yml`, which item 10's checks claim does not scope to -- mirrored with reasons in `scripts/run_gates.py`'s TAIL, which the hygiene hash on the runner itself keeps from drifting silently (#507).",
   "hygiene": [
     "README.md",
     "LICENSE",
     "spec/target-spec.md",
+    ".github/scripts/install-xschem",
     ".github/workflows/signoff.yml",
     ".github/workflows/layout-tests.yml",
-    ".github/workflows/netlist.yml"
+    ".github/workflows/netlist.yml",
+    ".github/workflows/artifact-manifests.yml",
+    "scripts/run_gates.py"
   ],
   "checks": [
     {
@@ -182,27 +185,27 @@
       ]
     },
     {
+      "name": "collect-125c-acquisition-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-closed-loop-lock/testbench/test_collect_125c_acquisition.py"
+      ]
+    },
+    {
+      "name": "threshold-grid-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py"
+      ]
+    },
+    {
       "name": "run-pex-guard-self-test",
       "argv": [
         "python3",
         "-B",
         "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
-      ]
-    },
-    {
-      "name": "signoff-inventory-parity",
-      "argv": [
-        "python3",
-        "-B",
-        "scripts/check_signoff_inventory_parity.py"
-      ]
-    },
-    {
-      "name": "signoff-inventory-parity-unit-tests",
-      "argv": [
-        "python3",
-        "-B",
-        "scripts/test_check_signoff_inventory_parity.py"
       ]
     }
   ]
