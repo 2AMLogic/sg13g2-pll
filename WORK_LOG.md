@@ -6,8 +6,17 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-22
+
+- **PR #535**: docs(chipalooza): disclose the DR-010 cp delta and drop single-axis attribution in the RECORD-002 update notes
+- **PR #532**: docs(chipalooza): qualify the remaining two 'does not acquire' passages per RECORD-002
+- **Issue #534** (closed): docs: three chipalooza RECORD-002 notes say 'the same N = 64 loop' and attribute the lock to the operating point; RECORD-002 discloses a cp delta and declines that attribution
+- **Issue #530** (closed): docs: two more pre-RECORD-002 'does not acquire' passages in the chipalooza proposal (:316 sign-off row, :429 unmet list)
+
 ### 2026-11-21
 
+- **PR #528**: docs: restate the real-divider nominal lock per RECORD-002 in ROADMAP, chipalooza and spec row 7
+- **Issue #525** (closed): docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell)
 - **PR #522**: docs: cite RECORD-002's nominal real-divider lock in the R-2, manifests and sim README passages
 - **Issue #521** (closed): docs: refresh the stale 'loop does not acquire' texts that RECORD-002/#516 supersede (R-2 paragraph, manifests README, sim README bench row
 
