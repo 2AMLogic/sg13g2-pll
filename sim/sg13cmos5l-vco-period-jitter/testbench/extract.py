@@ -171,7 +171,10 @@ def cmd_cal(outdir, corners):
     # DC-transfer small-signal gain at the self-bias point (max |dv/dv| in
     # the +/-20 mV around the measured trip point)
     sw_rows = vector_table(sw, r"^Index\s+v-sweep")
-    trip = scalar(nz, "v(sout)") or 1.361047
+    trip = scalar(nz, "v(sout)")
+    if trip is None:
+        sys.exit("extract.py: could not parse the trip point v(sout) from "
+                 "cal_noise stdout -- refusing to substitute a hard-coded value")
     gains = []
     for (v0, o0), (v1, o1) in zip(sw_rows, sw_rows[1:]):
         if abs(v0 - trip) <= 0.025 or abs(v1 - trip) <= 0.025:
@@ -195,6 +198,15 @@ def cmd_cal(outdir, corners):
     # quadrature sum reconstructs onoise_total (verified below)
     q = lambda d: math.sqrt(sum(v * v for v in d.values())) if d else None
     onoise_total = scalar(nz, "onoise_total")
+    # commit every per-device onoise_total_* row with its classification so
+    # the flicker/thermal split (and its regexes) can be audited offline
+    with open(corners / "calibration_devices.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["name", "onoise_total_v", "class"])
+        for k, v in dev.items():
+            cls = ("flicker" if k in flicker else "thermal" if k in thermal
+                   else "other" if k in sub else "excluded_aggregate")
+            w.writerow([k, f"{v:.6e}", cls])
     with open(corners / "calibration_fit.csv", "w") as f:
         w = csv.writer(f)
         w.writerow(["fit_band_lo_hz", "fit_band_hi_hz", "n_band_pts",
