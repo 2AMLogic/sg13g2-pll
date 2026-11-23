@@ -53,7 +53,6 @@ Running them (host rules: a grid goes to the batch fleet, never a local loop)
         --loop-json ../corners/loop_nominal_125c_metrics.json
 """
 import argparse
-import hashlib
 import json
 import pathlib
 import re
@@ -63,6 +62,12 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 SNAP = HERE.parent / "netlist-snapshots"
+REPO = HERE.parents[2]
+
+sys.path.insert(0, str(REPO / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import (  # noqa: E402
+    resolve_pinned_pdk, sha256, stage_pinned_pdk, write_staged_manifest,
+)
 
 sys.path.insert(0, str(HERE))
 import gen_mismatch_gain_requests as g  # noqa: E402  (same directory)
@@ -137,56 +142,14 @@ print per1
 """
 
 
-def sha256(path: pathlib.Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def copy_closure(src_models: pathlib.Path, dest: pathlib.Path, seeds):
-    """`gen_rerun318.copy_closure`: seeds plus every same-directory `.include`
-    they name, dereferencing symlinks."""
-    dest.mkdir(parents=True, exist_ok=True)
-    queue, done = list(seeds), []
-    include_re = re.compile(r"^\s*\.(?:include|inc)\s+(\S+)\s*$", re.I | re.M)
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = src_models / name
-        if not src.is_file():
-            raise SystemExit(f"model closure: {src} is not a readable file")
-        shutil.copyfile(src, dest / name)
-        done.append(name)
-        for target in include_re.findall(src.read_text(errors="replace")):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(
-                    f"model closure: {src} includes {target!r}; this generator "
-                    "only follows same-directory relative includes")
-            queue.append(target)
-    return done
-
-
 def write_vco_request(pdk: pathlib.Path, out: pathlib.Path) -> None:
-    tech = pdk / "libs.tech" / "ngspice"
     decks_dir = out / "vco" / "decks"
     if decks_dir.exists():
         shutil.rmtree(decks_dir)
     decks_dir.mkdir(parents=True)
 
-    staged = []
-    models = copy_closure(tech / "models", decks_dir / "models",
-                          ["cornerMOShv.lib", "cornerRES.lib"])
-    for name in models:
-        staged.append((f"models/{name}",
-                       str((tech / "models" / name).resolve()),
-                       sha256(decks_dir / "models" / name)))
-    (decks_dir / "osdi").mkdir()
-    for name in OSDI:
-        src = tech / "osdi" / f"{name}.osdi"
-        if not src.is_file():
-            raise SystemExit(f"OSDI: {src} is not a readable file")
-        shutil.copyfile(src, decks_dir / "osdi" / f"{name}.osdi")
-        staged.append((f"osdi/{name}.osdi", str(src.resolve()),
-                       sha256(decks_dir / "osdi" / f"{name}.osdi")))
+    staged = stage_pinned_pdk(pdk, decks_dir,
+                              ["cornerMOShv.lib", "cornerRES.lib"], OSDI)
 
     # The DUT: the Kvco bench's own XCDECAP-stripped derivation of this
     # slug's frozen snapshot (the snapshot itself stays an exact export).
@@ -231,11 +194,7 @@ def write_vco_request(pdk: pathlib.Path, out: pathlib.Path) -> None:
         w.writerow(["id", "mos_corner", "res_corner", "temp_c", "band_code",
                     "vctrl_v", "deck_sha256"])
         w.writerows(rows)
-    with open(out / "vco" / "staged_pdk.sha256.csv", "w", newline="") as fh:
-        import csv
-        w = csv.writer(fh)
-        w.writerow(["staged_name", "source_path", "sha256"])
-        w.writerows(staged)
+    write_staged_manifest(out / "vco" / "staged_pdk.sha256.csv", staged)
     print(f"wrote {len(decks)} vco decks to {out / 'vco'}")
 
 
@@ -306,10 +265,8 @@ def main() -> None:
         help="an ihp-sg13cmos5l tree at sim/README.md's PDK-PIN revision "
              "607e18d4... (env: PINNED_PDK). Required.")
     a = ap.parse_args()
-    if not a.pinned_pdk:
-        raise SystemExit("gen_125c_acquisition_requests.py: --pinned-pdk DIR "
-                         "(or PINNED_PDK=DIR) is required.")
-    pdk = pathlib.Path(a.pinned_pdk).expanduser().resolve()
+    pdk = resolve_pinned_pdk(a.pinned_pdk,
+                             prog="gen_125c_acquisition_requests.py")
     if not (pdk / "libs.tech" / "ngspice" / "models" / "cornerMOShv.lib").is_file():
         raise SystemExit(f"--pinned-pdk: {pdk} has no ngspice model closure")
     out = pathlib.Path(a.outdir).resolve()

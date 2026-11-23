@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `3df5e513…128` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `7863200b…f29` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -600,7 +600,7 @@ gate list no inventory's `checks` cover, so hashing its bytes restores the
 byte-binding the `osdi-arch` self-test had when it was a `signoff.yml` line —
 deleting or editing a `TAIL` entry now changes the hash and fails the
 re-attest.
-Twenty-four audit commands then each run, without a shell, from the repo root
+Twenty-five audit commands then each run, without a shell, from the repo root
 and must exit 0: the records checker and its unit tests, the summary
 generator's unit tests and `--check`, the six `manifests/check_*` gates with
 their unit tests, the `manifests/check_netlist_stamp.py` and
@@ -609,8 +609,11 @@ the three `sim/sg13cmos5l-closed-loop-lock/testbench/` metric-extraction
 self-tests (`test_cpdiag_metrics.py`, `test_mismatch_gain_metrics.py`,
 `test_collect_125c_acquisition.py`), the
 `sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py`
-threshold-grid self-test, and the
-`sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run guard self-test.
+threshold-grid self-test, the
+`sim/sg13cmos5l-postlayout-pex-pvt/extraction/` PEX-run guard self-test,
+and the `sim/tools/test_stage_pinned_pdk.py` pinned-PDK staging self-test
+(#544 — the shared `sim/tools/stage_pinned_pdk.py` module the four
+SG13CMOS5L deck-list generators stage their model/OSDI closures through).
 These are the repo's offline gate set, written once in the
 inventory (#503, the one-source ruling): `signoff.yml`'s `records` job runs
 exactly this list through `scripts/run_gates.py` — the same list the local
@@ -702,8 +705,14 @@ hand):
 - the charge-pump PVT evidence for the DR-010 dump buffer (no tracking issue
   filed — the up/dn mismatch Monte Carlo now exists, see "Item 6", but the
   dump buffer itself is still nominal-only), the real-cp loop PM re-check
-  across the fast/slow grid (#203), and a closed loop that acquires (the
-  nominal real-divider loop does not acquire).
+  across the fast/slow grid (#203), and a closed loop that acquires across
+  all of PVT (the real-divider loop now locks at 16 of 17 PVT corners —
+  [`RECORD-002`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md)
+  and
+  [`RECORD-003`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-003-closed-loop-pvt-divider-compatible-point.md),
+  band `00` / `f_ref` = 9.375 MHz / 600 MHz, issues #401 and #516 — but
+  `mos_ss`/125 C does not lock, failing in the divider; no spec row is
+  ratified from either record).
 
 ## The tool that grades
 

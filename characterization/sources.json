@@ -2027,6 +2027,140 @@
    "record_sha256": "d4112388f829f3da5169bf662ebc91d8867dd3ac6025d62b7b24ea4cc7877c9a"
   },
   {
+   "id": "closed-loop-real-divider-pvt",
+   "section": "sg13cmos5l-schematic-pvt",
+   "pdk": "SG13CMOS5L",
+   "status": "current",
+   "dut_revision": "same DUT as RECORD-002's _o2 runs: committed pfd, DR-010 cp (cp-dr010.spice), loop_filter, vco (XCDECAP stripped, ideal caps at campaign values) and the repaired divider_chain (netlist-snapshots at design/sg13cmos5l/netlist @3da79b6; RECORD-002 sha256 table)",
+   "context": "schematic, pre-layout, closed loop, PVT campaign",
+   "conditions": "RECORD-002's operating point (band 00, f_ref 9.375 MHz, N = 64, 600 MHz): 5 MOS corners x {-40, 27, 125} C at 3.3 V plus mos_tt/27 C at 3.0 and 3.6 V, real arm; behavioural-divider control arm at mos_tt x 3 temps; res_typ everywhere; one 10 us warm-started (.ic vctrl = 1.23 V) transient per unit; ngspice-47, klt client 0.9.3.dev2575+g6bd18bbc8637, runner 0.9.0, staged pinned closure verified per report (PDK-PIN ihp-sg13cmos5l 607e18d4, PDK ihp-sg13g2 5cccb161)",
+   "method": "pre-composed per-unit decks from gen_pvt_requests.py (byte-identical to run.sh's RECORD-002 _o2 body minus klt-owned cards) submitted with klt sim --backend batch --wait-for-capacity 600; graded by pvt_metrics.py: dual-lock verdict and warm lock time from the t_ref/t_fb crossing series via mismatch_gain_metrics.lock_trace_from_edges, per-domain 8-10 us supply-current averages, pre-stated per-unit predictions from divider-max-frequency RECORD-001 and vco-kvco-table RECORD-002 (unpredicted corners marked, never extrapolated)",
+   "record": "sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-003-closed-loop-pvt-divider-compatible-point.md",
+   "tables": [
+    {
+     "id": "units",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/pvt1/pvt_units.csv",
+     "sha256": "8114db7e6458498c3908aa1f215e15684727a2afb112f377126d96f729432bf4"
+    },
+    {
+     "id": "batch-jobs",
+     "path": "sim/sg13cmos5l-closed-loop-real-divider/corners/pvt1/batch-jobs.csv",
+     "sha256": "4ab67dddf1c316c3b73065c1e1ca0546ec08fe8854d855fe975ba2522926130a"
+    }
+   ],
+   "metrics": [
+    {
+     "table": "units",
+     "column": "lock_time_s",
+     "units": "s (WARM-STARTED: .ic vctrl = 1.23 V; not a cold-start acquisition)",
+     "quantity": "dual-lock acquisition time (longest dual-lock run start); ss/125C row is a non-locked trajectory's longest partial run",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "final20_phase_mean",
+     "units": "fraction of T_ref",
+     "quantity": "final-20-cycle static phase error mean (dual-lock criterion bound: 5 %)",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "f_vco_hz_8_10us",
+     "units": "Hz",
+     "quantity": "VCO frequency from v(clk) crossings over 8-10 us",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "vc_avg_v",
+     "units": "V",
+     "quantity": "settled control voltage (8-10 us average)",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "i_pfd_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "pfd supply current, 8-10 us average",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "i_cp_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "charge pump supply current, 8-10 us average",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "i_vco_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "vco supply current, 8-10 us average",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    },
+    {
+     "table": "units",
+     "column": "i_div_a",
+     "units": "A (ngspice source sign: negative = drawn from supply)",
+     "quantity": "divider_chain supply current, 8-10 us average (0 for the control arm: behavioural divider unloaded)",
+     "coverage_columns": [
+      "arm",
+      "mos_corner",
+      "temp_c",
+      "vdd_v"
+     ]
+    }
+   ],
+   "notes": [
+    "FAILURE RETAINED: mos_ss/125 C / 3.3 V does NOT lock (15/20 scored FB periods at exactly 64 clk edges, 2 at 63, 2 at 65); failing block named divider_chain (vctrl settled mid-range, ruling out vco reach / cp drive). Column bounds over the full table include that row.",
+    "19/20 units meet the dual-lock criterion (|df/f_ref| < 1 % AND |phase| < 5 % T_ref for >= 20 consecutive cycles); every lock time is warm-started, one run per corner, simulator-deterministic.",
+    "Solver options differ from RECORD-002's nominal deck (cold-corner line reltol=1e-3 vntol=1e-4 abstol=1e-9 trtol=7; ss/-40C additionally uic): at the nominal tuple the two agree to ~0.6 % on static phase and ~0.1 uA per domain current.",
+    "ss/-40C unit ran the uic deck (starts directly from .ic cards); the other 19 units are plain tran starts.",
+    "Row 7/10/11 numbers are NOT proposed by this dataset; R-2's 5 % static-phase gate is evidenced at 16/17 real corners, not all of PVT."
+   ],
+   "gap_ids": [
+    "no-ratified-spec",
+    "pvt-axes-partial",
+    "divider-speed"
+   ],
+   "record_sha256": "652007ce4cdbdcab0a8c3829dd6746b9abde00c849e41b56bca218d6f250cbec"
+  },
+  {
    "id": "closed-loop-pfd-parity-rerun",
    "section": "sg13cmos5l-nominal-single-point",
    "pdk": "SG13CMOS5L",
