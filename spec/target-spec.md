@@ -93,7 +93,7 @@ the plan.
 | 3 | Multiplication ratio | M | Det | Digital | N in 64 to 127, every integer, no holes. Functional: 20/20 simulated points divide at exactly the commanded N (9 PVT corners at N=64, every program-bit weight, two mixed codes, N=127 at both speed-bracket extremes, 100 MHz). Retiming closure at 1562.0 MHz is **unmet**; see R-3 | DR-005 (proposed) amends 4 to 64 | `sg13cmos5l-divider-nrange-retiming`: `records/RECORD-003-divider-repair-reverification.md`; SG13G2 corroboration `sg13g2-divider-repair-reverification`: `records/RECORD-001-divider-repair-reverification.md` | one-edge closing bound: 825 MHz at `mos_tt`/-40 C, 866 MHz at `mos_tt`/27 C, 1277 MHz at `mos_ff`/27 C |
 | 4/5 | Kvco bound / band-selection rule | M | Det | Analog | The per-band, per-corner Kvco table, not a single ceiling. Range across the table: Kvco avg 144.2 to 422.4 MHz/V, Kvco peak local (2.1 to 2.7 V) 162.2 to 379.9 MHz/V. Band code is inert at `VCTRL` = 0.3 V and spreads about 2.8x at 2.7 V. A numeric ceiling and the lowest-band-first rule are not set by any record; see R-4 | none sets a bound; DR-001 / porting-plan row 4/5 name the rule structure | `sg13cmos5l-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md` (range figures are quoted in `sim/README.md` from `sg13g2-vco-kvco-table`: `records/RECORD-001-kvco-band-code-table.md`) | per-row in the record's table |
 | 6/6a | Loop bandwidth / phase margin | M | Det | Analog | Criteria: `f_c` < `f_ref`/10 (ceiling 0.35 to 2.44 MHz across the row 2 range) and phase margin >= 45 deg. Mechanism: `R1` = `rppd` `w=0.6u l=810u` (about 344.2 kOhm typ) plus an Icp trim table keyed to `f_ref`: the six original codes (2.5 to 80 uA ladder) plus 3.75 uA (band 00, mid interval, `f_ref` = 4.5 MHz) and 11 uA (band 00, low interval, `f_ref` = 4.5 MHz). Coverage is incomplete; see R-6 | DR-006 `loop-filter-r1-resize` (proposed); DR-007 (proposed); DR-008 (proposed); DR-005 left this row as-is | `sg13cmos5l-loop-bandwidth-pm`: `records/RECORD-002-r1-resize-full-fref-range.md`, `records/RECORD-003-issue83-close-band00-mid-fref4p5-pm-gap.md`, `records/RECORD-004-issue79-close-band00-low-fref4p5-pm-gap.md`; `sg13cmos5l-cp-icp-trim`: `records/RECORD-003-issue83-finetrim-icp.md`, `records/RECORD-004-issue79-finetrim-icp.md`; `sg13cmos5l-loop-filter-momcap`: `records/RECORD-002-r1-resize-momcap.md` | band 00, low interval, `f_ref` = 4.5 MHz: `fast` PM 45.592 deg at 11 uA (0.592 deg margin); band 00, mid interval, 4.5 MHz: `slow` PM 49.973 deg at 3.75 uA |
-| 7 | Lock time | O | Det | both (closed loop) | No number proposed. Gate: R-2. This row's 5%-of-`T_ref` static-phase criterion is also what the retired `cp` mismatch screening limit was derived from; R-12 | porting-plan row 7 (structure only: dual threshold, held N cycles; the < 100 us and < 20 us gf180 values are not carried); DR-013 (proposed) retires that derived screening value and proposes no `cp` mismatch bound in its place, leaving this row's own criterion unchanged | `sg13cmos5l-closed-loop-lock`: `records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`; `sg13cmos5l-closed-loop-real-divider`: `records/RECORD-001-repaired-divider-in-loop-nominal.md` (both fail); sensitivity of this row's criterion to `cp` mismatch: `sg13cmos5l-closed-loop-lock`: `records/RECORD-014-cp-mismatch-phase-error-gain.md` | n/a |
+| 7 | Lock time | O | Det | both (closed loop) | No number proposed. Gate: R-2. This row's 5%-of-`T_ref` static-phase criterion is also what the retired `cp` mismatch screening limit was derived from; R-12 | porting-plan row 7 (structure only: dual threshold, held N cycles; the < 100 us and < 20 us gf180 values are not carried); DR-013 (proposed) retires that derived screening value and proposes no `cp` mismatch bound in its place, leaving this row's own criterion unchanged | `sg13cmos5l-closed-loop-lock`: `records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`; `sg13cmos5l-closed-loop-real-divider`: `records/RECORD-001-repaired-divider-in-loop-nominal.md` (both fail at their 20 MHz / band `11` point); `records/RECORD-002-divider-compatible-operating-point-nominal.md` (real-divider arm locks at the divider-compatible point — band `00` / `f_ref` = 9.375 MHz, dual lock held the final 91 cycles at 1.729% of `T_ref`; one nominal point, PVT pending #516); sensitivity of this row's criterion to `cp` mismatch: `sg13cmos5l-closed-loop-lock`: `records/RECORD-014-cp-mismatch-phase-error-gain.md` | n/a |
 | 8 | Period jitter | O | Stat | Analog (`vco`) | No number proposed. Gate: R-7 | porting-plan row 8 (percent-of-period framing, ripple-conditional structure) | `sg13cmos5l-vco-decap-momcap`: `records/RECORD-001-decap-momcap-sensitivity.md` bounds the decap value only, not jitter | n/a |
 | 9 | Integrated RMS jitter / phase noise | N | Stat | Analog | Not specified, derived-only. ngspice has no direct path to free-running-oscillator phase noise | DR-002 Decision 5 (proposed); ported as-is | none | n/a |
 | 10 | Reference spur | O | Stat | Analog (`pfd`, `cp`) | No number proposed. Gate: R-2 (needs a phase-locked carrier) plus a switching-charge-mismatch record | porting-plan row 10 (re-derive entirely) | `sg13cmos5l-closed-loop-lock`: `records/RECORD-001-closed-loop-lock-spur-power.md` (no locked carrier); static `cp` mismatch input in `sg13cmos5l-cp-icp-trim`: `records/RECORD-002-cascode-bias-mismatch-remeasure.md` | n/a |
@@ -155,19 +155,29 @@ a superseding DR is required.
 
 **R-2. Closed-loop rows 7, 10, 11 and the second half of 16 are open on one
 gate.** Gate: a phase-locked closed loop that meets the 5% static-phase
-criterion on the real blocks. Current evidence: the mitigated `cp` leaves an
-8.204% static phase error (target 5%).
+criterion on the real blocks. Current evidence: at 20 MHz / band `11` the
+mitigated `cp` leaves an 8.204% static phase error (target 5%).
 `sim/sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`
 attributes it to the dump-buffer follower holding `VDUMP` about 0.94 V below
-`VOUT` (about -41.30 fC per UP+DN pair); the real-divider loop does not
-acquire (`sg13cmos5l-closed-loop-real-divider`, `records/RECORD-001-repaired-divider-in-loop-nominal.md`).
+`VOUT` (about -41.30 fC per UP+DN pair). At the divider-compatible operating
+point, though, the real-divider loop acquires and locks:
+`sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md`
+(issue #401) runs the N = 64 loop at band `00` / `f_ref` = 9.375 MHz
+(600 MHz) and the real-divider arm holds the dual-lock criterion for the
+final 91 cycles of its 10 us window at a 1.729% static phase error — under
+the 5% criterion, but at ONE nominal point (`mos_tt`/`res_typ`/27 C/3.3 V),
+pre-layout, warm-started. RECORD-001's non-acquisition at 20 MHz / band `11`
+stands as history, the PVT campaign on the divider-compatible point is
+pending (#516), and no spec row is ratified from either record.
 Two things the ratifiers may want to look at together: that 8.2% static
 error is measured against a lock-detector threshold of about 12 to 37% of a
 reference period (DR-006 lock-detector), so the "window >= 2x worst static
 phase offset" half of row 16 would need at least about 16.4% at the lower end
 of that span. This is arithmetic on two records measured by different
-benches; it is not itself a measurement. Rows 7 and 10 name no number until
-a locked loop exists.
+benches; it is not itself a measurement. Rows 7, 10 and 11 still name no
+number: a nominal lock now exists (RECORD-002), but no PVT-covered lock
+evidence is ratified, so each stays open pending a decision record and
+ratification.
 
 **R-3. Row 3 retiming closure is unmet and not relaxed.** The functional N
 range passes; the one-edge retiming closing bound is 825 to 1277 MHz by
