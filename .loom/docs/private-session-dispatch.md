@@ -115,11 +115,152 @@ oversized metadata, foreign issue identities and symlink destinations are refuse
 Unchanged checkpoints retain their original timestamp and do not fabricate
 progress for crash-budget accounting.
 
-Dirty or unpushed private work remains in the account volume. Restart can resume
-on that account after the lifetime/cleanliness checks; automatic account or
-runtime failover stops for explicit recovery of the account-owned checkpoint.
-A successful remote push alone does not transfer private local phase state.
-Never delete the volume or reset a branch to work around a recovery refusal.
+Dirty private work still refuses reuse. Unpublished commits named by a branch
+no longer do: preparation never moves a branch, so a following step on the same
+branch resumes its local tip, steps for other branches/issues and other
+registered repositories of the account are unaffected, and the unpublished
+branches are left in place. A detached HEAD — root or linked worktree —
+carrying unnamed commits still refuses, naming the offending checkout and the
+branches `accounts session recover <account>` clears: without a flag it lists
+them (with ahead counts and stranded detached work), `--publish` pushes them
+to origin fast-forward only, and `--discard --branch B` (or `--issue N`)
+deletes exactly the named branches, under the same exclusive account lease as
+a job. Restart can resume on that account after the lifetime/cleanliness
+checks; automatic account or runtime failover stops for explicit recovery of
+the account-owned checkpoint. A successful remote push alone does not
+transfer private local phase state. Never delete the volume or reset a branch
+to work around a recovery refusal.
+
+A branch can also be held by a clean linked worktree a contained step created
+under the clone (its own issue worktree): the hold passes the dirty check,
+stays invisible to the detached-HEAD scan, and makes the next preparation
+refuse naming the holding path and the branch instead of Git's suppressed
+stderr. When the branch still carries unpublished commits, `accounts session
+recover <account> --discard --branch B` removes the holding worktree and
+deletes the branch (its unpublished commits go with it), or `--publish` first
+pushes them and the worktree is then removed by hand. Publishing alone never
+clears a hold: a published branch is never discarded, so an already-published
+hold is cleared by hand (`accounts session attach <account>`, then
+`git worktree remove <path>` in the clone — nothing unpublished is lost).
+
+### A dirty leftover worktree (`seat_dirty`)
+
+A leftover worktree with uncommitted or untracked files refuses preparation of
+**its own clone** (the account's other registered repositories prepare
+independently) with a message starting `seat_dirty:` — unless the automatic
+finished-PR reap described below removes it first; the step's failure is
+recorded with that reason instead of `unclassified`. The listing form of
+`accounts session recover <account>` names every dirty worktree — path,
+branch, tracked and untracked counts, and commits unpublished at its HEAD —
+even when no branch is unpublished. Save or resolve changes in the main
+checkout in place. To remove a leftover linked worktree, use
+`recover <account> --discard --worktree <path>`. Repeat `--worktree` to
+name multiple paths in one call. Recovery validates all paths across the
+account's clones before removing anything and resolves aliases to one
+worktree. It keeps branch refs and refuses primary, locked, out-of-volume,
+or unpublished worktrees. Publish or save any local commits before retrying.
+Use a separate call for `--branch` or `--issue` discards.
+
+Untracked files under `.loom/lease-renew/` and the worktree-root `.cache/`
+are ignored. Tracked changes in those directories are reported.
+Preparation can remove an unlocked linked worktree when its commits are
+reachable from the freshly fetched origin and the GitHub PR listing confirms
+a merged or closed PR for that exact repository, branch, and head commit.
+This includes squash and fast-forward merges and published PRs closed without
+merge. An open PR on the same branch, an unverifiable response, or an
+unsupported forge leaves the worktree in place.
+
+This automatic reap runs **before** the dirty check, so it wins over
+`seat_dirty`: a linked worktree whose tip is published and heads a finished
+PR is removed even when it carries uncommitted or untracked files. The
+removal is forced (`git worktree remove --force`): those uncommitted and
+untracked files are deleted with the worktree, while the branch ref and its
+commits are kept. Locked worktrees, the primary clone, and worktrees with
+unpublished commits are never reaped; when such a worktree is dirty, the
+refusal above still applies. Every path the reap removes is reported to the
+host on both success and refusal. The host logs each removed path with its
+account and repository before returning the preparation result.
+
+### Who reaps what: preparation vs the periodic seat pass
+
+Two paths reclaim inside a seat volume, with different rules (#14483 vs
+#14678):
+
+- **Job preparation** (per admission, the one target clone only): forgives
+  untracked caches, reaps linked worktrees whose tip heads a *finished* PR —
+  merged **or closed-unmerged**, dirty ones included via the forced removal
+  above — and backs the explicit `accounts session recover` listing and
+  `--discard`/`--worktree` removal of dirty leftovers. Preparation's reap
+  runs before its dirty check (`reap_finished_worktrees` before
+  `clean_worktrees`) and can remove a dirty, unlocked worktree whose tip is
+  published at a finished PR. That behavior is preparation's own and is not
+  changed by the seat pass.
+- **The periodic seat pass** (idle, every seat and every registered clone):
+  a leased maintenance verb — the account's exclusive lease, the container
+  proven running and idle, and **no `prepare` step**, so a dirty seat still
+  gets its pass — removes step scratch (`cache/<role>-<n>.*`, top-level
+  `*-tmp` and `<role>-<n>.*` dirs) older than
+  `autonomous.worktreeReaper.scratchReclaim.maxAgeHours`, and reaps a linked
+  worktree only when it is clean, fully published, unlocked, in-volume, and
+  its branch has a confirmed **merged** PR at that exact tip past
+  `autonomous.worktreeReaper.gracePeriodSecs`. It never quarantines and
+  never takes a backup; a worktree it cannot prove finished is preserved
+  with a reason (dirty, unpublished, open PR, closed-unmerged, grace not
+  passed, state unreadable). The pass honors the existing
+  `scratchReclaim.*` surface — no new flags — and reports reclaimed bytes
+  and preserved reasons through `reaper.pass` spans (class `seat`, the span's
+  repo label the seat's account name) instead of the host reaper's blanket
+  `preserved.private_workspace` wording for what it now handles.
+
+The preservation guarantee — a dirty, unpublished, open-PR or
+closed-unmerged worktree is never removed — is the **seat pass's** rule. A
+dirty worktree whose tip is published at a merged PR past grace is the
+dividing case: preparation may force-remove it at the next admission of that
+clone, the seat pass preserves and reports it. `.identity` records and the
+no-alternates / private-clone invariants are untouched by both paths.
+
+## Rebinding a registration after a repository transfer
+
+A forge transfer changes the owner-qualified URL, and with it the registration
+key and the clone directory (`work/<owner>-<name>-<hash>`). Repeating
+`session start --private-clone <new-url>` only *adds* an empty registration, so
+the old clone and its work would be stranded. For an **additional** registration
+(the primary repository is out of scope and refused) use, on an idle account:
+
+```
+loom-daemon accounts session status <account>           # registered URLs, lease
+loom-daemon accounts session recover <account>          # list unpublished work
+loom-daemon accounts session rebind <account> --from <old-url> --to <new-url> --dry-run
+loom-daemon accounts session rebind <account> --from <old-url> --to <new-url>
+```
+
+`rebind` runs under the exclusive account lease and the same admission policy
+as a job (running, idle session; firewall check on the NEW url) and refuses an
+operator hold without lifting it. It never deletes data: it verifies the
+canonical URL's base branch shares history with the old clone's `origin/<base>`
+(a different repository reused at the old name is refused with *wrong
+repository*), renames the directory on the volume, rewrites the identity record
+and `origin`, fetches, checks that the clone's branches, unpublished commits and
+dirty state are unchanged, and only then rewrites `workspace.json` (same base).
+`--dry-run` performs the checks and reports without moving or registering
+anything.
+
+Failure paths, all leaving existing state intact:
+
+- **busy** (a job or unleased worker): retry later; never interrupted.
+- **operator hold**: reported; release it deliberately with `session start`.
+- **both locations populated**: status `both_populated`, nonzero exit, both
+  clones and registrations untouched. Reconcile by hand (publish with
+  `session recover --publish`, or `session attach` and move the work), leaving
+  one clone, then re-run.
+- **wrong repository / no `origin/<base>` / linked worktrees in the clone**:
+  refused before any move.
+
+A crash between steps is finished by running the same command again. Re-running
+a completed rebind verifies it (`already_bound`) and reports the selected clone
+path. If old and new are both registered but only one is cloned, the rebind
+retires the duplicate registration. Rebinding live seats is the fleet
+operator's step once a build with this verb is installed.
 
 ## Credential-free integration evidence
 
