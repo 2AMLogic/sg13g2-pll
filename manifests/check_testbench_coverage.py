@@ -34,7 +34,8 @@ the same bench through ``KEY: value`` lines (format: sim/README.md,
 "Provenance addenda"):
   * ``ADDENDUM-FOR``  bench-relative path of the original record;
   * ``ADDENDUM-KIND`` ``recovered`` (historical provenance was recovered from
-    evidence) or ``superseded`` (a new rerun replaces the evidence claim);
+    evidence), ``superseded`` (a new rerun replaces the evidence claim) or
+    ``note`` (a non-provenance annotation; it resolves nothing);
   * ``ADDENDUM-SHA256`` sha256 of the original's bytes (pins "unmodified");
   * ``ADDENDUM-EVIDENCE`` what was recovered / rerun (non-empty);
   * recovered: one or more ``ADDENDUM-PDK: <tree> <40-hex>`` lines (several
@@ -43,6 +44,10 @@ the same bench through ``KEY: value`` lines (format: sim/README.md,
   * superseded: ``ADDENDUM-RERUN`` = same-bench RECORD-*.md that cites the
     original by file name and itself passes (or is itself resolved); PDK
     lines are forbidden, since a new run does not prove the old environment.
+  * note: an append-only annotation that asserts no provenance at all (e.g.
+    "a committed scratch dir is superseded and not evidence"); it may target
+    a defect-free record, never resolves a defect, and must not carry
+    ``ADDENDUM-PDK``/``ADDENDUM-TOOL``/``ADDENDUM-RERUN``.
 A valid association resolves the original's defect (the KNOWN_DEFECTS entry
 stays until a human removes it; it is then reported as resolved). Missing,
 contradictory, dangling, cyclic, cross-bench, duplicate or hash-mismatched
@@ -162,8 +167,15 @@ def parse_addendum(path, sim):
         if pdk or "TOOL" in fields:
             errs.append(f"{rel}: superseded addendum must not assert the old PDK/tool "
                         "(a new run does not prove the old environment)")
+    elif kind == "note":
+        if pdk:
+            errs.append(f"{rel}: note addendum must not assert PDK provenance (ADDENDUM-PDK)")
+        if "TOOL" in fields:
+            errs.append(f"{rel}: note addendum must not assert a tool version (ADDENDUM-TOOL)")
+        if "RERUN" in fields:
+            errs.append(f"{rel}: note addendum must not name a rerun (ADDENDUM-RERUN)")
     elif kind is not None:
-        errs.append(f"{rel}: ADDENDUM-KIND must be recovered|superseded, got {kind!r}")
+        errs.append(f"{rel}: ADDENDUM-KIND must be recovered|superseded|note, got {kind!r}")
     if errs:
         return None, errs
     return dict(fields, pdk=dict(pdk), addendum=rel), []
@@ -188,6 +200,11 @@ def load_associations(sim, on_disk):
                 continue
             if hashlib.sha256(orig.read_bytes()).hexdigest() != a["SHA256"].lower():
                 errs.append(f"{a['addendum']}: ADDENDUM-SHA256 does not match the bytes of {tgt}")
+                continue
+            if a["KIND"] == "note":
+                # Annotation only: it may target a defect-free record, never
+                # resolves a defect, and does not take over assocs[tgt] (so
+                # it coexists with a recovered/superseded addendum).
                 continue
             if tgt in assocs:
                 errs.append(f"{tgt}: more than one addendum ({assocs[tgt]['addendum']}, "

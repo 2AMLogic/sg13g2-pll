@@ -103,6 +103,35 @@ class Addendum(Fixture):
         self.assertTrue(any("not named" in e for e in self.errs()))
 
 
+NOTE = ("# ADDENDUM-005: scratch cache is not evidence\n\n"
+        "ADDENDUM-FOR: bench/records/RECORD-001-a.md\n"
+        "ADDENDUM-KIND: note\nADDENDUM-SHA256: <sha256>\n"
+        "ADDENDUM-EVIDENCE: committed .klt/ scratch cache is superseded, not evidence\n")
+
+
+class NoteAddendum(Fixture):
+    """ADDENDUM-KIND: note -- structural checks (issue #398)."""
+
+    def put(self, text=NOTE, name="ADDENDUM-005-scratch-not-evidence.md"):
+        write(self.root, f"sim/bench/records/{name}", text)
+
+    def test_note_accepted_and_not_numbered(self):
+        self.put()
+        self.assertEqual(self.errs(), [])
+
+    def test_note_dangling_target_fails(self):
+        self.put(NOTE.replace("RECORD-001-a", "RECORD-009-x"))
+        self.assertTrue(any("not an existing record" in e for e in self.errs()))
+
+    def test_note_cross_bench_target_fails(self):
+        self.put(NOTE.replace("bench/records/RECORD-001-a", "other/records/RECORD-001-a"))
+        self.assertTrue(any("not an existing record" in e for e in self.errs()))
+
+    def test_note_missing_keys_fail(self):
+        self.put("# nothing\n")
+        self.assertTrue(any("missing ADDENDUM-FOR" in e for e in self.errs()))
+
+
 class Format(Fixture):
     def test_title_mismatch(self):
         write(self.root, self.paths[1], REC.format(n="009"))

@@ -36,7 +36,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 NAME_RE = re.compile(r"^RECORD-(\d{3})-[A-Za-z0-9][A-Za-z0-9._-]*\.md$")
 ADDENDUM_RE = re.compile(r"^ADDENDUM-(\d{3})-[A-Za-z0-9][A-Za-z0-9._-]*\.md$")
-ADDENDUM_KINDS = ("recovered", "superseded")
+ADDENDUM_KINDS = ("recovered", "superseded", "note")
 H1_RE = re.compile(r"^# RECORD-(\d{3}): \S")
 RECORD_PATH_RE = re.compile(r"^sim/[^/]+/records/RECORD-[^/]+\.md$")
 
