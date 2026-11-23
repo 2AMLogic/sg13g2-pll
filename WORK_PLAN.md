@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-23T03:10:00Z (snapshot; compare against live labels)_
+_Generated: 2026-11-23T10:15:00Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -46,6 +46,7 @@ Issues currently being built (`loom:building`).
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007) *(held)*
+- **#539**: sim: ignore .klt/ scratch caches and annotate the rerun-324 klt cache as not evidence
 
 ## Approved (Awaiting Merge)
 
@@ -68,7 +69,9 @@ Issues carrying `loom:curated`.
 - **#316**: Item 9: supersede sg13cmos5l-vco-decap-momcap provenance (child of #216) *(curated)* *(held)*
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
 - **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
+- **#384**: Collapse run_rerun256.sh (921-line copy of the lock-detector run.sh, one functional line differs) into a thin wrapper *(curated)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
+- **#398**: Gitignore .klt/ and annotate committed rerun-324 klt scratch cache as non-evidence *(curated)*
 - **#514**: divider_chain: structural redesign of the high-speed front end (XD0 first) so the chain divides exactly at 1562 MHz across the 9-corner star (row 3, R-3, DR-012 follow-up) *(curated)* *(held)*
 - **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3) *(curated)*
 - **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2) *(curated)*
@@ -76,9 +79,7 @@ Issues carrying `loom:curated`.
 
 ## Proposed (Architect / Hermit)
 
-- **#384**: Collapse run_rerun256.sh (921-line copy of the lock-detector run.sh, one functional line differs) into a thin wrapper *(hermit)* *(held)*
-- **#396**: Collapse run_rerun256.sh into a run.sh output-suffix knob: 906 duplicated lines, one line of real difference *(hermit)* *(held)*
-- **#398**: Remove committed klt scratch cache under sim/ and gitignore .klt/ *(hermit)* *(held)*
+- **#384**: Collapse run_rerun256.sh (921-line copy of the lock-detector run.sh, one functional line differs) into a thin wrapper *(hermit)*
 - **#410**: Deduplicate the manifests/ gate envelope checks: four spellings of hash-bound-to-adjacent-GDS, plus one unexercised fallback *(hermit)* *(held)*
 - **#416**: Artifact-store writer from #278 is inert: zero manifests in 3 weeks while 75.7 MB of raw evidence went to git *(hermit)* *(held)*
 
@@ -99,9 +100,9 @@ Issues carrying `loom:curated`.
 | Important | 7 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
 | In Progress (`loom:building`) | 2 |
-| PRs awaiting review | 1 |
+| PRs awaiting review | 2 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 16 |
-| Architect / Hermit proposals | 5 |
+| Curated | 18 |
+| Architect / Hermit proposals | 3 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
