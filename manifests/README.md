@@ -579,7 +579,7 @@ has no statistical row.
 
 | Row | Cites | Pinned to |
 | --- | --- | --- |
-| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `7863200b…f29` |
+| `10.analog` | [`inventories/item-10.envelope.json`](inventories/item-10.envelope.json) | inventory [`inventories/item-10.json`](inventories/item-10.json) `826eb7bb…f2d` |
 | `10.digital` | the same envelope | the same inventory hash |
 
 Both partitions cite the one envelope, as the manifest requires for a
@@ -588,8 +588,8 @@ mixed-signal block. The envelope is tool-produced (`klt signoff --attest 10
 hand-written, and nothing is borrowed from another item's evidence.
 
 **What the attestation checks.** Each of the hygiene files exists and is
-hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the four workflows
-`.github/workflows/{signoff,layout-tests,netlist,artifact-manifests}.yml`,
+hashed: `README.md`, `LICENSE`, `spec/target-spec.md`, the three workflows
+`.github/workflows/{signoff,layout-tests,netlist}.yml`,
 the xschem pin
 `.github/scripts/install-xschem` (#495) — the fleet-pinned build (#490) that
 `netlist.yml`'s regeneration gate installs from; attesting its bytes is what
@@ -646,16 +646,13 @@ automatically.
   needs a PR base ref; `signoff.yml` still runs it on pull requests as a
   plain CI-only step — the one gate the workflow runs that the inventory
   omits, by declared scope (its `description` says so).
-- It attests `.github/workflows/artifact-manifests.yml`'s bytes (the fourth
-  workflow, added to the `hygiene` list by #498) but does not run the three
-  gates that workflow runs (`scripts/check_artifact_manifests.py`, its unit
-  test, and `scripts/test_run_gates.py`): they stay out of the `checks` list
-  because item 10's checks claim does not scope to that workflow, and
-  inventorying another workflow's gates would add an enumeration this
-  re-attest does not consume. The three gates are mirrored, each with its
-  reason, in `scripts/run_gates.py`'s `TAIL` instead (#393) — and the runner's
-  own bytes are hashed in `hygiene` (#507), so that mirroring cannot drift
-  silently: a `TAIL` edit changes the hash and fails the re-attest.
+- It does not inventory the three gates `scripts/run_gates.py` mirrors in its
+  `TAIL` (the netlist-stamp check, this runner's own unit test, and the
+  bash OSDI self-test): they stay out of the `checks` list because CI reaches
+  them only indirectly or they are not python3. Each is mirrored, with its
+  reason, in the runner's `TAIL` (#393) — and the runner's own bytes are
+  hashed in `hygiene` (#507), so that mirroring cannot drift silently: a
+  `TAIL` edit changes the hash and fails the re-attest.
 - It does not judge the content of the README or the spec. The README's spec
   table cites `spec/target-spec.md`, whose status is still **DRAFT**. Item 10
   asks for "its spec table", not a ratified one; ratification is item 5's
@@ -828,4 +825,15 @@ fresh report against the committed one.
   per-status counts against the Row table; a missing ROADMAP file or a missing
   sentence is a pass.
 
-New raw evidence stored outside git is described in [`artifacts/README.md`](artifacts/README.md).
+## Evidence storage decision (#416)
+
+Operator ruling, 2026-11-23 (`rjwalters`, attended `/fleet:decide`, round
+`20261121-r19`, `r19-q260`): this repo's raw simulation and layout evidence
+stays **committed in git and deduplicated locally by
+`layout/bin/record_store.py`**, rather than shipped to the fleet artifact
+broker. The inert artifact-store writer and manifest checker added by #278
+(`scripts/store_evidence.py`, `scripts/check_artifact_manifests.py`, their
+test, the `artifact-manifests.yml` workflow, and the `.stage/` ignore) are
+removed. Scope: this repo only; it is not a fleet-wide ruling against the
+artifact broker. Reversible: the #278 code remains in git history. If repo
+growth becomes the concern, pair this with a CI large-file/size report.
