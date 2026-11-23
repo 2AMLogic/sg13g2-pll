@@ -104,14 +104,6 @@ small-signal DC gain at that point, from the DC-transfer sweep:
    100 kHz**, and the equivalent-current density below is flat from
    ~100 MHz up, so the white-only model is calibrated in a band where
    flicker has already died away.
-   Every per-device `onoise_total_*` row, with its flicker / thermal /
-   other / excluded-aggregate classification, is committed in
-   `../corners/calibration_devices.csv`: the remaining 0.886 mV rms is the
-   `other` bucket (gate/junction/well/bulk resistive and leakage terms), and
-   flicker + thermal + other close on the 2.8853 mV sub-component total in
-   quadrature. The bare per-device aggregates are listed but excluded from
-   the sum (double-count guard). `extract.py` now exits non-zero if the trip
-   point `v(sout)` cannot be parsed, rather than substituting a literal.
 2. `.ac` with 1 A injected into the stage output (`cal_ac`) gives
    `|Z_out(f)|`; the equivalent injected density
    `S_i,eff(f) = S_v(f)/|Z_out(f)|^2` is **flat to within x1.22 over the

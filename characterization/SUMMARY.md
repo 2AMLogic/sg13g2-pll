@@ -1000,6 +1000,7 @@ the min/max.
 - **Conditions**: ONE corner (mos_tt/res_typ, 27C, 3.3V, band 00, VCTRL=1.5V); method bench, not a PVT campaign (parked on klayout-tools#5772)
 - **Method**: transient-noise injection: one aggregate white current source per ring stage (trrandom gaussian, ts=10ps), calibrated against .noise on a linear-biased single vco_stage; crossings of the buffered output
 - **Record**: `sim/sg13cmos5l-vco-period-jitter/records/RECORD-001-period-jitter-method.md` (sha256 `e2c495a002841dce7ae51f4e99794518efec82960674a1f4668147511c04f18c`)
+- **Record**: `sim/sg13cmos5l-vco-period-jitter/records/RECORD-002-calibration-devices-split.md` (sha256 `24153c773cf37f9bf43a4b4ac012893be54c4cb553372b5a7954f60616f533ac`)
 - **Table `jitter`**: `sim/sg13cmos5l-vco-period-jitter/corners/period_jitter.csv` (sha256 `73a685a2d7df6fe636b961e496592d60f5658d60323dfc162b1cb1716a3717e5`)
 - **Table `psd`**: `sim/sg13cmos5l-vco-period-jitter/corners/calibration_psd.csv` (sha256 `e0ca894dc0533c84f9b6f71e5f05bcf8cbc3d1eac04a5d7e8b749b96520576bb`)
 - **Note**: White-thermal floor only: flicker, bias-network, buffer, resistor, substrate and supply noise excluded; calibrated at a linear-region bias and applied to the switching ring (RECORD-001 'What this does not bound').
