@@ -703,10 +703,13 @@ hand):
   filed — the up/dn mismatch Monte Carlo now exists, see "Item 6", but the
   dump buffer itself is still nominal-only), the real-cp loop PM re-check
   across the fast/slow grid (#203), and a closed loop that acquires across
-  PVT (the nominal real-divider loop now acquires at one committed point —
-  [`RECORD-002`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md),
-  band `00` / `f_ref` = 9.375 MHz / 600 MHz, issue #401 — but the PVT
-  campaign on that point is pending, #516; no spec row is ratified from it).
+  all of PVT (the real-divider loop now locks at 16 of 17 PVT corners —
+  [`RECORD-002`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-002-divider-compatible-operating-point-nominal.md)
+  and
+  [`RECORD-003`](../sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-003-closed-loop-pvt-divider-compatible-point.md),
+  band `00` / `f_ref` = 9.375 MHz / 600 MHz, issues #401 and #516 — but
+  `mos_ss`/125 C does not lock, failing in the divider; no spec row is
+  ratified from either record).
 
 ## The tool that grades
 

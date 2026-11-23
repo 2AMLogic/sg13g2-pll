@@ -57,6 +57,9 @@
 #   export PDK=ihp-sg13cmos5l
 #   ./run.sh                    # full corner grid  -> corners/*_bodyfix.csv
 #   NOMINAL_ONLY=1 ./run.sh     # one PVT corner    -> corners/*_bodyfix_nominal.csv
+#   OUT_TAG=_rerun256 ./run.sh  # either of the above, outputs tagged
+#                               # corners/*_bodyfix[_nominal]_rerun256.* (this
+#                               # is all run_rerun256.sh sets; see issue #384)
 #
 # NOMINAL_ONLY=1 (issue #136) collapses every matrix below to the single
 # nominal corner -- mos_tt / res_typ / 27 C / 3.3 V, the primary DUT variant,
@@ -229,7 +232,10 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbe
 
 CORNERS="$RECORD_DIR/corners"
 SUFFIX=bodyfix
-if [ "${NOMINAL_ONLY:-0}" = 1 ]; then OUT="${SUFFIX}_nominal"; else OUT="$SUFFIX"; fi
+# OUT_TAG (issue #384) appends to the OUTPUT names only.  Never fold it into
+# SUFFIX: SUFFIX also keys the DUT snapshot below, which must stay
+# lock_detector_bodyfix.spice for every entry point.
+if [ "${NOMINAL_ONLY:-0}" = 1 ]; then OUT="${SUFFIX}_nominal${OUT_TAG:-}"; else OUT="${SUFFIX}${OUT_TAG:-}"; fi
 if [ "${NOMINAL_ONLY:-0}" != 1 ] && [ "${KLT_SIM_BACKEND:-}" = batch ] \
    && [ "${ALLOW_LOCAL_GRID:-0}" != 1 ]; then
   echo "ERROR: KLT_SIM_BACKEND=batch marks a shared dispatch worker; the full corner" >&2
