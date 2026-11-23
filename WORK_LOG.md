@@ -6,6 +6,10 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-23
+
+- **Issue #396** (closed): Collapse run_rerun256.sh into a run.sh output-suffix knob: 906 duplicated lines, one line of real difference
+
 ### 2026-11-22
 
 - **PR #535**: docs(chipalooza): disclose the DR-010 cp delta and drop single-axis attribution in the RECORD-002 update notes
