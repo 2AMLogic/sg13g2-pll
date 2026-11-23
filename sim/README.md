@@ -142,7 +142,7 @@ Committed records are never edited, renamed or deleted. A grandfathered
 record (`KNOWN_DEFECTS` in `manifests/check_testbench_coverage.py`) is
 resolved only by a **new** file `sim/<slug>/records/ADDENDUM-NNN-<topic>.md`
 in the same bench, one addendum per original, made of `KEY: value` lines
-(other prose is ignored). Two kinds:
+(other prose is ignored). Three kinds:
 
 ```
 ADDENDUM-FOR: <slug>/records/RECORD-001-....md   # the original, same bench
@@ -161,6 +161,13 @@ ADDENDUM-RERUN: <slug>/records/RECORD-0NN-....md   # same bench, cites the origi
 ADDENDUM-EVIDENCE: <what was rerun>
 ```
 
+```
+ADDENDUM-FOR: <slug>/records/RECORD-001-....md     # any existing record, defect-free or not
+ADDENDUM-KIND: note
+ADDENDUM-SHA256: <sha256 of the original>
+ADDENDUM-EVIDENCE: <what the note discloses, e.g. a committed scratch dir is not evidence>
+```
+
 * `recovered` establishes the *historical* PDK revision(s) and tool of the old
   run from evidence. Revisions are never inferred from today's installed PDK
   or from the slug; a bench that used both trees lists both `ADDENDUM-PDK`
@@ -171,6 +178,15 @@ ADDENDUM-EVIDENCE: <what was rerun>
   not carry `ADDENDUM-PDK`/`ADDENDUM-TOOL`: a new run does not prove the old
   run's environment. The rerun is an ordinary `RECORD-*.md` and must itself
   cite a PDK revision and tool version (and match the pin).
+* `note` is a non-provenance annotation (issue #398): it discloses something
+  the record tree should carry -- e.g. that a committed directory is a
+  superseded scratch cache and **not evidence** -- without asserting anything
+  about the original run's environment. It may target any existing same-bench
+  record, defect-free or not (a `recovered`/`superseded` addendum may also
+  exist for the same record; a `note` never collides with it), never resolves
+  a provenance defect, and must not carry `ADDENDUM-PDK`, `ADDENDUM-TOOL` or
+  `ADDENDUM-RERUN`. `ADDENDUM-FOR`/`ADDENDUM-SHA256`/`ADDENDUM-EVIDENCE`
+  are validated exactly as for the other kinds.
 * A `RECORD-*.md` (including a rerun) may cite revisions for more than one
   known tree, written `PDK <tree> revision <hex>` or `<tree> <hex>`. Each
   tree-qualified revision is compared with **that tree's** pin; a mismatch is
@@ -180,8 +196,9 @@ ADDENDUM-EVIDENCE: <what was rerun>
 * The gate fails closed on: missing fields, bad hash, dangling or cross-bench
   references, a rerun that does not cite the original (unrelated), cyclic or
   self supersession, duplicate addenda for one record, unknown PDK tree or
-  contradictory revisions, an addendum for a record with no defect, and an
-  unresolved rerun. Resolved `KNOWN_DEFECTS` entries are retained (reported as
+  contradictory revisions, an addendum for a record with no defect (a
+  provenance kind; a `note` may target one), forbidden `PDK`/`TOOL`/`RERUN`
+  fields on a `note`, and an unresolved rerun. Resolved `KNOWN_DEFECTS` entries are retained (reported as
   resolved) until a human removes them; unresolved ones stay open.
   Item 9 stays unmet and uncited while any record is unresolved or any pin is
   `UNKNOWN`.
