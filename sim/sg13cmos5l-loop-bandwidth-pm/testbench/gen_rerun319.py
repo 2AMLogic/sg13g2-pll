@@ -78,6 +78,12 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REC_DIR = HERE.parent                      # sim/sg13cmos5l-loop-bandwidth-pm
 REPO = REC_DIR.parent.parent               # repo root
+
+sys.path.insert(0, str(REPO / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import (  # noqa: E402
+    resolve_pinned_pdk, stage_pinned_pdk, write_staged_manifest,
+)
+
 OUT = HERE / "rerun319"
 BENCH = "sim/sg13cmos5l-loop-bandwidth-pm"
 PDK = "ihp-sg13cmos5l"
@@ -191,54 +197,20 @@ def to_deck(src):
     return src
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
 def stage_pinned(pdk_root, decks_dir, label):
     """Stage the pinned tree's model closure and OSDI objects beside the
-    decks: every file some deck of this arm references deck-relatively, plus,
-    recursively, each staged library's same-directory `.include` closure
-    (symlinks dereferenced -- the pinned tree tracks the resistor cards as
-    symlinks into the sibling ihp-sg13g2 tree).  Returns manifest rows."""
-    ng = pdk_root / "libs.tech" / "ngspice"
+    decks (sim/tools/stage_pinned_pdk.py, issue #544): every file some deck
+    of this arm references deck-relatively, plus, recursively, each staged
+    library's same-directory `.include` closure (symlinks dereferenced --
+    the pinned tree tracks the resistor cards as symlinks into the sibling
+    ihp-sg13g2 tree).  Returns manifest rows."""
     referenced = set()
-    for sp in sorted(decks_dir.glob("*.sp")):
+    for sp in sorted(Path(decks_dir).glob("*.sp")):
         referenced |= set(STAGED_RE.findall(sp.read_text()))
     if not referenced:
         raise SystemExit(f"{label}: no staged model references found in decks")
-    rows = []
-    done = set()
-    queue = sorted(referenced)
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = ng / "models" / name
-        if not src.is_file():
-            raise SystemExit(f"{label}: staged closure: {src} is not a readable file")
-        (decks_dir / MODELS_REL).mkdir(exist_ok=True)
-        shutil.copyfile(src, decks_dir / MODELS_REL / name)  # follows symlinks
-        done.add(name)
-        rows.append((f"{MODELS_REL}/{name}", str(src.resolve()),
-                     sha256(decks_dir / MODELS_REL / name)))
-        for target in re.findall(r"^\.include\s+(\S+)\s*$",
-                                 (decks_dir / MODELS_REL / name).read_text(
-                                     errors="replace"), re.M):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(f"{label}: staged closure: {name} includes "
-                                 f"{target!r}; only same-directory relative "
-                                 "includes are followed")
-            queue.append(target)
-    (decks_dir / OSDI_REL).mkdir(exist_ok=True)
-    for n in OSDI_NAMES:
-        src = ng / "osdi" / f"{n}.osdi"
-        if not src.is_file():
-            raise SystemExit(f"{label}: OSDI: {src} is not a readable file")
-        shutil.copyfile(src, decks_dir / OSDI_REL / f"{n}.osdi")
-        rows.append((f"{OSDI_REL}/{n}.osdi", str(src.resolve()),
-                     sha256(decks_dir / OSDI_REL / f"{n}.osdi")))
-    return rows
+    return stage_pinned_pdk(pdk_root, decks_dir, sorted(referenced),
+                            OSDI_NAMES, label=label)
 
 
 def drive(label, mode, outdir=None, pdk_root=None):
@@ -395,18 +367,9 @@ def main(argv):
                          "request per arm)")
     a = ap.parse_args(argv)
     if a.mode == "render":
-        if not a.pinned_pdk:
-            raise SystemExit("render needs --pinned-pdk DIR (the pinned "
-                             "ihp-sg13cmos5l checkout) -- the fleet image's "
-                             "own tree is newer and must not resolve decks")
-        pdk_root = Path(a.pinned_pdk).resolve()
-        head = subprocess.check_output(
-            ["git", "-C", str(pdk_root), "rev-parse", "HEAD"], text=True).strip()
-        pin = re.search(r"^PDK-PIN ihp-sg13cmos5l ([0-9a-f]{40})$",
-                        (REPO / "sim" / "README.md").read_text(), re.M).group(1)
-        if head != pin:
-            raise SystemExit(f"--pinned-pdk is at {head}, sim/README.md pins {pin}")
-        print(f"pinned PDK: {pdk_root} @ {head} (== PDK-PIN)")
+        pdk_root = resolve_pinned_pdk(
+            a.pinned_pdk, prog="gen_rerun319.py", allow_env=False,
+            verify_pin_readme=REPO / "sim" / "README.md")
         probe = None
         staged_rows, staged_all = {}, {}
         for label in SNAPSHOTS:
@@ -431,10 +394,8 @@ def main(argv):
             if staged != ref:
                 raise SystemExit(f"{label}: staged bytes differ across arms")
         manifest_path = OUT / "staged_pdk_rerun319.sha256.csv"
-        with open(manifest_path, "w", newline="") as fh:
-            w = csv.writer(fh)
-            w.writerow(["staged_name", "source_path", "sha256"])
-            w.writerows(staged_rows[next(iter(SNAPSHOTS))])
+        write_staged_manifest(manifest_path,
+                              staged_rows[next(iter(SNAPSHOTS))])
         print(f"staged closure: {len(ref)} files, identical across all "
               f"{len(SNAPSHOTS)} arms -> {manifest_path.relative_to(REPO)}")
         c, uid = probe
@@ -475,4 +436,5 @@ def main(argv):
                     print("    | " + ln)
 
 
-main(sys.argv[1:])
+if __name__ == "__main__":
+    main(sys.argv[1:])
