@@ -1,0 +1,130 @@
+{
+  "engine": "ngspice",
+  "netlist": "pll_real.cir",
+  "models": {
+    "lib": "corner_pvt.lib"
+  },
+  "analysis": {
+    "kind": "tran",
+    "args": "100p 10000n 0 100p"
+  },
+  "measurements": [
+    {
+      "name": "i_pfd",
+      "unit": "A",
+      "spice": ".meas tran i_pfd avg i(Vdd_pfd) from=8000n to=10000n"
+    },
+    {
+      "name": "i_cp",
+      "unit": "A",
+      "spice": ".meas tran i_cp avg i(Vdd_cp) from=8000n to=10000n"
+    },
+    {
+      "name": "i_vco",
+      "unit": "A",
+      "spice": ".meas tran i_vco avg i(Vdd_vco) from=8000n to=10000n"
+    },
+    {
+      "name": "i_div",
+      "unit": "A",
+      "spice": ".meas tran i_div avg i(Vdd_div) from=8000n to=10000n"
+    },
+    {
+      "name": "vc_avg",
+      "unit": "V",
+      "spice": ".meas tran vc_avg avg v(vctrl) from=8000n to=10000n"
+    },
+    {
+      "name": "vc_max",
+      "unit": "V",
+      "spice": ".meas tran vc_max max v(vctrl) from=8000n to=10000n"
+    },
+    {
+      "name": "vc_min",
+      "unit": "V",
+      "spice": ".meas tran vc_min min v(vctrl) from=8000n to=10000n"
+    },
+    {
+      "name": "t_ref",
+      "unit": null,
+      "crossings": {
+        "signal": "v(ref)",
+        "level": {
+          "frac_of": "vdd_pfd",
+          "fraction": 0.5
+        },
+        "edge": "rise",
+        "max": 500
+      }
+    },
+    {
+      "name": "t_fb",
+      "unit": null,
+      "crossings": {
+        "signal": "v(fb)",
+        "level": {
+          "frac_of": "vdd_div",
+          "fraction": 0.5
+        },
+        "edge": "rise",
+        "max": 500
+      }
+    },
+    {
+      "name": "t_clk",
+      "unit": null,
+      "crossings": {
+        "signal": "v(clk)",
+        "level": {
+          "frac_of": "vdd_vco",
+          "fraction": 0.5
+        },
+        "edge": "rise",
+        "from": "7.800000e-06",
+        "max": 2600
+      }
+    }
+  ],
+  "options": {
+    "osdi_preload": [
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153815Z/libs.tech/ngspice/osdi/psp103.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153815Z/libs.tech/ngspice/osdi/psp103_nqs.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153815Z/libs.tech/ngspice/osdi/mosvar.osdi",
+      "/home/ubuntu/share/pdk/ihp-sg13cmos5l.bak-20261015T153815Z/libs.tech/ngspice/osdi/r3_cmc.osdi"
+    ],
+    "stage_model_inputs": true,
+    "ngspice_init": [
+      "set numdgt=12",
+      "set num_threads=4"
+    ],
+    "save_vectors": [
+      "v(ref)",
+      "v(fb)",
+      "v(vctrl)",
+      "v(clk)"
+    ],
+    "timeout_s": 3200,
+    "max_workers": 4
+  },
+  "backend": "batch",
+  "batch": {
+    "capacity_wait_s": 600,
+    "job_timeout_s": 3500,
+    "max_units_per_job": 1,
+    "max_concurrent_jobs": 2
+  },
+  "corners": {
+    "units": [
+      {
+        "process": "mos_fs",
+        "temperature_c": 27,
+        "supply_v": {
+          "vdd_pfd": 3.3,
+          "vdd_cp": 3.3,
+          "vdd_vco": 3.3,
+          "vdd_div": 3.3
+        }
+      }
+    ]
+  }
+}

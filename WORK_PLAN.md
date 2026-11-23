@@ -3,12 +3,12 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-21T21:10:08Z (snapshot; compare against live labels)_
+_Generated: 2026-11-23T03:10:00Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
-- **#304**: docs(spec): DR-015 lock_detector 50 MHz range, trip band, active-low LOCK
+_None._
 
 ## Very Important
 
@@ -32,23 +32,20 @@ Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a h
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-- **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
+- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
-- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
-- **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3)
-- **#525**: docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell)
+- **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
 
 ## PRs Awaiting Review
 
 PRs waiting on Judge (`loom:review-requested`).
 
 - **#335**: sim: attribute fast/slow anchor offset to PDK cornerRES drift (RECORD-007) *(held)*
-- **#528**: docs: restate the real-divider nominal lock per RECORD-002 in ROADMAP, chipalooza and spec row 7
 
 ## Approved (Awaiting Merge)
 
@@ -76,7 +73,6 @@ Issues carrying `loom:curated`.
 - **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3) *(curated)*
 - **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2) *(curated)*
 - **#518**: sim: transient-noise period-jitter method bench for the free-running vco (row 8 method gap, R-7; depends on klayout-tools#5772) *(curated)* *(held)*
-- **#525**: docs: three more 'real-divider loop does not acquire' texts outside #521's scope (ROADMAP, chipalooza proposal, spec row-7 evidence cell) *(curated)*
 
 ## Proposed (Architect / Hermit)
 
@@ -98,14 +94,14 @@ Issues carrying `loom:curated`.
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 1 |
+| Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 7 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
-| In Progress (`loom:building`) | 4 |
-| PRs awaiting review | 2 |
+| In Progress (`loom:building`) | 2 |
+| PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
-| Curated | 17 |
+| Curated | 16 |
 | Architect / Hermit proposals | 5 |
 | Active epics | 5 |
 <!-- guide:plan-body:end -->
