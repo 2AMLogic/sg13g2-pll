@@ -34,6 +34,8 @@ KVCO = REPO / "sim" / "sg13cmos5l-vco-kvco-table" / "testbench"
 CLOSED = REPO / "sim" / "sg13cmos5l-closed-loop-lock" / "testbench"
 DIVIDER = REPO / "sim" / "sg13cmos5l-divider-max-frequency" / "testbench"
 BWM = REPO / "sim" / "sg13cmos5l-loop-bandwidth-pm" / "testbench"
+REAL_DIV = REPO / "sim" / "sg13cmos5l-closed-loop-real-divider" / "testbench"
+CPMC = REPO / "sim" / "sg13cmos5l-cp-icp-trim-mc" / "testbench"
 
 #: The MOS closure in BFS order: the two seeds, then each include as
 #: discovered -- mixed-case `.INCLUDE`, `.inc` and indented directives all
@@ -134,6 +136,51 @@ class CopyModelClosure(unittest.TestCase):
                         ["cornerMOShv.lib"], label="unit")
                 self.assertIn("same-directory relative includes",
                               str(ctx.exception))
+
+
+class WalkAndPinnedClosure(unittest.TestCase):
+    """Read-only helpers added by #556 (walk_model_closure, pinned_closure)."""
+
+    def test_walk_bfs_order_and_resolved_symlinks(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            models = pdk / "libs.tech" / "ngspice" / "models"
+            got = spp.walk_model_closure(models, ["cornerMOShv.lib", "cornerRES.lib"])
+            self.assertEqual([n for n, _ in got], MOS_CLOSURE)
+            self.assertEqual(dict(got)["resistors_mod.lib"],
+                             (Path(td) / "ihp-sg13g2" / "libs.tech" / "ngspice"
+                              / "models" / "resistors_mod.lib").resolve())
+
+    def test_walk_failures(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            models = pdk / "libs.tech" / "ngspice" / "models"
+            with self.assertRaises(SystemExit):
+                spp.walk_model_closure(models, ["absent.lib"])
+            (models / "bad_path.lib").write_text(".include sub/x.lib\n")
+            (models / "bad_env.lib").write_text(".include $PDK/x.lib\n")
+            for bad in ("bad_path.lib", "bad_env.lib"):
+                with self.assertRaises(SystemExit) as cm:
+                    spp.walk_model_closure(models, [bad], label="lbl")
+                self.assertIn("lbl: ", str(cm.exception))
+                self.assertIn("same-directory", str(cm.exception))
+
+    def test_pinned_closure_matches_stage_pinned_pdk_and_writes_nothing(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            seeds = ["cornerMOShv.lib", "cornerRES.lib"]
+            before = sorted(p for p in Path(td).rglob("*"))
+            rows = spp.pinned_closure(pdk, seeds, OSDI_FOUR)
+            self.assertEqual(before, sorted(p for p in Path(td).rglob("*")))
+            staged = spp.stage_pinned_pdk(pdk, Path(td) / "decks", seeds, OSDI_FOUR)
+            self.assertEqual(rows, staged)
+
+    def test_pinned_closure_missing_osdi_fails(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            with self.assertRaises(SystemExit) as cm:
+                spp.pinned_closure(pdk, ["cornerMOShv.lib"], ["nope"], label="x")
+            self.assertIn("OSDI", str(cm.exception))
 
 
 class StagePinnedPdk(unittest.TestCase):
@@ -356,6 +403,58 @@ class GeneratorsEndToEnd(unittest.TestCase):
             # The DUT snapshot is staged beside the decks (not manifested).
             self.assertTrue((out / "decks" / "divider_chain.spice").exists())
             self.assertTrue((out / "anchors.request.json").exists())
+
+    def test_gen_pvt_probe_only_cli_and_env(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            for tag, args, env in (
+                    ("cli", ["--pinned-pdk", str(pdk)], dict(os.environ)),
+                    ("env", [], dict(os.environ, PINNED_PDK=str(pdk)))):
+                out = Path(td) / tag
+                subprocess.run([sys.executable, "-I",
+                                str(REAL_DIV / "gen_pvt_requests.py"),
+                                str(out), "--probe-only"] + args,
+                               check=True, env=env)
+                names = [r[0] for r in read_rows(out / "pinned-closure.csv")[1:]]
+                self.assertEqual(names,
+                                 [f"models/{n}" for n in MOS_CLOSURE]
+                                 + [f"osdi/{n}.osdi" for n in OSDI_FOUR])
+                self.assertEqual(read_rows(out / "pinned-closure.csv")[0],
+                                 ["staged_name", "source_path", "sha256"])
+                self.assertTrue((out / "probe" / "request.json").exists())
+
+    def test_gen_mismatch_gain_via_PINNED_PDK_env(self):
+        with TemporaryDirectory() as td:
+            pdk = make_synthetic_pdk(Path(td))
+            out = Path(td) / "out"
+            subprocess.run([sys.executable, "-I",
+                            str(CLOSED / "gen_mismatch_gain_requests.py"),
+                            str(out)], check=True,
+                           env=dict(os.environ, PINNED_PDK=str(pdk)))
+            self.assertTrue((out / "points.json").exists())
+            self.assertTrue(list((out / "dc").glob("*/request.json")))
+            self.assertTrue(list((out / "loop").glob("*/request.json")))
+
+    def test_gen_requests_check_mismatch_enabled(self):
+        sys.path.insert(0, str(CPMC))
+        try:
+            import gen_requests  # guarded by __main__: no writes on import
+        finally:
+            sys.path.remove(str(CPMC))
+        for mm_ok, ok in ((1, True), (0, False)):
+            with TemporaryDirectory() as td:
+                pdk = make_synthetic_pdk(Path(td))
+                models = pdk / "libs.tech" / "ngspice" / "models"
+                (models / "sg13_hv.lib").write_text(
+                    f".subckt sg13_hv_nmos d g s b\n+ mm_ok={mm_ok}\n.ends\n"
+                    f".subckt sg13_hv_pmos d g s b\n+ mm_ok={mm_ok}\n.ends\n")
+                if ok:
+                    self.assertEqual(gen_requests.check_mismatch_enabled(models),
+                                     ["sg13_hv.lib"])
+                else:
+                    with self.assertRaises(SystemExit) as cm:
+                        gen_requests.check_mismatch_enabled(models)
+                    self.assertIn("mm_ok guard", str(cm.exception))
 
     def test_gen_rerun319_stage_pinned_imported(self):
         sys.path.insert(0, str(BWM))
