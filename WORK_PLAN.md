@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-22T23:45:00Z (snapshot; compare against live labels)_
+_Generated: 2026-11-23T03:10:00Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -32,14 +32,13 @@ _None._
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-_None._
+- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 
 ## In Progress
 
 Issues currently being built (`loom:building`).
 
 - **#203**: loop-bandwidth-pm: DR-008 fast tuple projected below 45 deg PM once the real cp VOUT capacitance is in the loop; run the fast/slow grid and re-close
-- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
 - **#516**: sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
 
 ## PRs Awaiting Review
@@ -98,8 +97,8 @@ Issues carrying `loom:curated`.
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 7 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
-| In Progress (`loom:building`) | 3 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
+| In Progress (`loom:building`) | 2 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
 | Curated | 16 |
