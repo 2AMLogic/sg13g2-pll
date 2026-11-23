@@ -17,9 +17,11 @@ every unit, and writes the append-only RECORD-003 artifacts under DIR:
                      from sg13cmos5l-vco-kvco-table RECORD-002's committed
                      rerun CSV -- unpredicted corners are marked, never
                      extrapolated)
-    pvt_summary.json machine-readable roll-up (per-unit verdicts, prediction
-                     hit/miss, failing-block attribution, units with no
-                     verdict and why)
+    pvt_summary.json machine-readable roll-up (unit / locked / not-locked /
+                     no-verdict counts, per-arm split, units with no
+                     verdict, staged-PDK closure result, batch jobs;
+                     prediction and failing-block columns live in
+                     pvt_units.csv)
     batch-jobs.csv   every fleet job id the reports cite
     staged-pdk-check.json  the RECORD-015-trap gate: each report's
                      `environment.staged_model_inputs.source_sha256` graded
@@ -219,7 +221,7 @@ def longest_run(trace):
     return best, (trace[best_end - best + 1][0] if best else None)
 
 
-def grade_unit(mv):
+def grade_unit(mv, vdd=3.3):
     ref = (mv.get("t_ref") or {}).get("times") or []
     fb = (mv.get("t_fb") or {}).get("times") or []
     clk = (mv.get("t_clk") or {}).get("times") or []
@@ -253,6 +255,7 @@ def grade_unit(mv):
         w = [e for e in fb if e >= TAVG0_S]
         if len(w) > 1:
             grade["f_fb_hz_8_10us"] = (len(w) - 1) / (w[-1] - w[0])
+    full_ratios = []
     if len(clk) > 1 and len(fb) > 1:
         ratios = [sum(1 for e in clk if a <= e < b)
                   for a, b in zip(fb[:-1], fb[1:]) if b >= CLK_FROM_S]
@@ -261,13 +264,16 @@ def grade_unit(mv):
                 {str(k): ratios.count(k) for k in sorted(set(ratios))},
                 sort_keys=True)
             grade["fb_periods_scored"] = len(ratios)
+            # The first scored FB period is the t_clk series' partial
+            # bucket-alignment boundary (reads 57 on every unit, locked or
+            # not); it is not a miscount, so attribution skips it.
+            full_ratios = ratios[1:]
 
     if grade["lock_verdict"] != "locked":
-        hist = grade.get("clk_per_fb_period_hist")
         vc_max, vc_min = mv.get("vc_max"), mv.get("vc_min")
-        if hist is not None and any(k != "64" for k in json.loads(hist)):
+        if any(k != 64 for k in full_ratios):
             grade["failing_block"] = "divider_chain (miscount in-loop)"
-        elif vc_max is not None and vc_max > 0.95 * 3.3:
+        elif vc_max is not None and vc_max > 0.95 * (vdd or 3.3):
             grade["failing_block"] = "vctrl at/near the high rail (vco reach or cp drive)"
         elif vc_min is not None and vc_min < 0.35:
             grade["failing_block"] = "vctrl at/near the low rail (vco reach or cp drive)"
@@ -328,8 +334,8 @@ def main() -> None:
     rows, jobs, closure_checks, no_verdict = [], [], [], []
     # One campaign row per unit: a unit can legitimately appear in several
     # reports (a `lost_shard`/error attempt, then its `--resume` re-run). The
-    # LAST report's row wins, except a `pass` row always beats an earlier
-    # `error` row for the same unit -- so the fleet jobs list below keeps the
+    # FIRST report's row stands, except a later `pass` row replaces an earlier
+    # non-`pass` row for the same unit -- so the fleet jobs list below keeps the
     # full attempt trail while the units table carries one outcome per unit.
     by_unit = {}
 
@@ -378,7 +384,7 @@ def main() -> None:
                 sv = c.get("supply_v") or {}
                 vdd = sv.get("vdd_vco")
                 mv = meas_map(c)
-                grade = grade_unit(mv)
+                grade = grade_unit(mv, vdd)
                 nv = grade["lock_verdict"] is None
                 if nv:
                     no_verdict.append({"corner_id": c.get("corner_id"), "arm": arm,

@@ -47,7 +47,7 @@
   four OSDI objects) is committed as
   `testbench/pvt/pinned-closure.csv`.
 - **Batch job ids**: `corners/pvt1/batch-jobs.csv` carries every job the
-  collected reports cite (16 jobs: grid attempt, the ss/-40 C uic re-run,
+  collected reports cite (15 jobs: 10 grid, the ss/-40 C uic re-run,
   the shard-2 resume, the three slow-corner solos), with state, instance
   id/type and runner version. The full attempt trail — including two jobs
   killed with their client and one spot-reclaimed job whose results never
@@ -112,7 +112,7 @@ Readings:
 
 - **19 of 20 units meet the dual-lock criterion.** Every locked unit holds
   it from its lock time to the end of the 10 us window (>= 69 cycles), with
-  static phase 1.24–1.95 % of `T_ref` — under the 5 % R-2 bound with about
+  static phase 1.34–1.95 % of `T_ref` (the 1.24 % unit, ss/125, did not lock) — under the 5 % R-2 bound with about
   2.6x margin at the worst locked corner — and `f_vco` 599.95–600.03 MHz.
 - **Nominal cross-check vs RECORD-002** (same tuple, option-line delta
   only): lock 320 ns vs 320 ns, static phase 1.739 % vs 1.729 %, `i_vco`
@@ -153,18 +153,23 @@ committed sources only — `sg13cmos5l-divider-max-frequency` RECORD-001's
 N = 64 per-corner bounds and `sg13cmos5l-vco-kvco-table` RECORD-002's
 band-00 rows — never extrapolated:
 
-- **Divider bound**: the 11 units on the 9-point star (five MOS corners at
+- **Divider bound**: the 12 units with a divider prediction (9 real + 3 control; the real ones
+  on the 9-point star: five MOS corners at
   27 C, `mos_tt` at -40/125 C, `mos_tt` at 2.97/3.63 V borrowed for the
   3.0/3.6 V units, each named with its supply direction) were predicted
   "within proven exact range"; the tightest is `mos_tt`/125 C at +280 MHz
   margin (exact at 880 MHz, first miscount 896 MHz). The eight cross
-  corners and the two off-star cold corners are marked **"unpredicted: no
-  divider bound at this corner"** — 9 of 17 real units. Outcome: every
+  corners (ss/ff/sf/fs at -40 and 125 C) are marked **"unpredicted: no
+  divider bound at this corner"** — 8 of 17 real units. Outcome: every
   predicted unit locked with exact edge counts; the one failure (ss/125)
   sits in the unpredicted set, so no prediction was falsified.
 - **Band-00 VCO reach**: the three bundle corners predict 600 MHz at
   ~1.229 V (typ), ~1.585 V (slow = ss/125, inside cp compliance
-  0.25–3.10 V), ~0.933 V (fast = ff/-40); the other 14 real units are
+  0.25–3.10 V), ~0.933 V (fast = ff/-40); the 3.0 V and 3.6 V `mos_tt`/27 C units also receive the typ-bundle
+  reach, because the collector matches a bundle on (MOS corner, temperature)
+  only — a 3.3 V-characterised reach lent to a different supply, unlike the
+  divider borrow, which names its supply direction; so 5 real units are
+  predicted, and the other 12 real units are
   marked **"unpredicted: no band-00 Kvco coverage"**. Outcome: the typ and
   fast corners settled at 1.260 V and 1.207 V (within 35 mV and 274 mV of
   the interpolated pair); the slow corner settled at 1.388 V — 197 mV
@@ -202,7 +207,8 @@ band-00 rows — never extrapolated:
   `027ea4f3fa57` and `c320aa49fec8`, `3b5e1253c625` completed but their
   envelopes died uncollected; `c96638a0920e` was spot-reclaimed mid-run);
   the collected resume job `klt-sim-f5918c7938d2` then **timed out at the
-  fleet's 3500 s whole-job ceiling — 3 ngspice x 4 threads = 12 solver
+  fleet's 3600 s whole-job ceiling (the request's own client-side
+  `job_timeout_s` was 3500 s; the job died at 3504 s) — 3 ngspice x 4 threads = 12 solver
   threads on an 8-vCPU instance is 1.5x oversubscribed and nothing
   finished**. Fix: the three units re-emitted as their own single-unit
   requests (the cold-unit pattern; generator `SOLO_WARM_UNITS`) — jobs

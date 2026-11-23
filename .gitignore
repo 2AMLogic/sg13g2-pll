@@ -108,6 +108,11 @@ flow/build/
 .loom/gh-config-by-owner-*/
 /.loom-local/
 
+# <<< loom-managed <<<
+
+# staged raw outputs awaiting scripts/store_evidence.py (never committed)
+.stage/
+
 # sim/sg13cmos5l-closed-loop-real-divider: transient klt-sim run state under
 # testbench/pvt/ (grid-run/, probe-run/, ss-uic-run/, *.report.json copies,
 # run rc files). The committed evidence is the request tree itself plus the
@@ -120,8 +125,3 @@ sim/sg13cmos5l-closed-loop-real-divider/testbench/pvt/*/.klt/
 sim/sg13cmos5l-closed-loop-real-divider/testbench/pvt/*.rc
 sim/sg13cmos5l-closed-loop-real-divider/testbench/pvt/*.log
 sim/sg13cmos5l-closed-loop-real-divider/testbench/pvt/*.report.json
-
-# <<< loom-managed <<<
-
-# staged raw outputs awaiting scripts/store_evidence.py (never committed)
-.stage/

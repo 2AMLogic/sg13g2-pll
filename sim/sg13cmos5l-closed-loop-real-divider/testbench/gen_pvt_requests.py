@@ -45,9 +45,11 @@ Every lock time is therefore warm-started, exactly as RECORD-002's was.
 
 What is emitted
 ---------------
-    OUTDIR/real/{pll_real.cir,corner_pvt.lib,request.json}
-    OUTDIR/control/{pll_control.cir,corner_pvt.lib,request.json}
-        The 17-unit and 3-unit corner requests (`corners.units`: explicit
+    OUTDIR/<group>/{pll_*.cir,corner_pvt.lib,request.json}, one per group:
+    real_3v3 (warm 3.3 V units, 4 per job), real_3v0, real_3v6, five
+    real_cold_<mos>_-40c and three real_slow_<mos>_<temp>c single-unit
+    requests, and control. Together they carry the 17 real + 3 control
+    corner requests (`corners.units`: explicit
         PVT records, no cross product). Measurements: the seven RECORD-002
         `.meas` averages over the 8-10 us window plus three `crossings`
         series (every 50 %-of-rail rising crossing of `v(ref)` and `v(fb)`,
@@ -71,9 +73,11 @@ Running them (host rules: a grid goes to the batch fleet, never a local loop)
     klt sim OUTDIR/probe/request.json --backend batch \
         --wait-for-capacity 600 -o OUTDIR/probe-run --format json \
         --report-out OUTDIR/probe-run/probe.report.json
-    # 2. the grid, both arms as one batch-set
-    klt sim --batch-set OUTDIR/real/request.json OUTDIR/control/request.json \
-        --wait-for-capacity 600 --capacity-retries 3 --format json \
+    # 2. the grid, as one batch-set of the group requests (the end-of-run
+    #    print lists the full member set, incl. the real_cold_*/real_slow_*)
+    klt sim --batch-set OUTDIR/real_3v3/request.json \
+        OUTDIR/real_3v0/request.json OUTDIR/real_3v6/request.json \
+        OUTDIR/control/request.json --wait-for-capacity 600 --capacity-retries 3 --format json \
         --report-out OUTDIR/pvt.report.json
     # 3. collect
     python3 -I pvt_metrics.py --pinned-closure OUTDIR/pinned-closure.csv \
@@ -317,8 +321,9 @@ def write_request(d: pathlib.Path, arm: str, pts, tech: pathlib.Path,
         "backend": "batch",
         "batch": {
             "capacity_wait_s": 600,
-            # The fleet's whole-job ceiling is 3600 s (fleet_config). Stating
-            # the job wall directly (unit-count-independent) and balancing
+            # The fleet's whole-job ceiling is 3600 s (fleet_config);
+            # 3500 s is this request's client-side job timeout, kept under
+            # it. Stating the job wall directly (unit-count-independent) and balancing
             # into small shards keeps every job under it without the serial
             # bound (timeout_s x units + 120) refusing anything.
             "job_timeout_s": 3500,
