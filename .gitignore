@@ -112,6 +112,10 @@ flow/build/
 
 # staged raw outputs awaiting scripts/store_evidence.py (never committed)
 .stage/
+# klt per-request sim scratch cache (testbench/**/requests/.klt/, never
+# committed evidence -- see ADDENDUM-005 in the owning bench's records/)
+.klt/
+
 
 # sim/sg13cmos5l-closed-loop-real-divider: transient klt-sim run state under
 # testbench/pvt/ (grid-run/, probe-run/, ss-uic-run/, *.report.json copies,

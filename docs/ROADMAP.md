@@ -30,13 +30,19 @@ Tracker: [#6](https://github.com/2AMLogic/sg13g2-pll/issues/6).
 
 Design facts that shape the plan, each from a committed record:
 
-- **The closed loop acquires on the real blocks — at one nominal, divider-compatible
-  point.** RECORD-002 locks the N=64 run at band `00` / `f_ref` = 9.375 MHz (600 MHz): dual
+- **The closed loop meets its dual-lock criterion on the real blocks at the
+  divider-compatible point — 16 of 17 real PVT corners.** RECORD-002 locks the N=64
+  run at band `00` / `f_ref` = 9.375 MHz (600 MHz): dual
   lock held for the final 91 cycles at 1.729% of `T_ref`, with the in-loop `divider_chain`
   counting exactly 64 in 93/93 FB periods — RECORD-001's miscount is localized near 1.28 GHz
-  and is not present at 600 MHz (`sim/sg13cmos5l-closed-loop-real-divider` RECORD-002;
-  non-nominal corners unmeasured, #516). Rows 7, 10, 11 and half of 16 are open on this one
-  gate (target-spec R-2).
+  and is not present at 600 MHz (`sim/sg13cmos5l-closed-loop-real-divider` RECORD-002).
+  Update 2026-11-23: RECORD-003 (#516, closed) carries that point across PVT — 17 real +
+  3 control units, schematic-level, pre-layout, warm-started, `res_typ`, committed DR-010
+  `cp`: 16 of 17 real corners meet the dual-lock criterion with static phase 1.34-1.95%
+  of `T_ref` at the locked corners, and the one failure (`mos_ss`/125 C) is in the divider
+  (`divider_chain` miscounts in-loop while `vctrl` settles mid-range). Rows 7, 10, 11 and
+  half of 16 are open on this one gate (target-spec R-2); no spec row is ratified by any
+  of these records.
 - **Row 3 retiming closure is unmet at the 1562 MHz top of band**; width sizing alone does not
   close it (DR-012, proposed). **Row 13 duty cycle** misses 45 to 55 % at -40 C (R-8; PR #354).
 - **`cp` mismatch**: the `+/-3.5 %` screening limit is retired (PR #390, DR-013 proposed).
@@ -69,11 +75,15 @@ Startable today, but none is ready by label: items 1 to 3 need triage or approva
    a negative control. The issue covers two things and should be split.
 3. **Guard `package.json`'s gate chain against drift from the workflows** (#393). Done when a
    stdlib test fails if the two lists disagree.
-4. **Real-divider closed loop across PVT at the divider-compatible point** (#516). RECORD-002
-   answers RECORD-001's open question at the nominal corner only (band `00` / `f_ref` =
-   9.375 MHz, 600 MHz: lock, 64 in 93/93 FB periods). Done when #516's records report lock or
-   no-lock per corner, with the divide ratio per FB period and the static phase error, at the
-   divider-compatible operating point, using the committed DR-010 `cp`.
+4. **`mos_ss`/125 C divider miscount at the divider-compatible point** (found by
+   RECORD-003 of #516, closed; attribution belongs with #514). RECORD-003 carried the
+   closed loop across PVT at the RECORD-002 point — 17 real + 3 control units, committed
+   DR-010 `cp`: 16 of 17 real corners meet the dual-lock criterion, divide ratio exactly
+   64 in-loop, static phase 1.34-1.95% of `T_ref` at the locked corners. The failure is
+   `mos_ss`/125 C: `divider_chain` miscounts in-loop (63/65-edge FB periods mid-window)
+   with `vctrl` settled mid-range at 1.388 V — failing block named, failing stage not.
+   Done when a record attributes the ss/125 miscount — or #514's redesign closes it —
+   and the closed loop re-verifies at that corner.
 5. **Divider maximum input frequency across corners** (no issue; the "Divider speed evidence"
    gap in `characterization/SUMMARY.md` has no tracker). Done when a record resolves the
    640 MHz to 1.28 GHz bracket per corner and the summary selects it.
@@ -108,8 +118,11 @@ Startable today, but none is ready by label: items 1 to 3 need triage or approva
   considered `vco` route, and does DR-005 need a superseding record (R-1)?
 - **A `pll_top` or wrapper.** First: what the wrapper's I/O boundary is (DR-004). Row 15
   (area) and any chip-level DRC, LVS or power total need it.
-- **Rows 8 and 12 (jitter, supply sensitivity).** First: a transient-noise or ISF method for
-  the ring in ngspice, or a ruling that the rows stay unspecified like row 9 (R-7).
+- **Rows 8 and 12 (jitter, supply sensitivity).** First: the seeded PVT campaign on top of the
+  transient-noise period-jitter method now in
+  `sim/sg13cmos5l-vco-period-jitter/` (RECORD-001) — blocked on the klt transient-noise seed
+  contract (2AMLogic/klayout-tools#5772) — or a ruling that the rows stay unspecified like
+  row 9 (R-7).
 - **Item 6 to `met`.** First: whether a `cp` mismatch limit must exist at all and which row
   owns it (R-12); a larger sample alone would grade against nothing.
 - **The SG13G2 (BiCMOS) target.** `layout/pll/` composes but its README states it is not

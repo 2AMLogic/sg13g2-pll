@@ -361,6 +361,67 @@ class Addenda(Cov):
         self.assertEqual(self.run_main()[0], 0)
 
 
+class NoteAddenda(Addenda):
+    """ADDENDUM-KIND: note -- annotation only (issue #398): never resolves a
+    defect, may target a defect-free record, never collides with a
+    provenance addendum, and fails closed on bad hash / dangling or
+    cross-bench target / forbidden PDK/TOOL/RERUN."""
+
+    def test_note_on_clean_record_passes(self):
+        new = self.new_record(GOOD)  # defect-free target, like RECORD-007
+        self.addendum(new.relative_to(self.sim).as_posix(), "note")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 0, err)
+
+    def test_note_alongside_provenance_addendum_no_collision(self):
+        p, rel = self.orig()
+        self.addendum(rel)  # recovered: takes assocs[rel]
+        self.addendum(rel, "note", name="ADDENDUM-009-note.md")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 0, err)
+
+    def test_note_does_not_resolve_grandfathered_defect(self):
+        p, rel = self.orig()
+        self.addendum(rel, "note")
+        self.set_tier("met")  # an unresolved defect must still block item 9
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("grades item 9 met", err)
+
+    def test_note_bad_hash_fails(self):
+        p, rel = self.orig()
+        self.addendum(rel, "note", SHA256="0" * 64)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("SHA256", err)
+
+    def test_note_dangling_and_cross_bench_for_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel, "note", FOR=f"{SLUG}/records/RECORD-777-none.md")
+        self.assertIn("dangling ADDENDUM-FOR", self.run_main()[1])
+        _, other = self.orig(SG)
+        self.addendum(rel, "note", FOR=other)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("not a record in the same bench", err)
+
+    def test_note_forbidden_pdk_and_tool_fail(self):
+        p, rel = self.orig()
+        self.addendum(rel, "note", PDK=f"{tree_for(rel)} {PIN}", TOOL="ngspice-46")
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("note addendum must not assert PDK provenance", err)
+        self.assertIn("note addendum must not assert a tool version", err)
+
+    def test_note_forbidden_rerun_fails(self):
+        p, rel = self.orig()
+        rr = self.rerun(rel)
+        self.addendum(rel, "note", RERUN=rr)
+        rc, err = self.run_main()
+        self.assertEqual(rc, 1)
+        self.assertIn("note addendum must not name a rerun", err)
+
+
 def tree_for(rel):
     return chk.tree_of(rel.split("/")[0])
 

@@ -207,6 +207,14 @@
         "-B",
         "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py"
       ]
+    },
+    {
+      "name": "stage-pinned-pdk-unit-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "sim/tools/test_stage_pinned_pdk.py"
+      ]
     }
   ]
 }

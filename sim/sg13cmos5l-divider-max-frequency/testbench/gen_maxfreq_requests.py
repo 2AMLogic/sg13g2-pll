@@ -27,9 +27,10 @@ PHASE is one of:
 Why the pinned tree, and how: the fleet image's
 `/opt/pdk/ihp-sg13cmos5l` is the post-2026-10-15 `f7bca326...` install, not
 `sim/README.md`'s `PDK-PIN ihp-sg13cmos5l 607e18d4...`, and a record citing
-any other revision fails the item-9 gate. This generator uses the same
-mechanism as `../../sg13cmos5l-vco-kvco-table/testbench/gen_rerun318.py`
-(issue #318): the pinned tree's corner-library closure and OSDI objects are
+any other revision fails the item-9 gate. This generator uses the shared
+`sim/tools/stage_pinned_pdk.py` staging (issue #544; the #318 mechanism
+introduced by `../../sg13cmos5l-vco-kvco-table/testbench/gen_rerun318.py`):
+the pinned tree's corner-library closure and OSDI objects are
 copied BESIDE the decks (`decks/models/`, `decks/osdi/`) and the decks name
 them by relative path, which `klt sim`'s deck-list preservation contract
 stages from the submitting host -- so the pinned bytes ship with the job
@@ -59,14 +60,20 @@ Submit with (host policy: grids go to the batch fleet, never local loops):
 """
 import argparse
 import csv
-import hashlib
 import json
 import pathlib
 import re
 import shutil
+import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 RECORD = HERE.parent
+REPO = HERE.parents[2]
+
+sys.path.insert(0, str(REPO / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import (  # noqa: E402
+    resolve_pinned_pdk, sha256, stage_pinned_pdk, write_staged_manifest,
+)
 
 PDK = "ihp-sg13cmos5l"
 OSDI = ["psp103", "psp103_nqs", "mosvar"]
@@ -124,35 +131,6 @@ def tag(mos, temp, vdd):
 
 def unit_id(n, mos, temp, vdd, fmhz, suffix=""):
     return f"n{n}_{tag(mos, temp, vdd)}_f{fmhz:04d}{suffix}"
-
-
-def sha256(path: pathlib.Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def copy_closure(src_models: pathlib.Path, dest: pathlib.Path, seeds):
-    """Copy `seeds` and, recursively, every file their `.include` directives
-    name, dereferencing symlinks (the pinned tree tracks most model cards as
-    symlinks into the sibling ihp-sg13g2 tree).  Returns the copied names."""
-    dest.mkdir(parents=True, exist_ok=True)
-    queue, done = list(seeds), []
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = src_models / name
-        if not src.is_file():
-            raise SystemExit(f"model closure: {src} is not a readable file")
-        shutil.copyfile(src, dest / name)  # follows symlinks
-        done.append(name)
-        for target in re.findall(r"^\s*\.(?:include|inc)\s+(\S+)\s*$",
-                                 src.read_text(errors="replace"), re.M):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(
-                    f"model closure: {src} includes {target!r}; this generator "
-                    "only follows same-directory relative includes")
-            queue.append(target)
-    return done
 
 
 def timing(n, fmhz, tstep_s):
@@ -294,25 +272,11 @@ def emit(out, decks_dir, phase, metas, backend, timeout_s, max_upj=None, max_con
 
 
 def stage_pinned(pdk, decks_dir):
-    """Copy the pinned tree's model closure and OSDI objects beside the decks.
-    Returns (staged rows, done). Idempotent: skips files already staged with
+    """Stage the pinned tree's model closure and OSDI objects beside the
+    decks (sim/tools/stage_pinned_pdk.py, issue #544) plus the DUT snapshot.
+    Returns the manifest rows.  Idempotent: skips files already staged with
     the right bytes (the phases share one decks/ directory)."""
-    tech = pdk / "libs.tech" / "ngspice"
-    staged = []
-    models_done = copy_closure(tech / "models", decks_dir / "models",
-                               ["cornerMOShv.lib"])
-    for name in models_done:
-        staged.append((f"models/{name}", str((tech / 'models' / name).resolve()),
-                       sha256(decks_dir / "models" / name)))
-    (decks_dir / "osdi").mkdir(exist_ok=True)
-    for name in OSDI:
-        src = tech / "osdi" / f"{name}.osdi"
-        if not src.is_file():
-            raise SystemExit(f"OSDI: {src} is not a readable file")
-        dst = decks_dir / "osdi" / f"{name}.osdi"
-        if not dst.exists() or sha256(dst) != sha256(src):
-            shutil.copyfile(src, dst)  # follows symlinks
-        staged.append((f"osdi/{name}.osdi", str(src.resolve()), sha256(dst)))
+    staged = stage_pinned_pdk(pdk, decks_dir, ["cornerMOShv.lib"], OSDI)
     dst = decks_dir / DUT
     snap = RECORD / "netlist-snapshots" / DUT
     if not dst.exists() or sha256(dst) != sha256(snap):
@@ -347,22 +311,14 @@ def main():
                     help="batch shard size; default floor((3600-120)/timeout-s)")
     args = ap.parse_args()
 
-    if not args.pinned_pdk:
-        raise SystemExit(
-            "gen_maxfreq_requests.py: --pinned-pdk DIR is required -- an "
-            "ihp-sg13cmos5l checkout at sim/README.md's PDK-PIN revision "
-            "607e18d4.... There is no $PDK_ROOT fallback: the record must cite "
-            "the pin, and the fleet image's tree is a newer install. See the "
-            "module docstring.")
-    pdk = pathlib.Path(args.pinned_pdk).expanduser().resolve()
+    pdk = resolve_pinned_pdk(args.pinned_pdk, prog="gen_maxfreq_requests.py",
+                             allow_env=False)
     out = pathlib.Path(args.outdir).resolve()
     decks_dir = out / "decks"
     decks_dir.mkdir(parents=True, exist_ok=True)
     staged = stage_pinned(pdk, decks_dir)
-    with open(out / "staged_pdk.sha256.csv", "w", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(["staged_name", "source_path", "sha256"])
-        w.writerows(sorted(staged))
+    write_staged_manifest(out / "staged_pdk.sha256.csv", staged,
+                          sort_rows=True)
 
     max_upj = args.max_units_per_job or max(1, (3600 - 120) // args.timeout_s)
     keep = set(args.units.split(",")) if args.units else None
@@ -448,4 +404,5 @@ def main():
     emit(out, decks_dir, "controls", filt(metas), "batch", args.timeout_s, max_upj, 4)
 
 
-main()
+if __name__ == "__main__":
+    main()
