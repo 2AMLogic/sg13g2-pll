@@ -58,6 +58,33 @@ def sha256(path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def walk_model_closure(src_models: Path, seeds,
+                       *, label: str | None = None) -> list[tuple[str, Path]]:
+    """Read-only closure walk: `seeds` and, recursively, every file their
+    `.include`/`.inc` directives name.  Returns `(name, resolved_source_path)`
+    in FIFO BFS discovery order, dereferencing symlinks.  Aborts on an
+    unreadable file or a non-same-directory include (`/` or `$` in the
+    target)."""
+    pfx = f"{label}: " if label else "model closure: "
+    queue, done, out = list(seeds), set(), []
+    while queue:
+        name = queue.pop(0)
+        if name in done:
+            continue
+        src = Path(src_models) / name
+        if not src.is_file():
+            raise SystemExit(f"{pfx}{src} is not a readable file")
+        done.add(name)
+        out.append((name, src.resolve()))
+        for target in INCLUDE_RE.findall(src.read_text(errors="replace")):
+            if "/" in target or target.startswith("$"):
+                raise SystemExit(
+                    f"{pfx}{src} includes {target!r}; this helper only "
+                    "follows same-directory relative includes")
+            queue.append(target)
+    return out
+
+
 def copy_model_closure(src_models: Path, dest_models: Path, seeds,
                        *, label: str | None = None) -> list[str]:
     """Copy `seeds` and, recursively, every file their `.include` directives
@@ -66,28 +93,36 @@ def copy_model_closure(src_models: Path, dest_models: Path, seeds,
     BFS discovery order.  Idempotent: a destination file whose bytes already
     match the source is left alone, so re-staging over a shared decks
     directory rewrites only genuinely changed bytes."""
-    pfx = f"{label}: " if label else "model closure: "
     dest_models = Path(dest_models)
     dest_models.mkdir(parents=True, exist_ok=True)
-    queue, done = list(seeds), []
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = Path(src_models) / name
-        if not src.is_file():
-            raise SystemExit(f"{pfx}{src} is not a readable file")
+    done = []
+    for name, src in walk_model_closure(src_models, seeds, label=label):
         dst = dest_models / name
         if not (dst.is_file() and sha256(dst) == sha256(src)):
             shutil.copyfile(src, dst)  # follows symlinks
         done.append(name)
-        for target in INCLUDE_RE.findall(src.read_text(errors="replace")):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(
-                    f"{pfx}{src} includes {target!r}; this helper only "
-                    "follows same-directory relative includes")
-            queue.append(target)
     return done
+
+
+def pinned_closure(pdk_root: Path, seeds, osdi_names, *,
+                   models_rel: str = "models", osdi_rel: str = "osdi",
+                   label: str | None = None) -> list[tuple[str, str, str]]:
+    """Read-only counterpart of `stage_pinned_pdk` for `klt sim`'s
+    `options.stage_model_inputs`: nothing is copied.  Returns the same
+    manifest rows `(staged_name, resolved_source_path, sha256)` -- BFS models
+    first, then the caller's OSDI names in order."""
+    ng = Path(pdk_root) / "libs.tech" / "ngspice"
+    pfx = f"{label}: " if label else ""
+    rows = [(f"{models_rel}/{name}", str(src), sha256(src))
+            for name, src in walk_model_closure(ng / "models", seeds,
+                                                label=label)]
+    for name in osdi_names:
+        src = ng / "osdi" / f"{name}.osdi"
+        if not src.is_file():
+            raise SystemExit(f"{pfx}OSDI: {src} is not a readable file")
+        rows.append((f"{osdi_rel}/{name}.osdi", str(src.resolve()),
+                     sha256(src)))
+    return rows
 
 
 def stage_pinned_pdk(pdk_root: Path, decks_dir: Path, seeds, osdi_names, *,
