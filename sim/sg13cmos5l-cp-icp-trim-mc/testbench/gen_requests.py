@@ -52,17 +52,18 @@ omitted: with nothing to resolve on the worker, the image's own PDK tree
 """
 import argparse
 import json
-import os
 import pathlib
 import re
+import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[2] / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import resolve_pinned_pdk, walk_model_closure  # noqa: E402
 
 #: `.subckt <name> ... mm_ok=<v> ...` -- the per-instance mismatch enable.
 SUBCKT_MM_OK = re.compile(
     r"^\.subckt\s+(sg13_hv_[np]mos)\b(?:[^\n]*\n\+[^\n]*)*", re.I | re.M)
 MM_OK = re.compile(r"\bmm_ok\s*=\s*([0-9.]+)")
-INCLUDE = re.compile(r"^\s*\.(?:include|inc)\s+(\S+)\s*$", re.I | re.M)
 
 
 def check_mismatch_enabled(models: pathlib.Path) -> list[str]:
@@ -73,15 +74,8 @@ def check_mismatch_enabled(models: pathlib.Path) -> list[str]:
     produces a zero-sigma campaign against this repo's `mm_ok`-less netlists,
     which is worse than a failure: it looks like a passing result.
     """
-    seen, queue, proof, found = set(), ["cornerMOShv.lib"], [], {}
-    while queue:
-        name = queue.pop(0)
-        if name in seen:
-            continue
-        seen.add(name)
-        src = models / name
-        if not src.is_file():
-            raise SystemExit(f"model closure: {src} is not a readable file")
+    proof, found = [], {}
+    for name, src in walk_model_closure(models, ["cornerMOShv.lib"]):
         text = src.read_text(errors="replace")
         for block in SUBCKT_MM_OK.finditer(text):
             dev = block.group(1).lower()
@@ -90,12 +84,6 @@ def check_mismatch_enabled(models: pathlib.Path) -> list[str]:
                 found.setdefault(dev, (float(m.group(1)), name))
         if found and name not in proof:
             proof.append(name)
-        for target in INCLUDE.findall(text):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(
-                    f"model closure: {src} includes {target!r}; this generator "
-                    "only follows same-directory relative includes")
-            queue.append(target)
     missing = {"sg13_hv_nmos", "sg13_hv_pmos"} - set(found)
     if missing:
         raise SystemExit(
@@ -120,18 +108,12 @@ def check_mismatch_enabled(models: pathlib.Path) -> list[str]:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument(
-        "--pinned-pdk", default=os.environ.get("PINNED_PDK"),
+        "--pinned-pdk", default=None,
         help="an ihp-sg13cmos5l tree at sim/README.md's PDK-PIN revision "
              "607e18d4... (env: PINNED_PDK). Required: there is no $PDK_ROOT "
              "fallback, see the module docstring.")
     a = ap.parse_args()
-    if not a.pinned_pdk:
-        raise SystemExit(
-            "gen_requests.py: --pinned-pdk DIR (or PINNED_PDK=DIR) is "
-            "required -- an ihp-sg13cmos5l checkout at sim/README.md's "
-            "PDK-PIN revision 607e18d4.... See the module docstring for why "
-            "the current install pin cannot be used.")
-    pdk = pathlib.Path(a.pinned_pdk).expanduser().resolve()
+    pdk = resolve_pinned_pdk(a.pinned_pdk, prog="gen_requests.py")
     tech = pdk / "libs.tech" / "ngspice"
     proof = check_mismatch_enabled(tech / "models")
 
@@ -200,4 +182,5 @@ def main() -> None:
           f" (proof read from {', '.join(proof)})")
 
 
-main()
+if __name__ == "__main__":
+    main()

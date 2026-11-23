@@ -75,13 +75,14 @@ Running them (host rules: a grid goes to the batch fleet, never a local loop)
 """
 import argparse
 import json
-import os
 import pathlib
 import re
 import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[2] / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import resolve_pinned_pdk  # noqa: E402
 SNAP = HERE.parent / "netlist-snapshots"
 
 #: Target DC mismatch for each perturbed point, in percent.  The committed
@@ -253,17 +254,12 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("outdir", help="directory to write the request tree into")
     ap.add_argument(
-        "--pinned-pdk", default=os.environ.get("PINNED_PDK"),
+        "--pinned-pdk", default=None,
         help="an ihp-sg13cmos5l tree at sim/README.md's PDK-PIN revision "
              "607e18d4... (env: PINNED_PDK). Required; there is no $PDK_ROOT "
              "fallback -- see the module docstring.")
     a = ap.parse_args()
-    if not a.pinned_pdk:
-        raise SystemExit(
-            "gen_mismatch_gain_requests.py: --pinned-pdk DIR (or PINNED_PDK=DIR) "
-            "is required -- an ihp-sg13cmos5l checkout at sim/README.md's "
-            "PDK-PIN revision 607e18d4....")
-    pdk = pathlib.Path(a.pinned_pdk).expanduser().resolve()
+    pdk = resolve_pinned_pdk(a.pinned_pdk, prog="gen_mismatch_gain_requests.py")
     tech = pdk / "libs.tech" / "ngspice"
     if not (tech / "models" / "cornerMOShv.lib").is_file():
         raise SystemExit(f"--pinned-pdk: {tech}/models/cornerMOShv.lib is not readable")

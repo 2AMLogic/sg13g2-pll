@@ -85,14 +85,14 @@ Running them (host rules: a grid goes to the batch fleet, never a local loop)
 """
 import argparse
 import csv
-import hashlib
 import json
-import os
 import pathlib
 import re
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[2] / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import pinned_closure, resolve_pinned_pdk, write_staged_manifest  # noqa: E402
 SNAP = HERE.parent / "netlist-snapshots"
 
 # ---- operating point: RECORD-002's, unchanged (issue #516) ----------------
@@ -143,10 +143,6 @@ OSDI = ("psp103", "psp103_nqs", "mosvar", "r3_cmc")
 
 def g(x, fmt=".6e"):
     return format(x, fmt)
-
-
-def sha256(path: pathlib.Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def rd(name: str) -> str:
@@ -334,42 +330,10 @@ def write_request(d: pathlib.Path, arm: str, pts, tech: pathlib.Path,
     }, indent=2) + "\n")
 
 
-def pinned_closure(tech: pathlib.Path):
-    """(name, resolved_source, sha256) for the wrapper's seeds, every
-    same-directory `.include` they name (recursively) and the four OSDI
-    objects -- dereferencing the pinned tree's symlinks (the RECORD-015
-    trap: the closure, not the cornerMOShv.lib hash, is what must ship)."""
-    models = tech / "models"
-    queue, done = ["cornerMOShv.lib", "cornerRES.lib"], []
-    inc_re = re.compile(r"^\s*\.(?:include|inc)\s+(\S+)\s*$", re.I | re.M)
-    rows = []
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = (models / name).resolve()
-        if not src.is_file():
-            raise SystemExit(f"pinned closure: {models / name} is unreadable")
-        rows.append((f"models/{name}", str(src), hashlib.sha256(src.read_bytes()).hexdigest()))
-        done.append(name)
-        for target in inc_re.findall(src.read_text(errors="replace")):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(f"pinned closure: {src} includes {target!r}; "
-                                 "only same-directory relative includes are followed")
-            queue.append(target)
-    for n in OSDI:
-        src = (tech / "osdi" / f"{n}.osdi").resolve()
-        if not src.is_file():
-            raise SystemExit(f"pinned closure: {src} is unreadable")
-        rows.append((f"osdi/{n}.osdi", str(src),
-                     hashlib.sha256(src.read_bytes()).hexdigest()))
-    return rows
-
-
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("outdir", help="directory to write the request tree into")
-    ap.add_argument("--pinned-pdk", default=os.environ.get("PINNED_PDK"),
+    ap.add_argument("--pinned-pdk", default=None,
                     help="an ihp-sg13cmos5l tree at sim/README.md's PDK-PIN "
                          "revision 607e18d4... (env: PINNED_PDK). Required.")
     ap.add_argument("--probe-only", action="store_true",
@@ -379,11 +343,7 @@ def main() -> None:
     ap.add_argument("--max-units-per-job", type=int, default=4,
                     help="batch shard size (default 4)")
     a = ap.parse_args()
-    if not a.pinned_pdk:
-        raise SystemExit("gen_pvt_requests.py: --pinned-pdk DIR (or "
-                         "PINNED_PDK=DIR) is required -- an ihp-sg13cmos5l "
-                         "checkout at sim/README.md's PDK-PIN 607e18d4....")
-    pdk = pathlib.Path(a.pinned_pdk).expanduser().resolve()
+    pdk = resolve_pinned_pdk(a.pinned_pdk, prog="gen_pvt_requests.py")
     tech = pdk / "libs.tech" / "ngspice"
     if not (tech / "models" / "cornerMOShv.lib").is_file():
         raise SystemExit(f"--pinned-pdk: {tech}/models/cornerMOShv.lib "
@@ -391,11 +351,9 @@ def main() -> None:
     out = pathlib.Path(a.outdir).resolve()
     out.mkdir(parents=True, exist_ok=True)
 
-    rows = pinned_closure(tech)
-    with open(out / "pinned-closure.csv", "w", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(["staged_name", "source_path", "sha256"])
-        w.writerows(rows)
+    rows = pinned_closure(pdk, ["cornerMOShv.lib", "cornerRES.lib"], OSDI,
+                          label="pinned closure")
+    write_staged_manifest(out / "pinned-closure.csv", rows)
 
     all_units = []
     if not a.probe_only:
