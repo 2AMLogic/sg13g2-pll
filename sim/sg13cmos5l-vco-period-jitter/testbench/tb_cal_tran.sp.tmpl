@@ -1,0 +1,39 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* Calibration stage transient-noise validation: the same DC-stable stage
+* as tb_cal_noise.sp.tmpl with the calibrated aggregate white noise current
+* actually injected (the same trrandom source form, sample interval and
+* sigma the ring decks use).  The transient output-noise PSD, computed from
+* this run's waveform, must reproduce the .noise output spectral density
+* over the jitter band within the tolerance RECORD-001 states -- this is
+* the end-to-end check of the injection mechanism (source form, ZOH
+* spectrum, solver behaviour), not just of the analytic fit.
+*
+* The waveform is written by wrdata to calpsd.txt (2 us at a uniform 5 ps
+* grid after `linearize`); ../testbench/extract.py Welch-averages it.
+*
+* Template placeholders: @SIGMA@ (A, rms), @TS@ (noise sample interval, s),
+* @SEED@ (setseed value), plus the shared set (see tb_bias_op.sp.tmpl).
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vbiasp vbp 0 dc @VBP@
+vbiasn vbn 0 dc @VBN@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+xs1 sin1 vbp vbn sout vdd 0 vco_stage
+rfb sout sin1 1e12
+inj sout 0 dc 0 trrandom(2, @TS@, 0, @SIGMA@)
+.tran @TSTEP@ 2u
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+setseed @SEED@
+run
+linearize v(sout)
+wrdata calpsd.txt v(sout)
+.endc
+.end

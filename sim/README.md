@@ -258,6 +258,7 @@ fleet rather than hand-launched ngspice loops.
 | `sg13cmos5l-vco-decap-momcap` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-decap-momcap/testbench/run.sh` |
 | `sg13cmos5l-vco-duty-cycle` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-duty-cycle/testbench/run.sh` |
 | `sg13cmos5l-vco-output-levels` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT sim/sg13cmos5l-vco-output-levels/testbench/run.sh WORKDIR` |
+| `sg13cmos5l-vco-period-jitter` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-period-jitter/testbench/run.sh` |
 | `sg13cmos5l-vco-kvco-table` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13cmos5l sim/sg13cmos5l-vco-kvco-table/testbench/run.sh` |
 | `sg13g2-pfd-reset-parity` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-pfd-reset-parity/testbench/run.sh` |
 | `sg13g2-divider-repair-reverification` | `testbench/run.sh` | `PDK_ROOT=$PDK_ROOT PDK=ihp-sg13g2 sim/sg13g2-divider-repair-reverification/testbench/run.sh` |

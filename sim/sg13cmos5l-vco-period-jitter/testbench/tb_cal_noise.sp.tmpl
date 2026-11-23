@@ -1,0 +1,46 @@
+* sg13g2-pll :: sim/sg13cmos5l-vco-period-jitter (issue #518, Part of #16)
+* Calibration stage: ONE vco_stage from the frozen snapshot, biased in its
+* high-gain linear region at a stable DC operating point -- the circuit the
+* injected-noise amplitude is calibrated against (RECORD-001
+* "Calibration").  Bias: VBP/VBN held by ideal sources at the values
+* tb_bias_op measured for this operating point; the stage input self-biases
+* to its own DC trip point through Rfb=1e12 (XMP/XMN currents balance
+* exactly, zero current through Rfb), so the linear-region bias point is
+* the circuit's own solution, not a hand-picked voltage.
+*
+* This deck: .op (the self-bias solution, printed) + .noise at the stage
+* output over 100 kHz..100 GHz -> the true small-signal device-noise output
+* spectral density the injected source must reproduce in-band.  The
+* reference source for input-referred noise is vbiasp (ac 1); onoise does
+* not depend on that choice.
+*
+* Template placeholders: @VBP@/@VBN@ (from tb_bias_op), plus the shared
+* @CORNER_MOS@/@CORNER_RES@/@TEMP@/@PDK_ROOT@/@PDK@/@OSDI@ set.
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerMOShv.lib @CORNER_MOS@
+.lib @PDK_ROOT@/@PDK@/libs.tech/ngspice/models/cornerRES.lib @CORNER_RES@
+.option scale=1 temp=@TEMP@
+.global sub!
+.include vco_open.spice
+vbiasp vbp 0 dc @VBP@ ac 1
+vbiasn vbn 0 dc @VBN@
+vdd vdd 0 dc 3.3
+vsub sub! 0 dc 0
+xs1 sin1 vbp vbn sout vdd 0 vco_stage
+rfb sout sin1 1e12
+.control
+pre_osdi @OSDI@/psp103.osdi
+pre_osdi @OSDI@/psp103_nqs.osdi
+pre_osdi @OSDI@/mosvar.osdi
+pre_osdi @OSDI@/r3_cmc.osdi
+op
+set numdgt=15
+print v(sin1) v(sout)
+* pts-per-summary 1: creates the noise1 (spectral-density) and noise2
+* (integrated, per-device) plots the prints below read
+noise v(sout) vbiasp dec 20 1e5 1e11 1
+setplot noise1
+print frequency onoise_spectrum
+setplot noise2
+print all
+.endc
+.end
