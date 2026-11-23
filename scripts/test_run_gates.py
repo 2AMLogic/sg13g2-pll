@@ -59,6 +59,7 @@ EXPECTED_TEST_PATHS = (
     "sim/sg13cmos5l-closed-loop-lock/testbench/test_collect_125c_acquisition.py",
     "sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py",
     "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py",
+    "sim/tools/test_stage_pinned_pdk.py",
     "scripts/test_check_artifact_manifests.py",
     RUNNER_TEST,
 )
@@ -83,6 +84,7 @@ EXPECTED_FULL = (
      g("sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py")),
     ("run-pex-guard-self-test",
      g("sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py")),
+    ("stage-pinned-pdk-unit-tests", g("sim/tools/test_stage_pinned_pdk.py")),
     ("artifact-manifests-unit-tests", g("scripts/test_check_artifact_manifests.py")),
     ("stdlib-gates-runner-unit-tests", g(RUNNER_TEST)),
     ("records-format", g("characterization/check_records.py")),

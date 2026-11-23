@@ -37,14 +37,20 @@ Submit with (host policy: no local ngspice grids):
 """
 import argparse
 import csv
-import hashlib
 import json
 import pathlib
 import re
 import shutil
+import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 RECORD = HERE.parent
+REPO = HERE.parents[2]
+
+sys.path.insert(0, str(REPO / "sim" / "tools"))  # python3 -I: no script dir
+from stage_pinned_pdk import (  # noqa: E402
+    resolve_pinned_pdk, sha256, stage_pinned_pdk, write_staged_manifest,
+)
 
 # run.sh's 3 correlated PVT bundles (see ../corners/matrix.md for the subset
 # rationale), 4 band codes and 5 VCTRL points = 60 units.
@@ -62,35 +68,6 @@ VCTRLS = ["0.3", "0.9", "1.5", "2.1", "2.7"]
 OSDI = ["psp103", "psp103_nqs", "mosvar", "r3_cmc"]
 
 MODELS_TOKEN = "@PDK_ROOT@/@PDK@/libs.tech/ngspice/models"
-INCLUDE_RE = re.compile(r"^\s*\.(?:include|inc)\s+(\S+)\s*$", re.I | re.M)
-
-
-def sha256(path: pathlib.Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def copy_closure(src_models: pathlib.Path, dest: pathlib.Path, seeds):
-    """Copy `seeds` and, recursively, every file their `.include` directives
-    name, dereferencing symlinks (the pinned tree tracks most model cards as
-    symlinks into the sibling ihp-sg13g2 tree).  Returns the copied names."""
-    dest.mkdir(parents=True, exist_ok=True)
-    queue, done = list(seeds), []
-    while queue:
-        name = queue.pop(0)
-        if name in done:
-            continue
-        src = src_models / name
-        if not src.is_file():
-            raise SystemExit(f"model closure: {src} is not a readable file")
-        shutil.copyfile(src, dest / name)  # follows symlinks
-        done.append(name)
-        for target in INCLUDE_RE.findall(src.read_text(errors="replace")):
-            if "/" in target or target.startswith("$"):
-                raise SystemExit(
-                    f"model closure: {src} includes {target!r}; this generator "
-                    "only follows same-directory relative includes")
-            queue.append(target)
-    return done
 
 
 def main():
@@ -109,7 +86,8 @@ def main():
     a = ap.parse_args()
 
     out = pathlib.Path(a.outdir).resolve()
-    pdk = pathlib.Path(a.pinned_pdk).resolve()
+    pdk = resolve_pinned_pdk(a.pinned_pdk, prog="gen_rerun318.py",
+                             allow_env=False)
     decks_dir = out / "decks"
     if decks_dir.exists():
         shutil.rmtree(decks_dir)
@@ -121,7 +99,6 @@ def main():
     (decks_dir / "vco_open.spice").write_text(
         re.sub(r"^(XCDECAP)", r"*\1", snap.read_text(), flags=re.M))
 
-    staged = []  # (staged_name, source_path, sha256)
     seeds = ["cornerMOShv.lib", "cornerRES.lib"]
     osdi_names = list(OSDI)
     if a.cap_probe:
@@ -129,20 +106,7 @@ def main():
         # cap_cmom instance (XCDECAP is stripped), so it never loads them.
         seeds = ["cornerCAP.lib"]
         osdi_names += ["cap_cmomi", "cap_cmomf"]
-    models = copy_closure(pdk / "libs.tech" / "ngspice" / "models",
-                          decks_dir / "models", seeds)
-    for name in models:
-        src = pdk / "libs.tech" / "ngspice" / "models" / name
-        staged.append((f"models/{name}", str(src.resolve()),
-                       sha256(decks_dir / "models" / name)))
-    (decks_dir / "osdi").mkdir()
-    for name in osdi_names:
-        src = pdk / "libs.tech" / "ngspice" / "osdi" / f"{name}.osdi"
-        if not src.is_file():
-            raise SystemExit(f"OSDI: {src} is not a readable file")
-        shutil.copyfile(src, decks_dir / "osdi" / f"{name}.osdi")
-        staged.append((f"osdi/{name}.osdi", str(src.resolve()),
-                       sha256(decks_dir / "osdi" / f"{name}.osdi")))
+    staged = stage_pinned_pdk(pdk, decks_dir, seeds, osdi_names)
 
     decks, rows = [], []
     if a.cap_probe:
@@ -197,12 +161,10 @@ def main():
         w.writerow(["id", "pvt_bundle", "mos_corner", "res_corner", "temp_c",
                     "band_code", "vctrl_v", "deck_sha256"])
         w.writerows(rows)
-    with open(out / "staged_pdk.sha256.csv", "w", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(["staged_name", "source_path", "sha256"])
-        w.writerows(staged)
+    write_staged_manifest(out / "staged_pdk.sha256.csv", staged)
     print(f"wrote {len(decks)} decks and {len(staged)} staged PDK files to {out}")
     print(f"request: {out / name}")
 
 
-main()
+if __name__ == "__main__":
+    main()

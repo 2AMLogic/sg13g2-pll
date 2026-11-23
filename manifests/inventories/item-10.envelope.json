@@ -3,14 +3,14 @@
   "kind": "generic",
   "status": "pass",
   "t1_item": 10,
-  "summary": "T1 item 10 (Repo hygiene): 33/33 attestation checks passed (klt signoff --attest)",
+  "summary": "T1 item 10 (Repo hygiene): 34/34 attestation checks passed (klt signoff --attest)",
   "source": "manifests/inventories/item-10.json",
   "attestation": {
     "producer": "klt signoff --attest",
     "inventory_schema_version": 1,
     "hash_algorithm": "sha256-raw-bytes",
-    "check_count": 33,
-    "passed_count": 33,
+    "check_count": 34,
+    "passed_count": 34,
     "checks": [
       {
         "check": "present",
@@ -387,6 +387,19 @@
         "cwd": ".",
         "exit_status": 0,
         "passed": true
+      },
+      {
+        "check": "command",
+        "role": "audit",
+        "name": "stage-pinned-pdk-unit-tests",
+        "argv": [
+          "python3",
+          "-B",
+          "sim/tools/test_stage_pinned_pdk.py"
+        ],
+        "cwd": ".",
+        "exit_status": 0,
+        "passed": true
       }
     ]
   },
@@ -400,7 +413,7 @@
         "path": "manifests/inventories/item-10.json",
         "scope": "repo"
       },
-      "content_hash": "sha256:3df5e513ffac5a3f0867b2d62953f0d8dd82053cdda1ec6f292dc9b24f810128"
+      "content_hash": "sha256:7863200b4e53db211cedc00e90ea2d3ce2e488b76d7cb2de6c535d26d506ef29"
     }
   }
 }
