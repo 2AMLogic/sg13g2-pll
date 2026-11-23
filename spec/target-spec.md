@@ -155,8 +155,8 @@ a superseding DR is required.
 
 **R-2. Closed-loop rows 7, 10, 11 and the second half of 16 are open on one
 gate.** Gate: a phase-locked closed loop that meets the 5% static-phase
-criterion on the real blocks. Current evidence: at 20 MHz / band `11` the
-mitigated `cp` leaves an 8.204% static phase error (target 5%).
+criterion on the real blocks. At 20 MHz / band `11` the mitigated `cp`
+leaves an 8.204% static phase error (target 5%).
 `sim/sg13cmos5l-closed-loop-lock/records/RECORD-006-cp-dynamic-charge-term-diagnostic.md`
 attributes it to the dump-buffer follower holding `VDUMP` about 0.94 V below
 `VOUT` (about -41.30 fC per UP+DN pair). At the divider-compatible operating
@@ -166,18 +166,28 @@ point, though, the real-divider loop acquires and locks:
 (600 MHz) and the real-divider arm holds the dual-lock criterion for the
 final 91 cycles of its 10 us window at a 1.729% static phase error — under
 the 5% criterion, but at ONE nominal point (`mos_tt`/`res_typ`/27 C/3.3 V),
-pre-layout, warm-started. RECORD-001's non-acquisition at 20 MHz / band `11`
-stands as history, the PVT campaign on the divider-compatible point is
-pending (#516), and no spec row is ratified from either record.
+pre-layout, warm-started — and
+`sim/sg13cmos5l-closed-loop-real-divider/records/RECORD-003-closed-loop-pvt-divider-compatible-point.md`
+(issue #516) carries the same point across PVT: 5 MOS corners x {-40, 27,
+125} C at 3.3 V plus the 3.0 and 3.6 V supply endpoints — 17 real units and
+3 behavioural-divider controls, one 10 us transient each, schematic-level,
+pre-layout, warm-started, `res_typ` throughout — and the real loop meets
+the dual-lock criterion at 16 of the 17 real corners, static phase 1.34 to
+1.95% of `T_ref` at the locked ones. The one failure is `mos_ss`/125 C, and
+it is in the divider: the in-loop `divider_chain` miscounts (of the 20
+scored FB periods, 15 carry exactly 64 clk edges, two carry 63 and two 65)
+while `vctrl` settles mid-range at 1.388 V, ruling out a VCO-reach or
+cp-drive failure. RECORD-001's non-acquisition at 20 MHz / band `11` stands
+as history, and no spec row is ratified from any of these records.
 Two things the ratifiers may want to look at together: that 8.2% static
 error is measured against a lock-detector threshold of about 12 to 37% of a
 reference period (DR-006 lock-detector), so the "window >= 2x worst static
 phase offset" half of row 16 would need at least about 16.4% at the lower end
 of that span. This is arithmetic on two records measured by different
 benches; it is not itself a measurement. Rows 7, 10 and 11 still name no
-number: a nominal lock now exists (RECORD-002), but no PVT-covered lock
-evidence is ratified, so each stays open pending a decision record and
-ratification.
+number: a PVT-covered lock now exists (RECORD-002; RECORD-003 at 16 of 17
+corners), but none of it is ratified, so each stays open pending a decision
+record and ratification.
 
 **R-3. Row 3 retiming closure is unmet and not relaxed.** The functional N
 range passes; the one-edge retiming closing bound is 825 to 1277 MHz by
