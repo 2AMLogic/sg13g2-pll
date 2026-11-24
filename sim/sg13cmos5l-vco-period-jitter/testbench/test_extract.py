@@ -252,6 +252,48 @@ class ExtractCalibrationTests(unittest.TestCase):
                 self.assertEqual(proc.stdout, "")
                 self.assertEqual(_snapshot_dir(corners), before)
 
+    def test_noise_ac_join_loss_fails_closed_and_preserves_csvs(self):
+        def drop_ac_row(ac):
+            lines = ac.splitlines()
+            del lines[11]  # one .ac frequency absent (line 0 is the header)
+            return "\n".join(lines) + "\n"
+
+        def zero_ac_row(ac):
+            lines = ac.splitlines()
+            f = lines[11].split("\t")[1]
+            lines[11] = f"10\t{f}\t0.000000000000000e+00,\t0.000000000000000e+00"
+            return "\n".join(lines) + "\n"
+
+        for label, mutate in (("ac_absent", drop_ac_row), ("ac_zero", zero_ac_row)):
+            with self.subTest(case=label), tempfile.TemporaryDirectory() as tmp:
+                root = pathlib.Path(tmp)
+                cal_dir, corners = root / "cal", root / "corners"
+                before = _seed_corners(corners)
+                nz, ac, sw = _make_cal_logs()
+                mutated = mutate(ac)
+                self.assertNotEqual(mutated, ac)
+                _write_unit(cal_dir, "cal_noise", nz)
+                _write_unit(cal_dir, "cal_ac", mutated)
+                _write_unit(cal_dir, "cal_dcsweep", sw)
+                proc = _run_extract("cal", cal_dir, corners)
+                self.assertEqual(proc.returncode, 1, f"{label}: stderr={proc.stderr!r}")
+                self.assertIn("1 of 121 .noise frequencies", proc.stderr)
+                self.assertNotIn("Traceback", proc.stderr)
+                self.assertEqual(proc.stdout, "")
+                self.assertEqual(_snapshot_dir(corners), before)
+
+    def test_extra_ac_rows_are_allowed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            cal_dir, corners = root / "cal", root / "corners"
+            nz, ac, sw = _make_cal_logs()
+            ac += "121\t1.000000000000000e+12\t5.0e+02,\t0.0e+00\n"
+            _write_unit(cal_dir, "cal_noise", nz)
+            _write_unit(cal_dir, "cal_ac", ac)
+            _write_unit(cal_dir, "cal_dcsweep", sw)
+            proc = _run_extract("cal", cal_dir, corners)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+
     def test_bias_rejects_nonfinite_and_malformed_readings_without_writing(self):
         for label, line in [
             ("missing", "v(vbp) = 1.77\n"),
