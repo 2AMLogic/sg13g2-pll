@@ -6,8 +6,34 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 - [2026-09](work_log/WORK_LOG_2026-09.md)
 
+### 2026-11-24
+
+- **PR #560**: fix: fail closed on .noise/.ac frequency join loss in VCO jitter extractor
+- **Issue #559** (closed): sim: vco-period-jitter extractor still drops .noise rows whose .ac frequency is absent or zero, without a diagnostic
+- **PR #555**: fix: fail extract on unparseable trip point and commit per-device noise rows
+- **PR #554**: docs: measure item-10 envelope merge exposure and record decision
+- **Issue #553** (closed): sim: two evidence-hygiene gaps in the vco-period-jitter extractor (silent trip-point fallback; per-device noise split not committed)
+
 ### 2026-11-23
 
+- **PR #557**: refactor: route remaining pinned-PDK closure and resolver copies through stage_pinned_pdk
+- **Issue #556** (closed): Consolidate the three remaining pinned-PDK model-closure and resolver copies into sim/tools/stage_pinned_pdk.py
+- **PR #552**: docs: cite RECORD-003's 16/17-corner PVT lock in ROADMAP, narrow item 4 to the ss/125C divider miscount
+- **Issue #551** (closed): docs: ROADMAP.md lines 38/72/74 still cite #516 as unmeasured now that RECORD-003 is on main
+- **PR #548**: docs: cite RECORD-003 PVT lock in chipalooza proposal
+- **Issue #547** (closed): docs: three chipalooza 'PVT campaign tracked in #516' passages are stale now that RECORD-003 is on main
+- **PR #546**: docs: record RECORD-003's 16/17-corner PVT lock in R-2 and manifests
+- **PR #545**: sim: consolidate pinned-PDK deck staging into sim/tools/stage_pinned_pdk.py
+- **Issue #544** (closed): Consolidate the four per-bench copies of pinned-PDK model and OSDI deck staging into sim/tools
+- **PR #542**: refactor: collapse lock-detector run_rerun256.sh into an OUT_TAG wrapper
+- **Issue #541** (closed): WORK_PLAN 'In Progress' section omitted a loom:building issue (#398) that predated generation by 2h36m
+- **PR #539**: sim: ignore .klt/ scratch caches and annotate the rerun-324 klt cache as not evidence
+- **PR #533**: sim(closed-loop-real-divider): RECORD-003 PVT campaign — 19/20 dual-lock, ss/125C fails in the divider
+- **Issue #531** (closed): docs: R-2 evidence paragraph and manifests/README 'does not acquire' sentence still describe RECORD-001
+- **PR #523**: sim: transient-noise period-jitter method bench for the free-running vco (steps 1-3; campaign parked on klayout-tools#5772)
+- **Issue #516** (closed): sim: closed-loop PVT campaign on the real blocks at the divider-compatible operating point (lock, static phase error, per-domain current; rows 7, 11, 16, R-2)
+- **Issue #398** (closed): Gitignore .klt/ and annotate committed rerun-324 klt scratch cache as non-evidence
+- **Issue #384** (closed): Collapse run_rerun256.sh (921-line copy of the lock-detector run.sh, one functional line differs) into a thin wrapper
 - **Issue #396** (closed): Collapse run_rerun256.sh into a run.sh output-suffix knob: 906 duplicated lines, one line of real difference
 
 ### 2026-11-22
