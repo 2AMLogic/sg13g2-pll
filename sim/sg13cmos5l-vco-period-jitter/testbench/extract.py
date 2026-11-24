@@ -198,38 +198,47 @@ def cmd_cal(outdir, corners):
     # flicker-vs-thermal evidence for the 1/f exclusion.  Only the
     # sub-component vectors (suffix _idid/_flicker/_rd/_rs/...) are summed;
     # the bare per-device aggregates (no sub-suffix) would double-count.
-    dev = {}
+    dev = []   # (name, value) per printed line -- repeated names kept
     for line in nz.splitlines():
+        if not (line.startswith("onoise_total_") and ".xs1." in line):
+            continue
         m = re.match(r"^onoise_total_(\S+)[ \t]*=[ \t]*(\S+)[ \t]*$", line)
-        if m and ".xs1." in m.group(1):
-            try:
-                val = float(m.group(2))
-            except ValueError:
-                val = float("nan")
-            if not math.isfinite(val):
-                sys.exit(f"extract.py: could not parse finite onoise_total_{m.group(1)} "
-                         "from cal_noise stdout")
-            dev[m.group(1)] = val
-    sub = {k: v for k, v in dev.items()
-           if re.search(r"(?:pmos|nmos|rfb)_", k)}
-    flicker = {k: v for k, v in sub.items() if "flicker" in k}
-    thermal = {k: v for k, v in sub.items()
-               if "idid" in k or "_rd" in k or "_rs" in k or "thermal" in k}
+        try:
+            val = float(m.group(2)) if m else float("nan")
+        except ValueError:
+            val = float("nan")
+        if not math.isfinite(val):
+            sys.exit("extract.py: could not parse a finite per-device "
+                     f"onoise_total_ reading from cal_noise stdout: {line.strip()!r}")
+        dev.append((m.group(1), val))
+    if not dev:
+        sys.exit("extract.py: no per-device onoise_total_*.xs1.* dump found "
+                 "in cal_noise stdout")
+    is_sub = lambda k: re.search(r"(?:pmos|nmos|rfb)_", k) is not None
+    is_flicker = lambda k: is_sub(k) and "flicker" in k
+    is_thermal = lambda k: is_sub(k) and ("idid" in k or "_rd" in k
+                                          or "_rs" in k or "thermal" in k)
+    sub = [(k, v) for k, v in dev if is_sub(k)]
+    flicker = [(k, v) for k, v in dev if is_flicker(k)]
+    thermal = [(k, v) for k, v in dev if is_thermal(k)]
     # ngspice per-device integrated totals are rms-V contributions: their
     # quadrature sum reconstructs onoise_total (verified below)
-    q = lambda d: math.sqrt(sum(v * v for v in d.values())) if d else None
+    q = lambda d: math.sqrt(sum(v * v for _, v in d)) if d else None
     onoise_total = scalar(nz, "onoise_total")
+    if onoise_total is None:
+        sys.exit("extract.py: could not parse a finite onoise_total from "
+                 "cal_noise stdout")
     dev_rows = []
-    for k, v in dev.items():
-        cls = ("flicker" if k in flicker else "thermal" if k in thermal
-               else "other" if k in sub else "excluded_aggregate")
+    for k, v in dev:
+        cls = ("flicker" if is_flicker(k) else "thermal" if is_thermal(k)
+               else "other" if is_sub(k) else "excluded_aggregate")
         dev_rows.append([k, f"{v:.6e}", cls])
     fit_row = ["1.000000e+08", "1.000000e+10", len(si),
                f"{si_mean:.6e}", f"{min(si):.6e}", f"{max(si):.6e}",
                f"{TS:.5e}", f"{sigma:.5e}",
                f"{trip:.6e}",
                f"{gain:.4f}" if gain is not None else "NA",
-               f"{onoise_total:.6e}" if onoise_total is not None else "NA",
+               f"{onoise_total:.6e}",
                f"{q(sub):.6e}" if q(sub) is not None else "NA",
                f"{q(flicker):.6e}" if q(flicker) is not None else "NA",
                f"{q(thermal):.6e}" if q(thermal) is not None else "NA"]

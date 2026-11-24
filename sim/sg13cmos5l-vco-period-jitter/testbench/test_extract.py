@@ -197,6 +197,61 @@ class ExtractCalibrationTests(unittest.TestCase):
                 self.assertEqual(proc.stdout, "")
                 self.assertEqual(_snapshot_dir(corners), before)
 
+    def test_repeated_device_names_are_all_preserved(self):
+        dup = "onoise_total_n.xs1.xmn.nsg13_hv_nmos_flicker"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            cal_dir, corners = root / "cal", root / "corners"
+            nz, ac, sw = _make_cal_logs(extra_dev_line=f"{dup} = 4.000000e-04")
+            _write_unit(cal_dir, "cal_noise", nz)
+            _write_unit(cal_dir, "cal_ac", ac)
+            _write_unit(cal_dir, "cal_dcsweep", sw)
+            proc = _run_extract("cal", cal_dir, corners)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            with open(corners / "calibration_devices.csv") as f:
+                rows = list(csv.DictReader(f))
+            flick = [r["onoise_total_v"] for r in rows
+                     if r["name"] == dup[len("onoise_total_"):]]
+            self.assertEqual(flick, ["3.000000e-04", "4.000000e-04"])
+            self.assertEqual(len(rows), 5)
+            with open(corners / "calibration_fit.csv") as f:
+                fit = next(csv.DictReader(f))
+            self.assertEqual(fit["stage_flicker_rms_v"], f"{math.hypot(3e-4, 4e-4):.6e}")
+            expected_sub = math.sqrt(1.8e-3 ** 2 + 3.0e-4 ** 2 + 4.0e-4 ** 2 + 5.0e-4 ** 2)
+            self.assertEqual(fit["onoise_subcomponent_quadrature_v"], f"{expected_sub:.6e}")
+
+    def test_malformed_noise_evidence_fails_closed_and_preserves_csvs(self):
+        idid = "onoise_total_n.xs1.xmn.nsg13_hv_nmos_idid = 1.800000e-03"
+        total = "onoise_total = 2.885483e-03"
+        dump = [l for l in _make_cal_logs()[0].splitlines()
+                if l.startswith("onoise_total_")]
+        cases = [
+            ("dev_empty_value", lambda t: t.replace(idid, "onoise_total_n.xs1.xmn.nsg13_hv_nmos_idid = ")),
+            ("dev_extra_token", lambda t: t.replace(idid, idid + " extra")),
+            ("dev_dump_missing", lambda t: "\n".join(
+                l for l in t.splitlines() if l not in dump) + "\n"),
+            ("total_failed", lambda t: t.replace(total, "onoise_total = failed")),
+            ("total_nan", lambda t: t.replace(total, "onoise_total = nan")),
+            ("total_missing", lambda t: t.replace(total + "\n", "")),
+        ]
+        for label, mutate in cases:
+            with self.subTest(case=label), tempfile.TemporaryDirectory() as tmp:
+                root = pathlib.Path(tmp)
+                cal_dir, corners = root / "cal", root / "corners"
+                before = _seed_corners(corners)
+                nz, ac, sw = _make_cal_logs()
+                mutated = mutate(nz)
+                self.assertNotEqual(mutated, nz)
+                _write_unit(cal_dir, "cal_noise", mutated)
+                _write_unit(cal_dir, "cal_ac", ac)
+                _write_unit(cal_dir, "cal_dcsweep", sw)
+                proc = _run_extract("cal", cal_dir, corners)
+                self.assertEqual(proc.returncode, 1, f"{label}: stderr={proc.stderr!r}")
+                self.assertIn("extract.py:", proc.stderr)
+                self.assertNotIn("Traceback", proc.stderr)
+                self.assertEqual(proc.stdout, "")
+                self.assertEqual(_snapshot_dir(corners), before)
+
     def test_bias_rejects_nonfinite_and_malformed_readings_without_writing(self):
         for label, line in [
             ("missing", "v(vbp) = 1.77\n"),
