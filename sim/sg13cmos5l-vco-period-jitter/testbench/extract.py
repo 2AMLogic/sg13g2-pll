@@ -171,15 +171,19 @@ def cmd_cal(outdir, corners):
     if len(noise_rows) < 100 or len(ac_rows) < 100:
         sys.exit(f"extract.py: short tables (noise {len(noise_rows)}, ac {len(ac_rows)})")
     zmap = {f: math.hypot(re_, im) for f, re_, im in ac_rows}
-    cal_noise_out = []
-    for f0, s in noise_rows:
-        Z = zmap.get(f0)
-        if Z:
-            cal_noise_out.append([f"{f0:.6e}", f"{s:.6e}", f"{Z:.6e}",
-                                  f"{s / Z:.6e}"])
+    # every .noise frequency needs a finite, non-zero |Z_out| from .ac; a
+    # silent skip would shrink calibration_noise.csv and the si fit band
+    bad_join = [f0 for f0, _ in noise_rows
+                if not (zmap.get(f0) is not None and math.isfinite(zmap[f0])
+                        and zmap[f0] > 0.0)]
+    if bad_join:
+        sys.exit(f"extract.py: {len(bad_join)} of {len(noise_rows)} .noise "
+                 "frequencies have no finite non-zero .ac |Z_out| "
+                 f"(first: {bad_join[0]:.6e} Hz)")
+    cal_noise_out = [[f"{f0:.6e}", f"{s:.6e}", f"{zmap[f0]:.6e}",
+                      f"{s / zmap[f0]:.6e}"] for f0, s in noise_rows]
     # fit: band mean of S_v/|Z|^2 (A^2/Hz)
-    band = [(s, Z) for f0, s in noise_rows
-            for Z in [zmap.get(f0)] if Z and 1e8 <= f0 <= 1e10]
+    band = [(s, zmap[f0]) for f0, s in noise_rows if 1e8 <= f0 <= 1e10]
     if not band:
         sys.exit("extract.py: no in-band (100 MHz..10 GHz) noise/ac points")
     si = [(s * s) / (Z * Z) for s, Z in band]
