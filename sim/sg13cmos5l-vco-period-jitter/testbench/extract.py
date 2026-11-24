@@ -28,6 +28,7 @@ import csv, hashlib, json, math, pathlib, re, sys
 
 FIRST, LAST = 51, 1051
 XING_SKIP, XING_MIN = 50, 1000     # startup crossings skipped / periods kept
+RIPPLE_MIN = 700    # ripple floor: > one full 1 MHz cycle (~650 periods)
 TS = 1e-11                 # trrandom sample interval (s) -- matches gen_decks.py
 CAL_TRAN_DT = 5e-12        # .tran step of the calibration transient = PSD grid
 PSD_SEG = 1 << 14
@@ -597,7 +598,7 @@ def cmd_calset(outdir, report_path, corners):
         w.writerow(["bundle", "band_code", "vctrl_v", "n_band_pts",
                     "si_a2_per_hz", "si_min_a2_per_hz", "si_max_a2_per_hz",
                     "ts_s", "sigma_a", "trip_v", "vin_v"])
-        w.writerows(fit_rows[pid] and [fit_rows[p] for p in sorted(fit_rows)])
+        w.writerows([fit_rows[p] for p in sorted(fit_rows)])
     # the sigma CSV gen --phase pvt consumes (bundle, band, vctrl keys)
     with open(corners / "campaign_sigma.csv", "w") as f:
         w = csv.writer(f)
@@ -713,6 +714,10 @@ def cmd_ripple(units_csv, report_paths, corners):
                 sys.exit(f"extract.py: ripple: {uid}: seed mismatch: report "
                          f"{tn.get('seed')} vs units.csv {units[uid]['seed']}")
             t = _series_of(member)
+            if len(t) - 1 - XING_SKIP < RIPPLE_MIN:
+                sys.exit(f"extract.py: ripple: {uid}: {len(t)} crossings < "
+                         f"{XING_SKIP}+{RIPPLE_MIN} -- run failed or stopped "
+                         "early; too short to resolve the 1 MHz modulation")
             ts_ = _periods_from_series(t, uid, need=len(t) - 1 - XING_SKIP)
             per[uid] = ts_
     need = {"ripbase_s42", "ripbase_off_s42", "rip_f1M_s42", "rip_f1M_off_s42",
@@ -750,9 +755,10 @@ def cmd_ripple(units_csv, report_paths, corners):
                             / (len(det) - 1))
         det_off_pp = max(det_off) - min(det_off)
         # random jitter of the ripple-on unit with the deterministic
-        # modulation removed
+        # modulation removed.  Subtract the independent noise-off estimate
+        # (det_off), NOT `det`: x - det == baseline identically.
         st = stats_row(f"rip_{tag}_s42")
-        resid = [x - d for x, d in zip(per[f"rip_{tag}_s42"][:n], det)]
+        resid = [x - d for x, d in zip(per[f"rip_{tag}_s42"][:n], det_off)]
         rm = sum(resid) / len(resid)
         resid_rms = math.sqrt(sum((x - rm) ** 2 for x in resid)
                               / (len(resid) - 1))
@@ -778,9 +784,6 @@ def cmd_ripple(units_csv, report_paths, corners):
                     "resid_rms_s"])
         w.writerows(rows)
     print(f"ripple: {len(rows)} rows -> ripple.csv")
-
-
-XING_SKIP, XING_MIN = 50, 1000
 
 
 NOISE_REF = []  # filled by cmd_main from the cal phase CSV (see run.sh order)

@@ -608,6 +608,67 @@ class ExtractRippleTests(unittest.TestCase):
             self.assertAlmostEqual(float(got["rip_f1M_s42"]["resid_rms_s"]),
                                    0.4e-12, delta=0.05e-12)
 
+    def test_ripple_resid_tracks_ripple_on_unit(self):
+        # the ripple-on unit carries extra random jitter the baseline lacks;
+        # resid_rms_s must follow it (it was the baseline's rms, identically)
+        import random
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            rng = random.Random(11)
+            n, p0, extra = 800, 1.533e-9, 5.0e-12
+            noise = [rng.gauss(0, 0.4e-12) for _ in range(n)]
+            more = [rng.gauss(0, extra) for _ in range(n)]
+            mod = [2.0e-12 * math.sin(2 * math.pi * k / 650) for k in range(n)]
+            series = {"ripbase_s42": [p0 + x for x in noise],
+                      "ripbase_off_s42": [p0] * n,
+                      "rip_f1M_s42": [p0 + x + e + m
+                                      for x, e, m in zip(noise, more, mod)],
+                      "rip_f1M_off_s42": [p0 + m for m in mod],
+                      "rip_f100M_s42": [p0 + x for x in noise],
+                      "rip_f100M_off_s42": [p0] * n}
+            members, rows = [], []
+            for uid, per in series.items():
+                t, out = 0.0, []
+                for p in per:
+                    out.append(t)
+                    t += p
+                members.append(_member(uid, out, 42))
+                rows.append({"unit_id": uid, "kind": "ripple", "seed": "42",
+                             "sigma_a": "7.68923e-07", "bundle": "typ",
+                             "band_code": "00", "vctrl_v": "1.5",
+                             "mos": "mos_tt", "res": "res_typ",
+                             "temp_c": "27",
+                             "ripple_hz": "0" if "base" in uid else "1e+06"})
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": members}))
+            units = root / "units.csv"
+            _units_csv(units, rows)
+            proc = _run_extract("ripple", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            with open(root / "corners" / "ripple.csv") as f:
+                got = {r["unit"]: r for r in csv.DictReader(f)}
+            resid = float(got["rip_f1M_s42"]["resid_rms_s"])
+            self.assertGreater(resid, 0.8 * extra)
+            self.assertGreater(resid, 5 * float(
+                got["ripbase_s42"]["rms_jitter_s"]))
+
+    def test_ripple_short_run_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            uid = "ripbase_s42"
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": [_member(
+                uid, [k * 1.5e-9 for k in range(300)], 42)]}))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": uid, "kind": "ripple", "seed": "42",
+                                "sigma_a": "1", "bundle": "typ",
+                                "band_code": "00", "vctrl_v": "1.5",
+                                "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": "27", "ripple_hz": "0"}])
+            proc = _run_extract("ripple", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("crossings <", proc.stderr)
+
     def test_ripple_missing_unit_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)
