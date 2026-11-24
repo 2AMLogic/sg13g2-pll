@@ -57,7 +57,7 @@ def check_block(record, block):
     if resp.get("violations"):
         errs.append(f"{block}: response lists {len(resp['violations'])} violation(s)")
     errs += check_hash_bound(resp, gds, block,
-                             "stale evidence, envelope hash {h} != {sha} ({name})")[0]
+                             "stale evidence, envelope hash {h} != {sha} ({name})")
     cov = resp.get("coverage")
     if not isinstance(cov, dict):
         errs.append(f"{block}: response.coverage object missing")

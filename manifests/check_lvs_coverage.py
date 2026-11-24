@@ -46,7 +46,7 @@ def check_block(record, block, kind="lvs"):
     if resp.get("status") != want_status:
         errs.append(f"{block}: response.status is {resp.get('status')!r}, expected {want_status!r}")
     errs += check_hash_bound(resp, gds, block,
-                             "stale evidence, envelope hash {h} != {sha} ({name})")[0]
+                             "stale evidence, envelope hash {h} != {sha} ({name})")
     return errs
 
 

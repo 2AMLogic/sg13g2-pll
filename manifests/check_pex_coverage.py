@@ -166,7 +166,7 @@ def check_report(root, record, block):
     h = envelope_input_hash(d)
     errs += check_hash_bound(d, gds, block,
                              "provenance input hash {h} != sha256 of {name} {sha} "
-                             "(report is stale or for another layout; re-run run-klt-pex.sh)")[0]
+                             "(report is stale or for another layout; re-run run-klt-pex.sh)")
     legp = f"{SIGNOFF}/dut/pll_{block}.schematic.sp"
     if (d.get("reference_netlist") or {}).get("path") != legp:
         errs.append(f"{block}: reference_netlist {(d.get('reference_netlist') or {}).get('path')!r}, expected {legp}")

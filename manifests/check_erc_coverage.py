@@ -334,7 +334,7 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
     if Path(str(doc.get("file", ""))).name != gds.name:
         errs.append(f"{block}: ERC report input is {doc.get('file')!r}, expected {gds.name}")
     h = envelope_input_hash(doc)
-    errs += check_hash_bound(doc, gds, block, "ERC input hash {h} != sha256 of {gds}")[0]
+    errs += check_hash_bound(doc, gds, block, "ERC input hash {h} != sha256 of {gds}")
     errs += check_run_form(doc, block, exp)
     lvs_errs, lvs_h = check_lvs(lvs_record, block, exp["supplies"])
     errs += lvs_errs
