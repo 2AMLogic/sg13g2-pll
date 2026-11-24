@@ -53,7 +53,14 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _common import load, record_from_evidence, sha256_file  # noqa: E402
+from _common import (  # noqa: E402
+    check_hash_bound,
+    envelope_input_hash,
+    load,
+    open_envelope,
+    record_from_evidence,
+    sha256_file,
+)
 
 SIGNOFF = "sim/sg13cmos5l-klt-pex-signoff"
 BLOCKS = ("pfd", "cp", "loop_filter", "vco", "divider_chain", "lock_detector")
@@ -120,14 +127,9 @@ def check_leg(root, block, prov):
 def check_report(root, record, block):
     """Return (errors, input_hash)."""
     rep = root / f"{SIGNOFF}/reports/pex.{block}.json"
-    if not rep.is_file():
-        return [f"{block}: missing PEX report {rep}"], None
-    d, err = load(rep)
-    if err:
-        return [f"{block}: {err}"], None
-    if not isinstance(d, dict) or "error" in d or "response" in d:
-        return [f"{block}: {rep.name} is not a direct klt pex envelope"], None
-    errs = []
+    d, errs = open_envelope(rep, block, wrapped=False, noun="PEX report")
+    if d is None:
+        return errs, None
     if d.get("status") != "pass":
         errs.append(f"{block}: status {d.get('status')!r}, expected 'pass'")
     if d.get("failed") != 0 or d.get("errored") != 0 or not isinstance(d.get("passed"), int) or d["passed"] < 1:
@@ -161,12 +163,10 @@ def check_report(root, record, block):
     gds = record / f"pll_{block}.gds"
     if (d.get("layout") or {}).get("path") != gds.relative_to(root).as_posix():
         errs.append(f"{block}: layout.path {(d.get('layout') or {}).get('path')!r}, expected {gds.relative_to(root).as_posix()}")
-    h = ((d.get("provenance") or {}).get("input") or {}).get("content_hash")
-    if not gds.is_file():
-        errs.append(f"{block}: missing GDS {gds}")
-    elif h != sha256_file(gds):
-        errs.append(f"{block}: provenance input hash {h} != sha256 of {gds.name} {sha256_file(gds)} "
-                    "(report is stale or for another layout; re-run run-klt-pex.sh)")
+    h = envelope_input_hash(d)
+    errs += check_hash_bound(d, gds, block,
+                             "provenance input hash {h} != sha256 of {name} {sha} "
+                             "(report is stale or for another layout; re-run run-klt-pex.sh)")[0]
     legp = f"{SIGNOFF}/dut/pll_{block}.schematic.sp"
     if (d.get("reference_netlist") or {}).get("path") != legp:
         errs.append(f"{block}: reference_netlist {(d.get('reference_netlist') or {}).get('path')!r}, expected {legp}")

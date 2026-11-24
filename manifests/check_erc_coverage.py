@@ -79,7 +79,14 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _common import load, record_from_evidence, sha256_file  # noqa: E402
+from _common import (  # noqa: E402
+    check_hash_bound,
+    envelope_input_hash,
+    load,
+    open_envelope,
+    record_from_evidence,
+    sha256_file,
+)
 
 DEFAULT_ERC_RECORD = "layout/sg13cmos5l-pll/reports/20261008-230856-cd95c87"
 DEFAULT_SPECS = "layout/sg13cmos5l-pll"
@@ -201,7 +208,7 @@ def check_lvs(lvs_record, block, supplies, netlists=DEFAULT_NETLISTS):
     for s in supplies:
         if s.upper() not in paired:
             errs.append(f"{block}: lvs net_correspondence does not pair supply {s} to a reference net")
-    h = ((resp.get("provenance") or {}).get("input") or {}).get("content_hash")
+    h = envelope_input_hash(resp)
     if not h:
         errs.append(f"{block}: lvs response has no provenance.input.content_hash")
     return errs, h
@@ -319,23 +326,15 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
     """Return (errors, defects, input_hash) for one block."""
     exp = EXPECT[block]
     rep = erc_record / f"erc.supply-spec.pll_{block}.json"
-    if not rep.is_file():
-        return [f"{block}: missing ERC report {rep}"], [], None
-    doc, err = load(rep)
-    if err:
-        return [f"{block}: {err}"], [], None
-    if not isinstance(doc, dict) or "error" in doc or "response" in doc:
-        return [f"{block}: {rep.name} is not a direct klt erc envelope"], [], None
-    errs, defects = [], []
+    doc, errs = open_envelope(rep, block, wrapped=False, noun="ERC report")
+    if doc is None:
+        return errs, [], None
+    defects = []
     gds = lvs_record / f"pll_{block}.gds"
     if Path(str(doc.get("file", ""))).name != gds.name:
         errs.append(f"{block}: ERC report input is {doc.get('file')!r}, expected {gds.name}")
-    prov = doc.get("provenance") or {}
-    h = (prov.get("input") or {}).get("content_hash")
-    if not gds.is_file():
-        errs.append(f"{block}: missing GDS {gds}")
-    elif h != sha256_file(gds):
-        errs.append(f"{block}: ERC input hash {h} != sha256 of {gds}")
+    h = envelope_input_hash(doc)
+    errs += check_hash_bound(doc, gds, block, "ERC input hash {h} != sha256 of {gds}")[0]
     errs += check_run_form(doc, block, exp)
     lvs_errs, lvs_h = check_lvs(lvs_record, block, exp["supplies"])
     errs += lvs_errs
@@ -348,7 +347,7 @@ def check_erc(erc_record, lvs_record, specs_dir, block):
     if not spec_path.is_file():
         errs.append(f"{block}: missing spec {spec_path}")
     else:
-        if (prov.get("spec") or {}).get("content_hash") != sha256_file(spec_path):
+        if ((doc.get("provenance") or {}).get("spec") or {}).get("content_hash") != sha256_file(spec_path):
             errs.append(f"{block}: ERC spec hash != sha256 of committed {spec_path}")
         errs += check_spec(spec_path, block, exp)
 

@@ -109,6 +109,15 @@ class Cov(unittest.TestCase):
         self.edit("cp", lambda d: d["response"].pop("provenance"))
         self.assertTrue(self.fails())
 
+    def test_toplevel_content_hash_fallback_is_dead(self):
+        # Operator ruling 2026-11-23 (issue #410, option a): only
+        # provenance.input.content_hash is a valid recorded hash. An envelope
+        # carrying just the top-level provenance.content_hash -- even with the
+        # correct hash value -- fails instead of binding through the fallback.
+        self.edit("cp", lambda d: d["response"]["provenance"].update(
+            content_hash=d["response"]["provenance"]["input"].pop("content_hash")))
+        self.assertTrue(self.fails())
+
     def test_coverage_disclosures_required(self):
         self.edit("lock_detector", lambda d: d["response"].pop("coverage"))
         self.assertTrue(self.fails())
