@@ -9,6 +9,7 @@ Chronological record of recently merged pull requests and closed issues. This fi
 ### 2026-11-24
 
 - **PR #567**: refactor: return only the error list from check_hash_bound
+- **PR #566**: sim: land #518 seeded-campaign machinery, per-op fleet calibration; park the grid on the runner re-bake
 - **PR #564**: refactor(manifests): one envelope-open and hash-bound check for all four gates
 - **Issue #565** (closed): manifests/_common.py: check_hash_bound's recorded-hash return is unused while ERC/PEX recompute it
 - **Issue #410** (closed): Deduplicate the manifests/ gate envelope checks: four spellings of hash-bound-to-adjacent-GDS, plus one unexercised fallback
