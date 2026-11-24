@@ -5,6 +5,7 @@
 """
 import csv
 import importlib.util
+import json
 import math
 import pathlib
 import subprocess
@@ -363,6 +364,325 @@ class ExtractCalibrationTests(unittest.TestCase):
             self.assertEqual(proc.returncode, 1)
             self.assertIn("missing wrdata output", proc.stderr)
             self.assertEqual(_snapshot_dir(corners), before)
+
+
+def _fleet_unit(outdir, uid, text, status="pass"):
+    p = pathlib.Path(outdir) / uid
+    p.mkdir(parents=True, exist_ok=True)
+    (p / "stdout.bin").write_text(text)
+    return {"id": uid, "status": status, "stdout": f"{uid}/stdout.bin"}
+
+
+def _member(uid, times, seed, status="pass"):
+    return {
+        "corners": [{"corner_id": "c0", "status": status,
+                     "measurements": [{"name": "t_clk",
+                                       "crossings": {"times": times}}]}],
+        "environment": {"netlist": {"name": f"{uid}.cir"},
+                        "transient_noise": {"seed": seed}},
+    }
+
+
+def _units_csv(path, rows):
+    with open(path, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=[
+            "unit_id", "kind", "seed", "ripple_hz", "sigma_a", "bundle",
+            "band_code", "vctrl_v", "mos", "res", "temp_c"])
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+
+
+class ExtractCalsetTests(unittest.TestCase):
+    SIGMA = math.sqrt((3.4e-9 / 1e3) ** 2 / (2 * 1e-11))   # the flat fixture
+
+    def _run(self, tmp, points, ref_sigma=None, ref_bias=("1.771692e+00",
+                                                          "1.341321e+00")):
+        root = pathlib.Path(tmp)
+        outdir, gen, corners = root / "out", root / "gen", root / "corners"
+        outdir.mkdir(parents=True, exist_ok=True)
+        corners.mkdir(parents=True, exist_ok=True)
+        nz, ac, _ = _make_cal_logs()
+        nz = "v(sout) = 1.361047e+00\nv(sin1) = 1.361047e+00\n" + nz.split("\n", 2)[2]
+        bias = "v(vbp) = 1.771691809e+00\nv(vbn) = 1.341320542e+00\n"
+        units, meta_points = [], {}
+        for pid, bundle, band, vc in points:
+            meta_points[pid] = {"bundle": bundle, "band_code": band,
+                                "vctrl_v": vc, "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": 27,
+                                "units": [f"{pid}__bias", f"{pid}__noise",
+                                          f"{pid}__ac"]}
+            units += [_fleet_unit(outdir, f"{pid}__bias", bias),
+                      _fleet_unit(outdir, f"{pid}__noise", nz),
+                      _fleet_unit(outdir, f"{pid}__ac", ac)]
+        (gen / ".." ).mkdir(parents=True, exist_ok=True)
+        (root / "cal_meta.json").write_text(json.dumps(
+            {"phase": "cal", "points": meta_points}))
+        report = root / "cal.report.json"
+        report.write_text(json.dumps({"units": units}))
+        with open(corners / "calibration_fit.csv", "w") as f:
+            f.write("fit_band_lo_hz,fit_band_hi_hz,n_band_pts,si_a2_per_hz,"
+                    "si_min_a2_per_hz,si_max_a2_per_hz,ts_s,sigma_a,trip_v,"
+                    "ss_gain_v_per_v,onoise_total_v,"
+                    "onoise_subcomponent_quadrature_v,stage_flicker_rms_v,"
+                    "stage_channel_thermal_rms_v\n")
+            f.write(f"1e8,1e10,40,1e-23,1e-23,1e-23,1e-11,"
+                    f"{ref_sigma or self.SIGMA:.5e},1.361047e+00,15.6075,"
+                    f"2.885483e-03,2.885320e-03,3.282752e-04,2.726355e-03\n")
+        with open(corners / "calibration_bias.csv", "w") as f:
+            f.write("unit,corner_mos,corner_res,temp_c,vctrl_v,band_code,"
+                    "vbp_v,vbn_v\n")
+            f.write(f"bias_op,mos_tt,res_typ,27,1.5,00,{ref_bias[0]},"
+                    f"{ref_bias[1]}\n")
+        return _run_extract("calset", outdir, report, corners), corners
+
+    def test_full_pass_writes_pvt_csvs_and_passes_reference_check(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proc, corners = self._run(
+                tmp, [("typ_b00_v1p5", "typ", "00", "1.5")])
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            self.assertIn("reference sigma delta", proc.stdout)
+            with open(corners / "calibration_pvt.csv") as f:
+                rows = list(csv.DictReader(f))
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]["sigma_a"], f"{self.SIGMA:.5e}")
+            self.assertEqual(rows[0]["trip_v"], "1.361047e+00")
+            for name in ("calibration_bias_pvt.csv", "campaign_sigma.csv"):
+                self.assertTrue((corners / name).is_file())
+
+    def test_reference_sigma_drift_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proc, corners = self._run(
+                tmp, [("typ_b00_v1p5", "typ", "00", "1.5")],
+                ref_sigma=self.SIGMA * 1.5)
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("stop-and-report", proc.stderr)
+            self.assertFalse((corners / "calibration_pvt.csv").exists())
+
+    def test_failing_deck_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            outdir = root / "out"
+            outdir.mkdir()
+            (root / "cal_meta.json").write_text(json.dumps(
+                {"points": {"typ_b00_v1p5": {"bundle": "typ", "band_code": "00",
+                                             "vctrl_v": "1.5", "mos": "mos_tt",
+                                             "res": "res_typ", "temp_c": 27,
+                                             "units": ["typ_b00_v1p5__bias"]}}}))
+            (outdir / "typ_b00_v1p5__bias").mkdir()
+            report = root / "r.json"
+            report.write_text(json.dumps({"units": [
+                {"id": "typ_b00_v1p5__bias", "status": "error",
+                 "stdout": "typ_b00_v1p5__bias/stdout.bin"}]}))
+            proc = _run_extract("calset", outdir, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("status 'error'", proc.stderr)
+
+
+class ExtractCampaignTests(unittest.TestCase):
+    def _times(self, periods):
+        t, out = 0.0, []
+        for p in periods:
+            out.append(t)
+            t += p
+        return out
+
+    def test_campaign_pass_writes_csv(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            periods = [1.5e-9 + (0.02e-12 if k % 2 else -0.01e-12)
+                       for k in range(1100)]
+            report = root / "r.json"
+            report.write_text(json.dumps(
+                _member("pvt_typ_b00_v1p5", self._times(periods), 42)))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": "pvt_typ_b00_v1p5", "kind": "pvt",
+                                "seed": "42", "sigma_a": "7.68923e-07",
+                                "bundle": "typ", "band_code": "00",
+                                "vctrl_v": "1.5", "mos": "mos_tt",
+                                "res": "res_typ", "temp_c": "27",
+                                "ripple_hz": ""}])
+            corners = root / "corners"
+            proc = _run_extract("campaign", units, report, corners)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            with open(corners / "pvt_jitter.csv") as f:
+                rows = list(csv.DictReader(f))
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]["seed"], "42")
+            self.assertEqual(rows[0]["n_periods"], "1000")
+            self.assertAlmostEqual(float(rows[0]["mean_period_s"]),
+                                   sum(periods[50:1050]) / 1000, delta=1e-18)
+
+    def test_campaign_missing_seed_echo_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            m = _member("pvt_typ_b00_v1p5", self._times([1.5e-9] * 1100), 42)
+            m["environment"]["transient_noise"] = {}
+            report = root / "r.json"
+            report.write_text(json.dumps(m))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": "pvt_typ_b00_v1p5", "kind": "pvt",
+                                "seed": "42", "sigma_a": "1", "bundle": "typ",
+                                "band_code": "00", "vctrl_v": "1.5",
+                                "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": "27", "ripple_hz": ""}])
+            proc = _run_extract("campaign", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("no environment.transient_noise.seed", proc.stderr)
+
+    def test_campaign_seed_mismatch_and_short_series_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            report = root / "r.json"
+            report.write_text(json.dumps(
+                _member("pvt_typ_b00_v1p5", self._times([1.5e-9] * 1100), 43)))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": "pvt_typ_b00_v1p5", "kind": "pvt",
+                                "seed": "42", "sigma_a": "1", "bundle": "typ",
+                                "band_code": "00", "vctrl_v": "1.5",
+                                "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": "27", "ripple_hz": ""}])
+            proc = _run_extract("campaign", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("seed mismatch", proc.stderr)
+            report.write_text(json.dumps(
+                _member("pvt_typ_b00_v1p5", self._times([1.5e-9] * 100), 42)))
+            proc = _run_extract("campaign", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("crossings <", proc.stderr)
+
+
+class ExtractRippleTests(unittest.TestCase):
+    def test_ripple_separates_deterministic_from_random(self):
+        import random
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            rng = random.Random(7)
+            n = 800
+            p0, amp1, amp100 = 1.533e-9, 2.0e-12, 0.5e-12
+            noise = [rng.gauss(0, 0.4e-12) for _ in range(n)]
+            mod1 = [amp1 * math.sin(2 * math.pi * k / 650) for k in range(n)]
+            mod100 = [amp100 * math.sin(2 * math.pi * k / 6.5) for k in range(n)]
+            series = {
+                "ripbase_s42": [p0 + x for x in noise],
+                "ripbase_off_s42": [p0] * n,
+                "rip_f1M_s42": [p0 + x + m for x, m in zip(noise, mod1)],
+                "rip_f1M_off_s42": [p0 + m for m in mod1],
+                "rip_f100M_s42": [p0 + x + m for x, m in zip(noise, mod100)],
+                "rip_f100M_off_s42": [p0 + m for m in mod100],
+            }
+            members = []
+            rows = []
+            for uid, per in series.items():
+                t, out = 0.0, []
+                for p in per:
+                    out.append(t)
+                    t += p
+                members.append(_member(uid, out, 42))
+                rows.append({"unit_id": uid, "kind": "ripple", "seed": "42",
+                             "sigma_a": "7.68923e-07", "bundle": "typ",
+                             "band_code": "00", "vctrl_v": "1.5",
+                             "mos": "mos_tt", "res": "res_typ",
+                             "temp_c": "27",
+                             "ripple_hz": "0" if "base" in uid else "1e+06"})
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": members}))
+            units = root / "units.csv"
+            _units_csv(units, rows)
+            corners = root / "corners"
+            proc = _run_extract("ripple", units, report, corners)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            with open(corners / "ripple.csv") as f:
+                got = {r["unit"]: r for r in csv.DictReader(f)}
+            # deterministic modulation pp: 2x amplitude for a sine, for both
+            # the seed-matched (noise-on) and noise-off differences
+            self.assertAlmostEqual(float(got["rip_f1M_s42"]["det_mod_pp_s"]),
+                                   2 * amp1, delta=1e-15)
+            self.assertAlmostEqual(float(got["rip_f1M_off_s42"]["det_mod_pp_s"]),
+                                   2 * amp1, delta=1e-15)
+            self.assertAlmostEqual(float(got["rip_f100M_s42"]["det_mod_pp_s"]),
+                                   2 * amp100, delta=0.05e-12)
+            self.assertAlmostEqual(float(got["rip_f100M_off_s42"]["det_mod_pp_s"]),
+                                   2 * amp100, delta=0.05e-12)
+            # random jitter with the modulation removed: the injected noise
+            self.assertAlmostEqual(float(got["rip_f1M_s42"]["resid_rms_s"]),
+                                   0.4e-12, delta=0.05e-12)
+
+    def test_ripple_resid_tracks_ripple_on_unit(self):
+        # the ripple-on unit carries extra random jitter the baseline lacks;
+        # resid_rms_s must follow it (it was the baseline's rms, identically)
+        import random
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            rng = random.Random(11)
+            n, p0, extra = 800, 1.533e-9, 5.0e-12
+            noise = [rng.gauss(0, 0.4e-12) for _ in range(n)]
+            more = [rng.gauss(0, extra) for _ in range(n)]
+            mod = [2.0e-12 * math.sin(2 * math.pi * k / 650) for k in range(n)]
+            series = {"ripbase_s42": [p0 + x for x in noise],
+                      "ripbase_off_s42": [p0] * n,
+                      "rip_f1M_s42": [p0 + x + e + m
+                                      for x, e, m in zip(noise, more, mod)],
+                      "rip_f1M_off_s42": [p0 + m for m in mod],
+                      "rip_f100M_s42": [p0 + x for x in noise],
+                      "rip_f100M_off_s42": [p0] * n}
+            members, rows = [], []
+            for uid, per in series.items():
+                t, out = 0.0, []
+                for p in per:
+                    out.append(t)
+                    t += p
+                members.append(_member(uid, out, 42))
+                rows.append({"unit_id": uid, "kind": "ripple", "seed": "42",
+                             "sigma_a": "7.68923e-07", "bundle": "typ",
+                             "band_code": "00", "vctrl_v": "1.5",
+                             "mos": "mos_tt", "res": "res_typ",
+                             "temp_c": "27",
+                             "ripple_hz": "0" if "base" in uid else "1e+06"})
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": members}))
+            units = root / "units.csv"
+            _units_csv(units, rows)
+            proc = _run_extract("ripple", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            with open(root / "corners" / "ripple.csv") as f:
+                got = {r["unit"]: r for r in csv.DictReader(f)}
+            resid = float(got["rip_f1M_s42"]["resid_rms_s"])
+            self.assertGreater(resid, 0.8 * extra)
+            self.assertGreater(resid, 5 * float(
+                got["ripbase_s42"]["rms_jitter_s"]))
+
+    def test_ripple_short_run_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            uid = "ripbase_s42"
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": [_member(
+                uid, [k * 1.5e-9 for k in range(300)], 42)]}))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": uid, "kind": "ripple", "seed": "42",
+                                "sigma_a": "1", "bundle": "typ",
+                                "band_code": "00", "vctrl_v": "1.5",
+                                "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": "27", "ripple_hz": "0"}])
+            proc = _run_extract("ripple", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("crossings <", proc.stderr)
+
+    def test_ripple_missing_unit_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            report = root / "r.json"
+            report.write_text(json.dumps({"requests": []}))
+            units = root / "units.csv"
+            _units_csv(units, [{"unit_id": "ripbase_s42", "kind": "ripple",
+                                "seed": "42", "sigma_a": "1", "bundle": "typ",
+                                "band_code": "00", "vctrl_v": "1.5",
+                                "mos": "mos_tt", "res": "res_typ",
+                                "temp_c": "27", "ripple_hz": "0"}])
+            proc = _run_extract("ripple", units, report, root / "corners")
+            self.assertEqual(proc.returncode, 1)
+            self.assertIn("missing units", proc.stderr)
 
 
 if __name__ == "__main__":

@@ -9,6 +9,41 @@ codes x two `VCTRL`, plus the row-12 supply-ripple unit) on
 `trrandom` seed for a batch run, and an unseeded campaign is out of the
 question. See `../records/RECORD-001-period-jitter-method.md` "Park".
 
+## Campaign matrix (steps 4-5; generator `../testbench/gen_campaign.py`)
+
+The upstream seed contract now exists (klayout-tools#5772 closed via
+#5876; the dispatch client `klt 0.9.3.dev5253+gdb1e2f17146d` carries
+`options.transient_noise_seed` and its report echo), so the campaign
+geometry is fixed and its machinery is committed. `fleetgap_probe.txt`
+records why the seeded fleet grid itself has still not run: the batch
+runner image (klt 0.9.0) predates the fix and drops the option — the
+client's echo check refuses the report by name — pending the runner
+re-bake tracked at 2AMLogic/2am#6568.
+
+| Axis | Values | Why |
+|---|---|---|
+| Process (MOS/RES) | `mos_tt`/`res_typ` (27 C), `mos_ss`/`res_wcs` (125 C), `mos_ff`/`res_bcs` (-40 C) | the kvco table's own 3-bundle PVT convention (`sg13cmos5l-vco-kvco-table` RECORD-001); the nominal corner *is* the typ bundle |
+| Band code | `00`, `11` | the extremes; `00` continues RECORD-001's reference point |
+| `VCTRL` | 1.5 V, 2.1 V | 1.5 V = RECORD-001 / duty-cycle reference; 2.1 V = the kvco grid's upper-mid point (higher Kvco); 0.3 V is degenerate (band code inert) |
+| Injected amplitude | per-point calibrated sigma (`calibration_pvt.csv`) | the fleet calibration measured a +/-5 % sigma spread across the 12 points; a shared sigma would misstate jitter by the same factor |
+| Noise seed | 42..53, one per unit | per-seed citations; the typ/b00/1.5 unit keeps seed 42 = RECORD-001's primary |
+| `.tran` | step 10p, stop = 1250/f per unit (kvco-table frequency) | >= 50 startup-skip + 1000 measured crossings + margin at every corner |
+| Ripple (row-12 units, at typ/b00/1.5/seed 42) | 10 mV sinusoid at 1 MHz and 100 MHz, Thevenin 7.47066 V behind `R_src` = 3000 ohm, `XCDECAP` retained | one decade either side of the decap record's 10.03 MHz pole; the Thevenin DC keeps the rail at 3.3 V (a bare series `R_src` drops ~4.2 V) while presenting exactly `R_src` to small signals |
+
+Campaign units: 12 seeded PVT units + 6 supply-ripple units (baseline,
+1 MHz, 100 MHz; each noise-on at calibrated sigma and noise-off), one
+single-unit request each (sigma and seed live in the request's own
+bytes; one seed per request is the klayout-tools#7709 contract —
+`decks[]` requests ignore `options.transient_noise_seed` entirely).
+Calibration (fleet jobs klt-sim-39e7c6d71222 + klt-sim-e86689a78f3b,
+ngspice-47): `calibration_bias_pvt.csv`, `calibration_pvt.csv`,
+`campaign_sigma.csv`, `cal_report_pvt.json`; the reference point
+reproduces RECORD-001 at committed CSV precision. The local method
+bridge (structured crossings path vs RECORD-001's deck `meas` path at
+the same seed): `bridge_local_report.json`. Driver:
+`../testbench/run_pvt.sh` (the local method replay `run.sh` is
+unchanged).
+
 | Axis | Values | Why |
 |---|---|---|
 | Process (MOS/RES) | `mos_tt` / `res_typ` only | One operating point is sufficient to validate a method; sweeping before the seed contract exists would burn fleet capacity on numbers that cannot be cited per-seed |
