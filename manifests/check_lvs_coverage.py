@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _common import record_from_manifest, sha256_file  # noqa: E402
+from _common import check_hash_bound, open_envelope, record_from_manifest  # noqa: E402
 
 ANALOG_BLOCKS = ("pfd", "cp", "loop_filter", "vco", "lock_detector")
 DIGITAL_BLOCK = "divider_chain"
@@ -40,36 +40,13 @@ def check_block(record, block, kind="lvs"):
     rep = record / (f"lvs.{block}.json" if kind == "lvs" else f"extract.pll_{block}.json")
     want_status = "match" if kind == "lvs" else "extracted"
     gds = record / f"pll_{block}.gds"
-    if not rep.is_file():
-        return [f"{block}: missing report {rep}"]
-    try:
-        doc = json.loads(rep.read_text())
-    except (OSError, ValueError) as e:
-        return [f"{block}: unreadable report {rep}: {e}"]
-    errs = []
-    if not isinstance(doc, dict):
-        return [f"{block}: report is not a JSON object"]
-    if doc.get("ok") is not True:
-        errs.append(f"{block}: wrapper ok is {doc.get('ok')!r}, expected true")
-    if doc.get("returncode") != 0:
-        errs.append(f"{block}: wrapper returncode is {doc.get('returncode')!r}, expected 0")
-    resp = doc.get("response")
-    if not isinstance(resp, dict):
-        return errs + [f"{block}: no /response object"]
+    resp, errs = open_envelope(rep, block, wrapped=True)
+    if resp is None:
+        return errs
     if resp.get("status") != want_status:
         errs.append(f"{block}: response.status is {resp.get('status')!r}, expected {want_status!r}")
-    prov = resp.get("provenance")
-    inp = prov.get("input") if isinstance(prov, dict) else None
-    recorded = inp.get("content_hash") if isinstance(inp, dict) else None
-    if not recorded:
-        errs.append(f"{block}: response.provenance.input.content_hash missing")
-    if not gds.is_file():
-        errs.append(f"{block}: missing adjacent GDS {gds}")
-    elif recorded and sha256_file(gds) != recorded:
-        errs.append(
-            f"{block}: stale evidence, envelope hash {recorded} != "
-            f"{sha256_file(gds)} ({gds.name})"
-        )
+    errs += check_hash_bound(resp, gds, block,
+                             "stale evidence, envelope hash {h} != {sha} ({name})")[0]
     return errs
 
 
