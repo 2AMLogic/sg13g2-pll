@@ -28,6 +28,10 @@
 # calibration_psd,period_jitter,crossing_digest,controls}.csv plus the
 # redacted klt reports local_report.json / seedgap_report.json.
 # extract.py exits non-zero if any validation control fails.
+#
+# The seeded PVT campaign and the row-12 supply-ripple units (issue steps
+# 4-5) are driven by run_pvt.sh beside this script (gen_campaign.py's
+# structured batch requests); this local method replay is unchanged.
 
 # shellcheck source=../../../design/lib/testbench-preamble.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../design/lib" && pwd)/testbench-preamble.sh"

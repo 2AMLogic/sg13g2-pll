@@ -6,16 +6,28 @@ controls.  Offline, stdlib-only; never edits sim/.
     python3 -I extract.py bias  BIAS_OUTDIR   CORNERS_DIR        -> prints "VBP VBN"
     python3 -I extract.py cal   CAL_OUTDIR    CORNERS_DIR        -> prints sigma (A)
     python3 -I extract.py main  MAIN_OUTDIR   CORNERS_DIR        -> control verdicts; exit 1 on failure
+    python3 -I extract.py calset CAL_OUTDIR FLEET_REPORT CORNERS -> per-op PVT calibration CSVs
+    python3 -I extract.py campaign UNITS_CSV REPORT... CORNERS   -> pvt_jitter.csv (seed echo verified)
+    python3 -I extract.py ripple UNITS_CSV REPORT... CORNERS     -> ripple.csv (deterministic vs random)
 
 BIAS/CAL/MAIN_OUTDIR are klt sim -o directories; CORNERS_DIR is this
 bench's corners/.  All numeric parameters in the outputs are read from the
 generator's decks_meta.json (which extract reads from <OUTDIR>/../ or
 <OUTDIR> itself -- run.sh keeps decks and -o side by side), so the CSVs
 quote the exact deck strings, never a re-derivation.
+
+calset/campaign/ripple reduce the #518 steps 4-5 fleet runs
+(gen_campaign.py's outputs): calset reads the deck-list calibration
+report (stdout files under the -o tree on batch) plus the generator's
+cal_meta.json; campaign/ripple read the structured corner reports
+(single or --batch-set envelopes) plus the generator's units.csv, verify
+every unit's environment.transient_noise.seed against the declared seed,
+and refuse an unseeded or mismatched unit.
 """
 import csv, hashlib, json, math, pathlib, re, sys
 
 FIRST, LAST = 51, 1051
+XING_SKIP, XING_MIN = 50, 1000     # startup crossings skipped / periods kept
 TS = 1e-11                 # trrandom sample interval (s) -- matches gen_decks.py
 CAL_TRAN_DT = 5e-12        # .tran step of the calibration transient = PSD grid
 PSD_SEG = 1 << 14
@@ -286,8 +298,8 @@ def crossings(txt, uid):
     return tc
 
 
-def jitter_stats(tc):
-    ts_ = [tc[k + 1] - tc[k] for k in sorted(tc) if k + 1 in tc]
+def period_stats(ts_):
+    """rms/CI/... over an explicit list of period samples."""
     n = len(ts_)
     mean = sum(ts_) / n
     var = sum((x - mean) ** 2 for x in ts_) / (n - 1)
@@ -301,6 +313,11 @@ def jitter_stats(tc):
         "half1": sum(ts_[:n // 2]) / (n // 2),
         "half2": sum(ts_[n // 2:]) / (n - n // 2),
     }
+
+
+def jitter_stats(tc):
+    return period_stats(
+        [tc[k + 1] - tc[k] for k in sorted(tc) if k + 1 in tc])
 
 
 def digest(tc):
@@ -437,6 +454,335 @@ def cmd_main(outdir, corners):
         sys.exit(f"extract.py: {len(failed)} control(s) FAILED")
 
 
+# ------------------------------------------------- phase: calset (fleet PVT)
+def _iter_reports(doc, path):
+    """Yield (label, report) from a single report or a --batch-set
+    {"requests": [...]} envelope (the closed-loop campaign's collector
+    shape)."""
+    if isinstance(doc, dict) and "requests" in doc and "corners" not in doc:
+        for i, member in enumerate(doc["requests"]):
+            yield f"{path}#requests[{i}]", member
+    else:
+        yield path, doc
+
+
+def _unit_stdout(outdir, unit_row):
+    """A batch deck report's `stdout` key names a file under the -o tree
+    (measured: "typ_b00_v1p5__bias/stdout.bin"); a local report carries
+    the text inline.  Return the text either way."""
+    s = unit_row.get("stdout")
+    if not s:
+        sys.exit(f"extract.py: unit {unit_row.get('id')} has no stdout")
+    p = pathlib.Path(outdir) / s
+    if p.is_file():
+        return p.read_text(errors="replace")
+    if "\n" in s or "=" in s:          # inline text, not a path
+        return s
+    sys.exit(f"extract.py: unit {unit_row.get('id')}: stdout neither an "
+             f"outdir-relative file ({p}) nor inline text")
+
+
+def cmd_calset(outdir, report_path, corners):
+    """The fleet calibration report (bias + noise + ac decks per operating
+    point) -> calibration_bias_pvt.csv + calibration_pvt.csv."""
+    doc = json.loads(pathlib.Path(report_path).read_text())
+    outdir = pathlib.Path(outdir)
+    meta_path = next((p for p in (outdir / "cal_meta.json",
+                                  outdir.parent / "cal_meta.json")
+                      if p.is_file()), None)
+    if meta_path is None:
+        sys.exit("extract.py: calset: no cal_meta.json in (or beside) the "
+                 "-o tree -- copy the generator's cal_meta.json next to the "
+                 "outputs (run_pvt.sh does)")
+    meta = json.loads(meta_path.read_text())
+    txt = {}
+    for u in doc.get("units", []):
+        if u.get("status") != "pass":
+            sys.exit(f"extract.py: calset: deck unit {u.get('id')} "
+                     f"status {u.get('status')!r} -- refusing to calibrate")
+        txt[u["id"]] = _unit_stdout(outdir, u)
+    bias_rows, fit_rows, sig = [], {}, {}
+    for pid, pt in sorted(meta["points"].items()):
+        uids = pt["units"]
+        bt = txt.get(f"{pid}__bias")
+        if bt is None:
+            sys.exit(f"extract.py: calset: no bias deck output for {pid}")
+        vbp = scalar(bt, "v(vbp)")
+        vbn = scalar(bt, "v(vbn)")
+        if vbp is None or vbn is None:
+            sys.exit(f"extract.py: calset: {pid}: could not parse v(vbp)/"
+                     "v(vbn) from the bias deck stdout")
+        bias_rows.append([pid, pt["bundle"], pt["band_code"], pt["vctrl_v"],
+                          pt["mos"], pt["res"], pt["temp_c"],
+                          f"{vbp:.9e}", f"{vbn:.9e}"])
+        if f"{pid}__noise" in uids:
+            nz = txt[f"{pid}__noise"]
+            ac = txt[f"{pid}__ac"]
+            noise_rows = vector_table(nz, r"^Index\s+frequency")
+            ac_rows = vector_table(ac, r"^Index\s+frequency")
+            if len(noise_rows) < 100 or len(ac_rows) < 100:
+                sys.exit(f"extract.py: calset: {pid}: short tables "
+                         f"(noise {len(noise_rows)}, ac {len(ac_rows)})")
+            zmap = {f: math.hypot(re_, im) for f, re_, im in ac_rows}
+            bad = [f0 for f0, _ in noise_rows
+                   if not (zmap.get(f0) is not None
+                           and math.isfinite(zmap[f0]) and zmap[f0] > 0.0)]
+            if bad:
+                sys.exit(f"extract.py: calset: {pid}: {len(bad)} of "
+                         f"{len(noise_rows)} .noise frequencies have no finite "
+                         f"non-zero .ac |Z_out| (first {bad[0]:.6e} Hz)")
+            band = [(s, zmap[f0]) for f0, s in noise_rows if 1e8 <= f0 <= 1e10]
+            if not band:
+                sys.exit(f"extract.py: calset: {pid}: no in-band points")
+            si = [(s * s) / (Z * Z) for s, Z in band]
+            si_mean = sum(si) / len(si)
+            sigma = math.sqrt(si_mean / (2 * TS))
+            trip = scalar(nz, "v(sout)")
+            if trip is None:
+                sys.exit(f"extract.py: calset: {pid}: no v(sout) trip point "
+                         "in the noise deck stdout")
+            vin = scalar(nz, "v(sin1)")
+            if vin is None or abs(vin - trip) > 1e-3:
+                sys.exit(f"extract.py: calset: {pid}: self-bias check failed "
+                         f"(v(sin1)={vin} vs v(sout)={trip}) -- the stage op "
+                         "point is not the circuit's own solution")
+            key = (pt["bundle"], pt["band_code"], pt["vctrl_v"])
+            fit_rows[pid] = [pt["bundle"], pt["band_code"], pt["vctrl_v"],
+                             len(si), f"{si_mean:.6e}", f"{min(si):.6e}",
+                             f"{max(si):.6e}", f"{TS:.5e}", f"{sigma:.5e}",
+                             f"{trip:.6e}", f"{vin:.6e}"]
+            sig[key] = (vbp, vbn, sigma)
+    if len(sig) == 0:
+        # bias-only pass (the two-step flow: sigma needs VBP/VBN first)
+        corners.mkdir(parents=True, exist_ok=True)
+        with open(corners / "calibration_bias_pvt.csv", "w") as f:
+            w = csv.writer(f)
+            w.writerow(["point_id", "bundle", "band_code", "vctrl_v",
+                        "mos_corner", "res_corner", "temp_c", "vbp_v",
+                        "vbn_v"])
+            w.writerows(bias_rows)
+        print(f"calset: bias-only pass, {len(bias_rows)} rows -> "
+              "calibration_bias_pvt.csv; rerun gen --phase cal with "
+              "--bias-csv, resubmit, and run calset on the full report")
+        return
+    if len(sig) != len(meta["points"]):
+        sys.exit(f"extract.py: calset: {len(sig)} of {len(meta['points'])} "
+                 "points have a noise/ac pair -- rerun gen --phase cal with "
+                 "--bias-csv")
+    # reference-point cross-check against RECORD-001's committed calibration
+    # (the stop-and-report criterion RECORD-002 set for PDK drift)
+    ref_fit = list(csv.DictReader(open(corners / "calibration_fit.csv")))[0]
+    ref_bias = list(csv.DictReader(open(corners / "calibration_bias.csv")))[0]
+    key = ("typ", "00", "1.5")
+    ref_sigma = float(ref_fit["sigma_a"])
+    delta = abs(sig[key][2] - ref_sigma) / ref_sigma
+    if delta > 1e-3:
+        sys.exit(f"extract.py: calset: reference-point sigma drifted: fleet "
+                 f"{sig[key][2]:.6e} vs committed {ref_sigma:.6e} "
+                 f"({delta:.2e} relative > 1e-3) -- RECORD-002's "
+                 "stop-and-report criterion")
+    b_commit = (f'{float(ref_bias["vbp_v"]):.6e}', f'{float(ref_bias["vbn_v"]):.6e}')
+    b_fleet = (f"{sig[key][0]:.6e}", f"{sig[key][1]:.6e}")
+    if b_fleet != b_commit:
+        sys.exit(f"extract.py: calset: reference-point bias differs at 6-digit "
+                 f"CSV precision: fleet {b_fleet} vs committed {b_commit}")
+    corners.mkdir(parents=True, exist_ok=True)
+    with open(corners / "calibration_bias_pvt.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["point_id", "bundle", "band_code", "vctrl_v", "mos_corner",
+                    "res_corner", "temp_c", "vbp_v", "vbn_v"])
+        w.writerows(bias_rows)
+    with open(corners / "calibration_pvt.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["bundle", "band_code", "vctrl_v", "n_band_pts",
+                    "si_a2_per_hz", "si_min_a2_per_hz", "si_max_a2_per_hz",
+                    "ts_s", "sigma_a", "trip_v", "vin_v"])
+        w.writerows(fit_rows[pid] and [fit_rows[p] for p in sorted(fit_rows)])
+    # the sigma CSV gen --phase pvt consumes (bundle, band, vctrl keys)
+    with open(corners / "campaign_sigma.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["bundle", "band_code", "vctrl_v", "vbp_v", "vbn_v",
+                    "sigma_a"])
+        for (b, band, vc), (vbp, vbn, sigma) in sorted(sig.items()):
+            w.writerow([b, band, vc, f"{vbp:.9e}", f"{vbn:.9e}",
+                        f"{sigma:.5e}"])
+    print(f"calset: {len(bias_rows)} bias rows, {len(sig)} sigmas; "
+          f"reference sigma delta {delta:.2e} (PASS <= 1e-3)")
+
+
+# ---------------------------------------------- phase: campaign / ripple
+def _load_units(units_csv):
+    with open(units_csv) as f:
+        return {r["unit_id"]: r for r in csv.DictReader(f)}
+
+
+def _series_of(report_member):
+    """corners[0].measurements[] -> the t_clk crossings times list."""
+    cs = report_member.get("corners") or []
+    if len(cs) != 1:
+        sys.exit(f"extract.py: expected exactly 1 corner per member, "
+                 f"got {len(cs)}")
+    if cs[0].get("status") != "pass":
+        sys.exit(f"extract.py: corner {cs[0].get('corner_id')} status "
+                 f"{cs[0].get('status')!r}")
+    for m in cs[0].get("measurements", []):
+        if m.get("name") == "t_clk" and isinstance(m.get("crossings"), dict):
+            t = m["crossings"].get("times")
+            if not t:
+                sys.exit("extract.py: t_clk crossings series is empty")
+            return t
+    sys.exit("extract.py: no t_clk crossings measurement in member")
+
+
+def _periods_from_series(times, uid, skip=XING_SKIP, need=XING_MIN):
+    if len(times) < skip + need:
+        sys.exit(f"extract.py: {uid}: {len(times)} crossings < "
+                 f"{skip}+{need} -- run failed or stopped early")
+    ts_ = [times[i + 1] - times[i] for i in range(skip, skip + need)]
+    if not all(math.isfinite(x) and x > 0 for x in ts_):
+        sys.exit(f"extract.py: {uid}: non-finite or non-positive period in "
+                 "the crossings series")
+    return ts_
+
+
+def cmd_campaign(units_csv, report_paths, corners, allow_partial=False):
+    units = _load_units(units_csv)
+    rows, seen = [], {}
+    for path in report_paths:
+        doc = json.loads(pathlib.Path(path).read_text())
+        for label, member in _iter_reports(doc, path):
+            env = member.get("environment", {})
+            nl = env.get("netlist") or {}
+            name = nl.get("name") if isinstance(nl, dict) else None
+            uid = name[:-4] if name and name.endswith(".cir") else None
+            if uid not in units or uid in seen:
+                sys.exit(f"extract.py: campaign: member netlist {name!r} "
+                         f"({label}) matches no unique campaign unit")
+            u = units[uid]
+            tn = env.get("transient_noise") or {}
+            if tn.get("seed") is None:
+                sys.exit(f"extract.py: campaign: {uid}: report carries no "
+                         "environment.transient_noise.seed -- an unseeded "
+                         "campaign unit is not citable evidence")
+            if str(tn.get("seed")) != str(u["seed"]):
+                sys.exit(f"extract.py: campaign: {uid}: seed mismatch: report "
+                         f"{tn.get('seed')} vs units.csv {u['seed']}")
+            t = _series_of(member)
+            ts_ = _periods_from_series(t, uid)
+            st = period_stats(ts_)
+            seen[uid] = True
+            rows.append([uid, u["bundle"], u["band_code"], u["vctrl_v"],
+                         u["mos"], u["res"], u["temp_c"], u["seed"],
+                         u["sigma_a"], "1e-11", "10p", st["n"],
+                         f"{st['mean']:.9e}", f"{st['rms']:.9e}",
+                         f"{st['pp']:.9e}", f"{st['pct']:.6f}",
+                         f"{st['ci_lo']:.9e}", f"{st['ci_hi']:.9e}",
+                         f"{st['half1']:.9e}", f"{st['half2']:.9e}"])
+    missing = [u for u in units if u not in seen and units[u]["kind"] == "pvt"]
+    if missing and not allow_partial:
+        sys.exit(f"extract.py: campaign: {len(missing)} pvt units missing "
+                 f"from the reports (first {missing[:3]})")
+    corners.mkdir(parents=True, exist_ok=True)
+    with open(corners / "pvt_jitter.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["unit", "bundle", "band_code", "vctrl_v", "mos_corner",
+                    "res_corner", "temp_c", "seed", "sigma_a", "ts_s",
+                    "tran_step_s", "n_periods", "mean_period_s",
+                    "rms_jitter_s", "pp_jitter_s", "rms_pct_of_period",
+                    "ci95_lo_s", "ci95_hi_s", "mean_period_first500_s",
+                    "mean_period_last500_s"])
+        w.writerows(rows)
+    print(f"campaign: {len(rows)} units -> pvt_jitter.csv")
+
+
+def cmd_ripple(units_csv, report_paths, corners):
+    units = _load_units(units_csv)
+    per = {}
+    for path in report_paths:
+        doc = json.loads(pathlib.Path(path).read_text())
+        for label, member in _iter_reports(doc, path):
+            env = member.get("environment", {})
+            nl = env.get("netlist") or {}
+            name = nl.get("name") if isinstance(nl, dict) else None
+            uid = name[:-4] if name and name.endswith(".cir") else None
+            if uid not in units or units[uid]["kind"] != "ripple" or uid in per:
+                sys.exit(f"extract.py: ripple: member netlist {name!r} "
+                         f"({label}) matches no unique ripple unit")
+            tn = env.get("transient_noise") or {}
+            if str(tn.get("seed")) != str(units[uid]["seed"]):
+                sys.exit(f"extract.py: ripple: {uid}: seed mismatch: report "
+                         f"{tn.get('seed')} vs units.csv {units[uid]['seed']}")
+            t = _series_of(member)
+            ts_ = _periods_from_series(t, uid, need=len(t) - 1 - XING_SKIP)
+            per[uid] = ts_
+    need = {"ripbase_s42", "ripbase_off_s42", "rip_f1M_s42", "rip_f1M_off_s42",
+            "rip_f100M_s42", "rip_f100M_off_s42"}
+    missing = need - set(per)
+    if missing:
+        sys.exit(f"extract.py: ripple: missing units {sorted(missing)}")
+    n = min(len(per[u]) for u in per)
+    rows = []
+
+    def stats_row(uid):
+        ts_ = per[uid][:n]
+        return period_stats(ts_)
+
+    base_series = per["ripbase_s42"][:n]           # noise-on baseline
+    base_off = per["ripbase_off_s42"][:n]          # noise-off baseline
+    for uid in ("ripbase_s42", "ripbase_off_s42"):
+        st = stats_row(uid)
+        rows.append([uid, units[uid]["ripple_hz"], units[uid]["sigma_a"],
+                     st["n"], f"{st['mean']:.9e}", f"{st['rms']:.9e}",
+                     f"{st['pp']:.9e}", f"{st['pct']:.6f}", "", "", ""])
+    for tag in ("f1M", "f100M"):
+        # deterministic period modulation: the seed-matched difference
+        # against the zero-ripple baseline removes the (common) injected
+        # noise realization, leaving the supply-ripple response.  The
+        # noise-off twin differences against the same baseline with no
+        # noise at all; the last column reports the two pp values' delta
+        # so a dirty separation is visible, not averaged away.
+        det = [x - b for x, b in zip(per[f"rip_{tag}_s42"][:n], base_series)]
+        det_off = [x - b for x, b in
+                   zip(per[f"rip_{tag}_off_s42"][:n], base_off)]
+        det_m = sum(det) / len(det)
+        det_pp = max(det) - min(det)
+        det_rms = math.sqrt(sum((d - det_m) ** 2 for d in det)
+                            / (len(det) - 1))
+        det_off_pp = max(det_off) - min(det_off)
+        # random jitter of the ripple-on unit with the deterministic
+        # modulation removed
+        st = stats_row(f"rip_{tag}_s42")
+        resid = [x - d for x, d in zip(per[f"rip_{tag}_s42"][:n], det)]
+        rm = sum(resid) / len(resid)
+        resid_rms = math.sqrt(sum((x - rm) ** 2 for x in resid)
+                              / (len(resid) - 1))
+        rows.append([f"rip_{tag}_s42", units[f"rip_{tag}_s42"]["ripple_hz"],
+                     units[f"rip_{tag}_s42"]["sigma_a"], st["n"],
+                     f"{st['mean']:.9e}", f"{st['rms']:.9e}",
+                     f"{st['pp']:.9e}", f"{st['pct']:.6f}",
+                     f"{det_pp:.9e}", f"{det_rms:.9e}", f"{resid_rms:.9e}"])
+        st_off = stats_row(f"rip_{tag}_off_s42")
+        rows.append([f"rip_{tag}_off_s42",
+                     units[f"rip_{tag}_off_s42"]["ripple_hz"],
+                     units[f"rip_{tag}_off_s42"]["sigma_a"], st_off["n"],
+                     f"{st_off['mean']:.9e}", f"{st_off['rms']:.9e}",
+                     f"{st_off['pp']:.9e}", f"{st_off['pct']:.6f}",
+                     f"{det_off_pp:.9e}", "",
+                     f"{det_pp - det_off_pp:+.3e}"])
+    corners.mkdir(parents=True, exist_ok=True)
+    with open(corners / "ripple.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["unit", "ripple_hz", "sigma_a", "n_periods",
+                    "mean_period_s", "rms_jitter_s", "pp_jitter_s",
+                    "rms_pct_of_period", "det_mod_pp_s", "det_mod_rms_s",
+                    "resid_rms_s"])
+        w.writerows(rows)
+    print(f"ripple: {len(rows)} rows -> ripple.csv")
+
+
+XING_SKIP, XING_MIN = 50, 1000
+
+
 NOISE_REF = []  # filled by cmd_main from the cal phase CSV (see run.sh order)
 
 
@@ -448,9 +794,32 @@ def load_noise_ref(corners):
 
 
 def main():
-    if len(sys.argv) != 4 or sys.argv[1] not in ("bias", "cal", "main"):
+    a = sys.argv
+    if len(a) >= 2 and a[1] == "calset":
+        if len(a) != 5:
+            sys.exit("usage: extract.py calset CAL_OUTDIR REPORT CORNERS")
+        cmd_calset(pathlib.Path(a[2]), a[3], pathlib.Path(a[4]))
+        return
+    if len(a) >= 2 and a[1] == "campaign":
+        rest = a[2:]
+        allow_partial = False
+        if rest and rest[0] == "--allow-partial":
+            allow_partial = True
+            rest = rest[1:]
+        if len(rest) < 3:
+            sys.exit("usage: extract.py campaign [--allow-partial] "
+                     "UNITS_CSV REPORT... CORNERS")
+        cmd_campaign(rest[0], rest[1:-1], pathlib.Path(rest[-1]),
+                     allow_partial=allow_partial)
+        return
+    if len(a) >= 2 and a[1] == "ripple":
+        if len(a) < 5:
+            sys.exit("usage: extract.py ripple UNITS_CSV REPORT... CORNERS")
+        cmd_ripple(a[2], a[3:-1], pathlib.Path(a[-1]))
+        return
+    if len(a) != 4 or a[1] not in ("bias", "cal", "main"):
         sys.exit(__doc__)
-    phase, outdir, corners = sys.argv[1], pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3])
+    phase, outdir, corners = a[1], pathlib.Path(a[2]), pathlib.Path(a[3])
     if phase == "bias":
         cmd_bias(outdir, corners)
     elif phase == "cal":

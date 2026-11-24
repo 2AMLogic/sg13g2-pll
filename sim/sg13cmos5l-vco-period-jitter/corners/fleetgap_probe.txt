@@ -1,0 +1,56 @@
+fleet-gap probe evidence (issue #518 steps 4-5, second park ladder) --
+captured 2026-11-24
+client klt 0.9.3.dev5253+gdb1e2f17146d (carries options.transient_noise_seed,
+klayout-tools #5772/#5876), host loom-crew-5, PINNED_PDK ~/share/pdk/
+ihp-sg13cmos5l
+
+0) LOCAL METHOD BRIDGE (single corner, --backend local): PASS.
+   The structured corner-matrix request at RECORD-001's reference point
+   (typ/band 00/VCTRL 1.5 V, seed 42, committed sigma 7.68923e-07,
+   crossings measurement instead of deck `meas` lines, setseed composed
+   by klt first in .control) reproduces the committed ring_s42_t10p row:
+   mean period 1.533008707e-09 s, rms 4.643142e-13 s (committed:
+   1.533008707e-09 / 4.643141996e-13 -- agreement to ~1e-9 relative,
+   rawfile rounding), and the report echoes
+   environment.transient_noise.seed = 42.
+   corners/bridge_local_report.json (redacted) is this run.
+
+1) FLEET PROBE (structured request, --backend batch --wait-for-capacity
+   600): job klt-sim-24ca92ff605e LAUNCHED and ran, but the collected
+   report was REFUSED by the client's seed echo check:
+
+     klt sim: error: off-host runner did not honour
+     options.transient_noise_seed: declared 42, runner echoed null
+     (the runner is likely older than this client and dropped the option)
+
+   The runner image's klt (0.9.0 on recent batch reports; the #5772 fix
+   landed upstream only on 2026-11-24 via klayout-tools PR #5876) drops
+   the field. This is the fail-by-name protection working as designed:
+   no unseeded campaign numbers were collected or citable. The seeded
+   PVT campaign and the row-12 ripple units (all 18 structured requests
+   validate with klt --dry-run) therefore cannot run until the batch
+   runner image is re-baked at a klt that carries #5876
+   (2AMLogic/2am#6568 is the open rebake choke-point issue).
+
+2) CALIBRATION DECK JOB, first submit: job klt-sim-52bb3b07a1cb staged,
+   launch REFUSED by fleet IAM on the cmos5l image profile:
+     UnauthorizedOperation: ec2:RunInstances on
+     arn:aws:ec2:us-east-1::image/ami-0ef97934ba6eaa916
+   (the sg13g2-pll#524 / 2am#7568 / 2am#7963 signature). Resolved WITHOUT
+   changing any deck bytes: the request's models.pdk field -- which
+   routes deck-list jobs to the cmos5l image -- was dropped; the #318
+   staged closure beside the decks (relative .lib models/... + osdi/)
+   makes the runner's own PDK tree unnecessary. The resubmitted job
+   (klt-sim-39e7c6d71222, 12 bias decks) and the full 36-deck
+   calibration job (klt-sim-e86689a78f3b) ran clean on the default
+   runner image: runner klt 0.9.0, ngspice-47.
+
+3) FLEET CALIBRATION RESULT (committed this change):
+   corners/calibration_bias_pvt.csv + calibration_pvt.csv +
+   campaign_sigma.csv + cal_report_pvt.json. The reference point
+   reproduces RECORD-001 exactly at committed CSV precision (sigma
+   7.68923e-07, delta 3.75e-07 relative = CSV rounding; VBP/VBN equal at
+   6 digits). Per-point sigma spans 7.49e-07 (slow/b00/1.5) to
+   8.23e-07 (fast/b11/2.1) -- a +/-5 % spread, which is why the campaign
+   calibrates per (bundle, band, VCTRL) operating point instead of
+   sharing RECORD-001's nominal sigma.
