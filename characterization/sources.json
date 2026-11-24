@@ -5102,6 +5102,9 @@
    "conditions": "ONE corner (mos_tt/res_typ, 27C, 3.3V, band 00, VCTRL=1.5V); method bench, not a PVT campaign (parked on klayout-tools#5772)",
    "method": "transient-noise injection: one aggregate white current source per ring stage (trrandom gaussian, ts=10ps), calibrated against .noise on a linear-biased single vco_stage; crossings of the buffered output",
    "record": "sim/sg13cmos5l-vco-period-jitter/records/RECORD-001-period-jitter-method.md",
+   "extra_records": [
+    "sim/sg13cmos5l-vco-period-jitter/records/RECORD-002-calibration-devices-split.md"
+   ],
    "tables": [
     {
      "id": "jitter",
@@ -5161,7 +5164,10 @@
     "no-ratified-spec",
     "vco-period-jitter-campaign-parked"
    ],
-   "record_sha256": "e2c495a002841dce7ae51f4e99794518efec82960674a1f4668147511c04f18c"
+   "record_sha256": "e2c495a002841dce7ae51f4e99794518efec82960674a1f4668147511c04f18c",
+   "extra_records_sha256": [
+    "ad0e80abba16d1fe4ae4c3a4d0123cb114feec96ea452effceb5533c22a0e90a"
+   ]
   }
  ]
 }

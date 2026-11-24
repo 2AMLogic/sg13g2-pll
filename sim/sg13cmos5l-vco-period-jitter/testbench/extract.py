@@ -32,8 +32,14 @@ def stdout_of(phase_dir, uid):
 
 
 def scalar(txt, name):
-    m = re.search(rf"^{re.escape(name)}\s*=\s*(\S+)\s*$", txt, re.M)
-    return float(m.group(1)) if m else None
+    m = re.search(rf"^{re.escape(name)}[ \t]*=[ \t]*(\S+)[ \t]*$", txt, re.M)
+    if not m:
+        return None
+    try:
+        v = float(m.group(1))
+    except ValueError:
+        return None
+    return v if math.isfinite(v) else None
 
 
 def vector_table(txt, header_re):
@@ -51,7 +57,13 @@ def vector_table(txt, header_re):
             continue
         p = [c for c in line.split("\t") if c.strip() != ""]
         if len(p) >= 2 and p[0].isdigit():
-            rows.append(tuple(float(c.rstrip(",")) for c in p[1:]))
+            try:
+                vals = tuple(float(c.rstrip(",")) for c in p[1:])
+            except ValueError:
+                sys.exit(f"extract.py: malformed table row: {line.strip()}")
+            if not all(math.isfinite(x) for x in vals):
+                sys.exit(f"extract.py: non-finite table row: {line.strip()}")
+            rows.append(vals)
         elif s == "" or set(s) == {"-"}:
             continue
         else:
@@ -138,6 +150,7 @@ def cmd_bias(outdir, corners):
     vbp, vbn = scalar(txt, "v(vbp)"), scalar(txt, "v(vbn)")
     if vbp is None or vbn is None:
         sys.exit("extract.py: could not parse v(vbp)/v(vbn) from bias_op stdout")
+    corners.mkdir(parents=True, exist_ok=True)
     with open(corners / "calibration_bias.csv", "w") as f:
         f.write("unit,corner_mos,corner_res,temp_c,vctrl_v,band_code,vbp_v,vbn_v\n")
         f.write(f"bias_op,mos_tt,res_typ,27,1.5,00,{vbp:.6e},{vbn:.6e}\n")
@@ -149,52 +162,98 @@ def cmd_cal(outdir, corners):
     nz = stdout_of(outdir, "cal_noise")
     ac = stdout_of(outdir, "cal_ac")
     sw = stdout_of(outdir, "cal_dcsweep")
+    trip = scalar(nz, "v(sout)")
+    if trip is None:
+        sys.exit("extract.py: could not parse the trip point v(sout) from "
+                 "cal_noise stdout -- refusing to substitute a hard-coded value")
     noise_rows = vector_table(nz, r"^Index\s+frequency")
     ac_rows = vector_table(ac, r"^Index\s+frequency")
     if len(noise_rows) < 100 or len(ac_rows) < 100:
         sys.exit(f"extract.py: short tables (noise {len(noise_rows)}, ac {len(ac_rows)})")
-    zmap = {f: math.hypot(re, im) for f, re, im in ac_rows}
-    with open(corners / "calibration_noise.csv", "w") as f:
-        w = csv.writer(f)
-        w.writerow(["f_hz", "onoise_v_rthz", "z_out_ohm", "si_eff_a_rthz"])
-        for f0, s in noise_rows:
-            Z = zmap.get(f0)
-            if Z:
-                w.writerow([f"{f0:.6e}", f"{s:.6e}", f"{Z:.6e}",
-                            f"{s / Z:.6e}"])
+    zmap = {f: math.hypot(re_, im) for f, re_, im in ac_rows}
+    cal_noise_out = []
+    for f0, s in noise_rows:
+        Z = zmap.get(f0)
+        if Z:
+            cal_noise_out.append([f"{f0:.6e}", f"{s:.6e}", f"{Z:.6e}",
+                                  f"{s / Z:.6e}"])
     # fit: band mean of S_v/|Z|^2 (A^2/Hz)
     band = [(s, Z) for f0, s in noise_rows
             for Z in [zmap.get(f0)] if Z and 1e8 <= f0 <= 1e10]
-    si = [  (s * s) / (Z * Z) for s, Z in band]
+    if not band:
+        sys.exit("extract.py: no in-band (100 MHz..10 GHz) noise/ac points")
+    si = [(s * s) / (Z * Z) for s, Z in band]
     si_mean = sum(si) / len(si)
     sigma = math.sqrt(si_mean / (2 * TS))
     # DC-transfer small-signal gain at the self-bias point (max |dv/dv| in
     # the +/-20 mV around the measured trip point)
     sw_rows = vector_table(sw, r"^Index\s+v-sweep")
-    trip = scalar(nz, "v(sout)") or 1.361047
     gains = []
     for (v0, o0), (v1, o1) in zip(sw_rows, sw_rows[1:]):
         if abs(v0 - trip) <= 0.025 or abs(v1 - trip) <= 0.025:
-            gains.append(abs(o1 - o0) / abs(v1 - v0))
+            if v1 != v0:
+                gains.append(abs(o1 - o0) / abs(v1 - v0))
     gain = max(gains) if gains else None
     # per-device integrated-noise split (print all dump in the noise2 plot):
     # flicker-vs-thermal evidence for the 1/f exclusion.  Only the
     # sub-component vectors (suffix _idid/_flicker/_rd/_rs/...) are summed;
     # the bare per-device aggregates (no sub-suffix) would double-count.
-    dev = {}
+    dev = []   # (name, value) per printed line -- repeated names kept
     for line in nz.splitlines():
-        m = re.match(r"^onoise_total_(\S+)\s*=\s*(\S+)\s*$", line)
-        if m and ".xs1." in m.group(1):
-            dev[m.group(1)] = float(m.group(2))
-    sub = {k: v for k, v in dev.items()
-           if re.search(r"(?:pmos|nmos|rfb)_", k)}
-    flicker = {k: v for k, v in sub.items() if "flicker" in k}
-    thermal = {k: v for k, v in sub.items()
-               if "idid" in k or "_rd" in k or "_rs" in k or "thermal" in k}
+        if not (line.startswith("onoise_total_") and ".xs1." in line):
+            continue
+        m = re.match(r"^onoise_total_(\S+)[ \t]*=[ \t]*(\S+)[ \t]*$", line)
+        try:
+            val = float(m.group(2)) if m else float("nan")
+        except ValueError:
+            val = float("nan")
+        if not math.isfinite(val):
+            sys.exit("extract.py: could not parse a finite per-device "
+                     f"onoise_total_ reading from cal_noise stdout: {line.strip()!r}")
+        dev.append((m.group(1), val))
+    if not dev:
+        sys.exit("extract.py: no per-device onoise_total_*.xs1.* dump found "
+                 "in cal_noise stdout")
+    is_sub = lambda k: re.search(r"(?:pmos|nmos|rfb)_", k) is not None
+    is_flicker = lambda k: is_sub(k) and "flicker" in k
+    is_thermal = lambda k: is_sub(k) and ("idid" in k or "_rd" in k
+                                          or "_rs" in k or "thermal" in k)
+    sub = [(k, v) for k, v in dev if is_sub(k)]
+    flicker = [(k, v) for k, v in dev if is_flicker(k)]
+    thermal = [(k, v) for k, v in dev if is_thermal(k)]
     # ngspice per-device integrated totals are rms-V contributions: their
     # quadrature sum reconstructs onoise_total (verified below)
-    q = lambda d: math.sqrt(sum(v * v for v in d.values())) if d else None
+    q = lambda d: math.sqrt(sum(v * v for _, v in d)) if d else None
     onoise_total = scalar(nz, "onoise_total")
+    if onoise_total is None:
+        sys.exit("extract.py: could not parse a finite onoise_total from "
+                 "cal_noise stdout")
+    dev_rows = []
+    for k, v in dev:
+        cls = ("flicker" if is_flicker(k) else "thermal" if is_thermal(k)
+               else "other" if is_sub(k) else "excluded_aggregate")
+        dev_rows.append([k, f"{v:.6e}", cls])
+    fit_row = ["1.000000e+08", "1.000000e+10", len(si),
+               f"{si_mean:.6e}", f"{min(si):.6e}", f"{max(si):.6e}",
+               f"{TS:.5e}", f"{sigma:.5e}",
+               f"{trip:.6e}",
+               f"{gain:.4f}" if gain is not None else "NA",
+               f"{onoise_total:.6e}",
+               f"{q(sub):.6e}" if q(sub) is not None else "NA",
+               f"{q(flicker):.6e}" if q(flicker) is not None else "NA",
+               f"{q(thermal):.6e}" if q(thermal) is not None else "NA"]
+    # Write CSVs only after all calibration inputs validate and parse cleanly.
+    corners.mkdir(parents=True, exist_ok=True)
+    with open(corners / "calibration_noise.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["f_hz", "onoise_v_rthz", "z_out_ohm", "si_eff_a_rthz"])
+        w.writerows(cal_noise_out)
+    # commit every per-device onoise_total_* row with its classification so
+    # the flicker/thermal split (and its regexes) can be audited offline
+    with open(corners / "calibration_devices.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["name", "onoise_total_v", "class"])
+        w.writerows(dev_rows)
     with open(corners / "calibration_fit.csv", "w") as f:
         w = csv.writer(f)
         w.writerow(["fit_band_lo_hz", "fit_band_hi_hz", "n_band_pts",
@@ -202,23 +261,20 @@ def cmd_cal(outdir, corners):
                     "ts_s", "sigma_a", "trip_v", "ss_gain_v_per_v",
                     "onoise_total_v", "onoise_subcomponent_quadrature_v",
                     "stage_flicker_rms_v", "stage_channel_thermal_rms_v"])
-        w.writerow(["1.000000e+08", "1.000000e+10", len(si),
-                    f"{si_mean:.6e}", f"{min(si):.6e}", f"{max(si):.6e}",
-                    f"{TS:.5e}", f"{sigma:.5e}",
-                    f"{trip:.6e}" if trip else "NA",
-                    f"{gain:.4f}" if gain else "NA",
-                    f"{onoise_total:.6e}" if onoise_total else "NA",
-                    f"{q(sub):.6e}" if q(sub) else "NA",
-                    f"{q(flicker):.6e}" if q(flicker) else "NA",
-                    f"{q(thermal):.6e}" if q(thermal) else "NA"])
+        w.writerow(fit_row)
     print(f"{sigma:.5e}")
 
 
 # ---------------------------------------------------------------- phase: main
 def crossings(txt, uid):
     tc = {}
-    for m in re.finditer(rf"^tc(\d+)\s*=\s*(\S+)\s*$", txt, re.M):
-        tc[int(m.group(1))] = float(m.group(2))
+    for m in re.finditer(r"^tc(\d+)[ \t]*=[ \t]*(\S+)[ \t]*$", txt, re.M):
+        try:
+            v = float(m.group(2))
+        except ValueError:
+            continue
+        if math.isfinite(v):
+            tc[int(m.group(1))] = v
     missing = [k for k in range(FIRST, LAST + 1) if k not in tc]
     if missing:
         sys.exit(f"extract.py: {uid}: {len(missing)} crossings missing "
@@ -266,26 +322,26 @@ def cmd_main(outdir, corners):
                      f"{st['pp']:.9e}", f"{st['pct']:.6f}",
                      f"{st['ci_lo']:.9e}", f"{st['ci_hi']:.9e}",
                      f"{st['half1']:.9e}", f"{st['half2']:.9e}"])
-    with open(corners / "period_jitter.csv", "w") as f:
-        w = csv.writer(f)
-        w.writerow(["unit", "seed", "sigma_a", "ts_s", "tran_step_s", "n_periods",
-                    "mean_period_s", "rms_jitter_s", "pp_jitter_s",
-                    "rms_pct_of_period", "ci95_lo_s", "ci95_hi_s",
-                    "mean_period_first500_s", "mean_period_last500_s"])
-        w.writerows(rows)
-    with open(corners / "crossing_digest.csv", "w") as f:
-        f.write("unit,n_crossings,crossing_table_sha256\n")
-        for uid in sorted(dig):
-            f.write(f"{uid},{LAST - FIRST + 1},{dig[uid]}\n")
-
     # PSD validation rows
     psd_rows, psd_ratio = [], {}
     for uid in [u for u in units if u.startswith("cal_tran_")]:
         path = pathlib.Path(outdir) / "out" / uid / "calpsd.txt"
         if not path.is_file():
             sys.exit(f"extract.py: {uid}: missing wrdata output {path}")
-        d = [tuple(map(float, l.split())) for l in path.read_text().splitlines()
-             if l.strip()]
+        d = []
+        for l in path.read_text().splitlines():
+            if not l.strip():
+                continue
+            parts = l.split()
+            try:
+                pair = (float(parts[0]), float(parts[1])) if len(parts) == 2 else None
+            except ValueError:
+                pair = None
+            if pair is None or not (math.isfinite(pair[0]) and math.isfinite(pair[1])):
+                sys.exit(f"extract.py: {uid}: malformed or non-finite wrdata row: {l.strip()}")
+            d.append(pair)
+        if len(d) < 2:
+            sys.exit(f"extract.py: {uid}: wrdata output {path} has fewer than 2 samples")
         t = [x[0] for x in d]
         v = [x[1] for x in d]
         if abs((t[1] - t[0]) - CAL_TRAN_DT) > 1e-15:
@@ -298,10 +354,6 @@ def cmd_main(outdir, corners):
                 psd_ratio[uid].append(r)
                 psd_rows.append([uid, f"{f0:.6e}", f"{math.sqrt(psd_at(f_, P, f0)):.6e}",
                                  f"{s:.6e}", f"{r:.4f}"])
-    with open(corners / "calibration_psd.csv", "w") as f:
-        w = csv.writer(f)
-        w.writerow(["unit", "f_hz", "psd_tran_v_rthz", "noise_ref_v_rthz", "ratio"])
-        w.writerows(psd_rows)
 
     # ---- controls
     ctrl = []
@@ -352,6 +404,24 @@ def cmd_main(outdir, corners):
     ok = bool(allr) and all(PSD_TOL[0] <= r <= PSD_TOL[1] for r in allr)
     add("cal_psd_band", f"every in-band ratio within {PSD_TOL}",
         "; ".join(worst) if worst else "no rows", ok)
+
+    # Write CSVs only after all main-phase inputs validate and parse cleanly.
+    corners.mkdir(parents=True, exist_ok=True)
+    with open(corners / "period_jitter.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["unit", "seed", "sigma_a", "ts_s", "tran_step_s", "n_periods",
+                    "mean_period_s", "rms_jitter_s", "pp_jitter_s",
+                    "rms_pct_of_period", "ci95_lo_s", "ci95_hi_s",
+                    "mean_period_first500_s", "mean_period_last500_s"])
+        w.writerows(rows)
+    with open(corners / "crossing_digest.csv", "w") as f:
+        f.write("unit,n_crossings,crossing_table_sha256\n")
+        for uid in sorted(dig):
+            f.write(f"{uid},{LAST - FIRST + 1},{dig[uid]}\n")
+    with open(corners / "calibration_psd.csv", "w") as f:
+        w = csv.writer(f)
+        w.writerow(["unit", "f_hz", "psd_tran_v_rthz", "noise_ref_v_rthz", "ratio"])
+        w.writerows(psd_rows)
     with open(corners / "controls.csv", "w") as f:
         w = csv.writer(f)
         w.writerow(["control", "expectation", "measured", "verdict"])
@@ -377,7 +447,6 @@ def main():
     if len(sys.argv) != 4 or sys.argv[1] not in ("bias", "cal", "main"):
         sys.exit(__doc__)
     phase, outdir, corners = sys.argv[1], pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3])
-    corners.mkdir(parents=True, exist_ok=True)
     if phase == "bias":
         cmd_bias(outdir, corners)
     elif phase == "cal":
