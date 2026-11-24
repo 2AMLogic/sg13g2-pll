@@ -109,15 +109,15 @@ def envelope_input_hash(payload):
 
 
 def check_hash_bound(payload, gds, label, message):
-    """The adjacent-GDS binding pair every gate runs: `(errors, recorded)`.
+    """The adjacent-GDS binding pair every gate runs: the error list.
 
     One check for all four gates (#410): the recorded input hash
     (`envelope_input_hash`) is reported when missing and must equal
     `sha256_file(gds)`, which must exist. `message` is the caller's mismatch
     wording -- the one thing the gates keep individually recognisable --
     formatted with `h`=recorded hash, `sha`=`sha256_file(gds)`, `name`=
-    `gds.name` and `gds`=the path. Returns the error list and the recorded
-    hash (None when missing), for callers that pair hashes across reports.
+    `gds.name` and `gds`=the path. Callers that pair hashes across reports
+    read the recorded hash themselves via `envelope_input_hash` (#565).
     """
     errs = []
     recorded = envelope_input_hash(payload)
@@ -127,7 +127,7 @@ def check_hash_bound(payload, gds, label, message):
         errs.append(f"{label}: missing adjacent GDS {gds}")
     elif recorded and sha256_file(gds) != recorded:
         errs.append(f"{label}: " + message.format(h=recorded, sha=sha256_file(gds), name=gds.name, gds=gds))
-    return errs, recorded
+    return errs
 
 
 def record_from_evidence(evidence):
