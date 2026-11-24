@@ -11,9 +11,8 @@ each of pfd, cp, loop_filter, vco, lock_detector, divider_chain:
   * drc.pll_<block>.json exists and parses (wrapper: ok/returncode/response);
   * wrapper ok is true and returncode is 0;
   * response.status == "clean", violation_count == 0, no violations listed;
-  * response.provenance.input.content_hash (or provenance.content_hash, the
-    shape klt drc emits) equals "sha256:" + sha256 of the adjacent
-    pll_<block>.gds (which must exist);
+  * response.provenance.input.content_hash equals "sha256:" + sha256 of the
+    adjacent pll_<block>.gds (which must exist);
   * a response.coverage object is present and retains its disclosures:
     rules_skipped and layers_in_stream_without_rules are lists (possibly
     non-empty -- the curated starter deck is NOT required to be complete),
@@ -33,7 +32,12 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _common import record_from_manifest, sha256_file  # noqa: E402
+from _common import (  # noqa: E402
+    check_hash_bound,
+    open_envelope,
+    record_from_manifest,
+    sha256_file,
+)
 from check_lvs_coverage import ANALOG_BLOCKS, DIGITAL_BLOCK  # noqa: E402
 
 BLOCKS = ANALOG_BLOCKS + (DIGITAL_BLOCK,)
@@ -43,42 +47,17 @@ def check_block(record, block):
     """Return a list of error strings for one block (empty = pass)."""
     rep = record / f"drc.pll_{block}.json"
     gds = record / f"pll_{block}.gds"
-    if not rep.is_file():
-        return [f"{block}: missing report {rep}"]
-    try:
-        doc = json.loads(rep.read_text())
-    except (OSError, ValueError) as e:
-        return [f"{block}: unreadable report {rep}: {e}"]
-    if not isinstance(doc, dict):
-        return [f"{block}: report is not a JSON object"]
-    errs = []
-    if doc.get("ok") is not True:
-        errs.append(f"{block}: wrapper ok is {doc.get('ok')!r}, expected true")
-    if doc.get("returncode") != 0:
-        errs.append(f"{block}: wrapper returncode is {doc.get('returncode')!r}, expected 0")
-    resp = doc.get("response")
-    if not isinstance(resp, dict):
-        return errs + [f"{block}: no /response object"]
+    resp, errs = open_envelope(rep, block, wrapped=True)
+    if resp is None:
+        return errs
     if resp.get("status") != "clean":
         errs.append(f"{block}: response.status is {resp.get('status')!r}, expected 'clean'")
     if resp.get("violation_count") != 0:
         errs.append(f"{block}: violation_count is {resp.get('violation_count')!r}, expected 0")
     if resp.get("violations"):
         errs.append(f"{block}: response lists {len(resp['violations'])} violation(s)")
-    prov = resp.get("provenance")
-    recorded = None
-    if isinstance(prov, dict):
-        inp = prov.get("input")
-        recorded = (inp.get("content_hash") if isinstance(inp, dict) else None) or prov.get("content_hash")
-    if not recorded:
-        errs.append(f"{block}: response.provenance content_hash missing")
-    if not gds.is_file():
-        errs.append(f"{block}: missing adjacent GDS {gds}")
-    elif recorded and sha256_file(gds) != recorded:
-        errs.append(
-            f"{block}: stale evidence, envelope hash {recorded} != "
-            f"{sha256_file(gds)} ({gds.name})"
-        )
+    errs += check_hash_bound(resp, gds, block,
+                             "stale evidence, envelope hash {h} != {sha} ({name})")[0]
     cov = resp.get("coverage")
     if not isinstance(cov, dict):
         errs.append(f"{block}: response.coverage object missing")
