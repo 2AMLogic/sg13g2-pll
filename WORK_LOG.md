@@ -8,6 +8,9 @@ Chronological record of recently merged pull requests and closed issues. This fi
 
 ### 2026-11-25
 
+- **PR #558**: chore: remove inert artifact-store writer and record evidence-storage decision
+- **Issue #563** (closed): WORK_PLAN generated region drops hold status: 4 of 6 "Important" items are held but render as actionable
+- **Issue #416** (closed): Artifact-store writer from #278 is inert: zero manifests in 3 weeks while 75.7 MB of raw evidence went to git
 - **PR #549**: chore(loom): resync installed Loom to v0.20.20
 - **Issue #543** (closed): Guide hand-edits the WORK_PLAN.md generated region instead of running render_plan_body; installed guide.md predates the upstream splice/provenance guards
 
