@@ -60,7 +60,6 @@ EXPECTED_TEST_PATHS = (
     "sim/sg13cmos5l-pfd-input-threshold/testbench/test_threshold_grid.py",
     "sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py",
     "sim/tools/test_stage_pinned_pdk.py",
-    "scripts/test_check_artifact_manifests.py",
     RUNNER_TEST,
 )
 EXPECTED_FULL = (
@@ -85,7 +84,6 @@ EXPECTED_FULL = (
     ("run-pex-guard-self-test",
      g("sim/sg13cmos5l-postlayout-pex-pvt/extraction/test_run_pex_guard.py")),
     ("stage-pinned-pdk-unit-tests", g("sim/tools/test_stage_pinned_pdk.py")),
-    ("artifact-manifests-unit-tests", g("scripts/test_check_artifact_manifests.py")),
     ("stdlib-gates-runner-unit-tests", g(RUNNER_TEST)),
     ("records-format", g("characterization/check_records.py")),
     ("summary-fresh", g("characterization/gen_summary.py", "--check")),
@@ -97,7 +95,6 @@ EXPECTED_FULL = (
     ("spec-citations", g("manifests/check_spec_citations.py")),
     ("pfd-reset-parity", g("design/check_pfd_reset_parity.py")),
     ("netlist-stamp", g("manifests/check_netlist_stamp.py")),
-    ("artifact-manifests", g("scripts/check_artifact_manifests.py")),
     ("osdi-arch-self-test",
      ["bash", "sim/tools/check-osdi-arch.sh", "--self-test"]),
 )
@@ -165,13 +162,11 @@ class Derivation(unittest.TestCase):
                 cwd=REPO)
         self.assertEqual(rc, 0)
 
-    def test_tail_is_five_documented_entries(self):
-        self.assertEqual(len(rg.TAIL), 5)
+    def test_tail_is_three_documented_entries(self):
+        self.assertEqual(len(rg.TAIL), 3)
         scripts = sorted(rg.script_token(t["argv"]) for t in rg.TAIL)
         self.assertEqual(scripts, sorted([
             "manifests/check_netlist_stamp.py",
-            "scripts/check_artifact_manifests.py",
-            "scripts/test_check_artifact_manifests.py",
             RUNNER_TEST,
             "sim/tools/check-osdi-arch.sh",
         ]))

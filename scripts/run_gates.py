@@ -28,21 +28,18 @@ classification is `--tests`, on the gate file's basename.
 item-10.json's `checks` claim covers the offline gates run from the repo
 root directly; steps that only make sense in CI (the base-ref append-only
 check, the klt attest steps themselves) and other workflows' gates stay
-out, so four real gates --
+out, so two real gates --
 plus this runner's own unit test -- are appended here as a literal,
 reason-bearing tail instead:
 
 - `manifests/check_netlist_stamp.py` -- CI reaches it only through
   `klt signoff --attest 1`, never as a direct `python3` line in a
   workflow.
-- `scripts/check_artifact_manifests.py` and
-  `scripts/test_check_artifact_manifests.py` -- they live in
-  `.github/workflows/artifact-manifests.yml`, not signoff.yml.
 - `sim/tools/check-osdi-arch.sh --self-test` -- a bash gate; the
   inventory's declared scope and this runner's python3 rule keep it out
   of the inventory (see above).
-- `scripts/test_run_gates.py` -- this runner's own unit test, wired into
-  artifact-manifests.yml by #393. The tail is byte-bound, not unguarded:
+- `scripts/test_run_gates.py` -- this runner's own unit test, run in
+  signoff.yml's `records` job through this tail. The tail is byte-bound, not unguarded:
   item-10's `hygiene` list hashes this runner's own bytes (#507), so
   deleting or editing a tail entry here changes the hash and fails the
   `grade` job's re-attest -- the hand mirroring cannot drift silently.
@@ -85,25 +82,11 @@ TAIL = (
                   "so item-10's checks do not name it.",
     },
     {
-        "name": "artifact-manifests",
-        "argv": ["python3", "-B", "scripts/check_artifact_manifests.py"],
-        "reason": "Lives in .github/workflows/artifact-manifests.yml; "
-                  "item-10's checks scope is signoff.yml's gates only.",
-    },
-    {
-        "name": "artifact-manifests-unit-tests",
-        "argv": ["python3", "-B", "scripts/test_check_artifact_manifests.py"],
-        "reason": "Same scope reason as its check: it belongs to "
-                  "artifact-manifests.yml; item-10's checks scope is "
-                  "signoff.yml's gates only (the workflow file itself is "
-                  "attested in hygiene, #498).",
-    },
-    {
         "name": "stdlib-gates-runner-unit-tests",
         "argv": ["python3", "-B", "scripts/test_run_gates.py"],
-        "reason": "This runner's own unit test, added to "
-                  "artifact-manifests.yml by issue #393; item-10's checks "
-                  "scope is signoff.yml only.",
+        "reason": "This runner's own unit test; it runs in signoff.yml's "
+                  "`records` job via this runner's tail, and item-10's "
+                  "hygiene hash on this file byte-binds it.",
     },
     {
         "name": "osdi-arch-self-test",
