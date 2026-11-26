@@ -3,7 +3,7 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-25T20:30:45Z (snapshot; compare against live labels)_
+_Generated: 2026-11-26T00:14:09Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
@@ -31,7 +31,7 @@ _None._
 
 Human-approved issues (`loom:issue`) ready for implementation — excluding held (`loom:blocked`/`loom:operator`/`loom:frozen`), `loom:building`, and issues closed by an open `loom:pr` PR (listed under Approved).
 
-- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap
+_None._
 
 ## In Progress
 
@@ -65,7 +65,7 @@ Issues carrying `loom:curated`.
 - **#309**: design/sg13cmos5l: committed netlists stale vs installed PDK (mm_ok=1 missing); netlist.sh --check fails on main *(curated)* *(held)*
 - **#316**: Item 9: supersede sg13cmos5l-vco-decap-momcap provenance (child of #216) *(curated)* *(held)*
 - **#320**: Item 9 campaign (#214 part 2/3): supersede loop-bandwidth-pm RECORD-003/004 (close-gap grids) *(curated)* *(held)*
-- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)*
+- **#330**: sim: reconcile fast/slow PM anchor with RECORD-004 before closing the DR-008 fast gap *(curated)* *(held)*
 - **#391**: test_cpdiag_metrics.py is a stdlib test no workflow runs *(curated)* *(held)*
 - **#514**: divider_chain: structural redesign of the high-speed front end (XD0 first) so the chain divides exactly at 1562 MHz across the 9-corner star (row 3, R-3, DR-012 follow-up) *(curated)* *(held)*
 - **#515**: divider_chain divides by 126 instead of 127 at mos_tt/125 C from 640 MHz (bottom of band): isolate the stage and fix the modulus path (row 3) *(curated)* *(held)*
@@ -91,7 +91,7 @@ _None._
 | Operator merge-risk holds | 0 |
 | Very important | 1 |
 | Important | 6 |
-| Ready (`loom:issue`, net of holds/building/merge-pending) | 1 |
+| Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
 | In Progress (`loom:building`) | 1 |
 | PRs awaiting review | 1 |
 | Approved PRs awaiting merge | 1 |
