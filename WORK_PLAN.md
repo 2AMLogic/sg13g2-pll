@@ -3,12 +3,12 @@
 Current backlog state maintained by the Loom Guide role.
 
 <!-- guide:plan-body:start -->
-_Generated: 2026-11-26T00:14:09Z (snapshot; compare against live labels)_
+_Generated: 2026-11-27T00:16:49Z (snapshot; compare against live labels)_
 ## Operator Attention: Merge-Risk-Hold Pileup
 
 Judge-approved PRs under a hold (`loom:blocked` or `loom:operator`) — only a human merge decision is missing.
 
-_None._
+- **#304**: docs(spec): DR-015 lock_detector 50 MHz range, trip band, active-low LOCK
 
 ## Very Important
 
@@ -88,7 +88,7 @@ _None._
 
 | Bucket | Count |
 |------|-------|
-| Operator merge-risk holds | 0 |
+| Operator merge-risk holds | 1 |
 | Very important | 1 |
 | Important | 6 |
 | Ready (`loom:issue`, net of holds/building/merge-pending) | 0 |
