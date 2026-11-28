@@ -101,6 +101,16 @@
 #   LOOM_FILING_LOCK_STALE_SECS     default 300  age at which a holder is reaped
 #   LOOM_FILING_LOCK_DIR            default ~/.loom/locks/issue-filing
 #   LOOM_FILING_LOCK_HELD           re-entrancy sentinel (set by the holder)
+#   LOOM_FILING_LOCK_DIAG           default off  log mkdir rc + stat of the holder
+#                                   after every acquire attempt, and every reap
+#                                   decision's inputs (#15265). Opt-in, stderr only;
+#                                   production filers never set it. Semantics are
+#                                   unchanged either way.
+
+# Atomic single-directory creation (#15265, shared since #15287): plain `mkdir`
+# is not mutual exclusion on uutils coreutils (Ubuntu 26.04).
+# shellcheck source=./atomic-mkdir.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/atomic-mkdir.sh"
 
 # Resolved lock dir currently held by this shell (empty = none).
 LOOM_FILING_LOCK_PATH="${LOOM_FILING_LOCK_PATH:-}"
@@ -207,6 +217,31 @@ _loom_filing_lock_abandoned() {
     (( age >= 0 && age >= stale ))
 }
 
+# Opt-in measurement (#15265): two filers on a GitHub-hosted runner both logged
+# "acquired ... after 0s wait" on the SAME holder path, which POSIX mkdir should
+# not allow. LOOM_FILING_LOCK_DIAG=1 makes the acquire/reap paths say what they
+# saw, so a failing hosted run names the branch. Never changes control flow.
+_loom_filing_lock_diag_on() {
+    case "$(printf '%s' "${LOOM_FILING_LOCK_DIAG:-}" | tr '[:upper:]' '[:lower:]')" in
+        1 | true | yes | on) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# One line: "[filing-lock-diag] <what> pid=<$$> bashpid=<BASHPID> <detail>".
+# $$ is the top shell for every subshell filer, so BASHPID is what tells two
+# racers apart. stat is `inode mtime(ns) ctime(ns) nlink`, GNU first then BSD.
+_loom_filing_lock_diag() {
+    _loom_filing_lock_diag_on || return 0
+    local what="$1" path="${2:-}" st=""
+    if [[ -n "$path" ]]; then
+        st="$(stat -c 'ino=%i mtime=%.9Y ctime=%.9Z nlink=%h' "$path" 2>/dev/null \
+            || stat -f 'ino=%i mtime=%m ctime=%c nlink=%l' "$path" 2>/dev/null \
+            || echo 'stat=FAILED')"
+    fi
+    echo "[filing-lock-diag] ${what} pid=$$ bashpid=${BASHPID:-?} t=$(date +%s.%N 2>/dev/null || date +%s) ${path:+path=$path }${st}" >&2
+}
+
 # Describe the current blocker for the log line.
 _loom_filing_lock_blocker() {
     local owner="$1/holder/owner.json" o_host o_pid o_label
@@ -284,10 +319,14 @@ loom_filing_lock_acquire() {
     fi
 
     local holder="$store/holder"
-    local start now blocker logged_wait=0
+    local start now blocker logged_wait=0 vanished=0 mkdir_backend
+    mkdir_backend="$(loom_atomic_mkdir_backend)"
     start="$(date +%s)"
     while :; do
-        if mkdir "$holder" 2>/dev/null; then
+        local mkdir_rc=0
+        loom_atomic_mkdir_with "$mkdir_backend" "$holder" || mkdir_rc=$?
+        _loom_filing_lock_diag "mkdir rc=${mkdir_rc} backend=${mkdir_backend}" "$holder"
+        if [[ "$mkdir_rc" -eq 0 ]]; then
             printf '{"host":"%s","pid":%s,"label":"%s","acquired_at":%s}\n' \
                 "$self_host" "$$" "$label" "$(date +%s)" > "$holder/owner.json" 2>/dev/null || true
             now="$(date +%s)"
@@ -309,15 +348,37 @@ loom_filing_lock_acquire() {
             return 0
         fi
         if [[ ! -d "$holder" ]]; then
-            # mkdir failed and the path is not a directory ⇒ the store is
-            # unusable (a FILE in the way, no permission). Degrade open.
+            # mkdir failed and the path is not a directory. Two very different
+            # causes (#15122):
+            #   * the holder VANISHED — our mkdir lost to a peer, and the peer's
+            #     release (rmdir) ran before this check. That means "released",
+            #     not "unusable": retry the mkdir. Degrading open here let this
+            #     filer file unserialized while the peer re-acquired (the #6714
+            #     cross-contamination shape, a microseconds-wide window that CPU
+            #     oversubscription widens).
+            #   * the path is genuinely unusable — a FILE in the way, or no
+            #     permission to create it. Degrade open.
+            # A FILE in the way is detectable (-e); a permission failure is not
+            # distinguishable from a vanish, so the retry is bounded.
+            if [[ ! -e "$holder" && -d "$store" ]] && (( vanished < 10 )); then
+                vanished=$(( vanished + 1 ))
+                continue
+            fi
             echo "[filing-lock] WARNING: lock path ${holder} is unusable — filing '${label}' WITHOUT serialization (degrading open)" >&2
             return 0
         fi
+        vanished=0
         if _loom_filing_lock_abandoned "$store" "$self_host" "$stale"; then
+            # Gate the whole call: the argument's command substitutions expand
+            # BEFORE the callee's own early return, so an ungated call would run
+            # them (and leak a failed `<` redirect's error) on the default path.
+            if _loom_filing_lock_diag_on; then
+                _loom_filing_lock_diag "reap decision (age=$(_loom_filing_lock_age_secs "$holder") stale=${stale} self_host=${self_host} owner=$({ tr -d '\n' < "$holder/owner.json"; } 2>/dev/null || echo none))" "$holder"
+            fi
             echo "[filing-lock] reaping abandoned hold at ${holder} ($(_loom_filing_lock_blocker "$store"))" >&2
             rm -f "$holder/owner.json" 2>/dev/null || true
             rmdir "$holder" 2>/dev/null || true
+            _loom_filing_lock_diag "reap done" "$holder"
             continue
         fi
         blocker="$(_loom_filing_lock_blocker "$store")"

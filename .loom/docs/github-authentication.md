@@ -651,6 +651,31 @@ the writer), `direct` (writes and unclassified calls) or `none` (shed).
 The writer's read share is `route = direct_read` on the writer's `account`
 over all reads. A rise means a classifier gap, not an outage.
 
+**`direct_read` from a read that is gateway-first.** A `direct_read` row
+does not mean the read is exempt or was never offered the gateway.
+`pr_planning` (the open-PR list, `pulls/{n}` mergeability, comment and CI
+reads of the role queues) and `stage_occupancy` (one issue listing per stage
+label) are both offered the gateway first, and neither is exempt (#15103).
+Their `direct_read` rows are a fallback, and the daemon log says which kind:
+
+- **Withdrawn.** The gateway was withdrawn when the read was routed, so a
+  reader App served it. The daemon log has `forge_identity: reader app
+  gateway withdrawn from <owner> <scope> for <n>s` or `forge_gateway: the
+  gateway did not answer (<caller>)` at the start of the window. A
+  withdrawal is not scoped to the caller that caused it: one caller's
+  refused request takes the gateway away from every read of that owner
+  until the window ends (#15134).
+- **Rerun.** The gateway's own attempt faulted: a `route=gateway` row with
+  `o=error` just before, then the read on a reader.
+- **No profile.** The process adopted none (a CLI run without
+  `LOOM_GH_GATEWAY_DIR`), the owner has no `keyRefs` entry, or the repo is
+  unresolved and the writer is the only credential.
+
+Correlate the rows with those log lines before reading a `direct_read` share
+as a classifier gap. On one gateway host on 2026-11-23, 99.98% of these two
+callers' `direct_read` rows fell inside a logged withdrawal window; outside
+one, all but one row per caller were `gateway` (#15134).
+
 Discovery listings can also skip GitHub, and the gateway, entirely: with a
 state mirror configured (`forge.mirror`), the work finder
 reads fresh listings from it and fall back to the paths above. See

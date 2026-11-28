@@ -724,7 +724,10 @@ GitHub's auto-close feature only works with specific keywords **immediately foll
 > "follow-up" checklist. What breaks the link is a word between the keyword and the reference
 > (`close issue #X`, `Fixes issue #X`), not its position in the body. This cuts both ways: it
 > is why `Fixes issue #123` silently fails to close, and why a stray `then close #123` buried
-> in prose silently *does* close — see "Multi-PR landings" below (#4569).
+> in prose silently *does* close — see "Multi-PR landings" below (#4569). An example you are
+> only quoting gets no exemption, on a final `Closes #N` PR either: on the surfaces GitHub
+> reads it can close whichever issue it names — see the quoted-example rule under
+> "Multi-PR landings" (#15046, per-surface measurements in #15058).
 
 ### Multi-PR landings: every PR declares its issue (#9465)
 
@@ -786,13 +789,17 @@ close #2" closed #2 on merge, and it had to be reopened by hand).
   `then close the issue`, or `then close issue #2` (the intervening word breaks the link).
 - The tracked issue number should appear exactly once with a keyword: the `Part of #N` /
   `Contributes to #N` reference. Scan the whole body — including checklists, test plans, and
-  operator-handoff sections — and every commit message on the branch (#4595), before pushing:
+  operator-handoff sections — and every commit message on the branch (#4595), before pushing.
+  The scan lists every closing reference to **any** issue, so a closing PR runs it too (next
+  section); a partial PR's must print nothing at all:
 
   ```bash
-  # Must print nothing for the tracked issue N:
-  grep -inE '\b(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#N\b' <<<"$PR_BODY"
-  git log --format=%B origin/main..HEAD \
-    | grep -inE '\b(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#N\b'
+  # Lists every closing reference to any issue: #N, owner/repo#N, or a full issue URL
+  # (Closes https://github.com/OWNER/REPO/issues/N closes on merge — measured, #15058),
+  # any keyword case, optional colon.
+  pattern='\b(closes?|closed|fix|fixes|fixed|resolves?|resolved):?[[:blank:]]+(([[:alnum:]_.-]+/[[:alnum:]_.-]+)?#[0-9]+|https://(www\.)?github\.com/[[:alnum:]_.-]+/[[:alnum:]_.-]+/issues/[0-9]+)'
+  printf '%s\n' "$PR_BODY" | grep -inoE "$pattern"
+  git log --format=%B origin/main..HEAD | grep -inoE "$pattern"
   ```
 
 merge-pr.sh backstops some of this — it warns on a whole-line backticked `Part of` trailer
@@ -801,13 +808,45 @@ keyword, and reopens the issue if GitHub closed it anyway — but every warning 
 whoever runs the merge, and a reopen leaves close/reopen churn. Get it right in the body. Full rationale,
 incidents, and the trailer's parser contract: `.loom/docs/issue-pr-linking.md`.
 
+#### A quoted example closes whichever issue it names — on a final `Closes #N` PR too (#15046)
+
+The rule above is not only for `Part of #N`. A PR that delivers its issue carries exactly the
+closing references it means — `Closes #N` written as plain text, repeated in the commit
+messages — and nothing else may pair a closing keyword with a real issue number. Treat an
+*example* that does as a live closing reference and break its adjacency on every surface —
+inline code, a fenced block, a checklist item, a test plan, a commit subject or body — but
+know which surfaces are **measured** to close and which are precaution only (#15058; evidence
+in `.loom/docs/issue-pr-linking.md` → "Measured GitHub closing-parser behavior"):
+
+- **Measured to close**: plain prose wherever it sits — mid-sentence, checklists, test plans
+  (#4569, #14176) — a **blockquoted** line, and a **full issue URL**
+  (`Closes https://github.com/OWNER/REPO/issues/N`); commit messages close from the merge.
+- **Measured NOT to close — precaution only**: an **inline code span** and a **fenced code
+  block**. GitHub's `closingIssuesReferences` ignored both in every measured case (#15058),
+  which refutes #15046's reported code-span incident. Rewrite examples there anyway: it costs
+  one word, keeps the scan quiet, and does not depend on GitHub's parser staying put.
+
+Loom's own trailer parser blanks code spans before it reads a body (#5234), so no Loom-side
+result tells you what GitHub will do with a quoted one — and once a PR is open, GitHub's own
+answer is `closingIssuesReferences`, not this scan or any local approximation of it.
+
+- **Quoting another issue? Break the adjacency.** Put a word between the keyword and the
+  number (`Closes issue #123`), or use a nonnumeric placeholder (`Closes #N`) — `#123` is a
+  real issue in a repo with that many. Rewrite only the example; the delivery line stays
+  plain text, exactly as written.
+- **Run the scan above on a final PR too.** Every line it prints must name an issue this PR
+  delivers; any other number is a quoted example — rewrite it and scan again. The scan flags
+  inline-code and fenced examples that GitHub (measured) ignores: that over-strictness is
+  deliberate — a precautionary match is rewritten, never assumed safe, and the scan cannot
+  know which prose GitHub will feel like reading.
+
 ### PR Creation Checklist
 
 When creating a PR, verify:
 
 1. **PR title uses conventional commit format** - e.g., `fix: descriptive summary` (see "PR Titles" above)
 2. **Acceptance criteria verified** - Each criterion from issue explicitly checked (see "Acceptance Criteria Verification" above)
-3. PR description references the issue: `Closes #X` for a full implementation, or `Part of #X` for a declared partial increment (not "Issue #X" or "Addresses #X") — same reference in the commit message
+3. PR description references the issue: `Closes #X` for a full implementation, or `Part of #X` for a declared partial increment (not "Issue #X" or "Addresses #X") — same reference in the commit message — and the stray-keyword scan under "Multi-PR landings" prints no closing reference to any other issue
 4. Issue number is correct
 5. PR has `loom:review-requested` label
 6. It compiles (pre-flight) and targeted tests pass — **including the formatter/linter on changed files** (see "Format and Lint Changed Files" above); a format-only failure is a guaranteed Judge rejection. CI runs the rest
@@ -881,7 +920,12 @@ externally-visible action of this whole Builder run — run the sweep-side
 fencing check:
 
 ```bash
-./.loom/scripts/sweep-lease-fence.sh check "$N" --branch "$(git rev-parse --abbrev-ref HEAD)"
+FENCE_ARGS=(check "$N" --branch "$(git rev-parse --abbrev-ref HEAD)")
+# #15043: when this run has a sweep id, narrow "own lease" to it so a shared
+# worker's same-host peer dispatches are told apart; runs with no
+# LOOM_SWEEP_ID (manual / --no-daemon) keep host-only matching.
+[[ -z "${LOOM_SWEEP_ID:-}" ]] || FENCE_ARGS+=(--sweep-id "$LOOM_SWEEP_ID")
+./.loom/scripts/sweep-lease-fence.sh "${FENCE_ARGS[@]}"
 FENCE_RC=$?
 if [[ "$FENCE_RC" -eq 3 ]]; then
   echo "Lease fence: EXPIRED — MY OWN claim's lease record is stale on the forge's own clock (my renewal loop died). Aborting before push/PR-open; NOT pushing, NOT opening a PR." >&2
@@ -939,6 +983,15 @@ never-renewed, never-yielded lease would otherwise fence out every successor
 dispatch forever (observed on issue #6694 / PR #6773). Exit `4` (SUPERSEDED
 — a *fresh* lease from a live peer) is unaffected: that case still means a
 live peer genuinely holds the claim.
+
+**Issue #15043: `--sweep-id` distinguishes same-host dispatches.** The
+recipe above passes `--sweep-id "$LOOM_SWEEP_ID"` when (and only when) that
+variable is set, and "own lease" then additionally requires the freshest
+lease's `sweep=` to name **this** dispatch: on a shared worker — several
+concurrent sweeps under one `host=` — a fresh same-host peer lease aborts
+exit `4` (superseded) and an abandoned expired one PASSes, instead of both
+reading as "own". Runs with no sweep id (manual `/loom:sweep`,
+`--no-daemon`) omit the flag and keep host-only matching unchanged.
 
 ### Creating the PR
 

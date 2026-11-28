@@ -314,7 +314,10 @@ depths and its whole prompt prefix is frozen at its current size).
 Dependency states come from `guide.md`'s shared `resolve_dep_states` (#14710)
 — the same `loom-daemon dep-recheck-fingerprint dep-states` resolver the
 issue side uses, so the two sweeps cannot disagree about whether a dependency
-is terminal.
+is terminal. Its `RESOLVED` line is the **closed subset** — announcement
+text only, never evidence that the hold may lift (#15193): both sides add
+`guide.md`'s shared `deps_fully_resolved` set gate on top, so a park lifts
+only when every parsed dependency is in the resolved list.
 
 A frozen PR is skipped during listing. The final PR read checks again for a
 freeze before any notice or label edit.
@@ -349,6 +352,10 @@ check_and_unblock_prs() {
       dep_verdict=$(resolve_dep_states "$deps")
       [ "$(sed -n '1p' <<<"$dep_verdict")" = true ] || continue
       resolved_deps=$(sed -n '2p' <<<"$dep_verdict")
+      # #15193: same all-or-nothing gate as the issue side, and for the same
+      # reason — `RESOLVED` is the closed subset (announcement text only), so
+      # the park lifts only when EVERY parsed dependency is in it.
+      deps_fully_resolved "$deps" "$resolved_deps" || continue
     else
       jq -e '.records | length == 1 and .[0].blocker == null' <<<"$records" >/dev/null || continue
       reason_only=true
@@ -600,6 +607,7 @@ route_parked_pr_conflict() {
   else
     resolved=$(resolve_dep_states "$deps") || return 1
     [ "$(sed -n '1p' <<<"$resolved")" = true ] || return 1
+    deps_fully_resolved "$deps" "$(sed -n '2p' <<<"$resolved")" || return 1
   fi
   base=$(jq -r '.baseRefName' <<<"$after") || return 1
   route=$(loom-daemon park-record guide-conflict-route --base-ref "$base") || return 1

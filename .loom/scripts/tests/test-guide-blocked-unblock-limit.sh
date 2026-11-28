@@ -97,6 +97,8 @@ echo "Test 4: the parked PR sweep reaches older PRs and respects current holds"
     for fn in check_and_unblock_prs pr_has_superseding_block pr_trusted_marker pr_conflict_snapshot pr_has_reason_only_park pr_park_episode pr_park_clearance_marker route_parked_pr_conflict previous_review_label; do
         eval "$(sed -n "/^$fn() {\$/,/^}\$/p" "$DOC")"
     done
+    # #15193: the PR twin's all-or-nothing gate, shared with guide.md's issue side.
+    eval "$(sed -n "/^deps_fully_resolved() {\$/,/^}\$/p" "$REPO_ROOT/defaults/.claude/commands/loom/guide.md")"
     cd "$TMPROOT" || exit 1
     mkdir -p .loom/scripts
     export WRITES="$PWD/writes" COMMENTS="$PWD/comments"

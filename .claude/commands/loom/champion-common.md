@@ -249,11 +249,20 @@ parse_blocker_ref() {
 # the number, so a parent genuinely declared again as a dependency
 # ("Depends on #2 (parent). Part of #2") still counts — matching the Rust
 # side (loom-daemon/src/dep_classify/refs.rs, part_of_spans).
+#
+# #14750 extends the mask to match that Rust side exactly: the phrase is
+# matched case-insensitively (`PART OF #2` masks here too — the character
+# classes spell it out because ERE sed has no (?i)), and the one bounded
+# word `Epic` may sit between the phrase and the reference (`Part of Epic
+# #2` is Loom's own generated vocabulary, written into every epic-phase
+# issue by champion-epic.md / epic.md). No wider word run is admitted:
+# "Part of issue #2" and "Part of the work tracked in #2" keep the
+# established whole-line capture.
 extract_blocker_refs() {
   local body="$1"
   printf '%s\n' "$body" \
     | grep -E '(Blocked by|Depends on|Requires)[*_:[:space:]]*([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+|#[0-9]+)' \
-    | sed -E 's/[Pp]art of[*_:.[:space:]]*([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#[0-9]+/ /g' \
+    | sed -E 's/[Pp][Aa][Rr][Tt] [Oo][Ff][*_:.[:space:]]*([Ee][Pp][Ii][Cc][*_:.[:space:]]*)?([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#[0-9]+/ /g' \
     | grep -Eo '([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+|#[0-9]+)' \
     | sort -u
 }

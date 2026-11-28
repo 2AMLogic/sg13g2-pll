@@ -260,6 +260,10 @@ renewer_pids() { ps -axww -o pid= -o ppid= -o stat= -o command= | renewer_roots;
 renewers() { renewer_pids | wc -l | tr -d ' '; }
 has_renewer() { [[ "$(renewers)" -ge 1 ]]; }
 no_renewers() { [[ "$(renewers)" -eq 0 ]]; }
+# A repeat `ensure` can return while a transient foreground `start` shell of its
+# own still matches the census (#15147). Wait for the census to settle to exactly
+# the expected root; a genuine second detached loop never settles, so it still fails.
+sole_renewer_is() { [[ "$(renewer_pids)" == "$1" ]]; }
 has_patch() { [[ "$(patches)" -ge 1 ]]; }
 deferred_publishers() { pgrep -f "loom-tools lease ensure $ISSUE --deferred .*--watch-pid $SESSION_PID( |$)"; }
 no_deferred_publishers() { ! deferred_publishers > /dev/null; }
@@ -321,6 +325,7 @@ assert_eq 1 "$(renewers)" "(b) one renewer is running"
 FIRST_LOOP="$(sed -n 's/.*renewal loop \([0-9]*\) is running.*/\1/p' <<< "$OUT")"
 OUT2="$(ensure)"
 assert_eq 1 "$(posts)" "(b) the repeat posted no second lease"
+wait_for 5 sole_renewer_is "$FIRST_LOOP"
 assert_eq "$FIRST_LOOP" "$(renewer_pids)" "(b) the repeat left the original renewer as the only loop root"
 OWNERS="$(find "$LOOM_LEASE_RENEW_STATE_DIR" -type f ! -name '.lock' ! -name '*.tmp*' 2> /dev/null | wc -l | tr -d ' ')"
 assert_eq 1 "$OWNERS" "(b) exactly one owner record exists"
@@ -512,6 +517,7 @@ routed_lifecycle() {
     assert_eq "$loop" "$(owner_pids)" "$LOOM_MODE ensure records its exact renewer as owner"
     OUT="$(ensure)"
     assert_match "renewal loop $loop is running" "$OUT" "$LOOM_MODE repeat reuses its renewer"
+    wait_for 5 sole_renewer_is "$loop"
     assert_eq "$loop" "$(renewer_pids)" "$LOOM_MODE repeat leaves the same single detached process"
     assert_eq 1 "$(posts)" "$LOOM_MODE repeat reuses its lease"
     assert_eq "$loop" "$(owner_pids)" "$LOOM_MODE repeat leaves the same owner record"
@@ -673,21 +679,39 @@ wait_for 15 no_deferred_publishers
 echo "(m) verified absence preserves publication and reader/writer routing"
 reset_forge
 same_host_peer="sweep-insession-s999999-fixture"
+new_sweep=fixture-distinct-sweep
 stale_peer "$LOCAL_LEASE_HOST" "$same_host_peer" 30
 jq -n --arg mention "Discussed #$ISSUE" --arg closes "Closes #$ISSUE" '[
     {number:80,state:"open",body:$mention,head:{ref:"feature/unrelated",repo:{full_name:"acme/widget"}}},
     {number:81,state:"closed",body:$closes,head:{ref:"feature/closed",repo:{full_name:"acme/widget"}}}
   ]' > "$FORGE/acme-widget-pulls.json"
 session
-OUT="$(LOOM_SWEEP_RUN_ID=fixture-distinct-sweep ensure_routed)"
+OUT="$(LOOM_SWEEP_RUN_ID="$new_sweep" ensure_routed)"
 assert_match "deferred publisher" "$OUT" "(m) a different sweep on the same host defers"
 wait_for 5 grep -q 'deferred attempt: publish .*exited Some(4)' "$lease_log"
 assert_eq 0 "$?" "(m) the delayed attempt preserved peer arbitration"
 assert_eq 0 "$(posts)" "(m) a PR-free read still cannot publish over the same-host peer"
 peer_yields "$LOCAL_LEASE_HOST" "$same_host_peer"
-wait_for 10 has_renewer
+# A foreground "start" shell matches the process census before it hands off.
+# Accept only the PID the publisher reported, after that lease was renewed.
+confirmed_ordinary_renewer() {
+    local pid lease_id
+    pid="$(sed -n 's/.*deferred attempt: .* and renewal loop \([1-9][0-9]*\) is running$/\1/p' "$lease_log")"
+    [[ -n "$pid" ]] || return 1
+    lease_id="$(jq -er --arg marker "<!-- loom:lease host=$LOCAL_LEASE_HOST sweep=$new_sweep -->" \
+        '.[] | select(.body | startswith($marker)) | .id' "$FORGE/comments.json")" || return 1
+    grep -Fxq "$lease_id" "$FORGE/patches.log" 2>/dev/null &&
+        [[ "$(renewer_pids)" == "$pid" ]] && kill -0 "$SESSION_PID" 2>/dev/null
+}
+wait_for 10 confirmed_ordinary_renewer
+renewer_status=$?
 assert_eq 1 "$(posts)" "(m) exactly one publication follows the peer yield"
-assert_eq 1 "$(renewers)" "(m) the ordinary renewer starts for the PR-free issue"
+assert_eq 0 "$renewer_status" "(m) the reported ordinary renewer is the only loop and refreshed its lease"
+if ((renewer_status != 0)); then
+    tail -n 4 "$lease_log" >&2
+    printf 'Observed loop PIDs: %s; patched comment IDs: %s\n' \
+        "$(renewer_pids)" "$(cat "$FORGE/patches.log" 2>/dev/null)" >&2
+fi
 assert_eq 1 "$(grep -Fc "POST repos/acme/widget/issues/$ISSUE/comments $LEASE_WRITER" "$FORGE/routes.log" || true)" "(m) publication still uses the writer profile"
 kill "$SESSION_PID" 2> /dev/null
 wait_for 15 no_renewers

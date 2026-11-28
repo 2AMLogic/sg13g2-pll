@@ -1101,10 +1101,9 @@ LOOM_CODEX_MUTABLE_ROLES="builder doctor"
 # GUARDED roles (#9390) do not write the repository, so they keep the read-only
 # sandbox, but they act with merge (champion) or verdict (judge) authority on
 # the forge, which is what Loom's guards police. They need the same proven hook
-# and fail closed the same way. loom-daemon's runtime preference already passes
-# Codex over for them while any shared profile is unready
-# (runtime_preference::codex_guard, which mirrors this list); this is the
-# backstop, not the router.
+# and fail closed the same way. The runtime preference and account selection
+# skip unready shared seats for these and the mutable roles
+# (runtime_preference::codex_guard). This verifies the seat at launch.
 LOOM_CODEX_GUARDED_ROLES="champion judge"
 _hook_role="$(printf '%s' "${LOOM_ROLE:-}" | tr '[:upper:]_' '[:lower:]-')"
 case "$_hook_role" in
@@ -1387,9 +1386,13 @@ set -e
 # resolve the concrete path when the session dir is reachable, and fall back to
 # reporting just the id when it is not (e.g. `--ephemeral`, or ambient auth
 # whose CODEX_HOME this script never set).
+# The read is line-anchored: only a line that IS the banner (after leading
+# whitespace) is a launch, the same rule as the daemon's
+# `usage_source::codex_session_banner`. A banner quoted mid-line in a message
+# block is data about a launch, not evidence of one.
 _session_id="$(
-    grep -aoE 'session id:[[:space:]]*[0-9a-fA-F-]{8,}' "$_stderr_file" 2>/dev/null \
-    | head -1 | sed -E 's/.*session id:[[:space:]]*//' || true
+    grep -aoE '^[[:space:]]*session id:[[:space:]]*[0-9a-fA-F-]{8,}' "$_stderr_file" 2>/dev/null \
+    | head -1 | sed -E 's/^[[:space:]]*session id:[[:space:]]*//' || true
 )"
 if [[ -n "$_session_id" ]]; then
     log_info "spawn-codex: session=$_session_id"

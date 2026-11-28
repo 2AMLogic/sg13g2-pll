@@ -103,6 +103,9 @@ DIR="$(new_store)"
 (
     export LOOM_FILING_LOCK_DIR="$DIR"
     export LOOM_FILING_LOCK_WAIT_SECS=30
+    # #15265: record the mkdir rc + holder stat of every attempt (and any reap)
+    # in the filer logs, so a hosted-runner failure names its branch.
+    export LOOM_FILING_LOCK_DIAG=1
     SCRATCH="$DIR/scratch-body.md"
     FILED="$DIR/filed.txt"
     TAB=$'\t'
@@ -141,6 +144,13 @@ DIR="$(new_store)"
         exit 1
     fi
 
+    # A writable store must NEVER degrade open (#15122): a vanished holder is a
+    # retry, not "unusable". Any such warning means a filer ran unserialized.
+    if grep -qE 'degrading open|WITHOUT serialization' "$DIR"/filer-*.log; then
+        echo "a filer degraded OPEN on a writable store (ran unserialized); see filer logs below" >&2
+        exit 1
+    fi
+
     if [[ "$(wc -l < "$FILED")" -ne 8 ]]; then
         echo "FILED has $(wc -l < "$FILED") rows, want 8; contents follow" >&2
         cat "$FILED" >&2
@@ -159,6 +169,61 @@ DIR="$(new_store)"
 ) && CASE_RC=0 || CASE_RC=$?
 assert_true "$CASE_RC" \
     "two concurrent filers in DIFFERENT repos each file their own body (the #6714 regression)"
+# Re-emit the diagnostics AFTER the assertion line (#15122). The case body above
+# already prints them, but ci-suite-excerpt.sh keeps only 3 TRAILING context
+# lines after a FAIL line (LOOM_CI_FAIL_CONTEXT_LINES), so a dump printed before
+# it never reached the CI excerpt. Hence exactly one collapsed line per file
+# (gf180-sram log, sky130-modexp log, FILED rows) — it must fit in that window.
+if [[ "$CASE_RC" -ne 0 ]]; then
+    for f in "$DIR/filer-gf180-sram.log" "$DIR/filer-sky130-modexp.log" "$DIR/filed.txt"; do
+        printf '  diag %s: %s\n' "${f##*/}" \
+            "$( [[ -f "$f" ]] && tr '\n\t' '|~' < "$f" || echo '(missing)' )" >&2
+    done
+fi
+
+# #15122: a waiter whose mkdir lost to a peer whose release ran before the
+# follow-up `-d` check must RETRY, not degrade open. Forced deterministically by
+# shadowing mkdir: the first `mkdir <holder>` reports failure with no holder dir
+# on disk — exactly what the waiter observes when the peer has already released.
+DIR="$(new_store)"
+(
+    export LOOM_FILING_LOCK_DIR="$DIR"
+    LOG="$DIR.log"
+    MKDIR_CALLS=0
+    mkdir() {
+        if [[ "${!#}" == "$DIR/holder" && "$MKDIR_CALLS" -eq 0 ]]; then
+            MKDIR_CALLS=1
+            return 1
+        fi
+        command mkdir "$@"
+    }
+    RC=0
+    loom_filing_lock_acquire "waiter" >"$LOG" 2>&1 || RC=$?
+    [[ "$RC" -eq 0 ]] || exit 1
+    [[ "$LOOM_FILING_LOCK_PATH" == "$DIR/holder" ]] || exit 1   # holds the lock
+    [[ -d "$DIR/holder" && -f "$DIR/holder/owner.json" ]] || exit 1
+    ! grep -qE 'degrading open|WITHOUT serialization' "$LOG" || exit 1
+    loom_filing_lock_release >/dev/null 2>&1
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "a holder that vanishes between mkdir and -d is retried, not degraded open (#15122)"
+
+# The retry is bounded: a mkdir that always fails with no holder on a store that
+# is a directory (e.g. permission denied) must still degrade open, not spin.
+DIR="$(new_store)"
+(
+    export LOOM_FILING_LOCK_DIR="$DIR"
+    mkdir() {
+        if [[ "${!#}" == "$DIR/holder" ]]; then return 1; fi
+        command mkdir "$@"
+    }
+    RC=0
+    loom_filing_lock_acquire "waiter" >/dev/null 2>&1 || RC=$?
+    [[ "$RC" -eq 0 ]] || exit 1
+    [[ -z "${LOOM_FILING_LOCK_PATH:-}" ]] || exit 1
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "a persistently failing holder mkdir degrades open after a bounded retry (no spin)"
 
 # The unserialized control, forced deterministically: without the lock, filer A
 # reads back filer B's body. Proves the case above is exercising the mechanism.
@@ -227,6 +292,22 @@ DIR="$(new_store)"
     exit 0
 ) && CASE_RC=0 || CASE_RC=$?
 assert_true "$CASE_RC" "an aged holder with NO owner record is reaped by mtime"
+
+# Regression (#15265 review): with LOOM_FILING_LOCK_DIAG unset, reaping a holder
+# that has no owner.json must not leak a failed-redirect error onto stderr.
+DIR="$(new_store)"
+(
+    export LOOM_FILING_LOCK_DIR="$DIR"
+    export LOOM_FILING_LOCK_STALE_SECS=1
+    unset LOOM_FILING_LOCK_DIAG
+    mkdir -p "$DIR/holder"
+    sleep 1.1
+    ERR="$(loom_filing_lock_acquire "next" 2>&1 >/dev/null)" || exit 1
+    loom_filing_lock_release >/dev/null 2>&1
+    [[ "$ERR" != *"No such file or directory"* ]] || { echo "$ERR" >&2; exit 1; }
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "reaping an owner-less holder is silent about owner.json when DIAG is off"
 
 DIR="$(new_store)"
 (
@@ -377,6 +458,135 @@ GOT="$(
 )"
 assert_eq "$GOT" "" "the captain release stays silent"
 rm -rf "$CAP_DIR"
+
+echo ""
+echo "=== atomic mkdir backend avoids uutils coreutils TOCTOU (#15265) ==="
+
+# Ubuntu 26.04 ships uutils coreutils 0.10.0 as /usr/bin/mkdir, which checks
+# path.exists() then returns Ok(()) on EEXIST when path.is_dir() even without
+# -p (breaking mkdir locking under concurrency). Simulate that exact broken
+# uutils mkdir on PATH and verify filing-lock bypasses it: first via gnumkdir
+# when available, and via python3/perl direct mkdir(2) when gnumkdir is absent.
+REAL_MKDIR="$(command -v gnumkdir 2>/dev/null || command -v mkdir)"
+
+# Helper: build a fake PATH bin dir with a simulated broken uutils mkdir that
+# exits 0 even when the target directory already exists (the non-atomic bug),
+# while forwarding `mkdir -p` to the real binary for store setup.
+REAL_BASH="$(command -v bash)"
+make_uutils_stub() {
+    local bindir="$1" marker="$2"
+    cat > "$bindir/mkdir" <<EOF
+#!$REAL_BASH
+if [[ "\${1:-}" == "--version" ]]; then
+    echo "mkdir (uutils coreutils) 0.10.0"
+    exit 0
+fi
+if [[ "\${1:-}" == "-p" ]]; then
+    exec "$REAL_MKDIR" "\$@"
+fi
+echo "called:\$*" >> "$marker"
+# Buggy uutils behavior: ignore EEXIST on an existing directory and exit 0.
+"$REAL_MKDIR" "\$@" 2>/dev/null || [[ -d "\${!#}" ]]
+EOF
+    chmod +x "$bindir/mkdir"
+}
+
+# Case 1: uutils mkdir on PATH + gnumkdir present -> uses gnumkdir, never the
+# broken uutils mkdir, and rejects a contended acquire with rc 75 (DEFER).
+DIR="$(new_store)"
+(
+    FAKE_BIN="$(mktemp -d "$TMPROOT/fake-gnu.XXXXXX")"
+    UUTILS_LOG="$FAKE_BIN/uutils-called.log"
+    GNU_LOG="$FAKE_BIN/gnu-called.log"
+    make_uutils_stub "$FAKE_BIN" "$UUTILS_LOG"
+    cat > "$FAKE_BIN/gnumkdir" <<EOF
+#!/usr/bin/env bash
+echo "called:\$*" >> "$GNU_LOG"
+exec "$REAL_MKDIR" "\$@"
+EOF
+    chmod +x "$FAKE_BIN/gnumkdir"
+
+    export PATH="$FAKE_BIN:$PATH"
+    export LOOM_FILING_LOCK_DIR="$DIR"
+    export LOOM_FILING_LOCK_WAIT_SECS=1
+
+    loom_filing_lock_acquire "first" >/dev/null 2>&1 || exit 1
+    [[ ! -e "$UUTILS_LOG" ]] || { echo "broken uutils mkdir was called: $(cat "$UUTILS_LOG")" >&2; exit 1; }
+    [[ -s "$GNU_LOG" ]] || { echo "gnumkdir was NOT called" >&2; exit 1; }
+
+    # A second contender (without LOOM_FILING_LOCK_HELD) must see EEXIST and defer (75).
+    RC2=0
+    (
+        unset LOOM_FILING_LOCK_HELD
+        loom_filing_lock_acquire "second" >/dev/null 2>&1
+    ) || RC2=$?
+    loom_filing_lock_release >/dev/null 2>&1
+    [[ "$RC2" -eq "$LOOM_FILING_LOCK_DEFER_RC" ]] || { echo "contender rc=$RC2, want 75" >&2; exit 1; }
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "uutils mkdir on PATH is bypassed in favor of gnumkdir (#15265)"
+
+# Case 2: uutils mkdir on PATH + NO gnumkdir -> falls back to direct mkdir(2)
+# via python3 or perl and still rejects a contended acquire with rc 75 (DEFER).
+DIR="$(new_store)"
+(
+    FAKE_BIN="$(mktemp -d "$TMPROOT/fake-fallback.XXXXXX")"
+    UUTILS_LOG="$FAKE_BIN/uutils-called.log"
+    make_uutils_stub "$FAKE_BIN" "$UUTILS_LOG"
+    # Populate a clean PATH without gnumkdir (in case the host has /usr/bin/gnumkdir,
+    # e.g. Ubuntu 26.04), symlinking only the standard utilities filing-lock needs.
+    for tool in cat date stat sed rm rmdir tr hostname sleep python3 perl; do
+        tpath="$(command -v "$tool" 2>/dev/null || true)"
+        [[ -n "$tpath" ]] && ln -s "$tpath" "$FAKE_BIN/$tool"
+    done
+
+    export PATH="$FAKE_BIN"
+    export LOOM_FILING_LOCK_DIR="$DIR"
+    export LOOM_FILING_LOCK_WAIT_SECS=1
+
+    loom_filing_lock_acquire "first" >/dev/null 2>&1 || exit 1
+    [[ ! -e "$UUTILS_LOG" ]] || { echo "broken uutils mkdir was called: $(cat "$UUTILS_LOG")" >&2; exit 1; }
+
+    RC2=0
+    (
+        unset LOOM_FILING_LOCK_HELD
+        loom_filing_lock_acquire "second" >/dev/null 2>&1
+    ) || RC2=$?
+    loom_filing_lock_release >/dev/null 2>&1
+    [[ "$RC2" -eq "$LOOM_FILING_LOCK_DEFER_RC" ]] || { echo "contender rc=$RC2, want 75" >&2; exit 1; }
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "uutils mkdir without gnumkdir falls back to direct mkdir(2) syscall (#15265)"
+
+# Case 3: shell-function mkdir() override (test seam from #15122) still wins
+# even when gnumkdir is on PATH.
+DIR="$(new_store)"
+(
+    FAKE_BIN="$(mktemp -d "$TMPROOT/fake-fn-seam.XXXXXX")"
+    GNU_LOG="$FAKE_BIN/gnu-called.log"
+    cat > "$FAKE_BIN/gnumkdir" <<EOF
+#!/usr/bin/env bash
+echo "called:\$*" >> "$GNU_LOG"
+exec "$REAL_MKDIR" "\$@"
+EOF
+    chmod +x "$FAKE_BIN/gnumkdir"
+    export PATH="$FAKE_BIN:$PATH"
+    export LOOM_FILING_LOCK_DIR="$DIR"
+
+    FN_CALLED=0
+    mkdir() {
+        if [[ "${!#}" == "$DIR/holder" ]]; then
+            FN_CALLED=1
+        fi
+        "$REAL_MKDIR" "$@"
+    }
+    loom_filing_lock_acquire "seam" >/dev/null 2>&1 || exit 1
+    loom_filing_lock_release >/dev/null 2>&1
+    [[ "$FN_CALLED" -eq 1 ]] || { echo "shell-function mkdir was bypassed" >&2; exit 1; }
+    [[ ! -e "$GNU_LOG" ]] || { echo "gnumkdir ran instead of shell-function mkdir" >&2; exit 1; }
+    exit 0
+) && CASE_RC=0 || CASE_RC=$?
+assert_true "$CASE_RC" "shell-function mkdir override retains precedence over gnumkdir (#15265)"
 
 echo ""
 echo "==============================================="

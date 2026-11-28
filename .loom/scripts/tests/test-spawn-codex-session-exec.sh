@@ -17,6 +17,16 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SPAWN_CODEX="$(cd "$SCRIPT_DIR/.." && pwd)/spawn-codex.sh"
+
+# The suite's result must not depend on the caller's session (#15140, #15188).
+# A daemon-dispatched Builder exports LOOM_ROLE, LOOM_MODEL,
+# LOOM_CODEX_AUTH_MODE_CHECK and LOOM_RUNTIME (model-pin, auth-mode and
+# forwarded-variable cases read them); CI's runner has none of them. Scrub them
+# once here. Every case that needs one sets it on its own run_* / env line, and
+# the per-case `env -u` lists below stay as belt and braces. LOOM_DAEMON_BIN is
+# the caller's managed/probed daemon, never this suite's subject.
+unset LOOM_ROLE LOOM_MODEL LOOM_CODEX_AUTH_MODE_CHECK LOOM_RUNTIME LOOM_DAEMON_BIN
+
 # THIS checkout's build, up front, or nothing (#10662): the boundary below is
 # the real `loom-daemon session-exec posture`, and spawn-codex.sh execs it.
 # shellcheck source=lib/require-daemon-bin.sh

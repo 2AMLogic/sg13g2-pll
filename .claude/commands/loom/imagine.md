@@ -394,6 +394,8 @@ Entries are grouped by date, newest first. Each entry references the merged PR o
 
 ## Archives
 
+## Entries
+
 ### {{TODAY_DATE}}
 
 - **Project bootstrapped** with Loom orchestration

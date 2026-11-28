@@ -495,7 +495,14 @@ This section is the single home for the opt-in `--auto-stack` behavior. It is en
 # and EXCLUDES the `- [ ]` task-list form (not a stacking declaration).
 # Two-stage (#4508): select matching lines, tolerant of markdown emphasis/colon
 # before the first #N, then extract every #N on those lines.
-echo "$BODY" | grep -E '(Depends on|Requires)[*_:[:space:]]*#[0-9]+' | grep -oE '#[0-9]+' | tr -d '#' | sort -u
+# The sed stage between them is the #14732/#14750 parent-reference rule, identical
+# to champion-common.md's extract_blocker_refs: a reference introduced by
+# `Part of` (case-insensitive, optionally followed by the one bounded word `Epic`)
+# names the issue's PARENT, not a stacking edge, and is masked before extraction —
+# keys off the introducing phrase, never the number, and admits no wider word run.
+echo "$BODY" | grep -E '(Depends on|Requires)[*_:[:space:]]*#[0-9]+' \
+  | sed -E 's/[Pp][Aa][Rr][Tt] [Oo][Ff][*_:.[:space:]]*([Ee][Pp][Ii][Cc][*_:.[:space:]]*)?([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#[0-9]+/ /g' \
+  | grep -oE '#[0-9]+' | tr -d '#' | sort -u
 ```
 
 A matched `#A` becomes a **stacking edge only when `#A` is also a member of this sweep invocation's own deduplicated candidate list.** A `Depends on #A` naming an issue **outside** the candidate set is left completely untouched — it is not an edge, it does not stack, and it flows through the existing `loom:blocked` handling exactly as today (this feature never touches out-of-set references). This "same-candidate-set only" restriction is load-bearing: it is what keeps auto-stack scoped to one sweep's own resolved set and prevents it from silently reaching out to arbitrary external issues.
