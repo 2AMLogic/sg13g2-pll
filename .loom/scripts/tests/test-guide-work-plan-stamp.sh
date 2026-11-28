@@ -79,7 +79,14 @@ else
     GUIDE_MD="$REPO_ROOT/defaults/.claude/commands/loom/guide.md"
 fi
 WORK_PLAN_MD="$REPO_ROOT/WORK_PLAN.md"
-IMAGINE_MD="$REPO_ROOT/defaults/.claude/commands/loom/imagine.md"
+# imagine.md ships the same way, so resolve it like GUIDE_MD: installed path
+# first (consumer repos, and Loom's own dogfooded checkout), defaults/
+# source-tree fallback (a bare source checkout). See issue #15076.
+if [[ -f "$REPO_ROOT/.claude/commands/loom/imagine.md" ]]; then
+    IMAGINE_MD="$REPO_ROOT/.claude/commands/loom/imagine.md"
+else
+    IMAGINE_MD="$REPO_ROOT/defaults/.claude/commands/loom/imagine.md"
+fi
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/assert.sh"
 
@@ -93,6 +100,47 @@ if [[ ! -f "$GUIDE_MD" ]]; then
     echo -e "${RED}FATAL${NC}: guide.md not found at $GUIDE_MD"
     exit 1
 fi
+
+# Hermetic stand-in for the splice half of `loom-daemon guide` (#15219): the
+# extracted splice_plan_body() wrapper pipes the body into the real verb; this
+# shim implements the same documented contract (marker check, marker region
+# replaced, per-tick scratch removed) so the extracted wrapper still executes
+# end to end without a built daemon. The real verb's behaviour is pinned by
+# loom-daemon/src/cli/guide_work_plan_tests.rs.
+SHIM_DIR="$(mktemp -d)"
+mkdir -p "$SHIM_DIR/bin"
+cat >"$SHIM_DIR/bin/loom-daemon" <<'EOF'
+#!/usr/bin/env bash
+if [[ "${1:-}" == "guide" && "${2:-}" == "work-plan-splice" ]]; then
+  wt=""
+  shift 2
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --docs-worktree) wt="$2"; shift 2 ;;
+      *) echo "shim: unexpected argument: $1" >&2; exit 2 ;;
+    esac
+  done
+  plan="$wt/WORK_PLAN.md"
+  grep -q '<!-- guide:plan-body:start -->' "$plan" 2>/dev/null \
+    && grep -q '<!-- guide:plan-body:end -->' "$plan" 2>/dev/null || exit 1
+  scratch="$(mktemp -d "${TMPDIR:-/tmp}/guide-plan.XXXXXX")" || exit 1
+  rc=0
+  cat > "$scratch/body.md" \
+    && awk -v body="$scratch/body.md" '
+      /<!-- guide:plan-body:start -->/ { print; while ((getline l < body) > 0) print l; skip=1; next }
+      /<!-- guide:plan-body:end -->/   { skip=0 }
+      !skip { print }' "$plan" > "$scratch/plan.new" \
+    && cat "$scratch/plan.new" > "$plan" || rc=1
+  rm -rf "$scratch"
+  exit "$rc"
+fi
+echo "shim: unsupported invocation: $*" >&2
+exit 2
+EOF
+chmod +x "$SHIM_DIR/bin/loom-daemon"
+export PATH="$SHIM_DIR/bin:$PATH"
+cleanup_shim() { rm -rf "$SHIM_DIR"; }
+trap cleanup_shim EXIT
 
 # Extract the write helpers verbatim from guide.md and define them in
 # this shell, so the test executes exactly what the prompt ships (same
@@ -430,6 +478,7 @@ done
 
 trap - EXIT
 cleanup_fixtures
+cleanup_shim
 
 # ---------------------------------------------------------------------------
 # Test 6: the stamp prepend sits AFTER both gates inside update_work_plan()
@@ -456,12 +505,22 @@ fi
 echo ""
 echo "Test 7: WORK_PLAN.md and the imagine.md template point at the stamp"
 
-assert_doc_contains "$WORK_PLAN_MD" \
-    'The `_Generated:` stamp at the top of the generated region dates the snapshot' \
-    "committed WORK_PLAN.md header points readers at the stamp"
-assert_doc_contains "$WORK_PLAN_MD" \
-    'it may lag live labels until the next one merges' \
-    "WORK_PLAN.md keeps the #13894 snapshot-semantics wording"
+# The WORK_PLAN.md header sits above the generated region's markers, so
+# Guide re-renders never rewrite it: the wording is hand-maintained only in
+# this repo's dogfood checkout (defaults/ source tree present). A consumer
+# repo's committed header may predate the wording and resyncs never refresh
+# it, so gate these two asserts on the dogfood layout and say so when
+# skipping (#15076). The imagine.md assert below is layout-independent.
+if [[ -d "$REPO_ROOT/defaults/.claude/commands/loom" ]]; then
+    assert_doc_contains "$WORK_PLAN_MD" \
+        'The `_Generated:` stamp at the top of the generated region dates the snapshot' \
+        "committed WORK_PLAN.md header points readers at the stamp"
+    assert_doc_contains "$WORK_PLAN_MD" \
+        'it may lag live labels until the next one merges' \
+        "WORK_PLAN.md keeps the #13894 snapshot-semantics wording"
+else
+    echo "  SKIP: WORK_PLAN.md header asserts skipped (consumer layout: header above the generated region is dogfood-maintained)"
+fi
 assert_doc_contains "$IMAGINE_MD" \
     'The `_Generated:` stamp at the top of the generated region dates the snapshot' \
     "imagine.md WORK_PLAN template header points readers at the stamp"

@@ -35,14 +35,18 @@
 #   4. The role text carries the no-free-text rule (Step 5 prose + the
 #      phase's Constraints list).
 #   5. THE RECEIPTS, executed rather than grepped: the exact assignment and
-#      splice lines extracted VERBATIM from guide.md, evaluated in a sandbox
+#      verb-call lines extracted VERBATIM from guide.md, evaluated in a sandbox
 #      against fixture values, produce each classification — including NOT
-#      RUN for a never-called tick.
+#      RUN for a never-called tick. Since #15219 the receipt file is owned by
+#      `loom-daemon guide work-plan-receipt`; this hermetic suite stands in a
+#      contract shim for that verb on PATH (the real verb's behaviour is
+#      pinned by loom-daemon/src/cli/guide_work_plan_tests.rs), so the
+#      extracted wrappers still execute end to end.
 #   6. The render-hash line computes the real sha256 prefix of the body.
 #   7. The generated SKILL.md mirror is in sync (carries the receipt).
 #
-# Hermetic: greps + sandboxed eval of extracted lines. No forge, network,
-# or `gh` calls.
+# Hermetic: greps + sandboxed eval of extracted lines + the PATH shim. No
+# forge, network, or `gh` calls.
 
 set -uo pipefail
 
@@ -71,6 +75,48 @@ if [[ ! -f "$GUIDE_MD" ]]; then
     echo -e "${RED}FATAL${NC}: guide.md not found at $GUIDE_MD"
     exit 1
 fi
+
+# ---------------------------------------------------------------------------
+# Hermetic stand-in for the receipt half of `loom-daemon guide` (#15219).
+# The role file's wrappers call the real verb; this shim implements the same
+# documented contract (`guide work-plan-receipt record|reset|read`,
+# `key=value` lines in `<docs-worktree>/.loom-work-plan-receipt`) so the
+# extracted wrappers execute end to end without a built daemon. The real
+# verb's behaviour is pinned by loom-daemon/src/cli/guide_work_plan_tests.rs.
+# ---------------------------------------------------------------------------
+SHIM_DIR="$(mktemp -d)"
+trap 'rm -rf "$SHIM_DIR"' EXIT
+mkdir -p "$SHIM_DIR/bin"
+cat >"$SHIM_DIR/bin/loom-daemon" <<'EOF'
+#!/usr/bin/env bash
+# Contract shim: loom-daemon guide work-plan-receipt {record,reset,read}
+if [[ "${1:-}" == "guide" && "${2:-}" == "work-plan-receipt" ]]; then
+  mode="${3:-}"
+  wt="" outcome="" render_hash="" field=""
+  shift 3
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --docs-worktree) wt="$2"; shift 2 ;;
+      --outcome) outcome="$2"; shift 2 ;;
+      --render-hash) render_hash="$2"; shift 2 ;;
+      --field) field="$2"; shift 2 ;;
+      *) echo "shim: unexpected argument: $1" >&2; exit 2 ;;
+    esac
+  done
+  file="$wt/.loom-work-plan-receipt"
+  case "$mode" in
+    record) printf 'receipt=%s\nrender_hash=%s\n' "$outcome" "$render_hash" >"$file" ;;
+    reset) rm -f "$file" ;;
+    read) sed -n "s/^$field=//p" "$file" 2>/dev/null | head -n1 ;;
+    *) echo "shim: unknown work-plan-receipt mode: $mode" >&2; exit 2 ;;
+  esac
+  exit 0
+fi
+echo "shim: unsupported invocation: $*" >&2
+exit 2
+EOF
+chmod +x "$SHIM_DIR/bin/loom-daemon"
+export PATH="$SHIM_DIR/bin:$PATH"
 
 # ---------------------------------------------------------------------------
 # Test 1: update_work_plan() records a receipt at each of its outcomes
@@ -185,7 +231,7 @@ else
 fi
 
 # The receipt helpers, extracted verbatim from guide.md for the sandbox.
-RECORD_FN="$(awk '/^WORK_PLAN_RECEIPT_FILE_NAME=/{print} /^record_work_plan_receipt\(\) \{/{flag=1} flag{print} /^\}/{flag=0}' "$GUIDE_MD")"
+RECORD_FN="$(awk '/^record_work_plan_receipt\(\) \{/{flag=1} flag{print} /^\}/{flag=0}' "$GUIDE_MD")"
 READ_FN="$(awk '/^read_work_plan_receipt_field\(\) \{/{flag=1} flag{print} /^\}/{flag=0}' "$GUIDE_MD")"
 if [[ -n "$RECORD_FN" && -n "$READ_FN" ]]; then
     pass "extracted record_work_plan_receipt()/read_work_plan_receipt_field() from guide.md"
@@ -306,18 +352,23 @@ assert_not_contains "$CDP_CODE" 'add -A' "create_docs_pr() never blanket-stages 
 assert_not_contains "$CDP_BODY" '.loom-work-plan-receipt' \
     "create_docs_pr() never stages the receipt file by name"
 
-# 5k. Entry reset: update_work_plan() removes any stale file BEFORE its first
-# early return (the skipDocs one), so a stale file cannot leak.
-FIRST_RM_LINE="$(grep -n 'rm -f "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME"' <<<"$UWP_BODY" | head -1 | cut -d: -f1)"
+# 5k. Entry reset: update_work_plan() clears any stale file BEFORE its first
+# early return (the skipDocs one), so a stale file cannot leak. #15219: the
+# reset is the verb call — an inline `rm` on the variable-built path would be
+# denied by the default guard before it could run.
+RESET_LINE='loom-daemon guide work-plan-receipt reset --docs-worktree "$DOCS_WT"'
+FIRST_RM_LINE="$(grep -nF "$RESET_LINE" <<<"$UWP_BODY" | head -1 | cut -d: -f1)"
 FIRST_RETURN_LINE="$(grep -n 'return 1' <<<"$UWP_BODY" | head -1 | cut -d: -f1)"
 # The skipDocs guard must stay the function's first statement (test-guide-skip-docs.sh),
 # so the reset lives INSIDE that branch (before its `return 1`) AND right after it.
-RM_COUNT="$(grep -c 'rm -f "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME"' <<<"$UWP_BODY")"
+RM_COUNT="$(grep -cF "$RESET_LINE" <<<"$UWP_BODY")"
 if [[ "$RM_COUNT" -ge 2 && -n "$FIRST_RM_LINE" && -n "$FIRST_RETURN_LINE" && "$FIRST_RM_LINE" -lt "$FIRST_RETURN_LINE" ]]; then
-    pass "update_work_plan() deletes the stale receipt file before the skipDocs early return and again after it"
+    pass "update_work_plan() resets the stale receipt file (via the verb) before the skipDocs early return and again after it"
 else
-    fail "update_work_plan() must delete the stale receipt file before its first early return (rm at ${FIRST_RM_LINE:-none}, return at ${FIRST_RETURN_LINE:-none})"
+    fail "update_work_plan() must reset the stale receipt file before its first early return (reset at ${FIRST_RM_LINE:-none}, return at ${FIRST_RETURN_LINE:-none})"
 fi
+assert_not_contains "$UWP_BODY" 'rm -f ' \
+    "update_work_plan() performs no inline rm — the receipt reset rides the verb (#15219)"
 
 # ---------------------------------------------------------------------------
 # Test 6: the render-hash line computes the real sha256 prefix

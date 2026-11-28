@@ -40,7 +40,7 @@ is two of them being conflated:
 | **Tap** | which CLI, drawing on which credential pool | `runtimes.default`, `runtimes.roles`, `runtimes.preference`, `runtimes.rolePreference` |
 | **Model** | which model on that tap | `terminals[].roleConfig.model`, `autonomous.roleRunner.roleModels`, `sweep.escalation` |
 | **Capacity** | how many accounts, and what happens when they run dry | `loom-daemon tokens` / `accounts` / `api-keys` |
-| **Spend bound** | how much work may fall through to a metered endpoint | `runtimes.backstopCeiling`, `api-keys limit --max-concurrent` |
+| **Spend bound** | how much work may fall through to a metered endpoint | `runtimes.backstopCeiling`, `runtimes.apiKeyLimits`, `api-keys limit --max-concurrent` |
 
 A **tap** is `(runtime, credential source)`, not a runtime id — the same model
 family is reachable through a flat-rate subscription and a metered endpoint with
@@ -310,6 +310,47 @@ skipped in favour of another eligible one and becomes selectable the instant a
 spawn exits — no cooldown, no operator action. A pool whose every account is
 capped out fails closed at `78` naming the cap.
 
+The cap is a **spend governor**, so it must also be declarable through a
+config store — reviewable, reproducible, and back on a rebuilt host with no
+hand step. `runtimes.apiKeyLimits` is that second source (#14932):
+
+```jsonc
+{
+  "runtimes": {
+    "apiKeyLimits": {
+      "zai": {
+        "alice": { "maxConcurrent": 1, "exhaustionWindowSecs": 604800 }
+      }
+    }
+  }
+}
+```
+
+- The block is read from the **calling workspace's** resolved config (fleet and
+  local tiers included), once per spawn or `api-keys` command. It reaches
+  selection, the role draw's slot reservations and — for the window —
+  automatic bad marks. It caps a shared machine-level pool account used from
+  that repo too, because the config belongs to the caller, not to the pool
+  directory.
+- With both sources declaring a limit: **`maxConcurrent` — the stricter
+  (smaller) value wins**, so config can never loosen a hand-set cap on one
+  host; **`exhaustionWindowSecs` — config wins**. `planTokenLimit` is not
+  configurable — `api-keys limit --plan-token-limit` only.
+- An account the pool does not hold, or a provider this host does not pool, is
+  simply unaffected: a fleet-wide block names accounts that exist only on some
+  hosts.
+- **Fail-closed, like an unreadable `.limits.json`.** `0`, a wrong type, an
+  unknown key (a typo in `maxConcurrent`) or a name that is not a lowercase
+  slug withholds *that provider's* accounts as `unverifiable` until the config
+  is repaired — a typo must never read as "no cap". `loom-daemon validate`
+  names the offending key.
+- `loom-daemon api-keys list` reports where each limit came from:
+  `maxConcurrentSource` / `exhaustionWindowSecsSource` read `file`, `config`,
+  `both-config` or `both-file` (both declare it; the named one's value is in
+  effect), or `absent`. To raise a cap that config holds down, edit the
+  config: `api-keys limit` writes the file, which the stricter-wins rule would
+  leave ineffective.
+
 **Bad marks are automatic as well as operator-invoked.** After a native sweep or
 role tick exits, Loom re-reads that run's own retained log and bad-marks the
 account when the log says its allowance ran out (429, `insufficient balance`, …).
@@ -344,6 +385,7 @@ ROLE CONFIGURATION ERRORS:
   - runtimes preference: runtimes.preference lists claude more than once; a duplicate
     entry can never be reached and is more likely a typo than an intent
   - runtimes backstop ceiling: runtimes.backstopCeiling.appliesFrom must be >= 1 …
+  - runtimes api-key limits: runtimes.apiKeyLimits.zai.alice.maxConcurrent must be > 0 …
 ```
 
 It does **not** catch a model/runtime *mismatch* — `runtimes.roles.judge =

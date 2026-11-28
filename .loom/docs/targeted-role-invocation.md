@@ -21,6 +21,7 @@ loads). This doc carries the reasoning, the outcome vocabulary, and the audit.
 |---|---|---|---|---|---|
 | Curator | `gh api rate_limit`, min(core, graphql) under ~500 or unreadable → refuse `pool_gate` | one live REST read of `issues/<N>`: `pull_request != null` → refuse `target_is_pr` | same read: `closed`, `loom:frozen`, any `loom:operator*` label, a hard-exclusion label → refuse | `loom:curating`; **no lease yet** (see "Gaps") | `claim-staleness.sh check --label loom:curating` |
 | Judge | none (the role runner's pool gate runs before spawn) | one live REST read of `issues/<N>`: `pull_request == null` → refuse `target_is_issue` | same read: `closed` (also merged), `loom:frozen`, any `loom:operator*` label → refuse; verdict label without `loom:review-requested` → `noop already_judged`; no stage label (`loom:review-requested`, `loom:reviewing`, a verdict label; a priority label alone does not count) → Fallback Queue rules (review only, never claim) | `lease pr claim --role judge`, then `loom:reviewing` | `claim-staleness.sh check --label loom:reviewing` |
+| Doctor | none (as Judge) | one live read of `forge pr view <N>` (#14939): its non-zero exit names an issue number or a failed read | same read: `CLOSED` or `MERGED`, `loom:frozen`, any `loom:operator*` label → refuse; `.headRefOid` is the claim's head | `lease pr claim --role doctor`, then `loom:treating` | `claim-staleness.sh check --label loom:treating` |
 | Builder | none (as Judge) | `forge check-claim <N>` → `TARGET_IS_PR` | same probe → `CLOSED`, `FROZEN`, `OPERATOR`, `OPEN_PR`, `MERGED_PR`, `TRIAGE`; a hard-exclusion label → refuse | `loom:issue` → `loom:building`; `worktree.sh` runs `lease ensure` | `check-claim`'s `BUILDING` / `LEASE_ALREADY_HELD` / `BRANCH_EXISTS`, unless the invoker holds the claim |
 
 Why each gate sits where it does:
@@ -39,6 +40,16 @@ Why each gate sits where it does:
   pool, not GraphQL) and live, never cached, because it gates a claim.
   Builder gets the same three answers from `forge check-claim`, whose label
   leg requests `labels,state,url` (the `CLOSED` token was added here).
+- **On Gitea the read is `loom-daemon forge pr view <N>` (#14939).** `gh`
+  cannot resolve a Gitea remote (`none of the git remotes point to a known
+  GitHub host`) and refuses the `host:port` of its origin as a hostname, so
+  the GitHub probes above cannot run there. The daemon serves the numeric
+  `--json` view from the Gitea API itself, on the connection the write-scope
+  probe resolves (`GITEA_URL`, else `forge.gitea.url`; `GITEA_TOKEN`, else
+  `forge.gitea.token`, else `FORGE_TOKEN`), in `gh … view --json`'s shape:
+  kind, state, labels, `headRefOid` and `mergeable` (`UNKNOWN` included) in
+  one live read. Its non-zero exit — an issue number, an unknown number, a
+  missing credential, an unreadable answer — is itself the kind probe.
 - **Skip labels refuse without a write.** `loom:frozen` means only a human
   removes it, so a targeted role must not comment on it, relabel it or claim
   it. The same holds for a hard-exclusion label (`hard-exclusion-labels.sh`).
@@ -55,7 +66,8 @@ Why each gate sits where it does:
   mechanical on every launch path:
   - daemon sweep (Task subagent or `worker run`): the daemon exports
     `LOOM_SWEEP_CLAIM_OWNED=<N>` and every child inherits it;
-  - attended sweep, `worker run --role builder --issue <N>`: the worker is
+  - a hand-run `worker run --role builder --issue <N>` (an attended in-session
+    sweep's orchestrator never takes this path, #15299): the worker is
     launched with `LOOM_SWEEP_CLAIM_OWNED=<N>` when none is inherited
     (`worker_spawn/claim_owned.rs`). Its other readers agree for a
     sweep-owned Builder: `build-gate.sh` arms the dispatch backoff for `<N>`,
@@ -231,9 +243,15 @@ do not overlap, because a sweep-run Builder is not a recorded step.
   reads a step's last `LOOM_STEP_OUTCOME` line from its log into its end
   record and role-tick capture. The work finder's step tick computes each
   role's post-state from the claim release's own read, before its restore
-  write (`step_dispatch/step_end.rs`, #11909).
-- **Doctor** was out of this audit's scope (it was already targeted). Its PR
-  Fix Mode has no kind probe: it should take gate 2 of the Judge row.
+  write (`step_dispatch/step_end.rs`, #11909); a release that noted its own
+  read failed (fail-open, #11480) supplies no observation, so the tick reads
+  the item itself then (#14899) — only no successful read at all is
+  `probe_failed`.
+- **Doctor** was out of this audit's original scope (it was already
+  targeted). Its PR Fix Mode had no kind probe; #14939 gave it one — the
+  `forge pr view <N>` read of its gates-table row — and removed the
+  GitHub-only transport from that read: on a Gitea checkout the daemon
+  answers it from the Gitea API.
 - **The Judge lane assigner** hands fallback rows to `/loom:judge <PR>`. The
   prompt now handles them review-only, so this is safe, but each such run
   spends a session on a comment.

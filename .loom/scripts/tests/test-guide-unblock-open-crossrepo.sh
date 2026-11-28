@@ -229,7 +229,7 @@ for copy in \
     [[ -f "$f" ]] || { fail "$copy exists (full drive)"; continue; }
 
     for fn in parse_dependencies was_previously_approved has_superseding_block \
-        has_permanent_block has_restore_note resolve_dep_states check_and_unblock; do
+        has_permanent_block has_restore_note resolve_dep_states deps_fully_resolved check_and_unblock; do
         # `has_permanent_block() {` carries a trailing comment in the source,
         # so match the signature prefix rather than the full line.
         body="$(sed -n "/^${fn}() {/,/^\}$/p" "$f")"

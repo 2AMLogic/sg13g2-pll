@@ -181,6 +181,23 @@ refusal above still applies. Every path the reap removes is reported to the
 host on both success and refusal. The host logs each removed path with its
 account and repository before returning the preparation result.
 
+### An unwritable seat temp directory (`seat_temp_unwritable`)
+
+Preparation refuses with a message starting `seat_temp_unwritable:` when the
+seat's resolved temp directory (`/tmp` on the container's 512 MB tmpfs unless
+`TMPDIR` says otherwise) cannot hold a private probe directory, before any
+clone work is touched (#14929). A full or read-only temp dir previously
+surfaced downstream as a misleading `workspace Git fetch failed` or dirty
+clone refusal; the preflight names the actual cause. Two standing rules keep
+the temp dir from filling in the first place: every long-lived cache and Loom
+state dir the seat grows (`UV_CACHE_DIR`, `GH_CACHE_DIR`, the forge listing
+cache, the forge-call sink, the write-scope cache, the lease-renew store) is
+pinned to `/workspace/cache/*` at container create — only the per-container uv
+venv stays on `/tmp` — and a relative `TMPDIR` is ignored by every
+`host_tmp_base()` resolver so a state dir can never resolve into the job's
+working directory. Per-run step scratch on the temp base is drained by the
+session-exec worker when the invocation's lease ends (below).
+
 ### Who reaps what: preparation vs the periodic seat pass
 
 Two paths reclaim inside a seat volume, with different rules (#14483 vs
@@ -218,6 +235,17 @@ dirty worktree whose tip is published at a merged PR past grace is the
 dividing case: preparation may force-remove it at the next admission of that
 clone, the seat pass preserves and reports it. `.identity` records and the
 no-alternates / private-clone invariants are untouched by both paths.
+
+A third, smaller drain runs at a different cadence again: when the
+session-exec worker has reaped the invocation's whole process tree and the
+job's lease is over, it removes that run's step scratch (`<role>-<n>.*`,
+`*-tmp`) from the resolved **temp base** only (#14929), and only entries modified at/after the
+invocation started — the temp base is not a Loom-owned namespace (a seat's
+`/tmp` holds the long-lived `tmux-<uid>` socket dir, which matches the scratch
+name shape), so a pre-existing resident is never drained. Volume-side scratch
+stays with the age-gated seat pass above — the worker never touches the
+volume — and the shapes never match the long-lived caches, which live on the
+cache volume.
 
 ## Rebinding a registration after a repository transfer
 

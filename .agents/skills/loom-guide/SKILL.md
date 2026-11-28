@@ -572,9 +572,20 @@ parse_dependencies() {
     return
   fi
   # Two-stage parse (#4508): select dependency lines (checkbox UNCHECKED-only,
-  # #7973), then extract every N / OWNER/REPO#N.
+  # #7973), then extract every N / OWNER/REPO#N. The sed stage between them
+  # is the #14732/#14750 parent-reference rule, identical to
+  # champion-common.md's extract_blocker_refs: a reference introduced by
+  # `Part of` (case-insensitive, optionally followed by the one bounded word
+  # `Epic` — Loom's generated `Part of Epic #N` vocabulary) names the issue's
+  # PARENT, not a blocker, and is masked before extraction. The bound is
+  # deliberate: no wider word run, so "Part of issue #2" and prose keep the
+  # established whole-line capture. It keys off the introducing phrase, never
+  # the number, so a parent genuinely declared again as a dependency still
+  # counts. This branch only — the park-record branch above keeps its own
+  # precedence (#13414).
   echo "$body" \
     | grep -E '(Blocked by|Depends on|Requires|\- \[ \])[*_:[:space:]]*([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)?#[0-9]+' \
+    | sed -E 's/[Pp][Aa][Rr][Tt] [Oo][Ff][*_:.[:space:]]*([Ee][Pp][Ii][Cc][*_:.[:space:]]*)?([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#[0-9]+/ /g' \
     | grep -oE '([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)?#[0-9]+' | sed 's/^#//' | sort -u
 }
 ```
@@ -688,6 +699,20 @@ a later pass to sort out.
 
 ### Unblocking Logic
 
+For the **issue dependency check** (#15528), run `parse_dependencies "$body"`
+even when working by hand. It reads ordinary declarations such as
+`Depends on #962` and unchecked dependency boxes. For park records it uses
+`loom-daemon park-record parse`. Pass only the printed dependencies to
+`resolve_dep_states`. Proceed through the remaining gates only when the resolver
+reports all dependencies resolved and `deps_fully_resolved` confirms every ref.
+
+If `parse_dependencies` prints nothing, skip the dependency-based label edit
+and “Unblocked” comment for that issue. On #8698, a checked box and two park
+reasons cited closed issue #8674, but neither park declared it as a blocker.
+Never fill an empty result from a checked box, `reason="..."` or other prose.
+Continue the PR evidence check, awaiting-revision conversion and due transient
+park release under their own rules below.
+
 Permanent block (#8742): `<!-- loom:permanent-block -->` (own line; quoted prose
 doesn't count) counts from a trusted comment, or the body **only if its author is trusted** (`--with-body`). Champion
 and `check_and_unblock_prs` check the same. Removing `loom:blocked` ⇒ audit comment.
@@ -715,12 +740,33 @@ resolve_dep_states() {
   # answers false: the hold is preserved, never guessed off. Output: line 1
   # `true`/`false` (all deps terminal?), line 2 the space-joined resolved
   # refs for the unblock announcement, both read through the daemon's
-  # eval-safe KEY=VALUE quoting.
+  # eval-safe KEY=VALUE quoting. `RESOLVED` is the closed subset (#15193):
+  # it is announcement text only and never evidence that the hold may lift —
+  # lift only on `ALL_RESOLVED=true` AND the `deps_fully_resolved` set gate.
   local out ALL_RESOLVED="" RESOLVED=""
   out=$(loom-daemon dep-recheck-fingerprint dep-states --refs "$1" 2>/dev/null) || out=""
   eval "$(printf '%s\n' "$out" | grep -E '^(ALL_RESOLVED|RESOLVED)=')" || true
   [ "$ALL_RESOLVED" = "true" ] || ALL_RESOLVED=false
   printf '%s\n%s\n' "$ALL_RESOLVED" "$RESOLVED"
+}
+
+deps_fully_resolved() {
+  # #15193: the all-or-nothing gate. A park record set is robust to stale
+  # citations of closed blockers ONLY if the hold lifts when EVERY cited
+  # dependency is resolved — a verdict naming just the closed subset (three
+  # of five children on a split tracker, say) must leave it parked. Both
+  # lists are normalised the same way — whitespace-split (`parse_dependencies`
+  # emits one ref per line, the daemon's `RESOLVED` one space-joined line)
+  # and a leading `#` dropped from same-repo refs (`#104` -> `104`;
+  # cross-repo OWNER/REPO#N tokens already match on both sides) — then the
+  # deps side is filtered against the resolved set: any open, unknown, or
+  # dropped dependency survives it, as does every dep against an empty
+  # resolved list, and answers false. Fail closed, no label write, no
+  # comment.
+  local missing
+  missing=$(printf '%s\n' "$1" | tr -s '[:space:]' '\n' | sed -e '/^$/d' -e 's/^#\([0-9][0-9]*\)$/\1/' \
+    | grep -vxF -f <(printf '%s\n' "$2" | tr -s '[:space:]' '\n' | sed -e '/^$/d' -e 's/^#\([0-9][0-9]*\)$/\1/')) || true
+  [ -z "$missing" ]
 }
 
 check_and_unblock() {
@@ -754,6 +800,14 @@ check_and_unblock() {
     dep_verdict=$(resolve_dep_states "$deps")
     local all_resolved=$(printf '%s\n' "$dep_verdict" | sed -n '1p')
     local resolved_deps=$(printf '%s\n' "$dep_verdict" | sed -n '2p')
+
+    # #15193: all-or-nothing gate, deliberately INDEPENDENT of the
+    # `all_resolved` flag above — a misread verdict (or a Guide copying the
+    # closed subset `RESOLVED` list into the announcement and restoring on
+    # it) must not lift the hold. `resolved_deps` is announcement text only;
+    # every parsed dependency has to be in it, or the issue stays parked
+    # with no label write and no comment.
+    deps_fully_resolved "$deps" "$resolved_deps" || continue
 
     if [ "$all_resolved" = true ]; then
       # Superseding-block gate (#4634): a resolved body dependency is NOT
@@ -831,11 +885,16 @@ and leaves **alone** anything that:
 
 ```bash
 awaiting_revision_park() {  # $1=body [$2=ISO time of latest loom:blocked label]; 0 = convertible
-  local body="$1" blocked_at="${2:-}" rec at a b
+  local body="$1" blocked_at="${2:-}" rec reason at a b
   rec=$(grep -E '^[[:space:]]*<!-- loom:park ' <<<"$body" | tail -1)
   [ -n "$rec" ] || return 1
   grep -qE 'Blocked by:[*_[:space:]]*\(unstated\)' <<<"$rec" || return 1  # any named ref => normal sweep
-  grep -qiE 'reason="[^"]*(awaiting[^"]*revision|awaiting[^"]*design epic)' <<<"$rec" || return 1
+  reason=$(sed -nE 's/.* reason="([^"]*)".*/\1/p' <<<"$rec")
+  # A bare revision request must stand alone: “awaiting revision <sha>” waits for a commit.
+  # The “revision of the <noun>” shape is end-anchored: “revision of the issue
+  # tracker config” (#15050) is an evidence wait, not a revise-path park.
+  grep -qiE '^[[:space:]]*awaiting[[:space:]]+((an?|the)[[:space:]]+)?revision[.!]?[[:space:]]*$' <<<"$reason" ||
+    grep -qiwE 'awaiting[[:space:]]+((an?|the)[[:space:]]+)?(((architect|proposal)[[:space:]]+revisions?|design[[:space:]]+epics?)|revisions?[[:space:]]+of[[:space:]]+(the|this)[[:space:]]+(proposal|scope|issue)[[:space:]]*[.!]?[[:space:]]*$)' <<<"$reason" || return 1
   if [ -n "$blocked_at" ]; then
     at=$(sed -nE 's/.* at=([^ ]+).*/\1/p' <<<"$rec")
     a=$(date -u -d "$at" +%s 2>/dev/null || date -u -j -f %Y-%m-%dT%H:%M:%SZ "$at" +%s 2>/dev/null) || return 1
@@ -920,12 +979,13 @@ convert_awaiting_revision_parks() {
 ### Example Unblocking Flow
 
 ```bash
-# 1. Issue #963 has loom:blocked, body contains "Depends on #962"
-gh issue view 963 --json labels,body
+# 1. Blocked issue #963 has an ordinary dependency declaration, "Depends on #962".
+body=$(gh issue view 963 --json body --jq .body)
+deps=$(parse_dependencies "$body")  # deps is 962
 
-# 2. Check if #962 is closed
-gh issue view 962 --json state
-# → state: CLOSED ✓
+# 2. The dependency check in check_and_unblock verifies that all parsed refs resolved.
+resolve_dep_states "$deps"
+# → true on line 1, #962 on line 2
 
 # 3. Superseding-block gate (#4634): any linked PR still open and blocked?
 has_superseding_block 963
@@ -969,7 +1029,8 @@ pr_state=$(gh pr view "$pr_number" --json state,mergedAt --jq '.state')
 
 ### When NOT to Unblock
 
-- If no parseable dependencies found → Skip (may need manual review)
+- If `parse_dependencies` prints nothing for an issue, skip only its
+  dependency-based unblock (#15528). Continue the other sweep checks above.
 - If any dependency is still OPEN → Keep blocked
 - **If a linked implementation PR is still OPEN with `loom:changes-requested`,
   `loom:blocked`, or `loom:operator` → Keep blocked, even if every
@@ -1199,7 +1260,12 @@ at all.
 
 **Do not disable a guard, and do not reach for `python3`/another interpreter to
 write the file.** Get a managed worktree — the same thing every Builder works
-in — and write there:
+in — and write there. Inside that worktree, the file writes this phase cannot
+perform inline (`WORK_PLAN.md`'s receipt file and marker-region splice, whose
+`rm`/redirect/`mktemp` shapes on the variable-built `$DOCS_WT` path are denied
+before execution, #15219) are owned by `loom-daemon guide` verbs the code
+blocks below call with the literal `--docs-worktree "$DOCS_WT"` path: call the
+verb, never re-inline the write.
 
 ```bash
 # Run this AFTER Step 1's open-docs-PR check has decided not to return early,
@@ -1467,7 +1533,7 @@ write immediately regardless of the window (see "WORK_LOG debounce" in
 
 **First creation (#14009).** If `$DOCS_WT/WORK_LOG.md` does not exist (the
 repo has never tracked it — presence, not recency), this pass **creates it
-without asking**: write the standard preamble and `## Archives` index shape
+without asking**: write the standard preamble, `## Archives` index and `## Entries` heading shape
 (mirror the WORK_LOG.md template in `defaults/.claude/commands/loom/imagine.md`)
 followed by this tick's entries. Creation itself bypasses the debounce and
 min-entries gates below — a first creation with nothing to record yet is
@@ -2118,7 +2184,9 @@ update_work_log() {
   fi
 
   # Group entries by date and prepend them to "$DOCS_WT/WORK_LOG.md" (below the
-  # header/comment block, above the newest existing `### ` section).
+  # header/comment block and `## Archives` index, under the `## Entries`
+  # heading, above the newest existing `### ` section; when a file has no
+  # `## Entries` heading, add one after the index first (#15271)).
   # Format: ### YYYY-MM-DD
   #         - **PR #N**: Title
   #         - **Issue #N** (closed): Title
@@ -2400,6 +2468,110 @@ last_work_plan_write_epoch() {
 ```
 
 ```bash
+# #14785 open-PR linkage — the Guide-side mirror of native Builder
+# admission's OPEN_PR leg (`loom-daemon forge check-claim`: the closes-graph
+# ∪ #6216 timeline phrase probe, plus leg 0's exact-branch match in
+# worktree_ops/linked_pr_listing.rs). Reads the open-PR inventory JSON on
+# stdin and emits ONE sorted JSON array of (linked issue, linking PR) rows:
+# {"issue":N,"pr":P,"stage":S}.
+#
+# An open PR is linked to issue N when
+#   - it is in N's closes-graph (`closingIssuesReferences`), or
+#   - its body references N with a #6216 linking phrase — Closes/Fixes/
+#     Resolves #N, Part of #N, Contributes to #N: case-insensitive,
+#     tolerant of markdown emphasis/colon between phrase and #N,
+#     word-bounded on both sides. A bare "#N" mention is NOT a link
+#     (#8940), and neither is `Part of Epic #N` — the one bounded `Epic`
+#     word makes the reference name the issue's PARENT (b89d38d1e's rule),
+#     and the native phrase filter rejects it the same way, or
+#   - its head is the exact Builder branch `feature/issue-N` in this
+#     repository (`worktree_ops::naming::BRANCH_PREFIX`); a
+#     cross-repository (fork) PR's head is never this repo's builder branch.
+# The scan pattern is the jq/Oniguruma rendering of the Rust
+# `LINKAGE_PHRASE` constant (worktree_ops/gh.rs, `[[:space:]]` for `\s`);
+# test-guide-work-plan-ready-open-pr-exclude.sh pins the two in lockstep so
+# they cannot drift apart.
+#
+# `stage` summarizes the PR's own state for the listing section, in this
+# precedence: held (`loom:operator`/`loom:blocked`) > approved (`loom:pr`)
+# > in review (`loom:review-requested`) > draft (`isDraft`) > unlabeled.
+open_pr_linkage_rows() {
+  jq -c '
+    [ .[] | . as $pr |
+      [ ($pr.closingIssuesReferences // [])[].number // empty,
+        (($pr.body // "")
+          | [scan("(?i)(?:^|[^0-9A-Za-z])(?:(clos(?:e|es|ed)|fix(?:es|ed)?|resolv(?:e|es|ed))|(part[[:space:]]+of|contributes[[:space:]]+to))[*_:[:space:]]*#([0-9]+)")]
+          | .[] | .[2] | select(. != null)
+          | select(startswith("0") | not) | tonumber),
+        (if ($pr.isCrossRepository // false) then empty
+         else ($pr.headRefName // "")
+              | select(test("^feature/issue-[0-9]+$"))
+              | sub("^feature/issue-"; "")
+              | select(startswith("0") | not) | tonumber
+         end) ]
+      | unique | .[]
+      | {issue: ., pr: $pr.number,
+         stage: (if any($pr.labels[]?.name; . == "loom:operator" or . == "loom:blocked") then "held"
+                 elif any($pr.labels[]?.name; . == "loom:pr") then "approved"
+                 elif any($pr.labels[]?.name; . == "loom:review-requested") then "in review"
+                 elif ($pr.isDraft // false) then "draft"
+                 else "unlabeled" end)} ]
+    | sort_by(.issue, .pr)'
+}
+
+# #14785: the ` — open PR #8001 (approved), #8004 (draft)` suffix the
+# "Issues with Open PRs (Not Dispatchable)" section renders for issue $1,
+# from the open_pr_linkage_rows() array on stdin. Empty output when nothing
+# links $1. PR-number-sorted, so the section is deterministic (#6993).
+# Called by BOTH render_plan_body() and verify_plan_provenance() — one
+# definition, so the gate cannot drift from the render (#13384 discipline).
+open_pr_annotation() {
+  jq -r --argjson n "$1" '
+    [ .[] | select(.issue == $n) ] | sort_by(.pr)
+    | if length == 0 then empty
+      else " — open PR" + (if length > 1 then "s" else "" end) + " "
+           + (map("#\(.pr) (\(.stage))") | join(", "))
+      end'
+}
+
+# #15325: the hold suffix an Approved / Operator Attention PR row carries.
+# Reads ONE PR object (needs `.labels` and `.body`) on stdin. Empty output when
+# the PR carries neither `loom:operator` nor `loom:blocked` — an unheld row is
+# byte-identical to what it always was, and a park record on an unheld PR is
+# stale and ignored. A held PR gets ` *(held)*`, or ` *(held: <reason>)*` when
+# `loom-daemon park-record parse --json` (the daemon parser, which already
+# ignores markers demoted to code spans, #13895) yields a live record: the LAST
+# record's `reason`, else ` blocked by #N` from its blocker. The reason is PR
+# body free text, so it is flattened to one line, stripped of Markdown/HTML
+# metacharacters and capped at 160 characters. Nothing is inferred from the
+# title or other prose, and any parse failure degrades to bare ` *(held)*`.
+# No clock reads: output depends on the PR object alone (#6993).
+# Called by BOTH render_plan_body() and verify_plan_provenance() — one
+# definition, so the gate cannot drift from the render (#14785 pattern).
+approved_hold_suffix() {
+  local pr recs out
+  pr="$(cat)"
+  printf '%s' "$pr" | jq -e 'any(.labels[]?.name; . == "loom:operator" or . == "loom:blocked")' >/dev/null 2>&1 || return 0
+  recs="$(printf '%s' "$pr" | jq -r '.body // ""' | loom-daemon park-record parse --json 2>/dev/null)" || recs=""
+  [ -n "$recs" ] || recs='{}'
+  out="$(printf '%s' "$recs" | jq -r '
+    def clean: tostring
+      | gsub("[\\r\\n\\t]+"; " ") | gsub("`"; "\u0027") | gsub("\\|"; "/") | gsub("_"; "-")
+      | gsub("[*<>\\[\\]\\\\]"; "") | gsub("\\s+"; " ") | sub("^ "; "") | sub(" $"; "");
+    (.records // [] | last // {}) as $r
+    | (($r.reason // "") | if type == "string" then clean else "" end) as $why
+    | (if ($r.blocker | type) == "number" and $r.blocker > 0
+       then "blocked by "
+            + (if ($r.blocker_repo | type) == "string" and ($r.blocker_repo | test("^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$"))
+               then $r.blocker_repo else "" end)
+            + "#" + ($r.blocker | tostring)
+       else "" end) as $blk
+    | (if $why != "" then $why else $blk end)
+    | if length > 160 then .[0:159] + "…" else . end
+    | if . == "" then " *(held)*" else " *(held: " + (sub(" $"; "")) + ")*" end' 2>/dev/null)" || out=""
+  printf '%s' "${out:- *(held)*}"
+}
+
 # Render the plan body EXACTLY as it will be written between the markers —
 # headings, blurbs, blank lines and all. `render_plan_body` is the single
 # source of truth for that region's shape.
@@ -2456,12 +2628,13 @@ render_plan_body() {
   # included until `labels migrate`, #11795) and loom:building, the same way
   # "Finding Work" does; `building` excludes the operator holds.
   #
-  # #7083: `ready_json` is fetched here as raw JSON (not pre-formatted
-  # bullets) because it still needs one more filter below — issues already
-  # carrying an open `loom:pr`-labeled linked PR are fully implemented and
-  # merge-pending, not "ready for implementation" — but that exclusion set
-  # can only be derived once `approved_json` (fetched further down) is in
-  # hand, so the final bullet-formatted `ready` is assembled after it.
+  # #7083/#14785: `ready_json` is fetched here as raw JSON (not pre-formatted
+  # bullets) because it still needs one more filter below — issues carrying
+  # an open linked PR are not dispatchable (native admission's OPEN_PR leg,
+  # #14785; previously only loom:pr merge-pending ones, #7083) — but that
+  # exclusion set can only be derived once the open-PR inventory (fetched
+  # further down) is in hand, so the final bullet-formatted `ready` is
+  # assembled after it.
   ready_json=$("$GH_READ" issue list --label "loom:issue" --search "-label:loom:building $(sed 's/^/-label:/' <<<"$hold_q" | tr '\n' ' ')" --state open --limit 200 --json number,title \
     --jq 'sort_by(.number)')
   building=$("$GH_READ" issue list --label "loom:building" --search "$(sed 's/^/-label:/' <<<"$op_q" | tr '\n' ' ') -label:loom:frozen" --state open --limit 200 --json number,title \
@@ -2481,34 +2654,109 @@ render_plan_body() {
   # (#6457 — a PR labeled `loom:operator` moments before generation could
   # appear in "Approved" but be silently omitted from the Pileup section).
   #
-  # #6993: `approved_json` is sorted ONCE here, at the source, so BOTH the
+  # #6993: `pr_inventory` is sorted ONCE here, at the source, so BOTH the
   # `approved` and the `held` renders below inherit the same deterministic
   # order without either derivation needing its own sort (and without
   # reintroducing a second query, which #6457 removed on purpose).
+  #
+  # #14785: this ONE bounded open-PR inventory — broadened from the
+  # `pr list --label "loom:pr"` fetch `approved_json` used to issue (#7083)
+  # to every open PR — now also feeds the Ready open-PR-admission filter
+  # below. Native Builder admission (`loom-daemon forge check-claim` →
+  # `OPEN_PR #X`) refuses an issue on ANY open linked PR at ANY stage —
+  # closes-graph, #6216 body phrase, or exact `feature/issue-N` branch —
+  # not only `loom:pr`-labeled merge-pending ones, so Ready (operator
+  # ruling 2026-11-23, option a) must subtract the wider set or it keeps
+  # counting work a Builder cannot claim. `approved_json` stays a jq filter
+  # of this single fetch (label + not frozen), so the Approved/held renders
+  # are byte-identical to the labelled query and the #6457/#6993
+  # one-query/one-sort invariants hold (byte-identical only while the repo has
+  # <=200 open PRs: the 200 limit now spans ALL open PRs, so past that the
+  # Approved/held sections can under-report; the truncation note renders in the
+  # Issues-with-Open-PRs blurb). A failed read fails the whole
+  # classification visibly — the note below lands in the rendered section
+  # and update_work_plan() refuses to write over it — rather than silently
+  # rendering an unfiltered Ready. The signal is IN BAND (the rendered body
+  # carries the unreadable note): render_plan_body() runs in a $(...) subshell
+  # in update_work_plan(), so a flag variable set here would never reach the
+  # caller. Do not replace this with a cross-function global.
+  local pr_inventory inventory_ok=1
+  pr_inventory=$("$GH_READ" pr list --state open --limit 200 \
+    --json number,title,labels,isDraft,headRefName,isCrossRepository,body,closingIssuesReferences \
+    --jq 'sort_by(.number)') || { pr_inventory="[]"; inventory_ok=""; }
+  local inventory_note=""
+  if [ -z "$inventory_ok" ]; then
+    inventory_note="_Open-PR inventory unreadable — Ready is NOT net of open-PR admission this tick (native admission still applies at claim time)._ <!-- loom:inventory-unreadable -->"
+  elif [ "$(printf '%s' "$pr_inventory" | jq 'length')" -ge 200 ]; then
+    inventory_note="_Open-PR inventory hit its 200-PR read limit — open-PR linkage below may be incomplete._"
+  fi
   local approved_json
-  approved_json=$("$GH_READ" pr list --label "loom:pr" --state open --limit 200 --json number,title,labels,closingIssuesReferences \
-    --jq 'sort_by(.number) | [.[] | select(any(.labels[]?.name; . == "loom:frozen") | not)]')
+  approved_json=$(printf '%s' "$pr_inventory" | jq -c \
+    '[.[] | select(any(.labels[]?.name; . == "loom:pr")) | select(any(.labels[]?.name; . == "loom:frozen") | not)]')
   # #13928: surface the closes-graph this query already fetched — a
   # merge-pending PR bullet annotates the issues it closes ("— closes #N"),
   # the single fact that explains why those issues are absent from "Ready"
   # below. Derived from $approved_json alone (no new forge query, the #6457
   # discipline); a PR with empty closingIssuesReferences renders exactly as
   # before. `held` bullets stay unchanged.
+  #
+  # #15325: a held approval (`loom:operator`/`loom:blocked`) is not queued for
+  # Champion auto-merge, so its row — under Approved AND Operator Attention —
+  # carries approved_hold_suffix() (` *(held)*` / ` *(held: <reason>)*`, the
+  # reason from the PR's live park record). The suffixes are computed once per
+  # held PR into `hold_sfx_json` ({"<number>": "<suffix>"}; unheld PRs have no
+  # entry, so their rows are unchanged) and both lists below stay jq pipelines
+  # over the one `$approved_json`. verify_plan_provenance() calls the same helper.
+  local hold_sfx_json='{}' hp_json hp_sfx
+  while IFS= read -r hp_json; do
+    [ -n "$hp_json" ] || continue
+    hp_sfx="$(approved_hold_suffix <<<"$hp_json")"
+    hold_sfx_json="$(jq -c --arg n "$(jq -r '.number' <<<"$hp_json")" --arg s "$hp_sfx" '. + {($n): $s}' <<<"$hold_sfx_json")"
+  done <<<"$(printf '%s' "$approved_json" | jq -c '.[] | select([(.labels // [])[].name] | index("loom:operator") or index("loom:blocked"))')"
   approved=$(printf '%s' "$approved_json" | \
-    jq -r '.[] | ([(.closingIssuesReferences // [])[].number] | sort) as $closes | "- **#\(.number)**: \(.title)" + (if ($closes | length) > 0 then " — closes " + ($closes | map("#" + tostring) | join(", ")) else "" end)')
+    jq -r --argjson sfx "$hold_sfx_json" '.[] | ([(.closingIssuesReferences // [])[].number] | sort) as $closes | "- **#\(.number)**: \(.title)" + (if ($closes | length) > 0 then " — closes " + ($closes | map("#" + tostring) | join(", ")) else "" end) + ($sfx[(.number | tostring)] // "")')
   held=$(printf '%s' "$approved_json" | jq -r '.[] | select([(.labels // [])[].name] | index("loom:operator") or index("loom:blocked")) | "- **#\(.number)**: \(.title)"')
-  # #7083: derive the set of issue numbers already closed by an open
-  # `loom:pr`-labeled PR from `approved_json`'s own `closingIssuesReferences`
-  # (each PR's closes-graph) — the same "reuse the already-fetched PR list,
-  # never add a second forge query" discipline `held`'s derivation above
-  # established for #6457. Filtering `ready_json` against this set is what
-  # keeps fully-implemented, merge-pending work out of the "Ready" section
-  # (it belongs in "Approved (Awaiting Merge)" instead).
+  # #15325: the held rows keep the plain jq derivation above (a standalone,
+  # self-contained filter); each row then gains the same suffix its Approved
+  # row carries, looked up by PR number in `hold_sfx_json`.
+  local held_row held_n held_out=""
+  while IFS= read -r held_row; do
+    [ -n "$held_row" ] || continue
+    held_n="${held_row#- **#}"; held_n="${held_n%%\**}"
+    held_out+="${held_row}$(jq -r --arg n "$held_n" '.[$n] // ""' <<<"$hold_sfx_json")"$'\n'
+  done <<<"$held"
+  held="${held_out%$'\n'}"
+  # #14785: the linked-issue set now comes from the full inventory via
+  # open_pr_linkage_rows() — the same closes-graph ∪ #6216-phrase ∪
+  # exact-branch union the native OPEN_PR admission leg uses — instead of
+  # `approved_json`'s closes-graph alone (#7083, which kept mid-review and
+  # partial-PR issues listed as dispatchable). ONE derivation feeds both the
+  # Ready filter and the listing section below, so the section, the count
+  # and the filter can never disagree. When the inventory read failed the
+  # rows are empty and Ready renders unfiltered (fail-open, matching the
+  # native guard's ProbeFailed contract) with the visible note above.
+  local openpr_rows_json
+  openpr_rows_json="$(printf '%s' "$pr_inventory" | open_pr_linkage_rows)"
   local pr_linked_issues
-  pr_linked_issues=$(printf '%s' "$approved_json" | \
-    jq -c '[.[] | (.closingIssuesReferences // [])[].number] | unique')
+  pr_linked_issues=$(printf '%s' "$openpr_rows_json" | jq -c 'map(.issue) | unique')
   ready=$(printf '%s' "$ready_json" | jq -r --argjson excl "$pr_linked_issues" \
     '.[] | select((.number as $n | $excl | index($n)) | not) | "- **#\(.number)**: \(.title)"')
+  # #14785: the "Issues with Open PRs (Not Dispatchable)" listing — every
+  # Ready candidate the filter above removed, shown with the open PR that
+  # holds it and that PR's stage, so the held-back work stays visible in the
+  # plan instead of vanishing from it. Iterates ready_json's number-sorted
+  # order; open_pr_annotation() sorts the PRs, so the section is
+  # deterministic (#6993). Only ready_json members are listed — an issue
+  # carrying `loom:building` or a hold renders in its own section.
+  local openpr_listed="" n ann title
+  while IFS= read -r n; do
+    [ -n "$n" ] || continue
+    ann="$(printf '%s' "$openpr_rows_json" | open_pr_annotation "$n")"
+    [ -n "$ann" ] || continue
+    title="$(printf '%s' "$ready_json" | jq -r --argjson n "$n" 'first(.[] | select(.number == $n)).title // ""')"
+    openpr_listed+="- **#${n}**: ${title}${ann}"$'\n'
+  done <<<"$(printf '%s' "$ready_json" | jq -r '.[].number')"
+  openpr_listed="${openpr_listed%$'\n'}"
   curated=$("$GH_READ" issue list --label "loom:curated" --state open --limit 200 --json number,title,labels \
     --jq 'sort_by(.number) | .[] | select(any(.labels[]?.name; . == "loom:frozen") | not) | "- **#\(.number)**: \(.title) *(curated)*"'"$held_sfx")
   local architect hermit
@@ -2520,21 +2768,52 @@ render_plan_body() {
   epics=$("$GH_READ" issue list --label "loom:epic" --state open --limit 200 --json number,title,labels \
     --jq 'sort_by(.number) | .[] | select(any(.labels[]?.name; . == "loom:frozen") | not) | "- **#\(.number)**: \(.title)"'"$held_sfx")
 
+  # #15201: an issue whose only stage label is a hold renders nowhere — every
+  # hold is excluded from Ready, and the *(held)* suffix above can only
+  # annotate a bullet that already exists — so a parked issue vanished from
+  # the roadmap. Backlog Balance says how many it is not listing: held on any
+  # registry hold except `loom:frozen`, carrying none of the six labels
+  # that render a bullet above, and not already under In Progress (that query
+  # is `loom:building` minus the operator gates, so `loom:blocked`+
+  # `loom:building` is listed there and `loom:operator`+`loom:building` is
+  # not). One cached listing per hold label — `--label` cannot say "any
+  # hold" (gh ANDs labels) — unioned by number. A count, never a
+  # listing: a `## Blocked` section stays rejected (#13908).
+  local bucket_names op_names held_unbucketed_json held_unbucketed
+  bucket_names='["loom:very-important","loom:important","loom:curated","loom:architect","loom:hermit","loom:epic"]'
+  op_names=$(printf '%s' "$op_q" | jq -Rsc 'split("\n") | map(select(length > 0))')
+  held_unbucketed_json="$(
+    printf '%s\n' "$hold_q" | sed '/^loom:frozen$/d' | while IFS= read -r h; do
+      # loom:frozen is excluded: sed above drops it from the hold list (#11743).
+      "$GH_READ" issue list --label "$h" --state open --limit 200 --json number,labels \
+        --jq 'sort_by(.number)'
+    done | jq -s 'add // [] | unique_by(.number)')"
+  held_unbucketed=$(printf '%s' "$held_unbucketed_json" | jq --argjson hold "$hold_names" \
+    --argjson bucket "$bucket_names" --argjson op "$op_names" '[.[] | select(
+      (any(.labels[]?.name; . == "loom:frozen") | not) and
+      any(.labels[]?.name; . as $n | $hold | index($n)) and
+      (any(.labels[]?.name; . as $n | $bucket | index($n)) | not) and
+      ((any(.labels[]?.name; . == "loom:building") | not) or any(.labels[]?.name; . as $n | $op | index($n))))] | length')
+
   section "Operator Attention: Merge-Risk-Hold Pileup" \
-    "Judge-approved PRs under a hold (\`loom:blocked\` or \`loom:operator\`) — only a human merge decision is missing." \
+    "Judge-approved PRs under a hold (\`loom:blocked\` or \`loom:operator\`) — a human merge decision, or the prerequisite shown, is missing." \
     "$held"
   echo
   section "Very Important" "\`loom:very-important\` (one counts per workspace); every stage takes these first." "$vimp"
   echo
   section "Important" "\`loom:important\`; taken before unlabelled work." "$imp"
   echo
-  section "Ready" "Human-approved issues (\`loom:issue\`) ready for implementation — excluding held (\`loom:blocked\`/\`loom:operator\`/\`loom:frozen\`), \`loom:building\`, and issues closed by an open \`loom:pr\` PR (listed under Approved)." "$ready"
+  section "Ready" "Human-approved issues (\`loom:issue\`) ready for implementation — excluding held (\`loom:blocked\`/\`loom:operator\`/\`loom:frozen\`), \`loom:building\`, and issues with an open linked PR (native admission \`OPEN_PR\`; listed under Issues with Open PRs)." "$ready"
+  echo
+  section "Issues with Open PRs (Not Dispatchable)" \
+    "\`loom:issue\` issues an open linked PR already holds — native admission would refuse them (\`OPEN_PR\`); listed with the PR and its stage, not counted above.${inventory_note:+ $inventory_note}" \
+    "$openpr_listed"
   echo
   section "In Progress" "Issues currently being built (\`loom:building\`)." "$building"
   echo
   section "PRs Awaiting Review" "PRs waiting on Judge (\`loom:review-requested\`)." "$review"
   echo
-  section "Approved (Awaiting Merge)" "PRs that passed review and are queued for Champion auto-merge (\`loom:pr\`)." "$approved"
+  section "Approved (Awaiting Merge)" "PRs that passed review (\`loom:pr\`); unmarked PRs are queued for Champion auto-merge, PRs marked \`*(held …)*\` are not (the hold decides)." "$approved"
   echo
   section "Proposed" "Issues carrying \`loom:curated\`." "$curated"
   echo
@@ -2550,8 +2829,9 @@ render_plan_body() {
     "| Operator merge-risk holds | $(count "$held") |" \
     "| Very important | $(count "$vimp") |" \
     "| Important | $(count "$imp") |" \
-    "| Ready (\`loom:issue\`, net of holds/building/merge-pending) | $(count "$ready") |" \
+    "| Ready (\`loom:issue\`, net of holds/building/open-linked-PRs) | $(count "$ready") |" \
     "| In Progress (\`loom:building\`) | $(count "$building") |" \
+    "| Held, no other bucket | ${held_unbucketed:-0} |" \
     "| PRs awaiting review | $(count "$review") |" \
     "| Approved PRs awaiting merge | $(count "$approved") |" \
     "| Curated | $(count "$curated") |" \
@@ -2588,20 +2868,27 @@ strip_plan_stamp() {
 # per line) so Step 5 can recover them. The file is never staged:
 # stage_docs_paths() / the archive loop add by EXACT path, and
 # docs-worktree.sh's `clean -fd` removes it on the next reset.
-WORK_PLAN_RECEIPT_FILE_NAME=".loom-work-plan-receipt"
+#
+# #15219: every write to and read of that file goes through
+# `loom-daemon guide work-plan-receipt` — never an inline `rm` or `>`
+# redirect. This block is pasted into a Bash tool call verbatim, and a write
+# whose target is built from `$DOCS_WT` (a command-substitution value the
+# guard cannot resolve) is denied before anything executes. The verb owns the
+# file; do not inline the writes back.
 
-# Record outcome $1 (the classification) in the global AND the file. The render
-# hash is read from the global update_work_plan() set earlier in the same call.
+# Record outcome $1 (the classification) in the global AND, through the verb,
+# the receipt file. The render hash is read from the global update_work_plan()
+# set earlier in the same call.
 record_work_plan_receipt() {
   WORK_PLAN_RECEIPT="$1"
-  printf 'receipt=%s\nrender_hash=%s\n' "$WORK_PLAN_RECEIPT" "${WORK_PLAN_RENDER_HASH:-}" \
-    > "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME" 2>/dev/null || true
+  loom-daemon guide work-plan-receipt record --docs-worktree "$DOCS_WT" \
+    --outcome "$WORK_PLAN_RECEIPT" --render-hash "${WORK_PLAN_RENDER_HASH:-}" 2>/dev/null || true
 }
 
 # Read one key from the receipt file; prints nothing when the file or key is
 # absent. Never `source`d: the file is data, not code.
 read_work_plan_receipt_field() {
-  sed -n "s/^$1=//p" "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME" 2>/dev/null | head -n1
+  loom-daemon guide work-plan-receipt read --docs-worktree "$DOCS_WT" --field "$1" 2>/dev/null
 }
 
 update_work_plan() {
@@ -2611,14 +2898,16 @@ update_work_plan() {
   if docs_maintenance_skipped WORK_PLAN.md; then
     # #14259: even this early return must not leave a previous tick's receipt
     # file behind to be read as this tick's outcome.
-    rm -f "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME"
+    loom-daemon guide work-plan-receipt reset --docs-worktree "$DOCS_WT" 2>/dev/null || true
     echo "WORK_PLAN.md is listed in guide.docsMaintenance.skipDocs — skipping (no create, no update)."
     return 1
   fi
 
   # #14259: drop any receipt left by a previous tick before this tick's gates
   # run, so every path below either records a fresh receipt or leaves none.
-  rm -f "$DOCS_WT/$WORK_PLAN_RECEIPT_FILE_NAME"
+  # (#15219: the reset lives in the verb — an inline `rm` on the
+  # variable-built `$DOCS_WT` path is denied by the default guard.)
+  loom-daemon guide work-plan-receipt reset --docs-worktree "$DOCS_WT" 2>/dev/null || true
 
   # Change detection: compare the freshly-rendered body against the body already
   # committed between the markers. No gitignored side-car (which resets to "" on
@@ -2640,6 +2929,17 @@ update_work_plan() {
   # portability fallback the park-record hash uses (sha256sum on Linux,
   # shasum on macOS). Deliberately NOT local: it must survive into Step 5.
   WORK_PLAN_RENDER_HASH="$(printf '%s\n' "$new_body" | { sha256sum 2>/dev/null || shasum -a 256; } 2>/dev/null | cut -c1-12)"
+  # #14785: an unreadable open-PR inventory means the Ready filter above is
+  # unsubstantiated — refuse to rewrite the plan over it. The last good plan
+  # is preserved, and the failure stays visible in this tick's output and
+  # its receipt classification instead of silently over-stating Ready.
+  # In-band check: render_plan_body() ran in a subshell, so its unreadable
+  # note (the only channel that crosses that boundary) is the signal.
+  if [[ "$new_body" == *"<!-- loom:inventory-unreadable -->"* ]]; then
+    record_work_plan_receipt "inventory-unreadable"
+    echo "WORK_PLAN.md NOT written: open-PR inventory unreadable — preserving the last good plan (#14785)." >&2
+    return 1
+  fi
   # `sed '1d;$d'` drops the two marker lines, leaving only the generated region;
   # `strip_plan_stamp` (#13909) then drops the region's generated-at stamp line
   # so the comparison below sees ONLY label-derived content on both sides.
@@ -2714,11 +3014,15 @@ update_work_plan() {
   # either — a hand-written timestamp freezes at typing time and then asserts
   # a specific wrong time; it appears only on the next genuine generation.
   #
-  # #13923 SCRATCH DISCIPLINE: splice via `splice_plan_body`, which
-  # uses a per-tick `mktemp -d` dir. NEVER stage the body or the spliced file at
-  # a literal repo-independent path (`/tmp/body.md`, `/tmp/plan.new`): sibling
-  # repos' ticks share /tmp, and a tick whose own write was denied then consumes
-  # another repo's stale file. Never read a scratch file this tick did not write.
+  # #13923 SCRATCH DISCIPLINE: splice via `splice_plan_body`, which hands the
+  # body to `loom-daemon guide work-plan-splice` — the verb stages its scratch
+  # inside the docs worktree and replaces the region atomically. NEVER stage
+  # the body or the spliced file at a literal repo-independent path
+  # (`/tmp/body.md`, `/tmp/plan.new`): sibling repos' ticks share /tmp, and a
+  # tick whose own write was denied then consumes another repo's stale file.
+  # Never read a scratch file this tick did not write. (#15219: the splice
+  # lives in the verb precisely because the inline mktemp/rm/redirect shapes
+  # were denied by the default guard before they could execute.)
   # A failed splice must not leave a stale receipt implying a write happened;
   # classify it too (#14204).
   stamp="$(plan_stamp_line)"
@@ -2735,16 +3039,22 @@ update_work_plan() {
 # unrelated titles. Zero bullets passes; a failed lookup fails closed.
 #
 # SUFFIX LOCKSTEP: Approved rows append ` — closes #A, #B` for the PR's
-# sorted closing refs. Other sections may append one section tag
-# (` *(curated)*` / ` *(architect)*` / ` *(hermit)*`) then ` *(held)*`.
-# Compare the complete title and suffix literally: either can be title text.
+# sorted closing refs, then the approved_hold_suffix() hold marker (#15325;
+# Operator Attention rows are title + that marker alone). "Issues with Open PRs (Not Dispatchable)" rows
+# (#14785) append the open_pr_annotation() suffix, verified against a fresh
+# inventory read through the SAME helper the render used. Other sections may
+# append one section tag (` *(curated)*` / ` *(architect)*` / ` *(hermit)*`)
+# then ` *(held)*`. Compare the complete title and suffix literally: either
+# can be title text.
 # Keep these rules paired with the render in test-guide-work-plan-provenance.sh.
 verify_plan_provenance() {
-  local body="$1" line num rest got tag ok bad=0 approved=0 approved_json="" refs
+  local body="$1" line num rest got tag ok bad=0 approved=0 openpr=0 opatt=0 approved_json="" openpr_inv="" ann refs hsfx
   while IFS= read -r line; do
     case "$line" in
-      '## Approved (Awaiting Merge)') approved=1; continue ;;
-      '## '*) approved=0; continue ;;
+      '## Approved (Awaiting Merge)') approved=1; openpr=0; opatt=0; continue ;;
+      '## Issues with Open PRs (Not Dispatchable)') openpr=1; approved=0; opatt=0; continue ;;
+      '## Operator Attention: Merge-Risk-Hold Pileup') opatt=1; approved=0; openpr=0; continue ;;
+      '## '*) approved=0; openpr=0; opatt=0; continue ;;
     esac
     num="${line#- **#}"; num="${num%%\**}"
     rest="${line#*\*\*: }"
@@ -2753,11 +3063,30 @@ verify_plan_provenance() {
       echo "provenance: cannot fetch title of #$num from $GUIDE_REPO" >&2; bad=1
       continue
     fi
-    if [ "$approved" -eq 1 ]; then
-      # Fetch once on the first Approved row, even a plain one: omitting
-      # every ref must fail just as changing a single number does.
+    if [ "$openpr" -eq 1 ]; then
+      # #14785: the annotation must be exactly what open_pr_annotation()
+      # derives for #num from a fresh open-PR inventory — the same helper,
+      # the same linkage — so a drifted (or stale) listing fails here just
+      # like a wrong title would.
+      if [ -z "$openpr_inv" ]; then
+        openpr_inv=$("$GH_READ" pr list --state open --limit 200 \
+          --json number,title,labels,isDraft,headRefName,isCrossRepository,body,closingIssuesReferences \
+          --jq 'sort_by(.number)') || return 1
+        [ -n "${openpr_inv//[[:space:]]/}" ] || {
+          echo "provenance: cannot verify open-PR linkage of #$num in $GUIDE_REPO" >&2; return 1; }
+      fi
+      ann="$(printf '%s' "$openpr_inv" | open_pr_linkage_rows | open_pr_annotation "$num")"
+      if [ "$rest" != "$got$ann" ]; then
+        echo "provenance: #$num open-PR annotation differs from $GUIDE_REPO" >&2; bad=1
+      fi
+      continue
+    fi
+    if [ "$approved" -eq 1 ] || [ "$opatt" -eq 1 ]; then
+      # Fetch once on the first Approved / Operator Attention row, even a
+      # plain one: omitting every ref must fail just as changing a single
+      # number does. `body` rides along for approved_hold_suffix() (#15325).
       if [ -z "$approved_json" ]; then
-        approved_json=$("$GH_READ" pr list --label "loom:pr" --state open --limit 200 --json number,labels,closingIssuesReferences \
+        approved_json=$("$GH_READ" pr list --label "loom:pr" --state open --limit 200 --json number,labels,body,closingIssuesReferences \
           --jq '[.[] | select(any(.labels[]?.name; . == "loom:frozen") | not)]') || return 1
       fi
       # jq 1.6 exits 0 on zero-byte or whitespace-only input without consuming
@@ -2770,8 +3099,18 @@ verify_plan_provenance() {
         | arrays | select(all(.[]; .number | type == "number")) | map(.number) | sort | map("#" + tostring) | join(", ")' <<<"$approved_json") || {
         echo "provenance: cannot verify closing refs of #$num in $GUIDE_REPO" >&2; return 1
       }
-      if [ "$rest" != "$got${refs:+ — closes $refs}" ]; then
-        echo "provenance: #$num Approved title or closing refs differ from $GUIDE_REPO" >&2; bad=1
+      # #15325: the hold suffix is re-derived through the SAME helper the
+      # render used, from the fresh PR object (labels + body), so a tampered
+      # or dropped ` *(held…)*` fails like a wrong closes list does. The
+      # Operator Attention section carries the suffix but never the closes
+      # list (held rows stay `title` + suffix).
+      hsfx="$(jq -c --argjson n "$num" '.[] | select(.number == $n)' <<<"$approved_json" | approved_hold_suffix)" || return 1
+      if [ "$opatt" -eq 1 ]; then
+        if [ -z "$hsfx" ] || [ "$rest" != "$got$hsfx" ]; then
+          echo "provenance: #$num Operator Attention row does not match a held approval in $GUIDE_REPO" >&2; bad=1
+        fi
+      elif [ "$rest" != "$got${refs:+ — closes $refs}$hsfx" ]; then
+        echo "provenance: #$num Approved title, closing refs or hold suffix differ from $GUIDE_REPO" >&2; bad=1
       fi
       continue
     fi
@@ -2789,22 +3128,16 @@ verify_plan_provenance() {
 }
 
 # #13923: write $1 between the plan-body markers of "$DOCS_WT/WORK_PLAN.md"
-# through a per-tick scratch dir that is removed before returning (explicitly,
-# not via `trap ... RETURN`, which is bash-only and leaks the dir under zsh).
-# Fails (file untouched) if the markers are missing.
+# through `loom-daemon guide work-plan-splice` (body on stdin). The verb owns
+# the scratch file and the atomic replace, refuses with the file untouched
+# when either marker is missing, and leaves nothing behind on success or
+# failure. A thin wrapper so the call site in update_work_plan() is unchanged;
+# the awk splice semantics it replaces live in the verb
+# (loom-daemon/src/cli/guide_work_plan.rs) — #15219 moved it out of the pasted
+# block because its inline mktemp/rm/redirect shapes were denied by the
+# default guard before execution.
 splice_plan_body() {
-  local plan="$DOCS_WT/WORK_PLAN.md" scratch rc=0
-  grep -q '<!-- guide:plan-body:start -->' "$plan" 2>/dev/null \
-    && grep -q '<!-- guide:plan-body:end -->' "$plan" 2>/dev/null || return 1
-  scratch="$(mktemp -d "${TMPDIR:-/tmp}/guide-plan.XXXXXX")" || return 1
-  printf '%s\n' "$1" > "$scratch/body.md" \
-    && awk -v body="$scratch/body.md" '
-      /<!-- guide:plan-body:start -->/ { print; while ((getline l < body) > 0) print l; skip=1; next }
-      /<!-- guide:plan-body:end -->/   { skip=0 }
-      !skip { print }' "$plan" > "$scratch/plan.new" \
-    && cat "$scratch/plan.new" > "$plan" || rc=1
-  rm -rf "$scratch"
-  return "$rc"
+  printf '%s\n' "$1" | loom-daemon guide work-plan-splice --docs-worktree "$DOCS_WT"
 }
 ```
 
@@ -2819,13 +3152,21 @@ outcome for Step 5 in two globals — machine-recorded state, never prose — an
 mirrors both into `$DOCS_WT/.loom-work-plan-receipt` (`receipt=` and
 `render_hash=` lines) through `record_work_plan_receipt`, because shell globals
 do not survive when Step 3 and Step 5 run as separate shell invocations (the
-usual shape for an LLM-driven multi-step bash phase). `WORK_PLAN_RECEIPT` is the
+usual shape for an LLM-driven multi-step bash phase). The file itself is owned
+by `loom-daemon guide work-plan-receipt` (#15219): the wrapper functions call
+the verb's `record` / `read` / `reset` subcommands with the literal
+`--docs-worktree` path, because the inline `rm` and `>` shapes on the
+variable-built `$DOCS_WT` path are denied by the default guard before they
+execute. `WORK_PLAN_RECEIPT` is the
 outcome classification: `written`, `current`, `debounced (elapsed <X>s <
-window <Y>s)`, `provenance-refused`, or `write-failed` (a splice that failed —
+window <Y>s)`, `provenance-refused`, `inventory-unreadable` (#14785: the
+open-PR inventory read failed, so the render's Ready filter is
+unsubstantiated and the last good plan is preserved), or `write-failed` (a
+splice that failed —
 leaving a stale value there would read as a write that never happened).
 `WORK_PLAN_RENDER_HASH` is the first 12 hex of the rendered body's sha256, so
 the PR body can identify *which* render an outcome refers to. The function
-deletes the file on entry, before any early return (the `skipDocs` one
+resets the file on entry, before any early return (the `skipDocs` one
 included), so a previous tick's file can never be read as this tick's outcome;
 the file is never staged (staging is by exact path, and the docs worktree reset
 removes it). Initialize `WORK_PLAN_RECEIPT="NOT RUN"` before calling the

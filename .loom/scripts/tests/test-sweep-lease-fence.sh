@@ -56,6 +56,13 @@
 #   (y) missing daemon binary / clap usage error (an old daemon) -> exit 6
 #       BRANCH_PROBE_UNAVAILABLE, not 5 (#10027)
 #   (z) --branch passthrough and default (#10027)
+#   (x) `--sweep-id ID` (#15043): with the flag, "own lease" requires the
+#       lease's `sweep=` to match the caller's dispatch id too, so a shared
+#       worker's same-host peer dispatches are told apart -- fresh own ->
+#       PASS; expired own -> ABORT EXPIRED; expired same-host peer ->
+#       PASS (abandoned peer); fresh same-host peer -> ABORT SUPERSEDED.
+#       Without the flag (and for an empty `--sweep-id ""`, treated as
+#       omitted) matching and messages stay host-only, unchanged.
 #   (s) LOOM_REPO unset (the common case -- this script has no --repo CLI
 #       flag) leaves `repo_args` a genuinely empty array; expanding
 #       `"${repo_args[@]}"` unguarded there is an "unbound variable" under
@@ -607,6 +614,64 @@ echo "0" > "$STUB_DIR/check-branch-rc"
 LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --branch topic/mining-log --host studio-host
 assert_eq "5" "$RC" "(z) an existing custom branch is a collision -> exit 5"
 assert_contains "$ERR" "topic/mining-log may already exist" "(z) the collision message names the requested branch"
+
+# --- (x) `--sweep-id ID` (Issue #15043): distinguish same-host dispatches.
+# A shared worker runs several dispatches under ONE host=, so host-only
+# OWNED matching cannot tell this sweep's lease from a same-host peer's.
+# With the flag, "own lease" additionally requires the lease's sweep= to
+# equal ID; without it (and for an empty --sweep-id "") behavior stays
+# host-only, byte-for-byte with the pre-#15043 contract.
+reset_state
+cat > "$STUB_DIR/comments.json" <<'JSON'
+[{"id": 1, "updated_at": "2026-08-15T15:51:00Z", "body": "<!-- loom:lease host=studio-host sweep=step-builder-6309-42 -->\nprose"}]
+JSON
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host --sweep-id step-builder-6309-42
+assert_eq "0" "$RC" "(x1) fresh lease, own host + own sweep (--sweep-id) -> exit 0 (PASS)"
+assert_contains "$ERR" "lease fence OK" "(x1) stderr explains the pass"
+assert_contains "$ERR" "sweep=step-builder-6309-42" "(x1) stderr names the matching sweep id"
+
+# (x2) expired own (host + sweep) lease -> ABORT EXPIRED
+reset_state
+cat > "$STUB_DIR/comments.json" <<'JSON'
+[{"id": 1, "updated_at": "2026-08-15T15:30:00Z", "body": "<!-- loom:lease host=studio-host sweep=step-builder-6309-42 -->\nprose"}]
+JSON
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host --sweep-id step-builder-6309-42
+assert_eq "3" "$RC" "(x2) expired lease, own host + own sweep (--sweep-id) -> exit 3 (ABORT EXPIRED)"
+assert_contains "$ERR" "ABORT: EXPIRED" "(x2) stderr names the EXPIRED abort"
+
+# (x3) expired same-host PEER (different sweep) lease -> PASS: an abandoned
+# same-host dispatch's record is no longer live evidence of a peer's claim.
+reset_state
+cat > "$STUB_DIR/comments.json" <<'JSON'
+[{"id": 1, "updated_at": "2026-08-15T15:30:00Z", "body": "<!-- loom:lease host=studio-host sweep=step-builder-6309-9999 -->\nprose"}]
+JSON
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host --sweep-id step-builder-6309-42
+assert_eq "0" "$RC" "(x3) expired same-host peer lease (--sweep-id) -> exit 0 (PASS, abandoned peer -- #15043)"
+assert_contains "$ERR" "PASS" "(x3) stderr reports a PASS, not an ABORT"
+assert_contains "$ERR" "EXPIRED" "(x3) stderr still names the EXPIRED condition it is passing through"
+assert_contains "$ERR" "step-builder-6309-9999" "(x3) stderr names the abandoned peer's sweep id"
+
+# (x4) fresh same-host PEER (different sweep) lease -> ABORT SUPERSEDED
+reset_state
+cat > "$STUB_DIR/comments.json" <<'JSON'
+[{"id": 1, "updated_at": "2026-08-15T15:51:00Z", "body": "<!-- loom:lease host=studio-host sweep=step-builder-6309-9999 -->\nprose"}]
+JSON
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host --sweep-id step-builder-6309-42
+assert_eq "4" "$RC" "(x4) fresh same-host peer lease (--sweep-id) -> exit 4 (ABORT SUPERSEDED)"
+assert_contains "$ERR" "ABORT: SUPERSEDED" "(x4) stderr names the SUPERSEDED abort"
+assert_contains "$ERR" "step-builder-6309-9999" "(x4) stderr names the superseding peer's sweep id"
+assert_contains "$ERR" "studio-host" "(x4) stderr names the shared host both dispatches run on"
+
+# (x5) without the flag: the SAME fresh same-host peer lease PASSes --
+# host-only matching and messages are unchanged for existing callers.
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host
+assert_eq "0" "$RC" "(x5) same fixture WITHOUT --sweep-id -> exit 0 (host-only matching unchanged)"
+assert_contains "$ERR" "host matches this sweep" "(x5) the host-only PASS message is unchanged"
+
+# (x6) an EMPTY --sweep-id is treated as omitted, not as "match nothing".
+LOOM_LEASE_FENCE_NOW="$NOW_EPOCH" run_script check 6309 --host studio-host --sweep-id ""
+assert_eq "0" "$RC" "(x6) --sweep-id '' behaves as omitted -> exit 0 (host-only)"
+assert_contains "$ERR" "host matches this sweep" "(x6) the host-only PASS message is used"
 
 echo ""
 echo "Results: $TESTS_PASSED/$TESTS_RUN passed"

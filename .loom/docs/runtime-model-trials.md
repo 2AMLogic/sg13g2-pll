@@ -494,6 +494,16 @@ and no cooldown. A pool whose every account is at its cap fails closed at `78`
 with a diagnostic naming the cap. An account with no declared cap is
 unbounded, exactly as before #8424.
 
+A cap can also be declared in config —
+`runtimes.apiKeyLimits.<provider>.<account>.maxConcurrent`, with
+`exhaustionWindowSecs` beside it (#14932) — so a metered key's spend governor
+is reviewable and survives a rebuilt host. It is read from the calling
+workspace's resolved config; with both sources declaring a limit the stricter
+(smaller) cap wins and the config window wins; a malformed block withholds
+that provider's accounts like an unreadable `.limits.json`. `api-keys list`
+reports each limit's source. Full contract:
+[`configuring-resources.md`](configuring-resources.md) § Layer 4.
+
 In-flight holds are counted as one lease file per live spawn under
 `<provider>/.inflight/<account>/`, keyed on the spawning PID — which, because
 the spawn `exec`s, *is* the harness's PID for the whole run, so a lease is

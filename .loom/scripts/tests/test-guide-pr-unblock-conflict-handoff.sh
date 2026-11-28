@@ -6,6 +6,8 @@ DOC="$HERE/../../docs/park-record.md"
 for fn in check_and_unblock_prs pr_has_superseding_block pr_trusted_marker pr_conflict_snapshot pr_has_reason_only_park pr_park_episode pr_park_clearance_marker pr_record_park_clearance route_parked_pr_conflict previous_review_label; do
   eval "$(sed -n "/^$fn() {\$/,/^}\$/p" "$DOC")"
 done
+# #15193: the PR twin's all-or-nothing gate, shared with guide.md's issue side.
+eval "$(sed -n "/^deps_fully_resolved() {\$/,/^}\$/p" "$HERE/../../.claude/commands/loom/guide.md")"
 
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
@@ -249,4 +251,22 @@ reset_rows
 FIXTURE_EVENTS=unreadable check_and_unblock_prs 9
 expect_label 9 loom:blocked
 test ! -s edits
+
+# #15206: route_parked_pr_conflict's pre-write re-check applies the
+# deps_fully_resolved set gate — a `true` verdict naming only a subset of the
+# parsed deps keeps the park; the full list still lifts it.
+reset_rows
+park_hash=$(printf 'park-9' | git hash-object --stdin)
+snapshot=$(gh pr view 9 --json state,body,labels,mergeable,mergeStateStatus,reviewDecision,headRefOid,baseRefOid,baseRefName,isDraft)
+handoff="<!-- loom:guide-conflict-handoff head=$fixture_head park=$park_hash event=800 -->"
+resolve_dep_states() { printf 'true\n#520\n'; }
+must_fail route_parked_pr_conflict 9 "$snapshot" '[]' "$handoff" '520 521' '' 800
+expect_label 9 loom:blocked
+must_fail grep -Eq '^9 --remove-label' edits
+resolve_dep_states() { printf 'true\n#520 #521\n'; }
+route_parked_pr_conflict 9 "$snapshot" '[]' "$handoff" '520 521' '' 800
+must_fail expect_label 9 loom:blocked
+resolve_dep_states() {
+  if [ "$1" = 520 ]; then printf 'true\n#520\n'; else printf 'false\n\n'; fi
+}
 printf '%s\n' 'All conflict handoff assertions passed'
